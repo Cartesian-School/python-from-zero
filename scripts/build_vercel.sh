@@ -9,22 +9,24 @@ echo "==> Building Cartesian School Python deployment"
 
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
-mkdir -p "${DIST_DIR}/downloads"
+mkdir -p "${DIST_DIR}/book/pdf"
+mkdir -p "${DIST_DIR}/book/epub"
 mkdir -p "${DIST_DIR}/notebooks"
 mkdir -p "${DIST_DIR}/projects"
 
 # Main educational HTML website.
 cp -a "${ROOT_DIR}/site/." "${DIST_DIR}/"
 
-# Publication downloads.
-cp "${ROOT_DIR}/book/pdf/gotovaya-kniga.pdf"    "${DIST_DIR}/downloads/gotovaya-kniga.pdf"
+# Publication downloads — paths must match the relative links already used in
+# site/index.html ("../book/pdf/..." and "../book/epub/..."), which resolve to
+# /book/pdf/... and /book/epub/... once site/ is deployed at the domain root.
+cp "${ROOT_DIR}/book/pdf/gotovaya-kniga.pdf"      "${DIST_DIR}/book/pdf/gotovaya-kniga.pdf"
+cp "${ROOT_DIR}/book/epub/python-s-nulya.epub"    "${DIST_DIR}/book/epub/python-s-nulya.epub"
 
-cp "${ROOT_DIR}/book/epub/python-s-nulya.epub"    "${DIST_DIR}/downloads/python-s-nulya.epub"
-
-# Jupyter practice.
+# Jupyter practice — referenced from chapter pages via "../../../notebooks/...".
 cp -a "${ROOT_DIR}/notebooks/."       "${DIST_DIR}/notebooks/"
 
-# Complete educational project source code.
+# Complete educational project source code — referenced via "../../../projects/...".
 cp -a "${ROOT_DIR}/projects/."       "${DIST_DIR}/projects/"
 
 echo "==> Build completed"
