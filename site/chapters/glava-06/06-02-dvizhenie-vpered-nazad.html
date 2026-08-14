@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Движение вперёд и назад — Python с нуля — Cartesian School</title>
+<meta name="description" content="Учимся управлять черепашкой Turtle: forward, backward, right, left. Разбор примера, типичная ошибка и современный подход к работе с Turtle в Python 3.14." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 6 · Turtle</div><ul class="toc-list"><li><a href="index.html">Приступаем (обзор главы)</a></li><li><a href="06-01-pristupaem.html">Приступаем</a></li><li><a href="06-02-dvizhenie-vpered-nazad.html" class="active">Заставляем Turtle двигаться</a></li><li><a href="06-03-povorot-cherepashki.html">Меняем направление</a></li><li><a href="06-04-mini-proekty-figury.html">Мини-проекты: квадрат и шестиугольник</a></li><li><a href="06-05-sokraschennye-priemy.html">Сокращённые приёмы</a></li><li><a href="06-06-sluchaynye-tochki.html">Случайные точки на экране</a></li><li><a href="06-07-goto-kvadrat.html">Квадрат с помощью goto</a></li><li><a href="06-08-mandala-itogi.html">Мандала и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-06/06-02-turtle-dvizhenie.ipynb">📓 06-02-turtle-dvizhenie.ipynb</a></li><li><a href="../../../notebooks/chapter-06/06-03-povorot.ipynb">📓 06-03-povorot.ipynb</a></li><li><a href="../../../notebooks/chapter-06/06-04-figury.ipynb">📓 06-04-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-06/06-06-sluchaynye-tochki.ipynb">📓 06-06-sluchaynye-tochki.ipynb</a></li><li><a href="../../../notebooks/chapter-06/06-07-goto.ipynb">📓 06-07-goto.ipynb</a></li><li><a href="../../../notebooks/chapter-06/06-08-mandala.ipynb">📓 06-08-mandala.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 6</a> / Движение вперёд и назад</div>
+    <div class="section-kicker">Глава 6 · Рисуем классные вещи с помощью Turtle</div>
+    <h1>Движение вперёд и назад</h1>
+    <p class="lede">Первое, что должна уметь черепашка — двигаться. В этом разделе вы напишете свою первую программу, которая по-настоящему рисует.</p>
+
+    
+    <h2>Зачем это нужно</h2>
+    <p>Всё, что вы нарисуете дальше — квадраты, шестиугольники, мандалы, даже персонажей в
+    играх — строится из одной и той же пары действий: <strong>«проехать немного»</strong> и
+    <strong>«повернуть на какой-то угол»</strong>. Освоив эти четыре команды, вы получите
+    строительные блоки для всей главы.</p>
+
+    <h2>Простая модель</h2>
+    <p>Представьте черепашку как перо на листе бумаги. У пера есть две вещи:
+    <strong>позиция</strong> (где оно сейчас находится) и <strong>курс</strong> — направление, в
+    которое оно «смотрит». Когда черепашка едет вперёд, она просто перемещается по прямой в
+    сторону своего курса. Когда она поворачивает, меняется курс, а позиция остаётся прежней —
+    как будто вы стоите на месте и просто поворачиваетесь.</p>
+
+    <h2>Синтаксис</h2>
+    <p>У объекта черепашки есть четыре базовые команды движения:</p>
+    <ul>
+      <li><code class="inline">forward(расстояние)</code> — проехать вперёд на указанное число пикселей (короткая форма — <code class="inline">fd</code>)</li>
+      <li><code class="inline">backward(расстояние)</code> — проехать назад, не поворачиваясь (короткие формы — <code class="inline">bk</code>, <code class="inline">back</code>)</li>
+      <li><code class="inline">right(угол)</code> — повернуть по часовой стрелке на угол в градусах (короткая форма — <code class="inline">rt</code>)</li>
+      <li><code class="inline">left(угол)</code> — повернуть против часовой стрелки на угол в градусах (короткая форма — <code class="inline">lt</code>)</li>
+    </ul>
+
+    <h2>Первый рабочий пример</h2>
+    <p>Нарисуем букву «Г»: проедем вперёд, повернём и проедем ещё раз.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>turtle_dvizhenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+<span class="tok-com"># создаём окно и черепашку</span>
+screen = turtle.Screen()
+artist = turtle.Turtle()
+
+<span class="tok-com"># едем вперёд на 120 пикселей</span>
+artist.forward(<span class="tok-num">120</span>)
+
+<span class="tok-com"># поворачиваем на 90 градусов против часовой стрелки</span>
+artist.left(<span class="tok-num">90</span>)
+
+<span class="tok-com"># едем вперёд ещё раз — получаем букву «Г»</span>
+artist.forward(<span class="tok-num">80</span>)
+
+screen.exitonclick()  <span class="tok-com"># окно закроется по клику мыши</span></code></pre>
+    </div>
+
+    <h3>Разбор по шагам</h3>
+    <ul>
+      <li><code class="inline">turtle.Screen()</code> открывает окно для рисования.</li>
+      <li><code class="inline">turtle.Turtle()</code> создаёт саму черепашку — в начале координат, курс направлен вправо (на восток).</li>
+      <li><code class="inline">artist.forward(120)</code> — черепашка проезжает 120 пикселей в направлении курса, оставляя линию.</li>
+      <li><code class="inline">artist.left(90)</code> — курс поворачивается на 90° против часовой стрелки (теперь черепашка «смотрит» вверх).</li>
+      <li>Второй вызов <code class="inline">forward()</code> едет уже в новом направлении — отсюда и получается уголок буквы «Г».</li>
+      <li><code class="inline">screen.exitonclick()</code> держит окно открытым, пока вы не кликнете по нему — без этой строки окно может закрыться мгновенно.</li>
+    </ul>
+
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Совет</div>
+        <div class="callout-body">Числа в <code class="inline">forward()</code> и <code class="inline">right()</code>/<code class="inline">left()</code> могут быть отрицательными. <code class="inline">forward(-50)</code> и <code class="inline">backward(50)</code> делают одно и то же.</div>
+      </div>
+    </div>
+
+    <h2>Эксперимент 1</h2>
+    <p>Измените расстояние 120 на 250 и угол 90 на 45. Перед запуском попробуйте предсказать: в
+    какую сторону теперь «смотрит» черепашка после поворота?</p>
+
+    <h2>Эксперимент 2</h2>
+    <p>Добавьте третью пару команд <code class="inline">left(90)</code> и
+    <code class="inline">forward(120)</code> в конец программы. Какая фигура получится?</p>
+
+    <h2>Типичная ошибка</h2>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Внимание</div>
+        <div class="callout-body">Начинающие часто путают <code class="inline">right()</code>/<code class="inline">left()</code> с движением — кажется, что черепашка должна сместиться в сторону. На самом деле эти команды <strong>только поворачивают</strong> курс и не двигают черепашку ни на пиксель.</div>
+      </div>
+    </div>
+    <p><strong>Диагностика:</strong> если после поворота фигура выглядит «сплющенной» или линии
+    накладываются друг на друга — скорее всего, вы забыли вызвать <code class="inline">forward()</code>
+    после поворота, либо перепутали местами поворот и движение.</p>
+    <p><strong>Исправление:</strong> перечитайте программу построчно и для каждой команды
+    спросите себя: «это движение или поворот?» — держите эти два действия отдельно друг от
+    друга.</p>
+
+    <h2>Современный вариант</h2>
+    <p>В старом коде черепашку часто рисуют без явного объекта — модуль
+    <code class="inline">turtle</code> автоматически создаёт «черепашку по умолчанию», и её можно
+    двигать напрямую через функции модуля.</p>
+    
+    <div class="cvm">
+      <div class="cvm-header">Классический подход → современный Python 3.14</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Классический подход</div>
+          <pre><code><span class="tok-kw">import</span> turtle
+
+<span class="tok-com"># без явного объекта —</span>
+<span class="tok-com"># используется скрытая</span>
+<span class="tok-com"># черепашка по умолчанию</span>
+turtle.forward(<span class="tok-num">120</span>)
+turtle.left(<span class="tok-num">90</span>)
+turtle.forward(<span class="tok-num">80</span>)
+turtle.done()</code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Современный Python 3.14</div>
+          <pre><code><span class="tok-kw">import</span> turtle
+
+<span class="tok-com"># явный объект — понятно,</span>
+<span class="tok-com"># какая черепашка рисует,</span>
+<span class="tok-com"># легко добавить вторую</span>
+artist = turtle.Turtle()
+artist.forward(<span class="tok-num">120</span>)
+artist.left(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">80</span>)
+turtle.done()</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> явный объект <code class="inline">turtle.Turtle()</code>. Он ничего не усложняет, зато сразу готовит вас к главе 14 (объекты) и легко масштабируется — если позже понадобится нарисовать гонку из нескольких черепашек (см. мини-проект в главе 12), у каждой будет своё имя и своё состояние. Модульные функции (<code class="inline">turtle.forward()</code> без объекта) всё ещё встречаются в старом коде и учебниках — знать их полезно, но начинайте привычку сразу с объекта.</div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">06-02-turtle-dvizhenie.ipynb · эксперименты, задание и самостоятельная практика</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-06/06-02-turtle-dvizhenie.ipynb">Открыть ноутбук →</a>
+    </div>
+
+    <h2>Задание</h2>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Буква «Т»</div>
+      <p>Используя только <code class="inline">forward</code>, <code class="inline">backward</code>, <code class="inline">left</code> и <code class="inline">right</code>, нарисуйте букву «Т» одной непрерывной линией пера.</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Лестница из трёх ступенек</div>
+      <p>Нарисуйте лестницу, состоящую из трёх одинаковых «ступенек» (вперёд-поворот-вперёд-поворот). Попробуйте обойтись без повторения одинакового блока кода вручную — подсказка: этому вы научитесь в главе 10, а пока просто повторите блок трижды подряд.</p>
+    </div>
+
+    
+    <div class="summary-box">
+      <h3>Что запомнить</h3>
+      <ul><li><code class="inline">forward()</code>/<code class="inline">backward()</code> двигают черепашку по прямой; <code class="inline">left()</code>/<code class="inline">right()</code> только поворачивают курс.</li><li>Позиция и курс — это два независимых свойства черепашки.</li><li>Современный стиль — создавать явный объект <code class="inline">turtle.Turtle()</code>, а не полагаться на скрытую черепашку по умолчанию.</li><li><code class="inline">screen.exitonclick()</code> или <code class="inline">turtle.done()</code> нужны, чтобы окно не закрылось мгновенно.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="06-01-pristupaem.html"><div class="dir">← Назад</div><div class="lbl">Приступаем</div></a><a href="06-03-povorot-cherepashki.html" class="next"><div class="dir">Далее →</div><div class="lbl">Меняем направление</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

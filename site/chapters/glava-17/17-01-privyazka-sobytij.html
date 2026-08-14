@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Привязка событий — делаем приложения динамическими! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Метод bind() в Tkinter: реагируем на нажатия клавиш и другие события, а не только на клик по кнопке." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html" class="active">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра, полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-17/17-01-bind.ipynb">📓 17-01-bind.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb">📓 17-03-peremennye-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-04-risuem.ipynb">📓 17-04-risuem.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-05-pobeda.ipynb">📓 17-05-pobeda.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-06-polnaya-igra.ipynb">📓 17-06-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Привязка событий</div>
+    <div class="section-kicker">Глава 17 · Проект: «Крестики-нолики»</div>
+    <h1>Привязка событий — делаем приложения динамическими!</h1>
+    <p class="lede">command — не единственный способ реагировать на действия пользователя: bind() открывает события любого рода.</p>
+
+    
+    <p>В главе 16 кнопки реагировали на клик через параметр <code class="inline">command</code>
+    — это самый частый, но не единственный способ связать код с действием пользователя.
+    <strong>Привязка событий</strong> (<code class="inline">.bind()</code>) позволяет реагировать
+    на что угодно: нажатие клавиши, движение мыши, наведение курсора.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>privyazka_sobytij.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+label = tk.Label(root, text=<span class="tok-str">&quot;Нажмите любую клавишу&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">14</span>))
+label.pack(padx=<span class="tok-num">20</span>, pady=<span class="tok-num">20</span>)
+
+<span class="tok-kw">def</span> na_klavishu(event):
+    label.config(text=<span class="tok-str">f&quot;</span><span class="tok-str">Вы нажали: </span>{event.keysym}<span class="tok-str">&quot;</span>)
+
+root.bind(<span class="tok-str">&quot;&lt;Key&gt;&quot;</span>, na_klavishu)
+root.mainloop()</code></pre>
+    </div>
+    <p>Функция-обработчик события всегда принимает один параметр — <code class="inline">event</code>
+    — объект с подробностями о произошедшем событии: какая клавиша нажата
+    (<code class="inline">event.keysym</code>), где кликнула мышь, и так далее.</p>
+
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Пригодится в главе 19</div>
+        <div class="callout-body">Именно <code class="inline">.bind()</code> позволит змейке в главе 19 реагировать на нажатия клавиш со стрелками — тот же самый приём, только с другим типом события.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">17-01-bind.ipynb · привязка событий клавиатуры</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-17/17-01-bind.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="17-02-obyasnenie-nastrojka.html" class="next"><div class="dir">Далее →</div><div class="lbl">Объяснение игры и настройка</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Условия if внутри циклов for, вложенные циклы — Python с нуля — Cartesian School</title>
+<meta name="description" content="Комбинируем if с for и учимся вкладывать циклы друг в друга." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Волшебные циклы! Циклы for</a></li><li><a href="10-02-if-vlozhennye-cikly.html" class="active">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break и continue</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-10/10-01-cikly-for.ipynb">📓 10-01-cikly-for.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-02-if-vlozhennye.ipynb">📓 10-02-if-vlozhennye.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-03-while.ipynb">📓 10-03-while.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-04-break-continue.ipynb">📓 10-04-break-continue.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-05-ugadaj-v2.ipynb">📓 10-05-ugadaj-v2.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-06-avto-figury.ipynb">📓 10-06-avto-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-07-avto-mandala.ipynb">📓 10-07-avto-mandala.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-08-spirali.ipynb">📓 10-08-spirali.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / if и вложенные циклы</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Условия if внутри циклов for</h1>
+    <p class="lede">Циклы и условия отлично работают вместе — а циклы можно вкладывать друг в друга.</p>
+
+    
+    <h2>Условия if внутри циклов for</h2>
+    <p><code class="inline">if</code> из главы 9 прекрасно работает внутри цикла — на каждом
+    шаге можно принимать своё решение:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>if_v_cikle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">11</span>):
+    <span class="tok-kw">if</span> number % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(number, <span class="tok-str">&quot;— чётное&quot;</span>)</code></pre>
+    </div>
+
+    <h2 id="vlozhennye">Вложенные циклы for</h2>
+    <p>Цикл можно поместить внутрь другого цикла — тогда внутренний цикл выполняется полностью
+    на каждом шаге внешнего:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>vlozhennye_cikly.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> row <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">3</span>):
+    <span class="tok-kw">for</span> col <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+        <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">(</span>{row}<span class="tok-str">, </span>{col}<span class="tok-str">)</span><span class="tok-str">&quot;</span>, end=<span class="tok-str">&quot; &quot;</span>)
+    <span class="tok-fn">print</span>()  <span class="tok-com"># новая строка после каждого ряда</span></code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Сколько раз выполнится внутренний цикл?</div>
+        <div class="callout-body">Внешний цикл выполняется 3 раза, внутренний — 4 раза <em>на каждом</em> шаге внешнего — итого <code class="inline">print(...)</code> внутри сработает <code class="inline">3 * 4 = 12</code> раз. Вложенные циклы — частая причина неожиданно долгого выполнения, если не следить за их количеством.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">10-02-if-vlozhennye.ipynb · условия и вложенные циклы</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-10/10-02-if-vlozhennye.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="10-01-cikly-for.html"><div class="dir">← Назад</div><div class="lbl">Циклы for</div></a><a href="10-03-perebor-strok-while.html" class="next"><div class="dir">Далее →</div><div class="lbl">Перебор строк и циклы while</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Глобальные и локальные переменные — Python с нуля — Cartesian School</title>
+<meta name="description" content="Область видимости переменных в Python: локальные переменные функций и глобальные переменные." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-02-zachem-funkcii.html">Зачем нужны функции?</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-04-argumenty.html">Аргументы функций</a></li><li><a href="13-05-globalnye-lokalnye.html" class="active">Глобальные и локальные переменные</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: автоматизированные фигуры и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-13/13-01-pervaya-funkciya.ipynb">📓 13-01-pervaya-funkciya.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-02-zachem-funkcii.ipynb">📓 13-02-zachem-funkcii.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-03-vozvrat.ipynb">📓 13-03-vozvrat.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-04-argumenty.ipynb">📓 13-04-argumenty.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-05-oblast-vidimosti.ipynb">📓 13-05-oblast-vidimosti.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-06-lambda.ipynb">📓 13-06-lambda.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-07-domashka.ipynb">📓 13-07-domashka.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-08-figury-novyj-uroven.ipynb">📓 13-08-figury-novyj-uroven.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Область видимости</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Глобальные и локальные переменные</h1>
+    <p class="lede">Где «живёт» переменная и кто может её увидеть — важное правило, которое избавит от многих загадочных ошибок.</p>
+
+    
+    <h2>Переменные внутри функций</h2>
+    <p>Переменная, созданная внутри функции, называется <strong>локальной</strong> — она
+    существует только пока функция выполняется и недоступна снаружи:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>lokalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> moya_funkciya():
+    message = <span class="tok-str">&quot;Я живу только внутри функции&quot;</span>
+    <span class="tok-fn">print</span>(message)
+
+moya_funkciya()
+<span class="tok-fn">print</span>(message)   <span class="tok-com"># NameError: message не определена здесь</span></code></pre>
+    </div>
+
+    <h2>Возвращаем локальные переменные</h2>
+    <p>Чтобы значение, вычисленное внутри функции, стало доступно снаружи, его нужно вернуть
+    через <code class="inline">return</code> — это единственный «официальный» способ передать
+    что-то из функции наружу.</p>
+
+    <h2>Глобальные переменные</h2>
+    <p><strong>Глобальная</strong> переменная объявлена вне всех функций — и доступна для чтения
+    внутри любой из них:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>globalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>ver = <span class="tok-str">&quot;1.0&quot;</span>   <span class="tok-com"># глобальная переменная</span>
+
+<span class="tok-kw">def</span> pokazat_versiyu():
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Версия программы: </span>{ver}<span class="tok-str">&quot;</span>)   <span class="tok-com"># чтение глобальной переменной — работает</span>
+
+pokazat_versiyu()</code></pre>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Изменить глобальную переменную изнутри функции — не так просто</div>
+        <div class="callout-body">Присваивание <code class="inline">ver = "2.0"</code> внутри функции создаст <strong>новую локальную</strong> переменную <code class="inline">ver</code>, а не изменит глобальную. Для настоящего изменения нужно ключевое слово <code class="inline">global</code> — но в реальном коде такое встречается редко: гораздо чище вернуть новое значение через <code class="inline">return</code>.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">13-05-oblast-vidimosti.ipynb · локальные и глобальные переменные</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-13/13-05-oblast-vidimosti.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="13-04-argumenty.html"><div class="dir">← Назад</div><div class="lbl">Аргументы функций</div></a><a href="13-06-lambda.html" class="next"><div class="dir">Далее →</div><div class="lbl">Лямбда-функции</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

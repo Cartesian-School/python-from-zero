@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Истина или ложь — Python с нуля — Cartesian School</title>
+<meta name="description" content="Логический тип bool в Python и истинность значений разных типов." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-01-istina-ili-lozh.html" class="active">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-03-if-inache.html">Если это произошло — выполни команду!</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-09/09-01-istina-lozh.ipynb">📓 09-01-istina-lozh.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-02-sravnenie.ipynb">📓 09-02-sravnenie.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-03-if-else.ipynb">📓 09-03-if-else.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-04-and-or-not.ipynb">📓 09-04-and-or-not.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-05-ugadaj-chislo.ipynb">📓 09-05-ugadaj-chislo.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-06-elif.ipynb">📓 09-06-elif.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / Истина или ложь</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>Истина или ложь</h1>
+    <p class="lede">Прежде чем программа сможет принимать решения, ей нужен способ хранить сам результат решения — логический тип bool.</p>
+
+    
+    <p>До сих пор все наши программы выполняли одни и те же команды при каждом запуске. Пора
+    научить их <strong>принимать решения</strong> — делать одно, если верно одно условие, и
+    другое, если верно другое. Всё начинается с логического типа данных.</p>
+
+    <h2>Логический тип: bool</h2>
+    <p>Тип <code class="inline">bool</code> имеет всего два возможных значения:
+    <code class="inline">True</code> (истина) и <code class="inline">False</code> (ложь) — с
+    заглавной буквы, это ключевые слова Python, а не обычный текст.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>bool.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>is_sunny = <span class="tok-kw">True</span>
+is_raining = <span class="tok-kw">False</span>
+<span class="tok-fn">print</span>(is_sunny, <span class="tok-kw">type</span>(is_sunny))</code></pre>
+    </div>
+
+    <h2>Как получить bool</h2>
+    <p>Чаще всего <code class="inline">True</code>/<code class="inline">False</code> не пишут
+    вручную, а получают в результате сравнения:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>sravnenie_bool.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">5</span> &gt; <span class="tok-num">3</span>)     <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(<span class="tok-num">5</span> == <span class="tok-num">3</span>)    <span class="tok-com"># False</span></code></pre>
+    </div>
+
+    <h2>«Истинность» других типов</h2>
+    <p>Мы уже видели в главе 8, что пустая строка ведёт себя как <code class="inline">False</code>,
+    а непустая — как <code class="inline">True</code>. То же правило работает для чисел и для
+    других типов данных, которые мы изучим позже:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>istinnost.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">bool</span>(<span class="tok-num">0</span>))      <span class="tok-com"># False — ноль считается «ложью»</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">bool</span>(<span class="tok-num">42</span>))     <span class="tok-com"># True — любое ненулевое число — «истина»</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">bool</span>(<span class="tok-str">&quot;&quot;</span>))     <span class="tok-com"># False — пустая строка</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">bool</span>(<span class="tok-str">&quot;нет&quot;</span>))  <span class="tok-com"># True — любая непустая строка, даже такая!</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">bool(&quot;False&quot;) — это True!</div>
+        <div class="callout-body">Строка <code class="inline">"False"</code> — непустая, значит, <code class="inline">bool("False")</code> равно <code class="inline">True</code>. Единственная строка, которая ведёт себя как ложь — пустая строка <code class="inline">""</code>.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">09-01-istina-lozh.ipynb · тип bool и истинность значений</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-09/09-01-istina-lozh.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="09-02-sravnenie-i-reshenie.html" class="next"><div class="dir">Далее →</div><div class="lbl">Сравниваем и принимаем решение</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

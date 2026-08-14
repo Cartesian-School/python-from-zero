@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Змейка ест! Движение тела — Python с нуля — Cartesian School</title>
+<meta name="description" content="Проверка поедания яблока через distance() и движение всех сегментов тела змейки." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html" class="active">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-19/19-02-ekran.ipynb">📓 19-02-ekran.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-03-golova-yabloko.ipynb">📓 19-03-golova-yabloko.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-04-dvizhenie.ipynb">📓 19-04-dvizhenie.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-06-eda-telo.ipynb">📓 19-06-eda-telo.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-07-stolknoveniya.ipynb">📓 19-07-stolknoveniya.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-08-polnaya-igra.ipynb">📓 19-08-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Еда и тело</div>
+    <div class="section-kicker">Глава 19 · Проект: «Змейка»</div>
+    <h1>Наша змейка ест!</h1>
+    <p class="lede">Съеденное яблоко добавляет сегмент — и каждый сегмент должен правильно следовать за предыдущим.</p>
+
+    
+    <h2>Наша змейка ест!</h2>
+    <p>Проверяем, достаточно ли близко голова оказалась к яблоку (метод
+    <code class="inline">.distance()</code> считает расстояние между двумя черепашками) — если
+    да, яблоко «съедено»: появляется новое яблоко, змейка растёт, счёт увеличивается:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>eda.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> proverit_edu():
+    <span class="tok-kw">global</span> schet
+    <span class="tok-kw">if</span> golova.distance(yabloko) &lt; RAZMER_SHAGA:
+        novoe_yabloko()
+        dobavit_segment()
+        schet += <span class="tok-num">10</span>
+        obnovit_tablo()</code></pre>
+    </div>
+
+    <h2 id="telo">Заставляем двигаться всю змейку</h2>
+    <p>Каждый сегмент тела должен занять место <em>предыдущего</em> сегмента (а первый — место
+    головы) — это создаёт эффект «змейка ползёт целиком», а не «части двигаются независимо»:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>dobavit_segment.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> dobavit_segment():
+    novyj = turtle.Turtle()
+    novyj.speed(<span class="tok-num">0</span>)
+    novyj.shape(<span class="tok-str">&quot;square&quot;</span>)
+    novyj.color(<span class="tok-str">&quot;grey&quot;</span>)
+    novyj.penup()
+    segmenty.append(novyj)</code></pre>
+    </div>
+    
+    <div class="code-block">
+      <div class="code-label"><span>dvigat_telo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> dvigat_telo():
+    <span class="tok-com"># начинаем с хвоста и идём к голове, чтобы не потерять позиции по пути</span>
+    <span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(segmenty) - <span class="tok-num">1</span>, <span class="tok-num">0</span>, -<span class="tok-num">1</span>):
+        x = segmenty[indeks - <span class="tok-num">1</span>].xcor()
+        y = segmenty[indeks - <span class="tok-num">1</span>].ycor()
+        segmenty[indeks].goto(x, y)
+
+    <span class="tok-kw">if</span> segmenty:
+        segmenty[<span class="tok-num">0</span>].goto(golova.xcor(), golova.ycor())</code></pre>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Порядок вызовов решает всё</div>
+        <div class="callout-body"><code class="inline">dvigat_telo()</code> обязательно вызывается <strong>до</strong> <code class="inline">dvigat_golovu()</code> — иначе первый сегмент «унаследует» уже <em>новую</em> позицию головы вместо старой, и тело слипнется с головой в одну точку.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">19-06-eda-telo.ipynb · поедание яблок и движение тела</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-19/19-06-eda-telo.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="19-05-tablo-scheta.html"><div class="dir">← Назад</div><div class="lbl">Табло счёта</div></a><a href="19-07-stolknoveniya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Проверка столкновений</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

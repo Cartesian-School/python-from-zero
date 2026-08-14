@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Условия продолжают накапливаться! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Цепочки elif и вложенные условия — и краткие итоги главы 9." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-01-istina-ili-lozh.html">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-03-if-inache.html">Если это произошло — выполни команду!</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html" class="active">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-09/09-01-istina-lozh.ipynb">📓 09-01-istina-lozh.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-02-sravnenie.ipynb">📓 09-02-sravnenie.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-03-if-else.ipynb">📓 09-03-if-else.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-04-and-or-not.ipynb">📓 09-04-and-or-not.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-05-ugadaj-chislo.ipynb">📓 09-05-ugadaj-chislo.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-06-elif.ipynb">📓 09-06-elif.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / elif и итоги</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>Условия продолжают накапливаться!</h1>
+    <p class="lede">elif и вложенные условия — когда одного if/else уже недостаточно.</p>
+
+    
+    <p>Условий может быть сколько угодно — <code class="inline">elif</code> позволяет
+    проверить их по очереди, одно за другим, пока одно из них не окажется истинным:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>elif_cepochka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>ocenka = <span class="tok-num">87</span>
+
+<span class="tok-kw">if</span> ocenka &gt;= <span class="tok-num">90</span>:
+    bukva = <span class="tok-str">&quot;A&quot;</span>
+<span class="tok-kw">elif</span> ocenka &gt;= <span class="tok-num">80</span>:
+    bukva = <span class="tok-str">&quot;B&quot;</span>
+<span class="tok-kw">elif</span> ocenka &gt;= <span class="tok-num">70</span>:
+    bukva = <span class="tok-str">&quot;C&quot;</span>
+<span class="tok-kw">else</span>:
+    bukva = <span class="tok-str">&quot;D&quot;</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Оценка: </span>{bukva}<span class="tok-str">&quot;</span>)</code></pre>
+    </div>
+
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Порядок условий имеет значение</div>
+        <div class="callout-body">Python проверяет условия <strong>по порядку</strong> и останавливается на первом истинном — даже если следующие условия тоже подошли бы. Поэтому в примере выше условия идут от большего к меньшему: если бы <code class="inline">ocenka >= 70</code> стояло первым, оценка 87 неверно попала бы в категорию «C».</div>
+      </div>
+    </div>
+
+    <h2>Вложенные условия</h2>
+    <p>Внутри блока <code class="inline">if</code> может быть ещё один
+    <code class="inline">if</code> — это называется <strong>вложенным условием</strong>:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>vlozhennye_usloviya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-num">25</span>
+has_license = <span class="tok-kw">True</span>
+
+<span class="tok-kw">if</span> age &gt;= <span class="tok-num">18</span>:
+    <span class="tok-kw">if</span> has_license:
+        <span class="tok-fn">print</span>(<span class="tok-str">&quot;Можно водить машину.&quot;</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">&quot;Сначала получите права.&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Ещё рано водить машину.&quot;</span>)</code></pre>
+    </div>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Три вложенных уровня</div>
+      <p>Добавьте третий уровень: внутри «можно водить машину» проверьте ещё и наличие топлива в баке (третья переменная has_fuel).</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Тип <code class="inline">bool</code> хранит <code class="inline">True</code> или <code class="inline">False</code>; ноль и пустые значения — «ложь», всё остальное — «истина».</li><li>Шесть операторов сравнения (<code class="inline">== != &lt; &gt; &lt;= &gt;=</code>) превращают значения в bool.</li><li><code class="inline">if</code> выполняет блок кода при истинном условии; <code class="inline">else</code> — альтернативу, если условие ложно.</li><li><code class="inline">and</code>, <code class="inline">or</code>, <code class="inline">not</code> комбинируют несколько условий в одно.</li><li><code class="inline">elif</code> проверяет условия по очереди; условия можно вкладывать друг в друга.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="09-05-mini-proekt-ugadaj-chislo.html"><div class="dir">← Назад</div><div class="lbl">Угадай число</div></a><a href="../glava-10/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 10: Немного автоматизации!</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

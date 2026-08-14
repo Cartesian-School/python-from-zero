@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Создаём глобальные переменные и кнопки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Переменные состояния игры и создание поля 3x3 из кнопок циклом." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html" class="active">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра, полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-17/17-01-bind.ipynb">📓 17-01-bind.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb">📓 17-03-peremennye-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-04-risuem.ipynb">📓 17-04-risuem.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-05-pobeda.ipynb">📓 17-05-pobeda.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-06-polnaya-igra.ipynb">📓 17-06-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Переменные и кнопки</div>
+    <div class="section-kicker">Глава 17 · Проект: «Крестики-нолики»</div>
+    <h1>Создаём глобальные переменные</h1>
+    <p class="lede">Игре нужна память между ходами — заведём переменные состояния и построим поле из кнопок циклом.</p>
+
+    
+    <h2>Создаём глобальные переменные</h2>
+    <p>Игре нужно помнить своё состояние между ходами — чей сейчас ход, закончена ли игра, и
+    сами кнопки поля, чтобы менять их текст:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>globalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>tekuschij_igrok = <span class="tok-str">&quot;X&quot;</span>
+polya = []             <span class="tok-com"># список из 9 кнопок поля</span>
+igra_okonchena = <span class="tok-kw">False</span></code></pre>
+    </div>
+
+    <h2 id="knopki">Создаём кнопки</h2>
+    <p>Поле 3×3 — это девять кнопок, расположенных через <code class="inline">grid()</code>
+    (глава 16). Создадим их циклом, а не девятью одинаковыми строками кода вручную (глава 10):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>sozdaem_knopki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pole_frame = tk.Frame(root)
+pole_frame.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">3</span>)
+
+<span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">9</span>):
+    knopka = tk.Button(
+        pole_frame,
+        text=<span class="tok-str">&quot;&quot;</span>,
+        font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">24</span>, <span class="tok-str">&quot;bold&quot;</span>),
+        width=<span class="tok-num">3</span>, height=<span class="tok-num">1</span>,
+    )
+    knopka.grid(row=indeks // <span class="tok-num">3</span>, column=indeks % <span class="tok-num">3</span>)
+    polya.append(knopka)</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">indeks // 3 и indeks % 3 — координаты из номера</div>
+        <div class="callout-body">Числа от 0 до 8 нужно превратить в строку и столбец таблицы 3×3. Целочисленное деление <code class="inline">//</code> (глава 5) даёт номер строки (<code class="inline">0,0,0,1,1,1,2,2,2</code>), а остаток <code class="inline">%</code> — номер столбца (<code class="inline">0,1,2,0,1,2,0,1,2</code>).</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">17-03-peremennye-knopki.ipynb · переменные состояния и поле из кнопок</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="17-02-obyasnenie-nastrojka.html"><div class="dir">← Назад</div><div class="lbl">Объяснение и настройка</div></a><a href="17-04-risuem-na-knopke.html" class="next"><div class="dir">Далее →</div><div class="lbl">Рисуем на кнопке</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Создаём персонажей на экране — Python с нуля — Cartesian School</title>
+<meta name="description" content="Рисуем игровых персонажей простыми фигурами: pygame.draw.rect() и pygame.draw.circle()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html" class="active">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-20/20-02-ekran.ipynb">📓 20-02-ekran.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-03-personazhi.ipynb">📓 20-03-personazhi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-04-dvizhenie-klavishi.ipynb">📓 20-04-dvizhenie-klavishi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-05-myach.ipynb">📓 20-05-myach.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">🐍 bouncing_ball.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Персонажи</div>
+    <div class="section-kicker">Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Создаём персонажей на экране</h1>
+    <p class="lede">Первые персонажи — простые фигуры, рисуемые заново на каждом кадре.</p>
+
+    
+    <p>Персонажей и объекты в Pygame рисуют прямо на экране каждый кадр — простыми фигурами
+    (кругами, прямоугольниками), как мы делали в Turtle, или готовыми изображениями. Начнём с
+    фигур — они не требуют внешних файлов и отлично подходят для первых игр:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>personazhi.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>CVET_IGROKA = (<span class="tok-num">100</span>, <span class="tok-num">200</span>, <span class="tok-num">255</span>)
+CVET_VRAGA = (<span class="tok-num">255</span>, <span class="tok-num">80</span>, <span class="tok-num">80</span>)
+
+x_igroka, y_igroka = <span class="tok-num">300</span>, <span class="tok-num">350</span>
+x_vraga, y_vraga = <span class="tok-num">300</span>, <span class="tok-num">50</span>
+
+<span class="tok-com"># внутри игрового цикла, после screen.fill(...):</span>
+pygame.draw.rect(screen, CVET_IGROKA, (x_igroka, y_igroka, <span class="tok-num">40</span>, <span class="tok-num">40</span>))
+pygame.draw.circle(screen, CVET_VRAGA, (x_vraga, y_vraga), <span class="tok-num">20</span>)</code></pre>
+    </div>
+    <p><code class="inline">pygame.draw.rect()</code> принимает кортеж
+    <code class="inline">(x, y, ширина, высота)</code> — <code class="inline">(x, y)</code> это
+    левый верхний угол, как у <code class="inline">Canvas</code> в главе 18, а не центр, как у
+    <code class="inline">circle()</code>.</p>
+
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Rect — прямоугольник как объект</div>
+        <div class="callout-body">Для более сложных игр Pygame предлагает класс <code class="inline">pygame.Rect</code> — он хранит позицию и размер вместе и умеет проверять пересечения (<code class="inline">.colliderect()</code>) — то, что понадобится для космического шутера в главе 21.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">20-03-personazhi.ipynb · рисуем персонажей фигурами</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-20/20-03-personazhi.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="20-02-igrovoj-ekran.html"><div class="dir">← Назад</div><div class="lbl">Игровой экран</div></a><a href="20-04-peremeshenie-klavishi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Движение и клавиши</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

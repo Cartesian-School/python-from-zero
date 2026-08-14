@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Квадраты и прямоугольники! Круги и овалы! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Рисование прямоугольников (create_rectangle) и овалов (create_oval) на Canvas." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 18 · Рисовалка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="18-01-obyasnenie-nachalo.html">Объяснение и начало работы</a></li><li><a href="18-02-ekran-holst.html">Экран и холст (Canvas)</a></li><li><a href="18-03-menu-parametry.html">Меню фигур и параметры рисования</a></li><li><a href="18-04-mysh-linii.html">Позиция мыши и рисуем линии</a></li><li><a href="18-05-figury.html" class="active">Квадраты, прямоугольники, круги и овалы</a></li><li><a href="18-06-razmer-cveta.html">Выбираем размер и цвет</a></li><li><a href="18-07-polnaya-programma-itogi.html">Полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-18/18-02-holst.ipynb">📓 18-02-holst.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-03-parametry.ipynb">📓 18-03-parametry.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-04-linii.ipynb">📓 18-04-linii.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-05-figury.ipynb">📓 18-05-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-06-razmer-cveta.ipynb">📓 18-06-razmer-cveta.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-07-polnoe-prilozhenie.ipynb">📓 18-07-polnoe-prilozhenie.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app.py">🐍 paint_app.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 18</a> / Фигуры</div>
+    <div class="section-kicker">Глава 18 · Проект: приложение для рисования</div>
+    <h1>Квадраты и прямоугольники! Круги и овалы!</h1>
+    <p class="lede">Canvas умеет рисовать готовые фигуры по двум углам — не только линии.</p>
+
+    
+    <p>Прямоугольники и овалы рисуются похожим образом — Canvas умеет строить их сразу по двум
+    противоположным углам, без ручного вычисления сторон:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>pryamougolniki_ovaly.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> vo_vremya_risovaniya(event):
+    <span class="tok-kw">if</span> tekuschaya_figura == <span class="tok-str">&quot;pryamougolnik&quot;</span>:
+        canvas.create_rectangle(
+            start_x, start_y, event.x, event.y,
+            outline=tekuschij_cvet, width=tolschina,
+        )
+    <span class="tok-kw">elif</span> tekuschaya_figura == <span class="tok-str">&quot;oval&quot;</span>:
+        canvas.create_oval(
+            start_x, start_y, event.x, event.y,
+            outline=tekuschij_cvet, width=tolschina,
+        )</code></pre>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Промежуточные фигуры множатся</div>
+        <div class="callout-body">Если рисовать так, как показано выше, при каждом движении мыши будет создаваться <strong>новая</strong> фигура поверх предыдущей — а не одна, растущая вместе с движением. В полной программе (раздел 18.7) эта проблема решена: предыдущая «черновая» фигура удаляется перед тем, как нарисовать новую.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">18-05-figury.ipynb · прямоугольники и овалы</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-18/18-05-figury.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="18-04-mysh-linii.html"><div class="dir">← Назад</div><div class="lbl">Мышь и линии</div></a><a href="18-06-razmer-cveta.html" class="next"><div class="dir">Далее →</div><div class="lbl">Размер и цвет</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

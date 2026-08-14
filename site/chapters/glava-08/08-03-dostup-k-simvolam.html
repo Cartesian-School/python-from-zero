@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Доступ к символам строки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Индексы, отрицательные индексы и срезы строк в Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки и объединение строк</a></li><li><a href="08-03-dostup-k-simvolam.html" class="active">Доступ к символам и срезы</a></li><li><a href="08-04-metody-strok.html">Методы строк</a></li><li><a href="08-05-istina-lozh.html">Истина? Ложь?</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот имени</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-08/08-01-stroki.ipynb">📓 08-01-stroki.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb">📓 08-03-indeksy-srezy.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-04-metody-strok.ipynb">📓 08-04-metody-strok.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-06-formatirovanie.ipynb">📓 08-06-formatirovanie.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb">📓 08-07-vvod-polzovatelya.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-09-krik-perevorot.ipynb">📓 08-09-krik-perevorot.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-10-dinamicheskaya-matematika.ipynb">📓 08-10-dinamicheskaya-matematika.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Символы и срезы</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Доступ к символам строки</h1>
+    <p class="lede">Каждый символ строки можно достать по номеру — а срезы позволяют достать сразу целый кусок.</p>
+
+    
+    <h2>Доступ к символам строки</h2>
+    <p>Строка — это последовательность символов, и к каждому символу можно обратиться по его
+    <strong>индексу</strong> (порядковому номеру) в квадратных скобках. Индексация в Python
+    начинается с <strong>нуля</strong>:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>indeksy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>word = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-fn">print</span>(word[<span class="tok-num">0</span>])   <span class="tok-com"># P — первый символ</span>
+<span class="tok-fn">print</span>(word[<span class="tok-num">1</span>])   <span class="tok-com"># y — второй символ</span>
+<span class="tok-fn">print</span>(word[<span class="tok-num">5</span>])   <span class="tok-com"># n — шестой (и последний) символ</span></code></pre>
+    </div>
+
+    <h2>Отрицательные индексы</h2>
+    <p>Отрицательные индексы отсчитываются с конца строки — <code class="inline">-1</code>
+    означает «последний символ»:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>otricatelnye_indeksy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>word = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-fn">print</span>(word[-<span class="tok-num">1</span>])   <span class="tok-com"># n — последний символ</span>
+<span class="tok-fn">print</span>(word[-<span class="tok-num">2</span>])   <span class="tok-com"># o — предпоследний</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">IndexError — индекс за пределами строки</div>
+        <div class="callout-body"><code class="inline">word[10]</code> для шестибуквенного слова вызовет <code class="inline">IndexError: string index out of range</code>. Индексы существуют только от <code class="inline">0</code> до <code class="inline">len(word) - 1</code> (и от -1 до -len(word) с конца).</div>
+      </div>
+    </div>
+
+    <h2>Получение среза строки</h2>
+    <p><strong>Срез</strong> (slice) возвращает часть строки — от одного индекса до другого
+    (не включая последний):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>srezy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>word = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-fn">print</span>(word[<span class="tok-num">0</span>:<span class="tok-num">3</span>])   <span class="tok-com"># Pyt — символы с индексами 0, 1, 2</span>
+<span class="tok-fn">print</span>(word[<span class="tok-num">2</span>:])    <span class="tok-com"># thon — от индекса 2 и до конца</span>
+<span class="tok-fn">print</span>(word[:<span class="tok-num">3</span>])    <span class="tok-com"># Pyt — от начала до индекса 3 (не включая)</span>
+<span class="tok-fn">print</span>(word[::-<span class="tok-num">1</span>])  <span class="tok-com"># nohtyP — весь текст задом наперёд!</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Разворот строки одним срезом</div>
+        <div class="callout-body"><code class="inline">строка[::-1]</code> — самый короткий способ развернуть строку задом наперёд. Третий параметр среза — «шаг»; шаг -1 проходит строку в обратном порядке. Мы воспользуемся этим в мини-проекте 8.9.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">08-03-indeksy-srezy.ipynb · индексы, отрицательные индексы и срезы</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="08-02-kavychki-konkatenaciya.html"><div class="dir">← Назад</div><div class="lbl">Кавычки и объединение</div></a><a href="08-04-metody-strok.html" class="next"><div class="dir">Далее →</div><div class="lbl">Методы строк</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

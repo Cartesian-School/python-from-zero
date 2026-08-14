@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Список задач</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Мой список задач</h1>
+
+  <ul class="zadachi">
+    {% for zadacha in zadachi %}
+      <li>{{ zadacha }}</li>
+    {% endfor %}
+  </ul>
+
+  <form action="{{ url_for('dobavit') }}" method="post">
+    <input type="text" name="zadacha" placeholder="Новая задача" required>
+    <button type="submit">Добавить</button>
+  </form>
+
+  <p><a href="{{ url_for('privet', imya='Друг') }}">Поздороваться</a></p>
+</body>
+</html>

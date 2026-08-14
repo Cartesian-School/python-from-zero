@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Числа в Python, сохраняем числа — Python с нуля — Cartesian School</title>
+<meta name="description" content="Работа с числами и переменными в Python: присваивание, правила именования, подсказки типов." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 4 · Числа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="04-01-chisla-i-peremennye.html" class="active">Числа в Python, сохраняем числа</a></li><li><a href="04-02-kommentarii.html">Комментарии</a></li><li><a href="04-03-vidy-chisel.html">Числа бывают разных видов</a></li><li><a href="04-04-preobrazovanie-tipov.html">Преобразование типов чисел</a></li><li><a href="04-05-mini-proekt-itogi.html">Мини-проект и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-04/04-01-chisla-i-peremennye.ipynb">📓 04-01-chisla-i-peremennye.ipynb</a></li><li><a href="../../../notebooks/chapter-04/04-03-vidy-chisel.ipynb">📓 04-03-vidy-chisel.ipynb</a></li><li><a href="../../../notebooks/chapter-04/04-04-preobrazovanie-tipov.ipynb">📓 04-04-preobrazovanie-tipov.ipynb</a></li><li><a href="../../../notebooks/chapter-04/04-05-mini-proekt-chisla.ipynb">📓 04-05-mini-proekt-chisla.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 4</a> / Числа и переменные</div>
+    <div class="section-kicker">Глава 4 · Python любит числа</div>
+    <h1>Числа в Python</h1>
+    <p class="lede">Числа — самый естественный вид данных для компьютера. Разберёмся, как их сохранять в переменные и как их правильно называть.</p>
+
+    
+    <h2>Числа в Python</h2>
+    <p>Числа — один из самых часто используемых видов данных в программировании: возраст, цена,
+    счёт в игре, координаты на экране. Python умеет работать с числами «из коробки», без
+    каких-либо дополнительных приготовлений.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>chisla.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">7</span>)
+<span class="tok-fn">print</span>(<span class="tok-num">3.5</span>)
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> + <span class="tok-num">3.5</span>)</code></pre>
+    </div>
+
+    <h2 id="sohranyaem">Сохраняем числа</h2>
+    <p>Чтобы использовать число не один раз, а много, его удобно сохранить в
+    <strong>переменную</strong> — именованную «коробку» в памяти компьютера. Значение
+    записывают знаком <code class="inline">=</code>:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-num">10</span>
+<span class="tok-fn">print</span>(age)
+
+age = <span class="tok-num">11</span>  <span class="tok-com"># значение можно заменить в любой момент</span>
+<span class="tok-fn">print</span>(age)</code></pre>
+    </div>
+
+    <h2>Правила именования переменных</h2>
+    <ul>
+      <li>Имя может содержать буквы, цифры и знак подчёркивания <code class="inline">_</code>,
+        но не может <strong>начинаться</strong> с цифры.</li>
+      <li>Python различает регистр: <code class="inline">age</code> и <code class="inline">Age</code>
+        — разные переменные.</li>
+      <li>Нельзя использовать зарезервированные слова языка — например,
+        <code class="inline">for</code>, <code class="inline">if</code>,
+        <code class="inline">print</code> лучше тоже не использовать как имя переменной, хотя
+        формально это не ключевое слово.</li>
+      <li>По соглашению имена переменных в Python пишут в стиле
+        <code class="inline">snake_case</code>: словами через нижнее подчёркивание, например
+        <code class="inline">user_age</code>, а не <code class="inline">userAge</code>.</li>
+    </ul>
+
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Частая ошибка новичков</div>
+        <div class="callout-body"><code class="inline">1_place = "Cartesian"</code> — SyntaxError: имя переменной не может начинаться с цифры. Решение: переставьте слова местами — <code class="inline">place_1</code>.</div>
+      </div>
+    </div>
+
+    
+    <div class="cvm">
+      <div class="cvm-header">Без подсказки типа → с подсказкой типа (Python 3.14)</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Классический подход</div>
+          <pre><code>age = <span class="tok-num">10</span>
+price = <span class="tok-num">19.99</span>
+name = <span class="tok-str">&quot;Cartesian&quot;</span>
+<span class="tok-com"># тип виден только по значению</span></code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Современный Python 3.14</div>
+          <pre><code>age: <span class="tok-fn">int</span> = <span class="tok-num">10</span>
+price: <span class="tok-fn">float</span> = <span class="tok-num">19.99</span>
+name: <span class="tok-fn">str</span> = <span class="tok-str">&quot;Cartesian&quot;</span>
+<span class="tok-com"># тип виден прямо в коде — подсказка (type hint)</span></code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> и то, и другое работает одинаково — подсказки типов не влияют на выполнение программы. В маленьких учебных примерах классический вариант проще и короче, поэтому в первых главах книги мы обычно пишем без подсказок. Но как только код вырастает, подсказки типов делают его понятнее — редакторы вроде VS Code и PyCharm используют их, чтобы подсвечивать ошибки ещё до запуска программы. Мы вернёмся к ним подробнее в главе 13.</div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">04-01-chisla-i-peremennye.ipynb · переменные и первые числа</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-04/04-01-chisla-i-peremennye.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Приступаем</div></a><a href="04-02-kommentarii.html" class="next"><div class="dir">Далее →</div><div class="lbl">Комментарии</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

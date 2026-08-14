@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — красочная и динамическая математика — Python с нуля — Cartesian School</title>
+<meta name="description" content="Итоговый мини-проект главы 8: интерактивный калькулятор на Turtle — и краткие итоги." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки и объединение строк</a></li><li><a href="08-03-dostup-k-simvolam.html">Доступ к символам и срезы</a></li><li><a href="08-04-metody-strok.html">Методы строк</a></li><li><a href="08-05-istina-lozh.html">Истина? Ложь?</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот имени</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html" class="active">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-08/08-01-stroki.ipynb">📓 08-01-stroki.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb">📓 08-03-indeksy-srezy.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-04-metody-strok.ipynb">📓 08-04-metody-strok.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-06-formatirovanie.ipynb">📓 08-06-formatirovanie.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb">📓 08-07-vvod-polzovatelya.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-09-krik-perevorot.ipynb">📓 08-09-krik-perevorot.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-10-dinamicheskaya-matematika.ipynb">📓 08-10-dinamicheskaya-matematika.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Динамическая математика</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Мини-проект — красочная и динамическая математика</h1>
+    <p class="lede">Собираем главу воедино: ввод пользователя, числа, строки и Turtle — в одном интерактивном мини-калькуляторе.</p>
+
+    
+    <p>Финальный мини-проект главы объединяет практически всё: ввод от пользователя, числа из
+    глав 4–5, строки и Turtle из глав 6–7 — маленький «калькулятор с характером».</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>dinamicheskaya_matematika.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+artist = turtle.Turtle()
+artist.hideturtle()
+
+a = <span class="tok-fn">float</span>(<span class="tok-fn">input</span>(<span class="tok-str">&quot;Первое число: &quot;</span>))
+b = <span class="tok-fn">float</span>(<span class="tok-fn">input</span>(<span class="tok-str">&quot;Второе число: &quot;</span>))
+
+artist.penup()
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">60</span>)
+artist.pencolor(<span class="tok-str">&quot;purple&quot;</span>)
+artist.write(<span class="tok-str">f&quot;</span>{a}<span class="tok-str"> + </span>{b}<span class="tok-str"> = </span>{a + b}<span class="tok-str">&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">18</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">&quot;blue&quot;</span>)
+artist.write(<span class="tok-str">f&quot;</span>{a}<span class="tok-str"> * </span>{b}<span class="tok-str"> = </span>{a * b}<span class="tok-str">&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">18</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+screen.exitonclick()</code></pre>
+    </div>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Ещё две операции</div>
+      <p>Добавьте на холст ещё две строки: результат вычитания и деления — своим цветом для каждой.</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Строки создают в одинарных, двойных или тройных кавычках; тройные сохраняют переносы строк.</li><li>Оператор <code class="inline">+</code> объединяет строки (конкатенация); <code class="inline">print(a, b)</code> — более простая альтернатива для вывода.</li><li>Символы строки доступны по индексу (с нуля) и отрицательному индексу (с конца); срез <code class="inline">[a:b]</code> достаёт часть строки, <code class="inline">[::-1]</code> — разворачивает её.</li><li>У строк десятки готовых методов: <code class="inline">upper()</code>, <code class="inline">lower()</code>, <code class="inline">strip()</code>, <code class="inline">replace()</code>, <code class="inline">split()</code> и другие — все они возвращают новую строку, не меняя исходную.</li><li>f-строки — современный способ форматирования; <code class="inline">%</code> и <code class="inline">.format()</code> — более старые, но всё ещё встречаются.</li><li><code class="inline">input()</code> всегда возвращает строку — для чисел нужно явное преобразование <code class="inline">int()</code>/<code class="inline">float()</code>.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="08-09-mini-proekty-krik-perevorot.html"><div class="dir">← Назад</div><div class="lbl">Крик и переворот</div></a><a href="../glava-09/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 9: Выполняй мою команду!</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

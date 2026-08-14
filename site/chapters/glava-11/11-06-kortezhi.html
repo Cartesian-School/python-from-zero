@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Кортежи — Python с нуля — Cartesian School</title>
+<meta name="description" content="Кортежи (tuple) — неизменяемые последовательности в Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html" class="active">Кортежи</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Мини-проект: перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-11/11-01-spiski-osnovy.ipynb">📓 11-01-spiski-osnovy.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-02-srezy.ipynb">📓 11-02-srezy.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-03-operacii-so-spiskami.ipynb">📓 11-03-operacii-so-spiskami.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-04-eshche-o-spiskah.ipynb">📓 11-04-eshche-o-spiskah.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-05-zvezda.ipynb">📓 11-05-zvezda.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-06-kortezhi.ipynb">📓 11-06-kortezhi.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-07-mnozhestva.ipynb">📓 11-07-mnozhestva.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-08-slovari.ipynb">📓 11-08-slovari.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-09-cveta.ipynb">📓 11-09-cveta.ipynb</a></li><li><a href="../../../notebooks/chapter-11/11-10-perestanovka.ipynb">📓 11-10-perestanovka.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Кортежи</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Кортежи</h1>
+    <p class="lede">Почти список, но неизменяемый — и именно поэтому иногда более подходящий выбор.</p>
+
+    
+    <p><strong>Кортеж</strong> (<code class="inline">tuple</code>) — почти то же самое, что
+    список, но в круглых скобках и с одним принципиальным отличием: кортежи
+    <strong>неизменяемы</strong> — после создания их нельзя изменить.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>kortezhi.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>coords = (<span class="tok-num">10</span>, <span class="tok-num">20</span>)
+<span class="tok-fn">print</span>(coords)
+<span class="tok-fn">print</span>(coords[<span class="tok-num">0</span>])   <span class="tok-com"># 10 — индексация работает как у списков</span></code></pre>
+    </div>
+    
+    <div class="code-block">
+      <div class="code-label"><span>kortezh_nelzya_menyat.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>coords = (<span class="tok-num">10</span>, <span class="tok-num">20</span>)
+coords[<span class="tok-num">0</span>] = <span class="tok-num">99</span>   <span class="tok-com"># TypeError: &#x27;tuple&#x27; object does not support item assignment</span></code></pre>
+    </div>
+
+    <h2>Зачем нужны неизменяемые коллекции?</h2>
+    <p>Неизменяемость — не недостаток, а гарантия: если вы передаёте координаты точки в другую
+    часть программы как кортеж, вы точно знаете, что их никто случайно не изменит. Кортежи часто
+    используют для координат, RGB-цветов и других «пакетов» значений, которые логически
+    представляют собой единое целое.</p>
+
+    <h2>Распаковка кортежа</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>raspakovka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>coords = (<span class="tok-num">10</span>, <span class="tok-num">20</span>)
+x, y = coords
+<span class="tok-fn">print</span>(x, y)   <span class="tok-com"># 10 20</span></code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Мы уже пользовались распаковкой</div>
+        <div class="callout-body"><code class="inline">artist.position()</code> в модуле turtle возвращает именно такой кортеж <code class="inline">(x, y)</code> — можно сразу распаковать его в две переменные.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">11-06-kortezhi.ipynb · кортежи и распаковка</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-11/11-06-kortezhi.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="11-05-mini-proekt-zvezda.html"><div class="dir">← Назад</div><div class="lbl">Разноцветная звезда</div></a><a href="11-07-mnozhestva.html" class="next"><div class="dir">Далее →</div><div class="lbl">Множества</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

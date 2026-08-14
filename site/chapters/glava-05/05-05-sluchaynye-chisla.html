@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Работа со случайными числами — Python с нуля — Cartesian School</title>
+<meta name="description" content="Модуль random в Python: random(), randint(), uniform(), choice()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Основные математические операции</a></li><li><a href="05-02-specialnye-operacii.html">Специальные математические операции</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Операции присваивания и порядок вычислений</a></li><li><a href="05-04-matematicheskie-funkcii.html">Интересные возможности работы с числами</a></li><li><a href="05-05-sluchaynye-chisla.html" class="active">Работа со случайными числами</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проект и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-05/05-01-osnovnye-operacii.ipynb">📓 05-01-osnovnye-operacii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-02-operatory.ipynb">📓 05-02-operatory.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb">📓 05-04-matematicheskie-funkcii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb">📓 05-05-sluchaynye-chisla.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-06-mini-proekt-kratnye.ipynb">📓 05-06-mini-proekt-kratnye.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Случайные числа</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Работа со случайными числами</h1>
+    <p class="lede">Без капли случайности сложно представить хоть одну игру — знакомимся с модулем random.</p>
+
+    
+    <p>Модуль <code class="inline">random</code> добавляет в Python элемент случайности —
+    без него не обходится почти ни одна игра: случайный противник, случайная карта, случайное
+    число для игры «Угадай число» в главе 9.</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>sluchaynye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+<span class="tok-fn">print</span>(random.random())          <span class="tok-com"># случайное дробное число от 0.0 до 1.0 (не включая 1.0)</span>
+<span class="tok-fn">print</span>(random.randint(<span class="tok-num">1</span>, <span class="tok-num">6</span>))     <span class="tok-com"># случайное целое от 1 до 6 включительно — как кубик</span>
+<span class="tok-fn">print</span>(random.uniform(<span class="tok-num">1</span>, <span class="tok-num">10</span>))    <span class="tok-com"># случайное дробное от 1 до 10</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">randint включает обе границы</div>
+        <div class="callout-body"><code class="inline">random.randint(1, 6)</code> может вернуть и <code class="inline">1</code>, и <code class="inline">6</code> — обе границы включены. Это частая причина ошибок «на единицу» (off-by-one), если забыть об этом.</div>
+      </div>
+    </div>
+
+    <h2>Случайный выбор из списка</h2>
+    <p>Забегая немного вперёд (списки подробно разберём в главе 11) — <code class="inline">random.choice()</code>
+    умеет выбрать случайный элемент из готового набора значений:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>sluchaynyj_vybor.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+variants = [<span class="tok-str">&quot;камень&quot;</span>, <span class="tok-str">&quot;ножницы&quot;</span>, <span class="tok-str">&quot;бумага&quot;</span>]
+<span class="tok-fn">print</span>(random.choice(variants))</code></pre>
+    </div>
+
+    
+    <div class="cvm">
+      <div class="cvm-header">Диапазон случайных чисел: вручную → готовая функция</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Классический подход</div>
+          <pre><code><span class="tok-kw">import</span> random
+
+<span class="tok-com"># случайное целое от 1 до 6 вручную:</span>
+roll = <span class="tok-fn">int</span>(random.random() * <span class="tok-num">6</span>) + <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(roll)</code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Современный Python 3.14</div>
+          <pre><code><span class="tok-kw">import</span> random
+
+<span class="tok-com"># то же самое — готовой функцией</span>
+roll = random.randint(<span class="tok-num">1</span>, <span class="tok-num">6</span>)
+<span class="tok-fn">print</span>(roll)</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> готовые функции вроде <code class="inline">randint()</code> и <code class="inline">uniform()</code> — они существовали в модуле random ещё в старых версиях Python, но начинающие часто сначала пытаются собрать диапазон вручную через <code class="inline">random.random()</code>, не зная о них. Готовые функции короче и меньше подвержены ошибкам — особенно на границах диапазона.</div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">05-05-sluchaynye-chisla.ipynb · модуль random на практике</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="05-04-matematicheskie-funkcii.html"><div class="dir">← Назад</div><div class="lbl">Интересные возможности</div></a><a href="05-06-mini-proekt-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект и итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

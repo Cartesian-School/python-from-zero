@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Методы строк — магия работы со строками! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Встроенные методы строк Python: upper, lower, strip, replace, count, split и другие." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки и объединение строк</a></li><li><a href="08-03-dostup-k-simvolam.html">Доступ к символам и срезы</a></li><li><a href="08-04-metody-strok.html" class="active">Методы строк</a></li><li><a href="08-05-istina-lozh.html">Истина? Ложь?</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот имени</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-08/08-01-stroki.ipynb">📓 08-01-stroki.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb">📓 08-03-indeksy-srezy.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-04-metody-strok.ipynb">📓 08-04-metody-strok.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-06-formatirovanie.ipynb">📓 08-06-formatirovanie.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb">📓 08-07-vvod-polzovatelya.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-09-krik-perevorot.ipynb">📓 08-09-krik-perevorot.ipynb</a></li><li><a href="../../../notebooks/chapter-08/08-10-dinamicheskaya-matematika.ipynb">📓 08-10-dinamicheskaya-matematika.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Методы строк</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Методы строк — магия работы со строками!</h1>
+    <p class="lede">Готовые действия над строками, вызываемые через точку — от смены регистра до разбиения на слова.</p>
+
+    
+    <p>У каждой строки в Python есть встроенные <strong>методы</strong> — готовые действия,
+    которые можно выполнить над ней через точку: <code class="inline">строка.метод()</code>.</p>
+
+    <h2>Верхний и нижний регистр</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>registr.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;Python с нуля&quot;</span>
+<span class="tok-fn">print</span>(text.upper())   <span class="tok-com"># ПРОГРАММИРОВАНИЕ КАПСОМ</span>
+<span class="tok-fn">print</span>(text.lower())   <span class="tok-com"># питон с нуля</span>
+<span class="tok-fn">print</span>(text.title())   <span class="tok-com"># Python С Нуля — Первая Буква Каждого Слова</span></code></pre>
+    </div>
+
+    <h2>Разные методы</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>raznye_metody.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;  Python с нуля  &quot;</span>
+<span class="tok-fn">print</span>(text.strip())              <span class="tok-com"># убирает пробелы по краям</span>
+<span class="tok-fn">print</span>(text.replace(<span class="tok-str">&quot;нуля&quot;</span>, <span class="tok-str">&quot;начала&quot;</span>))  <span class="tok-com"># замена подстроки</span>
+<span class="tok-fn">print</span>(text.count(<span class="tok-str">&quot;н&quot;</span>))            <span class="tok-com"># сколько раз встречается символ</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Python&quot;</span>.startswith(<span class="tok-str">&quot;Py&quot;</span>))  <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Python&quot;</span>.endswith(<span class="tok-str">&quot;on&quot;</span>))    <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(text.split())               <span class="tok-com"># разбивает строку на список слов</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Методы строк не меняют исходную строку</div>
+        <div class="callout-body">Строки в Python <strong>неизменяемы</strong> — <code class="inline">text.upper()</code> возвращает <em>новую</em> строку, а исходная переменная <code class="inline">text</code> остаётся прежней, если не переприсвоить: <code class="inline">text = text.upper()</code>.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">08-04-metody-strok.ipynb · upper, lower, strip, replace, split и другие</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-08/08-04-metody-strok.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="08-03-dostup-k-simvolam.html"><div class="dir">← Назад</div><div class="lbl">Символы и срезы</div></a><a href="08-05-istina-lozh.html" class="next"><div class="dir">Далее →</div><div class="lbl">Истина? Ложь?</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

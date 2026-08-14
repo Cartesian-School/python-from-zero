@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flask в Python — Python с нуля — Cartesian School</title>
+<meta name="description" content="Первое Flask-приложение: маршруты, шаблоны Jinja2, динамические адреса и приём данных из формы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 22 · Веб-разработка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="22-01-python-i-veb.html">Python и веб-разработка</a></li><li><a href="22-02-html.html">Строительные блоки — HTML</a></li><li><a href="22-03-css.html">Делаем красивее — CSS</a></li><li><a href="22-04-javascript.html">Динамический фронтенд — JavaScript</a></li><li><a href="22-05-flask.html" class="active">Flask в Python</a></li><li><a href="22-06-itogi.html">Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-22/22-02-html-css.ipynb">📓 22-02-html-css.ipynb</a></li><li><a href="../../../notebooks/chapter-22/22-05-flask.ipynb">📓 22-05-flask.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py">🐍 projects/flask/todo-app/</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 22</a> / Flask</div>
+    <div class="section-kicker">Глава 22 · Веб-разработка с Python</div>
+    <h1>Flask в Python</h1>
+    <p class="lede">Flask превращает программу на Python в веб-сервер — и делает это на удивление просто.</p>
+
+    
+    <h2>Flask в Python</h2>
+    <p><strong>Flask</strong> — это лёгкая библиотека, которая превращает программу на
+    Python в веб-сервер: она принимает HTTP-запросы от браузера и отправляет в ответ
+    HTML-страницы. Установка — как у любой библиотеки:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>terminal.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pip install flask</code></pre>
+    </div>
+
+    <h2>Самое маленькое Flask-приложение</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>app_minimal.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> flask <span class="tok-kw">import</span> Flask
+
+app = Flask(__name__)
+
+@app.route(<span class="tok-str">&quot;/&quot;</span>)
+<span class="tok-kw">def</span> glavnaya():
+    <span class="tok-kw">return</span> <span class="tok-str">&quot;Привет, мир!&quot;</span>
+
+<span class="tok-kw">if</span> __name__ == <span class="tok-str">&quot;__main__&quot;</span>:
+    app.run(debug=<span class="tok-kw">True</span>)</code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">@app.route(&quot;/&quot;) — декоратор маршрута</div>
+        <div class="callout-body">Строчка над функцией — <strong>декоратор</strong> (глава 15 показывала похожую идею). <code class="inline">@app.route("/")</code> говорит Flask: «когда браузер запросит адрес <code class="inline">/</code>, вызови функцию <code class="inline">glavnaya()</code> и отправь то, что она вернёт».</div>
+      </div>
+    </div>
+
+    <h2>Шаблоны — HTML с вставками Python</h2>
+    <p>Возвращать HTML прямо строкой в Python неудобно. Flask использует движок шаблонов
+    <strong>Jinja2</strong> — обычный HTML-файл, куда можно вставлять python-подобные
+    выражения в фигурных скобках <code class="inline">{{ }}</code>:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>templates/index.html</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&lt;h1&gt;Мой список задач&lt;/h1&gt;
+&lt;ul&gt;
+  {% for zadacha in zadachi %}
+    &lt;li&gt;{{ zadacha }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;</code></pre>
+    </div>
+    
+    <div class="code-block">
+      <div class="code-label"><span>app.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> flask <span class="tok-kw">import</span> Flask, render_template
+
+app = Flask(__name__)
+zadachi = [<span class="tok-str">&quot;Выучить основы Python&quot;</span>, <span class="tok-str">&quot;Собрать сайт на Flask&quot;</span>]
+
+@app.route(<span class="tok-str">&quot;/&quot;</span>)
+<span class="tok-kw">def</span> glavnaya():
+    <span class="tok-kw">return</span> render_template(<span class="tok-str">&quot;index.html&quot;</span>, zadachi=zadachi)</code></pre>
+    </div>
+
+    <h2>Динамические адреса</h2>
+    <p>Часть адреса можно превратить в параметр функции — Flask сам передаст в неё нужное
+    значение из URL:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>dinamicheskij_marshrut.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>@app.route(<span class="tok-str">&quot;/privet/&lt;imya&gt;&quot;</span>)
+<span class="tok-kw">def</span> privet(imya):
+    <span class="tok-kw">return</span> render_template(<span class="tok-str">&quot;privet.html&quot;</span>, imya=imya)</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">/privet/Сергей → imya = &quot;Сергей&quot;</div>
+        <div class="callout-body">Открыв в браузере адрес <code class="inline">/privet/Сергей</code>, вы получите в переменной <code class="inline">imya</code> строку <code class="inline">"Сергей"</code> — Flask сам достаёт эту часть из адреса.</div>
+      </div>
+    </div>
+
+    <h2>Принимаем данные из формы</h2>
+    <p>Чтобы пользователь мог что-то отправить на сервер (например, добавить задачу),
+    используется HTML-форма и маршрут, принимающий метод <code class="inline">POST</code>:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>dobavlenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> flask <span class="tok-kw">import</span> request, redirect, url_for
+
+@app.route(<span class="tok-str">&quot;/dobavit&quot;</span>, methods=[<span class="tok-str">&quot;POST&quot;</span>])
+<span class="tok-kw">def</span> dobavit():
+    novaya_zadacha = request.form.get(<span class="tok-str">&quot;zadacha&quot;</span>, <span class="tok-str">&quot;&quot;</span>).strip()
+    <span class="tok-kw">if</span> novaya_zadacha:
+        zadachi.append(novaya_zadacha)
+    <span class="tok-kw">return</span> redirect(url_for(<span class="tok-str">&quot;glavnaya&quot;</span>))</code></pre>
+    </div>
+
+    <h2>Полный проект</h2>
+    <p>Всё вместе — маршруты, шаблоны, форма и статический CSS-файл — собрано в готовый
+    мини-сайт «Список задач»:</p>
+    <p>📄 <a href="../../../projects/flask/todo-app/app.py">projects/flask/todo-app/app.py</a></p>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Запустите сайт у себя</div>
+        <div class="callout-body"><code class="inline">python app.py</code> в терминале внутри <code class="inline">projects/flask/todo-app/</code>, затем откройте <code class="inline">http://127.0.0.1:5000/</code> в браузере.</div>
+      </div>
+    </div>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Счётчик задач</div>
+      <p>Добавьте в index.html строку, показывающую общее количество задач: {{ zadachi|length }}.</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Удаление задачи</div>
+      <p>Добавьте маршрут /udalit/&lt;int:indeks&gt;, который удаляет задачу по её номеру в списке и делает редирект на главную.</p>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">22-05-flask.ipynb · маршруты, шаблоны и формы без запуска сервера</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-22/22-05-flask.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="22-04-javascript.html"><div class="dir">← Назад</div><div class="lbl">JavaScript</div></a><a href="22-06-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

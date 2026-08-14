@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проверяем после каждого хода, победил ли игрок — Python с нуля — Cartesian School</title>
+<meta name="description" content="Проверка восьми выигрышных линий и определение ничьей в крестиках-ноликах." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html" class="active">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра, полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-17/17-01-bind.ipynb">📓 17-01-bind.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb">📓 17-03-peremennye-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-04-risuem.ipynb">📓 17-04-risuem.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-05-pobeda.ipynb">📓 17-05-pobeda.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-06-polnaya-igra.ipynb">📓 17-06-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Проверка победы</div>
+    <div class="section-kicker">Глава 17 · Проект: «Крестики-нолики»</div>
+    <h1>Проверяем после каждого хода, победил ли игрок</h1>
+    <p class="lede">Восемь возможных выигрышных линий — три строки, три столбца, две диагонали.</p>
+
+    
+    <p>После каждого хода нужно проверить: не выстроились ли три одинаковых символа подряд.
+    Всего в игре восемь возможных «выигрышных линий» — три строки, три столбца и две
+    диагонали:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>proverka_pobedy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> proverit_pobedu():
+    linii_pobedy = [
+        (<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>), (<span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>), (<span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>),  <span class="tok-com"># строки</span>
+        (<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">6</span>), (<span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">7</span>), (<span class="tok-num">2</span>, <span class="tok-num">5</span>, <span class="tok-num">8</span>),  <span class="tok-com"># столбцы</span>
+        (<span class="tok-num">0</span>, <span class="tok-num">4</span>, <span class="tok-num">8</span>), (<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>),             <span class="tok-com"># диагонали</span>
+    ]
+    <span class="tok-kw">for</span> a, b, c <span class="tok-kw">in</span> linii_pobedy:
+        znacheniya = (polya[a][<span class="tok-str">&quot;text&quot;</span>], polya[b][<span class="tok-str">&quot;text&quot;</span>], polya[c][<span class="tok-str">&quot;text&quot;</span>])
+        <span class="tok-kw">if</span> znacheniya[<span class="tok-num">0</span>] != <span class="tok-str">&quot;&quot;</span> <span class="tok-kw">and</span> znacheniya[<span class="tok-num">0</span>] == znacheniya[<span class="tok-num">1</span>] == znacheniya[<span class="tok-num">2</span>]:
+            <span class="tok-kw">return</span> znacheniya[<span class="tok-num">0</span>]   <span class="tok-com"># &#x27;X&#x27; или &#x27;O&#x27; — есть победитель</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">None</span>   <span class="tok-com"># победителя пока нет</span></code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Список кортежей — компактный способ описать 8 линий</div>
+        <div class="callout-body">Каждая линия — кортеж (глава 11) из трёх индексов поля. Список из восьми таких кортежей заменяет восемь отдельных проверок <code class="inline">if</code>, которые пришлось бы писать вручную.</div>
+      </div>
+    </div>
+
+    <h2>Ничья</h2>
+    <p>Если все девять клеток заполнены, а победителя нет — это ничья:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>proverka_nichyej.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> polye_zapolneno():
+    <span class="tok-kw">return</span> all(knopka[<span class="tok-str">&quot;text&quot;</span>] != <span class="tok-str">&quot;&quot;</span> <span class="tok-kw">for</span> knopka <span class="tok-kw">in</span> polya)</code></pre>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">17-05-pobeda.ipynb · проверка победы и ничьей</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-17/17-05-pobeda.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="17-04-risuem-na-knopke.html"><div class="dir">← Назад</div><div class="lbl">Рисуем на кнопке</div></a><a href="17-06-novaya-igra-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Новая игра, полная программа и итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

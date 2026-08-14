@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Прервать миссию! break и continue — Python с нуля — Cartesian School</title>
+<meta name="description" content="Досрочное прерывание цикла (break) и пропуск шага (continue) в Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Волшебные циклы! Циклы for</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html" class="active">break и continue</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-10/10-01-cikly-for.ipynb">📓 10-01-cikly-for.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-02-if-vlozhennye.ipynb">📓 10-02-if-vlozhennye.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-03-while.ipynb">📓 10-03-while.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-04-break-continue.ipynb">📓 10-04-break-continue.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-05-ugadaj-v2.ipynb">📓 10-05-ugadaj-v2.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-06-avto-figury.ipynb">📓 10-06-avto-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-07-avto-mandala.ipynb">📓 10-07-avto-mandala.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-08-spirali.ipynb">📓 10-08-spirali.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / break и continue</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Прервать миссию! break и continue</h1>
+    <p class="lede">Два способа управлять циклом изнутри: остановить его совсем или пропустить один шаг.</p>
+
+    
+    <p>Иногда нужно выйти из цикла раньше времени или пропустить один шаг, не завершая цикл
+    целиком — для этого есть два ключевых слова.</p>
+
+    <h2><code class="inline">break</code> — прервать цикл полностью</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>break.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>):
+    <span class="tok-kw">if</span> number == <span class="tok-num">5</span>:
+        <span class="tok-kw">break</span>  <span class="tok-com"># цикл останавливается насовсем</span>
+    <span class="tok-fn">print</span>(number)</code></pre>
+    </div>
+    <p>Выведет только 1, 2, 3, 4 — как только <code class="inline">number</code> становится
+    равным 5, цикл прерывается, не дожидаясь оставшихся 94 значений <code class="inline">range()</code>.</p>
+
+    <h2><code class="inline">continue</code> — пропустить этот шаг</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>continue.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    <span class="tok-kw">if</span> number == <span class="tok-num">3</span>:
+        <span class="tok-kw">continue</span>  <span class="tok-com"># пропускаем оставшуюся часть тела цикла для этого шага</span>
+    <span class="tok-fn">print</span>(number)</code></pre>
+    </div>
+    <p>Выведет 1, 2, 4, 5 — число 3 пропущено, но цикл продолжается дальше, в отличие от
+    <code class="inline">break</code>.</p>
+
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">break/continue работают и в while</div>
+        <div class="callout-body">Оба ключевых слова работают одинаково в цикле <code class="inline">while</code> — мы воспользуемся <code class="inline">break</code> в следующем разделе, переписывая игру «Угадай число».</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">10-04-break-continue.ipynb · break и continue на практике</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-10/10-04-break-continue.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="10-03-perebor-strok-while.html"><div class="dir">← Назад</div><div class="lbl">Строки и while</div></a><a href="10-05-mini-proekt-ugadaj-v2.html" class="next"><div class="dir">Далее →</div><div class="lbl">«Угадай число», версия 2</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

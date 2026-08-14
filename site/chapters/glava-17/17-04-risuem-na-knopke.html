@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>При нажатии на кнопку рисуем на ней — Python с нуля — Cartesian School</title>
+<meta name="description" content="Обработка клика по клетке игрового поля и важная тонкость с lambda в цикле." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html" class="active">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра, полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-17/17-01-bind.ipynb">📓 17-01-bind.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb">📓 17-03-peremennye-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-04-risuem.ipynb">📓 17-04-risuem.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-05-pobeda.ipynb">📓 17-05-pobeda.ipynb</a></li><li><a href="../../../notebooks/chapter-17/17-06-polnaya-igra.ipynb">📓 17-06-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Рисуем на кнопке</div>
+    <div class="section-kicker">Глава 17 · Проект: «Крестики-нолики»</div>
+    <h1>При нажатии на кнопку рисуем на ней</h1>
+    <p class="lede">Каждая кнопка должна знать свой номер — здесь прячется одна из самых известных тонкостей Python.</p>
+
+    
+    <p>Каждой кнопке нужна своя функция-обработчик клика, которая знает <em>какая именно</em>
+    кнопка нажата. Хитрость в том, чтобы связать <code class="inline">command</code> с номером
+    кнопки — для этого используем лямбда-функцию из главы 13:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>risuem_na_knopke.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> na_knopku_nazhali(indeks):
+    <span class="tok-kw">global</span> tekuschij_igrok
+
+    <span class="tok-kw">if</span> polya[indeks][<span class="tok-str">&quot;text&quot;</span>] != <span class="tok-str">&quot;&quot;</span>:
+        <span class="tok-kw">return</span>   <span class="tok-com"># клетка уже занята</span>
+
+    polya[indeks][<span class="tok-str">&quot;text&quot;</span>] = tekuschij_igrok
+    tekuschij_igrok = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> tekuschij_igrok == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span>
+
+<span class="tok-com"># при создании каждой кнопки:</span>
+knopka.config(command=<span class="tok-kw">lambda</span> i=indeks: na_knopku_nazhali(i))</code></pre>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Зачем lambda i=indeks, а не просто lambda: na_knopku_nazhali(indeks)?</div>
+        <div class="callout-body">Без <code class="inline">i=indeks</code> все девять кнопок запомнили бы одну и ту же переменную <code class="inline">indeks</code> — а не её значение в момент создания. К моменту клика цикл давно завершится, и <code class="inline">indeks</code> будет равен 8 для всех кнопок сразу. Значение по умолчанию <code class="inline">i=indeks</code> «замораживает» текущее значение при создании каждой лямбды — классическая и важная тонкость Python.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">17-04-risuem.ipynb · обработка клика по клетке поля</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-17/17-04-risuem.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="17-03-peremennye-knopki.html"><div class="dir">← Назад</div><div class="lbl">Переменные и кнопки</div></a><a href="17-05-proverka-pobedy.html" class="next"><div class="dir">Далее →</div><div class="lbl">Проверяем победу</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Зачем нужны функции? — Python с нуля — Cartesian School</title>
+<meta name="description" content="Преимущества функций и передача аргументов для разного поведения при каждом вызове." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-02-zachem-funkcii.html" class="active">Зачем нужны функции?</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-04-argumenty.html">Аргументы функций</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: автоматизированные фигуры и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-13/13-01-pervaya-funkciya.ipynb">📓 13-01-pervaya-funkciya.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-02-zachem-funkcii.ipynb">📓 13-02-zachem-funkcii.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-03-vozvrat.ipynb">📓 13-03-vozvrat.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-04-argumenty.ipynb">📓 13-04-argumenty.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-05-oblast-vidimosti.ipynb">📓 13-05-oblast-vidimosti.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-06-lambda.ipynb">📓 13-06-lambda.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-07-domashka.ipynb">📓 13-07-domashka.ipynb</a></li><li><a href="../../../notebooks/chapter-13/13-08-figury-novyj-uroven.ipynb">📓 13-08-figury-novyj-uroven.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Зачем функции?</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Зачем нужны функции?</h1>
+    <p class="lede">Аргументы позволяют одной и той же функции каждый раз делать что-то немного своё.</p>
+
+    
+    <h2>Зачем нужны функции?</h2>
+    <ul>
+      <li><strong>Код не повторяется</strong> — исправление вносится в одном месте.</li>
+      <li><strong>Программу легче читать</strong> — имя функции объясняет, что происходит, не
+        заставляя вникать в детали реализации.</li>
+      <li><strong>Легче искать ошибки</strong> — если что-то сломалось в приветствии, вы точно
+        знаете, где искать: внутри <code class="inline">privetstvie()</code>.</li>
+    </ul>
+
+    <h2>Каждый раз делаем что-то новое!</h2>
+    <p>Функция без входных данных всегда делает одно и то же. Чтобы функция вела себя по-разному
+    в зависимости от ситуации, ей передают <strong>аргументы</strong> — значения в скобках при
+    вызове:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>argumenty.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> privetstvie(imya):
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Привет, </span>{imya}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)
+
+privetstvie(<span class="tok-str">&quot;Ада&quot;</span>)
+privetstvie(<span class="tok-str">&quot;Cartesian&quot;</span>)</code></pre>
+    </div>
+    <p><code class="inline">imya</code> — <strong>параметр</strong> функции: имя, под которым
+    переданное значение доступно внутри функции. При каждом вызове можно передать своё значение
+    (<strong>аргумент</strong>).</p>
+
+    <h2>Без аргументов?</h2>
+    <p>Функция без параметров в скобках — например, <code class="inline">privetstvie()</code>
+    из первого раздела — тоже совершенно нормальна: не каждой функции нужны входные данные.</p>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">13-02-zachem-funkcii.ipynb · функции с аргументами</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-13/13-02-zachem-funkcii.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="13-01-nastoyashaya-avtomatizaciya.html"><div class="dir">← Назад</div><div class="lbl">Первая функция</div></a><a href="13-03-vozvrashaem-otvet.html" class="next"><div class="dir">Далее →</div><div class="lbl">Возвращаем ответ</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

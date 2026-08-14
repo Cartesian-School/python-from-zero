@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Множество вариантов! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Виджеты Radiobutton и Checkbutton в Tkinter для выбора из нескольких вариантов." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html" class="active">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-16/16-01-nastrojka.ipynb">📓 16-01-nastrojka.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-02-metki-knopki.ipynb">📓 16-02-metki-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-03-polya-vvoda.ipynb">📓 16-03-polya-vvoda.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-04-peremennye.ipynb">📓 16-04-peremennye.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-05-varianty.ipynb">📓 16-05-varianty.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-06-menu.ipynb">📓 16-06-menu.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-07-grid.ipynb">📓 16-07-grid.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-08-kalkulyator-chaevyh.ipynb">📓 16-08-kalkulyator-chaevyh.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / Множество вариантов</div>
+    <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
+    <h1>Множество вариантов!</h1>
+    <p class="lede">Переключатели для выбора одного варианта и флажки для независимых да/нет решений.</p>
+
+    
+    <p>Для выбора из нескольких вариантов у Tkinter есть переключатели
+    (<code class="inline">Radiobutton</code> — выбрать один из нескольких) и флажки
+    (<code class="inline">Checkbutton</code> — включить/выключить каждый независимо).</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>radiobutton.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+vybor = tk.StringVar(value=<span class="tok-str">&quot;chay&quot;</span>)
+
+tk.Radiobutton(root, text=<span class="tok-str">&quot;Чай&quot;</span>, variable=vybor, value=<span class="tok-str">&quot;chay&quot;</span>).pack()
+tk.Radiobutton(root, text=<span class="tok-str">&quot;Кофе&quot;</span>, variable=vybor, value=<span class="tok-str">&quot;kofe&quot;</span>).pack()
+
+<span class="tok-kw">def</span> pokazat_vybor():
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Вы выбрали: </span>{vybor.get()}<span class="tok-str">&quot;</span>)
+
+tk.Button(root, text=<span class="tok-str">&quot;Готово&quot;</span>, command=pokazat_vybor).pack()
+root.mainloop()</code></pre>
+    </div>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>checkbutton.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>saharok = tk.BooleanVar(value=<span class="tok-kw">False</span>)
+tk.Checkbutton(root, text=<span class="tok-str">&quot;С сахаром&quot;</span>, variable=saharok).pack()
+
+<span class="tok-kw">def</span> pokazat_flazhok():
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">С сахаром: </span>{saharok.get()}<span class="tok-str">&quot;</span>)</code></pre>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">16-05-varianty.ipynb · Radiobutton и Checkbutton</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-16/16-05-varianty.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="16-04-peremennye-tkinter.html"><div class="dir">← Назад</div><div class="lbl">Переменные Tkinter</div></a><a href="16-06-menu.html" class="next"><div class="dir">Далее →</div><div class="lbl">Меню</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

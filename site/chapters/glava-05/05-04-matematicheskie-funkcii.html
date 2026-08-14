@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Интересные возможности работы с числами — Python с нуля — Cartesian School</title>
+<meta name="description" content="Модуль math в Python: floor, ceil, sqrt, factorial, тригонометрия и другие функции." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Основные математические операции</a></li><li><a href="05-02-specialnye-operacii.html">Специальные математические операции</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Операции присваивания и порядок вычислений</a></li><li><a href="05-04-matematicheskie-funkcii.html" class="active">Интересные возможности работы с числами</a></li><li><a href="05-05-sluchaynye-chisla.html">Работа со случайными числами</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проект и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-05/05-01-osnovnye-operacii.ipynb">📓 05-01-osnovnye-operacii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-02-operatory.ipynb">📓 05-02-operatory.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb">📓 05-04-matematicheskie-funkcii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb">📓 05-05-sluchaynye-chisla.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-06-mini-proekt-kratnye.ipynb">📓 05-06-mini-proekt-kratnye.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Интересные возможности</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Интересные возможности работы с числами</h1>
+    <p class="lede">Модуль math открывает пол и потолок числа, корни, факториалы и тригонометрию — всё то, чего не хватает базовым операторам.</p>
+
+    
+    <p>Для более сложной математики в Python есть встроенный модуль <code class="inline">math</code>
+    — набор готовых функций, который нужно сначала подключить командой
+    <code class="inline">import math</code>.</p>
+
+    <h2 id="pol-potolok">Пол и потолок числа</h2>
+    <p><strong>Пол</strong> (floor) — ближайшее целое число снизу, <strong>потолок</strong>
+    (ceil) — ближайшее целое число сверху.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>pol_potolok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.floor(<span class="tok-num">4.3</span>))   <span class="tok-com"># 4</span>
+<span class="tok-fn">print</span>(math.floor(<span class="tok-num">4.9</span>))   <span class="tok-com"># 4 — всегда вниз, даже если дробь большая</span>
+<span class="tok-fn">print</span>(math.ceil(<span class="tok-num">4.1</span>))    <span class="tok-com"># 5 — всегда вверх, даже если дробь маленькая</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">А как же обычное округление?</div>
+        <div class="callout-body">Для округления «как в школе» (0.5 и выше — вверх) в Python есть встроенная функция <code class="inline">round()</code> — её не нужно импортировать из <code class="inline">math</code>: <code class="inline">round(4.5)</code> → <code class="inline">4</code> (осторожно: из-за особого банковского округления Python иногда округляет «．5» к ближайшему чётному числу).</div>
+      </div>
+    </div>
+
+    <h2>Степень и квадратный корень</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>koren.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.pow(<span class="tok-num">2</span>, <span class="tok-num">10</span>))   <span class="tok-com"># 1024.0 — всегда возвращает float, в отличие от **</span>
+<span class="tok-fn">print</span>(math.sqrt(<span class="tok-num">81</span>))     <span class="tok-com"># 9.0</span></code></pre>
+    </div>
+
+    <h2>Факториал числа</h2>
+    <p>Факториал числа <code class="inline">n</code> (обозначается <code class="inline">n!</code>)
+    — произведение всех целых чисел от 1 до <code class="inline">n</code>. Используется, например,
+    для подсчёта числа возможных перестановок.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>faktorial.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.factorial(<span class="tok-num">5</span>))   <span class="tok-com"># 5! = 1 * 2 * 3 * 4 * 5 = 120</span></code></pre>
+    </div>
+
+    <h2>Синус, косинус, тангенс и многое другое</h2>
+    <p>Модуль <code class="inline">math</code> включает и тригонометрические функции — они
+    понадобятся, например, при рисовании окружностей и дуг в главе 7.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>trigonometriya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.sin(math.pi / <span class="tok-num">2</span>))   <span class="tok-com"># 1.0</span>
+<span class="tok-fn">print</span>(math.cos(<span class="tok-num">0</span>))             <span class="tok-com"># 1.0</span>
+<span class="tok-fn">print</span>(math.tan(math.pi / <span class="tok-num">4</span>))   <span class="tok-com"># приблизительно 1.0</span></code></pre>
+    </div>
+
+    <h2>Другие числовые операции</h2>
+    <p>Ещё несколько полезных инструментов, которые не требуют импорта: встроенные функции
+    <code class="inline">abs()</code> (модуль числа), <code class="inline">min()</code> и
+    <code class="inline">max()</code> (наименьшее и наибольшее из нескольких значений):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>drugie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">abs</span>(-<span class="tok-num">7</span>))         <span class="tok-com"># 7</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">min</span>(<span class="tok-num">4</span>, <span class="tok-num">9</span>, <span class="tok-num">2</span>))    <span class="tok-com"># 2</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">max</span>(<span class="tok-num">4</span>, <span class="tok-num">9</span>, <span class="tok-num">2</span>))    <span class="tok-com"># 9</span></code></pre>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">05-04-matematicheskie-funkcii.ipynb · модуль math на практике</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="05-03-prisvaivanie-poryadok.html"><div class="dir">← Назад</div><div class="lbl">Присваивание и порядок</div></a><a href="05-05-sluchaynye-chisla.html" class="next"><div class="dir">Далее →</div><div class="lbl">Случайные числа</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

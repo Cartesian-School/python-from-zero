@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Рисуем голову и яблоко — Python с нуля — Cartesian School</title>
+<meta name="description" content="Создаём голову змейки и яблоко как объекты turtle.Turtle() со случайным положением." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html" class="active">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-19/19-02-ekran.ipynb">📓 19-02-ekran.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-03-golova-yabloko.ipynb">📓 19-03-golova-yabloko.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-04-dvizhenie.ipynb">📓 19-04-dvizhenie.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-06-eda-telo.ipynb">📓 19-06-eda-telo.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-07-stolknoveniya.ipynb">📓 19-07-stolknoveniya.ipynb</a></li><li><a href="../../../notebooks/chapter-19/19-08-polnaya-igra.ipynb">📓 19-08-polnaya-igra.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Голова и яблоко</div>
+    <div class="section-kicker">Глава 19 · Проект: «Змейка»</div>
+    <h1>Рисуем голову</h1>
+    <p class="lede">Голова и яблоко — обычные объекты Turtle с разной формой и цветом.</p>
+
+    
+    <h2>Рисуем голову</h2>
+    <p>Голова змейки — обычный объект <code class="inline">turtle.Turtle()</code>, знакомый
+    ещё с главы 6, только с квадратной формой и без рисования линий (перо поднято):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>golova.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>golova = turtle.Turtle()
+golova.speed(<span class="tok-num">0</span>)
+golova.shape(<span class="tok-str">&quot;square&quot;</span>)
+golova.color(<span class="tok-str">&quot;white&quot;</span>)
+golova.penup()
+golova.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)</code></pre>
+    </div>
+
+    <h2 id="yabloko">Рисуем первое яблоко</h2>
+    <p>Яблоко — тоже черепашка, только круглая и красная, и появляется в случайном месте поля,
+    выровненном по сетке шага (<code class="inline">random.randrange()</code> с шагом
+    <code class="inline">RAZMER_SHAGA</code>, чтобы яблоко всегда оказывалось «в клетке»):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>yabloko.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>yabloko = turtle.Turtle()
+yabloko.speed(<span class="tok-num">0</span>)
+yabloko.shape(<span class="tok-str">&quot;circle&quot;</span>)
+yabloko.color(<span class="tok-str">&quot;red&quot;</span>)
+yabloko.penup()
+
+<span class="tok-kw">def</span> novoe_yabloko():
+    x = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
+    y = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
+    yabloko.goto(x, y)
+
+novoe_yabloko()</code></pre>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">19-03-golova-yabloko.ipynb · создаём голову и яблоко</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-19/19-03-golova-yabloko.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="19-02-ekran-peremennye.html"><div class="dir">← Назад</div><div class="lbl">Экран и переменные</div></a><a href="19-04-klavishi-dvizhenie.html" class="next"><div class="dir">Далее →</div><div class="lbl">Клавиши и движение</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

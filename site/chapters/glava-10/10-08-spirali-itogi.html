@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — спирали из дуг — Python с нуля — Cartesian School</title>
+<meta name="description" content="Итоговый мини-проект главы 10: спирали из дуг с растущим радиусом — и краткие итоги." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Волшебные циклы! Циклы for</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break и continue</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-08-spirali-itogi.html" class="active">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-10/10-01-cikly-for.ipynb">📓 10-01-cikly-for.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-02-if-vlozhennye.ipynb">📓 10-02-if-vlozhennye.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-03-while.ipynb">📓 10-03-while.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-04-break-continue.ipynb">📓 10-04-break-continue.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-05-ugadaj-v2.ipynb">📓 10-05-ugadaj-v2.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-06-avto-figury.ipynb">📓 10-06-avto-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-07-avto-mandala.ipynb">📓 10-07-avto-mandala.ipynb</a></li><li><a href="../../../notebooks/chapter-10/10-08-spirali.ipynb">📓 10-08-spirali.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / Спирали и итоги</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Мини-проект — спирали из дуг</h1>
+    <p class="lede">Завершаем главу узором, который меняется на каждом шаге цикла, — и подводим итоги.</p>
+
+    
+    <p>Финальный мини-проект главы: спираль из дуг — каждая следующая дуга немного больше
+    предыдущей.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>spirali_iz_dug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>radius = <span class="tok-num">5</span>
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">60</span>):
+    artist.circle(radius, <span class="tok-num">90</span>)   <span class="tok-com"># дуга в четверть окружности</span>
+    radius += <span class="tok-num">3</span>                 <span class="tok-com"># каждый раз чуть больше</span></code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Изменение переменной внутри цикла — обычное дело</div>
+        <div class="callout-body">В отличие от предыдущих примеров, здесь <code class="inline">radius</code> меняется <em>на каждом шаге</em> цикла — это и создаёт эффект нарастающей спирали, а не повторяющегося узора.</div>
+      </div>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Спираль из квадратов</div>
+      <p>Замените дугу на маленький квадрат (цикл на 4 стороны) внутри внешнего цикла — получится спираль из уменьшающихся или увеличивающихся квадратов.</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li><code class="inline">for ... in range(n)</code> повторяет блок кода заданное число раз — и заменяет ручное копирование одинаковых строк.</li><li><code class="inline">for</code> умеет перебирать не только числа, но и символы строки.</li><li><code class="inline">while</code> повторяет действие, пока условие остаётся истинным — используется, когда число повторов заранее неизвестно.</li><li><code class="inline">break</code> прерывает цикл полностью; <code class="inline">continue</code> пропускает текущий шаг и переходит к следующему.</li><li>Циклы можно вкладывать друг в друга — тогда внутренний цикл выполняется полностью на каждом шаге внешнего.</li><li>Все фигуры из глав 6–7, нарисованные вручную, теперь можно записать в 2–4 строки с циклом.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="10-07-avtomatiziruem-mandalu.html"><div class="dir">← Назад</div><div class="lbl">Автоматическая мандала</div></a><a href="../glava-11/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 11: Очень много информации!</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

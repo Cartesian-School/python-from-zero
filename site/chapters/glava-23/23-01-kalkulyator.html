@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проект 23-1: Калькулятор с Tkinter — Python с нуля — Cartesian School</title>
+<meta name="description" content="Собираем работающий калькулятор: сетка кнопок и безопасное вычисление выражений через eval()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 23 · Ещё мини-проекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="23-01-kalkulyator.html" class="active">Проект 23-1: Калькулятор с Tkinter</a></li><li><a href="23-02-generator-istorij.html">Проект 23-2: Генератор случайных историй</a></li><li><a href="23-03-kamen-nozhnicy-bumaga.html">Проект 23-3: Камень, ножницы, бумага</a></li><li><a href="23-04-otskakivayushij-myach.html">Проект 23-4: Отскакивающий мяч с Pygame</a></li><li><a href="23-05-temperatura.html">Проект 23-5: Преобразование температуры</a></li><li><a href="23-06-fajly-tkinter-itogi.html">Проект 23-6: Файлы и Tkinter. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-23/23-01-kalkulyator.ipynb">📓 23-01-kalkulyator.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-02-generator-istorij.ipynb">📓 23-02-generator-istorij.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-03-kamen-nozhnicy-bumaga.ipynb">📓 23-03-kamen-nozhnicy-bumaga.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-04-otskakivayushij-myach.ipynb">📓 23-04-otskakivayushij-myach.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-05-temperatura.ipynb">📓 23-05-temperatura.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-06-fajly-tkinter.ipynb">📓 23-06-fajly-tkinter.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 23</a> / Калькулятор</div>
+    <div class="section-kicker">Глава 23 · Ещё больше мини-проектов</div>
+    <h1>Проект 23-1: Калькулятор с Tkinter</h1>
+    <p class="lede">Экран, сетка кнопок и функция vychislit_vyrazhenie() — вот и весь калькулятор.</p>
+
+    
+    <h2>Проект 23-1: Калькулятор с Tkinter</h2>
+    <p>Собираем настоящий калькулятор: экран сверху, кнопки с цифрами и знаками снизу.
+    Идея та же, что и в тренажёре «Крестики-нолики» из главы 19 — сетка кнопок, каждая из
+    которых вызывает одну и ту же функцию с разным аргументом:</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>sozdanie_knopok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>KNOPKI = [
+    (<span class="tok-str">&quot;7&quot;</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>), (<span class="tok-str">&quot;8&quot;</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>), (<span class="tok-str">&quot;9&quot;</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>), (<span class="tok-str">&quot;/&quot;</span>, <span class="tok-num">1</span>, <span class="tok-num">3</span>),
+    (<span class="tok-str">&quot;4&quot;</span>, <span class="tok-num">2</span>, <span class="tok-num">0</span>), (<span class="tok-str">&quot;5&quot;</span>, <span class="tok-num">2</span>, <span class="tok-num">1</span>), (<span class="tok-str">&quot;6&quot;</span>, <span class="tok-num">2</span>, <span class="tok-num">2</span>), (<span class="tok-str">&quot;*&quot;</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>),
+    <span class="tok-com"># ...</span>
+]
+
+<span class="tok-kw">for</span> podpis, stroka, stolbec <span class="tok-kw">in</span> KNOPKI:
+    knopka = tk.Button(root, text=podpis,
+                        command=<span class="tok-kw">lambda</span> s=podpis: na_cifru_ili_znak_nazhali(s))
+    knopka.grid(row=stroka, column=stolbec, sticky=<span class="tok-str">&quot;we&quot;</span>)</code></pre>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">lambda s=podpis — почему нельзя просто lambda: ...(podpis)</div>
+        <div class="callout-body">Это тот же самый «капкан позднего связывания замыканий», что мы разбирали в главе 17: без <code class="inline">s=podpis</code> все кнопки запомнили бы одну и ту же, последнюю по циклу переменную <code class="inline">podpis</code> — и нажатие любой кнопки вставляло бы один и тот же символ.</div>
+      </div>
+    </div>
+
+    <h2>Вычисляем выражение</h2>
+    <p>Вместо того чтобы писать свой разбор арифметики, используем встроенную функцию
+    <code class="inline">eval()</code> — но <strong>осторожно</strong>: проверяем, что в
+    строке нет ничего, кроме цифр и знаков, и запрещаем доступ к встроенным функциям Python:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>vychislenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> vychislit_vyrazhenie(vyrazhenie):
+    dopustimye_simvoly = <span class="tok-fn">set</span>(<span class="tok-str">&quot;0123456789+-*/(). &quot;</span>)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> vyrazhenie <span class="tok-kw">or</span> <span class="tok-kw">not</span> <span class="tok-fn">set</span>(vyrazhenie) &lt;= dopustimye_simvoly:
+        <span class="tok-kw">return</span> <span class="tok-str">&quot;Ошибка&quot;</span>
+    <span class="tok-kw">try</span>:
+        <span class="tok-kw">return</span> <span class="tok-fn">str</span>(eval(vyrazhenie, {<span class="tok-str">&quot;__builtins__&quot;</span>: {}}, {}))
+    <span class="tok-kw">except</span> (SyntaxError, ZeroDivisionError, ValueError):
+        <span class="tok-kw">return</span> <span class="tok-str">&quot;Ошибка&quot;</span></code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Почему просто не написать eval(vyrazhenie)?</div>
+        <div class="callout-body">Обычный <code class="inline">eval()</code> выполнит <em>любой</em> Python-код, который ему передать — например, команду для удаления файлов. Проверка разрешённых символов и пустой словарь <code class="inline">{"__builtins__": {}}</code> не дают выражению сделать ничего, кроме простой арифметики.</div>
+      </div>
+    </div>
+
+    <p>Полный код: 📄 <a href="../../../projects/tkinter/calculator/calculator.py">projects/tkinter/calculator/calculator.py</a></p>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">23-01-kalkulyator.ipynb · вычисления и последовательности нажатий</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-23/23-01-kalkulyator.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="23-02-generator-istorij.html" class="next"><div class="dir">Далее →</div><div class="lbl">Генератор случайных историй</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

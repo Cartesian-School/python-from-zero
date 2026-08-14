@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — кратные числа — Python с нуля — Cartesian School</title>
+<meta name="description" content="Итоговый мини-проект главы 5: поиск чисел, кратных заданному — и краткие итоги." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Основные математические операции</a></li><li><a href="05-02-specialnye-operacii.html">Специальные математические операции</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Операции присваивания и порядок вычислений</a></li><li><a href="05-04-matematicheskie-funkcii.html">Интересные возможности работы с числами</a></li><li><a href="05-05-sluchaynye-chisla.html">Работа со случайными числами</a></li><li><a href="05-06-mini-proekt-itogi.html" class="active">Мини-проект и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-05/05-01-osnovnye-operacii.ipynb">📓 05-01-osnovnye-operacii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-02-operatory.ipynb">📓 05-02-operatory.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb">📓 05-04-matematicheskie-funkcii.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb">📓 05-05-sluchaynye-chisla.ipynb</a></li><li><a href="../../../notebooks/chapter-05/05-06-mini-proekt-kratnye.ipynb">📓 05-06-mini-proekt-kratnye.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Мини-проект и итоги</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Мини-проект — кратные числа</h1>
+    <p class="lede">Собираем операторы главы вместе в одной небольшой программе — и подводим итоги.</p>
+
+    
+    <p>Соберём операторы этой главы в один мини-проект: программу, которая находит все числа,
+    кратные заданному, в диапазоне.</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>kratnye_chisla.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+<span class="tok-com"># случайное число, кратности которого мы ищем</span>
+kratnoe_chemu = random.randint(<span class="tok-num">2</span>, <span class="tok-num">9</span>)
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Ищем числа, кратные </span>{kratnoe_chemu}<span class="tok-str">, от 1 до 50</span><span class="tok-str">&quot;</span>)
+
+chislo = <span class="tok-num">1</span>
+<span class="tok-kw">while</span> chislo &lt;= <span class="tok-num">50</span>:
+    <span class="tok-kw">if</span> chislo % kratnoe_chemu == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(chislo)
+    chislo += <span class="tok-num">1</span></code></pre>
+    </div>
+
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Забегаем вперёд</div>
+        <div class="callout-body">В этом примере использован цикл <code class="inline">while</code> — мы разберём его подробно в главе 10. Здесь достаточно увидеть, как оператор <code class="inline">%</code> из этой главы находит все числа, кратные заданному: остаток от деления равен нулю именно тогда, когда число делится нацело.</div>
+      </div>
+    </div>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Кратные тройке</div>
+      <p>Измените программу так, чтобы она всегда искала числа, кратные 3, без <code class="inline">random</code>.</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Свой диапазон</div>
+      <p>Измените границы поиска на 1–100 вместо 1–50.</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Считаем количество</div>
+      <p>Добавьте переменную-счётчик, которая считает, сколько кратных чисел было найдено, и выведите её значение в конце.</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Основные операторы: <code class="inline">+ - * /</code>; специальные: <code class="inline">// % **</code>.</li><li><code class="inline">%</code> (остаток от деления) — классический способ проверить чётность и кратность числа.</li><li>Сокращённые операторы присваивания (<code class="inline">+=</code> и другие) изменяют переменную короче, чем <code class="inline">x = x + ...</code>.</li><li>Порядок вычислений совпадает со школьной математикой; скобки — самый надёжный способ сделать порядок явным.</li><li>Модуль <code class="inline">math</code> добавляет floor, ceil, sqrt, factorial и тригонометрию.</li><li>Модуль <code class="inline">random</code> добавляет случайность — основу для игр из следующих глав.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="05-05-sluchaynye-chisla.html"><div class="dir">← Назад</div><div class="lbl">Случайные числа</div></a><a href="../glava-06/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 6: Рисуем классные вещи с помощью Turtle</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

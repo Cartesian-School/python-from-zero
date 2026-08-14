@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проект 12-6: Гонка Turtle с использованием циклов — Python с нуля — Cartesian School</title>
+<meta name="description" content="Финальный мини-проект главы 12: гонка нескольких черепашек — и краткие итоги главы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 12 · Мини-проекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="12-01-chetnoe-ili-nechetnoe.html">Проект 12-1: Чётное или нечётное</a></li><li><a href="12-02-chaevye.html">Проект 12-2: Достаточно ли чаевых?</a></li><li><a href="12-03-elka.html">Проект 12-3: Рождественская ёлка</a></li><li><a href="12-04-spirali.html">Проект 12-4: Спирали!</a></li><li><a href="12-05-slozhnaya-mandala.html">Проект 12-5: Сложная мандала</a></li><li><a href="12-06-gonka-turtle-itogi.html" class="active">Проект 12-6: Гонка Turtle и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-12/12-01-chetnoe-nechetnoe.ipynb">📓 12-01-chetnoe-nechetnoe.ipynb</a></li><li><a href="../../../notebooks/chapter-12/12-02-chaevye.ipynb">📓 12-02-chaevye.ipynb</a></li><li><a href="../../../notebooks/chapter-12/12-03-elka.ipynb">📓 12-03-elka.ipynb</a></li><li><a href="../../../notebooks/chapter-12/12-04-spirali.ipynb">📓 12-04-spirali.ipynb</a></li><li><a href="../../../notebooks/chapter-12/12-05-slozhnaya-mandala.ipynb">📓 12-05-slozhnaya-mandala.ipynb</a></li><li><a href="../../../notebooks/chapter-12/12-06-gonka-turtle.ipynb">📓 12-06-gonka-turtle.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 12</a> / Гонка Turtle</div>
+    <div class="section-kicker">Глава 12 · Множество увлекательных мини-проектов!</div>
+    <h1>Проект 12-6: Гонка Turtle с использованием циклов</h1>
+    <p class="lede">Несколько черепашек на одном экране одновременно — и подведение итогов главы.</p>
+
+    
+    <p>Помните из главы 6, что экран и черепашка — разные объекты, и черепашек может быть
+    несколько? Настало время это использовать: гонка из нескольких черепашек со случайным
+    шагом.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>gonka_turtle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+screen = turtle.Screen()
+screen.setup(<span class="tok-num">500</span>, <span class="tok-num">400</span>)
+
+cveta = [<span class="tok-str">&quot;red&quot;</span>, <span class="tok-str">&quot;blue&quot;</span>, <span class="tok-str">&quot;green&quot;</span>, <span class="tok-str">&quot;orange&quot;</span>]
+uchastniki = []
+
+<span class="tok-kw">for</span> i, cvet <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(cveta):
+    t = turtle.Turtle()
+    t.shape(<span class="tok-str">&quot;turtle&quot;</span>)
+    t.color(cvet)
+    t.penup()
+    t.goto(-<span class="tok-num">200</span>, i * <span class="tok-num">40</span> - <span class="tok-num">60</span>)
+    uchastniki.append(t)
+
+finish_line = <span class="tok-num">200</span>
+pobeditel = <span class="tok-kw">None</span>
+
+<span class="tok-kw">while</span> pobeditel <span class="tok-kw">is</span> <span class="tok-kw">None</span>:
+    <span class="tok-kw">for</span> t <span class="tok-kw">in</span> uchastniki:
+        t.forward(random.randint(<span class="tok-num">1</span>, <span class="tok-num">10</span>))
+        <span class="tok-kw">if</span> t.xcor() &gt;= finish_line:
+            pobeditel = t.pencolor()
+            <span class="tok-kw">break</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Победила черепашка цвета </span>{pobeditel}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Список черепашек — тот же список из главы 11</div>
+        <div class="callout-body"><code class="inline">uchastniki</code> — обычный список Python (глава 11), просто хранящий не числа, а объекты <code class="inline">turtle.Turtle()</code>. Цикл <code class="inline">for t in uchastniki</code> перебирает его точно так же, как перебирал бы список чисел или строк.</div>
+      </div>
+    </div>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Финишная лента</div>
+      <p>Нарисуйте вертикальную линию на финише (x=200) перед началом гонки, используя отдельную черепашку-«судью».</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы закрепили в этой главе</h3>
+      <ul><li>Условия (<code class="inline">if/elif/else</code>) и операторы сравнения — на практике в проектах 12-1 и 12-2.</li><li>Циклы (<code class="inline">for</code>, <code class="inline">while</code>) — основа всех фигур и спиралей в этой главе.</li><li>Turtle: заливка, повороты, несколько черепашек на одном экране одновременно.</li><li>Списки могут хранить любые объекты, включая другие объекты Python (например, черепашек), а не только числа и строки.</li><li>Сложные визуальные эффекты (мандала, спирали, гонка) — это всегда комбинация нескольких простых, уже знакомых приёмов.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="12-05-slozhnaya-mandala.html"><div class="dir">← Назад</div><div class="lbl">Сложная мандала</div></a><a href="../glava-13/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 13: Автоматизация с помощью функций</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

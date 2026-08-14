@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — приложение-калькулятор чаевых — Python с нуля — Cartesian School</title>
+<meta name="description" content="Итоговый мини-проект главы 16: настоящее приложение-калькулятор чаевых на Tkinter — и краткие итоги." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html" class="active">Мини-проект: калькулятор чаевых и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-16/16-01-nastrojka.ipynb">📓 16-01-nastrojka.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-02-metki-knopki.ipynb">📓 16-02-metki-knopki.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-03-polya-vvoda.ipynb">📓 16-03-polya-vvoda.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-04-peremennye.ipynb">📓 16-04-peremennye.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-05-varianty.ipynb">📓 16-05-varianty.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-06-menu.ipynb">📓 16-06-menu.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-07-grid.ipynb">📓 16-07-grid.ipynb</a></li><li><a href="../../../notebooks/chapter-16/16-08-kalkulyator-chaevyh.ipynb">📓 16-08-kalkulyator-chaevyh.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / Калькулятор чаевых</div>
+    <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
+    <h1>Мини-проект — приложение-калькулятор чаевых</h1>
+    <p class="lede">Первое полноценное приложение книги — с полями ввода, кнопкой и результатом на экране.</p>
+
+    
+    <p>Соберём всё изученное в главе в одном настоящем приложении: калькулятор чаевых с полем
+    ввода, кнопкой и меткой результата.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>kalkulyator_chaevyh.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+root.title(<span class="tok-str">&quot;Калькулятор чаевых&quot;</span>)
+
+tk.Label(root, text=<span class="tok-str">&quot;Сумма счёта:&quot;</span>).grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">0</span>, padx=<span class="tok-num">10</span>, pady=<span class="tok-num">10</span>)
+schet_entry = tk.Entry(root)
+schet_entry.grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">1</span>)
+
+tk.Label(root, text=<span class="tok-str">&quot;Процент чаевых:&quot;</span>).grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, padx=<span class="tok-num">10</span>, pady=<span class="tok-num">10</span>)
+procent_entry = tk.Entry(root)
+procent_entry.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">1</span>)
+
+rezultat_label = tk.Label(root, text=<span class="tok-str">&quot;&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">14</span>, <span class="tok-str">&quot;bold&quot;</span>))
+rezultat_label.grid(row=<span class="tok-num">3</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">2</span>, pady=<span class="tok-num">10</span>)
+
+<span class="tok-kw">def</span> poschitat():
+    schet = <span class="tok-fn">float</span>(schet_entry.get())
+    procent = <span class="tok-fn">float</span>(procent_entry.get())
+    chaevye = schet * procent / <span class="tok-num">100</span>
+    rezultat_label.config(text=<span class="tok-str">f&quot;</span><span class="tok-str">Чаевые: </span>{chaevye:<span class="tok-str">.2f</span>}<span class="tok-str">&quot;</span>)
+
+tk.Button(root, text=<span class="tok-str">&quot;Посчитать&quot;</span>, command=poschitat).grid(row=<span class="tok-num">2</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">2</span>)
+
+root.mainloop()</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Какие темы здесь встретились</div>
+        <div class="callout-body"><code class="inline">grid()</code> — этот раздел; <code class="inline">float()</code> — глава 4; форматирование <code class="inline">:.2f</code> — глава 8; сама формула чаевых — глава 12, проект 12-2.</div>
+      </div>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Проверка ввода</div>
+      <p>Оберните вычисление в try/except (забегая немного вперёд — подробно об этом в главе 21) — чтобы приложение не падало, если пользователь введёт не число, а текст.</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li><code class="inline">tk.Tk()</code> создаёт главное окно; <code class="inline">mainloop()</code> запускает цикл обработки событий.</li><li>Основные виджеты: <code class="inline">Label</code>, <code class="inline">Button</code>, <code class="inline">Entry</code>, <code class="inline">Text</code>, <code class="inline">Radiobutton</code>, <code class="inline">Checkbutton</code>.</li><li><code class="inline">command=функция</code> связывает кнопку с действием — без скобок после имени функции.</li><li><code class="inline">pack()</code> и <code class="inline">grid()</code> — два способа размещения виджетов; не смешивать их в одном контейнере.</li><li>Специальные переменные Tkinter (<code class="inline">StringVar</code> и другие) автоматически обновляют связанные с ними виджеты.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="16-07-grid.html"><div class="dir">← Назад</div><div class="lbl">Компоновка grid</div></a><a href="../glava-17/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 17: Проект: игра «Крестики-нолики» с Tkinter</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

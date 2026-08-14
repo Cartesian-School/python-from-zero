@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Перемещаем персонажей. События клавиш — Python с нуля — Cartesian School</title>
+<meta name="description" content="Движение персонажей изменением координат и два способа обработки клавиатуры в Pygame." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html" class="active">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-20/20-02-ekran.ipynb">📓 20-02-ekran.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-03-personazhi.ipynb">📓 20-03-personazhi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-04-dvizhenie-klavishi.ipynb">📓 20-04-dvizhenie-klavishi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-05-myach.ipynb">📓 20-05-myach.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">🐍 bouncing_ball.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Движение и клавиши</div>
+    <div class="section-kicker">Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Перемещаем персонажей</h1>
+    <p class="lede">Движение — это просто изменение координат на каждом кадре; клавиатуру можно проверять двумя разными способами.</p>
+
+    
+    <h2>Перемещаем персонажей</h2>
+    <p>«Движение» в Pygame — это просто изменение переменных позиции на каждом кадре перед тем,
+    как персонаж будет нарисован заново:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>peremeshenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>x_igroka += skorost_x
+pygame.draw.rect(screen, CVET_IGROKA, (x_igroka, y_igroka, <span class="tok-num">40</span>, <span class="tok-num">40</span>))</code></pre>
+    </div>
+
+    <h2 id="klavishi">События нажатия клавиш</h2>
+    <p>Есть два способа узнать о клавиатуре. Первый — через события, как в
+    <code class="inline">pygame.event.get()</code> (удобно для разовых действий вроде прыжка):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>sobytiya_klavish.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> event <span class="tok-kw">in</span> pygame.event.get():
+    <span class="tok-kw">if</span> event.<span class="tok-kw">type</span> == pygame.KEYDOWN:
+        <span class="tok-kw">if</span> event.key == pygame.K_SPACE:
+            <span class="tok-fn">print</span>(<span class="tok-str">&quot;Прыжок!&quot;</span>)</code></pre>
+    </div>
+    <p>Второй способ — проверка текущего состояния клавиш на каждом кадре (удобнее для
+    непрерывного движения, например, персонажа влево-вправо):</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>sostoyanie_klavish.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>klavishi = pygame.key.get_pressed()
+<span class="tok-kw">if</span> klavishi[pygame.K_LEFT]:
+    x_igroka -= <span class="tok-num">5</span>
+<span class="tok-kw">if</span> klavishi[pygame.K_RIGHT]:
+    x_igroka += <span class="tok-num">5</span></code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Какой способ выбрать?</div>
+        <div class="callout-body">События (<code class="inline">event.type == pygame.KEYDOWN</code>) подходят для действий «один раз за нажатие» — прыжок, выстрел, пауза. <code class="inline">get_pressed()</code> подходит для непрерывного движения, пока клавиша зажата, — именно так реализовано управление кораблём в главе 21.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">20-04-dvizhenie-klavishi.ipynb · движение и оба способа обработки клавиш</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-20/20-04-dvizhenie-klavishi.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="20-03-personazhi.html"><div class="dir">← Назад</div><div class="lbl">Персонажи</div></a><a href="20-05-mini-proekt-myach-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Прыгающий мяч и итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

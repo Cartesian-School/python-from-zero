@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проект 23-5: Приложение для преобразования температуры — Python с нуля — Cartesian School</title>
+<meta name="description" content="Radiobutton для выбора шкалы и функции перевода между Цельсием, Фаренгейтом и Кельвином." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 23 · Ещё мини-проекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="23-01-kalkulyator.html">Проект 23-1: Калькулятор с Tkinter</a></li><li><a href="23-02-generator-istorij.html">Проект 23-2: Генератор случайных историй</a></li><li><a href="23-03-kamen-nozhnicy-bumaga.html">Проект 23-3: Камень, ножницы, бумага</a></li><li><a href="23-04-otskakivayushij-myach.html">Проект 23-4: Отскакивающий мяч с Pygame</a></li><li><a href="23-05-temperatura.html" class="active">Проект 23-5: Преобразование температуры</a></li><li><a href="23-06-fajly-tkinter-itogi.html">Проект 23-6: Файлы и Tkinter. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-23/23-01-kalkulyator.ipynb">📓 23-01-kalkulyator.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-02-generator-istorij.ipynb">📓 23-02-generator-istorij.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-03-kamen-nozhnicy-bumaga.ipynb">📓 23-03-kamen-nozhnicy-bumaga.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-04-otskakivayushij-myach.ipynb">📓 23-04-otskakivayushij-myach.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-05-temperatura.ipynb">📓 23-05-temperatura.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-06-fajly-tkinter.ipynb">📓 23-06-fajly-tkinter.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 23</a> / Температура</div>
+    <div class="section-kicker">Глава 23 · Ещё больше мини-проектов</div>
+    <h1>Проект 23-5: Преобразование температуры</h1>
+    <p class="lede">Одна функция перевода в Цельсий — и все шесть направлений пересчёта готовы.</p>
+
+    
+    <h2>Проект 23-5: Приложение для преобразования температуры</h2>
+    <p>Небольшое, но по-настоящему полезное приложение: вводим температуру, выбираем
+    единицу через переключатели (<code class="inline">Radiobutton</code>) и сразу видим
+    значение во всех трёх шкалах:</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>preobrazovanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> celsij_v_farengejt(c):
+    <span class="tok-kw">return</span> c * <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>
+
+<span class="tok-kw">def</span> celsij_v_kelvin(c):
+    <span class="tok-kw">return</span> c + <span class="tok-num">273.15</span>
+
+<span class="tok-kw">def</span> preobrazovat(znachenie, iz_edinicy):
+    <span class="tok-kw">if</span> iz_edinicy == <span class="tok-str">&quot;C&quot;</span>:
+        c = znachenie
+    <span class="tok-kw">elif</span> iz_edinicy == <span class="tok-str">&quot;F&quot;</span>:
+        c = farengejt_v_celsij(znachenie)
+    <span class="tok-kw">else</span>:
+        c = kelvin_v_celsij(znachenie)
+
+    <span class="tok-kw">return</span> {
+        <span class="tok-str">&quot;C&quot;</span>: c,
+        <span class="tok-str">&quot;F&quot;</span>: celsij_v_farengejt(c),
+        <span class="tok-str">&quot;K&quot;</span>: celsij_v_kelvin(c),
+    }</code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Всегда переводим через Цельсий</div>
+        <div class="callout-body">Вместо шести отдельных формул (C→F, C→K, F→C, F→K, K→C, K→F) достаточно уметь переводить <em>в</em> Цельсий и <em>из</em> Цельсия — остальные пять переводов получаются сами собой через промежуточный шаг.</div>
+      </div>
+    </div>
+
+    <h2>Переключатели Radiobutton</h2>
+    
+    <div class="code-block">
+      <div class="code-label"><span>radiobutton.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>edinica = tk.StringVar(value=<span class="tok-str">&quot;C&quot;</span>)
+
+<span class="tok-kw">for</span> kod, podpis <span class="tok-kw">in</span> [(<span class="tok-str">&quot;C&quot;</span>, <span class="tok-str">&quot;Цельсий&quot;</span>), (<span class="tok-str">&quot;F&quot;</span>, <span class="tok-str">&quot;Фаренгейт&quot;</span>), (<span class="tok-str">&quot;K&quot;</span>, <span class="tok-str">&quot;Кельвин&quot;</span>)]:
+    tk.Radiobutton(root, text=podpis, variable=edinica, value=kod).grid(...)</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Radiobutton — «выбери один из нескольких»</div>
+        <div class="callout-body">Все переключатели с одинаковой <code class="inline">variable=edinica</code> работают как группа — можно выбрать только один одновременно, а <code class="inline">edinica.get()</code> всегда возвращает значение выбранного.</div>
+      </div>
+    </div>
+
+    <p>Полный код: 📄 <a href="../../../projects/tkinter/temperature-converter/temperature_converter.py">projects/tkinter/temperature-converter/temperature_converter.py</a></p>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">23-05-temperatura.ipynb · формулы и симуляция ввода пользователя</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-23/23-05-temperatura.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="23-04-otskakivayushij-myach.html"><div class="dir">← Назад</div><div class="lbl">Отскакивающий мяч</div></a><a href="23-06-fajly-tkinter-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Файлы и Tkinter. Итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

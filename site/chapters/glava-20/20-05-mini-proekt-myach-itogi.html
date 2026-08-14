@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — прыгающий мяч — Python с нуля — Cartesian School</title>
+<meta name="description" content="Итоговый мини-проект главы 20: мяч, отскакивающий от всех стен экрана — и краткие итоги." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html" class="active">Мини-проект: прыгающий мяч и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-20/20-02-ekran.ipynb">📓 20-02-ekran.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-03-personazhi.ipynb">📓 20-03-personazhi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-04-dvizhenie-klavishi.ipynb">📓 20-04-dvizhenie-klavishi.ipynb</a></li><li><a href="../../../notebooks/chapter-20/20-05-myach.ipynb">📓 20-05-myach.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">🐍 bouncing_ball.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Прыгающий мяч</div>
+    <div class="section-kicker">Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Мини-проект — прыгающий мяч</h1>
+    <p class="lede">Первая настоящая мини-игра на Pygame — движение, отскоки и игровой цикл в одном коротком проекте.</p>
+
+    
+    <p>Соберём всё в один мини-проект: мяч, который отскакивает от всех четырёх стен экрана.</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>prygayushij_myach.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> pygame
+
+SHIRINA, VYSOTA = <span class="tok-num">600</span>, <span class="tok-num">400</span>
+RADIUS = <span class="tok-num">20</span>
+
+pygame.init()
+screen = pygame.display.set_mode((SHIRINA, VYSOTA))
+clock = pygame.time.Clock()
+
+x, y = SHIRINA // <span class="tok-num">2</span>, VYSOTA // <span class="tok-num">2</span>
+dx, dy = <span class="tok-num">4</span>, <span class="tok-num">3</span>
+
+rabotaet = <span class="tok-kw">True</span>
+<span class="tok-kw">while</span> rabotaet:
+    <span class="tok-kw">for</span> event <span class="tok-kw">in</span> pygame.event.get():
+        <span class="tok-kw">if</span> event.<span class="tok-kw">type</span> == pygame.QUIT:
+            rabotaet = <span class="tok-kw">False</span>
+
+    x += dx
+    y += dy
+
+    <span class="tok-kw">if</span> x - RADIUS &lt; <span class="tok-num">0</span> <span class="tok-kw">or</span> x + RADIUS &gt; SHIRINA:
+        dx = -dx
+    <span class="tok-kw">if</span> y - RADIUS &lt; <span class="tok-num">0</span> <span class="tok-kw">or</span> y + RADIUS &gt; VYSOTA:
+        dy = -dy
+
+    screen.fill((<span class="tok-num">20</span>, <span class="tok-num">20</span>, <span class="tok-num">40</span>))
+    pygame.draw.circle(screen, (<span class="tok-num">255</span>, <span class="tok-num">100</span>, <span class="tok-num">100</span>), (<span class="tok-fn">int</span>(x), <span class="tok-fn">int</span>(y)), RADIUS)
+    pygame.display.flip()
+    clock.tick(<span class="tok-num">60</span>)
+
+pygame.quit()</code></pre>
+    </div>
+    
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">dx = -dx — отражение одной строкой</div>
+        <div class="callout-body">Смена знака скорости на противоположный — стандартный приём отражения от стены: движение продолжается с той же скоростью, только в обратную сторону, без дополнительных проверок направления.</div>
+      </div>
+    </div>
+    <p>Полный, уже проверенный файл — отдельно:</p>
+    <p>📄 <a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">projects/pygame/bouncing-ball/bouncing_ball.py</a></p>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Меняем цвет при отскоке</div>
+      <p>При каждом отскоке от стены выбирайте новый случайный цвет мяча (random.choice() из главы 5/11).</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Два мяча</div>
+      <p>Добавьте второй мяч с собственными x, y, dx, dy — оба должны двигаться и отскакивать независимо.</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Pygame не входит в стандартную поставку Python — устанавливается через <code class="inline">pip install</code>.</li><li>Игровой цикл в Pygame пишут вручную: обработка событий → обновление позиций → перерисовка → <code class="inline">clock.tick(FPS)</code>.</li><li><code class="inline">screen.fill()</code> в начале каждого кадра предотвращает «следы» от предыдущих кадров.</li><li>Персонажей рисуют заново на каждом кадре — движение реализуется просто изменением координат перед отрисовкой.</li><li>Клавиатуру проверяют либо через события (разовые действия), либо через <code class="inline">pygame.key.get_pressed()</code> (непрерывное движение).</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="20-04-peremeshenie-klavishi.html"><div class="dir">← Назад</div><div class="lbl">Движение и клавиши</div></a><a href="../glava-21/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 21: Проект: космический шутер с Pygame</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

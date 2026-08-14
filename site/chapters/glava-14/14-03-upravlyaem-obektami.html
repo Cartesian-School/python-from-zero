@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Управляем объектами. Объекты выполняют действия — Python с нуля — Cartesian School</title>
+<meta name="description" content="Изменение атрибутов объекта и определение собственных методов класса." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 14 · Объекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="14-01-chto-takoe-oop.html">Что такое ООП?</a></li><li><a href="14-02-klassy.html">Классы и объекты со своими значениями</a></li><li><a href="14-03-upravlyaem-obektami.html" class="active">Управляем объектами. Действия объектов</a></li><li><a href="14-04-gonka-turtle-obekty-itogi.html">Гонка Turtle с объектами и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-14/14-01-chto-takoe-oop.ipynb">📓 14-01-chto-takoe-oop.ipynb</a></li><li><a href="../../../notebooks/chapter-14/14-02-klassy.ipynb">📓 14-02-klassy.ipynb</a></li><li><a href="../../../notebooks/chapter-14/14-03-metody.ipynb">📓 14-03-metody.ipynb</a></li><li><a href="../../../notebooks/chapter-14/14-04-gonka-obekty.ipynb">📓 14-04-gonka-obekty.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 14</a> / Управляем объектами</div>
+    <div class="section-kicker">Глава 14 · Создаём объекты реального мира</div>
+    <h1>Управляем объектами</h1>
+    <p class="lede">Атрибуты можно менять после создания объекта — а методы дают объекту собственные действия.</p>
+
+    
+    <h2>Управляем объектами</h2>
+    <p>Значения атрибутов можно менять уже после создания объекта — так же, как менять значение
+    обычной переменной:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>menyaem_atributy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)
+rex.vozrast = <span class="tok-num">4</span>   <span class="tok-com"># у Рекса был день рождения</span>
+<span class="tok-fn">print</span>(rex.vozrast)</code></pre>
+    </div>
+
+    <h2 id="dejstviya">Объекты выполняют действия</h2>
+    <p>Кроме данных (атрибутов), у класса могут быть свои действия — <strong>методы</strong>:
+    обычные функции, определённые внутри класса, которые имеют доступ к
+    <code class="inline">self</code> и, через него, к атрибутам объекта:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>metody.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        self.klichka = klichka
+        self.vozrast = vozrast
+
+    <span class="tok-kw">def</span> layat(self):
+        <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{self.klichka}<span class="tok-str"> говорит: Гав-гав!</span><span class="tok-str">&quot;</span>)
+
+    <span class="tok-kw">def</span> prazdnovat_den_rozhdeniya(self):
+        self.vozrast += <span class="tok-num">1</span>
+        <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Теперь </span>{self.klichka}<span class="tok-str"> исполнилось </span>{self.vozrast}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)
+
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)
+rex.layat()
+rex.prazdnovat_den_rozhdeniya()</code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Знакомая запись</div>
+        <div class="callout-body"><code class="inline">rex.layat()</code> устроена точно так же, как <code class="inline">artist.forward(100)</code> или <code class="inline">"текст".upper()</code> — методы объектов, которыми вы уже давно пользуетесь, устроены абсолютно так же, как метод <code class="inline">layat()</code>, который вы только что написали сами.</div>
+      </div>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">14-03-metody.ipynb · методы и изменение атрибутов</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-14/14-03-metody.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="14-02-klassy.html"><div class="dir">← Назад</div><div class="lbl">Классы</div></a><a href="14-04-gonka-turtle-obekty-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Гонка Turtle с объектами и итоги</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Если это произошло — выполни команду! — Python с нуля — Cartesian School</title>
+<meta name="description" content="Условный оператор if и его альтернативная ветка else." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-01-istina-ili-lozh.html">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-03-if-inache.html" class="active">Если это произошло — выполни команду!</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-09/09-01-istina-lozh.ipynb">📓 09-01-istina-lozh.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-02-sravnenie.ipynb">📓 09-02-sravnenie.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-03-if-else.ipynb">📓 09-03-if-else.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-04-and-or-not.ipynb">📓 09-04-and-or-not.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-05-ugadaj-chislo.ipynb">📓 09-05-ugadaj-chislo.ipynb</a></li><li><a href="../../../notebooks/chapter-09/09-06-elif.ipynb">📓 09-06-elif.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / if / else</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>Если это произошло — выполни команду!</h1>
+    <p class="lede">Первый настоящий условный оператор: код, который выполняется только при определённых обстоятельствах.</p>
+
+    
+    <h2>Если это произошло — выполни команду!</h2>
+    <p>Условный оператор <code class="inline">if</code> выполняет блок кода только тогда, когда
+    условие после него истинно (<code class="inline">True</code>). Обратите внимание на
+    двоеточие и отступ — они обязательны в Python:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>if.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-num">20</span>
+
+<span class="tok-kw">if</span> age &gt;= <span class="tok-num">18</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Доступ разрешён.&quot;</span>)</code></pre>
+    </div>
+
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">IndentationError</div>
+        <div class="callout-body">Строка после <code class="inline">if ...:</code> обязательно должна иметь отступ (обычно 4 пробела). Без отступа Python выдаст <code class="inline">IndentationError</code>. Отступ — не просто оформление: именно им Python определяет, какие строки относятся к блоку <code class="inline">if</code>, а какие уже нет.</div>
+      </div>
+    </div>
+
+    <h2 id="inache">А иначе?</h2>
+    <p><code class="inline">else</code> задаёт блок кода, который выполнится, если условие
+    оказалось ложным:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>if_else.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-num">15</span>
+
+<span class="tok-kw">if</span> age &gt;= <span class="tok-num">18</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Доступ разрешён.&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Доступ запрещён — вам ещё нет 18.&quot;</span>)</code></pre>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">09-03-if-else.ipynb · условный оператор if/else</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-09/09-03-if-else.ipynb">Открыть ноутбук →</a>
+    </div>
+    
+
+    <div class="section-nav"><a href="09-02-sravnenie-i-reshenie.html"><div class="dir">← Назад</div><div class="lbl">Сравниваем и решаем</div></a><a href="09-04-neskolko-uslovij.html" class="next"><div class="dir">Далее →</div><div class="lbl">Больше одного условия!</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

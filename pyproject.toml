@@ -1,0 +1,20 @@
+[tool.ruff]
+target-version = "py314"
+
+[tool.ruff.lint]
+# UP003: "type(10)" is deliberately used throughout the book to TEACH what type()
+#        returns on literals (`print(type(10))` -> объясняем int). Ruff's autofix
+#        (`print(int)`) would replace the teaching example with something that
+#        prints a class object instead — breaks the pedagogy, not a real issue.
+# B018:  bare expressions (e.g. `1 + 1` alone in a cell) are used deliberately in
+#        notebooks to demonstrate Jupyter/REPL auto-display of the last expression
+#        — that IS the lesson, not an accidental no-op.
+# UP031/UP032: chapter 8 deliberately shows %-formatting and .format() side by side
+#        with f-strings (classic-vs-modern comparison) — modernizing them away would
+#        delete the historical examples the section exists to teach.
+# B033:  chapter 11 deliberately writes {1, 2, 2, 3, 3, 3} to teach that set literals
+#        drop duplicates — the duplicates are the lesson, not a mistake.
+# B023:  chapter 17 deliberately writes `lambda: obrabotat(indeks)` inside a for-loop
+#        to demonstrate the classic late-binding-closure bug (and then fixes it with
+#        `lambda i=indeks: ...` right below) — the bug IS the lesson.
+ignore = ["UP003", "B018", "UP031", "UP032", "B033", "B023"]

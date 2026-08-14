@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проект 23-6: Файлы и Tkinter. Итоги — Python с нуля — Cartesian School</title>
+<meta name="description" content="Приложение «Заметки»: сохранение и загрузка текста из файла — и итоги главы 23." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 23 · Ещё мини-проекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="23-01-kalkulyator.html">Проект 23-1: Калькулятор с Tkinter</a></li><li><a href="23-02-generator-istorij.html">Проект 23-2: Генератор случайных историй</a></li><li><a href="23-03-kamen-nozhnicy-bumaga.html">Проект 23-3: Камень, ножницы, бумага</a></li><li><a href="23-04-otskakivayushij-myach.html">Проект 23-4: Отскакивающий мяч с Pygame</a></li><li><a href="23-05-temperatura.html">Проект 23-5: Преобразование температуры</a></li><li><a href="23-06-fajly-tkinter-itogi.html" class="active">Проект 23-6: Файлы и Tkinter. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-23/23-01-kalkulyator.ipynb">📓 23-01-kalkulyator.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-02-generator-istorij.ipynb">📓 23-02-generator-istorij.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-03-kamen-nozhnicy-bumaga.ipynb">📓 23-03-kamen-nozhnicy-bumaga.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-04-otskakivayushij-myach.ipynb">📓 23-04-otskakivayushij-myach.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-05-temperatura.ipynb">📓 23-05-temperatura.ipynb</a></li><li><a href="../../../notebooks/chapter-23/23-06-fajly-tkinter.ipynb">📓 23-06-fajly-tkinter.ipynb</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 23</a> / Файлы и Tkinter</div>
+    <div class="section-kicker">Глава 23 · Ещё больше мини-проектов</div>
+    <h1>Проект 23-6: Знакомство с файлами и Tkinter</h1>
+    <p class="lede">Простое приложение «Заметки» — и подведение итогов главы.</p>
+
+    
+    <h2>Проект 23-6: Знакомство с файлами и Tkinter</h2>
+    <p>Последний мини-проект главы объединяет файлы (глава 14) и Tkinter (главы 16-19):
+    простое приложение «Заметки» с текстовым полем и тремя кнопками — сохранить, загрузить,
+    очистить:</p>
+
+    
+    <div class="code-block">
+      <div class="code-label"><span>sohranenie_zagruzka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>FAJL_ZAMETOK = Path(__file__).parent / <span class="tok-str">&quot;zametka.txt&quot;</span>
+
+<span class="tok-kw">def</span> sohranit_zametku():
+    tekst = polye_teksta.get(<span class="tok-str">&quot;1.0&quot;</span>, <span class="tok-str">&quot;end-1c&quot;</span>)
+    FAJL_ZAMETOK.write_text(tekst, encoding=<span class="tok-str">&quot;utf-8&quot;</span>)
+    status_text.<span class="tok-fn">set</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Сохранено в </span>{FAJL_ZAMETOK.name}<span class="tok-str">&quot;</span>)
+
+<span class="tok-kw">def</span> zagruzit_zametku():
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> FAJL_ZAMETOK.exists():
+        status_text.<span class="tok-fn">set</span>(<span class="tok-str">&quot;Файл заметки ещё не создан — сначала сохраните.&quot;</span>)
+        <span class="tok-kw">return</span>
+    tekst = FAJL_ZAMETOK.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>)
+    polye_teksta.delete(<span class="tok-str">&quot;1.0&quot;</span>, <span class="tok-str">&quot;end&quot;</span>)
+    polye_teksta.insert(<span class="tok-str">&quot;1.0&quot;</span>, tekst)</code></pre>
+    </div>
+    
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">&quot;1.0&quot; и &quot;end-1c&quot; — адресация текста в Text</div>
+        <div class="callout-body">У виджета <code class="inline">Text</code> (в отличие от <code class="inline">Entry</code>) текст адресуется парой «строка.столбец»: <code class="inline">"1.0"</code> — самое начало (строка 1, столбец 0), <code class="inline">"end-1c"</code> — конец текста без завершающего невидимого перевода строки, который Tkinter добавляет сам.</div>
+      </div>
+    </div>
+    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Проверка exists() перед чтением</div>
+        <div class="callout-body">Если попытаться прочитать несуществующий файл через <code class="inline">read_text()</code>, программа упадёт с <code class="inline">FileNotFoundError</code>. Проверка <code class="inline">if not FAJL_ZAMETOK.exists():</code> превращает падение программы в понятное сообщение для пользователя.</div>
+      </div>
+    </div>
+
+    <p>Полный код: 📄 <a href="../../../projects/tkinter/notes-app/notes_app.py">projects/tkinter/notes-app/notes_app.py</a></p>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Предупреждение о несохранённых изменениях</div>
+      <p>Заведите переменную byli_izmeneniya = False, ставьте её в True при любом изменении текста и показывайте предупреждение при попытке «Очистить поле», если она True.</p>
+    </div>
+
+    
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика в Jupyter Notebook</div>
+        <div class="nc-sub">23-06-fajly-tkinter.ipynb · сохранение, загрузка и обработка отсутствующего файла</div>
+      </div>
+      <a class="nc-btn" href="../../../notebooks/chapter-23/23-06-fajly-tkinter.ipynb">Открыть ноутбук →</a>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Шесть небольших проектов показывают, как уже знакомые инструменты — Tkinter, Pygame, файлы, классы, словари — снова и снова складываются в новые приложения.</li><li>Безопасный <code class="inline">eval()</code> с проверкой символов и пустым <code class="inline">__builtins__</code> позволяет вычислять арифметические выражения, не рискуя выполнить произвольный код.</li><li>Словарь — отличный способ описать отношения между вариантами (кто кого побеждает, что во что переводится), избегая длинных цепочек if/elif.</li><li>Класс превращает набор связанных переменных (позиция, скорость, цвет мяча) в один объект — и сразу же позволяет завести их сколько угодно через список.</li><li>Перед чтением файла стоит проверять <code class="inline">Path.exists()</code> — это превращает возможный крах программы в понятное сообщение для пользователя.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="23-05-temperatura.html"><div class="dir">← Назад</div><div class="lbl">Температура</div></a><a href="../glava-24/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 24: Что дальше?</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Я закончил рисовать! Полная программа — Python с нуля — Cartesian School</title>
+<meta name="description" content="Очистка холста, режим свободного рисования, ссылка на полный исходный код и итоги главы 18." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img src="../../assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </div>
+  <ul class="top-nav">
+    <li><a href="../../index.html">О курсе</a></li>
+    <li><a href="../../index.html#glavy" class="active">Главы</a></li>
+    <li><a href="../../index.html#praktika">Практика</a></li>
+    <li><a href="../../index.html#proekty">Проекты</a></li>
+    <li><a href="../../index.html#spravochnik">Справочник</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Глава 18 · Рисовалка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="18-01-obyasnenie-nachalo.html">Объяснение и начало работы</a></li><li><a href="18-02-ekran-holst.html">Экран и холст (Canvas)</a></li><li><a href="18-03-menu-parametry.html">Меню фигур и параметры рисования</a></li><li><a href="18-04-mysh-linii.html">Позиция мыши и рисуем линии</a></li><li><a href="18-05-figury.html">Квадраты, прямоугольники, круги и овалы</a></li><li><a href="18-06-razmer-cveta.html">Выбираем размер и цвет</a></li><li><a href="18-07-polnaya-programma-itogi.html" class="active">Полная программа и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../../notebooks/chapter-18/18-02-holst.ipynb">📓 18-02-holst.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-03-parametry.ipynb">📓 18-03-parametry.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-04-linii.ipynb">📓 18-04-linii.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-05-figury.ipynb">📓 18-05-figury.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-06-razmer-cveta.ipynb">📓 18-06-razmer-cveta.ipynb</a></li><li><a href="../../../notebooks/chapter-18/18-07-polnoe-prilozhenie.ipynb">📓 18-07-polnoe-prilozhenie.ipynb</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app.py">🐍 paint_app.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 18</a> / Полная программа</div>
+    <div class="section-kicker">Глава 18 · Проект: приложение для рисования</div>
+    <h1>Я закончил рисовать! Полная программа</h1>
+    <p class="lede">Последние штрихи — очистка холста и свободное рисование — и полная работающая программа целиком.</p>
+
+    
+    <h2>Я закончил рисовать!</h2>
+    <p>Осталось добавить кнопку очистки холста и режим «свободного рисования» (карандаш) — для
+    него точки рисуются на каждое движение мыши без привязки к начальной точке:</p>
+    
+    <div class="code-block">
+      <div class="code-label"><span>ochistka_i_svobodno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> ochistit_holst():
+    canvas.delete(<span class="tok-str">&quot;all&quot;</span>)
+
+<span class="tok-kw">def</span> vo_vremya_risovaniya(event):
+    <span class="tok-kw">if</span> tekuschaya_figura == <span class="tok-str">&quot;svobodno&quot;</span>:
+        canvas.create_oval(
+            event.x - tolschina, event.y - tolschina,
+            event.x + tolschina, event.y + tolschina,
+            fill=tekuschij_cvet, outline=tekuschij_cvet,
+        )
+        <span class="tok-kw">return</span>
+    <span class="tok-com"># ... остальные фигуры, как в разделе 18.5</span></code></pre>
+    </div>
+
+    <h2 id="polnaya-programma">Полная программа</h2>
+    <p>Полная версия приложения, включая исправленную отрисовку «черновых» фигур во время
+    перетаскивания мыши, доступна отдельным файлом:</p>
+    <p>📄 <a href="../../../projects/tkinter/paint-app/paint_app.py">projects/tkinter/paint-app/paint_app.py</a></p>
+
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Кнопка «Отменить»</div>
+      <p>Сохраняйте id каждой нарисованной фигуры (canvas.create_* возвращает id) в список — и добавьте кнопку, удаляющую последнюю через canvas.delete(id).</p>
+    </div>
+    
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Сохранение рисунка</div>
+      <p>Изучите модуль tkinter.filedialog и попробуйте добавить кнопку «Сохранить» — как минимум сохраняющую список нарисованных фигур в текстовый файл (глава 15).</p>
+    </div>
+
+    <h2 id="itogi">Итоги</h2>
+    
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li><code class="inline">Canvas</code> — виджет Tkinter для рисования линий и фигур по координатам; координаты растут вправо и вниз от левого верхнего угла.</li><li><code class="inline">canvas.create_line/rectangle/oval(...)</code> рисуют готовые фигуры по координатам.</li><li>События мыши (<code class="inline">&lt;Button-1&gt;</code>, <code class="inline">&lt;B1-Motion&gt;</code>, <code class="inline">&lt;ButtonRelease-1&gt;</code>) отслеживают клик, перетаскивание и отпускание кнопки мыши.</li><li><code class="inline">Scale</code> — ползунок для выбора числа в диапазоне.</li><li>Палитра из нескольких похожих кнопок эффективнее строится циклом, чем вручную одна за другой.</li></ul>
+    </div>
+    
+
+    <div class="section-nav"><a href="18-06-razmer-cveta.html"><div class="dir">← Назад</div><div class="lbl">Размер и цвет</div></a><a href="../glava-19/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 19: Проект: игра «Змейка» с Turtle</div></a></div>
+  </article>
+</div>
+
+</body>
+</html>
