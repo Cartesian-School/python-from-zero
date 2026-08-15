@@ -63,11 +63,11 @@ async function waitForServer(url, timeoutMs = 15000) {
 }
 
 const TOP_NAV = [
-  ['О курсе', '#o-kurse'],
-  ['Главы', '#glavy'],
-  ['Практика', '#praktika'],
-  ['Проекты', '#proekty'],
-  ['Справочник', '#spravochnik'],
+  ['О курсе', '#o-kurse', 'О курсе'],
+  ['Главы', '#glavy', 'Главы'],
+  ['Практика', '#praktika', 'Практика'],
+  ['Проекты', '#proekty', 'Проекты'],
+  ['Справочник', '#spravochnik', 'Справочник'],
 ];
 
 (async () => {
@@ -94,20 +94,55 @@ const TOP_NAV = [
       const activeText = await page.locator('.top-nav a.active').textContent();
       ok('active top-nav item on a chapter page is "Главы"', activeText.trim() === 'Главы');
 
-      for (const [label, fragment] of TOP_NAV) {
+      for (const [label, fragment, expectedHeading] of TOP_NAV) {
         await page.goto(chapterUrl, { waitUntil: 'networkidle' });
         await page.click(`.top-nav a:has-text("${label}")`);
         await page.waitForLoadState('networkidle');
         const url = new URL(page.url());
         ok(`desktop "${label}" -> ${fragment}`, url.pathname === '/index.html' && url.hash === fragment);
-        const targetVisible = await page.evaluate((frag) => {
+        const check = await page.evaluate((frag) => {
           const el = document.getElementById(frag.slice(1));
-          if (!el) return false;
+          if (!el) return { visible: false, heading: null };
           const r = el.getBoundingClientRect();
-          return r.top >= 0 && r.top < window.innerHeight;
+          const visible = r.top >= 0 && r.top < window.innerHeight;
+          const h2 = el.querySelector('h2');
+          return { visible, heading: h2 ? h2.textContent.trim() : null };
         }, fragment);
-        ok(`desktop "${label}" target is visible (not hidden under sticky header)`, targetVisible);
+        ok(`desktop "${label}" target is visible (not hidden under sticky header)`, check.visible);
+        ok(`desktop "${label}" target has heading "${expectedHeading}"`, check.heading === expectedHeading);
       }
+      await page.close();
+    }
+
+    // --- Tablet: chapter page top-nav, every item ---
+    log('Tablet (768x1024): chapter page top-nav');
+    {
+      const page = await browser.newPage({ viewport: { width: 768, height: 1024 } });
+      const chapterUrl = `${base}/chapters/glava-03/03-01-sozdanie-i-zapusk-programm.html`;
+
+      for (const [label, fragment, expectedHeading] of TOP_NAV) {
+        await page.goto(chapterUrl, { waitUntil: 'networkidle' });
+        // At 768px the layout is already in the mobile/hamburger breakpoint
+        // (theory.css's @media (max-width: 860px)) — use the drawer, exactly
+        // as a real tablet visitor would, not the (hidden) desktop top-nav.
+        await page.click('.nav-toggle');
+        await page.click(`#mobile-nav-panel a:has-text("${label}")`);
+        await page.waitForTimeout(200);
+        const url = new URL(page.url());
+        ok(`tablet "${label}" -> ${fragment}`, url.pathname === '/index.html' && url.hash === fragment);
+        const check = await page.evaluate((frag) => {
+          const el = document.getElementById(frag.slice(1));
+          if (!el) return { visible: false, heading: null };
+          const r = el.getBoundingClientRect();
+          const visible = r.top >= 0 && r.top < window.innerHeight;
+          const h2 = el.querySelector('h2');
+          return { visible, heading: h2 ? h2.textContent.trim() : null };
+        }, fragment);
+        ok(`tablet "${label}" target is visible (not hidden under sticky header)`, check.visible);
+        ok(`tablet "${label}" target has heading "${expectedHeading}"`, check.heading === expectedHeading);
+      }
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+      ok('tablet: no horizontal overflow on homepage', !overflow);
       await page.close();
     }
 
@@ -118,6 +153,23 @@ const TOP_NAV = [
       await page.goto(`${base}/practice/03-01/index.html`, { waitUntil: 'networkidle' });
       const href = await page.locator('.brand').getAttribute('href');
       ok('practice page .brand is a link to /index.html', href === '/index.html');
+      await page.close();
+    }
+
+    // --- Desktop: active main-menu state follows scroll position (IntersectionObserver) ---
+    log('Desktop (1440x900): active menu state on scroll (site/assets/js/progress.js)');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('a[href="/index.html#proekty"]');
+      await page.waitForTimeout(400); // IntersectionObserver fires async after scroll settles
+      const activeAfterProekty = await page.locator('.top-nav a.active').textContent();
+      ok('scrolling to #proekty makes "Проекты" the active menu item', activeAfterProekty.trim() === 'Проекты');
+
+      await page.click('a[href="/index.html#spravochnik"]');
+      await page.waitForTimeout(400);
+      const activeAfterSpravochnik = await page.locator('.top-nav a.active').textContent();
+      ok('scrolling to #spravochnik makes "Справочник" the active menu item', activeAfterSpravochnik.trim() === 'Справочник');
       await page.close();
     }
 
@@ -136,7 +188,7 @@ const TOP_NAV = [
       const linkCount = await page.locator('#mobile-nav-panel a').count();
       ok('drawer contains all 5 top-nav links', linkCount === 5);
 
-      for (const [label, fragment] of TOP_NAV) {
+      for (const [label, fragment, expectedHeading] of TOP_NAV) {
         await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
         await page.click('.nav-toggle');
         await page.click(`#mobile-nav-panel a:has-text("${label}")`);
@@ -145,6 +197,14 @@ const TOP_NAV = [
         ok(`mobile "${label}" -> ${fragment}`, url.pathname === '/index.html' && url.hash === fragment);
         const closed = await page.evaluate(() => !document.getElementById('mobile-nav-panel').classList.contains('open'));
         ok(`mobile drawer closes after selecting "${label}"`, closed);
+        const heading = await page.evaluate((frag) => {
+          const el = document.getElementById(frag.slice(1));
+          const h2 = el && el.querySelector('h2');
+          return h2 ? h2.textContent.trim() : null;
+        }, fragment);
+        ok(`mobile "${label}" target has heading "${expectedHeading}"`, heading === expectedHeading);
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+        ok(`mobile "${label}": no horizontal overflow`, !overflow);
       }
 
       await page.click('.nav-toggle');
