@@ -131,10 +131,47 @@ def build_page(lesson_id: str, entry: dict) -> str:
 """
 
 
+def _local_required_explanation(entry: dict) -> tuple[str, str, str]:
+    """Returns (main_paragraph_html, vscode_tail, jupyter_tail) explaining why
+    this specific lesson can't run in the browser. Uses entry["unavailable_module"]
+    / entry["unavailable_kind"] ("window" or "server") when present for accurate,
+    per-lesson wording (tkinter/turtle/Pygame open a window; Flask starts a
+    server). Falls back to a generic, always-true sentence that names no
+    specific module, rather than risk a false claim for entries that predate
+    this field.
+    """
+    module = entry.get("unavailable_module")
+    kind = entry.get("unavailable_kind", "window")
+    if not module:
+        main = (
+            "Эта практика использует функциональность, недоступную в текущей "
+            "браузерной среде Python (Pyodide). Выполните это упражнение "
+            "локально в Python 3.14."
+        )
+        return main, "на вашем компьютере", "как обычно"
+    esc_module = html.escape(module)
+    if kind == "server":
+        main = (
+            f'Эта практика использует <code class="inline">{esc_module}</code>, '
+            "который запускает веб-сервер на вашем компьютере. Такой режим "
+            "недоступен в текущей браузерной среде Python. Выполните это "
+            "упражнение локально в Python 3.14."
+        )
+        return main, f"сервер {esc_module} запустится на вашем компьютере", f"сервер {esc_module} запустится как обычно"
+    main = (
+        f'Эта практика использует <code class="inline">{esc_module}</code>, '
+        "который открывает нативное графическое окно Python. Такой режим "
+        "недоступен в текущей браузерной среде Python. Выполните это "
+        "упражнение локально в Python 3.14."
+    )
+    return main, f"окно {esc_module} откроется на вашем компьютере", f"окно {esc_module} откроется как обычно"
+
+
 def build_local_required_page(lesson_id: str, entry: dict) -> str:
     """Practice page for lessons whose canonical code cannot run in the
-    browser (confirmed: Pyodide has no turtle or tkinter — see the Chapter
-    6/7 rollout evidence). No Pyodide worker, no grader, no score: the
+    browser (confirmed: Pyodide has no turtle or tkinter, and pygame's
+    display.set_mode()/flask are similarly unavailable — see the Chapter
+    6/7/20/22 rollout evidence). No Pyodide worker, no grader, no score: the
     learner runs the canonical .ipynb locally and may optionally
     self-declare completion, clearly marked as unverified.
     """
@@ -144,6 +181,7 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
     lesson_title = html.escape(entry["lesson_title"])
     return_url = html.escape(entry["return_url"])
     lesson_id_js = html.escape(lesson_id).replace('"', '\\"')
+    explanation_html, vscode_tail, jupyter_tail = _local_required_explanation(entry)
 
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -170,9 +208,7 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
   <div class="practice-chapter">{chapter_title}</div>
   <div class="local-required-badge">Требуется локальный Python</div>
   <h1>{lesson_title}</h1>
-  <p>Эта практика использует модуль <code class="inline">turtle</code>, который открывает
-  нативное графическое окно Python. Такой режим недоступен в текущей браузерной среде
-  Python. Выполните это упражнение локально в Python 3.14.</p>
+  <p>{explanation_html}</p>
 
   <div class="actions">
     <a class="btn-primary" href="{notebook_url}" download="{html.escape(download_name)}">📄 Скачать .ipynb</a>
@@ -183,7 +219,7 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
       <h3>VS Code</h3>
       <p>Установите расширения <strong>Python</strong> и <strong>Jupyter</strong> (Microsoft), откройте
       скачанный файл прямо в VS Code, выберите интерпретатор Python 3.14 и запускайте ячейки
-      (<code class="inline">Shift+Enter</code>) — окно Turtle откроется на вашем компьютере.</p>
+      (<code class="inline">Shift+Enter</code>) — {vscode_tail}.</p>
     </div>
     <div class="instruction-card">
       <h3>PyCharm</h3>
@@ -195,7 +231,7 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
       <h3>Jupyter</h3>
       <p>Установите Jupyter (<code class="inline">pip install notebook</code>), запустите
       <code class="inline">jupyter notebook</code> в папке со скачанным файлом и откройте его
-      в браузере — ядро выполняется локально, поэтому окно Turtle откроется как обычно.</p>
+      в браузере — ядро выполняется локально, поэтому {jupyter_tail}.</p>
     </div>
   </div>
 
