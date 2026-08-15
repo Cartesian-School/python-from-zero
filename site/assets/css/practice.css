@@ -10,6 +10,7 @@
   justify-content: space-between;
   gap: var(--spacing-lg);
   flex-wrap: wrap;
+  box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 12px 24px -12px rgba(0,0,0,.4);
 }
 .practice-header .brand { display: flex; align-items: center; gap: var(--spacing-sm); }
 .practice-header .brand img { height: 28px; }
@@ -30,6 +31,7 @@
   align-items: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
 }
 .practice-toolbar button {
   font-family: inherit;
@@ -40,7 +42,9 @@
   border: 1px solid var(--color-border-default);
   background: var(--color-bg-canvas);
   cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
 }
+.practice-toolbar button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
 .practice-toolbar button:disabled { opacity: .5; cursor: not-allowed; }
 .practice-toolbar .btn-primary { background: var(--color-brand-blue); border-color: var(--color-brand-blue); color: #fff; }
 .practice-toolbar .btn-finish { background: var(--green-500); border-color: var(--green-500); color: #fff; }
@@ -75,7 +79,8 @@
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
-  transition: border-color .2s;
+  box-shadow: var(--shadow-sm);
+  transition: border-color .2s, box-shadow .2s;
 }
 .nb-cell-code.nb-cell-ok { border-color: var(--green-500); }
 .nb-cell-code.nb-cell-error { border-color: var(--red-500); }
@@ -168,6 +173,7 @@
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
   margin-top: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
 }
 .practice-result-pass { background: #dcfce7; border: 1px solid var(--green-500); }
 .practice-result-fail { background: var(--color-callout-security-bg); border: 1px solid var(--red-500); }
@@ -231,7 +237,8 @@
   margin-bottom: var(--spacing-xl);
   text-align: left;
 }
-.instruction-card { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); }
+.instruction-card { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); box-shadow: var(--shadow-sm); transition: box-shadow .2s, transform .2s; }
+.instruction-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .instruction-card h3 { font-size: 14px; margin-bottom: var(--spacing-sm); }
 .instruction-card p { font-size: 13px; margin-bottom: 0; }
 
@@ -251,4 +258,8 @@
   .practice-version-label { margin-left: 0; }
   .practice-toolbar button { min-height: 44px; padding: 10px 16px; }
   .nb-run-cell { min-height: 44px; padding: 10px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .practice-toolbar button, .instruction-card { transition: none; }
 }
