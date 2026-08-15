@@ -91,14 +91,20 @@ def build_roadmap() -> str:
         entries = lessons_by_chapter.get(num, [])
         lesson_ids_csv = ",".join(lid for lid, _ in entries)
         meta = f"{len(entries)} практических заданий" if entries else "теория — без практики"
+        card_body = f"""<div class="jn-card-top">
+          <span class="jn-num">Глава {num}</span>
+        </div>
+        <div class="jn-title">{chapter_title_short(c)}</div>"""
+        if entries:
+            card_body += '\n        <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>'
+        card_body += f"""
+        <div class="jn-meta">{meta}</div>
+        <span class="jn-state-badge"></span>"""
         nodes.append(f"""
     <div class="journey-node" data-chapter="{num}" data-lesson-ids="{lesson_ids_csv}">
       <div class="jn-dot"></div>
       <a class="jn-card" href="{href}">
-        <div class="jn-num">Глава {num}</div>
-        <div class="jn-title">{chapter_title_short(c)}</div>
-        <div class="jn-meta">{meta}</div>
-        <span class="jn-state-badge"></span>
+        {card_body}
       </a>
     </div>""")
     return "".join(nodes)
@@ -231,9 +237,16 @@ HTML = f"""<!DOCTYPE html>
   открыты, прогресс сохраняется в этом браузере.</p>
 
   <div class="journey-progress" id="journey-progress" data-total-lessons="{TOTAL_LESSONS}">
-    <div class="jp-headline">Ваш прогресс</div>
+    <div class="jp-top">
+      <div class="jp-headline">Ваш прогресс</div>
+      <div class="jp-pct">0%</div>
+    </div>
     <div class="jp-detail">0 из {TOTAL_LESSONS} практических заданий выполнено</div>
     <div class="jp-bar-track"><div class="jp-bar-fill"></div></div>
+    <div class="jp-stats-row">
+      <span class="jp-stat"><strong class="jp-stat-completed-chapters">0</strong> из {TOTAL_CHAPTERS} глав завершено</span>
+      <span class="jp-stat">Текущая глава: <strong class="jp-stat-current-chapter">—</strong></span>
+    </div>
   </div>
 
   <div class="journey-rail">{ROADMAP_HTML}
