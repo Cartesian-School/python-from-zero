@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -44,6 +44,8 @@ NOTEBOOKS = [
     "21-08-polnaya-igra.ipynb",
 ]
 
+LESSON_IDS = ["21-01", "21-02", "21-03", "21-04", "21-06", "21-08"]
+
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     items = [NavItem(title, href) for href, title in PAGES]
@@ -51,7 +53,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 21 · Космический шутер", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-21/{n}") for n in NOTEBOOKS]),
+        SidebarGroup(
+            "Практика",
+            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+        ),
         SidebarGroup("Исходный код", [NavItem("🐍 space_shooter.py", "../../../projects/pygame/space-shooter/space_shooter.py")]),
     ]
 
@@ -116,10 +121,11 @@ def build_01() -> None:
         "по умолчанию, размером 32 — понадобится для табло счёта в разделе 21.5.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-01-init.ipynb · импорт и инициализация",
-        "../../../notebooks/chapter-21/21-01-init.ipynb",
+    {local_required_card(
+        "21-01",
+        "Практика: импорт и инициализация",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-01/index.html",
     )}
     """
     out = render_page(
@@ -177,10 +183,11 @@ def build_02() -> None:
         "в следующем разделе.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-02-korabl.ipynb · Rect и первый корабль",
-        "../../../notebooks/chapter-21/21-02-korabl.ipynb",
+    {local_required_card(
+        "21-02",
+        "Практика: Rect и первый корабль",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-02/index.html",
     )}
     """
     out = render_page(
@@ -250,10 +257,11 @@ def build_03() -> None:
         "области и плавно «въезжает» в кадр сверху — а не появляется резко посередине экрана.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-03-dvizhenie-vragi.ipynb · движение корабля и появление врагов",
-        "../../../notebooks/chapter-21/21-03-dvizhenie-vragi.ipynb",
+    {local_required_card(
+        "21-03",
+        "Практика: движение корабля и врагов",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-03/index.html",
     )}
     """
     out = render_page(
@@ -304,10 +312,11 @@ def build_04() -> None:
         "список пуль рос бы бесконечно, замедляя игру всё сильнее.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-04-strelba.ipynb · стрельба и движение пуль",
-        "../../../notebooks/chapter-21/21-04-strelba.ipynb",
+    {local_required_card(
+        "21-04",
+        "Практика: стрельба и движение пуль",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-04/index.html",
     )}
     """
     out = render_page(
@@ -347,10 +356,11 @@ def build_05() -> None:
         "</code> у Turtle из главы 7, просто в два явных шага вместо одного.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-03-dvizhenie-vragi.ipynb · включает вывод счёта",
-        "../../../notebooks/chapter-21/21-03-dvizhenie-vragi.ipynb",
+    {local_required_card(
+        "21-03",
+        "Практика: включает вывод счёта",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-03/index.html",
     )}
     """
     out = render_page(
@@ -409,10 +419,11 @@ def build_06() -> None:
         "        break\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-06-unichtozhenie.ipynb · столкновения пуль, врагов и корабля",
-        "../../../notebooks/chapter-21/21-06-unichtozhenie.ipynb",
+    {local_required_card(
+        "21-06",
+        "Практика: столкновения пуль, врагов и корабля",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-06/index.html",
     )}
     """
     out = render_page(
@@ -469,10 +480,11 @@ def build_07() -> None:
         "<code class=\"inline\">(x, y)</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "21-06-unichtozhenie.ipynb · включает финальный экран",
-        "../../../notebooks/chapter-21/21-06-unichtozhenie.ipynb",
+    {local_required_card(
+        "21-06",
+        "Практика: включает финальный экран",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-06/index.html",
     )}
     """
     out = render_page(
@@ -504,6 +516,13 @@ def build_08() -> None:
 
     {exercise(2, "Жизни вместо мгновенного конца", "Добавьте переменную zhizni = 3 — при столкновении корабля с врагом отнимайте одну жизнь и убирайте врага, вместо немедленного окончания игры.")}
     {exercise(3, "Уровни сложности", "Постепенно уменьшайте INTERVAL_POYAVLENIYA_VRAGA по мере роста счёта — враги должны появляться всё чаще.")}
+
+{local_required_card(
+        "21-08",
+        "Практика: полная игра",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/21-08/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
