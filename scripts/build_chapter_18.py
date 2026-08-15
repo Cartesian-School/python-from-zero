@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -34,14 +34,7 @@ PAGES = [
     ("18-07-polnaya-programma-itogi.html", "Полная программа и итоги"),
 ]
 
-NOTEBOOKS = [
-    "18-02-holst.ipynb",
-    "18-03-parametry.ipynb",
-    "18-04-linii.ipynb",
-    "18-05-figury.ipynb",
-    "18-06-razmer-cveta.ipynb",
-    "18-07-polnoe-prilozhenie.ipynb",
-]
+LESSON_IDS = ["18-02", "18-03", "18-04", "18-05", "18-06", "18-07"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -50,7 +43,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 18 · Рисовалка", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-18/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
         SidebarGroup("Исходный код", [NavItem("🐍 paint_app.py", "../../../projects/tkinter/paint-app/paint_app.py")]),
     ]
 
@@ -108,10 +103,11 @@ def build_01() -> None:
         'root.title("Рисовалка")\n',
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-02-holst.ipynb · начинаем собирать рисовалку",
-        "../../../notebooks/chapter-18/18-02-holst.ipynb",
+    {local_required_card(
+        "18-02",
+        "Практика: начинаем собирать рисовалку",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-02/index.html",
     )}
     """
     out = render_page(
@@ -151,10 +147,11 @@ def build_02() -> None:
         "рисовали Turtle — обратите на это внимание, чтобы не запутаться.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-02-holst.ipynb · создаём Canvas",
-        "../../../notebooks/chapter-18/18-02-holst.ipynb",
+    {local_required_card(
+        "18-02",
+        "Практика: создаём Canvas",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-02/index.html",
     )}
     """
     out = render_page(
@@ -199,10 +196,11 @@ def build_03() -> None:
         "tolschina = 3\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-03-parametry.ipynb · панель инструментов и параметры рисования",
-        "../../../notebooks/chapter-18/18-03-parametry.ipynb",
+    {local_required_card(
+        "18-03",
+        "Практика: панель инструментов и параметры рисования",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-03/index.html",
     )}
     """
     out = render_page(
@@ -260,10 +258,11 @@ def build_04() -> None:
         "у Turtle из главы 6, только без «черепашки», которая сама туда едет.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-04-linii.ipynb · позиция мыши и рисование линий",
-        "../../../notebooks/chapter-18/18-04-linii.ipynb",
+    {local_required_card(
+        "18-04",
+        "Практика: позиция мыши и рисование линий",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-04/index.html",
     )}
     """
     out = render_page(
@@ -308,10 +307,11 @@ def build_05() -> None:
         "«черновая» фигура удаляется перед тем, как нарисовать новую.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-05-figury.ipynb · прямоугольники и овалы",
-        "../../../notebooks/chapter-18/18-05-figury.ipynb",
+    {local_required_card(
+        "18-05",
+        "Практика: прямоугольники и овалы",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-05/index.html",
     )}
     """
     out = render_page(
@@ -369,10 +369,11 @@ def build_06() -> None:
         "мы уже разбирали в проекте «Крестики-нолики».",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "18-06-razmer-cveta.ipynb · Scale и палитра цветов",
-        "../../../notebooks/chapter-18/18-06-razmer-cveta.ipynb",
+    {local_required_card(
+        "18-06",
+        "Практика: Scale и палитра цветов",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-06/index.html",
     )}
     """
     out = render_page(
@@ -417,6 +418,12 @@ def build_07() -> None:
 
     {exercise(2, "Кнопка «Отменить»", "Сохраняйте id каждой нарисованной фигуры (canvas.create_* возвращает id) в список — и добавьте кнопку, удаляющую последнюю через canvas.delete(id).")}
     {exercise(3, "Сохранение рисунка", "Изучите модуль tkinter.filedialog и попробуйте добавить кнопку «Сохранить» — как минимум сохраняющую список нарисованных фигур в текстовый файл (глава 15).")}
+{local_required_card(
+        "18-07",
+        "Практика: полное приложение",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/18-07/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
