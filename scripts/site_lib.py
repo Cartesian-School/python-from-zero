@@ -255,6 +255,67 @@ def summary_box(title: str, items_html: list[str]) -> str:
 # Навигация / компоновка страницы
 # ---------------------------------------------------------------------------
 
+# Site-wide top-nav sections, in display order. The anchor ids must match the
+# real `id="..."` elements on site/index.html (see build_site_index.py) —
+# this is the single source of truth both the desktop bar and the mobile
+# drawer render from, so they can never drift into different destinations.
+TOP_NAV_ITEMS = [
+    ("o-kurse", "О курсе"),
+    ("glavy", "Главы"),
+    ("praktika", "Практика"),
+    ("proekty", "Проекты"),
+    ("spravochnik", "Справочник"),
+]
+
+
+def _top_nav_items_html(active_section: str | None, li_class: str = "") -> str:
+    parts = []
+    for anchor, label in TOP_NAV_ITEMS:
+        classes = (li_class + " active").strip() if anchor == active_section else li_class
+        cls_attr = f' class="{classes}"' if classes else ""
+        parts.append(f'<li><a href="/index.html#{anchor}"{cls_attr}>{html.escape(label)}</a></li>')
+    return "".join(parts)
+
+
+def site_header(active_section: str | None = "glavy") -> str:
+    """Shared site header: home-linking logo + desktop top-nav + mobile toggle.
+
+    All hrefs are root-relative (the site is deployed at the domain root), so
+    this is depth-independent — no more counting '../' per page. The toggle
+    button's aria-controls points at "mobile-nav-panel"; every page template
+    must give its mobile drawer element that same id (see mobile_nav_links()
+    and site/assets/js/nav.js, which drives the open/close behavior for any
+    element referenced this way, regardless of which template renders it).
+    """
+    nav_items = _top_nav_items_html(active_section)
+    return (
+        '<header class="site-header">\n'
+        '  <a class="brand" href="/index.html">\n'
+        '    <img src="/assets/img/logo.png" alt="Cartesian School" />\n'
+        '    <span class="brand-word">Cartesian<span class="school">School</span></span>\n'
+        "  </a>\n"
+        f'  <ul class="top-nav">{nav_items}</ul>\n'
+        '  <button class="nav-toggle" type="button" aria-expanded="false" '
+        'aria-controls="mobile-nav-panel">☰ Меню</button>\n'
+        "</header>"
+    )
+
+
+def mobile_nav_links(active_section: str | None = "glavy") -> str:
+    """The site-wide nav links, for inclusion inside a page's mobile drawer.
+
+    Kept separate from any page-local table of contents so it can be
+    prepended into an existing `.sidebar` (chapter pages) or used as the
+    entire contents of a page's mobile drawer (pages with no page-local TOC:
+    the homepage, chapter openers, practice pages).
+    """
+    items = _top_nav_items_html(active_section, li_class="")
+    return f'<div class="mobile-nav-links"><ul class="toc-list">{items}</ul></div>'
+
+
+NAV_SCRIPT_TAG = '<script src="/assets/js/nav.js" defer></script>'
+
+
 @dataclass
 class NavItem:
     title: str
@@ -306,8 +367,11 @@ def render_page(
     body_html: str,
     sidebar_groups: list[SidebarGroup],
     nav: PageNav,
+    active_section: str | None = "glavy",
 ) -> str:
-    """depth: how many '../' needed to reach site/ root from this file's folder."""
+    """depth: how many '../' needed to reach site/ root from this file's folder
+    (used only for page-local asset paths — the shared header/nav below is
+    root-relative regardless of depth, see site_header())."""
     root = "../" * depth
 
     crumb_parts = []
@@ -344,23 +408,11 @@ def render_page(
 </head>
 <body>
 
-<header class="site-header">
-  <div class="brand">
-    <img src="{root}assets/img/logo.png" alt="Cartesian School" />
-    <span class="brand-word">Cartesian<span class="school">School</span></span>
-  </div>
-  <ul class="top-nav">
-    <li><a href="{root}index.html">О курсе</a></li>
-    <li><a href="{root}index.html#glavy" class="active">Главы</a></li>
-    <li><a href="{root}index.html#praktika">Практика</a></li>
-    <li><a href="{root}index.html#proekty">Проекты</a></li>
-    <li><a href="{root}index.html#spravochnik">Справочник</a></li>
-  </ul>
-  <button class="nav-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Оглавление</button>
-</header>
+{site_header(active_section)}
 
 <div class="layout">
-  <nav class="sidebar">
+  <nav class="sidebar" id="mobile-nav-panel">
+    {mobile_nav_links(active_section)}
     {sidebar_html}
   </nav>
 
@@ -376,6 +428,7 @@ def render_page(
   </article>
 </div>
 
+{NAV_SCRIPT_TAG}
 </body>
 </html>
 """
@@ -439,19 +492,10 @@ def render_chapter_opener(
 </head>
 <body>
 
-<header class="site-header">
-  <div class="brand">
-    <img src="{root}assets/img/logo.png" alt="Cartesian School" />
-    <span class="brand-word">Cartesian<span class="school">School</span></span>
-  </div>
-  <ul class="top-nav">
-    <li><a href="{root}index.html">О курсе</a></li>
-    <li><a href="{root}index.html#glavy" class="active">Главы</a></li>
-    <li><a href="{root}index.html#praktika">Практика</a></li>
-    <li><a href="{root}index.html#proekty">Проекты</a></li>
-    <li><a href="{root}index.html#spravochnik">Справочник</a></li>
-  </ul>
-</header>
+{site_header("glavy")}
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+  {mobile_nav_links("glavy")}
+</nav>
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
@@ -466,6 +510,7 @@ def render_chapter_opener(
   {rows}
 </div>
 
+{NAV_SCRIPT_TAG}
 </body>
 </html>
 """

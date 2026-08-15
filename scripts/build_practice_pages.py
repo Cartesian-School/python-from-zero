@@ -10,7 +10,12 @@ evidence/jupyterlite-kernel-investigation.md) и рендерит канонич
 
 import html
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from site_lib import NAV_SCRIPT_TAG, mobile_nav_links
 
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = ROOT / "manifest" / "practice_manifest.json"
@@ -59,15 +64,19 @@ def build_page(lesson_id: str, entry: dict) -> str:
 <body>
 
 <header class="practice-header">
-  <div class="brand">
+  <a class="brand" href="/index.html">
     <img src="/assets/img/logo.png" alt="Cartesian School" />
     <span class="brand-word">Cartesian<span class="school">School</span></span>
-  </div>
+  </a>
   <div class="practice-titles">
     <div class="practice-chapter">{chapter_title}</div>
     <div class="practice-lesson">{lesson_title}</div>
   </div>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
 </header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+  {mobile_nav_links("praktika")}
+</nav>
 
 <div class="practice-toolbar">
   <button id="run-all-btn" class="btn-primary">▶▶ Выполнить всё</button>
@@ -100,6 +109,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
   }});
 </script>
 
+{NAV_SCRIPT_TAG}
 </body>
 </html>
 """
