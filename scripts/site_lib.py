@@ -598,14 +598,22 @@ def _project_icon_svg(project_id: str) -> str:
           <path d="M110 150 h40 v-40 h40 v-40 h40 v40 h40"/>
         </g>
         <circle cx="290" cy="70" r="10" fill="#fff" opacity=".95"/>"""
-    if project_id in ("bouncing-ball", "bouncing-balls-oop"):
-        base = """
+    if project_id == "bouncing-ball":
+        return """
         <circle cx="150" cy="145" r="10" fill="#fff" opacity=".3"/>
         <circle cx="175" cy="120" r="14" fill="#fff" opacity=".5"/>
-        <circle cx="205" cy="95" r="30" fill="#fff" opacity=".95"/>"""
-        if project_id == "bouncing-balls-oop":
-            base += '\n        <circle cx="270" cy="70" r="16" fill="#fff" opacity=".55"/>'
-        return base
+        <circle cx="205" cy="95" r="30" fill="#fff" opacity=".95"/>
+        <path d="M120 168 q85 26 170 0" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 8" opacity=".35"/>"""
+    if project_id == "bouncing-balls-oop":
+        # Several independent objects, each on its own trajectory — the
+        # visual point of the OOP variant vs. the single-ball original.
+        return """
+        <circle cx="120" cy="150" r="9" fill="#fff" opacity=".35"/>
+        <circle cx="150" cy="110" r="16" fill="#fff" opacity=".8"/>
+        <circle cx="210" cy="150" r="11" fill="#fff" opacity=".45"/>
+        <circle cx="245" cy="95" r="22" fill="#fff" opacity=".95"/>
+        <circle cx="290" cy="135" r="13" fill="#fff" opacity=".6"/>
+        <path d="M100 168 q100 30 200 0" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 8" opacity=".3"/>"""
     if project_id == "space-shooter":
         return """
         <polygon points="200,60 175,140 200,122 225,140" fill="#fff" opacity=".95"/>
@@ -632,20 +640,31 @@ def _project_icon_svg(project_id: str) -> str:
                 cells.append(f'<rect x="{x}" y="{y}" width="28" height="28" rx="7" fill="#fff" opacity="{op}"/>')
         return "\n        ".join(cells)
     if project_id == "story-generator":
+        # An open book feeding into a spark of generated text — clearer
+        # "random story assembly" read than the original stray robot face.
         return """
         <path d="M130 150 V85 q0 -12 12 -12 h45 v77 z" fill="#fff" opacity=".85"/>
         <path d="M270 150 V85 q0 -12 -12 -12 h-45 v77 z" fill="#fff" opacity=".7"/>
-        <rect x="245" y="55" width="26" height="26" rx="6" fill="#fff" opacity=".95"/>
-        <circle cx="253" cy="63" r="2.2" fill="var(--navy-950)"/>
-        <circle cx="263" cy="63" r="2.2" fill="var(--navy-950)"/>
-        <circle cx="258" cy="72" r="2.2" fill="var(--navy-950)"/>"""
+        <rect x="148" y="98" width="34" height="6" rx="3" fill="var(--navy-950)" opacity=".25"/>
+        <rect x="148" y="112" width="26" height="6" rx="3" fill="var(--navy-950)" opacity=".25"/>
+        <rect x="218" y="98" width="34" height="6" rx="3" fill="var(--navy-950)" opacity=".2"/>
+        <path d="M270 55 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" fill="#fff" opacity=".95"/>"""
     if project_id == "rock-paper-scissors":
+        # Three distinct, legible silhouettes side by side rather than one
+        # ambiguous cluster — rock (textured circle), paper (card), scissors
+        # (crossed blades with visible finger loops).
         return """
-        <circle cx="145" cy="105" r="28" fill="#fff" opacity=".9"/>
-        <g stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".85">
-          <path d="M180 90 l40 40 M220 90 l-40 40"/>
+        <circle cx="130" cy="115" r="26" fill="#fff" opacity=".9"/>
+        <circle cx="122" cy="106" r="3.5" fill="var(--navy-950)" opacity=".18"/>
+        <circle cx="138" cy="122" r="3" fill="var(--navy-950)" opacity=".18"/>
+        <rect x="182" y="82" width="42" height="56" rx="6" fill="#fff" opacity=".75"/>
+        <rect x="190" y="94" width="26" height="4" rx="2" fill="var(--navy-950)" opacity=".2"/>
+        <rect x="190" y="104" width="26" height="4" rx="2" fill="var(--navy-950)" opacity=".2"/>
+        <g stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".95">
+          <path d="M258 90 L300 132 M298 90 L256 132"/>
         </g>
-        <rect x="255" y="80" width="55" height="50" rx="10" fill="#fff" opacity=".7"/>"""
+        <circle cx="258" cy="90" r="7" fill="none" stroke="#fff" stroke-width="4" opacity=".8"/>
+        <circle cx="298" cy="90" r="7" fill="none" stroke="#fff" stroke-width="4" opacity=".8"/>"""
     if project_id == "temperature-converter":
         return """
         <rect x="192" y="45" width="16" height="85" rx="8" fill="#fff" opacity=".9"/>

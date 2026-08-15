@@ -102,7 +102,9 @@
     }
   }
 
-  // 4. Course-wide progress summary.
+  // 4. Course-wide progress summary (dashboard: total, %, completed
+  //    chapters, current chapter). Reads .journey-node state classes set in
+  //    step 2/3 above, so this must run after those.
   var summary = document.getElementById("journey-progress");
   if (summary) {
     var total = Number(summary.getAttribute("data-total-lessons")) || 0;
@@ -117,6 +119,23 @@
     if (headline) headline.textContent = done + " из " + total + " практических заданий выполнено";
     var fill = summary.querySelector(".jp-bar-fill");
     if (fill) fill.style.width = pct + "%";
+    var pctEl = summary.querySelector(".jp-pct");
+    if (pctEl) pctEl.textContent = pct + "%";
+
+    var completedChaptersEl = summary.querySelector(".jp-stat-completed-chapters");
+    if (completedChaptersEl) {
+      completedChaptersEl.textContent = String(document.querySelectorAll(".journey-node.state-completed").length);
+    }
+    var currentChapterEl = summary.querySelector(".jp-stat-current-chapter");
+    if (currentChapterEl) {
+      var currentNode = document.querySelector(".journey-node.state-current");
+      if (currentNode) {
+        var titleEl = currentNode.querySelector(".jn-title");
+        currentChapterEl.textContent = "Глава " + currentNode.dataset.chapter + (titleEl ? " · " + titleEl.textContent : "");
+      } else {
+        currentChapterEl.textContent = "курс пройден";
+      }
+    }
   }
 
   // 5. Practice catalog filter buttons (Все / В браузере / Локально).
