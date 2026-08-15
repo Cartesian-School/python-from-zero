@@ -15,7 +15,7 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -32,12 +32,7 @@ PAGES = [
     ("15-04-mini-proekt-itogi.html", "Мини-проект: знакомство с файлами и итоги"),
 ]
 
-NOTEBOOKS = [
-    "15-01-otkrytie-chtenie.ipynb",
-    "15-02-stroka-za-strokoj.ipynb",
-    "15-03-sozdanie-fajlov.ipynb",
-    "15-04-mini-proekt.ipynb",
-]
+LESSON_IDS = ["15-01", "15-02", "15-03", "15-04"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -46,7 +41,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 15 · Файлы", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-15/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -119,10 +116,11 @@ def build_01() -> None:
         "этой главы в книге мы используем именно <code class=\"inline\">with</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "15-01-otkrytie-chtenie.ipynb · чтение файлов через with",
-        "../../../notebooks/chapter-15/15-01-otkrytie-chtenie.ipynb",
+    {practice_card(
+        "15-01",
+        "Практика: чтение файлов через with",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/15-01/index.html",
     )}
     """
     out = render_page(
@@ -168,10 +166,11 @@ def build_02() -> None:
         "print(lines[0])   # первая строка\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "15-02-stroka-za-strokoj.ipynb · построчное чтение файлов",
-        "../../../notebooks/chapter-15/15-02-stroka-za-strokoj.ipynb",
+    {practice_card(
+        "15-02",
+        "Практика: построчное чтение файлов",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/15-02/index.html",
     )}
     """
     out = render_page(
@@ -233,10 +232,11 @@ def build_03() -> None:
         "полезные методы вроде <code class=\"inline\">.exists()</code> прямо у самого пути.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "15-03-sozdanie-fajlov.ipynb · запись, дозапись и pathlib",
-        "../../../notebooks/chapter-15/15-03-sozdanie-fajlov.ipynb",
+    {practice_card(
+        "15-03",
+        "Практика: запись, дозапись и pathlib",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/15-03/index.html",
     )}
     """
     out = render_page(
@@ -279,6 +279,12 @@ def build_04() -> None:
         "новую запись, а не начинает всё заново.",
     )}
     {exercise(2, "Нумерация заметок", "Добавьте номер к каждой заметке при чтении — например, «1. Первая заметка», «2. Вторая заметка».")}
+{practice_card(
+        "15-04",
+        "Практика: дневник заметок",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/15-04/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [

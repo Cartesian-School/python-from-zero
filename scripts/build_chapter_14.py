@@ -14,7 +14,8 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -31,12 +32,7 @@ PAGES = [
     ("14-04-gonka-turtle-obekty-itogi.html", "Гонка Turtle с объектами и итоги"),
 ]
 
-NOTEBOOKS = [
-    "14-01-chto-takoe-oop.ipynb",
-    "14-02-klassy.ipynb",
-    "14-03-metody.ipynb",
-    "14-04-gonka-obekty.ipynb",
-]
+LESSON_IDS = ["14-01", "14-02", "14-03", "14-04"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -45,7 +41,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 14 · Объекты", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-14/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -101,10 +99,11 @@ def build_01() -> None:
     <strong>объект</strong> (говорят также «экземпляр класса») по этому чертежу — вспомните
     главу 12, где несколько независимых черепашек участвовали в гонке одновременно.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "14-01-chto-takoe-oop.ipynb · находим объекты в уже знакомом коде",
-        "../../../notebooks/chapter-14/14-01-chto-takoe-oop.ipynb",
+    {practice_card(
+        "14-01",
+        "Практика: находим объекты в уже знакомом коде",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/14-01/index.html",
     )}
     """
     out = render_page(
@@ -159,10 +158,11 @@ def build_02() -> None:
         "print(sharik.klichka, sharik.vozrast)  # Шарик 5 — независимо от rex\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "14-02-klassy.ipynb · создаём собственные классы",
-        "../../../notebooks/chapter-14/14-02-klassy.ipynb",
+    {practice_card(
+        "14-02",
+        "Практика: создаём собственные классы",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/14-02/index.html",
     )}
     """
     out = render_page(
@@ -221,10 +221,11 @@ def build_03() -> None:
         "()</code>, который вы только что написали сами.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "14-03-metody.ipynb · методы и изменение атрибутов",
-        "../../../notebooks/chapter-14/14-03-metody.ipynb",
+    {practice_card(
+        "14-03",
+        "Практика: методы и изменение атрибутов",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/14-03/index.html",
     )}
     """
     out = render_page(
@@ -283,6 +284,12 @@ def build_04() -> None:
         "так поддерживают порядок при росте кода.",
     )}
     {exercise(3, "Счёт очков", "Добавьте классу Uchastnik атрибут ochki и метод nabrat_ochki(n), увеличивающий счёт — начислите очки победителю в конце гонки.")}
+{local_required_card(
+        "14-04",
+        "Практика: гонка Turtle с объектами",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/14-04/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
