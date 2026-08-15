@@ -45,6 +45,7 @@ def build_ob_avtore() -> None:
     """
 
     out = render_page(
+        active_section="o-kurse",
         page_title="Об авторе",
         description="Об авторе книги «Python с нуля» и Cartesian School.",
         depth=1,
@@ -81,6 +82,7 @@ def build_o_tehnicheskom_recenzente() -> None:
     )
 
     out = render_page(
+        active_section="o-kurse",
         page_title="О техническом рецензенте",
         description="Технический рецензент издания «Python с нуля».",
         depth=1,
@@ -139,6 +141,7 @@ def build_vvedenie() -> None:
     """
 
     out = render_page(
+        active_section="o-kurse",
         page_title="Введение",
         description="Как устроена книга «Python с нуля» и как её читать.",
         depth=1,

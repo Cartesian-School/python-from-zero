@@ -10,6 +10,11 @@ echo "==> Building Cartesian School Python deployment"
 echo "==> Validating manifest/practice_manifest.json"
 python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 
+echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
+python3 "${ROOT_DIR}/scripts/build_seo_meta.py"
+python3 "${ROOT_DIR}/scripts/build_sitemap.py"
+python3 "${ROOT_DIR}/scripts/build_llms_full.py"
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"
@@ -35,6 +40,12 @@ cp -a "${ROOT_DIR}/notebooks/."       "${DIST_DIR}/notebooks/"
 
 # Complete educational project source code — referenced via "../../../projects/...".
 cp -a "${ROOT_DIR}/projects/."       "${DIST_DIR}/projects/"
+
+echo "==> Validating navigation (local links, fragments, canonical hosts)"
+python3 "${ROOT_DIR}/scripts/validate_navigation.py" "${DIST_DIR}"
+
+echo "==> Validating SEO metadata"
+python3 "${ROOT_DIR}/scripts/validate_seo.py" "${DIST_DIR}"
 
 echo "==> Build completed"
 echo "Output: ${DIST_DIR}"

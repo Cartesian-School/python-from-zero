@@ -131,6 +131,7 @@ def build() -> None:
     ]
 
     out = render_page(
+        active_section="spravochnik",
         page_title="Предметный указатель",
         description="Алфавитный указатель терминов книги «Python с нуля» с номерами страниц.",
         depth=0,

@@ -7,6 +7,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from site_lib import NAV_SCRIPT_TAG, mobile_nav_links, site_header
+
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
 
@@ -86,19 +88,10 @@ HTML = f"""<!DOCTYPE html>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="brand">
-    <img src="assets/img/logo.png" alt="Cartesian School" />
-    <span class="brand-word">Cartesian<span class="school">School</span></span>
-  </div>
-  <ul class="top-nav">
-    <li><a href="#o-kurse">О курсе</a></li>
-    <li><a href="#glavy">Главы</a></li>
-    <li><a href="#praktika">Практика</a></li>
-    <li><a href="#proekty">Проекты</a></li>
-    <li><a href="#spravochnik">Справочник</a></li>
-  </ul>
-</header>
+{site_header(None)}
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+  {mobile_nav_links(None)}
+</nav>
 
 <div class="home-hero" id="o-kurse">
   <div class="kicker">Python 3.14 · Бесплатный интерактивный курс</div>
@@ -147,6 +140,7 @@ HTML = f"""<!DOCTYPE html>
   Cartesian School · Python с нуля · Siergej Sobolewski — Software &amp; AI Engineer, основатель Cartesian School
 </div>
 
+{NAV_SCRIPT_TAG}
 </body>
 </html>
 """
