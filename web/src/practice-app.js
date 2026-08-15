@@ -122,8 +122,17 @@ class PyodideBridge {
   }
 }
 
+function fixNotebookRelativeLinks(html) {
+  // Notebook markdown cells link back to theory pages using repo-relative
+  // paths (e.g. "../../site/chapters/glava-06/06-03-....html") that resolve
+  // correctly when the .ipynb is opened from a local checkout, but are
+  // broken once rendered inside a deployed practice page — site/ is the
+  // deploy root itself, not a subdirectory reachable via "../../site/".
+  return html.replace(/href=(["'])(?:\.\.\/)+site\//g, "href=$1/");
+}
+
 function renderMarkdownCell(source) {
-  const raw = marked.parse(source.join ? source.join("") : source);
+  const raw = fixNotebookRelativeLinks(marked.parse(source.join ? source.join("") : source));
   const clean = DOMPurify.sanitize(raw);
   return el("div", "nb-cell nb-cell-markdown", clean);
 }
