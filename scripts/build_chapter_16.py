@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -35,16 +35,7 @@ PAGES = [
     ("16-08-mini-proekt-chaevye-itogi.html", "Мини-проект: калькулятор чаевых и итоги"),
 ]
 
-NOTEBOOKS = [
-    "16-01-nastrojka.ipynb",
-    "16-02-metki-knopki.ipynb",
-    "16-03-polya-vvoda.ipynb",
-    "16-04-peremennye.ipynb",
-    "16-05-varianty.ipynb",
-    "16-06-menu.ipynb",
-    "16-07-grid.ipynb",
-    "16-08-kalkulyator-chaevyh.ipynb",
-]
+LESSON_IDS = ["16-01", "16-02", "16-03", "16-04", "16-05", "16-06", "16-07", "16-08"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -53,7 +44,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 16 · Tkinter", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-16/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -117,10 +110,11 @@ def build_01() -> None:
         "любом примере с Tkinter.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-01-nastrojka.ipynb · создаём первое окно",
-        "../../../notebooks/chapter-16/16-01-nastrojka.ipynb",
+    {local_required_card(
+        "16-01",
+        "Практика: создаём первое окно",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-01/index.html",
     )}
     """
     out = render_page(
@@ -178,10 +172,11 @@ def build_02() -> None:
         "# padx/pady: внешний отступ по горизонтали/вертикали\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-02-metki-knopki.ipynb · Label, Button и pack()",
-        "../../../notebooks/chapter-16/16-02-metki-knopki.ipynb",
+    {local_required_card(
+        "16-02",
+        "Практика: Label, Button и pack()",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-02/index.html",
     )}
     """
     out = render_page(
@@ -243,10 +238,11 @@ def build_03() -> None:
         "главы 4 — просто текстовая метка позиции.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-03-polya-vvoda.ipynb · Entry и Text",
-        "../../../notebooks/chapter-16/16-03-polya-vvoda.ipynb",
+    {local_required_card(
+        "16-03",
+        "Практика: Entry и Text",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-03/index.html",
     )}
     """
     out = render_page(
@@ -289,10 +285,11 @@ def build_04() -> None:
     <code class="inline">.set()</code> — а виджеты, связанные через
     <code class="inline">textvariable</code>, обновляются на экране автоматически.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-04-peremennye.ipynb · StringVar и связанные виджеты",
-        "../../../notebooks/chapter-16/16-04-peremennye.ipynb",
+    {local_required_card(
+        "16-04",
+        "Практика: StringVar и связанные виджеты",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-04/index.html",
     )}
     """
     out = render_page(
@@ -338,10 +335,11 @@ def build_05() -> None:
         '    print(f"С сахаром: {saharok.get()}")\n',
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-05-varianty.ipynb · Radiobutton и Checkbutton",
-        "../../../notebooks/chapter-16/16-05-varianty.ipynb",
+    {local_required_card(
+        "16-05",
+        "Практика: Radiobutton и Checkbutton",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-05/index.html",
     )}
     """
     out = render_page(
@@ -387,10 +385,11 @@ def build_06() -> None:
         "интерфейсах почти всегда отключают параметром <code class=\"inline\">tearoff=0</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-06-menu.ipynb · строим меню приложения",
-        "../../../notebooks/chapter-16/16-06-menu.ipynb",
+    {local_required_card(
+        "16-06",
+        "Практика: строим меню приложения",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-06/index.html",
     )}
     """
     out = render_page(
@@ -434,10 +433,11 @@ def build_07() -> None:
         "могут использовать разные способы размещения независимо друг от друга.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "16-07-grid.ipynb · компоновка через grid()",
-        "../../../notebooks/chapter-16/16-07-grid.ipynb",
+    {local_required_card(
+        "16-07",
+        "Практика: компоновка через grid()",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-07/index.html",
     )}
     """
     out = render_page(
@@ -488,6 +488,12 @@ def build_08() -> None:
         "чаевых — глава 12, проект 12-2.",
     )}
     {exercise(3, "Проверка ввода", "Оберните вычисление в try/except (забегая немного вперёд — подробно об этом в главе 21) — чтобы приложение не падало, если пользователь введёт не число, а текст.")}
+{local_required_card(
+        "16-08",
+        "Практика: калькулятор чаевых",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/16-08/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
