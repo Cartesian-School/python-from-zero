@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -33,14 +33,7 @@ PAGES = [
     ("09-06-nakoplenie-uslovij-itogi.html", "Условия накапливаются и итоги"),
 ]
 
-NOTEBOOKS = [
-    "09-01-istina-lozh.ipynb",
-    "09-02-sravnenie.ipynb",
-    "09-03-if-else.ipynb",
-    "09-04-and-or-not.ipynb",
-    "09-05-ugadaj-chislo.ipynb",
-    "09-06-elif.ipynb",
-]
+LESSON_IDS = ["09-01", "09-02", "09-03", "09-04", "09-05", "09-06"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -49,7 +42,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 9 · Условия", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-09/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -112,10 +107,11 @@ def build_01() -> None:
         "<code class=\"inline\">\"\"</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "09-01-istina-lozh.ipynb · тип bool и истинность значений",
-        "../../../notebooks/chapter-09/09-01-istina-lozh.ipynb",
+    {practice_card(
+        "09-01",
+        "Практика: тип bool и истинность значений",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-01/index.html",
     )}
     """
     out = render_page(
@@ -160,10 +156,11 @@ def build_02() -> None:
     <p>Мы видели это в главе 8 — строки сравниваются по алфавиту символ за символом:</p>
     {code_block("sravnenie_strok.py", 'print("apple" < "banana")   # True — "a" идёт раньше "b" в алфавите\nprint("Python" == "python") # False — регистр важен\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "09-02-sravnenie.ipynb · все шесть операторов сравнения",
-        "../../../notebooks/chapter-09/09-02-sravnenie.ipynb",
+    {practice_card(
+        "09-02",
+        "Практика: все шесть операторов сравнения",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-02/index.html",
     )}
     """
     out = render_page(
@@ -215,10 +212,11 @@ def build_03() -> None:
         '    print("Доступ запрещён — вам ещё нет 18.")\n',
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "09-03-if-else.ipynb · условный оператор if/else",
-        "../../../notebooks/chapter-09/09-03-if-else.ipynb",
+    {practice_card(
+        "09-03",
+        "Практика: условный оператор if/else",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-03/index.html",
     )}
     """
     out = render_page(
@@ -272,10 +270,11 @@ def build_04() -> None:
         "скобок.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "09-04-and-or-not.ipynb · комбинируем условия",
-        "../../../notebooks/chapter-09/09-04-and-or-not.ipynb",
+    {practice_card(
+        "09-04",
+        "Практика: комбинируем условия",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-04/index.html",
     )}
     """
     out = render_page(
@@ -321,10 +320,11 @@ def build_05() -> None:
 
     {exercise(2, "Подсказка «горячо/холодно»", "Добавьте третье условие: если разница между попыткой и загаданным числом меньше 3 — выведите «Очень близко!» перед основным сообщением.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "09-05-ugadaj-chislo.ipynb · собираем игру целиком",
-        "../../../notebooks/chapter-09/09-05-ugadaj-chislo.ipynb",
+    {practice_card(
+        "09-05",
+        "Практика: собираем игру «Угадай число» целиком",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-05/index.html",
     )}
     """
     out = render_page(
@@ -386,6 +386,12 @@ def build_06() -> None:
     )}
 
     {exercise(3, "Три вложенных уровня", "Добавьте третий уровень: внутри «можно водить машину» проверьте ещё и наличие топлива в баке (третья переменная has_fuel).")}
+{practice_card(
+        "09-06",
+        "Практика: elif и вложенные условия",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/09-06/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [

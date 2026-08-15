@@ -9,25 +9,97 @@
 //   {"type": "execute", "requestId": "...", "cellId": "...", "code": "..."}
 //
 // Message contract (worker -> host):
-//   {"type": "ready", "pythonVersion": "...", "pyodideVersion": "...", "major": 3, "minor": 14}
+//   {"type": "ready", "pythonVersion": "...", "pyodideVersion": "...", "major": 3, "minor": 14,
+//    "hasInputSupport": bool, "inputSyncBuffer": SharedArrayBuffer?, "inputPayloadBuffer": SharedArrayBuffer?}
 //   {"type": "init-error", "error": {"name": "...", "message": "..."}}
+//   {"type": "input-request", "cellId": "...", "prompt": "..."}
 //   {"type": "execution-result", "requestId": "...", "cellId": "...", "ok": bool,
 //    "stdout": "...", "stderr": "...", "result": "..."|null,
 //    "error": null | {"name": "...", "message": "...", "traceback": "..."}}
+//
+// input() support: Python's input() is synchronous and must block the
+// running cell until the learner answers, exactly like a real terminal.
+// Since this worker is single-threaded, that can only be done with a true
+// blocking primitive — SharedArrayBuffer + Atomics.wait/notify — which
+// requires the page to be cross-origin isolated (see vercel.json's
+// Cross-Origin-Opener-Policy/Cross-Origin-Embedder-Policy headers on
+// /practice/**, and scripts/dev_server.py for local testing). The host
+// (practice-app.js) holds views over the same two buffers: a small sync
+// buffer (ready flag + payload length) and a byte payload buffer. When the
+// worker calls _cartesian_blocking_input(), it posts an "input-request" and
+// then Atomics.wait()s on the sync buffer; the host writes the learner's
+// answer directly into shared memory and calls Atomics.notify() — no
+// postMessage round trip, since the worker's event loop is frozen while
+// Atomics.wait blocks it.
 
 const PYODIDE_VERSION = "v314.0.4";
 const PYODIDE_INDEX_URL = `https://cdn.jsdelivr.net/pyodide/${PYODIDE_VERSION}/full/`;
 const REQUIRED_PYTHON = [3, 14];
+const INPUT_PAYLOAD_BYTES = 65536;
 
 let pyodide = null;
+let currentCellId = null;
+let inputSync = null; // Int32Array(2): [0]=ready flag, [1]=payload byte length
+let inputPayload = null; // Uint8Array(INPUT_PAYLOAD_BYTES)
+let inputSyncBuffer = null;
+let inputPayloadBuffer = null;
+const hasInputSupport = typeof SharedArrayBuffer !== "undefined" && self.crossOriginIsolated === true;
+
+if (hasInputSupport) {
+  inputSyncBuffer = new SharedArrayBuffer(8);
+  inputPayloadBuffer = new SharedArrayBuffer(INPUT_PAYLOAD_BYTES);
+  inputSync = new Int32Array(inputSyncBuffer);
+  inputPayload = new Uint8Array(inputPayloadBuffer);
+}
+
+self._cartesian_blocking_input = function (promptText) {
+  if (!hasInputSupport) {
+    throw new Error(
+      "input() недоступен: браузер или страница не в изолированном режиме " +
+        "(нет SharedArrayBuffer/crossOriginIsolated)."
+    );
+  }
+  Atomics.store(inputSync, 0, 0);
+  self.postMessage({ type: "input-request", cellId: currentCellId, prompt: promptText });
+  Atomics.wait(inputSync, 0, 0); // blocks this worker thread only, not the main thread
+  const len = Atomics.load(inputSync, 1);
+  return new TextDecoder("utf-8").decode(inputPayload.slice(0, len));
+};
+
+// Cells that call input() in a loop (e.g. a guess-the-number game) need
+// their print() output visible *between* prompts, not only once the whole
+// cell finishes — otherwise a learner answering an in-loop input() gets no
+// "higher/lower"-style feedback before the next prompt. stdout is streamed
+// chunk-by-chunk as it's written, in addition to being buffered for the
+// final captured result (unchanged).
+self._cartesian_stdout_chunk = function (cellId, text) {
+  self.postMessage({ type: "stdout-chunk", cellId, text });
+};
 
 const CARTESIAN_RUNTIME_PY = `
-import sys, io, ast, traceback, json
+import sys, io, ast, traceback, json, builtins
 
 __cartesian__ = {"cells": {}}
 
+def _cartesian_input(prompt=""):
+    import js
+    return js._cartesian_blocking_input(str(prompt))
+
+builtins.input = _cartesian_input
+
+class _CartesianStreamingStdout(io.StringIO):
+    def __init__(self, cell_id):
+        super().__init__()
+        self._cell_id = cell_id
+
+    def write(self, s):
+        if s:
+            import js
+            js._cartesian_stdout_chunk(self._cell_id, s)
+        return super().write(s)
+
 def _cartesian_run_cell(cell_id, code):
-    stdout_buf = io.StringIO()
+    stdout_buf = _CartesianStreamingStdout(cell_id)
     stderr_buf = io.StringIO()
     old_stdout, old_stderr = sys.stdout, sys.stderr
     sys.stdout, sys.stderr = stdout_buf, stderr_buf
@@ -89,10 +161,19 @@ async function initPyodide() {
   const pythonVersion = pyodide.runPython("import sys; sys.version");
   pyodide.runPython(CARTESIAN_RUNTIME_PY);
 
-  return { pythonVersion, pyodideVersion: pyodide.version, major, minor };
+  return {
+    pythonVersion,
+    pyodideVersion: pyodide.version,
+    major,
+    minor,
+    hasInputSupport,
+    inputSyncBuffer,
+    inputPayloadBuffer,
+  };
 }
 
 async function executeCell(cellId, code) {
+  currentCellId = cellId;
   let packageWarning = "";
   try {
     await pyodide.loadPackagesFromImports(code, { messageCallback: () => {} });

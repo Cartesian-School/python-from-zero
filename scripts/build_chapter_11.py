@@ -15,7 +15,8 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -38,18 +39,7 @@ PAGES = [
     ("11-10-mini-proekt-perestanovka-itogi.html", "Мини-проект: перестановка имени и итоги"),
 ]
 
-NOTEBOOKS = [
-    "11-01-spiski-osnovy.ipynb",
-    "11-02-srezy.ipynb",
-    "11-03-operacii-so-spiskami.ipynb",
-    "11-04-eshche-o-spiskah.ipynb",
-    "11-05-zvezda.ipynb",
-    "11-06-kortezhi.ipynb",
-    "11-07-mnozhestva.ipynb",
-    "11-08-slovari.ipynb",
-    "11-09-cveta.ipynb",
-    "11-10-perestanovka.ipynb",
-]
+LESSON_IDS = ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-10"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -58,7 +48,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 11 · Данные", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-11/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -112,10 +104,11 @@ def build_01() -> None:
     <p>Как и у строк (глава 8), у элементов списка есть индексы, начиная с нуля:</p>
     {code_block("dostup_k_spisku.py", 'fruits = ["яблоко", "банан", "вишня"]\nprint(fruits[0])    # яблоко\nprint(fruits[-1])   # вишня — последний элемент\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-01-spiski-osnovy.ipynb · создание списков и доступ по индексу",
-        "../../../notebooks/chapter-11/11-01-spiski-osnovy.ipynb",
+    {practice_card(
+        "11-01",
+        "Практика: создание списков и доступ по индексу",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-01/index.html",
     )}
     """
     out = render_page(
@@ -152,10 +145,11 @@ def build_02() -> None:
         "исходный.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-02-srezy.ipynb · срезы списков",
-        "../../../notebooks/chapter-11/11-02-srezy.ipynb",
+    {practice_card(
+        "11-02",
+        "Практика: срезы списков",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-02/index.html",
     )}
     """
     out = render_page(
@@ -214,10 +208,11 @@ def build_03() -> None:
     <h2>Разворот и сортировка</h2>
     {code_block("razvorot_sortirovka.py", 'chisla = [3, 1, 4, 1, 5]\nchisla.sort()\nprint(chisla)      # [1, 1, 3, 4, 5]\nchisla.reverse()\nprint(chisla)      # [5, 4, 3, 1, 1]\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-03-operacii-so-spiskami.ipynb · все операции этого раздела",
-        "../../../notebooks/chapter-11/11-03-operacii-so-spiskami.ipynb",
+    {practice_card(
+        "11-03",
+        "Практика: операции со списками",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-03/index.html",
     )}
     """
     out = render_page(
@@ -270,10 +265,11 @@ def build_04() -> None:
 
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-04-eshche-o-spiskah.ipynb · len/min/max/sum, вложенные списки, list comprehension",
-        "../../../notebooks/chapter-11/11-04-eshche-o-spiskah.ipynb",
+    {practice_card(
+        "11-04",
+        "Практика: len/min/max/sum, вложенные списки, list comprehension",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-04/index.html",
     )}
     """
     out = render_page(
@@ -313,10 +309,11 @@ def build_05() -> None:
     )}
     {exercise(2, "Случайные цвета", "Замените список фиксированных цветов на random.choice() из списка — чтобы цвет каждого луча выбирался случайно.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-05-zvezda.ipynb · списки + Turtle",
-        "../../../notebooks/chapter-11/11-05-zvezda.ipynb",
+    {local_required_card(
+        "11-05",
+        "Практика: разноцветная звезда (списки + Turtle)",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/11-05/index.html",
     )}
     """
     out = render_page(
@@ -358,10 +355,11 @@ def build_06() -> None:
         "переменные.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-06-kortezhi.ipynb · кортежи и распаковка",
-        "../../../notebooks/chapter-11/11-06-kortezhi.ipynb",
+    {practice_card(
+        "11-06",
+        "Практика: кортежи и распаковка",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-06/index.html",
     )}
     """
     out = render_page(
@@ -402,10 +400,11 @@ def build_07() -> None:
         "print(a - b)   # разность: {1}\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-07-mnozhestva.ipynb · множества и их операции",
-        "../../../notebooks/chapter-11/11-07-mnozhestva.ipynb",
+    {practice_card(
+        "11-07",
+        "Практика: множества и их операции",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-07/index.html",
     )}
     """
     out = render_page(
@@ -466,10 +465,11 @@ def build_08() -> None:
         "<code class=\"inline\">None</code> вместо ошибки.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-08-slovari.ipynb · словари: создание, изменение, перебор",
-        "../../../notebooks/chapter-11/11-08-slovari.ipynb",
+    {practice_card(
+        "11-08",
+        "Практика: словари — создание, изменение, перебор",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-08/index.html",
     )}
     """
     out = render_page(
@@ -505,10 +505,11 @@ def build_09() -> None:
     )}
     {exercise(2, "Добавьте свои цвета", "Добавьте в cvetovaya_karta ещё 3-4 пары «слово — цвет» и нарисуйте для каждого отдельную фигуру.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "11-09-cveta.ipynb · словари + Turtle",
-        "../../../notebooks/chapter-11/11-09-cveta.ipynb",
+    {local_required_card(
+        "11-09",
+        "Практика: бесконечные цвета (словари + Turtle)",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/11-09/index.html",
     )}
     """
     out = render_page(
@@ -546,6 +547,12 @@ def build_10() -> None:
         "про списки, можно распаковывать его так же, как распаковывали кортежи в разделе 11.6.",
     )}
     {exercise(3, "Три части имени", "Обработайте случай с отчеством (три слова): «Имя Отчество Фамилия» → «Фамилия И.О.» с инициалами.")}
+{practice_card(
+        "11-10",
+        "Практика: перестановка имени и фамилии",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/11-10/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
