@@ -403,7 +403,7 @@ def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str =
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
-    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
 def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
