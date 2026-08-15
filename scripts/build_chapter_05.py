@@ -15,7 +15,7 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -42,11 +42,11 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 5 · Числа играют", items),
         SidebarGroup("Практика", [
-            NavItem("📓 05-01-osnovnye-operacii.ipynb", "../../../notebooks/chapter-05/05-01-osnovnye-operacii.ipynb"),
-            NavItem("📓 05-02-operatory.ipynb", "../../../notebooks/chapter-05/05-02-operatory.ipynb"),
-            NavItem("📓 05-04-matematicheskie-funkcii.ipynb", "../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb"),
-            NavItem("📓 05-05-sluchaynye-chisla.ipynb", "../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb"),
-            NavItem("📓 05-06-mini-proekt-kratnye.ipynb", "../../../notebooks/chapter-05/05-06-mini-proekt-kratnye.ipynb"),
+            NavItem("🐍 05-01: Практика", "../../practice/05-01/index.html"),
+            NavItem("🐍 05-02: Практика", "../../practice/05-02/index.html"),
+            NavItem("🐍 05-04: Практика", "../../practice/05-04/index.html"),
+            NavItem("🐍 05-05: Практика", "../../practice/05-05/index.html"),
+            NavItem("🐍 05-06: Практика", "../../practice/05-06/index.html"),
         ]),
     ]
 
@@ -101,10 +101,11 @@ def build_01() -> None:
         "<code class=\"inline\">b</code> — числа.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "05-01-osnovnye-operacii.ipynb · +, -, *, / на практике",
-        "../../../notebooks/chapter-05/05-01-osnovnye-operacii.ipynb",
+    {practice_card(
+        "05-01",
+        "Практика: +, -, *, / на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/05-01/index.html",
     )}
     """
     out = render_page(
@@ -147,10 +148,11 @@ def build_02() -> None:
     <h2>Возведение в степень <code class="inline">**</code></h2>
     {code_block("stepen.py", "print(2 ** 10)    # 1024\nprint(9 ** 0.5)   # 3.0 — дробная степень 0.5 = квадратный корень\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "05-02-operatory.ipynb · //, % и ** на практике",
-        "../../../notebooks/chapter-05/05-02-operatory.ipynb",
+    {practice_card(
+        "05-02",
+        "Практика: //, % и ** на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/05-02/index.html",
     )}
     """
     out = render_page(
@@ -197,10 +199,11 @@ def build_03() -> None:
         "приходится вспоминать правила приоритета.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "05-02-operatory.ipynb · включает практику по присваиванию и порядку вычислений",
-        "../../../notebooks/chapter-05/05-02-operatory.ipynb",
+    {practice_card(
+        "05-02",
+        "Практика: присваивание и порядок вычислений",
+        "Тот же ноутбук, что и в разделе «Специальные операции» — он охватывает обе темы",
+        "../../practice/05-02/index.html",
     )}
     """
     out = render_page(
@@ -260,10 +263,11 @@ def build_04() -> None:
     <code class="inline">max()</code> (наименьшее и наибольшее из нескольких значений):</p>
     {code_block("drugie.py", "print(abs(-7))         # 7\nprint(min(4, 9, 2))    # 2\nprint(max(4, 9, 2))    # 9\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "05-04-matematicheskie-funkcii.ipynb · модуль math на практике",
-        "../../../notebooks/chapter-05/05-04-matematicheskie-funkcii.ipynb",
+    {practice_card(
+        "05-04",
+        "Практика: модуль math на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/05-04/index.html",
     )}
     """
     out = render_page(
@@ -324,10 +328,11 @@ def build_05() -> None:
 
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "05-05-sluchaynye-chisla.ipynb · модуль random на практике",
-        "../../../notebooks/chapter-05/05-05-sluchaynye-chisla.ipynb",
+    {practice_card(
+        "05-05",
+        "Практика: модуль random на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/05-05/index.html",
     )}
     """
     out = render_page(
@@ -389,6 +394,12 @@ def build_06() -> None:
         "Считаем количество",
         "Добавьте переменную-счётчик, которая считает, сколько кратных чисел было найдено, и "
         "выведите её значение в конце.",
+    )}
+{practice_card(
+        "05-06",
+        "Практика: кратные числа",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/05-06/index.html",
     )}
 
     <h2 id="itogi">Итоги</h2>

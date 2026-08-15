@@ -15,7 +15,7 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -36,14 +36,7 @@ PAGES = [
     ("06-08-mandala-itogi.html", "Мандала и итоги"),
 ]
 
-NOTEBOOKS = [
-    "06-02-turtle-dvizhenie.ipynb",
-    "06-03-povorot.ipynb",
-    "06-04-figury.ipynb",
-    "06-06-sluchaynye-tochki.ipynb",
-    "06-07-goto.ipynb",
-    "06-08-mandala.ipynb",
-]
+LESSON_IDS = ["06-02", "06-03", "06-04", "06-06", "06-07", "06-08"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -52,7 +45,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 6 · Turtle", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-06/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -113,10 +108,11 @@ def build_01() -> None:
         "</strong> черепашек — мы воспользуемся этим в мини-проекте «Гонка Turtle» в главе 12.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-02-turtle-dvizhenie.ipynb · начинаем с настройки экрана",
-        "../../../notebooks/chapter-06/06-02-turtle-dvizhenie.ipynb",
+    {local_required_card(
+        "06-02",
+        "Практика: начинаем с настройки экрана",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-02/index.html",
     )}
     """
     out = render_page(
@@ -253,10 +249,11 @@ def build_02() -> None:
     двигать напрямую через функции модуля.</p>
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-02-turtle-dvizhenie.ipynb · эксперименты, задание и самостоятельная практика",
-        "../../../notebooks/chapter-06/06-02-turtle-dvizhenie.ipynb",
+    {local_required_card(
+        "06-02",
+        "Практика: эксперименты, задание и самостоятельная практика",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-02/index.html",
     )}
 
     <h2>Задание</h2>
@@ -316,10 +313,11 @@ def build_03() -> None:
         "градусах, не меняя его.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-03-povorot.ipynb · setheading(), heading() и home()",
-        "../../../notebooks/chapter-06/06-03-povorot.ipynb",
+    {local_required_card(
+        "06-03",
+        "Практика: setheading(), heading() и home()",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-03/index.html",
     )}
     """
     out = render_page(
@@ -400,10 +398,11 @@ def build_04() -> None:
         "в ноутбуке практики на фигуре по вашему выбору.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-04-figury.ipynb · квадрат, шестиугольник и другие многоугольники",
-        "../../../notebooks/chapter-06/06-04-figury.ipynb",
+    {local_required_card(
+        "06-04",
+        "Практика: квадрат, шестиугольник и другие многоугольники",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-04/index.html",
     )}
     """
     out = render_page(
@@ -451,10 +450,11 @@ def build_05() -> None:
     <p>Помимо движения, часто используют ещё две короткие команды для оформления:</p>
     {code_block("oformlenie.py", 'artist.pencolor("purple")   # цвет линии\nartist.pensize(3)            # толщина линии\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-04-figury.ipynb · включает практику с короткими командами",
-        "../../../notebooks/chapter-06/06-04-figury.ipynb",
+    {local_required_card(
+        "06-04",
+        "Практика: включает практику с короткими командами",
+        "Тот же ноутбук, что и в разделе «Мини-проекты: фигуры» — он охватывает и эту тему",
+        "../../practice/06-04/index.html",
     )}
     """
     out = render_page(
@@ -497,10 +497,11 @@ def build_06() -> None:
         "pendown()</code>, когда снова понадобится рисовать.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-06-sluchaynye-tochki.ipynb · goto(), penup()/pendown() и random",
-        "../../../notebooks/chapter-06/06-06-sluchaynye-tochki.ipynb",
+    {local_required_card(
+        "06-06",
+        "Практика: goto(), penup()/pendown() и random",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-06/index.html",
     )}
     """
     out = render_page(
@@ -545,10 +546,11 @@ def build_07() -> None:
         "когда координаты фигуры уже известны заранее.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "06-07-goto.ipynb · рисуем фигуры через координаты",
-        "../../../notebooks/chapter-06/06-07-goto.ipynb",
+    {local_required_card(
+        "06-07",
+        "Практика: рисуем фигуры через координаты",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-07/index.html",
     )}
     """
     out = render_page(
@@ -613,6 +615,12 @@ def build_08() -> None:
         "Цветная мандала",
         "Добавьте <code class=\"inline\">artist.pencolor(\"violet\")</code> перед циклом и "
         "поэкспериментируйте с другими цветами.",
+    )}
+{local_required_card(
+        "06-08",
+        "Практика: мандала из прямых линий",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/06-08/index.html",
     )}
 
     <h2 id="itogi">Итоги</h2>

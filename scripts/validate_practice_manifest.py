@@ -80,6 +80,14 @@ def validate() -> list[str]:
             if not grader_path.exists():
                 errors.append(f"{prefix} grader не найден: {grader}")
 
+        if backend == "local-required" and assessment != "local-required":
+            errors.append(
+                f"{prefix} backend='local-required' требует assessment='local-required' "
+                f"(получено {assessment!r}) — нет задокументированного исключения"
+            )
+        if backend == "local-required" and grader:
+            errors.append(f"{prefix} backend='local-required' не должен ссылаться на grader (нет Pyodide-раннера)")
+
     return errors
 
 

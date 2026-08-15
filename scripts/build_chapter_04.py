@@ -15,7 +15,7 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -41,10 +41,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 4 · Числа", items),
         SidebarGroup("Практика", [
-            NavItem("📓 04-01-chisla-i-peremennye.ipynb", "../../../notebooks/chapter-04/04-01-chisla-i-peremennye.ipynb"),
-            NavItem("📓 04-03-vidy-chisel.ipynb", "../../../notebooks/chapter-04/04-03-vidy-chisel.ipynb"),
-            NavItem("📓 04-04-preobrazovanie-tipov.ipynb", "../../../notebooks/chapter-04/04-04-preobrazovanie-tipov.ipynb"),
-            NavItem("📓 04-05-mini-proekt-chisla.ipynb", "../../../notebooks/chapter-04/04-05-mini-proekt-chisla.ipynb"),
+            NavItem("🐍 04-01: Практика", "../../practice/04-01/index.html"),
+            NavItem("🐍 04-03: Практика", "../../practice/04-03/index.html"),
+            NavItem("🐍 04-04: Практика", "../../practice/04-04/index.html"),
+            NavItem("🐍 04-05: Практика", "../../practice/04-05/index.html"),
         ]),
     ]
 
@@ -133,10 +133,11 @@ def build_01() -> None:
 
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "04-01-chisla-i-peremennye.ipynb · переменные и первые числа",
-        "../../../notebooks/chapter-04/04-01-chisla-i-peremennye.ipynb",
+    {practice_card(
+        "04-01",
+        "Практика: переменные и первые числа",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/04-01/index.html",
     )}
     """
 
@@ -227,10 +228,11 @@ def build_03() -> None:
     их «из коробки».</p>
     {code_block("kompleksnye.py", "z = 3 + 4j\nprint(z)\nprint(type(z))\nprint(z.real, z.imag)\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "04-03-vidy-chisel.ipynb · int, float и complex на практике",
-        "../../../notebooks/chapter-04/04-03-vidy-chisel.ipynb",
+    {practice_card(
+        "04-03",
+        "Практика: int, float и complex на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/04-03/index.html",
     )}
     """
 
@@ -296,10 +298,11 @@ def build_04() -> None:
 
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "04-04-preobrazovanie-tipov.ipynb · int(), float(), str() на практике",
-        "../../../notebooks/chapter-04/04-04-preobrazovanie-tipov.ipynb",
+    {practice_card(
+        "04-04",
+        "Практика: int(), float(), str() на практике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/04-04/index.html",
     )}
     """
 
@@ -345,6 +348,12 @@ def build_05() -> None:
         "Строка <code class=\"inline\">total = \"Итого: \" + 100</code> вызывает "
         "<code class=\"inline\">TypeError</code>. Почему, и как её исправить двумя разными "
         "способами (через <code class=\"inline\">str()</code> и через f-строку)?",
+    )}
+{practice_card(
+        "04-05",
+        "Практика: понимаете ли вы числа?",
+        "Интерактивный ноутбук прямо в браузере — сверьте свои ответы запуском кода",
+        "../../practice/04-05/index.html",
     )}
 
     <h2 id="itogi">Итоги</h2>
