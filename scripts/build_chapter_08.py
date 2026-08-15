@@ -15,7 +15,7 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -38,15 +38,7 @@ PAGES = [
     ("08-10-mini-proekt-matematika-itogi.html", "Мини-проект: динамическая математика и итоги"),
 ]
 
-NOTEBOOKS = [
-    "08-01-stroki.ipynb",
-    "08-03-indeksy-srezy.ipynb",
-    "08-04-metody-strok.ipynb",
-    "08-06-formatirovanie.ipynb",
-    "08-07-vvod-polzovatelya.ipynb",
-    "08-09-krik-perevorot.ipynb",
-    "08-10-dinamicheskaya-matematika.ipynb",
-]
+LESSON_IDS = ["08-01", "08-03", "08-04", "08-06", "08-07", "08-09", "08-10"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -55,7 +47,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 8 · Строки", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-08/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -107,10 +101,11 @@ def build_01() -> None:
     — тогда переносы строк внутри текста сохраняются как есть:</p>
     {code_block("mnogo_strok.py", 'poem = """Код за кодом,\nшаг за шагом —\nтак рождается\nпрограмма."""\nprint(poem)\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-01-stroki.ipynb · создание строк и многострочный текст",
-        "../../../notebooks/chapter-08/08-01-stroki.ipynb",
+    {practice_card(
+        "08-01",
+        "Практика: создание строк и многострочный текст",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-01/index.html",
     )}
     """
     out = render_page(
@@ -163,10 +158,11 @@ def build_02() -> None:
     <code class="inline">""</code>. Она отличается от отсутствия значения и часто используется
     как стартовое значение перед накоплением текста.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-01-stroki.ipynb · включает практику с кавычками и конкатенацией",
-        "../../../notebooks/chapter-08/08-01-stroki.ipynb",
+    {practice_card(
+        "08-01",
+        "Практика: кавычки и конкатенация",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-01/index.html",
     )}
     """
     out = render_page(
@@ -219,10 +215,11 @@ def build_03() -> None:
         "порядке. Мы воспользуемся этим в мини-проекте 8.9.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-03-indeksy-srezy.ipynb · индексы, отрицательные индексы и срезы",
-        "../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb",
+    {practice_card(
+        "08-03",
+        "Практика: индексы, отрицательные индексы и срезы",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-03/index.html",
     )}
     """
     out = render_page(
@@ -269,10 +266,11 @@ def build_04() -> None:
         "</code> остаётся прежней, если не переприсвоить: <code class=\"inline\">text = text.upper()</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-04-metody-strok.ipynb · upper, lower, strip, replace, split и другие",
-        "../../../notebooks/chapter-08/08-04-metody-strok.ipynb",
+    {practice_card(
+        "08-04",
+        "Практика: методы строк",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-04/index.html",
     )}
     """
     out = render_page(
@@ -319,10 +317,11 @@ def build_05() -> None:
     как <code class="inline">True</code>:</p>
     {code_block("pustaya_stroka_logika.py", 'print(bool(""))         # False\nprint(bool("Python"))   # True\nprint(bool(" "))        # True — пробел — это тоже символ!\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-03-indeksy-srezy.ipynb · включает сравнение строк и in",
-        "../../../notebooks/chapter-08/08-03-indeksy-srezy.ipynb",
+    {practice_card(
+        "08-03",
+        "Практика: сравнение строк и in",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-03/index.html",
     )}
     """
     out = render_page(
@@ -375,10 +374,11 @@ def build_06() -> None:
     именно его отформатировать — например, сколько знаков после запятой:</p>
     {code_block("format_specifikatory.py", 'pi = 3.14159265\nprint(f"Пи округлённо: {pi:.2f}")   # Пи округлённо: 3.14\nprint(f"{1234567:,}")               # 1,234,567 — разделитель тысяч\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-06-formatirovanie.ipynb · %, .format() и f-строки на практике",
-        "../../../notebooks/chapter-08/08-06-formatirovanie.ipynb",
+    {practice_card(
+        "08-06",
+        "Практика: %, .format() и f-строки",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-06/index.html",
     )}
     """
     out = render_page(
@@ -408,11 +408,11 @@ def build_07() -> None:
 
     {callout(
         "info",
-        "В ноутбуке практики input() выглядит немного иначе",
-        "Jupyter Notebook выполняется автоматически, без живого человека за клавиатурой, "
-        "поэтому в ноутбуке практики <code class=\"inline\">input()</code> подставляет заранее "
-        "заготовленные ответы — сам код при этом выглядит и работает точно так же, как в "
-        "обычном <code class=\"inline\">.py</code>-файле, который вы запускаете сами.",
+        "input() в браузерной практике — по-настоящему интерактивный",
+        "Наш браузерный ноутбук практики умеет по-настоящему ждать ваш ответ на "
+        "<code class=\"inline\">input()</code> — прямо как обычный <code class=\"inline\">.py</code>-файл, "
+        "запущенный на компьютере: программа останавливается, показывает подсказку и ждёт, "
+        "пока вы наберёте текст.",
     )}
 
     <h2>Преобразование строки в int или float</h2>
@@ -430,10 +430,11 @@ def build_07() -> None:
         "</code>: складывать строку и число напрямую нельзя.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-07-vvod-polzovatelya.ipynb · input() и преобразование типов",
-        "../../../notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb",
+    {practice_card(
+        "08-07",
+        "Практика: input() и преобразование типов",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-07/index.html",
     )}
     """
     out = render_page(
@@ -469,10 +470,11 @@ def build_08() -> None:
     )}
     {exercise(2, "Приветствие по времени суток", "Спросите у пользователя число (час дня) через input() + int(), и выведите разный текст в зависимости от значения — используя пока лишь то, что уже знаете о строках (полноценный if будет в главе 9, здесь достаточно вывести один текст с подставленным часом).")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-07-vvod-polzovatelya.ipynb · включает пример с Turtle и вводом имени",
-        "../../../notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb",
+    {practice_card(
+        "08-07",
+        "Практика: ввод имени (логика, без окна Turtle)",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-07/index.html",
     )}
     """
     out = render_page(
@@ -516,10 +518,11 @@ def build_09() -> None:
     {exercise(1, "Крик с ограничением", "Измените krik.py так, чтобы восклицательных знаков было столько же, сколько букв во фразе (подсказка: умножение строки на число — str * n — повторяет её n раз).")}
     {exercise(2, "Палиндром?", "Допишите perevorot_imeni.py так, чтобы он сообщал, является ли введённое слово палиндромом — читается ли оно одинаково в обе стороны (сравните name с перевёрнутой версией).")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "08-09-krik-perevorot.ipynb · оба мини-проекта",
-        "../../../notebooks/chapter-08/08-09-krik-perevorot.ipynb",
+    {practice_card(
+        "08-09",
+        "Практика: крик и переворот имени",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-09/index.html",
     )}
     """
     out = render_page(
@@ -560,6 +563,12 @@ def build_10() -> None:
     )}
 
     {exercise(3, "Ещё две операции", "Добавьте на холст ещё две строки: результат вычитания и деления — своим цветом для каждой.")}
+{practice_card(
+        "08-10",
+        "Практика: динамическая математика (логика, без окна Turtle)",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/08-10/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
