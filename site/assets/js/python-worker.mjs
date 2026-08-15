@@ -66,6 +66,16 @@ self._cartesian_blocking_input = function (promptText) {
   return new TextDecoder("utf-8").decode(inputPayload.slice(0, len));
 };
 
+// Cells that call input() in a loop (e.g. a guess-the-number game) need
+// their print() output visible *between* prompts, not only once the whole
+// cell finishes — otherwise a learner answering an in-loop input() gets no
+// "higher/lower"-style feedback before the next prompt. stdout is streamed
+// chunk-by-chunk as it's written, in addition to being buffered for the
+// final captured result (unchanged).
+self._cartesian_stdout_chunk = function (cellId, text) {
+  self.postMessage({ type: "stdout-chunk", cellId, text });
+};
+
 const CARTESIAN_RUNTIME_PY = `
 import sys, io, ast, traceback, json, builtins
 
@@ -77,8 +87,19 @@ def _cartesian_input(prompt=""):
 
 builtins.input = _cartesian_input
 
+class _CartesianStreamingStdout(io.StringIO):
+    def __init__(self, cell_id):
+        super().__init__()
+        self._cell_id = cell_id
+
+    def write(self, s):
+        if s:
+            import js
+            js._cartesian_stdout_chunk(self._cell_id, s)
+        return super().write(s)
+
 def _cartesian_run_cell(cell_id, code):
-    stdout_buf = io.StringIO()
+    stdout_buf = _CartesianStreamingStdout(cell_id)
     stderr_buf = io.StringIO()
     old_stdout, old_stderr = sys.stdout, sys.stderr
     sys.stdout, sys.stderr = stdout_buf, stderr_buf

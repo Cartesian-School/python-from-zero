@@ -15,7 +15,8 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -36,16 +37,7 @@ PAGES = [
     ("10-08-spirali-itogi.html", "Спирали из дуг и итоги"),
 ]
 
-NOTEBOOKS = [
-    "10-01-cikly-for.ipynb",
-    "10-02-if-vlozhennye.ipynb",
-    "10-03-while.ipynb",
-    "10-04-break-continue.ipynb",
-    "10-05-ugadaj-v2.ipynb",
-    "10-06-avto-figury.ipynb",
-    "10-07-avto-mandala.ipynb",
-    "10-08-spirali.ipynb",
-]
+LESSON_IDS = ["10-01", "10-02", "10-03", "10-04", "10-05", "10-06", "10-07", "10-08"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -54,7 +46,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 10 · Циклы", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-10/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -134,10 +128,11 @@ def build_01() -> None:
     сознательно не используется»:</p>
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-01-cikly-for.ipynb · цикл for и range()",
-        "../../../notebooks/chapter-10/10-01-cikly-for.ipynb",
+    {practice_card(
+        "10-01",
+        "Практика: цикл for и range()",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/10-01/index.html",
     )}
     """
     out = render_page(
@@ -182,10 +177,11 @@ def build_02() -> None:
         "неожиданно долгого выполнения, если не следить за их количеством.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-02-if-vlozhennye.ipynb · условия и вложенные циклы",
-        "../../../notebooks/chapter-10/10-02-if-vlozhennye.ipynb",
+    {practice_card(
+        "10-02",
+        "Практика: условия и вложенные циклы",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/10-02/index.html",
     )}
     """
     out = render_page(
@@ -238,10 +234,11 @@ def build_03() -> None:
         "когда неизвестно («повторять, пока пользователь не угадает число»).",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-03-while.ipynb · перебор строк и цикл while",
-        "../../../notebooks/chapter-10/10-03-while.ipynb",
+    {practice_card(
+        "10-03",
+        "Практика: перебор строк и цикл while",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/10-03/index.html",
     )}
     """
     out = render_page(
@@ -295,10 +292,11 @@ def build_04() -> None:
         "игру «Угадай число».",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-04-break-continue.ipynb · break и continue на практике",
-        "../../../notebooks/chapter-10/10-04-break-continue.ipynb",
+    {practice_card(
+        "10-04",
+        "Практика: break и continue",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/10-04/index.html",
     )}
     """
     out = render_page(
@@ -348,10 +346,11 @@ def build_05() -> None:
     )}
     {exercise(2, "Ограничение попыток", "Добавьте ограничение — не более 5 попыток; если игрок не угадал за 5 попыток, сообщите правильный ответ и завершите игру.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-05-ugadaj-v2.ipynb · игра с неограниченными попытками",
-        "../../../notebooks/chapter-10/10-05-ugadaj-v2.ipynb",
+    {practice_card(
+        "10-05",
+        "Практика: «Угадай число» с неограниченными попытками",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/10-05/index.html",
     )}
     """
     out = render_page(
@@ -397,10 +396,11 @@ def build_06() -> None:
         "без единого изменения остального кода.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-06-avto-figury.ipynb · автоматизируем фигуры циклом",
-        "../../../notebooks/chapter-10/10-06-avto-figury.ipynb",
+    {local_required_card(
+        "10-06",
+        "Практика: автоматизируем фигуры циклом",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/10-06/index.html",
     )}
     """
     out = render_page(
@@ -441,10 +441,11 @@ def build_07() -> None:
         "и без риска забыть увеличить счётчик.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "10-07-avto-mandala.ipynb · мандала через for + range()",
-        "../../../notebooks/chapter-10/10-07-avto-mandala.ipynb",
+    {local_required_card(
+        "10-07",
+        "Практика: мандала через for + range()",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/10-07/index.html",
     )}
     """
     out = render_page(
@@ -482,6 +483,12 @@ def build_08() -> None:
         "повторяющегося узора.",
     )}
     {exercise(2, "Спираль из квадратов", "Замените дугу на маленький квадрат (цикл на 4 стороны) внутри внешнего цикла — получится спираль из уменьшающихся или увеличивающихся квадратов.")}
+{local_required_card(
+        "10-08",
+        "Практика: спирали из дуг",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/10-08/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [

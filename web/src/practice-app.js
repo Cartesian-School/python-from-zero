@@ -40,6 +40,7 @@ class PyodideBridge {
     this.workerUrl = workerUrl;
     this.onStatusChange = onStatusChange || (() => {});
     this.onInputRequest = null;
+    this.onStdoutChunk = null;
     this.worker = null;
     this.pending = new Map();
     this.requestCounter = 0;
@@ -73,6 +74,8 @@ class PyodideBridge {
           }
         } else if (msg.type === "input-request") {
           if (this.onInputRequest) this.onInputRequest(msg.prompt, msg.cellId);
+        } else if (msg.type === "stdout-chunk") {
+          if (this.onStdoutChunk) this.onStdoutChunk(msg.cellId, msg.text);
         }
       };
       this.worker.onerror = (event) => {
@@ -156,10 +159,26 @@ function renderCodeCell(cell, index, state) {
 
   const raisesException = (cell.metadata && cell.metadata.tags || []).includes("raises-exception");
 
+  // stdout is streamed live (see python-worker.mjs) so cells with input()
+  // inside a loop show print() feedback between prompts, not only at the
+  // end. currentStdoutEl accumulates consecutive chunks into one block;
+  // an input prompt resets it so text printed afterwards starts a new one.
+  let currentStdoutEl = null;
+  let hadLiveStdout = false;
+
+  function appendLiveStdout(text) {
+    hadLiveStdout = true;
+    if (!currentStdoutEl) {
+      currentStdoutEl = el("pre", "nb-output-stdout", "");
+      output.appendChild(currentStdoutEl);
+    }
+    currentStdoutEl.textContent += text;
+  }
+
   function renderOutput(res) {
     // Not cleared here: run() clears output up front, before any input()
     // prompts render mid-execution, so their transcript survives the final render.
-    if (res.stdout) {
+    if (res.stdout && !hadLiveStdout) {
       output.appendChild(el("pre", "nb-output-stdout", escapeHtml(res.stdout)));
     }
     if (res.result) {
@@ -177,6 +196,7 @@ function renderCodeCell(cell, index, state) {
   }
 
   function showInputPrompt(promptText, onSubmit) {
+    currentStdoutEl = null;
     output.appendChild(el("pre", "nb-output-stdout nb-input-echo", escapeHtml(promptText)));
     const promptBox = el("div", "nb-input-prompt");
     const field = el("input", "nb-input-field");
@@ -209,6 +229,8 @@ function renderCodeCell(cell, index, state) {
     runBtn.textContent = "…";
     wrapper.classList.remove("nb-cell-error", "nb-cell-ok");
     output.innerHTML = "";
+    currentStdoutEl = null;
+    hadLiveStdout = false;
     const res = await state.bridge.execute(wrapper.dataset.cellId, view.state.doc.toString());
     state.execCounter += 1;
     execLabel.textContent = `[${state.execCounter}]`;
@@ -221,7 +243,7 @@ function renderCodeCell(cell, index, state) {
 
   runBtn.addEventListener("click", () => run());
 
-  return { wrapper, run, raisesException, view, showInputPrompt };
+  return { wrapper, run, raisesException, view, showInputPrompt, appendLiveStdout };
 }
 
 function escapeHtml(text) {
@@ -275,6 +297,11 @@ export async function initPracticeApp(config) {
     });
   }
 
+  function handleStdoutChunk(cellId, text) {
+    const runner = cellRunners.find((r) => r.wrapper.dataset.cellId === cellId);
+    if (runner) runner.appendLiveStdout(text);
+  }
+
   let bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
     if (s === "loading") setStatus("Запускается Python…", "loading");
     else if (s === "ready") {
@@ -285,6 +312,7 @@ export async function initPracticeApp(config) {
     }
   });
   bridge.onInputRequest = handleInputRequest;
+  bridge.onStdoutChunk = handleStdoutChunk;
   state.bridge = bridge;
   bridge.start();
 
@@ -351,6 +379,7 @@ export async function initPracticeApp(config) {
       }
     });
     bridge.onInputRequest = handleInputRequest;
+    bridge.onStdoutChunk = handleStdoutChunk;
     state.bridge = bridge;
     try {
       await bridge.start();
