@@ -31,6 +31,20 @@ def build_page(lesson_id: str, entry: dict) -> str:
     next_url = html.escape(entry.get("next_url") or "")
     grader_url = html.escape(entry["grader"])
 
+    # Lessons that use open()/pathlib run against Pyodide's own virtual
+    # filesystem — real semantics (write/read/append all work), but files
+    # live only in this browser tab, not on the learner's real computer.
+    # Stated plainly so nobody mistakes it for local disk access.
+    fs_notice = (
+        """\n  <div class="practice-fs-notice">💾 Файлы в этой практике (например, """
+        """<code class="inline">privet.txt</code>) создаются во """
+        """<strong>временной файловой системе Python в браузере</strong> — не на """
+        """вашем компьютере. Они существуют, пока открыта эта вкладка, и """
+        """исчезают при нажатии «Сбросить среду».</div>"""
+        if entry.get("filesystem_note")
+        else ""
+    )
+
     config_json = json.dumps(
         {
             "lessonId": lesson_id,
@@ -87,7 +101,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
   <span id="version-label" class="practice-version-label"></span>
 </div>
 
-<main class="practice-body">
+<main class="practice-body">{fs_notice}
   <div id="notebook-mount"></div>
   <div id="result-panel" class="practice-result-panel"></div>
   <a class="practice-download" href="{notebook_url}" download="{html.escape(download_name)}">📄 Скачать оригинальный .ipynb (для VS Code / PyCharm / Jupyter)</a>
