@@ -189,6 +189,7 @@ export async function initPracticeApp(config) {
     returnUrl,
     nextUrl,
     workerUrl,
+    assessment,
     mountEl,
     statusEl,
     runAllBtn,
@@ -327,6 +328,8 @@ export async function initPracticeApp(config) {
       resultPanel.appendChild(box);
 
       writeProgress(lessonId, {
+        status: "completed",
+        assessment: assessment || "automatic",
         passed: parsed.passed,
         score: parsed.score,
         completedAt: new Date().toISOString(),

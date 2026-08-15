@@ -36,6 +36,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
             "downloadUrl": notebook_url,
             "returnUrl": entry["return_url"],
             "nextUrl": entry.get("next_url"),
+            "assessment": entry.get("assessment", "automatic"),
             "workerUrl": "/assets/js/python-worker.mjs",
         },
         ensure_ascii=False,

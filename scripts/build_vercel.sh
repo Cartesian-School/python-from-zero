@@ -7,6 +7,9 @@ DIST_DIR="${ROOT_DIR}/dist"
 
 echo "==> Building Cartesian School Python deployment"
 
+echo "==> Validating manifest/practice_manifest.json"
+python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"

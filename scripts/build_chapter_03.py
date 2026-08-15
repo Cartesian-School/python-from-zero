@@ -15,7 +15,6 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
     practice_card,
     render_chapter_opener,
     render_page,
@@ -43,9 +42,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 3 · Первая программа", items),
         SidebarGroup("Практика", [
             NavItem("🐍 03-01: Практика", "../../practice/03-01/index.html"),
-            NavItem("📓 03-02-python-shell.ipynb", "../../../notebooks/chapter-03/03-02-python-shell.ipynb"),
-            NavItem("📓 03-03-math.ipynb", "../../../notebooks/chapter-03/03-03-math.ipynb"),
-            NavItem("📓 03-04-print.ipynb", "../../../notebooks/chapter-03/03-04-print.ipynb"),
+            NavItem("🐍 03-02: Практика", "../../practice/03-02/index.html"),
+            NavItem("🐍 03-03: Практика", "../../practice/03-03/index.html"),
+            NavItem("🐍 03-04: Практика", "../../practice/03-04/index.html"),
         ]),
     ]
 
@@ -172,6 +171,13 @@ def build_02() -> None:
         "<code class=\"inline\">Ctrl+D</code> (Mac/Linux).",
     )}
 
+    {practice_card(
+        "03-02",
+        "Практика: интерактивный режим в ноутбуке",
+        "Интерактивный ноутбук прямо в браузере — сравните ячейку Jupyter с Python Shell",
+        "../../practice/03-02/index.html",
+    )}
+
     <h2 id="schitaet">Ваша оболочка умеет считать</h2>
     <p>Раз оболочка сразу показывает результат каждой строки, её удобно использовать как быстрый
     калькулятор — без единого <code class="inline">print()</code>:</p>
@@ -181,10 +187,11 @@ def build_02() -> None:
     целиком и молча, если явно не попросить вывод через <code class="inline">print()</code>.
     Подробно об этом — в следующем разделе.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "03-02-python-shell.ipynb + 03-03-math.ipynb · интерактивный режим и вычисления",
-        "../../../notebooks/chapter-03/03-02-python-shell.ipynb",
+    {practice_card(
+        "03-03",
+        "Практика: используйте Python как калькулятор",
+        "Интерактивный ноутбук прямо в браузере — сложение, вычитание, умножение, деление",
+        "../../practice/03-03/index.html",
     )}
     """
 
@@ -236,10 +243,11 @@ def build_03() -> None:
         "— удобно, чтобы отделить блоки текста друг от друга.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "03-04-print.ipynb · sep, end и форматирование вывода",
-        "../../../notebooks/chapter-03/03-04-print.ipynb",
+    {practice_card(
+        "03-04",
+        "Практика: sep, end и форматирование вывода",
+        "Интерактивный ноутбук прямо в браузере — параметры print() на практике",
+        "../../practice/03-04/index.html",
     )}
     """
 
