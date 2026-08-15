@@ -47,7 +47,7 @@ def highlight_python(code: str) -> str:
 
     try:
         tokens = list(tokenize.generate_tokens(io.StringIO(code + "\n").readline))
-    except (tokenize.TokenizeError, IndentationError, SyntaxError):
+    except (tokenize.TokenError, IndentationError, SyntaxError):
         return html.escape(code)
 
     out: list[str] = []
@@ -275,6 +275,163 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
 
 
+def timeline_diagram(events: list[tuple[str, str]], *, caption: str = "") -> str:
+    """Вертикальная диаграмма-хронология (оригинальная, не скриншот).
+
+    events: список (заголовок-веха, пояснение) сверху вниз.
+    """
+    n = len(events)
+    row_h = 88
+    pad_top = 20
+    total_h = n * row_h + pad_top
+    total_w = 640
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    if n > 1:
+        parts.append(
+            f'<line x1="28" y1="{pad_top + 24}" x2="28" y2="{pad_top + (n - 1) * row_h + 24}" '
+            f'stroke="#B9A0FC" stroke-width="3"/>'
+        )
+    for i, (title, sub) in enumerate(events):
+        y = pad_top + i * row_h
+        parts.append(f'<circle cx="28" cy="{y + 24}" r="9" fill="#5B24F9"/>')
+        parts.append(f'<circle cx="28" cy="{y + 24}" r="4" fill="#fff"/>')
+        parts.append(
+            f'<text x="56" y="{y + 20}" font-family="Sora, sans-serif" font-weight="700" '
+            f'font-size="16" fill="#0D0230">{html.escape(title)}</text>'
+        )
+        parts.append(
+            f'<text x="56" y="{y + 42}" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">'
+            f'{html.escape(sub)}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
+
+
+def _wrap_svg_text(text: str, max_chars: int, max_lines: int = 3) -> list[str]:
+    """Greedy word-wrap for SVG <text>, which never wraps on its own."""
+    words = text.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        if len(candidate) <= max_chars or not current:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+        if len(lines) == max_lines - 1:
+            break
+    if current:
+        lines.append(current)
+    # Anything left over (rare) gets folded into the last line rather than lost.
+    remaining_words = words[len(" ".join(lines).split()):]
+    if remaining_words and len(lines) >= max_lines:
+        lines[-1] = lines[-1].rstrip() + "…"
+    elif remaining_words:
+        lines.append(" ".join(remaining_words))
+    return lines
+
+
+def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str = "") -> str:
+    """Диаграмма «один корень → несколько ветвей» (оригинальная, не скриншот).
+
+    branches: список (заголовок, пояснение) для каждого прямоугольника-ветви.
+    """
+    n = len(branches)
+    box_w, box_h, gap = 196, 116, 28
+    total_w = max(n * box_w + (n - 1) * gap, 260)
+    root_w, root_h = 220, 56
+    root_x = (total_w - root_w) / 2
+    branches_y = 120
+    total_h = branches_y + box_h + 10
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        f'<rect x="{root_x}" y="10" width="{root_w}" height="{root_h}" rx="14" '
+        f'fill="#5B24F9"/>'
+    )
+    parts.append(
+        f'<text x="{total_w / 2}" y="{10 + root_h / 2 + 5}" text-anchor="middle" '
+        f'font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff">'
+        f'{html.escape(root)}</text>'
+    )
+    root_cx = total_w / 2
+    root_bottom = 10 + root_h
+    for i, (title, sub) in enumerate(branches):
+        x = i * (box_w + gap)
+        cx = x + box_w / 2
+        parts.append(
+            f'<path d="M{root_cx},{root_bottom} C{root_cx},{(root_bottom + branches_y) / 2} '
+            f'{cx},{(root_bottom + branches_y) / 2} {cx},{branches_y}" '
+            f'fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/>'
+        )
+        parts.append(
+            f'<rect x="{x}" y="{branches_y}" width="{box_w}" height="{box_h}" rx="14" '
+            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+        )
+        title_lines = _wrap_svg_text(title, max_chars=20, max_lines=2)
+        title_top = branches_y + 26
+        title_tspans = "".join(
+            f'<tspan x="{cx}" y="{title_top + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(title_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
+            f'font-size="14" fill="#0D0230">{title_tspans}</text>'
+        )
+        sub_lines = _wrap_svg_text(sub, max_chars=26, max_lines=3)
+        sub_top = title_top + len(title_lines) * 18 + 14
+        sub_tspans = "".join(
+            f'<tspan x="{cx}" y="{sub_top + li * 14}">{html.escape(line)}</tspan>' for li, line in enumerate(sub_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" '
+            f'fill="#6B6B7D">{sub_tspans}</text>'
+        )
+    parts.insert(
+        1,
+        "<defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' "
+        "markerWidth='6' markerHeight='6' orient='auto-start-reverse'>"
+        "<path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>",
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
+
+
+def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
+    """Маленькая диаграмма «имя указывает на значение» (не «коробка с данными»)."""
+    svg = f"""<svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" role="img"
+      aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:400px">
+      <defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+        orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"/></marker></defs>
+      <text x="10" y="52" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#0D0230">{html.escape(name)}</text>
+      <line x1="95" y1="45" x2="220" y2="45" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrow2)"/>
+      <rect x="230" y="15" width="160" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>
+      <text x="310" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#0D0230">{html.escape(value_repr)}</text>
+    </svg>"""
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
+    """A real screenshot/photo, not a generated diagram — captioned figure."""
+    width_attr = f' width="{width}"' if width else ""
+    return f"""
+    <figure style="margin:24px 0">
+      <img src="{html.escape(src)}" alt="{html.escape(alt)}"{width_attr}
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>
+    </figure>"""
+
+
 def summary_box(title: str, items_html: list[str]) -> str:
     items = "".join(f"<li>{item}</li>" for item in items_html)
     return f"""
@@ -455,7 +612,7 @@ def render_page(
     <h1>{html.escape(h1)}</h1>
     <p class="lede">{lede}</p>
 
-    {body_html}
+{body_html}
 
     {nav_html}
   </article>
@@ -483,6 +640,7 @@ def render_chapter_opener(
     description: str,
     meta_items: list[str],
     sections: list[ChapterSectionLink],
+    brand_html: str = "",
 ) -> str:
     root = "../../"
     meta_html = "".join(f"<span>{m}</span>" for m in meta_items)
@@ -532,6 +690,7 @@ def render_chapter_opener(
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
+    {brand_html}
     <div class="chapter-num">ГЛАВА {chapter_num} · СТР. {baseline_page}</div>
     <h1>{html.escape(title)}</h1>
     <p>{description}</p>
