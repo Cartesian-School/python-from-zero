@@ -16,6 +16,7 @@ from site_lib import (
     code_block,
     exercise,
     notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -41,7 +42,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 3 · Первая программа", items),
         SidebarGroup("Практика", [
-            NavItem("📓 03-01-first-program.ipynb", "../../../notebooks/chapter-03/03-01-first-program.ipynb"),
+            NavItem("🐍 03-01: Практика", "../../practice/03-01/index.html"),
             NavItem("📓 03-02-python-shell.ipynb", "../../../notebooks/chapter-03/03-02-python-shell.ipynb"),
             NavItem("📓 03-03-math.ipynb", "../../../notebooks/chapter-03/03-03-math.ipynb"),
             NavItem("📓 03-04-print.ipynb", "../../../notebooks/chapter-03/03-04-print.ipynb"),
@@ -123,10 +124,11 @@ def build_01() -> None:
         "будем пользоваться на протяжении всей книги.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "03-01-first-program.ipynb · создайте и запустите свою первую программу",
-        "../../../notebooks/chapter-03/03-01-first-program.ipynb",
+    {practice_card(
+        "03-01",
+        "Практика: создайте и запустите свою первую программу",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/03-01/index.html",
     )}
     """
 

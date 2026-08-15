@@ -14,7 +14,11 @@ mkdir -p "${DIST_DIR}/book/epub"
 mkdir -p "${DIST_DIR}/notebooks"
 mkdir -p "${DIST_DIR}/projects"
 
-# Main educational HTML website.
+# Main educational HTML website — this also carries the interactive practice
+# system (site/practice/<lesson-id>/, site/assets/js/practice.bundle.js,
+# site/assets/js/python-worker.mjs), since those are generated/committed under
+# site/ the same way site/chapters/*.html are. No separate build step needed
+# here; see scripts/build_practice_pages.py and web/ for how they're produced.
 cp -a "${ROOT_DIR}/site/." "${DIST_DIR}/"
 
 # Publication downloads — paths must match the relative links already used in
