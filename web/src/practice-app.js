@@ -98,7 +98,7 @@ function renderMarkdownCell(source) {
   return el("div", "nb-cell nb-cell-markdown", clean);
 }
 
-function renderCodeCell(cell, index, bridge, state) {
+function renderCodeCell(cell, index, state) {
   const wrapper = el("div", "nb-cell nb-cell-code");
   wrapper.dataset.cellId = cell.id || `cell-${index}`;
 
@@ -157,7 +157,7 @@ function renderCodeCell(cell, index, bridge, state) {
     runBtn.disabled = true;
     runBtn.textContent = "…";
     wrapper.classList.remove("nb-cell-error", "nb-cell-ok");
-    const res = await bridge.execute(wrapper.dataset.cellId, view.state.doc.toString());
+    const res = await state.bridge.execute(wrapper.dataset.cellId, view.state.doc.toString());
     state.execCounter += 1;
     execLabel.textContent = `[${state.execCounter}]`;
     renderOutput(res);
@@ -199,7 +199,7 @@ export async function initPracticeApp(config) {
     versionLabel,
   } = config;
 
-  const state = { execCounter: 0, lastCheckPassed: false };
+  const state = { execCounter: 0, lastCheckPassed: false, busy: false, bridge: null };
   const cellRunners = [];
 
   function setStatus(text, kind) {
@@ -220,6 +220,7 @@ export async function initPracticeApp(config) {
       setStatus("Ошибка запуска Python: " + (error && error.message), "error");
     }
   });
+  state.bridge = bridge;
   bridge.start();
 
   const resp = await fetch(notebookUrl);
@@ -229,30 +230,41 @@ export async function initPracticeApp(config) {
     if (cell.cell_type === "markdown") {
       mountEl.appendChild(renderMarkdownCell(cell.source));
     } else if (cell.cell_type === "code") {
-      const runner = renderCodeCell(cell, index, bridge, state);
+      const runner = renderCodeCell(cell, index, state);
       cellRunners.push(runner);
       mountEl.appendChild(runner.wrapper);
     }
   });
 
+  function setToolbarBusy(busy) {
+    state.busy = busy;
+    runAllBtn.disabled = busy;
+    checkBtn.disabled = busy;
+    resetBtn.disabled = busy;
+  }
+
   runAllBtn.addEventListener("click", async () => {
-    runAllBtn.disabled = true;
+    if (state.busy) return;
+    setToolbarBusy(true);
     setStatus("Выполняется всё…", "loading");
-    for (const runner of cellRunners) {
-      runner.wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
-      const res = await runner.run();
-      if (!res.ok && !runner.raisesException) {
-        setStatus("Остановлено на ошибке", "error");
-        runAllBtn.disabled = false;
-        return;
+    try {
+      for (const runner of cellRunners) {
+        runner.wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
+        const res = await runner.run();
+        if (!res.ok && !runner.raisesException) {
+          setStatus("Остановлено на ошибке", "error");
+          return;
+        }
       }
+      setStatus("Готово", "ready");
+    } finally {
+      setToolbarBusy(false);
     }
-    setStatus("Готово", "ready");
-    runAllBtn.disabled = false;
   });
 
   resetBtn.addEventListener("click", async () => {
-    resetBtn.disabled = true;
+    if (state.busy) return;
+    setToolbarBusy(true);
     setStatus("Сброс среды…", "loading");
     bridge.terminate();
     state.execCounter = 0;
@@ -273,25 +285,28 @@ export async function initPracticeApp(config) {
         setStatus("Ошибка запуска Python: " + (error && error.message), "error");
       }
     });
-    cellRunners.forEach((r) => (r.bridge = bridge));
-    await bridge.start();
-    resetBtn.disabled = false;
+    state.bridge = bridge;
+    try {
+      await bridge.start();
+    } finally {
+      setToolbarBusy(false);
+    }
   });
 
   checkBtn.addEventListener("click", async () => {
-    checkBtn.disabled = true;
+    if (state.busy) return;
+    setToolbarBusy(true);
     resultPanel.innerHTML = "";
     setStatus("Проверка результата…", "loading");
     try {
       const graderResp = await fetch(graderUrl);
       const graderCode = await graderResp.text();
-      const res = await bridge.execute("__cartesian_grader__", graderCode);
+      const res = await state.bridge.execute("__cartesian_grader__", graderCode);
       if (!res.ok || !res.result) {
         resultPanel.appendChild(
           el("div", "practice-result practice-result-fail", "Проверка не смогла выполниться. Сначала выполните все ячейки (Run All).")
         );
         setStatus("Готово", "ready");
-        checkBtn.disabled = false;
         return;
       }
       const parsed = JSON.parse(res.result);
@@ -320,8 +335,9 @@ export async function initPracticeApp(config) {
     } catch (err) {
       resultPanel.appendChild(el("div", "practice-result practice-result-fail", "Ошибка проверки: " + escapeHtml(String(err))));
       setStatus("Готово", "ready");
+    } finally {
+      setToolbarBusy(false);
     }
-    checkBtn.disabled = false;
   });
 
   finishBtn.addEventListener("click", () => {
