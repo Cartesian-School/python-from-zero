@@ -39,11 +39,14 @@ class PyodideBridge {
   constructor(workerUrl, onStatusChange) {
     this.workerUrl = workerUrl;
     this.onStatusChange = onStatusChange || (() => {});
+    this.onInputRequest = null;
     this.worker = null;
     this.pending = new Map();
     this.requestCounter = 0;
     this.readyPromise = null;
     this.info = null;
+    this.inputSync = null;
+    this.inputPayload = null;
   }
 
   start() {
@@ -53,6 +56,10 @@ class PyodideBridge {
         const msg = event.data || {};
         if (msg.type === "ready") {
           this.info = msg;
+          if (msg.hasInputSupport) {
+            this.inputSync = new Int32Array(msg.inputSyncBuffer);
+            this.inputPayload = new Uint8Array(msg.inputPayloadBuffer);
+          }
           this.onStatusChange({ state: "ready", info: msg });
           resolve(msg);
         } else if (msg.type === "init-error") {
@@ -64,6 +71,8 @@ class PyodideBridge {
             resolver(msg);
             this.pending.delete(msg.requestId);
           }
+        } else if (msg.type === "input-request") {
+          if (this.onInputRequest) this.onInputRequest(msg.prompt, msg.cellId);
         }
       };
       this.worker.onerror = (event) => {
@@ -74,6 +83,19 @@ class PyodideBridge {
     this.onStatusChange({ state: "loading" });
     this.worker.postMessage({ type: "init" });
     return this.readyPromise;
+  }
+
+  // Writes the learner's answer directly into the shared buffers and wakes
+  // the worker's blocked Atomics.wait — see python-worker.mjs for why this
+  // can't go through postMessage (the worker's event loop is frozen).
+  submitInput(text) {
+    if (!this.inputSync || !this.inputPayload) return;
+    const bytes = new TextEncoder().encode(text);
+    const len = Math.min(bytes.length, this.inputPayload.length);
+    this.inputPayload.set(bytes.subarray(0, len));
+    Atomics.store(this.inputSync, 1, len);
+    Atomics.store(this.inputSync, 0, 1);
+    Atomics.notify(this.inputSync, 0);
   }
 
   async execute(cellId, code) {
@@ -135,7 +157,8 @@ function renderCodeCell(cell, index, state) {
   const raisesException = (cell.metadata && cell.metadata.tags || []).includes("raises-exception");
 
   function renderOutput(res) {
-    output.innerHTML = "";
+    // Not cleared here: run() clears output up front, before any input()
+    // prompts render mid-execution, so their transcript survives the final render.
     if (res.stdout) {
       output.appendChild(el("pre", "nb-output-stdout", escapeHtml(res.stdout)));
     }
@@ -153,10 +176,39 @@ function renderCodeCell(cell, index, state) {
     }
   }
 
+  function showInputPrompt(promptText, onSubmit) {
+    output.appendChild(el("pre", "nb-output-stdout nb-input-echo", escapeHtml(promptText)));
+    const promptBox = el("div", "nb-input-prompt");
+    const field = el("input", "nb-input-field");
+    field.type = "text";
+    field.autocomplete = "off";
+    field.setAttribute("aria-label", promptText || "Ввод для input()");
+    const submitBtn = el("button", "nb-input-submit", "Отправить");
+    promptBox.appendChild(field);
+    promptBox.appendChild(submitBtn);
+    output.appendChild(promptBox);
+    field.focus();
+
+    let submitted = false;
+    function submit() {
+      if (submitted) return;
+      submitted = true;
+      const value = field.value;
+      promptBox.remove();
+      output.appendChild(el("pre", "nb-output-stdout nb-input-echo", escapeHtml(value)));
+      onSubmit(value);
+    }
+    submitBtn.addEventListener("click", submit);
+    field.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") submit();
+    });
+  }
+
   async function run() {
     runBtn.disabled = true;
     runBtn.textContent = "…";
     wrapper.classList.remove("nb-cell-error", "nb-cell-ok");
+    output.innerHTML = "";
     const res = await state.bridge.execute(wrapper.dataset.cellId, view.state.doc.toString());
     state.execCounter += 1;
     execLabel.textContent = `[${state.execCounter}]`;
@@ -169,7 +221,7 @@ function renderCodeCell(cell, index, state) {
 
   runBtn.addEventListener("click", () => run());
 
-  return { wrapper, run, raisesException, view };
+  return { wrapper, run, raisesException, view, showInputPrompt };
 }
 
 function escapeHtml(text) {
@@ -212,6 +264,17 @@ export async function initPracticeApp(config) {
     finishBtn.disabled = !state.lastCheckPassed;
   }
 
+  function handleInputRequest(prompt, cellId) {
+    const runner = cellRunners.find((r) => r.wrapper.dataset.cellId === cellId);
+    if (!runner) return;
+    setStatus("Ожидание ввода…", "loading");
+    runner.wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
+    runner.showInputPrompt(prompt, (value) => {
+      state.bridge.submitInput(value);
+      setStatus("Выполняется…", "loading");
+    });
+  }
+
   let bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
     if (s === "loading") setStatus("Запускается Python…", "loading");
     else if (s === "ready") {
@@ -221,6 +284,7 @@ export async function initPracticeApp(config) {
       setStatus("Ошибка запуска Python: " + (error && error.message), "error");
     }
   });
+  bridge.onInputRequest = handleInputRequest;
   state.bridge = bridge;
   bridge.start();
 
@@ -286,6 +350,7 @@ export async function initPracticeApp(config) {
         setStatus("Ошибка запуска Python: " + (error && error.message), "error");
       }
     });
+    bridge.onInputRequest = handleInputRequest;
     state.bridge = bridge;
     try {
       await bridge.start();

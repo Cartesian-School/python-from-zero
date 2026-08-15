@@ -63,7 +63,7 @@ async function waitForServer(url, timeoutMs = 15000) {
   const port = await getFreePort();
   const distDir = path.join(ROOT, 'dist');
   log(`Starting static server on :${port} for ${distDir}`);
-  const server = spawn('python3', ['-m', 'http.server', String(port)], { cwd: distDir, stdio: 'ignore' });
+  const server = spawn('python3', [path.join(ROOT, 'scripts', 'dev_server.py'), String(port), distDir], { stdio: 'ignore' });
 
   const base = `http://localhost:${port}`;
   try {
