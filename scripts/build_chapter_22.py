@@ -15,7 +15,8 @@ from site_lib import (
     code_block,
     exercise,
     flow_diagram,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -39,6 +40,8 @@ NOTEBOOKS = [
     "22-05-flask.ipynb",
 ]
 
+LESSON_IDS = ["22-02", "22-05"]
+
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     items = [NavItem(title, href) for href, title in PAGES]
@@ -46,7 +49,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 22 · Веб-разработка", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-22/{n}") for n in NOTEBOOKS]),
+        SidebarGroup(
+            "Практика",
+            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+        ),
         SidebarGroup("Исходный код", [NavItem("🐍 projects/flask/todo-app/", "../../../projects/flask/todo-app/app.py")]),
     ]
 
@@ -166,10 +172,11 @@ def build_02() -> None:
     <code class="inline">&lt;a href="…"&gt;</code> — ссылка, <code class="inline">&lt;img
     src="…"&gt;</code> — картинка.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "22-02-html-css.ipynb · HTML и CSS вживую",
-        "../../../notebooks/chapter-22/22-02-html-css.ipynb",
+    {practice_card(
+        "22-02",
+        "Практика: HTML и CSS вживую",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/22-02/index.html",
     )}
     """
     out = render_page(
@@ -227,10 +234,11 @@ def build_03() -> None:
         "«каскадные».",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "22-02-html-css.ipynb · включает пример CSS",
-        "../../../notebooks/chapter-22/22-02-html-css.ipynb",
+    {practice_card(
+        "22-02",
+        "Практика: включает пример CSS",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/22-02/index.html",
     )}
     """
     out = render_page(
@@ -395,10 +403,11 @@ def build_05() -> None:
     {exercise(2, "Счётчик задач", "Добавьте в index.html строку, показывающую общее количество задач: {{ zadachi|length }}.")}
     {exercise(3, "Удаление задачи", "Добавьте маршрут /udalit/&lt;int:indeks&gt;, который удаляет задачу по её номеру в списке и делает редирект на главную.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "22-05-flask.ipynb · маршруты, шаблоны и формы без запуска сервера",
-        "../../../notebooks/chapter-22/22-05-flask.ipynb",
+    {local_required_card(
+        "22-05",
+        "Практика: маршруты, шаблоны и формы",
+        "Модуль flask не установлен в браузерном окружении Pyodide — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/22-05/index.html",
     )}
     """
     out = render_page(
