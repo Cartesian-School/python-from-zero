@@ -616,8 +616,7 @@ def build_08() -> None:
         "Добавьте <code class=\"inline\">artist.pencolor(\"violet\")</code> перед циклом и "
         "поэкспериментируйте с другими цветами.",
     )}
-
-    {local_required_card(
+{local_required_card(
         "06-08",
         "Практика: мандала из прямых линий",
         "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
