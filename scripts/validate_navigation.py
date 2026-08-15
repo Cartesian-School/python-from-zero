@@ -22,7 +22,7 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -116,7 +116,10 @@ def validate(base_dir: Path) -> list[str]:
             else:
                 href_path, _, fragment = href.partition("#")
 
-            target = _resolve_internal(href_path, file, base_dir)
+            # Percent-encoded paths (e.g. non-ASCII filenames like "готовая
+            # книга.pdf") must be decoded before filesystem lookup — the URL
+            # component is encoded, the file on disk is not.
+            target = _resolve_internal(unquote(href_path), file, base_dir)
             if not target.exists():
                 shown = target.relative_to(base_dir) if base_dir in target.parents else target
                 errors.append(f'{rel}: href="{href}" -> missing file {shown}')
