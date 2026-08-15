@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Первые переменные и первые ошибки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Честный мысленный образ переменной как имени, указывающего на значение, — и первый спокойный опыт чтения сообщения об ошибке (traceback) в Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-01/01-07-peremennye-i-oshibki.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Первые переменные и первые ошибки — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Честный мысленный образ переменной как имени, указывающего на значение, — и первый спокойный опыт чтения сообщения об ошибке (traceback) в Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-01/01-07-peremennye-i-oshibki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Первые переменные и первые ошибки — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Честный мысленный образ переменной как имени, указывающего на значение, — и первый спокойный опыт чтения сообщения об ошибке (traceback) в Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Первые переменные и первые ошибки — Python с нуля — Cartesian School","description":"Честный мысленный образ переменной как имени, указывающего на значение, — и первый спокойный опыт чтения сообщения об ошибке (traceback) в Python.","url":"https://www.cartesianschool.org/chapters/glava-01/01-07-peremennye-i-oshibki.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 1 · А вы знали?</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="01-01-chto-takoe-programmirovanie.html">Что такое программирование?</a></li><li><a href="01-04-istoriya-python.html">История Python</a></li><li><a href="01-05-sajt-dokumentaciya-pypi.html">python.org, документация и PyPI</a></li><li><a href="01-06-soobschestvo-i-filosofiya.html">Сообщество и философия Python</a></li><li><a href="01-02-python-eto-veselo.html">Python — это весело!</a></li><li><a href="01-07-peremennye-i-oshibki.html" class="active">Первые переменные и первые ошибки</a></li><li><a href="01-03-kak-poluchit-maksimum.html">Как получить максимум от книги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/01-01/index.html">🐍 01-01: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 1</a> / Первые переменные и первые ошибки</div>
+    <div class="section-kicker">Глава 1 · А вы знали?</div>
+    <h1>Первые переменные и первые ошибки</h1>
+    <p class="lede">Один правильный мысленный образ переменной — и первая спокойная встреча с сообщением об ошибке, задолго до того, как оно застанет вас врасплох.</p>
+
+
+    <h2 id="peremennye">Первые переменные: как Python на самом деле их хранит</h2>
+    <p>Уже в следующей главе вы начнёте активно пользоваться переменными. Один маленький, но
+    важный мысленный образ стоит освоить прямо сейчас — он убережёт от путаницы позже.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>peremennaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;Anna&quot;</span>
+<span class="tok-fn">print</span>(name)</code></pre>
+    </div>
+    <p>Легко (и ошибочно) представлять переменную как «коробку», в которую положили значение.
+    На самом деле удобнее думать иначе: <strong>имя — это ярлык, который указывает на
+    значение</strong>, а не контейнер, где значение физически лежит.</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center"><svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" role="img"
+      aria-label="name не «содержит» текст, а указывает на него" style="width:100%;height:auto;max-width:400px">
+      <defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+        orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"/></marker></defs>
+      <text x="10" y="52" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#0D0230">name</text>
+      <line x1="95" y1="45" x2="220" y2="45" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrow2)"/>
+      <rect x="230" y="15" width="160" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>
+      <text x="310" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#0D0230">&quot;Anna&quot;</text>
+    </svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">name не «содержит» текст, а указывает на него</figcaption></figure>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">🔬 Что происходит</div>
+        <div class="callout-body"><code class="inline">name = "Anna"</code> означает «пусть имя <code class="inline">name</code> теперь указывает на значение <code class="inline">"Anna"</code>», а не «положи текст внутрь коробки по имени name». Подробное устройство памяти Python — тема для более поздних глав; сейчас важно только не привыкнуть к неверному образу «коробки».</div>
+      </div>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">🧪 Эксперимент</div>
+      <p>В практике этого раздела создайте переменную <code class="inline">name</code> со своим именем и выведите её через <code class="inline">print(name)</code>. Затем присвойте <code class="inline">name</code> другое значение и выведите снова — обратите внимание, что «ярлык» просто стал указывать на другое значение.</p>
+    </div>
+
+    <h2 id="oshibki-eto-normalno">Ошибки — это нормально</h2>
+    <p>Рано или поздно любая программа выдаёт ошибку — и это не признак того, что что-то пошло
+    катастрофически не так. Разберём это на примере прямо сейчас, пока ставки низкие.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>oshibka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>print(&quot;Hello&quot;</code></pre>
+    </div>
+    <p>В этом коде не хватает закрывающей скобки. Если выполнить такую строку, Python не
+    угадывает, что вы имели в виду, — вместо этого он останавливается и печатает подробное
+    сообщение об ошибке, которое называется <strong>traceback</strong> («трассировка»): в нём
+    указано, в какой строке произошла проблема и какого рода она была (в данном случае —
+    незакрытая скобка).</p>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Типичная ошибка новичка</div>
+        <div class="callout-body">Увидев длинный текст ошибки, легко запаниковать и решить, что «что-то сломалось навсегда». На самом деле traceback — это не угроза, а подсказка: он почти всегда прямо указывает, в какой строке искать проблему.</div>
+      </div>
+    </div>
+
+    <p>Полезная привычка при виде ошибки — прочитать <strong>последнюю строку</strong>
+    traceback: там обычно кратко написано, что именно пошло не так. Всё, что выше, — это путь,
+    которым Python дошёл до проблемы.</p>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">🐞 Debug Lab</div>
+      <p>В практике этого раздела найдёте специально сломанную строку кода. Прочитайте traceback, найдите строку с проблемой и исправьте её самостоятельно — так же, как в разделе «Типичная ошибка» предыдущей практики этой главы.</p>
+    </div>
+
+    <div class="section-nav"><a href="01-02-python-eto-veselo.html"><div class="dir">← Назад</div><div class="lbl">Python — это весело!</div></a><a href="01-03-kak-poluchit-maksimum.html" class="next"><div class="dir">Далее →</div><div class="lbl">Как получить максимум от книги</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
