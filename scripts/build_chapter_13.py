@@ -15,7 +15,8 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -36,16 +37,7 @@ PAGES = [
     ("13-08-mini-proekt-figury-itogi.html", "Мини-проект: автоматизированные фигуры и итоги"),
 ]
 
-NOTEBOOKS = [
-    "13-01-pervaya-funkciya.ipynb",
-    "13-02-zachem-funkcii.ipynb",
-    "13-03-vozvrat.ipynb",
-    "13-04-argumenty.ipynb",
-    "13-05-oblast-vidimosti.ipynb",
-    "13-06-lambda.ipynb",
-    "13-07-domashka.ipynb",
-    "13-08-figury-novyj-uroven.ipynb",
-]
+LESSON_IDS = ["13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -54,7 +46,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 13 · Функции", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-13/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -115,10 +109,11 @@ def build_01() -> None:
         "ничего — Python просто запомнит функцию, но не запустит её.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-01-pervaya-funkciya.ipynb · определяем и вызываем первую функцию",
-        "../../../notebooks/chapter-13/13-01-pervaya-funkciya.ipynb",
+    {practice_card(
+        "13-01",
+        "Практика: определяем и вызываем первую функцию",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-01/index.html",
     )}
     """
     out = render_page(
@@ -167,10 +162,11 @@ def build_02() -> None:
     <p>Функция без параметров в скобках — например, <code class="inline">privetstvie()</code>
     из первого раздела — тоже совершенно нормальна: не каждой функции нужны входные данные.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-02-zachem-funkcii.ipynb · функции с аргументами",
-        "../../../notebooks/chapter-13/13-02-zachem-funkcii.ipynb",
+    {practice_card(
+        "13-02",
+        "Практика: функции с аргументами",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-02/index.html",
     )}
     """
     out = render_page(
@@ -223,10 +219,11 @@ def build_03() -> None:
         "заканчивает работу — код после него внутри функции не выполнится.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-03-vozvrat.ipynb · return и разница с print()",
-        "../../../notebooks/chapter-13/13-03-vozvrat.ipynb",
+    {practice_card(
+        "13-03",
+        "Практика: return и разница с print()",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-03/index.html",
     )}
     """
     out = render_page(
@@ -280,10 +277,11 @@ def build_04() -> None:
         "функции много параметров и легко перепутать порядок.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-04-argumenty.ipynb · значения по умолчанию и *args",
-        "../../../notebooks/chapter-13/13-04-argumenty.ipynb",
+    {practice_card(
+        "13-04",
+        "Практика: значения по умолчанию и *args",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-04/index.html",
     )}
     """
     out = render_page(
@@ -341,10 +339,11 @@ def build_05() -> None:
         "гораздо чище вернуть новое значение через <code class=\"inline\">return</code>.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-05-oblast-vidimosti.ipynb · локальные и глобальные переменные",
-        "../../../notebooks/chapter-13/13-05-oblast-vidimosti.ipynb",
+    {practice_card(
+        "13-05",
+        "Практика: локальные и глобальные переменные",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-05/index.html",
     )}
     """
     out = render_page(
@@ -400,10 +399,11 @@ def build_06() -> None:
 
     {cvm}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-06-lambda.ipynb · лямбда-функции на практике",
-        "../../../notebooks/chapter-13/13-06-lambda.ipynb",
+    {practice_card(
+        "13-06",
+        "Практика: лямбда-функции",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-06/index.html",
     )}
     """
     out = render_page(
@@ -451,10 +451,11 @@ def build_07() -> None:
     )}
     {exercise(2, "Счётчик правильных ответов", "Оберните генерацию примера в цикл на 5 вопросов подряд и посчитайте, сколько из них решено верно.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "13-07-domashka.ipynb · генератор примеров по математике",
-        "../../../notebooks/chapter-13/13-07-domashka.ipynb",
+    {practice_card(
+        "13-07",
+        "Практика: генератор примеров по математике",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/13-07/index.html",
     )}
     """
     out = render_page(
@@ -497,6 +498,12 @@ def build_08() -> None:
         "строками подряд.",
     )}
     {exercise(3, "Функция с позицией", "Добавьте функции параметры x, y (со значениями по умолчанию 0, 0) — чтобы можно было указать, откуда начинать рисовать фигуру.")}
+{local_required_card(
+        "13-08",
+        "Практика: фигуры функцией с аргументами",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/13-08/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
