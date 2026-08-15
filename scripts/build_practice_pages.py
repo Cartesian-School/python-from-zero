@@ -57,6 +57,8 @@ def build_page(lesson_id: str, entry: dict) -> str:
             "nextUrl": entry.get("next_url"),
             "assessment": entry.get("assessment", "automatic"),
             "workerUrl": "/assets/js/python-worker.mjs",
+            "companionFiles": entry.get("companion_files"),
+            "chapterDir": entry["notebook"].split("/")[0],
         },
         ensure_ascii=False,
     )

@@ -49,6 +49,8 @@ class PyodideBridge {
     this.info = null;
     this.inputSync = null;
     this.inputPayload = null;
+    this.companionFiles = null;
+    this.chapterDir = null;
   }
 
   start() {
@@ -87,7 +89,7 @@ class PyodideBridge {
       };
     });
     this.onStatusChange({ state: "loading" });
-    this.worker.postMessage({ type: "init" });
+    this.worker.postMessage({ type: "init", companionFiles: this.companionFiles, chapterDir: this.chapterDir });
     return this.readyPromise;
   }
 
@@ -275,6 +277,8 @@ export async function initPracticeApp(config) {
     nextUrl,
     workerUrl,
     assessment,
+    companionFiles,
+    chapterDir,
     mountEl,
     statusEl,
     runAllBtn,
@@ -330,6 +334,8 @@ export async function initPracticeApp(config) {
   bridge.onInputRequest = handleInputRequest;
   bridge.onStdoutChunk = handleStdoutChunk;
   bridge.onDisplayHtml = handleDisplayHtml;
+  bridge.companionFiles = companionFiles;
+  bridge.chapterDir = chapterDir;
   state.bridge = bridge;
   bridge.start();
 
@@ -398,6 +404,8 @@ export async function initPracticeApp(config) {
     bridge.onInputRequest = handleInputRequest;
     bridge.onStdoutChunk = handleStdoutChunk;
     bridge.onDisplayHtml = handleDisplayHtml;
+    bridge.companionFiles = companionFiles;
+    bridge.chapterDir = chapterDir;
     state.bridge = bridge;
     try {
       await bridge.start();

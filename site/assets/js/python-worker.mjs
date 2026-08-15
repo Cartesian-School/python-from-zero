@@ -201,7 +201,35 @@ def _cartesian_run_cell(cell_id, code):
     }
 `;
 
-async function initPyodide() {
+// A handful of Chapter 23 mini-project lessons import a real, standalone
+// project module (e.g. sys.path.insert(0, "../../projects/console/..."))
+// exactly like a learner would locally — the notebook's own code is
+// unmodified. Pyodide's virtual filesystem starts empty, so that import
+// would otherwise fail not because the module itself needs anything
+// unavailable (these are plain-logic modules), but purely because the file
+// isn't there. Rather than reclassify an honestly-browser-compatible lesson
+// as local-required over a fixable packaging detail, fetch the referenced
+// source file(s) (already served at /projects/... same-origin) and mirror
+// the real repo layout inside the VFS — notebooks/<chapter>/ as the working
+// directory, projects/... as a sibling — so the notebook's own relative
+// sys.path.insert() resolves exactly as it would on a real checkout.
+async function loadCompanionFiles(companionFiles, chapterDir) {
+  if (!companionFiles || !companionFiles.length) return;
+  const FS = pyodide.FS;
+  const wd = `/home/pyodide/notebooks/${chapterDir}`;
+  FS.mkdirTree(wd);
+  for (const relPath of companionFiles) {
+    const res = await fetch(`/${relPath}`);
+    if (!res.ok) throw new Error(`Не удалось загрузить сопутствующий файл: ${relPath} (HTTP ${res.status})`);
+    const text = await res.text();
+    const targetPath = `/home/pyodide/${relPath}`;
+    FS.mkdirTree(targetPath.slice(0, targetPath.lastIndexOf("/")));
+    FS.writeFile(targetPath, text);
+  }
+  pyodide.runPython(`import os; os.chdir(${JSON.stringify(wd)})`);
+}
+
+async function initPyodide(companionFiles, chapterDir) {
   const { loadPyodide } = await import(`${PYODIDE_INDEX_URL}pyodide.mjs`);
   pyodide = await loadPyodide({ indexURL: PYODIDE_INDEX_URL });
 
@@ -215,6 +243,7 @@ async function initPyodide() {
 
   const pythonVersion = pyodide.runPython("import sys; sys.version");
   pyodide.runPython(CARTESIAN_RUNTIME_PY);
+  await loadCompanionFiles(companionFiles, chapterDir);
 
   return {
     pythonVersion,
@@ -257,7 +286,7 @@ self.onmessage = async (event) => {
 
   if (msg.type === "init") {
     try {
-      const info = await initPyodide();
+      const info = await initPyodide(msg.companionFiles, msg.chapterDir);
       self.postMessage({ type: "ready", ...info });
     } catch (err) {
       self.postMessage({
