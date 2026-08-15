@@ -14,7 +14,8 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -33,14 +34,7 @@ PAGES = [
     ("12-06-gonka-turtle-itogi.html", "Проект 12-6: Гонка Turtle и итоги"),
 ]
 
-NOTEBOOKS = [
-    "12-01-chetnoe-nechetnoe.ipynb",
-    "12-02-chaevye.ipynb",
-    "12-03-elka.ipynb",
-    "12-04-spirali.ipynb",
-    "12-05-slozhnaya-mandala.ipynb",
-    "12-06-gonka-turtle.ipynb",
-]
+LESSON_IDS = ["12-01", "12-02", "12-03", "12-04", "12-05", "12-06"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -49,7 +43,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 12 · Мини-проекты", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-12/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -110,10 +106,11 @@ def build_01() -> None:
         "глава 9; генератор списков — глава 11.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "12-01-chetnoe-nechetnoe.ipynb · обе части проекта",
-        "../../../notebooks/chapter-12/12-01-chetnoe-nechetnoe.ipynb",
+    {practice_card(
+        "12-01",
+        "Практика: чётное или нечётное",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/12-01/index.html",
     )}
     """
     out = render_page(
@@ -150,10 +147,11 @@ def build_02() -> None:
 
     {exercise(2, "Своя граница щедрости", "Добавьте четвёртую категорию — «сказочно щедро» — для чаевых больше 30%.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "12-02-chaevye.ipynb · вычисляем и оцениваем процент чаевых",
-        "../../../notebooks/chapter-12/12-02-chaevye.ipynb",
+    {practice_card(
+        "12-02",
+        "Практика: вычисляем и оцениваем процент чаевых",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/12-02/index.html",
     )}
     """
     out = render_page(
@@ -222,10 +220,11 @@ def build_03() -> None:
         "треугольников уменьшающегося размера, нарисованных друг под другом в цикле.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "12-03-elka.ipynb · рисуем ёлку",
-        "../../../notebooks/chapter-12/12-03-elka.ipynb",
+    {local_required_card(
+        "12-03",
+        "Практика: рисуем ёлку",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/12-03/index.html",
     )}
     """
     out = render_page(
@@ -304,10 +303,11 @@ def build_04() -> None:
         "пять.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "12-04-spirali.ipynb · все пять спиралей",
-        "../../../notebooks/chapter-12/12-04-spirali.ipynb",
+    {local_required_card(
+        "12-04",
+        "Практика: спирали",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/12-04/index.html",
     )}
     """
     out = render_page(
@@ -350,10 +350,11 @@ def build_05() -> None:
         "нужно. Это и называется «полностью автоматизировано».",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "12-05-slozhnaya-mandala.ipynb · мандала со случайными цветами",
-        "../../../notebooks/chapter-12/12-05-slozhnaya-mandala.ipynb",
+    {local_required_card(
+        "12-05",
+        "Практика: сложная мандала со случайными цветами",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/12-05/index.html",
     )}
     """
     out = render_page(
@@ -411,6 +412,12 @@ def build_06() -> None:
     )}
 
     {exercise(3, "Финишная лента", "Нарисуйте вертикальную линию на финише (x=200) перед началом гонки, используя отдельную черепашку-«судью».")}
+{local_required_card(
+        "12-06",
+        "Практика: гонка Turtle",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/12-06/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы закрепили в этой главе", [
