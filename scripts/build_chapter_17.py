@@ -14,7 +14,8 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -33,13 +34,7 @@ PAGES = [
     ("17-06-novaya-igra-itogi.html", "Новая игра, полная программа и итоги"),
 ]
 
-NOTEBOOKS = [
-    "17-01-bind.ipynb",
-    "17-03-peremennye-knopki.ipynb",
-    "17-04-risuem.ipynb",
-    "17-05-pobeda.ipynb",
-    "17-06-polnaya-igra.ipynb",
-]
+LESSON_IDS = ["17-01", "17-03", "17-04", "17-05", "17-06"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -48,7 +43,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 17 · Крестики-нолики", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-17/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
         SidebarGroup("Исходный код", [NavItem("🐍 tic_tac_toe.py", "../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py")]),
     ]
 
@@ -110,10 +107,11 @@ def build_01() -> None:
         "на нажатия клавиш со стрелками — тот же самый приём, только с другим типом события.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "17-01-bind.ipynb · привязка событий клавиатуры",
-        "../../../notebooks/chapter-17/17-01-bind.ipynb",
+    {local_required_card(
+        "17-01",
+        "Практика: привязка событий клавиатуры",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/17-01/index.html",
     )}
     """
     out = render_page(
@@ -156,10 +154,11 @@ def build_02() -> None:
         'root.title("Крестики-нолики")\n',
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "17-03-peremennye-knopki.ipynb · начинаем собирать игру",
-        "../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb",
+    {local_required_card(
+        "17-03",
+        "Практика: начинаем собирать игру",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/17-03/index.html",
     )}
     """
     out = render_page(
@@ -216,10 +215,11 @@ def build_03() -> None:
         "— номер столбца (<code class=\"inline\">0,1,2,0,1,2,0,1,2</code>).",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "17-03-peremennye-knopki.ipynb · переменные состояния и поле из кнопок",
-        "../../../notebooks/chapter-17/17-03-peremennye-knopki.ipynb",
+    {local_required_card(
+        "17-03",
+        "Практика: переменные состояния и поле из кнопок",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/17-03/index.html",
     )}
     """
     out = render_page(
@@ -265,10 +265,11 @@ def build_04() -> None:
         "каждой лямбды — классическая и важная тонкость Python.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "17-04-risuem.ipynb · обработка клика по клетке поля",
-        "../../../notebooks/chapter-17/17-04-risuem.ipynb",
+    {local_required_card(
+        "17-04",
+        "Практика: обработка клика по клетке поля",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/17-04/index.html",
     )}
     """
     out = render_page(
@@ -322,10 +323,11 @@ def build_05() -> None:
         '    return all(knopka["text"] != "" for knopka in polya)\n',
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "17-05-pobeda.ipynb · проверка победы и ничьей",
-        "../../../notebooks/chapter-17/17-05-pobeda.ipynb",
+    {practice_card(
+        "17-05",
+        "Практика: проверка победы и ничьей",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/17-05/index.html",
     )}
     """
     out = render_page(
@@ -371,6 +373,12 @@ def build_06() -> None:
 
     {exercise(2, "Счёт побед", "Добавьте метки счёта побед X и O, увеличивайте нужный счётчик при каждой победе — счётчик не должен обнуляться кнопкой «Новая игра».")}
     {exercise(3, "Подсветка выигрышной линии", "Когда находится победитель, измените цвет фона трёх выигрышных кнопок — потребуется вернуть из proverit_pobedu() не только победителя, но и индексы линии.")}
+{local_required_card(
+        "17-06",
+        "Практика: новая игра и полная программа",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/17-06/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
