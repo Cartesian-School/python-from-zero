@@ -41,6 +41,7 @@ class PyodideBridge {
     this.onStatusChange = onStatusChange || (() => {});
     this.onInputRequest = null;
     this.onStdoutChunk = null;
+    this.onDisplayHtml = null;
     this.worker = null;
     this.pending = new Map();
     this.requestCounter = 0;
@@ -76,6 +77,8 @@ class PyodideBridge {
           if (this.onInputRequest) this.onInputRequest(msg.prompt, msg.cellId);
         } else if (msg.type === "stdout-chunk") {
           if (this.onStdoutChunk) this.onStdoutChunk(msg.cellId, msg.text);
+        } else if (msg.type === "display-html") {
+          if (this.onDisplayHtml) this.onDisplayHtml(msg.cellId, msg.html);
         }
       };
       this.worker.onerror = (event) => {
@@ -175,6 +178,14 @@ function renderCodeCell(cell, index, state) {
     currentStdoutEl.textContent += text;
   }
 
+  // IPython.display.HTML(...) content, sanitized the same way markdown
+  // cells already are — real rendered markup, not a repr() string.
+  function appendDisplayHtml(html) {
+    currentStdoutEl = null;
+    const box = el("div", "nb-output-display-html", DOMPurify.sanitize(html));
+    output.appendChild(box);
+  }
+
   function renderOutput(res) {
     // Not cleared here: run() clears output up front, before any input()
     // prompts render mid-execution, so their transcript survives the final render.
@@ -243,7 +254,7 @@ function renderCodeCell(cell, index, state) {
 
   runBtn.addEventListener("click", () => run());
 
-  return { wrapper, run, raisesException, view, showInputPrompt, appendLiveStdout };
+  return { wrapper, run, raisesException, view, showInputPrompt, appendLiveStdout, appendDisplayHtml };
 }
 
 function escapeHtml(text) {
@@ -302,6 +313,11 @@ export async function initPracticeApp(config) {
     if (runner) runner.appendLiveStdout(text);
   }
 
+  function handleDisplayHtml(cellId, html) {
+    const runner = cellRunners.find((r) => r.wrapper.dataset.cellId === cellId);
+    if (runner) runner.appendDisplayHtml(html);
+  }
+
   let bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
     if (s === "loading") setStatus("Запускается Python…", "loading");
     else if (s === "ready") {
@@ -313,6 +329,7 @@ export async function initPracticeApp(config) {
   });
   bridge.onInputRequest = handleInputRequest;
   bridge.onStdoutChunk = handleStdoutChunk;
+  bridge.onDisplayHtml = handleDisplayHtml;
   state.bridge = bridge;
   bridge.start();
 
@@ -380,6 +397,7 @@ export async function initPracticeApp(config) {
     });
     bridge.onInputRequest = handleInputRequest;
     bridge.onStdoutChunk = handleStdoutChunk;
+    bridge.onDisplayHtml = handleDisplayHtml;
     state.bridge = bridge;
     try {
       await bridge.start();
