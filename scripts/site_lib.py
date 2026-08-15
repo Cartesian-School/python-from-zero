@@ -193,6 +193,39 @@ def practice_card(lesson_id: str, title: str, sub: str, practice_href: str) -> s
     </script>"""
 
 
+def local_required_card(lesson_id: str, title: str, sub: str, practice_href: str) -> str:
+    """Like practice_card(), but for lessons whose canonical code (e.g. `import
+    turtle`) cannot run in the browser (Pyodide has no turtle/tkinter — see
+    evidence gathered for the Chapter 6/7 rollout). Links to a local-required
+    practice page (build_practice_pages.py's build_local_required_page())
+    instead of a live Pyodide runner, and shows one of three states read from
+    localStorage (cartesian.python.progress.v1): not yet acknowledged, or
+    learner-declared local completion — never a fabricated PASS/score.
+    """
+    lesson_id_js = html.escape(lesson_id).replace('"', '\\"')
+    return f"""
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">{html.escape(title)}</div>
+        <div class="nc-sub">{html.escape(sub)}</div>
+        <div class="practice-inline-status" data-lesson-id="{html.escape(lesson_id)}">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="{html.escape(practice_href)}">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {{
+      try {{
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{{}}");
+        var entry = all["{lesson_id_js}"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="{lesson_id_js}"]');
+        if (entry && entry.status === "completed-local" && el) {{
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }}
+      }} catch (e) {{}}
+    }})();
+    </script>"""
+
+
 def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
     """Горизонтальная диаграмма-цепочка шагов (оригинальная, не скриншот).
 

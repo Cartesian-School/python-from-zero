@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -36,14 +36,7 @@ PAGES = [
     ("07-09-mini-proekt-smajlik-itogi.html", "Мини-проект: смайлик и итоги"),
 ]
 
-NOTEBOOKS = [
-    "07-01-ekran-i-grafika.ipynb",
-    "07-03-figury-okruzhnosti.ipynb",
-    "07-04-dugi.ipynb",
-    "07-06-tekst.ipynb",
-    "07-07-okruzhnost-v-kvadrate.ipynb",
-    "07-09-smajlik.ipynb",
-]
+LESSON_IDS = ["07-01", "07-03", "07-04", "07-06", "07-07", "07-09"]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
@@ -52,7 +45,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 7 · Turtle подробно", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-07/{n}") for n in NOTEBOOKS]),
+        SidebarGroup("Практика", [
+            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+        ]),
     ]
 
 
@@ -108,10 +103,11 @@ def build_01() -> None:
         "шестнадцатеричные коды: <code class=\"inline\">screen.bgcolor(\"#0D0230\")</code> "
         "— тот же формат, что мы используем для фирменных цветов Cartesian School на сайте книги.",
     )}
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-01-ekran-i-grafika.ipynb · настройка экрана и графики",
-        "../../../notebooks/chapter-07/07-01-ekran-i-grafika.ipynb",
+    {local_required_card(
+        "07-01",
+        "Практика: настройка экрана и графики",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-01/index.html",
     )}
     """
     out = render_page(
@@ -152,10 +148,11 @@ def build_02() -> None:
         "мандалы из главы 6), удобно поставить <code class=\"inline\">artist.speed(0)</code> — "
         "черепашка рисует мгновенно, без анимации движения.",
     )}
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-01-ekran-i-grafika.ipynb · включает настройку графики",
-        "../../../notebooks/chapter-07/07-01-ekran-i-grafika.ipynb",
+    {local_required_card(
+        "07-01",
+        "Практика: включает настройку графики",
+        "Тот же ноутбук, что и в разделе «Настраиваем экран» — он охватывает и эту тему",
+        "../../practice/07-01/index.html",
     )}
     """
     out = render_page(
@@ -204,10 +201,11 @@ def build_03() -> None:
     в текущей позиции, без движения черепашки:</p>
     {code_block("tochki.py", 'artist.dot(20, "red")   # точка диаметром 20, красная\n')}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-03-figury-okruzhnosti.ipynb · заливка, окружности и точки",
-        "../../../notebooks/chapter-07/07-03-figury-okruzhnosti.ipynb",
+    {local_required_card(
+        "07-03",
+        "Практика: заливка, окружности и точки",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-03/index.html",
     )}
     """
     out = render_page(
@@ -246,10 +244,11 @@ def build_04() -> None:
         "Комбинируя дугу с обычной линией, легко получить составные фигуры — например, "
         "полукруглый купол домика или арку. Попробуйте в ноутбуке практики.",
     )}
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-04-dugi.ipynb · дуги разного размера",
-        "../../../notebooks/chapter-07/07-04-dugi.ipynb",
+    {local_required_card(
+        "07-04",
+        "Практика: дуги разного размера",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-04/index.html",
     )}
     """
     out = render_page(
@@ -291,10 +290,11 @@ def build_05() -> None:
     <h2>Отмена последнего действия: <code class="inline">undo()</code></h2>
     {code_block("undo.py", "artist.forward(100)\nartist.undo()   # отменяет последнее движение, как Ctrl+Z\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-03-figury-okruzhnosti.ipynb · включает stamp(), hideturtle() и undo()",
-        "../../../notebooks/chapter-07/07-03-figury-okruzhnosti.ipynb",
+    {local_required_card(
+        "07-03",
+        "Практика: включает stamp(), hideturtle() и undo()",
+        "Тот же ноутбук, что и в разделе «Фигуры, окружности, точки» — он охватывает и эту тему",
+        "../../practice/07-03/index.html",
     )}
     """
     out = render_page(
@@ -338,10 +338,11 @@ def build_06() -> None:
         "относительно текущей позиции черепашки.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-06-tekst.ipynb · write() и параметры шрифта",
-        "../../../notebooks/chapter-07/07-06-tekst.ipynb",
+    {local_required_card(
+        "07-06",
+        "Практика: write() и параметры шрифта",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-06/index.html",
     )}
     """
     out = render_page(
@@ -391,10 +392,11 @@ def build_07() -> None:
     )}
     {exercise(2, "Окружность в шестиугольнике", "Замените квадрат на шестиугольник из главы 6 и впишите в него окружность подходящего радиуса.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-07-okruzhnost-v-kvadrate.ipynb · вписанная окружность",
-        "../../../notebooks/chapter-07/07-07-okruzhnost-v-kvadrate.ipynb",
+    {local_required_card(
+        "07-07",
+        "Практика: вписанная окружность",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-07/index.html",
     )}
     """
     out = render_page(
@@ -426,10 +428,11 @@ def build_08() -> None:
     <code class="inline">radians()</code>:</p>
     {code_block("radiany.py", "import math\n\nartist.radians()\nartist.left(math.pi / 2)   # поворот на 90°, выраженный в радианах\n\nartist.degrees()            # возвращаемся к привычным градусам\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "07-07-okruzhnost-v-kvadrate.ipynb · включает практику с направлением рисования",
-        "../../../notebooks/chapter-07/07-07-okruzhnost-v-kvadrate.ipynb",
+    {local_required_card(
+        "07-07",
+        "Практика: включает практику с направлением рисования",
+        "Тот же ноутбук, что и в разделе «Окружность в квадрате» — он охватывает и эту тему",
+        "../../practice/07-07/index.html",
     )}
     """
     out = render_page(
@@ -486,6 +489,13 @@ def build_09() -> None:
     {exercise(1, "Другое настроение", "Измените дугу улыбки на дугу нахмуренных бровей — переверните направление extent.")}
     {exercise(2, "Цветной смайлик", "Смените fillcolor лица на любой другой цвет.")}
     {exercise(3, "Щёчки", "Добавьте два маленьких розовых dot() под глазами — получатся румяные щёчки.")}
+
+    {local_required_card(
+        "07-09",
+        "Практика: рисуем смайлик",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/07-09/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [
