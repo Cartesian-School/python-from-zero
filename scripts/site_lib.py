@@ -547,3 +547,163 @@ def render_chapter_opener(
 </body>
 </html>
 """
+
+
+# ---------------------------------------------------------------------------
+# Проекты — визуальные карточки (site/index.html #proekty) и страницы проектов
+# ---------------------------------------------------------------------------
+#
+# Ни один из projects/**/*.py не имеет собственного скриншота или готового
+# арт-ассета (projects/**/ содержит только .py-файлы и, для todo-app,
+# static/templates без изображений). Поэтому каждая карточка получает
+# оригинальную встроенную SVG-иллюстрацию, написанную вручную по реальному
+# содержимому конкретного проекта — тот же приём, что уже применяется в
+# flow_diagram() выше (векторная графика, ноль внешних запросов, доли
+# килобайта на карточку), а не сгенерированная растровая картинка.
+
+# (project id -> (акцентный цвет 1, акцентный цвет 2)) — общая формула
+# "фирменный градиент + один акцент" держит карточки единым визуальным
+# семейством, при этом акцент делает каждую карточку узнаваемой.
+PROJECT_ACCENTS: dict[str, tuple[str, str]] = {
+    "paint-app": ("var(--violet-500)", "var(--blue-500)"),
+    "snake": ("var(--green-500)", "var(--blue-600)"),
+    "bouncing-ball": ("var(--amber-500)", "var(--violet-500)"),
+    "space-shooter": ("var(--navy-950)", "var(--violet-500)"),
+    "todo-app": ("var(--blue-500)", "var(--green-500)"),
+    "calculator": ("var(--gray-800)", "var(--violet-500)"),
+    "story-generator": ("var(--violet-500)", "var(--amber-500)"),
+    "rock-paper-scissors": ("var(--red-500)", "var(--amber-500)"),
+    "bouncing-balls-oop": ("var(--blue-500)", "var(--green-500)"),
+    "temperature-converter": ("var(--blue-500)", "var(--red-500)"),
+    "notes-app": ("var(--gray-600)", "var(--blue-500)"),
+    "tic-tac-toe": ("var(--navy-950)", "var(--blue-500)"),
+}
+
+
+def _project_icon_svg(project_id: str) -> str:
+    """Inner SVG markup (icon only, white/light fills at partial opacity) for
+    one project, centered roughly on (200, 112) in a 400x225 viewBox. Each
+    icon is a deliberate, legible composition of the real project's own
+    subject matter (its actual mechanic/UI), not a generic pictogram.
+    """
+    if project_id == "paint-app":
+        return """
+        <circle cx="150" cy="95" r="30" fill="#fff" opacity=".85"/>
+        <circle cx="205" cy="80" r="24" fill="#fff" opacity=".55"/>
+        <circle cx="230" cy="130" r="26" fill="#fff" opacity=".7"/>
+        <rect x="120" y="150" width="140" height="18" rx="9" fill="#fff" opacity=".9" transform="rotate(-8 190 159)"/>"""
+    if project_id == "snake":
+        return """
+        <g fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".9">
+          <path d="M110 150 h40 v-40 h40 v-40 h40 v40 h40"/>
+        </g>
+        <circle cx="290" cy="70" r="10" fill="#fff" opacity=".95"/>"""
+    if project_id in ("bouncing-ball", "bouncing-balls-oop"):
+        base = """
+        <circle cx="150" cy="145" r="10" fill="#fff" opacity=".3"/>
+        <circle cx="175" cy="120" r="14" fill="#fff" opacity=".5"/>
+        <circle cx="205" cy="95" r="30" fill="#fff" opacity=".95"/>"""
+        if project_id == "bouncing-balls-oop":
+            base += '\n        <circle cx="270" cy="70" r="16" fill="#fff" opacity=".55"/>'
+        return base
+    if project_id == "space-shooter":
+        return """
+        <polygon points="200,60 175,140 200,122 225,140" fill="#fff" opacity=".95"/>
+        <rect x="192" y="35" width="6" height="18" rx="3" fill="#fff" opacity=".8"/>
+        <rect x="204" y="35" width="6" height="18" rx="3" fill="#fff" opacity=".8"/>
+        <circle cx="130" cy="55" r="3" fill="#fff" opacity=".8"/>
+        <circle cx="270" cy="45" r="3" fill="#fff" opacity=".6"/>
+        <circle cx="290" cy="90" r="2.5" fill="#fff" opacity=".7"/>
+        <circle cx="120" cy="110" r="2.5" fill="#fff" opacity=".5"/>"""
+    if project_id == "todo-app":
+        rows_y = [70, 105, 140]
+        rows = []
+        for i, y in enumerate(rows_y):
+            rows.append(f'<rect x="120" y="{y}" width="160" height="20" rx="10" fill="#fff" opacity="{".9" if i else ".55"}"/>')
+        check = '<path d="M132 80 l7 7 12 -14" fill="none" stroke="var(--navy-950)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>'
+        return "\n        ".join(rows) + "\n        " + check
+    if project_id == "calculator":
+        cells = []
+        for row in range(3):
+            for col in range(4):
+                x = 130 + col * 38
+                y = 60 + row * 38
+                op = ".9" if (row + col) % 2 == 0 else ".55"
+                cells.append(f'<rect x="{x}" y="{y}" width="28" height="28" rx="7" fill="#fff" opacity="{op}"/>')
+        return "\n        ".join(cells)
+    if project_id == "story-generator":
+        return """
+        <path d="M130 150 V85 q0 -12 12 -12 h45 v77 z" fill="#fff" opacity=".85"/>
+        <path d="M270 150 V85 q0 -12 -12 -12 h-45 v77 z" fill="#fff" opacity=".7"/>
+        <rect x="245" y="55" width="26" height="26" rx="6" fill="#fff" opacity=".95"/>
+        <circle cx="253" cy="63" r="2.2" fill="var(--navy-950)"/>
+        <circle cx="263" cy="63" r="2.2" fill="var(--navy-950)"/>
+        <circle cx="258" cy="72" r="2.2" fill="var(--navy-950)"/>"""
+    if project_id == "rock-paper-scissors":
+        return """
+        <circle cx="145" cy="105" r="28" fill="#fff" opacity=".9"/>
+        <g stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".85">
+          <path d="M180 90 l40 40 M220 90 l-40 40"/>
+        </g>
+        <rect x="255" y="80" width="55" height="50" rx="10" fill="#fff" opacity=".7"/>"""
+    if project_id == "temperature-converter":
+        return """
+        <rect x="192" y="45" width="16" height="85" rx="8" fill="#fff" opacity=".9"/>
+        <circle cx="200" cy="145" r="20" fill="#fff" opacity=".95"/>
+        <rect x="196" y="60" width="8" height="65" rx="4" fill="var(--red-500)" opacity=".9"/>
+        <circle cx="200" cy="145" r="11" fill="var(--red-500)" opacity=".9"/>"""
+    if project_id == "notes-app":
+        return """
+        <path d="M140 55 h90 l30 30 v90 h-120 z" fill="#fff" opacity=".9"/>
+        <path d="M230 55 v30 h30 z" fill="#fff" opacity=".5"/>
+        <rect x="155" y="105" width="90" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>
+        <rect x="155" y="123" width="90" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>
+        <rect x="155" y="141" width="55" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>"""
+    if project_id == "tic-tac-toe":
+        return """
+        <g stroke="#fff" stroke-width="6" opacity=".55">
+          <path d="M170 55 v120 M230 55 v120 M140 90 h120 M140 145 h120"/>
+        </g>
+        <g stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".95">
+          <path d="M148 68 l32 32 M180 68 l-32 32"/>
+        </g>
+        <circle cx="255" cy="118" r="17" fill="none" stroke="#fff" stroke-width="9" opacity=".95"/>"""
+    return '<circle cx="200" cy="112" r="30" fill="#fff" opacity=".8"/>'
+
+
+def project_illustration(project_id: str) -> str:
+    """Self-contained 16:9 inline SVG illustration for one real project, used
+    both on the homepage Projects card and the project's own detail page.
+    Purely decorative (the card/page title carries the accessible name), so
+    aria-hidden="true" — no meaningful alt text is lost.
+    """
+    c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
+    icon = _project_icon_svg(project_id)
+    return f"""<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="grad-{project_id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="{c1}"/>
+      <stop offset="100%" stop-color="{c2}"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="225" fill="url(#grad-{project_id})"/>
+  <circle cx="360" cy="20" r="70" fill="#fff" opacity=".05"/>
+  <circle cx="20" cy="205" r="90" fill="#000" opacity=".08"/>
+{icon}
+</svg>"""
+
+
+def project_card(entry: dict) -> str:
+    """Colorful homepage Projects catalog card for one manifest['projects'] entry."""
+    slug = entry["slug"]
+    topics_html = "".join(f'<span class="project-topic">{html.escape(t)}</span>' for t in entry.get("topics", []))
+    return f"""
+    <a class="project-card" href="/projects/{slug}/">
+      <div class="project-card-visual">{project_illustration(entry["id"])}</div>
+      <div class="project-card-body">
+        <div class="project-card-title">{html.escape(entry["title"])}</div>
+        <p class="project-card-desc">{html.escape(entry["description"])}</p>
+        <div class="project-card-topics">{topics_html}</div>
+        <span class="project-card-cta">Открыть проект →</span>
+      </div>
+    </a>"""

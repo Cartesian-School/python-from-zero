@@ -1,0 +1,195 @@
+/* Cartesian School — homepage-only styles (index.html, /projects/).
+   Layered on top of theory.css's design tokens; adds shadow tokens and the
+   larger, more visual components this page needs (course journey, practice
+   catalog, project cards) without touching the shared chapter/practice CSS. */
+
+:root {
+  --shadow-sm: 0 1px 2px rgba(13, 2, 48, 0.06);
+  --shadow-md: 0 8px 24px rgba(13, 2, 48, 0.10);
+  --shadow-lg: 0 16px 48px rgba(13, 2, 48, 0.16);
+  --shadow-glow-violet: 0 0 0 1px rgba(91, 36, 249, 0.25), 0 12px 32px rgba(91, 36, 249, 0.18);
+}
+
+/* ---------- Hero ---------- */
+.home-hero {
+  background: radial-gradient(ellipse 900px 560px at 15% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+  color: #fff; padding: 96px 24px 80px; text-align: center;
+}
+.home-hero .kicker { font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 18px; }
+.home-hero h1 { color: #fff; font-size: clamp(32px, 5vw, 56px); max-width: 800px; margin: 0 auto 20px; }
+.home-hero p { color: var(--gray-400); font-size: 19px; max-width: 620px; margin: 0 auto 32px; }
+.home-cta { display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn { display: inline-block; padding: 14px 28px; border-radius: var(--radius-full); font-weight: 600; text-decoration: none; font-size: 15px; border: none; cursor: pointer; font-family: inherit; }
+.btn-primary { background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); color: #fff; }
+.btn-ghost { border: 1px solid rgba(255,255,255,.25); color: #fff; }
+
+/* ---------- Section shell ---------- */
+.home-section { max-width: 1180px; margin: 0 auto; padding: 72px 24px; }
+.home-section h2 { font-size: 30px; margin-bottom: 8px; }
+.home-section .sub { color: var(--color-text-muted); margin-bottom: 40px; max-width: 640px; font-size: 17px; }
+.home-section .kicker-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-brand-blue); margin-bottom: 10px; }
+
+/* Distinct panel identities per section (spec: coherent family, distinct boundaries) */
+.panel-canvas { background: var(--color-bg-canvas); }
+.panel-surface { background: var(--color-bg-surface); }
+.panel-inverse { background: var(--color-bg-inverse); color: var(--color-text-inverse); }
+.panel-inverse h2, .panel-inverse .kicker-label { color: #fff; }
+.panel-inverse .sub { color: var(--gray-400); }
+
+/* ---------- О курсе ---------- */
+.about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+.about-copy p { font-size: 17px; margin-bottom: 16px; color: var(--color-text-primary); }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.about-stat { background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
+.about-stat .num { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 30px; color: var(--color-brand-violet); }
+.about-stat .lbl { font-size: 13px; color: var(--color-text-muted); margin-top: 4px; }
+
+/* ---------- Как устроен курс (feature grid, no nav anchor) ---------- */
+.feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.feature { padding: 24px; background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: transform .15s ease, box-shadow .15s ease; }
+.feature:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.feature .fi { font-size: 26px; margin-bottom: 10px; }
+.feature h3 { font-size: 16px; margin-bottom: 6px; }
+.feature p { font-size: 14px; color: var(--color-text-muted); }
+
+/* ==========================================================================
+   COURSE JOURNEY — visual roadmap of all 24 chapters
+   ========================================================================== */
+.journey-progress { max-width: 640px; margin: 0 auto 56px; text-align: center; }
+.journey-progress .jp-headline { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+.journey-progress .jp-detail { color: var(--color-text-muted); font-size: 15px; margin-bottom: 14px; }
+.journey-progress .jp-bar-track { height: 10px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; }
+.journey-progress .jp-bar-fill { height: 100%; width: 0%; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); transition: width .6s ease; }
+
+.journey-rail { position: relative; max-width: 900px; margin: 0 auto; }
+.journey-rail::before {
+  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(var(--gray-200), var(--gray-200));
+  transform: translateX(-50%); border-radius: var(--radius-full);
+}
+.journey-node { position: relative; display: grid; grid-template-columns: 1fr 60px 1fr; align-items: center; margin-bottom: 8px; }
+.journey-node .jn-dot {
+  grid-column: 2; width: 20px; height: 20px; border-radius: 50%; background: var(--color-bg-canvas);
+  border: 3px solid var(--gray-400); z-index: 1; justify-self: center; transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.journey-node.state-completed .jn-dot { border-color: var(--green-500); background: var(--green-500); }
+.journey-node.state-in-progress .jn-dot { border-color: var(--color-brand-violet); background: var(--color-bg-canvas); box-shadow: 0 0 0 5px rgba(91,36,249,0.15); }
+.journey-node.state-current .jn-dot { border-color: var(--color-brand-blue); background: var(--color-brand-blue); box-shadow: 0 0 0 6px rgba(24,93,250,0.18); }
+
+.jn-card {
+  background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-lg);
+  padding: 16px 20px; text-decoration: none; color: var(--color-text-primary); box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.jn-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--color-brand-blue); }
+.journey-node:nth-child(odd) .jn-card { grid-column: 1; text-align: right; }
+.journey-node:nth-child(even) .jn-card { grid-column: 3; text-align: left; }
+.jn-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-brand-blue); margin-bottom: 4px; }
+.jn-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+.jn-meta { font-size: 13px; color: var(--color-text-muted); }
+.jn-state-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); margin-top: 8px; }
+.state-not-started .jn-state-badge { background: var(--gray-100); color: var(--gray-600); }
+.state-in-progress .jn-state-badge { background: #F3EEFF; color: var(--violet-500); }
+.state-completed .jn-state-badge { background: #E7F9EF; color: #15803D; }
+.state-current .jn-state-badge { background: #EAF1FF; color: var(--blue-600); }
+
+.journey-all-toggle { text-align: center; margin-top: 40px; }
+
+/* ==========================================================================
+   PRACTICE catalog
+   ========================================================================== */
+.practice-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+.practice-stat-chip { background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-full); padding: 8px 18px; font-size: 14px; box-shadow: var(--shadow-sm); }
+.practice-stat-chip strong { color: var(--color-brand-violet); }
+
+.practice-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+.pf-btn {
+  background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-full);
+  padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--color-text-primary); font-family: inherit;
+}
+.pf-btn.active { background: var(--navy-900); color: #fff; border-color: var(--navy-900); }
+
+.practice-chapter-group { margin-bottom: 18px; border: 1px solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; background: var(--color-bg-canvas); box-shadow: var(--shadow-sm); }
+.pcg-summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; cursor: pointer; list-style: none; }
+.pcg-summary::-webkit-details-marker { display: none; }
+.pcg-summary .pcg-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; }
+.pcg-summary .pcg-meta { font-size: 13px; color: var(--color-text-muted); margin-top: 2px; }
+.pcg-progress { display: flex; align-items: center; gap: 10px; min-width: 140px; }
+.pcg-bar-track { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; }
+.pcg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); border-radius: var(--radius-full); width: 0%; }
+.pcg-count { font-size: 12px; color: var(--color-text-muted); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+.pcg-chevron { transition: transform .15s ease; color: var(--color-text-muted); }
+details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
+
+.pcg-lessons { border-top: 1px solid var(--color-border-default); padding: 8px 12px 14px; }
+.practice-lesson-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 10px; border-radius: var(--radius-md); text-decoration: none; color: var(--color-text-primary);
+}
+.practice-lesson-row:hover { background: var(--color-bg-surface); }
+.plr-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.plr-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-brand-blue); flex-shrink: 0; width: 46px; }
+.plr-title { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plr-badge { flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-full); white-space: nowrap; }
+.plr-badge.mode-browser { background: #EAF1FF; color: var(--blue-600); }
+.plr-badge.mode-local { background: var(--gray-100); color: var(--gray-600); }
+.plr-badge.mode-adapted { background: #F3EEFF; color: var(--violet-500); }
+.plr-check { flex-shrink: 0; color: var(--green-500); font-size: 14px; opacity: 0; }
+.plr-check.done { opacity: 1; }
+
+/* ==========================================================================
+   PROJECTS — the most visual homepage section
+   ========================================================================== */
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.project-card {
+  display: flex; flex-direction: column; border-radius: var(--radius-lg); overflow: hidden; text-decoration: none;
+  color: var(--color-text-primary); background: var(--color-bg-canvas); border: 1px solid var(--color-border-default);
+  box-shadow: var(--shadow-sm); transition: transform .18s ease, box-shadow .18s ease;
+}
+.project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.project-card-visual { aspect-ratio: 16 / 9; width: 100%; display: block; }
+.project-card-visual svg { display: block; }
+.project-card-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.project-card-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px; }
+.project-card-desc { font-size: 14px; color: var(--color-text-muted); flex: 1; }
+.project-card-topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.project-topic { font-size: 11px; font-weight: 600; background: var(--gray-100); color: var(--gray-600); padding: 3px 10px; border-radius: var(--radius-full); }
+.project-card-cta { font-weight: 600; font-size: 14px; color: var(--color-brand-blue); }
+
+/* Project detail page */
+.project-hero { aspect-ratio: 21 / 9; width: 100%; }
+.project-hero svg { display: block; }
+.project-detail-body { max-width: 760px; margin: 0 auto; padding: 48px 24px; }
+.project-detail-body h1 { font-size: 32px; margin-bottom: 12px; }
+.project-detail-body .lede { font-size: 18px; color: var(--color-text-muted); margin-bottom: 24px; }
+.project-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+
+/* ==========================================================================
+   СПРАВОЧНИК — reference board
+   ========================================================================== */
+.reference-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.reference-card { display: flex; align-items: center; gap: 14px; padding: 20px; background: var(--color-bg-canvas); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text-primary); }
+.reference-card:hover { border-color: var(--color-brand-blue); }
+.reference-card .ri { font-size: 22px; flex-shrink: 0; }
+.reference-card .rt { font-weight: 600; font-size: 15px; }
+.reference-card .rs { font-size: 13px; color: var(--color-text-muted); }
+
+.home-footer { background: var(--color-bg-inverse); color: var(--gray-400); padding: 40px 24px; text-align: center; font-size: 13px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .feature-grid, .about-grid, .projects-grid, .reference-board { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
+
+  /* Mobile roadmap: single left-side rail, no zig-zag */
+  .journey-rail::before { left: 10px; transform: none; }
+  .journey-node { grid-template-columns: 20px 1fr; column-gap: 14px; }
+  .journey-node .jn-dot { grid-column: 1; justify-self: start; margin-left: 1px; }
+  .journey-node:nth-child(odd) .jn-card,
+  .journey-node:nth-child(even) .jn-card { grid-column: 2; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature, .jn-card, .project-card { transition: none; }
+  .jp-bar-fill, .pcg-bar-fill { transition: none; }
+}

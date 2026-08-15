@@ -44,6 +44,9 @@ cp -a "${ROOT_DIR}/projects/."       "${DIST_DIR}/projects/"
 echo "==> Validating navigation (local links, fragments, canonical hosts)"
 python3 "${ROOT_DIR}/scripts/validate_navigation.py" "${DIST_DIR}"
 
+echo "==> Validating site catalogs (homepage anchors, chapters, practice, projects)"
+python3 "${ROOT_DIR}/scripts/validate_site_catalogs.py" "${DIST_DIR}"
+
 echo "==> Validating SEO metadata"
 python3 "${ROOT_DIR}/scripts/validate_seo.py" "${DIST_DIR}"
 

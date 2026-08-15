@@ -58,6 +58,10 @@ def _classify(url_path: str) -> str:
         return "chapter-opener"
     if url_path.startswith("/chapters/"):
         return "chapter-lesson"
+    if url_path.startswith("/projects/") and url_path.endswith("/index.html"):
+        return "project"
+    if url_path.startswith("/projects/"):
+        return "other"
     return "other"
 
 
