@@ -7,6 +7,9 @@ DIST_DIR="${ROOT_DIR}/dist"
 
 echo "==> Building Cartesian School Python deployment"
 
+echo "==> Validating manifest/practice_manifest.json"
+python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"
@@ -14,7 +17,11 @@ mkdir -p "${DIST_DIR}/book/epub"
 mkdir -p "${DIST_DIR}/notebooks"
 mkdir -p "${DIST_DIR}/projects"
 
-# Main educational HTML website.
+# Main educational HTML website — this also carries the interactive practice
+# system (site/practice/<lesson-id>/, site/assets/js/practice.bundle.js,
+# site/assets/js/python-worker.mjs), since those are generated/committed under
+# site/ the same way site/chapters/*.html are. No separate build step needed
+# here; see scripts/build_practice_pages.py and web/ for how they're produced.
 cp -a "${ROOT_DIR}/site/." "${DIST_DIR}/"
 
 # Publication downloads — paths must match the relative links already used in

@@ -1,0 +1,164 @@
+/* Cartesian School — interactive practice page (first-party Pyodide runner).
+   Reuses design tokens from theory.css — see that file's :root block. */
+
+.practice-header {
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+.practice-header .brand { display: flex; align-items: center; gap: var(--spacing-sm); }
+.practice-header .brand img { height: 28px; }
+.practice-header .brand-word { font-weight: 700; font-size: 16px; }
+.practice-header .brand-word .school { color: var(--blue-300); }
+.practice-titles { text-align: right; }
+.practice-chapter { font-size: 12px; color: var(--blue-300); text-transform: uppercase; letter-spacing: .04em; }
+.practice-lesson { font-weight: 600; font-size: 15px; }
+
+.practice-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-bg-canvas);
+  border-bottom: 1px solid var(--color-border-default);
+  padding: var(--spacing-md) var(--spacing-2xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+.practice-toolbar button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-canvas);
+  cursor: pointer;
+}
+.practice-toolbar button:disabled { opacity: .5; cursor: not-allowed; }
+.practice-toolbar .btn-primary { background: var(--color-brand-blue); border-color: var(--color-brand-blue); color: #fff; }
+.practice-toolbar .btn-finish { background: var(--green-500); border-color: var(--green-500); color: #fff; }
+.practice-version-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-text-muted); margin-left: auto; }
+.practice-status { font-size: 13px; padding: 4px 10px; border-radius: var(--radius-full); background: var(--color-bg-surface); }
+.practice-status-loading { background: var(--color-callout-info-bg); }
+.practice-status-ready { background: #dcfce7; }
+.practice-status-error { background: var(--color-callout-security-bg); color: var(--red-500); }
+
+.practice-body {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl);
+}
+
+.nb-cell { margin-bottom: var(--spacing-lg); }
+.nb-cell-markdown h1, .nb-cell-markdown h2, .nb-cell-markdown h3 { margin: var(--spacing-md) 0 var(--spacing-sm); }
+.nb-cell-markdown p { margin-bottom: var(--spacing-sm); line-height: 1.6; }
+.nb-cell-markdown code { background: var(--color-bg-surface); padding: 1px 5px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: .9em; }
+
+.nb-cell-code {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.nb-cell-code.nb-cell-ok { border-color: var(--green-500); }
+.nb-cell-code.nb-cell-error { border-color: var(--red-500); }
+
+.nb-code-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 6px 10px;
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border-default);
+}
+.nb-run-cell {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-canvas);
+  cursor: pointer;
+}
+.nb-run-cell:disabled { opacity: .5; cursor: wait; }
+.nb-exec-count { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-text-muted); }
+
+.nb-editor-mount .cm-editor { font-family: 'JetBrains Mono', monospace; }
+.nb-editor-mount .cm-scroller { padding: 8px 4px; }
+
+.nb-cell-output { padding: 0 10px; }
+.nb-cell-output:empty { padding: 0; }
+.nb-output-stdout, .nb-output-result {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  padding: 8px 4px;
+  margin: 0;
+}
+.nb-output-result { color: var(--color-text-muted); }
+.nb-output-stderr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  color: var(--amber-500);
+  padding: 8px 4px;
+  margin: 0;
+}
+.nb-output-error {
+  background: var(--color-callout-security-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+.nb-error-title { font-weight: 700; color: var(--red-500); margin-bottom: 4px; }
+.nb-error-message { font-family: 'JetBrains Mono', monospace; font-size: 13px; white-space: pre-wrap; margin: 0; }
+
+.practice-result-panel:empty { display: none; }
+.practice-result {
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+.practice-result-pass { background: #dcfce7; border: 1px solid var(--green-500); }
+.practice-result-fail { background: var(--color-callout-security-bg); border: 1px solid var(--red-500); }
+.practice-result-headline { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.practice-result-score { font-weight: 600; margin-bottom: var(--spacing-sm); }
+.practice-result-checks { list-style: none; }
+.practice-result-checks li { padding: 3px 0; font-size: 14px; }
+.check-pass { color: #15803d; }
+.check-fail { color: var(--red-500); }
+
+.practice-download {
+  display: block;
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.practice-unsupported {
+  max-width: 640px;
+  margin: var(--spacing-3xl) auto;
+  text-align: center;
+  padding: var(--spacing-2xl);
+}
+.practice-unsupported h2 { margin-bottom: var(--spacing-md); }
+.practice-unsupported p { margin-bottom: var(--spacing-lg); line-height: 1.6; }
+.practice-unsupported .actions { display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 700px) {
+  .practice-header { flex-direction: column; align-items: flex-start; }
+  .practice-titles { text-align: left; }
+  .practice-toolbar { position: static; }
+  .practice-version-label { margin-left: 0; }
+  .practice-toolbar button { min-height: 44px; padding: 10px 16px; }
+  .nb-run-cell { min-height: 44px; padding: 10px 16px; }
+}
