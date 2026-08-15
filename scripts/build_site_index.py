@@ -63,6 +63,9 @@ def mode_of(entry: dict) -> str:
 MODE_LABELS = {"browser": "В браузере", "local": "Локально", "adapted": "В браузере · адаптировано"}
 MODE_CLASS = {"browser": "mode-browser", "local": "mode-local", "adapted": "mode-adapted"}
 
+# Percent-encoded "готовая книга.pdf" — matches build_pdf.py's OUT filename exactly.
+PDF_HREF = "/book/pdf/%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0.pdf"
+
 CHAPTERS = sorted((c for c in COVERAGE["chapters"] if c["kind"] == "chapter"), key=lambda c: c["number"])
 
 lessons_by_chapter: dict[int, list[tuple[str, dict]]] = defaultdict(list)
@@ -303,7 +306,7 @@ HTML = f"""<!DOCTYPE html>
       <span class="ri">🔍</span>
       <div><div class="rt">О техническом рецензенте</div><div class="rs">Кто проверял код и объяснения книги</div></div>
     </a>
-    <a class="reference-card" href="/book/pdf/gotovaya-kniga.pdf">
+    <a class="reference-card" href="{PDF_HREF}">
       <span class="ri">📄</span>
       <div><div class="rt">Скачать PDF</div><div class="rs">Вся книга целиком</div></div>
     </a>

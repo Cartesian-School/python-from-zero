@@ -32,7 +32,7 @@ cp -a "${ROOT_DIR}/site/." "${DIST_DIR}/"
 # Publication downloads — paths must match the relative links already used in
 # site/index.html ("../book/pdf/..." and "../book/epub/..."), which resolve to
 # /book/pdf/... and /book/epub/... once site/ is deployed at the domain root.
-cp "${ROOT_DIR}/book/pdf/gotovaya-kniga.pdf"      "${DIST_DIR}/book/pdf/gotovaya-kniga.pdf"
+cp "${ROOT_DIR}/book/pdf/готовая книга.pdf"      "${DIST_DIR}/book/pdf/готовая книга.pdf"
 cp "${ROOT_DIR}/book/epub/python-s-nulya.epub"    "${DIST_DIR}/book/epub/python-s-nulya.epub"
 
 # Jupyter practice — referenced from chapter pages via "../../../notebooks/...".
