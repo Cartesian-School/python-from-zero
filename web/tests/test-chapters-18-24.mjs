@@ -11,7 +11,13 @@
 // local-required (their referenced project modules call tk.Tk() or
 // pygame.display.set_mode() at import time). Chapter 24 has zero notebooks
 // by design (a wrap-up chapter with no code exercises) — verified here by
-// asserting no phantom /practice/24-* routes exist.
+// asserting no phantom /practice/24-* routes exist. Also covers the final
+// curriculum-completeness gap closed alongside this batch: 01-01, the only
+// canonical notebook that had no practice_manifest.json entry at all
+// (browser-pyodide, graded via cell-id-keyed stdout checks — the same
+// pattern as golden case 03-01) — and the global completeness validator's
+// duplicate-lesson-id / duplicate-notebook / unexplained-gap / orphan-route
+// checks added to scripts/validate_practice_manifest.py.
 //
 // Runs against a local static build (dist/) served with cross-origin
 // isolation headers (scripts/dev_server.py). Requires the Playwright
@@ -146,6 +152,29 @@ async function checkLocalRequired(browser, base, id, { reason } = {}) {
       await page.goto(`${base}/chapters/glava-24/index.html`, { waitUntil: 'networkidle' });
       ok('glava-24/index.html loads (theory pages still present)', (await page.title()).length > 0);
       await page.close();
+    }
+
+    // --- Chapter 1: the final curriculum-completeness gap (01-01) ---
+    log('01-01: closes the last unmapped canonical notebook (122/122 now have practice routes)');
+    {
+      const page = await browser.newPage();
+      await page.goto(`${base}/practice/01-01/index.html`, { waitUntil: 'networkidle' });
+      const versionText = await page.locator('#version-label').textContent();
+      ok('01-01: Python 3.14.x via Pyodide (browser-pyodide, not local-required)', versionText.includes('3.14'));
+      const result = await runAllAndCheck(page);
+      ok('01-01: canonical notebook content PASSes grading (print()-only, no imports)', result.includes('PASS'));
+      await page.close();
+    }
+    log('global completeness validator: 122 canonical == 122 practice + 0 exclusions, 0 unexplained gaps');
+    {
+      const out = execSync('python3 scripts/validate_practice_manifest.py', { cwd: ROOT, encoding: 'utf-8' });
+      ok('validator reports 0 необъяснённых пробелов (0 unexplained gaps)', out.includes('0 необъяснённых пробелов'));
+      const manifestPath = path.join(ROOT, 'manifest', 'practice_manifest.json');
+      const exclusionsPath = path.join(ROOT, 'manifest', 'practice_exclusions.json');
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+      const exclusions = JSON.parse(fs.readFileSync(exclusionsPath, 'utf-8')).exclusions;
+      ok('manifest has exactly 122 practice entries', Object.keys(manifest).length === 122);
+      ok('exclusions file has exactly 0 documented exceptions', Object.keys(exclusions).length === 0);
     }
 
     await browser.close();

@@ -13,7 +13,7 @@ from site_lib import (
     SidebarGroup,
     callout,
     code_block,
-    notebook_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -36,7 +36,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 1 · А вы знали?", items),
-        SidebarGroup("Практика", [NavItem("📓 01-01-dobro-pozhalovat.ipynb", "../../../notebooks/chapter-01/01-01-dobro-pozhalovat.ipynb")]),
+        SidebarGroup("Практика", [NavItem("🐍 01-01: Практика", "../../practice/01-01/index.html")]),
     ]
 
 
@@ -185,10 +185,11 @@ def build_02() -> None:
     оконные приложения с кнопками и полями ввода — калькулятор чаевых и собственное приложение
     для рисования, — а не только программы, которые выводят текст в терминал.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "01-01-dobro-pozhalovat.ipynb · первый запуск кода — без установки чего-либо",
-        "../../../notebooks/chapter-01/01-01-dobro-pozhalovat.ipynb",
+    {practice_card(
+        "01-01",
+        "Практика: первый запуск кода",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/01-01/index.html",
     )}
     """
 
