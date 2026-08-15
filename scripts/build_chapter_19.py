@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -44,6 +44,8 @@ NOTEBOOKS = [
     "19-08-polnaya-igra.ipynb",
 ]
 
+LESSON_IDS = ["19-02", "19-03", "19-04", "19-06", "19-07", "19-08"]
+
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     items = [NavItem(title, href) for href, title in PAGES]
@@ -51,7 +53,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 19 · Змейка", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-19/{n}") for n in NOTEBOOKS]),
+        SidebarGroup(
+            "Практика",
+            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+        ),
         SidebarGroup("Исходный код", [NavItem("🐍 snake.py", "../../../projects/turtle/snake/snake.py")]),
     ]
 
@@ -107,10 +112,11 @@ def build_01() -> None:
     <p><code class="inline">random</code> понадобится для случайного положения яблока (глава 5),
     <code class="inline">turtle</code> — для самой графики.</p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-02-ekran.ipynb · начинаем собирать игру",
-        "../../../notebooks/chapter-19/19-02-ekran.ipynb",
+    {local_required_card(
+        "19-02",
+        "Практика: начинаем собирать игру",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-02/index.html",
     )}
     """
     out = render_page(
@@ -172,10 +178,11 @@ def build_02() -> None:
         "сигнализирует читателю: «это значение не должно меняться».",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-02-ekran.ipynb · настройка экрана и переменных",
-        "../../../notebooks/chapter-19/19-02-ekran.ipynb",
+    {local_required_card(
+        "19-02",
+        "Практика: настройка экрана и переменных",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-02/index.html",
     )}
     """
     out = render_page(
@@ -227,10 +234,11 @@ def build_03() -> None:
         "novoe_yabloko()\n",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-03-golova-yabloko.ipynb · создаём голову и яблоко",
-        "../../../notebooks/chapter-19/19-03-golova-yabloko.ipynb",
+    {local_required_card(
+        "19-03",
+        "Практика: голова и яблоко",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-03/index.html",
     )}
     """
     out = render_page(
@@ -302,10 +310,11 @@ def build_04() -> None:
         "<code class=\"inline\">goto()</code> каждый раз.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-04-dvizhenie.ipynb · клавиши и движение головы",
-        "../../../notebooks/chapter-19/19-04-dvizhenie.ipynb",
+    {local_required_card(
+        "19-04",
+        "Практика: клавиши и движение головы",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-04/index.html",
     )}
     """
     out = render_page(
@@ -348,10 +357,11 @@ def build_05() -> None:
         "поверх предыдущего — цифры быстро превратились бы в нечитаемую кашу.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-06-eda-telo.ipynb · включает обновление табло при поедании яблока",
-        "../../../notebooks/chapter-19/19-06-eda-telo.ipynb",
+    {local_required_card(
+        "19-06",
+        "Практика: табло и поедание яблок",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-06/index.html",
     )}
     """
     out = render_page(
@@ -418,10 +428,11 @@ def build_06() -> None:
         "<em>новую</em> позицию головы вместо старой, и тело слипнется с головой в одну точку.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-06-eda-telo.ipynb · поедание яблок и движение тела",
-        "../../../notebooks/chapter-19/19-06-eda-telo.ipynb",
+    {local_required_card(
+        "19-06",
+        "Практика: поедание яблок и движение тела",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-06/index.html",
     )}
     """
     out = render_page(
@@ -467,10 +478,11 @@ def build_07() -> None:
 
     {exercise(2, "Ускорение игры", "Увеличивайте скорость движения (уменьшайте задержку между шагами) на каждые 50 очков — игра станет постепенно сложнее.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "19-07-stolknoveniya.ipynb · столкновение со стеной и с собой",
-        "../../../notebooks/chapter-19/19-07-stolknoveniya.ipynb",
+    {local_required_card(
+        "19-07",
+        "Практика: столкновения",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-07/index.html",
     )}
     """
     out = render_page(
@@ -521,6 +533,13 @@ def build_08() -> None:
     )}
 
     {exercise(3, "Уровни сложности", "Добавьте выбор уровня сложности перед стартом игры (input() из главы 8) — влияющий на начальную скорость через задержку между шагами.")}
+
+{local_required_card(
+        "19-08",
+        "Практика: полная игра",
+        "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/19-08/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [

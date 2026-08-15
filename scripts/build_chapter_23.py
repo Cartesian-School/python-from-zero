@@ -14,7 +14,8 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
+    practice_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -42,6 +43,8 @@ NOTEBOOKS = [
     "23-06-fajly-tkinter.ipynb",
 ]
 
+LESSON_IDS = ["23-01", "23-02", "23-03", "23-04", "23-05", "23-06"]
+
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     items = [NavItem(title, href) for href, title in PAGES]
@@ -49,7 +52,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 23 · Ещё мини-проекты", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-23/{n}") for n in NOTEBOOKS]),
+        SidebarGroup(
+            "Практика",
+            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+        ),
     ]
 
 
@@ -133,10 +139,11 @@ def build_01() -> None:
 
     <p>Полный код: 📄 <a href="../../../projects/tkinter/calculator/calculator.py">projects/tkinter/calculator/calculator.py</a></p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-01-kalkulyator.ipynb · вычисления и последовательности нажатий",
-        "../../../notebooks/chapter-23/23-01-kalkulyator.ipynb",
+    {local_required_card(
+        "23-01",
+        "Практика: вычисления и последовательности нажатий",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/23-01/index.html",
     )}
     """
     out = render_page(
@@ -193,10 +200,11 @@ def build_02() -> None:
 
     {exercise(2, "Ещё один список", "Добавьте список НАРЕЧИЯ (например, \"внезапно\", \"случайно\", \"незаметно\") и вставьте {narechie} в шаблон.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-02-generator-istorij.ipynb · случайные истории и random.seed()",
-        "../../../notebooks/chapter-23/23-02-generator-istorij.ipynb",
+    {practice_card(
+        "23-02",
+        "Практика: случайные истории и random.seed()",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/23-02/index.html",
     )}
     """
     out = render_page(
@@ -256,10 +264,11 @@ def build_03() -> None:
 
     {exercise(3, "Добавляем ящерицу и Спока", "Реализуйте расширенную версию игры «Камень, ножницы, бумага, ящерица, Спок» — понадобится словарь POBEZHDAET с пятью ключами, каждый побеждает по два варианта.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-03-kamen-nozhnicy-bumaga.ipynb · все 9 комбинаций и симуляция раундов",
-        "../../../notebooks/chapter-23/23-03-kamen-nozhnicy-bumaga.ipynb",
+    {practice_card(
+        "23-03",
+        "Практика: все 9 комбинаций и симуляция раундов",
+        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "../../practice/23-03/index.html",
     )}
     """
     out = render_page(
@@ -319,10 +328,11 @@ def build_04() -> None:
 
     {exercise(2, "Столкновение мячей друг с другом", "Добавьте проверку расстояния между каждой парой мячей — если они соприкоснулись, поменяйте местами их dx и dy.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-04-otskakivayushij-myach.ipynb · класс Myach и несколько мячей сразу",
-        "../../../notebooks/chapter-23/23-04-otskakivayushij-myach.ipynb",
+    {local_required_card(
+        "23-04",
+        "Практика: класс Myach и несколько мячей сразу",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/23-04/index.html",
     )}
     """
     out = render_page(
@@ -391,10 +401,11 @@ def build_05() -> None:
 
     <p>Полный код: 📄 <a href="../../../projects/tkinter/temperature-converter/temperature_converter.py">projects/tkinter/temperature-converter/temperature_converter.py</a></p>
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-05-temperatura.ipynb · формулы и симуляция ввода пользователя",
-        "../../../notebooks/chapter-23/23-05-temperatura.ipynb",
+    {local_required_card(
+        "23-05",
+        "Практика: формулы и симуляция ввода пользователя",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/23-05/index.html",
     )}
     """
     out = render_page(
@@ -456,10 +467,11 @@ def build_06() -> None:
 
     {exercise(2, "Предупреждение о несохранённых изменениях", "Заведите переменную byli_izmeneniya = False, ставьте её в True при любом изменении текста и показывайте предупреждение при попытке «Очистить поле», если она True.")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "23-06-fajly-tkinter.ipynb · сохранение, загрузка и обработка отсутствующего файла",
-        "../../../notebooks/chapter-23/23-06-fajly-tkinter.ipynb",
+    {local_required_card(
+        "23-06",
+        "Практика: сохранение, загрузка и отсутствующий файл",
+        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/23-06/index.html",
     )}
 
     <h2 id="itogi">Итоги</h2>

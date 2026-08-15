@@ -14,7 +14,7 @@ from site_lib import (
     callout,
     code_block,
     exercise,
-    notebook_card,
+    local_required_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -39,6 +39,8 @@ NOTEBOOKS = [
     "20-05-myach.ipynb",
 ]
 
+LESSON_IDS = ["20-02", "20-03", "20-04", "20-05"]
+
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     items = [NavItem(title, href) for href, title in PAGES]
@@ -46,7 +48,10 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         it.active = it.href == active_href
     return [
         SidebarGroup("Глава 20 · Pygame", items),
-        SidebarGroup("Практика", [NavItem(f"📓 {n}", f"../../../notebooks/chapter-20/{n}") for n in NOTEBOOKS]),
+        SidebarGroup(
+            "Практика",
+            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+        ),
         SidebarGroup("Исходный код", [NavItem("🐍 bouncing_ball.py", "../../../projects/pygame/bouncing-ball/bouncing_ball.py")]),
     ]
 
@@ -102,10 +107,11 @@ def build_01() -> None:
     )}
     {code_block("import_pygame.py", "import pygame\n\npygame.init()   # обязательная инициализация перед началом работы\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "20-02-ekran.ipynb · установка и первый импорт",
-        "../../../notebooks/chapter-20/20-02-ekran.ipynb",
+    {local_required_card(
+        "20-02",
+        "Практика: установка и первый импорт",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/20-02/index.html",
     )}
     """
     out = render_page(
@@ -167,10 +173,11 @@ def build_02() -> None:
     «следы» от предыдущего кадра:</p>
     {code_block("zalivka_fona.py", "CVET_FONA = (20, 20, 40)\n\nscreen.fill(CVET_FONA)\n")}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "20-02-ekran.ipynb · включает игровой цикл и заливку фона",
-        "../../../notebooks/chapter-20/20-02-ekran.ipynb",
+    {local_required_card(
+        "20-02",
+        "Практика: игровой цикл и заливка фона",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/20-02/index.html",
     )}
     """
     out = render_page(
@@ -217,10 +224,11 @@ def build_03() -> None:
         "шутера в главе 21.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "20-03-personazhi.ipynb · рисуем персонажей фигурами",
-        "../../../notebooks/chapter-20/20-03-personazhi.ipynb",
+    {local_required_card(
+        "20-03",
+        "Практика: рисуем персонажей",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/20-03/index.html",
     )}
     """
     out = render_page(
@@ -278,10 +286,11 @@ def build_04() -> None:
         "клавиша зажата, — именно так реализовано управление кораблём в главе 21.",
     )}
 
-    {notebook_card(
-        "Практика в Jupyter Notebook",
-        "20-04-dvizhenie-klavishi.ipynb · движение и оба способа обработки клавиш",
-        "../../../notebooks/chapter-20/20-04-dvizhenie-klavishi.ipynb",
+    {local_required_card(
+        "20-04",
+        "Практика: движение и клавиши",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/20-04/index.html",
     )}
     """
     out = render_page(
@@ -342,6 +351,13 @@ def build_05() -> None:
 
     {exercise(2, "Меняем цвет при отскоке", "При каждом отскоке от стены выбирайте новый случайный цвет мяча (random.choice() из главы 5/11).")}
     {exercise(3, "Два мяча", "Добавьте второй мяч с собственными x, y, dx, dy — оба должны двигаться и отскакивать независимо.")}
+
+{local_required_card(
+        "20-05",
+        "Практика: прыгающий мяч",
+        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "../../practice/20-05/index.html",
+    )}
 
     <h2 id="itogi">Итоги</h2>
     {summary_box("Что мы узнали в этой главе", [

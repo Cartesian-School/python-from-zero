@@ -76,6 +76,15 @@ self._cartesian_stdout_chunk = function (cellId, text) {
   self.postMessage({ type: "stdout-chunk", cellId, text });
 };
 
+// IPython.display.HTML(...)/display(...) are used by one lesson (HTML/CSS
+// preview) to show rendered markup inline. Outside a real Jupyter kernel
+// there's no display-hook target, so IPython.display would otherwise just
+// print the object's repr — this bridge forwards the actual HTML string so
+// the host can render it (sanitized) instead of silently degrading.
+self._cartesian_display_html = function (cellId, html) {
+  self.postMessage({ type: "display-html", cellId, html });
+};
+
 const CARTESIAN_RUNTIME_PY = `
 import sys, io, ast, traceback, json, builtins
 
@@ -86,6 +95,50 @@ def _cartesian_input(prompt=""):
     return js._cartesian_blocking_input(str(prompt))
 
 builtins.input = _cartesian_input
+
+def _cartesian_install_display_bridge():
+    # IPython isn't bundled at worker startup — it's lazily fetched by
+    # loadPackagesFromImports() only once a cell's code actually references
+    # it, which happens *before* this runs (executeCell() awaits that load
+    # before calling _cartesian_run_cell). So this can't run once at init
+    # like the input()/stdout hooks; it's called at the top of every cell
+    # instead, idempotently — a no-op via ImportError until IPython first
+    # becomes available, then a cheap redundant re-patch afterward.
+    try:
+        import IPython.display as _ipy_display
+    except ImportError:
+        return
+
+    def _cartesian_display(*objs, **kwargs):
+        import js
+        for obj in objs:
+            html = None
+            if hasattr(obj, "_repr_html_"):
+                try:
+                    html = obj._repr_html_()
+                except Exception:
+                    html = None
+            if html is None and isinstance(obj, _ipy_display.HTML):
+                html = getattr(obj, "data", None)
+            if html is not None:
+                js._cartesian_display_html(__cartesian__.get("current_cell_id", ""), str(html))
+            else:
+                print(repr(obj))
+
+    # display() is defined once (IPython.core.display_functions, in modern
+    # IPython) and re-exported by IPython.display / IPython.core.display —
+    # each of those is an independent name binding, so every location that
+    # might already hold a reference to the original needs patching, not
+    # just the "canonical" one.
+    for _mod_name in ("IPython.core.display_functions", "IPython.core.display", "IPython.display"):
+        try:
+            __import__(_mod_name)
+        except ImportError:
+            continue
+        import sys as _sys
+        _mod = _sys.modules.get(_mod_name)
+        if _mod is not None:
+            _mod.display = _cartesian_display
 
 class _CartesianStreamingStdout(io.StringIO):
     def __init__(self, cell_id):
@@ -99,6 +152,8 @@ class _CartesianStreamingStdout(io.StringIO):
         return super().write(s)
 
 def _cartesian_run_cell(cell_id, code):
+    __cartesian__["current_cell_id"] = cell_id
+    _cartesian_install_display_bridge()
     stdout_buf = _CartesianStreamingStdout(cell_id)
     stderr_buf = io.StringIO()
     old_stdout, old_stderr = sys.stdout, sys.stderr
@@ -146,7 +201,35 @@ def _cartesian_run_cell(cell_id, code):
     }
 `;
 
-async function initPyodide() {
+// A handful of Chapter 23 mini-project lessons import a real, standalone
+// project module (e.g. sys.path.insert(0, "../../projects/console/..."))
+// exactly like a learner would locally — the notebook's own code is
+// unmodified. Pyodide's virtual filesystem starts empty, so that import
+// would otherwise fail not because the module itself needs anything
+// unavailable (these are plain-logic modules), but purely because the file
+// isn't there. Rather than reclassify an honestly-browser-compatible lesson
+// as local-required over a fixable packaging detail, fetch the referenced
+// source file(s) (already served at /projects/... same-origin) and mirror
+// the real repo layout inside the VFS — notebooks/<chapter>/ as the working
+// directory, projects/... as a sibling — so the notebook's own relative
+// sys.path.insert() resolves exactly as it would on a real checkout.
+async function loadCompanionFiles(companionFiles, chapterDir) {
+  if (!companionFiles || !companionFiles.length) return;
+  const FS = pyodide.FS;
+  const wd = `/home/pyodide/notebooks/${chapterDir}`;
+  FS.mkdirTree(wd);
+  for (const relPath of companionFiles) {
+    const res = await fetch(`/${relPath}`);
+    if (!res.ok) throw new Error(`Не удалось загрузить сопутствующий файл: ${relPath} (HTTP ${res.status})`);
+    const text = await res.text();
+    const targetPath = `/home/pyodide/${relPath}`;
+    FS.mkdirTree(targetPath.slice(0, targetPath.lastIndexOf("/")));
+    FS.writeFile(targetPath, text);
+  }
+  pyodide.runPython(`import os; os.chdir(${JSON.stringify(wd)})`);
+}
+
+async function initPyodide(companionFiles, chapterDir) {
   const { loadPyodide } = await import(`${PYODIDE_INDEX_URL}pyodide.mjs`);
   pyodide = await loadPyodide({ indexURL: PYODIDE_INDEX_URL });
 
@@ -160,6 +243,7 @@ async function initPyodide() {
 
   const pythonVersion = pyodide.runPython("import sys; sys.version");
   pyodide.runPython(CARTESIAN_RUNTIME_PY);
+  await loadCompanionFiles(companionFiles, chapterDir);
 
   return {
     pythonVersion,
@@ -202,7 +286,7 @@ self.onmessage = async (event) => {
 
   if (msg.type === "init") {
     try {
-      const info = await initPyodide();
+      const info = await initPyodide(msg.companionFiles, msg.chapterDir);
       self.postMessage({ type: "ready", ...info });
     } catch (err) {
       self.postMessage({

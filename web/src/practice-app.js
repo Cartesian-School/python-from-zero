@@ -41,6 +41,7 @@ class PyodideBridge {
     this.onStatusChange = onStatusChange || (() => {});
     this.onInputRequest = null;
     this.onStdoutChunk = null;
+    this.onDisplayHtml = null;
     this.worker = null;
     this.pending = new Map();
     this.requestCounter = 0;
@@ -48,6 +49,8 @@ class PyodideBridge {
     this.info = null;
     this.inputSync = null;
     this.inputPayload = null;
+    this.companionFiles = null;
+    this.chapterDir = null;
   }
 
   start() {
@@ -76,6 +79,8 @@ class PyodideBridge {
           if (this.onInputRequest) this.onInputRequest(msg.prompt, msg.cellId);
         } else if (msg.type === "stdout-chunk") {
           if (this.onStdoutChunk) this.onStdoutChunk(msg.cellId, msg.text);
+        } else if (msg.type === "display-html") {
+          if (this.onDisplayHtml) this.onDisplayHtml(msg.cellId, msg.html);
         }
       };
       this.worker.onerror = (event) => {
@@ -84,7 +89,7 @@ class PyodideBridge {
       };
     });
     this.onStatusChange({ state: "loading" });
-    this.worker.postMessage({ type: "init" });
+    this.worker.postMessage({ type: "init", companionFiles: this.companionFiles, chapterDir: this.chapterDir });
     return this.readyPromise;
   }
 
@@ -117,8 +122,17 @@ class PyodideBridge {
   }
 }
 
+function fixNotebookRelativeLinks(html) {
+  // Notebook markdown cells link back to theory pages using repo-relative
+  // paths (e.g. "../../site/chapters/glava-06/06-03-....html") that resolve
+  // correctly when the .ipynb is opened from a local checkout, but are
+  // broken once rendered inside a deployed practice page — site/ is the
+  // deploy root itself, not a subdirectory reachable via "../../site/".
+  return html.replace(/href=(["'])(?:\.\.\/)+site\//g, "href=$1/");
+}
+
 function renderMarkdownCell(source) {
-  const raw = marked.parse(source.join ? source.join("") : source);
+  const raw = fixNotebookRelativeLinks(marked.parse(source.join ? source.join("") : source));
   const clean = DOMPurify.sanitize(raw);
   return el("div", "nb-cell nb-cell-markdown", clean);
 }
@@ -173,6 +187,14 @@ function renderCodeCell(cell, index, state) {
       output.appendChild(currentStdoutEl);
     }
     currentStdoutEl.textContent += text;
+  }
+
+  // IPython.display.HTML(...) content, sanitized the same way markdown
+  // cells already are — real rendered markup, not a repr() string.
+  function appendDisplayHtml(html) {
+    currentStdoutEl = null;
+    const box = el("div", "nb-output-display-html", DOMPurify.sanitize(html));
+    output.appendChild(box);
   }
 
   function renderOutput(res) {
@@ -243,7 +265,7 @@ function renderCodeCell(cell, index, state) {
 
   runBtn.addEventListener("click", () => run());
 
-  return { wrapper, run, raisesException, view, showInputPrompt, appendLiveStdout };
+  return { wrapper, run, raisesException, view, showInputPrompt, appendLiveStdout, appendDisplayHtml };
 }
 
 function escapeHtml(text) {
@@ -264,6 +286,8 @@ export async function initPracticeApp(config) {
     nextUrl,
     workerUrl,
     assessment,
+    companionFiles,
+    chapterDir,
     mountEl,
     statusEl,
     runAllBtn,
@@ -302,6 +326,11 @@ export async function initPracticeApp(config) {
     if (runner) runner.appendLiveStdout(text);
   }
 
+  function handleDisplayHtml(cellId, html) {
+    const runner = cellRunners.find((r) => r.wrapper.dataset.cellId === cellId);
+    if (runner) runner.appendDisplayHtml(html);
+  }
+
   let bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
     if (s === "loading") setStatus("Запускается Python…", "loading");
     else if (s === "ready") {
@@ -313,6 +342,9 @@ export async function initPracticeApp(config) {
   });
   bridge.onInputRequest = handleInputRequest;
   bridge.onStdoutChunk = handleStdoutChunk;
+  bridge.onDisplayHtml = handleDisplayHtml;
+  bridge.companionFiles = companionFiles;
+  bridge.chapterDir = chapterDir;
   state.bridge = bridge;
   bridge.start();
 
@@ -380,6 +412,9 @@ export async function initPracticeApp(config) {
     });
     bridge.onInputRequest = handleInputRequest;
     bridge.onStdoutChunk = handleStdoutChunk;
+    bridge.onDisplayHtml = handleDisplayHtml;
+    bridge.companionFiles = companionFiles;
+    bridge.chapterDir = chapterDir;
     state.bridge = bridge;
     try {
       await bridge.start();
