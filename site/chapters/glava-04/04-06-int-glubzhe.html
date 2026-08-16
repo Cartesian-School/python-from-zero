@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>int — целые числа без страха больших значений — Python с нуля — Cartesian School</title>
+<meta name="description" content="int в Python: произвольная точность, неизменяемость, связь с bool, подчёркивания-разделители и сокращённое присваивание." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-04/04-06-int-glubzhe.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="int — целые числа без страха больших значений — Python с нуля — Cartesian School" />
+<meta property="og:description" content="int в Python: произвольная точность, неизменяемость, связь с bool, подчёркивания-разделители и сокращённое присваивание." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-04/04-06-int-glubzhe.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="int — целые числа без страха больших значений — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="int в Python: произвольная точность, неизменяемость, связь с bool, подчёркивания-разделители и сокращённое присваивание." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"int — целые числа без страха больших значений — Python с нуля — Cartesian School","description":"int в Python: произвольная точность, неизменяемость, связь с bool, подчёркивания-разделители и сокращённое присваивание.","url":"https://www.cartesianschool.org/chapters/glava-04/04-06-int-glubzhe.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 4 · Числа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="04-01-chisla-i-peremennye.html">Что такое число для компьютера</a></li><li><a href="04-06-int-glubzhe.html" class="active">int — целые числа без страха</a></li><li><a href="04-07-sistemy-schisleniya.html">Системы счисления</a></li><li><a href="04-02-kommentarii.html">Комментарии в вычислениях</a></li><li><a href="04-08-operatory.html">Арифметические операторы</a></li><li><a href="04-09-poryadok-operacij.html">Порядок выполнения операций</a></li><li><a href="04-10-delenie-i-ostatok.html">Деление и остаток</a></li><li><a href="04-11-stepeni.html">Степени и abs()</a></li><li><a href="04-03-vidy-chisel.html">Карта числовых типов</a></li><li><a href="04-12-float-osnovy.html">float — дробные числа</a></li><li><a href="04-13-pochemu-01-02.html">Почему 0.1 + 0.2 не равно 0.3</a></li><li><a href="04-14-sravnenie-float.html">Сравниваем float правильно</a></li><li><a href="04-15-okruglenie.html">Округление: round, floor, ceil, trunc</a></li><li><a href="04-16-decimal.html">Decimal — точная десятичная арифметика</a></li><li><a href="04-17-fraction.html">Fraction — точные дроби</a></li><li><a href="04-18-kompleksnye-chisla.html">complex и cmath</a></li><li><a href="04-04-preobrazovanie-tipov.html">Преобразование типов чисел</a></li><li><a href="04-19-modul-math.html">Модуль math</a></li><li><a href="04-20-random-i-secrets.html">random и secrets</a></li><li><a href="04-21-statistics-i-inf-nan.html">statistics, inf и nan</a></li><li><a href="04-22-chislovye-oshibki.html">Числовые ошибки и отладка</a></li><li><a href="04-05-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/04-01/index.html">🐍 04-01: Практика</a></li><li><a href="../../practice/04-02/index.html">🐍 04-02: Практика</a></li><li><a href="../../practice/04-06/index.html">🐍 04-06: Практика</a></li><li><a href="../../practice/04-07/index.html">🐍 04-07: Практика</a></li><li><a href="../../practice/04-08/index.html">🐍 04-08: Практика</a></li><li><a href="../../practice/04-09/index.html">🐍 04-09: Практика</a></li><li><a href="../../practice/04-10/index.html">🐍 04-10: Практика</a></li><li><a href="../../practice/04-11/index.html">🐍 04-11: Практика</a></li><li><a href="../../practice/04-12/index.html">🐍 04-12: Практика</a></li><li><a href="../../practice/04-13/index.html">🐍 04-13: Практика</a></li><li><a href="../../practice/04-14/index.html">🐍 04-14: Практика</a></li><li><a href="../../practice/04-15/index.html">🐍 04-15: Практика</a></li><li><a href="../../practice/04-16/index.html">🐍 04-16: Практика</a></li><li><a href="../../practice/04-17/index.html">🐍 04-17: Практика</a></li><li><a href="../../practice/04-18/index.html">🐍 04-18: Практика</a></li><li><a href="../../practice/04-19/index.html">🐍 04-19: Практика</a></li><li><a href="../../practice/04-20/index.html">🐍 04-20: Практика</a></li><li><a href="../../practice/04-21/index.html">🐍 04-21: Практика</a></li><li><a href="../../practice/04-22/index.html">🐍 04-22: Практика</a></li><li><a href="../../practice/04-03/index.html">🐍 04-03: Практика</a></li><li><a href="../../practice/04-04/index.html">🐍 04-04: Практика</a></li><li><a href="../../practice/04-05/index.html">🐍 04-05: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 4</a> / int — целые числа</div>
+    <div class="section-kicker">Глава 4 · Python любит числа</div>
+    <h1>int — целые числа без страха больших значений</h1>
+    <p class="lede">Целые числа в Python могут расти намного больше, чем в большинстве других языков — и остаются при этом неизменяемыми объектами.</p>
+
+
+    <p><code class="inline">int</code> (integer — целое число) — тип для чисел без дробной
+    части: положительных, отрицательных и нуля.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>celye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">0</span>)
+<span class="tok-fn">print</span>(<span class="tok-num">42</span>)
+<span class="tok-fn">print</span>(-<span class="tok-num">17</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(<span class="tok-num">42</span>))</code></pre>
+    </div>
+
+    <h2 id="bolshie-chisla">Числа практически без ограничения размера</h2>
+    <p>В отличие от многих других языков программирования, где целые числа ограничены
+    фиксированным диапазоном (например, 32 или 64 бита), в Python <code class="inline">int</code>
+    может расти сколь угодно — точность <strong>произвольная</strong>, ограниченная практически
+    только доступной памятью компьютера, а не языком.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>bolshoe_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>huge = <span class="tok-num">10</span> ** <span class="tok-num">100</span>
+<span class="tok-fn">print</span>(huge)</code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">💡 Точная формулировка</div>
+        <div class="callout-body">Правильно говорить «произвольная точность, ограниченная доступными ресурсами», а не «неограниченный размер». Формально предел есть — но на практике вы почти никогда его не достигнете в обычных программах.</div>
+      </div>
+    </div>
+
+    <h2 id="immutable-int">Числа неизменяемы — продолжение</h2>
+    <p>Мы уже видели это в разделе 4.1 на примере <code class="inline">age</code>. Ещё раз, уже
+    с двумя именами:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>a_b.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a = <span class="tok-num">10</span>
+b = a
+a += <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(a)  <span class="tok-com"># 11</span>
+<span class="tok-fn">print</span>(b)  <span class="tok-com"># 10 — b не изменился</span></code></pre>
+    </div>
+<figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 154" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="После a += 1: у a — новая связь; b по-прежнему указывает на прежний объект" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">a</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">11</tspan></text><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="109.0">b</tspan></text><line x1="140" y1="103.0" x2="192" y2="103.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="80" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="108.0">10</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">После a += 1: у a — новая связь; b по-прежнему указывает на прежний объект</figcaption></figure>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Не используйте id() как учебный трюк для «кеша целых чисел»</div>
+        <div class="callout-body">Вы можете где-то встретить сравнение <code class="inline">id(256)</code> и <code class="inline">id(257)</code> как «доказательство» особого поведения маленьких чисел. Это деталь реализации CPython (оптимизация кеширования маленьких целых чисел), а не гарантия языка Python — полагаться на неё в реальном коде нельзя, и как обучающий пример она скорее запутывает, чем помогает.</div>
+      </div>
+    </div>
+
+    <h2 id="bool">bool — особый родственник int</h2>
+    <p>Значения <code class="inline">True</code> и <code class="inline">False</code> образуют
+    тип <code class="inline">bool</code> — и исторически он тесно связан с
+    <code class="inline">int</code>: <code class="inline">True</code> ведёт себя как
+    <code class="inline">1</code>, а <code class="inline">False</code> — как
+    <code class="inline">0</code>.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>bool_int.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-kw">True</span>))   <span class="tok-com"># 1</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-kw">False</span>))  <span class="tok-com"># 0</span>
+<span class="tok-fn">print</span>(<span class="tok-kw">True</span> + <span class="tok-kw">True</span>) <span class="tok-com"># 2</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">💡 Но в обычном коде — это логические значения</div>
+        <div class="callout-body">То, что <code class="inline">bool</code> технически «числовой» — деталь языка, а не приглашение складывать <code class="inline">True + True</code> в реальном коде. Полноценно об условиях и логике — в главе про условия; здесь достаточно знать связь с числами, если вы её где-то встретите.</div>
+      </div>
+    </div>
+
+    <h2 id="podcherkivaniya">Разделители-подчёркивания для читаемости</h2>
+    <p>В длинных числах легко потерять счёт нулям. Python позволяет разбивать число
+    подчёркиваниями — они не влияют на значение, только на читаемость:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>naselenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>population = <span class="tok-num">38_000_000</span>
+<span class="tok-fn">print</span>(population)  <span class="tok-com"># 38000000</span></code></pre>
+    </div>
+
+    <h2 id="augmented">Сокращённое присваивание</h2>
+    <p>Операторы вроде <code class="inline">+=</code> — это компактная запись «пересчитать и
+    переприсвоить», а не «изменить число на месте»:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>augmented.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>x = <span class="tok-num">10</span>
+x += <span class="tok-num">1</span>   <span class="tok-com"># то же, что x = x + 1</span>
+x -= <span class="tok-num">2</span>   <span class="tok-com"># то же, что x = x - 2</span>
+x *= <span class="tok-num">3</span>   <span class="tok-com"># то же, что x = x * 3</span></code></pre>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: большие числа и неизменяемость int</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="04-06"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/04-06/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-06"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-06"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="section-nav"><a href="04-01-chisla-i-peremennye.html"><div class="dir">← Назад</div><div class="lbl">Что такое число для компьютера</div></a><a href="04-07-sistemy-schisleniya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Системы счисления</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

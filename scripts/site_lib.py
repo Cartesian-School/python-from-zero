@@ -476,6 +476,284 @@ def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
+def namespace_diagram(
+    bindings: list[tuple[str, str]],
+    *,
+    unreachable: list[str] | None = None,
+    caption: str = "",
+) -> str:
+    """Snapshot of a namespace: each (name, value_repr) pair drawn as its own
+    independent row — name on the left, an arrow, a value box on the right —
+    stacked top to bottom. Two rows that happen to share a value_repr are
+    drawn as two SEPARATE boxes (this function never merges rows), which is
+    exactly right for showing "these two names now point to different
+    objects" after a rebinding. For "several names point at the SAME single
+    object" use converge_diagram() instead — merging boxes there is the
+    correct picture, not this one.
+
+    unreachable: optional list of value_repr strings drawn below the normal
+    rows, each in a dashed muted box with no incoming arrow and a small
+    "0 ссылок" label — for showing an object nothing refers to any more.
+    """
+    unreachable = unreachable or []
+    row_h = 64
+    name_col_w = 170
+    box_w, box_h = 160, 46
+    total_w = name_col_w + box_w + 40
+    n = len(bindings)
+    m = len(unreachable)
+    top_pad = 16
+    total_h = top_pad + n * row_h + (m * (row_h + 14) if m else 0) + 10
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' "
+        "markerWidth='7' markerHeight='7' orient='auto-start-reverse'>"
+        "<path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs>"
+    )
+    box_x = name_col_w + 30
+    for i, (name, value_repr) in enumerate(bindings):
+        y = top_pad + i * row_h
+        cy = y + box_h / 2
+        name_lines = _wrap_svg_text(" ".join(name.split()), max_chars=16, max_lines=2)
+        name_tspans = "".join(
+            f'<tspan x="0" y="{cy - (len(name_lines) - 1) * 10 + 6 + li * 20}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(name_lines)
+        )
+        parts.append(
+            f'<text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" '
+            f'fill="#0D0230">{name_tspans}</text>'
+        )
+        parts.append(
+            f'<line x1="{name_col_w - 30}" y1="{cy}" x2="{box_x - 8}" y2="{cy}" '
+            f'stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/>'
+        )
+        parts.append(
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+        )
+        value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
+        value_top = cy - (len(value_lines) - 1) * 9 + 5
+        value_tspans = "".join(
+            f'<tspan x="{box_x + box_w / 2}" y="{value_top + li * 18}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(value_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" '
+            f'fill="#0D0230">{value_tspans}</text>'
+        )
+    for j, value_repr in enumerate(unreachable):
+        y = top_pad + n * row_h + j * (row_h + 14) + (14 if n else 0)
+        cy = y + box_h / 2
+        parts.append(
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="none" stroke="#B9A0FC" stroke-width="1.5" stroke-dasharray="6,5"/>'
+        )
+        value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
+        value_top = cy - (len(value_lines) - 1) * 9 + 5
+        value_tspans = "".join(
+            f'<tspan x="{box_x + box_w / 2}" y="{value_top + li * 18}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(value_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" '
+            f'fill="#8A8A9A">{value_tspans}</text>'
+        )
+        parts.append(
+            f'<text x="{box_x + box_w / 2}" y="{y + box_h + 16}" text-anchor="middle" '
+            f'font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">0 ссылок</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def place_value_diagram(digits: list[str], place_values: list[int], *, total: str = "", caption: str = "") -> str:
+    """HTML/CSS place-value breakdown for a number system explanation, e.g.
+    1010(2) -> boxes [1,0,1,0] over place values [8,4,2,1] -> sum -> total.
+    digits and place_values must be the same length, most-significant first.
+    """
+    n = len(digits)
+    cells = "".join(
+        f'<div style="display:flex;flex-direction:column;align-items:center;gap:6px">'
+        f'<div style="width:56px;height:56px;border-radius:12px;background:var(--color-bg-canvas,#fff);'
+        f'border:1.5px solid #5B24F9;display:flex;align-items:center;justify-content:center;'
+        f'font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:22px;color:#0D0230">'
+        f'{html.escape(d)}</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">×{pv}</div>'
+        f'</div>'
+        for d, pv in zip(digits, place_values)
+    )
+    plus_row = "".join(
+        '<div style="width:56px;text-align:center;font-size:18px;color:#B9A0FC">'
+        + ("+" if i < n - 1 else "")
+        + "</div>"
+        for i in range(n)
+    )
+    sum_html = (
+        f'<div style="margin-top:14px;text-align:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-size:15px;color:#0D0230">= {html.escape(total)}</div>'
+        if total
+        else ""
+    )
+    inner = (
+        f'<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">{cells}</div>'
+        f'<div style="display:flex;gap:14px;justify-content:center;margin-top:2px">{plus_row}</div>'
+        f'{sum_html}'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{inner}{cap}</figure>'
+
+
+def precedence_ladder(levels: list[tuple[str, str]], *, caption: str = "") -> str:
+    """HTML ladder of precedence levels, highest first. levels: list of
+    (symbols, description), e.g. ("() ", "скобки — всегда первыми")."""
+    rows = "".join(
+        f'<div style="display:flex;align-items:center;gap:16px;padding:10px 16px;'
+        f'background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:12px;margin-bottom:8px">'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:16px;'
+        f'color:#5B24F9;min-width:64px">{html.escape(sym)}</div>'
+        f'<div style="font-size:14px;color:#0D0230">{html.escape(desc)}</div>'
+        f'</div>'
+        for sym, desc in levels
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">{rows}{cap}</figure>'
+
+
+def number_line_diagram(
+    marks: list[tuple[float, str]],
+    *,
+    lo: float,
+    hi: float,
+    highlight: float | None = None,
+    caption: str = "",
+) -> str:
+    """A horizontal number line from lo to hi with labeled tick marks —
+    used for floor/ceil/trunc and negative floor-division explanations.
+    marks: list of (position, label)."""
+    total_w, total_h = 640, 110
+    pad = 40
+    usable = total_w - 2 * pad
+
+    def x_of(v: float) -> float:
+        return pad + (v - lo) / (hi - lo) * usable
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    y = 55
+    parts.append(f'<line x1="{pad}" y1="{y}" x2="{total_w - pad}" y2="{y}" stroke="#B9A0FC" stroke-width="2.5"/>')
+    for v in range(int(lo), int(hi) + 1):
+        x = x_of(v)
+        parts.append(f'<line x1="{x}" y1="{y - 6}" x2="{x}" y2="{y + 6}" stroke="#B9A0FC" stroke-width="2"/>')
+        parts.append(
+            f'<text x="{x}" y="{y + 24}" text-anchor="middle" font-family="Inter, sans-serif" '
+            f'font-size="11" fill="#8A8A9A">{v}</text>'
+        )
+    for pos, label in marks:
+        x = x_of(pos)
+        filled = highlight is not None and abs(pos - highlight) < 1e-9
+        parts.append(f'<circle cx="{x}" cy="{y}" r="7" fill="{"#5B24F9" if filled else "#0D0230"}"/>')
+        parts.append(
+            f'<text x="{x}" y="{y - 16}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="13" fill="#0D0230">{html.escape(label)}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def fraction_bar_diagram(numerator: int, denominator: int, *, caption: str = "") -> str:
+    """A horizontal bar split into `denominator` equal segments, the first
+    `numerator` of them filled — a visual for Fraction(numerator, denominator)."""
+    denominator = max(denominator, 1)
+    total_w, total_h = 420, 90
+    bar_w = 360
+    seg_w = bar_w / denominator
+    bar_x = (total_w - bar_w) / 2
+    bar_y = 20
+    bar_h = 44
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    for i in range(denominator):
+        x = bar_x + i * seg_w
+        fill = "#5B24F9" if i < numerator else "#FAFAFC"
+        parts.append(
+            f'<rect x="{x}" y="{bar_y}" width="{seg_w}" height="{bar_h}" '
+            f'fill="{fill}" stroke="#0D0230" stroke-width="1.2"/>'
+        )
+    parts.append(
+        f'<text x="{total_w / 2}" y="{bar_y + bar_h + 26}" text-anchor="middle" '
+        f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#0D0230">'
+        f'{numerator}/{denominator}</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def complex_plane_diagram(real: float, imag: float, *, caption: str = "") -> str:
+    """Plots one point z = real + imag*j on a labeled complex plane."""
+    total_w, total_h = 320, 320
+    cx, cy = total_w / 2, total_h / 2
+    scale = 30
+    px = cx + real * scale
+    py = cy - imag * scale
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowcx' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#0D0230'/></marker></defs>"
+    )
+    parts.append(f'<line x1="20" y1="{cy}" x2="{total_w - 12}" y2="{cy}" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcx)"/>')
+    parts.append(f'<line x1="{cx}" y1="{total_h - 20}" x2="{cx}" y2="12" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcx)"/>')
+    parts.append(f'<text x="{total_w - 16}" y="{cy - 8}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">real</text>')
+    parts.append(f'<text x="{cx + 10}" y="20" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">imaginary</text>')
+    parts.append(f'<line x1="{cx}" y1="{cy}" x2="{px}" y2="{py}" stroke="#B9A0FC" stroke-width="2" stroke-dasharray="4,4"/>')
+    parts.append(f'<circle cx="{px}" cy="{py}" r="7" fill="#5B24F9"/>')
+    label = f"({real:g}, {imag:g})"
+    parts.append(
+        f'<text x="{px + 12}" y="{py - 10}" font-family="JetBrains Mono, monospace" font-weight="700" '
+        f'font-size="13" fill="#0D0230">z = {real:g}{"+" if imag >= 0 else "-"}{abs(imag):g}j</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def decision_map(entries: list[tuple[str, str]], *, title: str = "", caption: str = "") -> str:
+    """Q -> A decision ladder, e.g. for "which numeric type do I need?".
+    entries: list of (question, answer)."""
+    rows = "".join(
+        f'<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;'
+        f'background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:14px;margin-bottom:10px">'
+        f'<div style="flex:1;font-size:14px;color:#0D0230">{q}</div>'
+        f'<div style="font-size:16px;color:#B9A0FC">→</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:15px;'
+        f'color:#5B24F9;white-space:nowrap">{a}</div>'
+        f'</div>'
+        for q, a in entries
+    )
+    title_html = f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">{html.escape(title)}</div>' if title else ""
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{title_html}{rows}{cap}</figure>'
+
+
 def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
     """A real screenshot/photo, not a generated diagram — captioned figure."""
     width_attr = f' width="{width}"' if width else ""

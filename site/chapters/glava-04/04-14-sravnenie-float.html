@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Сравниваем float правильно — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему == ненадёжен для float и как правильно сравнивать дробные числа через math.isclose()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-04/04-14-sravnenie-float.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Сравниваем float правильно — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему == ненадёжен для float и как правильно сравнивать дробные числа через math.isclose()." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-04/04-14-sravnenie-float.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Сравниваем float правильно — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему == ненадёжен для float и как правильно сравнивать дробные числа через math.isclose()." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Сравниваем float правильно — Python с нуля — Cartesian School","description":"Почему == ненадёжен для float и как правильно сравнивать дробные числа через math.isclose().","url":"https://www.cartesianschool.org/chapters/glava-04/04-14-sravnenie-float.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 4 · Числа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="04-01-chisla-i-peremennye.html">Что такое число для компьютера</a></li><li><a href="04-06-int-glubzhe.html">int — целые числа без страха</a></li><li><a href="04-07-sistemy-schisleniya.html">Системы счисления</a></li><li><a href="04-02-kommentarii.html">Комментарии в вычислениях</a></li><li><a href="04-08-operatory.html">Арифметические операторы</a></li><li><a href="04-09-poryadok-operacij.html">Порядок выполнения операций</a></li><li><a href="04-10-delenie-i-ostatok.html">Деление и остаток</a></li><li><a href="04-11-stepeni.html">Степени и abs()</a></li><li><a href="04-03-vidy-chisel.html">Карта числовых типов</a></li><li><a href="04-12-float-osnovy.html">float — дробные числа</a></li><li><a href="04-13-pochemu-01-02.html">Почему 0.1 + 0.2 не равно 0.3</a></li><li><a href="04-14-sravnenie-float.html" class="active">Сравниваем float правильно</a></li><li><a href="04-15-okruglenie.html">Округление: round, floor, ceil, trunc</a></li><li><a href="04-16-decimal.html">Decimal — точная десятичная арифметика</a></li><li><a href="04-17-fraction.html">Fraction — точные дроби</a></li><li><a href="04-18-kompleksnye-chisla.html">complex и cmath</a></li><li><a href="04-04-preobrazovanie-tipov.html">Преобразование типов чисел</a></li><li><a href="04-19-modul-math.html">Модуль math</a></li><li><a href="04-20-random-i-secrets.html">random и secrets</a></li><li><a href="04-21-statistics-i-inf-nan.html">statistics, inf и nan</a></li><li><a href="04-22-chislovye-oshibki.html">Числовые ошибки и отладка</a></li><li><a href="04-05-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/04-01/index.html">🐍 04-01: Практика</a></li><li><a href="../../practice/04-02/index.html">🐍 04-02: Практика</a></li><li><a href="../../practice/04-06/index.html">🐍 04-06: Практика</a></li><li><a href="../../practice/04-07/index.html">🐍 04-07: Практика</a></li><li><a href="../../practice/04-08/index.html">🐍 04-08: Практика</a></li><li><a href="../../practice/04-09/index.html">🐍 04-09: Практика</a></li><li><a href="../../practice/04-10/index.html">🐍 04-10: Практика</a></li><li><a href="../../practice/04-11/index.html">🐍 04-11: Практика</a></li><li><a href="../../practice/04-12/index.html">🐍 04-12: Практика</a></li><li><a href="../../practice/04-13/index.html">🐍 04-13: Практика</a></li><li><a href="../../practice/04-14/index.html">🐍 04-14: Практика</a></li><li><a href="../../practice/04-15/index.html">🐍 04-15: Практика</a></li><li><a href="../../practice/04-16/index.html">🐍 04-16: Практика</a></li><li><a href="../../practice/04-17/index.html">🐍 04-17: Практика</a></li><li><a href="../../practice/04-18/index.html">🐍 04-18: Практика</a></li><li><a href="../../practice/04-19/index.html">🐍 04-19: Практика</a></li><li><a href="../../practice/04-20/index.html">🐍 04-20: Практика</a></li><li><a href="../../practice/04-21/index.html">🐍 04-21: Практика</a></li><li><a href="../../practice/04-22/index.html">🐍 04-22: Практика</a></li><li><a href="../../practice/04-03/index.html">🐍 04-03: Практика</a></li><li><a href="../../practice/04-04/index.html">🐍 04-04: Практика</a></li><li><a href="../../practice/04-05/index.html">🐍 04-05: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 4</a> / Сравниваем float правильно</div>
+    <div class="section-kicker">Глава 4 · Python любит числа</div>
+    <h1>Сравниваем float правильно</h1>
+    <p class="lede">== почти никогда не подходит для float. Разберём правильный инструмент — math.isclose().</p>
+
+
+    <p>Раз <code class="inline">0.1 + 0.2</code> не равно ровно <code class="inline">0.3</code>
+    (раздел 4.11), прямое сравнение через <code class="inline">==</code> для float — плохая
+    идея:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>sravnenie_ploho.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span> == <span class="tok-num">0.3</span>)  <span class="tok-com"># False!</span></code></pre>
+    </div>
+
+    <h2 id="isclose">math.isclose() — сравнение «достаточно близко»</h2>
+    <p>Правильный инструмент — сравнение с допуском (tolerance): вместо «равно точно» проверяем
+    «достаточно близко»:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>isclose_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> math <span class="tok-kw">import</span> isclose
+
+<span class="tok-fn">print</span>(isclose(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>, <span class="tok-num">0.3</span>))  <span class="tok-com"># True</span></code></pre>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Не изобретайте свой допуск на глаз</div>
+        <div class="callout-body">Часто встречается самодельная проверка вроде <code class="inline">abs(a - b) < 0.000001</code>. Она работает не всегда — для очень больших или очень маленьких чисел фиксированный порог может оказаться слишком строгим или слишком мягким. <code class="inline">math.isclose()</code> по умолчанию использует <strong>относительный</strong> допуск (пропорциональный размеру самих чисел), что гораздо надёжнее для чисел разного масштаба.</div>
+      </div>
+    </div>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>otnositelnyj_dopusk.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> math <span class="tok-kw">import</span> isclose
+
+<span class="tok-fn">print</span>(isclose(<span class="tok-num">1000.0001</span>, <span class="tok-num">1000.0002</span>))  <span class="tok-com"># True — разница мала относительно размера чисел</span>
+<span class="tok-fn">print</span>(isclose(<span class="tok-num">0.0001</span>, <span class="tok-num">0.0002</span>))        <span class="tok-com"># False — та же абсолютная разница, но огромна относительно размера</span></code></pre>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: почините сравнение float</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — замените == на math.isclose()</div>
+        <div class="practice-inline-status" data-lesson-id="04-14"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/04-14/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-14"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-14"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="section-nav"><a href="04-13-pochemu-01-02.html"><div class="dir">← Назад</div><div class="lbl">Почему 0.1 + 0.2 не равно 0.3</div></a><a href="04-15-okruglenie.html" class="next"><div class="dir">Далее →</div><div class="lbl">Округление</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
