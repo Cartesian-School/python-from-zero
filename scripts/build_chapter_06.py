@@ -24,6 +24,7 @@ from site_lib import (
     NavItem,
     PageNav,
     SidebarGroup,
+    axis_compass_diagram,
     callout,
     classic_vs_modern,
     code_block,
@@ -254,14 +255,7 @@ def build_09_koordinaty() -> None:
     <h2>Центр экрана — точка (0, 0)</h2>
     <p>В отличие от многих других графических систем (где ось Y растёт <em>вниз</em>), Turtle
     использует привычную математическую систему координат:</p>
-    <pre style="font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.6;text-align:center;background:var(--color-bg-surface,#FAFAFC);padding:20px;border-radius:16px;overflow-x:auto">
-                 +y
-                  ↑
-                  │
-        -x ←──────┼──────→ +x
-                  │
-                  ↓
-                 -y</pre>
+{axis_compass_diagram(caption="Центр окна — точка (0, 0). Ось X растёт вправо, ось Y растёт вверх.")}
     <ul>
       <li><strong>x</strong> — горизонталь: положительные значения вправо, отрицательные влево.</li>
       <li><strong>y</strong> — вертикаль: положительные значения вверх, отрицательные вниз.</li>

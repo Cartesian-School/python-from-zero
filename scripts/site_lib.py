@@ -876,6 +876,57 @@ def right_triangle_diagram(a: float, b: float, c: float, *, caption: str = "") -
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
+def axis_compass_diagram(*, size: int = 560, caption: str = "") -> str:
+    """A large, plain Cartesian axis compass — just the two axes, arrowheads
+    pointing in all four directions, the origin marked, and +x/-x/+y/-y
+    labels at each arrow tip. For introducing "this is how the coordinate
+    system is oriented" before any points are plotted — for actual plotted
+    points use coordinate_plane_diagram() instead. Deliberately large (the
+    default 560px viewBox matches the ~500-620px desktop drawing width a
+    diagram like this needs to read clearly at normal zoom) — a compass
+    this simple has no excuse to ever look cramped."""
+    total_w = size
+    total_h = round(size * 0.68)
+    cx, cy = total_w / 2, total_h / 2
+    pad_x, pad_y = 44, 28
+    x0, x1 = pad_x, total_w - pad_x
+    y0, y1 = pad_y, total_h - pad_y
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+        f'aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowac' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#0D0230'/></marker></defs>"
+    )
+    parts.append(
+        f'<line x1="{x0}" y1="{cy}" x2="{x1}" y2="{cy}" stroke="#0D0230" stroke-width="2.5" '
+        f'marker-start="url(#arrowac)" marker-end="url(#arrowac)"/>'
+    )
+    parts.append(
+        f'<line x1="{cx}" y1="{y1}" x2="{cx}" y2="{y0}" stroke="#0D0230" stroke-width="2.5" '
+        f'marker-start="url(#arrowac)" marker-end="url(#arrowac)"/>'
+    )
+    parts.append(f'<circle cx="{cx}" cy="{cy}" r="8" fill="#5B24F9"/>')
+    parts.append(
+        f'<text x="{cx + 14}" y="{cy + 24}" font-family="JetBrains Mono, monospace" font-weight="700" '
+        f'font-size="17" fill="#5B24F9">(0, 0)</text>'
+    )
+    label_font = 'font-family="Sora, sans-serif" font-weight="700" font-size="22" fill="#0D0230"'
+    parts.append(f'<text x="{x1 - 8}" y="{cy - 16}" text-anchor="end" {label_font}>+x</text>')
+    parts.append(f'<text x="{x0 + 8}" y="{cy - 16}" text-anchor="start" {label_font}>-x</text>')
+    parts.append(f'<text x="{cx + 16}" y="{y0 + 26}" text-anchor="start" {label_font}>+y</text>')
+    parts.append(f'<text x="{cx + 16}" y="{y1 - 10}" text-anchor="start" {label_font}>-y</text>')
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
 def coordinate_plane_diagram(
     points: list[tuple[float, float, str]],
     *,

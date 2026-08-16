@@ -90,7 +90,7 @@ EXAMPLES: dict[str, str] = {
         'artist.shape("classic")\n'
         'artist.speed(0)\n'
         'artist.penup()\n\n'
-        'headings = [(0, "0°  восток"), (90, "90°  север"), (180, "180°  запад"), (270, "270°  юг")]\n'
+        'headings = [(0, "восток · 0°"), (90, "север · 90°"), (180, "запад · 180°"), (270, "юг · 270°")]\n'
         'colors = ["#5B24F9", "#DB2777", "#059669", "#D97706"]\n'
         'for (angle, label), color in zip(headings, colors):\n'
         '    artist.setheading(angle)\n'
