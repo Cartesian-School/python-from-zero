@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Первый отладчик в IDE — Python с нуля — Cartesian School</title>
+<meta name="description" content="Точки останова, Step Over и Continue — базовая работа с отладчиком в VS Code и PyCharm на одном простом примере." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-03/03-15-otladchik-v-ide.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Первый отладчик в IDE — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Точки останова, Step Over и Continue — базовая работа с отладчиком в VS Code и PyCharm на одном простом примере." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-03/03-15-otladchik-v-ide.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Первый отладчик в IDE — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Точки останова, Step Over и Continue — базовая работа с отладчиком в VS Code и PyCharm на одном простом примере." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Первый отладчик в IDE — Python с нуля — Cartesian School","description":"Точки останова, Step Over и Continue — базовая работа с отладчиком в VS Code и PyCharm на одном простом примере.","url":"https://www.cartesianschool.org/chapters/glava-03/03-15-otladchik-v-ide.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-06-terminal-shell-i-python-repl.html">Терминал, shell и Python REPL</a></li><li><a href="03-07-semejstvo-obolochek.html">Семейство командных оболочек</a></li><li><a href="03-08-pysh.html">PySH: Python-first оболочка</a></li><li><a href="03-02-interaktivny-rezhim.html">Интерактивный режим (Python REPL)</a></li><li><a href="03-09-repl-kak-instrument.html">REPL как инструмент исследования</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-10-input-i-dialog.html">input(): первый диалог</a></li><li><a href="03-11-imena-i-znacheniya.html">Имена и значения</a></li><li><a href="03-12-kommentarii-i-stil.html">Комментарии и читаемый код</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика: выведите своё имя</a></li><li><a href="03-13-oshibki-i-traceback.html">Ошибки, traceback и как их читать</a></li><li><a href="03-14-debug-laboratorii.html">Лаборатории отладки</a></li><li><a href="03-15-otladchik-v-ide.html" class="active">Первый отладчик в IDE</a></li><li><a href="03-16-notebook-i-kernel.html">Notebook и kernel</a></li><li><a href="03-17-mini-proekt-i-itogi.html">Мини-проект и итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li><li><a href="../../practice/03-05/index.html">🐍 03-05: Практика</a></li><li><a href="../../practice/03-06/index.html">🐍 03-06: Практика</a></li><li><a href="../../practice/03-07/index.html">🐍 03-07: Практика</a></li><li><a href="../../practice/03-08/index.html">🐍 03-08: Практика</a></li><li><a href="../../practice/03-09/index.html">🐍 03-09: Практика</a></li><li><a href="../../practice/03-10/index.html">🐍 03-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / Первый отладчик</div>
+    <div class="section-kicker">Глава 3 · Ваша первая программа на Python</div>
+    <h1>Первый отладчик в IDE</h1>
+    <p class="lede">Отладчик умеет то, что не умеет print() — приостановить программу и заглянуть внутрь неё.</p>
+
+
+    <p>Отладчик (debugger) — инструмент, который умеет <strong>приостанавливать</strong>
+    выполняющуюся программу в конкретной строке и показывать, чему в этот момент равны все
+    имена (раздел 3.9). Это гораздо мощнее, чем расставлять
+    <code class="inline">print()</code> по всему коду и запускать заново.</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 904 148" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Общая идея отладчика — одинаковая в VS Code и в PyCharm" style="width:100%;height:auto;max-width:904px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Точка останова</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">клик слева от номера</tspan><tspan x="92.0" y="74">строки</tspan></text><line x1="190" y1="64.0" x2="234" y2="64.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">Run and Debug</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">запуск в режиме</tspan><tspan x="332.0" y="74">отладки</tspan></text><line x1="430" y1="64.0" x2="474" y2="64.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Пауза</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">программа</tspan><tspan x="572.0" y="74">остановилась на этой</tspan><tspan x="572.0" y="88">строке</tspan></text><line x1="670" y1="64.0" x2="714" y2="64.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">Осмотр</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="812.0" y="60">видим текущие</tspan><tspan x="812.0" y="74">значения имён</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Общая идея отладчика — одинаковая в VS Code и в PyCharm</figcaption></figure>
+
+    <p>Возьмём один и тот же крошечный пример для обеих сред:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>debug_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;Анна&quot;</span>
+city = <span class="tok-str">&quot;Варшава&quot;</span>
+greeting = <span class="tok-str">&quot;Привет, &quot;</span> + name
+<span class="tok-fn">print</span>(greeting)</code></pre>
+    </div>
+
+    <h2 id="vscode-debugger">Отладчик в VS Code</h2>
+    <ol>
+      <li>Кликните слева от номера строки <code class="inline">greeting = "Привет, " + name</code>
+        — появится красная точка (breakpoint, точка останова).</li>
+      <li>Откройте вкладку <strong>Run and Debug</strong> на боковой панели (или нажмите
+        <code class="inline">F5</code>).</li>
+      <li>Программа запустится и остановится ровно на точке останова — строка подсветится.</li>
+      <li>В панели <strong>Variables</strong> слева видно текущие значения: <code class="inline">name</code>
+        уже существует, а <code class="inline">greeting</code> — ещё нет (мы остановились ДО
+        выполнения этой строки).</li>
+      <li><strong>Step Over</strong> (значок со стрелкой поверх точки) выполняет ровно одну
+        строку и снова останавливается — теперь <code class="inline">greeting</code> тоже
+        появится в списке переменных.</li>
+      <li><strong>Continue</strong> (▷) отпускает программу до конца или до следующей точки
+        останова.</li>
+    </ol>
+
+    <h2 id="pycharm-debugger">Отладчик в PyCharm</h2>
+    <p>Идея та же самая — отличаются только названия кнопок:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Действие</th><th>VS Code</th><th>PyCharm</th></tr></thead>
+      <tbody><tr><td>Поставить точку останova</td><td>Клик слева от номера строки</td><td>Клик слева от номера строки</td></tr><tr><td>Запустить с отладкой</td><td>Run and Debug / F5</td><td>Значок с жуком рядом с Run</td></tr><tr><td>Выполнить одну строку</td><td>Step Over</td><td>Step Over (F8)</td></tr><tr><td>Продолжить до конца/следующей точки</td><td>Continue</td><td>Resume Program</td></tr><tr><td>Посмотреть значения переменных</td><td>Панель Variables</td><td>Панель Variables (внизу)</td></tr></tbody>
+    </table>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">🖥 О скриншотах на этой странице</div>
+        <div class="callout-body">Эта страница описывает реальный, стандартный интерфейс отладчика VS Code и PyCharm текстом и диаграммой, а не скриншотом — окружение, в котором собирался этот курс, не может делать снимки экрана графических приложений. Сама последовательность действий (точка останова → запуск с отладкой → пауза → осмотр значений → Step Over/Continue) полностью совпадает с тем, что вы увидите на экране.</div>
+      </div>
+    </div>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">🚀 Главная идея</div>
+        <div class="callout-body">Отладчик позволяет ПРИОСТАНОВИТЬ работающую программу и заглянуть внутрь неё — увидеть реальные значения имён в реальный момент выполнения, а не гадать по коду, что должно было произойти.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="03-14-debug-laboratorii.html"><div class="dir">← Назад</div><div class="lbl">Лаборатории отладки</div></a><a href="03-16-notebook-i-kernel.html" class="next"><div class="dir">Далее →</div><div class="lbl">Notebook и kernel</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

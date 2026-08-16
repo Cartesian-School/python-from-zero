@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Имена и значения — Python с нуля — Cartesian School</title>
+<meta name="description" content="Что такое имя (переменная) в Python — не «коробка», а указатель на значение, — и как читать NameError." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-03/03-11-imena-i-znacheniya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Имена и значения — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Что такое имя (переменная) в Python — не «коробка», а указатель на значение, — и как читать NameError." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-03/03-11-imena-i-znacheniya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Имена и значения — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Что такое имя (переменная) в Python — не «коробка», а указатель на значение, — и как читать NameError." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Имена и значения — Python с нуля — Cartesian School","description":"Что такое имя (переменная) в Python — не «коробка», а указатель на значение, — и как читать NameError.","url":"https://www.cartesianschool.org/chapters/glava-03/03-11-imena-i-znacheniya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-06-terminal-shell-i-python-repl.html">Терминал, shell и Python REPL</a></li><li><a href="03-07-semejstvo-obolochek.html">Семейство командных оболочек</a></li><li><a href="03-08-pysh.html">PySH: Python-first оболочка</a></li><li><a href="03-02-interaktivny-rezhim.html">Интерактивный режим (Python REPL)</a></li><li><a href="03-09-repl-kak-instrument.html">REPL как инструмент исследования</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-10-input-i-dialog.html">input(): первый диалог</a></li><li><a href="03-11-imena-i-znacheniya.html" class="active">Имена и значения</a></li><li><a href="03-12-kommentarii-i-stil.html">Комментарии и читаемый код</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика: выведите своё имя</a></li><li><a href="03-13-oshibki-i-traceback.html">Ошибки, traceback и как их читать</a></li><li><a href="03-14-debug-laboratorii.html">Лаборатории отладки</a></li><li><a href="03-15-otladchik-v-ide.html">Первый отладчик в IDE</a></li><li><a href="03-16-notebook-i-kernel.html">Notebook и kernel</a></li><li><a href="03-17-mini-proekt-i-itogi.html">Мини-проект и итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li><li><a href="../../practice/03-05/index.html">🐍 03-05: Практика</a></li><li><a href="../../practice/03-06/index.html">🐍 03-06: Практика</a></li><li><a href="../../practice/03-07/index.html">🐍 03-07: Практика</a></li><li><a href="../../practice/03-08/index.html">🐍 03-08: Практика</a></li><li><a href="../../practice/03-09/index.html">🐍 03-09: Практика</a></li><li><a href="../../practice/03-10/index.html">🐍 03-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / Имена и значения</div>
+    <div class="section-kicker">Глава 3 · Ваша первая программа на Python</div>
+    <h1>Первые имена и значения</h1>
+    <p class="lede">Правильная мысленная модель переменной в Python — не коробка с данными, а имя, указывающее на значение.</p>
+
+
+    <p>Мы уже создавали имена вроде <code class="inline">name</code> в предыдущих разделах —
+    настало время разобрать, что это на самом деле означает.</p>
+
+    <h2 id="ne-korobka">Не «коробка с данными»</h2>
+    <p>Частая, но не совсем точная метафора: «переменная — это коробка, в которую кладут
+    значение». Она сбивает с толку в Python, потому что подразумевает, будто у каждого имени
+    своя отдельная ячейка памяти. На самом деле правильнее думать иначе:</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center"><svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" role="img"
+      aria-label="Имя указывает на значение — а не «содержит» его" style="width:100%;height:auto;max-width:400px">
+      <defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+        orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"/></marker></defs>
+      <text x="10" y="52" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#0D0230">city</text>
+      <line x1="95" y1="45" x2="220" y2="45" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrow2)"/>
+      <rect x="230" y="15" width="160" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>
+      <text x="310" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#0D0230">&#x27;Warsaw&#x27;</text>
+    </svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Имя указывает на значение — а не «содержит» его</figcaption></figure>
+
+    <p>Имя — это, скорее, стрелка, указывающая на значение. Присваивание
+    <code class="inline">city = "Warsaw"</code> не «кладёт» строку внутрь <code class="inline">city</code>
+    — оно заставляет имя <code class="inline">city</code> указывать на объект-строку
+    <code class="inline">"Warsaw"</code>, который существует сам по себе.</p>
+
+    <h2 id="pervoe-imya">Создание и чтение имени</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>names.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>city = <span class="tok-str">&quot;Warsaw&quot;</span>
+<span class="tok-fn">print</span>(city)</code></pre>
+    </div>
+    <p>Части этой строки:</p>
+    <ul>
+      <li><code class="inline">city</code> — имя (переменная);</li>
+      <li><code class="inline">=</code> — оператор присваивания: «пусть имя слева указывает на
+        значение справа»;</li>
+      <li><code class="inline">"Warsaw"</code> — значение (объект).</li>
+    </ul>
+
+    <h2 id="odno-znachenie-neskolko-imen">Одно значение — несколько имён</h2>
+    <p>Поскольку имя — это просто указатель, у одного и того же значения может быть несколько
+    имён одновременно:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>names2.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>city = <span class="tok-str">&quot;Warsaw&quot;</span>
+town = city
+<span class="tok-fn">print</span>(city)
+<span class="tok-fn">print</span>(town)</code></pre>
+    </div>
+    <p>А присваивание новому имени НЕ меняет то, на что указывает старое:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>names3.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>city = <span class="tok-str">&quot;Warsaw&quot;</span>
+town = city
+city = <span class="tok-str">&quot;Krakow&quot;</span>
+<span class="tok-fn">print</span>(city)  <span class="tok-com"># Krakow</span>
+<span class="tok-fn">print</span>(town)  <span class="tok-com"># всё ещё Warsaw</span></code></pre>
+    </div>
+
+    <h2 id="prostaya-model-pamyati">Простая модель: пространство имён процесса</h2>
+    <p>Пока программа работает, Python хранит где-то список всех созданных имён и того, на что
+    каждое из них сейчас указывает — это называется <strong>пространством имён</strong>
+    (namespace). Схематично:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>Пространство имён (упрощённо)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>namespace
+├── city --&gt; &quot;Warsaw&quot;
+└── town --&gt; &quot;Warsaw&quot;</code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">💡 Пока — без внутренностей</div>
+        <div class="callout-body">Как именно Python хранит объекты в памяти (куча, счётчик ссылок, сборщик мусора) — тема для гораздо более поздних глав. Сейчас достаточно одной идеи: пока программа работает, Python поддерживает набор имён, которые указывают на объекты.</div>
+      </div>
+    </div>
+
+    <h2 id="nameerror">Обращение к ещё не созданному имени</h2>
+    <p>Если обратиться к имени раньше, чем оно было создано присваиванием, Python не может
+    догадаться, что вы имеете в виду — и сообщает об ошибке:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>broken.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(favourite_city)
+favourite_city = <span class="tok-str">&quot;Warsaw&quot;</span></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Ошибка</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>NameError: name &#x27;favourite_city&#x27; is not defined</code></pre>
+    </div>
+    <p>Подробно про ошибки и то, как читать такие сообщения, — в разделе 3.13.</p>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: имена и значения</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — присваивание, чтение, NameError</div>
+        <div class="practice-inline-status" data-lesson-id="03-07"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/03-07/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["03-07"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="03-07"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="section-nav"><a href="03-10-input-i-dialog.html"><div class="dir">← Назад</div><div class="lbl">input(): первый диалог</div></a><a href="03-12-kommentarii-i-stil.html" class="next"><div class="dir">Далее →</div><div class="lbl">Комментарии и читаемый код</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

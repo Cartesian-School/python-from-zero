@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PySH: Python-first оболочка — Python с нуля — Cartesian School</title>
+<meta name="description" content="Знакомство с PySH — Python-native альтернативой традиционным shell — на примере реального локально установленного окружения." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-03/03-08-pysh.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="PySH: Python-first оболочка — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Знакомство с PySH — Python-native альтернативой традиционным shell — на примере реального локально установленного окружения." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-03/03-08-pysh.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PySH: Python-first оболочка — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Знакомство с PySH — Python-native альтернативой традиционным shell — на примере реального локально установленного окружения." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"PySH: Python-first оболочка — Python с нуля — Cartesian School","description":"Знакомство с PySH — Python-native альтернативой традиционным shell — на примере реального локально установленного окружения.","url":"https://www.cartesianschool.org/chapters/glava-03/03-08-pysh.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-06-terminal-shell-i-python-repl.html">Терминал, shell и Python REPL</a></li><li><a href="03-07-semejstvo-obolochek.html">Семейство командных оболочек</a></li><li><a href="03-08-pysh.html" class="active">PySH: Python-first оболочка</a></li><li><a href="03-02-interaktivny-rezhim.html">Интерактивный режим (Python REPL)</a></li><li><a href="03-09-repl-kak-instrument.html">REPL как инструмент исследования</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-10-input-i-dialog.html">input(): первый диалог</a></li><li><a href="03-11-imena-i-znacheniya.html">Имена и значения</a></li><li><a href="03-12-kommentarii-i-stil.html">Комментарии и читаемый код</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика: выведите своё имя</a></li><li><a href="03-13-oshibki-i-traceback.html">Ошибки, traceback и как их читать</a></li><li><a href="03-14-debug-laboratorii.html">Лаборатории отладки</a></li><li><a href="03-15-otladchik-v-ide.html">Первый отладчик в IDE</a></li><li><a href="03-16-notebook-i-kernel.html">Notebook и kernel</a></li><li><a href="03-17-mini-proekt-i-itogi.html">Мини-проект и итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li><li><a href="../../practice/03-05/index.html">🐍 03-05: Практика</a></li><li><a href="../../practice/03-06/index.html">🐍 03-06: Практика</a></li><li><a href="../../practice/03-07/index.html">🐍 03-07: Практика</a></li><li><a href="../../practice/03-08/index.html">🐍 03-08: Практика</a></li><li><a href="../../practice/03-09/index.html">🐍 03-09: Практика</a></li><li><a href="../../practice/03-10/index.html">🐍 03-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / PySH</div>
+    <div class="section-kicker">Глава 3 · Ваша первая программа на Python</div>
+    <h1>PySH: Python-first оболочка</h1>
+    <p class="lede">Ещё один взгляд на командную строку — что если вместо мини-языка команд использовать прямо настоящий Python?</p>
+
+
+    <p>PySH — это реальная, установленная на этом компьютере программа, и все примеры на этой
+    странице — настоящий, проверенный вывод именно этой установки, а не выдуманный текст.</p>
+
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/screenshots/pysh-shell-com-homepage.jpg" alt="Главная страница официального сайта pysh-shell.com"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">pysh-shell.com — официальный сайт проекта PySH («The Python-Native Automation Platform»). Версия на сайте (0.8.2) совпадает с версией, установленной на этом компьютере.</figcaption>
+    </figure>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Только этот проект</div>
+        <div class="callout-body">В мире существует несколько пакетов с похожим названием «pysh». Этот раздел — именно про проект pysh-shell.com (пакет на PyPI называется <code class="inline">pysh-shell</code>, команда — <code class="inline">pysh</code>), а не про другие одноимённые инструменты.</div>
+      </div>
+    </div>
+
+    <h2 id="chto-eto">Что такое PySH</h2>
+    <p>PySH — это интерактивная командная оболочка (shell — раздел 3.3), написанная на чистом
+    Python и позиционирующая себя как <strong>Python-first альтернатива</strong> традиционным
+    shell вроде Bash. Официальное описание с сайта: «The Python-Native Automation Platform for
+    Developers, System Administrators, and DevOps Engineers».</p>
+
+    <h2 id="dva-podhoda">Два подхода к командной строке</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Традиционный подход: терминал → shell-язык → shell-скрипт" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Терминал</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">окно</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">Bash / Zsh</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">shell-язык команд</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Скрипт</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">pipes, спецсимволы</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Традиционный подход: терминал → shell-язык → shell-скрипт</figcaption></figure>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 876 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Python-first подход PySH: обычные Python-инструменты прямо в командной строке" style="width:100%;height:auto;max-width:876px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">pathlib</tspan></text><path d="M78.0,70 C78.0,120.0 438.0,120.0 438.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="44.0">исключения</tspan></text><path d="M258.0,70 C258.0,120.0 438.0,120.0 438.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="360.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="438.0" y="44.0">logging</tspan></text><path d="M438.0,70 C438.0,120.0 438.0,120.0 438.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="540.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="618.0" y="44.0">pytest</tspan></text><path d="M618.0,70 C618.0,120.0 438.0,120.0 438.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="720.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="798.0" y="44.0">PyPI</tspan></text><path d="M798.0,70 C798.0,120.0 438.0,120.0 438.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="318.0" y="170" width="240" height="60" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="438.0" y="205.0">PySH</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Python-first подход PySH: обычные Python-инструменты прямо в командной строке</figcaption></figure>
+    <p>Традиционный shell отлично подходит для коротких интерактивных команд — но чем сложнее
+    становится скрипт, тем сильнее чувствуется нехватка настоящего языка программирования:
+    структурных исключений, тестов, читаемых модулей. PySH предлагает другое направление: писать
+    автоматизацию сразу на Python, не переключаясь между двумя разными языками.</p>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">💡 Не путайте с полной заменой Bash</div>
+        <div class="callout-body">PySH сам честно указывает в официальной документации: это <strong>не</strong> полная POSIX-совместимая замена <code class="inline">/bin/sh</code>, не клон Zsh и не гарантированно совместим с любым существующим Bash-скриптом. Это самостоятельное направление с собственным, Python-ориентированным подходом — а не притворство, что внутри спрятан настоящий Bash.</div>
+      </div>
+    </div>
+
+    <h2 id="zapusk">Запуск PySH — реальный вывод</h2>
+    <p>На этом компьютере PySH уже установлен. Проверим это теми же командами, которыми вы
+    проверяли бы любую другую программу:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>command -v pysh
+pysh --version</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальный вывод</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>/usr/bin/pysh
+pysh 0.8.2</code></pre>
+    </div>
+
+    <p>Запустим PySH и посмотрим на настоящий баннер и приглашение:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал — реальная сессия PySH</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>🐍 PySH 0.8.2 | Python 3.13.5 | GPL-2.0-only
+System: Debian GNU/Linux 13 | Kernel 6.12.101 | 11th Gen Intel Core i3-1115G4 | RAM 19 GiB
+Type &#x27;exit&#x27; or press Ctrl+D to quit.
+┌─🐍 astra@soi ─ [~/Projects/Python_001] ─ git:feat/curriculum-v2-chapter-03
+│  py3.13 · uv0.11.24 · ruff0.15.20 · rust1.85.0 · node26.3.1 · npm11.16.0
+└─❯ </code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">🖥 О скриншотах на этой странице</div>
+        <div class="callout-body">Эта страница показывает настоящий, дословно скопированный вывод реальной установленной PySH — терминальный вывод воспроизведён как текст, а не как фотография экрана, потому что окружение, в котором собирался этот курс, технически не может делать снимки экрана графических окон. Каждая команда на этой странице была выполнена по-настоящему.</div>
+      </div>
+    </div>
+
+    <p>Приглашение PySH — двухстрочное и информативное: имя пользователя, хост, текущая папка,
+    ветка git — и вторая строка с версиями инструментов проекта (Python, uv, ruff, и другие,
+    если они найдены). Это тот же дух, что и у «продвинутых» тем оформления для Bash/Zsh, только
+    встроенный по умолчанию.</p>
+
+    <h2 id="obychnye-komandy">PySH понимает обычные команды</h2>
+    <p>Несмотря на Python-first философию, привычные команды тоже работают — PySH умеет запускать
+    внешние программы, пайпы и базовые операторы, как обычный shell:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальная сессия</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>└─❯ pwd
+/home/astra/Projects/Python_001
+└─❯ ls scripts | head -3
+build_book.py
+build_chapter_01.py
+build_chapter_02.py</code></pre>
+    </div>
+
+    <h2 id="python-native">Python прямо в командной строке</h2>
+    <p>А вот это уже отличает PySH от обычного shell: команда <code class="inline">py</code>
+    выполняет настоящий Python прямо на месте, в постоянном (сохраняющемся между вызовами)
+    контексте:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальная сессия</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>└─❯ py print(&quot;hello from python&quot;)
+hello from python
+└─❯ py x = 10
+└─❯ py print(x)
+10</code></pre>
+    </div>
+
+    <p>Переменные и импорты сохраняются между отдельными вызовами <code class="inline">py</code>
+    — <code class="inline">x</code> из первой команды доступен во второй. Для более длинного кода
+    есть и многострочный блок:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальная сессия</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>└─❯ py {
+import os
+targets = [p for p in os.environ.get(&quot;PATH&quot;, &quot;&quot;).split(&quot;:&quot;) if p]
+print(f&quot;PATH entries: {len(targets)}&quot;)
+}
+PATH entries: 43</code></pre>
+    </div>
+
+    <p>Есть и третий, более «тяжёлый» режим — полноценный вложенный Python REPL со своим
+    <code class="inline">&gt;&gt;&gt;</code> приглашением, который включается командой
+    <code class="inline">#py</code> прямо из обычного приглашения PySH:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальная сессия</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>└─❯ #py
+PySH Python Command Execution Layer | GPL-2.0-only
+Python 3.13.5
+Type #help for commands, Ctrl+D or #exit to return to PySH.
+
+&gt;&gt;&gt; 2 + 2
+4
+&gt;&gt;&gt; print(&quot;Привет, PySH!&quot;)
+Привет, PySH!
+&gt;&gt;&gt; #exit</code></pre>
+    </div>
+
+    <h2 id="sravnenie">Bash-скрипт и PySH-подход: один пример</h2>
+    <p>Небольшая иллюстрация разницы в стиле — не чтобы объявить один способ «плохим», а чтобы
+    показать, откуда берётся Python-first идея.</p>
+
+
+    <div class="cvm">
+      <div class="cvm-header">Задача: посчитать файлы в текущей папке</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Bash</div>
+          <pre><code>count=$(ls | wc -l)
+echo <span class="tok-str">&quot;Файлов: $count&quot;</span></code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">PySH (py-блок)</div>
+          <pre><code>py {
+    <span class="tok-kw">import</span> os
+    count = <span class="tok-fn">len</span>(os.listdir(<span class="tok-str">&#x27;.&#x27;</span>))
+    <span class="tok-fn">print</span>(<span class="tok-str">f&#x27;</span><span class="tok-str">Файлов: </span>{count}<span class="tok-str">&#x27;</span>)
+}</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> Для короткой разовой команды Bash по-прежнему быстрее набрать. Но как только автоматизация обрастает условиями, обработкой ошибок и тестами — читаемый Python начинает выигрывать. PySH даёт этот путь, не заставляя переключаться в отдельный .py-файл.</div>
+    </div>
+
+    <h2 id="lokalnaya-lab">🖥 Локальная лаборатория: попробуйте PySH (необязательно)</h2>
+    <p>Это — необязательное упражнение для вашего собственного компьютера. Оно не проверяется
+    автоматически и не является обязательным условием для прохождения курса Python — PySH стоит
+    <strong>знать</strong>, а пользоваться им дальше или нет — решать вам.</p>
+
+    <div class="exercise">
+      <div class="exercise-stars">🖥 Необязательно · локально на вашем компьютере</div>
+      <div class="exercise-title">Чек-лист: первый запуск PySH</div>
+      <ul style="list-style:none;padding-left:0;margin-top:16px">
+        <li style="margin-bottom:10px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="margin-top:4px;flex-shrink:0" /><span>Установите PySH: <code class="inline">pip install pysh-shell</code> (или найдите готовую установку через <code class="inline">command -v pysh</code>)</span></label></li>
+        <li style="margin-bottom:10px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="margin-top:4px;flex-shrink:0" /><span>Запустите <code class="inline">pysh</code> и посмотрите на настоящий баннер и приглашение</span></label></li>
+        <li style="margin-bottom:10px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="margin-top:4px;flex-shrink:0" /><span>Выполните одну простую команду, например <code class="inline">pwd</code> или <code class="inline">ls</code></span></label></li>
+        <li style="margin-bottom:10px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="margin-top:4px;flex-shrink:0" /><span>Попробуйте команду <code class="inline">py print("hello")</code> — Python прямо из приглашения PySH</span></label></li>
+        <li style="margin-bottom:10px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="margin-top:4px;flex-shrink:0" /><span>Выйдите командой <code class="inline">exit</code> или Ctrl+D</span></label></li>
+      </ul>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">📚 Официальные источники</div>
+        <div class="callout-body">pysh-shell.com — сайт проекта; pypi.org/project/pysh-shell — страница пакета (<code class="inline">pip install pysh-shell</code>); полная документация — в репозитории проекта, ссылка указана на PyPI-странице.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="03-07-semejstvo-obolochek.html"><div class="dir">← Назад</div><div class="lbl">Семейство командных оболочек</div></a><a href="03-02-interaktivny-rezhim.html" class="next"><div class="dir">Далее →</div><div class="lbl">Интерактивный режим (Python REPL)</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
