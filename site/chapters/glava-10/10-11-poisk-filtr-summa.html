@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Поиск, фильтрация и суммирование — Python с нуля — Cartesian School</title>
+<meta name="description" content="Цикл+if как настоящий алгоритм: поиск, подсчёт, суммирование, min/max, фильтрация, сентинел-цикл, FizzBuzz." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-10/10-11-poisk-filtr-summa.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Поиск, фильтрация и суммирование — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Цикл+if как настоящий алгоритм: поиск, подсчёт, суммирование, min/max, фильтрация, сентинел-цикл, FizzBuzz." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-10/10-11-poisk-filtr-summa.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Поиск, фильтрация и суммирование — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Цикл+if как настоящий алгоритм: поиск, подсчёт, суммирование, min/max, фильтрация, сентинел-цикл, FizzBuzz." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Поиск, фильтрация и суммирование — Python с нуля — Cartesian School","description":"Цикл+if как настоящий алгоритм: поиск, подсчёт, суммирование, min/max, фильтрация, сентинел-цикл, FizzBuzz.","url":"https://www.cartesianschool.org/chapters/glava-10/10-11-poisk-filtr-summa.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Повторение и первый цикл for</a></li><li><a href="10-09-range-podrobno.html">range() подробно: старт, стоп, шаг</a></li><li><a href="10-10-enumerate-i-nakoplenie.html">Индекс, значение, enumerate() и накопление</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break, continue и loop-else</a></li><li><a href="10-11-poisk-filtr-summa.html" class="active">Поиск, фильтрация и суммирование</a></li><li><a href="10-12-proverka-vvoda.html">Проверка ввода в цикле</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-13-otladka-ciklov.html">Отладка циклов: 10 типичных ошибок</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-14-sluchajnye-uzory.html">Случайные узоры: блуждание и звёзды</a></li><li><a href="10-15-setka-figur.html">Сетка фигур: вложенные циклы в Turtle</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-09/index.html">🐍 10-09: Практика</a></li><li><a href="../../practice/10-10/index.html">🐍 10-10: Практика</a></li><li><a href="../../practice/10-11/index.html">🐍 10-11: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-12/index.html">🐍 10-12: Практика</a></li><li><a href="../../practice/10-24/index.html">🐍 10-24: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-23/index.html">🐍 10-23: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-13/index.html">🐍 10-13: Практика</a></li><li><a href="../../practice/10-14/index.html">🐍 10-14: Практика</a></li><li><a href="../../practice/10-22/index.html">🐍 10-22: Практика</a></li><li><a href="../../practice/10-15/index.html">🐍 10-15: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-16/index.html">🐍 10-16: Практика</a></li><li><a href="../../practice/10-17/index.html">🐍 10-17: Практика</a></li><li><a href="../../practice/10-18/index.html">🐍 10-18: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-19/index.html">🐍 10-19: Практика</a></li><li><a href="../../practice/10-20/index.html">🐍 10-20: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li><li><a href="../../practice/10-21/index.html">🐍 10-21: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / Поиск и фильтрация</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Поиск, фильтрация и суммирование</h1>
+    <p class="lede">Цикл в связке с if — это уже настоящий алгоритм: три самых частых паттерна, из которых строится большинство программ на циклах.</p>
+
+
+    <h2>Цикл + if = настоящие алгоритмы</h2>
+    <p>Большинство реальных задач с циклами — это <code class="inline">for</code> или
+    <code class="inline">while</code> в связке с <code class="inline">if</code>. Разберём три
+    самых частых паттерна: поиск, фильтрация, суммирование.</p>
+
+    <h2>Поиск (search)</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>poisk.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+iskomoe = <span class="tok-num">16</span>
+najdeno = <span class="tok-kw">False</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n == iskomoe:
+        najdeno = <span class="tok-kw">True</span>
+        <span class="tok-kw">break</span>
+
+<span class="tok-fn">print</span>(najdeno)</code></pre>
+    </div>
+
+    <h2>Подсчёт (counting)</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>podschet.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>, <span class="tok-num">8</span>, <span class="tok-num">4</span>]
+chetnye = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        chetnye += <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(chetnye)</code></pre>
+    </div>
+
+    <h2>Суммирование: вручную и через sum()</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>summa_vruchnuyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+summa = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    summa += n
+
+<span class="tok-fn">print</span>(summa)</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>summa_cherez_sum.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+summa = <span class="tok-fn">sum</span>(chisla)
+<span class="tok-fn">print</span>(summa)</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">sum() — не магия, а тот же цикл внутри</div>
+        <div class="callout-body"><code class="inline">sum()</code> — встроенная функция, которая делает ровно то же самое, что и ручной цикл с накопителем выше, просто в одну строку. Полезно сначала написать вручную (чтобы понять, что происходит), а потом знать, что для готового результата есть короткий путь.</div>
+      </div>
+    </div>
+
+    <h2>Предпросмотр: поиск минимума и максимума</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>min_max_vruchnuyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+maksimum = chisla[<span class="tok-num">0</span>]
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n &gt; maksimum:
+        maksimum = n
+
+<span class="tok-fn">print</span>(maksimum)
+<span class="tok-com"># то же самое короче: print(max(chisla))</span></code></pre>
+    </div>
+
+    <h2>Фильтрация — собираем только нужное</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>filtraciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+chetnye_chisla = []
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        chetnye_chisla.append(n)
+
+<span class="tok-fn">print</span>(chetnye_chisla)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="-345.0 0 500.0 584.0" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Паттерн фильтрации: пройти по всем элементам, оставить только те, что прошли условие" style="width:100%;height:auto;max-width:500px"><defs><marker id='arrowfc6' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker><marker id='arrowfc6-g' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='arrowfc6-p' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker><marker id='arrowfc6-v' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="-95.0" y="10.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="41.0">СТАРТ</tspan></text><line x1="0.0" y1="62.0" x2="0.0" y2="88.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc6)"/><polygon points="-88.0,88.0 110.0,88.0 88.0,154.0 -110.0,154.0" fill="#EDE9FE" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="117.0">chisla, пустой</tspan><tspan x="0.0" y="135.0">список результата</tspan></text><line x1="0.0" y1="154.0" x2="0.0" y2="180.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc6)"/><polygon points="0.0,180.0 115.0,230.0 0.0,280.0 -115.0,230.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="0.0" y="235.0">n % 2 == 0?</tspan></text><path d="M-115.0,230.0 C-115.0,271.0 -200.0,271.0 -200.0,312.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc6-g)"/><text x="-161.5" y="263.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><rect x="-305.0" y="312.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="-200.0" y="345.0">добавить n в результат</tspan></text><path d="M-200.0,368.0 C-200.0,384.0 0.0,384.0 0.0,400.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc6)"/><path d="M115.0,230.0 C115.0,315.0 0.0,315.0 0.0,400.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc6-p)"/><text x="46.0" y="315.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><line x1="0.0" y1="400.0" x2="0.0" y2="400.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc6)"/><polygon points="-88.0,400.0 110.0,400.0 88.0,466.0 -110.0,466.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="429.0">вернуть список</tspan><tspan x="0.0" y="447.0">результата</tspan></text><line x1="0.0" y1="466.0" x2="0.0" y2="492.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc6)"/><rect x="-95.0" y="492.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="523.0">КОНЕЦ</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Паттерн фильтрации: пройти по всем элементам, оставить только те, что прошли условие</figcaption></figure>
+
+    <h2>Сентинел-цикл — особое значение как сигнал остановки</h2>
+    <p><strong>Сентинел</strong> — специальное значение, которое само по себе не является частью
+    данных, а сигнализирует «данные закончились»:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>sentinel_cikl.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>summa = <span class="tok-num">0</span>
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    chislo = <span class="tok-fn">input</span>(<span class="tok-str">&quot;Введите число (stop — закончить): &quot;</span>)
+    <span class="tok-kw">if</span> chislo == <span class="tok-str">&quot;stop&quot;</span>:
+        <span class="tok-kw">break</span>
+    summa += <span class="tok-fn">int</span>(chislo)
+
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Сумма:&quot;</span>, summa)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="15.0 0 745.0 388.0" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Сентинел-цикл: пользователь сам решает, когда данные закончились" style="width:100%;height:auto;max-width:745px"><defs><marker id='arrowfc7' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker><marker id='arrowfc7-g' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='arrowfc7-p' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker><marker id='arrowfc7-v' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="65.0" y="10.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="160.0" y="41.0">СТАРТ</tspan></text><line x1="160.0" y1="62.0" x2="160.0" y2="88.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc7)"/><rect x="55.0" y="88.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="160.0" y="121.0">summa = 0</tspan></text><line x1="160.0" y1="144.0" x2="160.0" y2="170.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc7)"/><polygon points="160.0,170.0 275.0,220.0 160.0,270.0 45.0,220.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="160.0" y="225.0">ввод == &quot;stop&quot;?</tspan></text><line x1="275.0" y1="220.0" x2="300.0" y2="186.0" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc7-g)"/><text x="287.5" y="204.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><rect x="300.0" y="158.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="405.0" y="191.0">summa += int(ввод)</tspan></text><line x1="405.0" y1="214.0" x2="405.0" y2="226.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc7)"/><rect x="300.0" y="226.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="405.0" y="255.0">получить следующий</tspan><tspan x="405.0" y="273.0">ввод</tspan></text><path d="M510.0,259.0 L570.0,259.0 L570.0,220.0 L275.0,220.0" fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowfc7-v)"/><text x="578.0" y="239.5" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#5B24F9">назад</text><line x1="160.0" y1="270.0" x2="160.0" y2="296.0" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc7-p)"/><text x="186.0" y="283.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><rect x="65.0" y="296.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="160.0" y="327.0">КОНЕЦ</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Сентинел-цикл: пользователь сам решает, когда данные закончились</figcaption></figure>
+
+    <h2>Необязательно: FizzBuzz</h2>
+    <p>Классическая, но необязательная задача-разминка на циклы и условия — если интересно,
+    попробуйте написать её сами перед тем, как посмотреть решение:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>fizzbuzz.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">21</span>):
+    <span class="tok-kw">if</span> n % <span class="tok-num">15</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">&quot;ФиззБазз&quot;</span>)
+    <span class="tok-kw">elif</span> n % <span class="tok-num">3</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">&quot;Фызз&quot;</span>)
+    <span class="tok-kw">elif</span> n % <span class="tok-num">5</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">&quot;Базз&quot;</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(n)</code></pre>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: поиск, подсчёт, суммирование, фильтрация</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-14"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-14/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-14"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-14"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: сентинел-цикл</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-22"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-22/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="10-04-break-continue.html"><div class="dir">← Назад</div><div class="lbl">break и continue</div></a><a href="10-12-proverka-vvoda.html" class="next"><div class="dir">Далее →</div><div class="lbl">Проверка ввода в цикле</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

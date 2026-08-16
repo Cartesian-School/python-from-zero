@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отладка циклов: 10 типичных ошибок — Python с нуля — Cartesian School</title>
+<meta name="description" content="10 именованных типов ошибок циклов, метод трассировки, off-by-one, переменная после for, имена и shadowing." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-10/10-13-otladka-ciklov.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отладка циклов: 10 типичных ошибок — Python с нуля — Cartesian School" />
+<meta property="og:description" content="10 именованных типов ошибок циклов, метод трассировки, off-by-one, переменная после for, имена и shadowing." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-10/10-13-otladka-ciklov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отладка циклов: 10 типичных ошибок — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="10 именованных типов ошибок циклов, метод трассировки, off-by-one, переменная после for, имена и shadowing." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отладка циклов: 10 типичных ошибок — Python с нуля — Cartesian School","description":"10 именованных типов ошибок циклов, метод трассировки, off-by-one, переменная после for, имена и shadowing.","url":"https://www.cartesianschool.org/chapters/glava-10/10-13-otladka-ciklov.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Повторение и первый цикл for</a></li><li><a href="10-09-range-podrobno.html">range() подробно: старт, стоп, шаг</a></li><li><a href="10-10-enumerate-i-nakoplenie.html">Индекс, значение, enumerate() и накопление</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break, continue и loop-else</a></li><li><a href="10-11-poisk-filtr-summa.html">Поиск, фильтрация и суммирование</a></li><li><a href="10-12-proverka-vvoda.html">Проверка ввода в цикле</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-13-otladka-ciklov.html" class="active">Отладка циклов: 10 типичных ошибок</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-14-sluchajnye-uzory.html">Случайные узоры: блуждание и звёзды</a></li><li><a href="10-15-setka-figur.html">Сетка фигур: вложенные циклы в Turtle</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-09/index.html">🐍 10-09: Практика</a></li><li><a href="../../practice/10-10/index.html">🐍 10-10: Практика</a></li><li><a href="../../practice/10-11/index.html">🐍 10-11: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-12/index.html">🐍 10-12: Практика</a></li><li><a href="../../practice/10-24/index.html">🐍 10-24: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-23/index.html">🐍 10-23: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-13/index.html">🐍 10-13: Практика</a></li><li><a href="../../practice/10-14/index.html">🐍 10-14: Практика</a></li><li><a href="../../practice/10-22/index.html">🐍 10-22: Практика</a></li><li><a href="../../practice/10-15/index.html">🐍 10-15: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-16/index.html">🐍 10-16: Практика</a></li><li><a href="../../practice/10-17/index.html">🐍 10-17: Практика</a></li><li><a href="../../practice/10-18/index.html">🐍 10-18: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-19/index.html">🐍 10-19: Практика</a></li><li><a href="../../practice/10-20/index.html">🐍 10-20: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li><li><a href="../../practice/10-21/index.html">🐍 10-21: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / Отладка циклов</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Отладка циклов</h1>
+    <p class="lede">Десять типовых ошибок циклов и универсальный метод их поиска — таблица трассировки, построенная вручную, строка за строкой.</p>
+
+
+    <h2>Как читать чужой (и свой) сломанный цикл</h2>
+    <p>Циклы — самое частое место, где программа <em>работает</em>, но выдаёт не тот результат,
+    или вообще зависает. Хорошая новость: подавляющее большинство таких ошибок укладывается
+    всего в десяток типовых сценариев. Разберём их по одному.</p>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Важно: мы НЕ будем запускать зависающий код</div>
+        <div class="callout-body">Некоторые примеры ниже описывают бесконечные циклы — в практике этой страницы вы будете <strong>читать и предсказывать</strong> поведение кода, а не запускать реальный зависающий цикл в браузере. Если код в вашей программе действительно завис — остановите его вручную (<code class="inline">Ctrl+C</code> в терминале, «Interrupt kernel» в Jupyter), не дожидаясь самостоятельной остановки.</div>
+      </div>
+    </div>
+
+    <h2>10 типичных ошибок циклов</h2>
+    <div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">1. Забыли обновить состояние</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(count)
+    <span class="tok-com"># забыли count += 1</span></code></pre>
+    </div><p style="margin-top:8px">Условие никогда не станет ложным — бесконечный цикл. Проверьте, что внутри while есть строка, меняющая переменную из условия.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">2. Ошибка на единицу в range()</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">10</span>):
+    <span class="tok-fn">print</span>(i)  <span class="tok-com"># не выведет 10!</span></code></pre>
+    </div><p style="margin-top:8px">range(1, 10) даёт 1..9 — если нужно включить 10, это range(1, 11). Классическая off-by-one ошибка.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">3. Неверный отступ тела</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+<span class="tok-fn">print</span>(n)  <span class="tok-com"># SyntaxError: ожидался отступ</span></code></pre>
+    </div><p style="margin-top:8px">Тело цикла обязано иметь отступ. Без него Python даже не запустит программу.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">4. Счётчик обнулён внутри цикла</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    kolichestvo = <span class="tok-num">0</span>
+    kolichestvo += <span class="tok-num">1</span></code></pre>
+    </div><p style="margin-top:8px">kolichestvo сбрасывается на каждой итерации — в конце в нём всегда 1, а не общее количество. Инициализация должна быть ДО цикла, не внутри.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">5. break на неверном уровне отступа</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n == <span class="tok-num">5</span>:
+    <span class="tok-kw">break</span>  <span class="tok-com"># не в теле if!</span></code></pre>
+    </div><p style="margin-top:8px">break, стоящий вне if (из-за отступа), сработает на первой же итерации независимо от условия. Проверяйте отступы так же внимательно, как и условия.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">6. continue перед обновлением</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-kw">if</span> count == <span class="tok-num">2</span>:
+        <span class="tok-kw">continue</span>
+    <span class="tok-fn">print</span>(count)
+    count += <span class="tok-num">1</span></code></pre>
+    </div><p style="margin-top:8px">Когда count == 2, continue пропускает count += 1 — и count навсегда останется равным 2. Бесконечный цикл, и его особенно трудно заметить.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">7. Путаница переменных вложенных циклов</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">3</span>):
+    <span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+        <span class="tok-fn">print</span>(i)</code></pre>
+    </div><p style="margin-top:8px">Внутренний цикл использует то же имя i, что и внешний — внешнее значение i затирается и теряется. Используйте разные имена, например i и j.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">8. Неверный отрицательный шаг</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">10</span>, <span class="tok-num">0</span>):
+    <span class="tok-fn">print</span>(n)  <span class="tok-com"># ничего не выведет</span></code></pre>
+    </div><p style="margin-top:8px">range(10, 0) с шагом по умолчанию +1 никогда не дойдёт от 10 до 0 — нужен range(10, 0, -1).</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">9. Несоответствие состояния и условия</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">while</span> spisok:
+    <span class="tok-fn">print</span>(spisok[<span class="tok-num">0</span>])
+    <span class="tok-com"># забыли удалить элемент из spisok</span></code></pre>
+    </div><p style="margin-top:8px">Условие проверяет spisok (пока список не пуст), но тело никогда не уменьшает список — бесконечный цикл, хотя выглядит иначе, чем счётчик.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">10. Условие ложно с самого начала</div>
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>n = <span class="tok-num">10</span>
+<span class="tok-kw">while</span> n &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(n)
+    n += <span class="tok-num">1</span></code></pre>
+    </div><p style="margin-top:8px">Тело не выполнится ни разу — ноль итераций. Это не ошибка сама по себе, но частая неожиданность, если условие не проверили заранее.</p></div>
+
+    <h2>Метод отладки: таблица трассировки вручную</h2>
+    <p>Когда цикл ведёт себя не так, как ожидалось, самый надёжный способ разобраться — построить
+    ту же таблицу трассировки, что мы использовали весь этот раздел, но теперь для реального,
+    сломанного кода:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Итерация</th><th>Условие</th><th>Переменные ДО тела</th><th>Что выводится</th><th>Переменные ПОСЛЕ тела</th></tr></thead>
+      <tbody><tr><td>1</td><td>…</td><td>…</td><td>…</td><td>…</td></tr><tr><td>2</td><td>…</td><td>…</td><td>…</td><td>…</td></tr><tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Заполняйте таблицу построчно, как будто вы — Python</div>
+        <div class="callout-body">Не пытайтесь угадать результат целиком. Возьмите первую итерацию, честно распишите условие, значения переменных до и после тела — и повторяйте, пока не увидите, где ожидание разошлось с тем, что происходит на самом деле.</div>
+      </div>
+    </div>
+
+    <h2>Off-by-one — отдельный разбор</h2>
+    <p>«Ошибка на единицу» — самая частая семья багов циклов: цикл выполняется на один раз
+    больше или меньше, чем нужно.</p>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 802 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(1, 10) — последнее значение 9, не 10!" style="width:100%;height:auto;max-width:802px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">1</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">3</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">5</text><line x1="372" y1="55" x2="430" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="440" cy="55" r="10" fill="#5B24F9"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">6</text><line x1="450" y1="55" x2="508" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="518" cy="55" r="10" fill="#5B24F9"/><text x="518" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">7</text><line x1="528" y1="55" x2="586" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="596" cy="55" r="10" fill="#5B24F9"/><text x="596" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">8</text><line x1="606" y1="55" x2="664" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="674" cy="55" r="10" fill="#5B24F9"/><text x="674" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">9</text><line x1="684" y1="55" x2="742" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="752" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="752" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">10</text><text x="752" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(1, 10) — последнее значение 9, не 10!</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 880 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(1, 11) — правильно, если нужно дойти до 10 включительно" style="width:100%;height:auto;max-width:880px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">1</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">3</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">5</text><line x1="372" y1="55" x2="430" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="440" cy="55" r="10" fill="#5B24F9"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">6</text><line x1="450" y1="55" x2="508" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="518" cy="55" r="10" fill="#5B24F9"/><text x="518" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">7</text><line x1="528" y1="55" x2="586" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="596" cy="55" r="10" fill="#5B24F9"/><text x="596" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">8</text><line x1="606" y1="55" x2="664" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="674" cy="55" r="10" fill="#5B24F9"/><text x="674" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">9</text><line x1="684" y1="55" x2="742" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="752" cy="55" r="10" fill="#5B24F9"/><text x="752" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">10</text><line x1="762" y1="55" x2="820" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="830" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="830" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">11</text><text x="830" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(1, 11) — правильно, если нужно дойти до 10 включительно</figcaption></figure></div>
+    </div>
+    <h3>Чек-лист граничных случаев</h3>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Вопрос</th><th>Зачем проверять</th></tr></thead>
+      <tbody><tr><td>Что произойдёт при нуле повторов (пустая последовательность)?</td><td>тело цикла не выполнится вообще — не сломается ли код после цикла</td></tr><tr><td>Что произойдёт при одном повторе?</td><td>самый частый источник ошибок на единицу</td></tr><tr><td>Включена ли последняя граница туда, куда нужно?</td><td>stop у range() и срезов не включён по умолчанию</td></tr><tr><td>Совпадает ли направление шага с направлением start→stop?</td><td>положительный шаг для роста, отрицательный — для убывания</td></tr></tbody>
+    </table>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Случай</th><th>Пример</th><th>Сколько итераций</th></tr></thead>
+      <tbody><tr><td>Ноль</td><td>for n in []:</td><td>0 — тело не выполнится ни разу</td></tr><tr><td>Один</td><td>for n in [7]:</td><td>1</td></tr><tr><td>Много</td><td>for n in range(1000):</td><td>1000</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Переменная цикла после его завершения</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>peremennaya_posle_cikla.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">5</span>):
+    <span class="tok-kw">pass</span>
+
+<span class="tok-fn">print</span>(n)  <span class="tok-com"># 4 — последнее значение, которое приняла n</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Переменная не исчезает после for</div>
+        <div class="callout-body">После завершения <code class="inline">for</code> переменная цикла остаётся связана с последним полученным значением — в отличие от некоторых других языков, в Python у циклов нет отдельной «области видимости». Исключение: если последовательность была пустой, тело не выполнилось ни разу, и переменная цикла вообще не была создана — обращение к ней после цикла в этом случае вызовет <code class="inline">NameError</code>.</div>
+      </div>
+    </div>
+
+    <h2>Имена переменных цикла</h2>
+    <p>Короткие имена вроде <code class="inline">i</code>, <code class="inline">j</code>,
+    <code class="inline">k</code> — давняя традиция для простых числовых счётчиков (особенно во
+    вложенных циклах), но как только переменная цикла имеет реальный смысл — называйте её
+    осмысленно: <code class="inline">for slovo in slova:</code> читается понятнее, чем
+    <code class="inline">for x in y:</code>.</p>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Затенение переменных (shadowing)</div>
+        <div class="callout-body">Если внутри цикла переменной цикла присвоить новое значение вручную, или использовать имя, которое уже существовало снаружи цикла, — можно случайно затереть нужное значение. Особенно легко так ошибиться во вложенных циклах с одинаковыми именами (см. ошибку №7 выше).</div>
+      </div>
+    </div>
+
+    <h2>Предпросмотр: изменение списка во время перебора</h2>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не изменяйте список, который сейчас перебираете</div>
+        <div class="callout-body">Удаление или добавление элементов в список прямо во время цикла <code class="inline">for элемент in spisok:</code> может привести к тому, что некоторые элементы будут пропущены или обработаны дважды. Подробно разберём эту тему и безопасные способы её обхода в главе про списки — сейчас достаточно знать, что так делать не стоит.</div>
+      </div>
+    </div>
+
+    <h2>Немного о производительности</h2>
+    <p>Каждая лишняя вложенность цикла умножает число итераций (мы уже видели это на примере
+    таблицы умножения). Пока считать нужно тысячи, а не миллионы значений — разница
+    незаметна. Формальный разбор скорости алгоритмов ждёт вас в старших главах — сейчас
+    достаточно интуиции: вложенный цикл внутри цикла обычно работает заметно медленнее одного
+    цикла того же размера.</p>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: найди ошибку в цикле</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-17"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: off-by-one — посчитай итерации</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-18"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-18/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="10-05-mini-proekt-ugadaj-v2.html"><div class="dir">← Назад</div><div class="lbl">Угадай число v2</div></a><a href="10-06-avtomatiziruem-figury.html" class="next"><div class="dir">Далее →</div><div class="lbl">Автоматизируем фигуры</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

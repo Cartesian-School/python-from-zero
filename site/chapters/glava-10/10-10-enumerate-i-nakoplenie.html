@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Индекс, значение, enumerate() и накопление — Python с нуля — Cartesian School</title>
+<meta name="description" content="for по строкам, индекс против значения, enumerate(), счётчик и накопитель, мини-проект «Анализатор текста»." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-10/10-10-enumerate-i-nakoplenie.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Индекс, значение, enumerate() и накопление — Python с нуля — Cartesian School" />
+<meta property="og:description" content="for по строкам, индекс против значения, enumerate(), счётчик и накопитель, мини-проект «Анализатор текста»." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-10/10-10-enumerate-i-nakoplenie.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Индекс, значение, enumerate() и накопление — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="for по строкам, индекс против значения, enumerate(), счётчик и накопитель, мини-проект «Анализатор текста»." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Индекс, значение, enumerate() и накопление — Python с нуля — Cartesian School","description":"for по строкам, индекс против значения, enumerate(), счётчик и накопитель, мини-проект «Анализатор текста».","url":"https://www.cartesianschool.org/chapters/glava-10/10-10-enumerate-i-nakoplenie.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Повторение и первый цикл for</a></li><li><a href="10-09-range-podrobno.html">range() подробно: старт, стоп, шаг</a></li><li><a href="10-10-enumerate-i-nakoplenie.html" class="active">Индекс, значение, enumerate() и накопление</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break, continue и loop-else</a></li><li><a href="10-11-poisk-filtr-summa.html">Поиск, фильтрация и суммирование</a></li><li><a href="10-12-proverka-vvoda.html">Проверка ввода в цикле</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-13-otladka-ciklov.html">Отладка циклов: 10 типичных ошибок</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-14-sluchajnye-uzory.html">Случайные узоры: блуждание и звёзды</a></li><li><a href="10-15-setka-figur.html">Сетка фигур: вложенные циклы в Turtle</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-09/index.html">🐍 10-09: Практика</a></li><li><a href="../../practice/10-10/index.html">🐍 10-10: Практика</a></li><li><a href="../../practice/10-11/index.html">🐍 10-11: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-12/index.html">🐍 10-12: Практика</a></li><li><a href="../../practice/10-24/index.html">🐍 10-24: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-23/index.html">🐍 10-23: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-13/index.html">🐍 10-13: Практика</a></li><li><a href="../../practice/10-14/index.html">🐍 10-14: Практика</a></li><li><a href="../../practice/10-22/index.html">🐍 10-22: Практика</a></li><li><a href="../../practice/10-15/index.html">🐍 10-15: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-16/index.html">🐍 10-16: Практика</a></li><li><a href="../../practice/10-17/index.html">🐍 10-17: Практика</a></li><li><a href="../../practice/10-18/index.html">🐍 10-18: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-19/index.html">🐍 10-19: Практика</a></li><li><a href="../../practice/10-20/index.html">🐍 10-20: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li><li><a href="../../practice/10-21/index.html">🐍 10-21: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / enumerate() и накопление</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>Индекс, значение и enumerate()</h1>
+    <p class="lede">for умеет перебирать не только числа — а счётчик и накопитель превращают простой перебор в настоящий инструмент анализа данных.</p>
+
+
+    <h2>for умеет перебирать не только числа</h2>
+    <p>Строка — это последовательность символов (глава 8), а значит, <code class="inline">for</code>
+    умеет перебирать и её — символ за символом, без индексов:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>perebor_strok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> letter <span class="tok-kw">in</span> <span class="tok-str">&quot;Python&quot;</span>:
+    <span class="tok-fn">print</span>(letter)</code></pre>
+    </div>
+    <p>То же самое работает для списков и любых других <strong>итерируемых</strong> объектов —
+    так называют всё, что <code class="inline">for</code> умеет перебирать по одному элементу.
+    Строка, список, диапазон <code class="inline">range()</code> — всё это итерируемые объекты;
+    точный технический механизм, как именно Python это делает «под капотом», мы разберём в
+    следующих главах, когда будем подробно изучать списки.</p>
+
+    <h2>Индекс против значения</h2>
+    <p>В цикле <code class="inline">for letter in "Python":</code> мы получаем сам символ
+    («значение»), но не его номер по счёту («индекс»). Иногда номер важен — например, чтобы
+    вывести «символ №1: P».</p>
+
+    <h3>Классический вариант — цикл по индексам</h3>
+
+    <div class="code-block">
+      <div class="code-label"><span>cikl_po_indeksam.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>slovo = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(slovo)):
+    <span class="tok-fn">print</span>(i, slovo[i])</code></pre>
+    </div>
+
+    <h3>«Питонический» вариант — enumerate()</h3>
+
+    <div class="code-block">
+      <div class="code-label"><span>enumerate_variant.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>slovo = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-kw">for</span> i, letter <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(slovo):
+    <span class="tok-fn">print</span>(i, letter)</code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>i</th><th>letter</th></tr></thead>
+      <tbody><tr><td>0</td><td>P</td></tr><tr><td>1</td><td>y</td></tr><tr><td>2</td><td>t</td></tr><tr><td>3</td><td>h</td></tr><tr><td>4</td><td>o</td></tr><tr><td>5</td><td>n</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Когда использовать enumerate()</div>
+        <div class="callout-body"><code class="inline">enumerate()</code> нужен именно тогда, когда важны и индекс, и значение одновременно. Если индекс вообще не нужен — используйте <code class="inline">for letter in slovo:</code>, без него. Цикл по индексам (<code class="inline">range(len(...))</code>) — не «неправильный» способ, а просто более многословный там, где <code class="inline">enumerate()</code> справится короче.</div>
+      </div>
+    </div>
+
+    <h2>Счётчик — переменная, которая считает</h2>
+    <p><strong>Счётчик</strong> — переменная, которая с каждой итерацией увеличивается (или
+    уменьшается) на фиксированный шаг, обычно на 1. Она отслеживает «сколько раз мы это уже
+    сделали».</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>schetchik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>glasnye = <span class="tok-str">&quot;аеёиоуыэюя&quot;</span>
+slovo = <span class="tok-str">&quot;программирование&quot;</span>
+kolichestvo = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> letter <span class="tok-kw">in</span> slovo:
+    <span class="tok-kw">if</span> letter <span class="tok-kw">in</span> glasnye:
+        kolichestvo += <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(kolichestvo)</code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Символ</th><th>letter in glasnye?</th><th>kolichestvo после шага</th></tr></thead>
+      <tbody><tr><td>п</td><td>нет</td><td>0</td></tr><tr><td>р</td><td>нет</td><td>0</td></tr><tr><td>о</td><td>да</td><td>1</td></tr><tr><td>г</td><td>нет</td><td>1</td></tr><tr><td>р</td><td>нет</td><td>1</td></tr><tr><td>а</td><td>да</td><td>2</td></tr><tr><td>…</td><td>…</td><td>…</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Накопитель (аккумулятор) — переменная, которая копит результат</h2>
+    <p><strong>Накопитель</strong> устроен похоже на счётчик, но копит не количество шагов, а
+    сам результат — сумму, произведение, склеенную строку:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>nakopitel.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+summa = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    summa += n
+
+<span class="tok-fn">print</span>(summa)</code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Итерация</th><th>n</th><th>summa после шага</th></tr></thead>
+      <tbody><tr><td>1</td><td>4</td><td>4</td></tr><tr><td>2</td><td>8</td><td>12</td></tr><tr><td>3</td><td>15</td><td>27</td></tr><tr><td>4</td><td>16</td><td>43</td></tr><tr><td>5</td><td>23</td><td>66</td></tr><tr><td>6</td><td>42</td><td>108</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Общее в счётчике и накопителе: состояние</div>
+        <div class="callout-body">И счётчик, и накопитель — примеры <strong>состояния</strong>: переменной, которая живёт снаружи цикла, но меняется на каждой итерации внутри него. Перед циклом состояние обязательно нужно инициализировать (<code class="inline">kolichestvo = 0</code>) — без этого шага <code class="inline">kolichestvo += 1</code> на первой же итерации упадёт с ошибкой, потому что переменной ещё не существует.</div>
+      </div>
+    </div>
+
+    <h2 id="analizator-teksta">Мини-проект: анализатор текста</h2>
+    <p>Соберём счётчик и накопитель вместе в одном небольшом инструменте — подсчитаем гласные,
+    длину самого длинного слова и общее число слов в тексте:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>analizator_teksta.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>tekst = <span class="tok-str">&quot;python это просто и понятно&quot;</span>
+slova = tekst.split()
+
+glasnye_count = <span class="tok-num">0</span>
+<span class="tok-kw">for</span> letter <span class="tok-kw">in</span> tekst:
+    <span class="tok-kw">if</span> letter <span class="tok-kw">in</span> <span class="tok-str">&quot;аеёиоуыэюя&quot;</span>:
+        glasnye_count += <span class="tok-num">1</span>
+
+samoe_dlinnoe = <span class="tok-str">&quot;&quot;</span>
+<span class="tok-kw">for</span> slovo <span class="tok-kw">in</span> slova:
+    <span class="tok-kw">if</span> <span class="tok-fn">len</span>(slovo) &gt; <span class="tok-fn">len</span>(samoe_dlinnoe):
+        samoe_dlinnoe = slovo
+
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Слов: </span>{<span class="tok-fn">len</span>(slova)}<span class="tok-str">, гласных: </span>{glasnye_count}<span class="tok-str">, самое длинное: </span>{samoe_dlinnoe}<span class="tok-str">&quot;</span>)</code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Три независимых накопителя рядом</div>
+        <div class="callout-body">Обратите внимание: <code class="inline">glasnye_count</code> и <code class="inline">samoe_dlinnoe</code> — два разных накопителя, каждый со своим циклом и своей начальной инициализацией. Комбинировать несколько состояний в одной программе — обычное дело, главное — не запутать, какое состояние меняется в каком цикле.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: индекс, значение и enumerate()</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-10"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-10/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-10"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-10"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: мини-проект «Анализатор текста»</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-11"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-11/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-11"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-11"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="10-09-range-podrobno.html"><div class="dir">← Назад</div><div class="lbl">range() подробно</div></a><a href="10-02-if-vlozhennye-cikly.html" class="next"><div class="dir">Далее →</div><div class="lbl">if и вложенные циклы</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

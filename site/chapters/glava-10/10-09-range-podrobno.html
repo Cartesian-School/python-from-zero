@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>range() подробно: старт, стоп, шаг — Python с нуля — Cartesian School</title>
+<meta name="description" content="Три сигнатуры range(), почему stop не включён (связь со срезами строк), шаг и отрицательный шаг." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-10/10-09-range-podrobno.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="range() подробно: старт, стоп, шаг — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Три сигнатуры range(), почему stop не включён (связь со срезами строк), шаг и отрицательный шаг." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-10/10-09-range-podrobno.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="range() подробно: старт, стоп, шаг — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Три сигнатуры range(), почему stop не включён (связь со срезами строк), шаг и отрицательный шаг." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"range() подробно: старт, стоп, шаг — Python с нуля — Cartesian School","description":"Три сигнатуры range(), почему stop не включён (связь со срезами строк), шаг и отрицательный шаг.","url":"https://www.cartesianschool.org/chapters/glava-10/10-09-range-podrobno.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Повторение и первый цикл for</a></li><li><a href="10-09-range-podrobno.html" class="active">range() подробно: старт, стоп, шаг</a></li><li><a href="10-10-enumerate-i-nakoplenie.html">Индекс, значение, enumerate() и накопление</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break, continue и loop-else</a></li><li><a href="10-11-poisk-filtr-summa.html">Поиск, фильтрация и суммирование</a></li><li><a href="10-12-proverka-vvoda.html">Проверка ввода в цикле</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-13-otladka-ciklov.html">Отладка циклов: 10 типичных ошибок</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-14-sluchajnye-uzory.html">Случайные узоры: блуждание и звёзды</a></li><li><a href="10-15-setka-figur.html">Сетка фигур: вложенные циклы в Turtle</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-09/index.html">🐍 10-09: Практика</a></li><li><a href="../../practice/10-10/index.html">🐍 10-10: Практика</a></li><li><a href="../../practice/10-11/index.html">🐍 10-11: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-12/index.html">🐍 10-12: Практика</a></li><li><a href="../../practice/10-24/index.html">🐍 10-24: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-23/index.html">🐍 10-23: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-13/index.html">🐍 10-13: Практика</a></li><li><a href="../../practice/10-14/index.html">🐍 10-14: Практика</a></li><li><a href="../../practice/10-22/index.html">🐍 10-22: Практика</a></li><li><a href="../../practice/10-15/index.html">🐍 10-15: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-16/index.html">🐍 10-16: Практика</a></li><li><a href="../../practice/10-17/index.html">🐍 10-17: Практика</a></li><li><a href="../../practice/10-18/index.html">🐍 10-18: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-19/index.html">🐍 10-19: Практика</a></li><li><a href="../../practice/10-20/index.html">🐍 10-20: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li><li><a href="../../practice/10-21/index.html">🐍 10-21: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / range() подробно</div>
+    <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
+    <h1>range() подробно</h1>
+    <p class="lede">range() — не список, а генератор чисел по требованию. Разбираем все три его формы и то, откуда взялось правило «stop не включён».</p>
+
+
+    <h2>range() — не список</h2>
+    <p><code class="inline">range()</code> — одна из самых частых причин путаницы у новичков.
+    Разберёмся сразу и точно.</p>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">range() НЕ создаёт список</div>
+        <div class="callout-body"><code class="inline">range(5)</code> создаёт особый объект-генератор чисел — он выдаёт числа по одному, по требованию, а не хранит их все сразу в памяти как список. <code class="inline">list(range(5))</code> действительно даст <code class="inline">[0, 1, 2, 3, 4]</code> — но это отдельное, явное превращение, а не то, чем является сам <code class="inline">range</code>.</div>
+      </div>
+    </div>
+
+    <h2>Три уровня сигнатуры</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Вызов</th><th>Что означает</th><th>Пример</th></tr></thead>
+      <tbody><tr><td><code class="inline">range(stop)</code></td><td>от 0 до stop, не включая stop</td><td><code class="inline">range(5)</code> → 0, 1, 2, 3, 4</td></tr><tr><td><code class="inline">range(start, stop)</code></td><td>от start до stop, не включая stop</td><td><code class="inline">range(2, 8)</code> → 2, 3, 4, 5, 6, 7</td></tr><tr><td><code class="inline">range(start, stop, step)</code></td><td>от start до stop с шагом step, не включая stop</td><td><code class="inline">range(0, 10, 2)</code> → 0, 2, 4, 6, 8</td></tr></tbody>
+    </table>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 490 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(5) — пять значений: 0, 1, 2, 3, 4; сам stop=5 в результат не входит" style="width:100%;height:auto;max-width:490px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">0</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">1</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">3</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="372" y1="55" x2="430" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="440" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">5</text><text x="440" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(5) — пять значений: 0, 1, 2, 3, 4; сам stop=5 в результат не входит</figcaption></figure>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 568 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(2, 8) — от 2 до 7 включительно; 8 не входит" style="width:100%;height:auto;max-width:568px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">3</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">5</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">6</text><line x1="372" y1="55" x2="430" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><circle cx="440" cy="55" r="10" fill="#5B24F9"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">7</text><line x1="450" y1="55" x2="508" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="518" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="518" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">8</text><text x="518" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(2, 8) — от 2 до 7 включительно; 8 не входит</figcaption></figure>
+
+    <h2>Почему stop не включается</h2>
+    <p>Это не произвольная прихоть языка — это то же самое правило, что мы уже видели в главе 8
+    у срезов строк. <code class="inline">"Python"[0:3]</code> берёт символы с индексами 0, 1, 2 —
+    и не включает символ с индексом 3. <code class="inline">range(0, 3)</code> устроен ровно так
+    же: 0, 1, 2, без 3. Python последователен: «конец диапазона» везде означает «до этого места,
+    не включая его».</p>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Полезное следствие</div>
+        <div class="callout-body">Благодаря этому правилу <code class="inline">range(n)</code> всегда даёт ровно <code class="inline">n</code> чисел, а длина среза <code class="inline">s[a:b]</code> всегда равна <code class="inline">b - a</code> — считать количество элементов получается без дополнительных +1/-1 в уме.</div>
+      </div>
+    </div>
+
+    <h2>Шаг: step</h2>
+    <p>Третий аргумент задаёт, на сколько увеличивается (или уменьшается) число на каждом шаге:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>shag.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">0</span>, <span class="tok-num">10</span>, <span class="tok-num">2</span>):
+    <span class="tok-fn">print</span>(number)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 530 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(0, 10, 2) — шаг 2: 0, 2, 4, 6, 8" style="width:100%;height:auto;max-width:530px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">0</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="89.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">+2</text><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="167.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">+2</text><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="245.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">+2</text><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">6</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="323.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">+2</text><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">8</text><line x1="372" y1="55" x2="430" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="440" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">10</text><text x="440" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(0, 10, 2) — шаг 2: 0, 2, 4, 6, 8</figcaption></figure>
+
+    <h2>Отрицательный шаг</h2>
+    <p>Шаг может быть отрицательным — тогда числа идут в обратную сторону, но start и stop
+    нужно тоже поменять местами по смыслу: start должен быть больше, чем stop.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>otricatelnyj_shag.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">10</span>, <span class="tok-num">0</span>, -<span class="tok-num">2</span>):
+    <span class="tok-fn">print</span>(number)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 530 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="range(10, 0, -2) — отсчёт назад с шагом 2: 10, 8, 6, 4, 2" style="width:100%;height:auto;max-width:530px"><defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><circle cx="50" cy="55" r="10" fill="#5B24F9"/><text x="50" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">10</text><line x1="60" y1="55" x2="118" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="89.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">-2</text><circle cx="128" cy="55" r="10" fill="#5B24F9"/><text x="128" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">8</text><line x1="138" y1="55" x2="196" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="167.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">-2</text><circle cx="206" cy="55" r="10" fill="#5B24F9"/><text x="206" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">6</text><line x1="216" y1="55" x2="274" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="245.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">-2</text><circle cx="284" cy="55" r="10" fill="#5B24F9"/><text x="284" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">4</text><line x1="294" y1="55" x2="352" y2="55" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/><text x="323.0" y="43" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#5B24F9">-2</text><circle cx="362" cy="55" r="10" fill="#5B24F9"/><text x="362" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#0D0230">2</text><line x1="372" y1="55" x2="430" y2="55" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/><circle cx="440" cy="55" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/><text x="440" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8A8A9A">0</text><text x="440" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">stop — исключён</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(10, 0, -2) — отсчёт назад с шагом 2: 10, 8, 6, 4, 2</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Отрицательный range без отрицательного шага — пустой</div>
+        <div class="callout-body"><code class="inline">range(10, 0)</code> (без шага) не выдаст ничего — шаг по умолчанию равен +1, а с ним никогда не попасть от 10 вниз к 0. Чтобы диапазон шёл вниз, шаг обязательно должен быть отрицательным и соответствовать направлению.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Шаг 0 — ошибка, а не бесконечный цикл</div>
+        <div class="callout-body"><code class="inline">range(0, 10, 0)</code> не зависает и не превращается в бесконечный цикл — Python сразу поднимает <code class="inline">ValueError: range() arg 3 must not be zero</code>, потому что с нулевым шагом никогда не сдвинуться от start к stop.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: range() — старт, стоп, шаг</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-09"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-09/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="10-01-cikly-for.html"><div class="dir">← Назад</div><div class="lbl">Циклы for</div></a><a href="10-10-enumerate-i-nakoplenie.html" class="next"><div class="dir">Далее →</div><div class="lbl">enumerate() и накопление</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
