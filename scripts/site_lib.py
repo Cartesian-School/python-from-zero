@@ -229,10 +229,29 @@ def local_required_card(lesson_id: str, title: str, sub: str, practice_href: str
 def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
     """Горизонтальная диаграмма-цепочка шагов (оригинальная, не скриншот).
 
-    steps: список (заголовок, подпись) для каждого прямоугольника.
+    steps: список (заголовок, подпись) для каждого прямоугольника. Заголовок
+    и подпись переносятся по словам (см. _wrap_svg_text) и никогда не выходят
+    за пределы прямоугольника — высота блока подстраивается под самый длинный
+    заголовок/подпись во всей цепочке, чтобы стрелки и текст оставались на
+    одном уровне у всех шагов.
     """
     n = len(steps)
-    box_w, box_h, gap = 176, 92, 56
+    box_w, gap = 184, 56
+    title_max_chars, title_max_lines, title_line_h = 16, 2, 18
+    sub_max_chars, sub_max_lines, sub_line_h = 21, 3, 14
+    top_pad, mid_gap, bottom_pad = 22, 10, 16
+
+    wrapped = [
+        (
+            _wrap_svg_text(" ".join(title.split()), max_chars=title_max_chars, max_lines=title_max_lines),
+            _wrap_svg_text(" ".join(sub.split()), max_chars=sub_max_chars, max_lines=sub_max_lines),
+        )
+        for title, sub in steps
+    ]
+    max_title_lines = max((len(t) for t, _ in wrapped), default=1)
+    max_sub_lines = max((len(s) for _, s in wrapped), default=1)
+    box_h = top_pad + max_title_lines * title_line_h + mid_gap + max_sub_lines * sub_line_h + bottom_pad
+
     total_w = n * box_w + (n - 1) * gap
     total_h = box_h + 40
     parts = [
@@ -244,22 +263,32 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
         "markerWidth='7' markerHeight='7' orient='auto-start-reverse'>"
         "<path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs>"
     )
-    for i, (title, sub) in enumerate(steps):
+    sub_top_offset = top_pad + max_title_lines * title_line_h + mid_gap
+    for i, (title_lines, sub_lines) in enumerate(wrapped):
         x = i * (box_w + gap)
         y = 10
+        cx = x + box_w / 2
         parts.append(
             f'<rect x="{x}" y="{y}" width="{box_w}" height="{box_h}" rx="14" '
             f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
         )
-        parts.append(
-            f'<text x="{x + box_w / 2}" y="{y + box_h / 2 - 6}" text-anchor="middle" '
-            f'font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">'
-            f'{html.escape(title)}</text>'
+        title_top = y + top_pad
+        title_tspans = "".join(
+            f'<tspan x="{cx}" y="{title_top + li * title_line_h}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(title_lines)
         )
         parts.append(
-            f'<text x="{x + box_w / 2}" y="{y + box_h / 2 + 16}" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">'
-            f'{html.escape(sub)}</text>'
+            f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
+            f'font-size="15" fill="#0D0230">{title_tspans}</text>'
+        )
+        sub_top = y + sub_top_offset
+        sub_tspans = "".join(
+            f'<tspan x="{cx}" y="{sub_top + li * sub_line_h}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(sub_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" '
+            f'fill="#6B6B7D">{sub_tspans}</text>'
         )
         if i < n - 1:
             ax1 = x + box_w + 6
@@ -313,7 +342,15 @@ def timeline_diagram(events: list[tuple[str, str]], *, caption: str = "") -> str
 
 
 def _wrap_svg_text(text: str, max_chars: int, max_lines: int = 3) -> list[str]:
-    """Greedy word-wrap for SVG <text>, which never wraps on its own."""
+    """Greedy word-wrap for SVG <text>, which never wraps on its own.
+
+    Wraps the full text first (as many lines as it takes, each up to
+    max_chars) and only afterwards truncates to max_lines with a trailing
+    "…" if it still doesn't fit. Truncating the line count *before* the
+    greedy pass finishes would cut off the last word or two of otherwise
+    short text — this two-pass order keeps every word that legitimately
+    fits within max_lines.
+    """
     words = text.split()
     lines: list[str] = []
     current = ""
@@ -324,48 +361,66 @@ def _wrap_svg_text(text: str, max_chars: int, max_lines: int = 3) -> list[str]:
         else:
             lines.append(current)
             current = word
-        if len(lines) == max_lines - 1:
-            break
     if current:
         lines.append(current)
-    # Anything left over (rare) gets folded into the last line rather than lost.
-    remaining_words = words[len(" ".join(lines).split()):]
-    if remaining_words and len(lines) >= max_lines:
-        lines[-1] = lines[-1].rstrip() + "…"
-    elif remaining_words:
-        lines.append(" ".join(remaining_words))
-    return lines
+
+    if len(lines) <= max_lines:
+        return lines
+
+    kept = lines[:max_lines]
+    last = kept[-1].rstrip()
+    if len(last) > max_chars - 1:
+        last = last[: max_chars - 1].rstrip()
+    kept[-1] = last + "…"
+    return kept
 
 
 def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str = "") -> str:
     """Диаграмма «один корень → несколько ветвей» (оригинальная, не скриншот).
 
     branches: список (заголовок, пояснение) для каждого прямоугольника-ветви.
+    root: заголовок корневого блока — переносится по словам (см.
+    _wrap_svg_text) и никогда не выходит за пределы фиолетового
+    прямоугольника; сам прямоугольник растёт по высоте под многострочный
+    текст, а холст диаграммы — по ширине, если корень шире, чем ряд ветвей
+    (иначе ветви центрируются относительно уширенного холста).
     """
     n = len(branches)
     box_w, box_h, gap = 196, 116, 28
-    total_w = max(n * box_w + (n - 1) * gap, 260)
-    root_w, root_h = 220, 56
+    branches_w = n * box_w + (n - 1) * gap
+
+    root_w = 240
+    root_max_chars, root_max_lines, root_line_h = 18, 3, 20
+    root_lines = _wrap_svg_text(" ".join(root.split()), max_chars=root_max_chars, max_lines=root_max_lines)
+    root_h = 56 + (len(root_lines) - 1) * root_line_h
+
+    total_w = max(branches_w, root_w + 40, 260)
+    branches_x_offset = (total_w - branches_w) / 2
     root_x = (total_w - root_w) / 2
-    branches_y = 120
+    root_top = 10
+    root_bottom = root_top + root_h
+    branches_y = root_bottom + 54
     total_h = branches_y + box_h + 10
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
         f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     parts.append(
-        f'<rect x="{root_x}" y="10" width="{root_w}" height="{root_h}" rx="14" '
+        f'<rect x="{root_x}" y="{root_top}" width="{root_w}" height="{root_h}" rx="14" '
         f'fill="#5B24F9"/>'
     )
-    parts.append(
-        f'<text x="{total_w / 2}" y="{10 + root_h / 2 + 5}" text-anchor="middle" '
-        f'font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff">'
-        f'{html.escape(root)}</text>'
-    )
     root_cx = total_w / 2
-    root_bottom = 10 + root_h
+    root_first_line_y = root_top + root_h / 2 - (len(root_lines) - 1) * root_line_h / 2 + 5
+    root_tspans = "".join(
+        f'<tspan x="{root_cx}" y="{root_first_line_y + li * root_line_h}">{html.escape(line)}</tspan>'
+        for li, line in enumerate(root_lines)
+    )
+    parts.append(
+        f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
+        f'font-size="16" fill="#fff">{root_tspans}</text>'
+    )
     for i, (title, sub) in enumerate(branches):
-        x = i * (box_w + gap)
+        x = branches_x_offset + i * (box_w + gap)
         cx = x + box_w / 2
         parts.append(
             f'<path d="M{root_cx},{root_bottom} C{root_cx},{(root_bottom + branches_y) / 2} '
@@ -435,11 +490,23 @@ def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) 
 def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> str:
     """Diagram inverse of branch_diagram(): several source boxes on top, each
     with an arrow flowing DOWN into one shared target box at the bottom.
-    Used for "several tools/editors, one shared environment" concepts."""
+    Used for "several tools/editors, one shared environment" concepts.
+
+    Both source and target labels wrap by word (see _wrap_svg_text) and never
+    exceed their box — the target box grows in height for multi-line text,
+    and the canvas grows in width if the target is wider than the row of
+    source boxes (sources are then re-centered under the wider canvas)."""
     n = len(sources)
     box_w, box_h, gap = 156, 60, 24
-    total_w = max(n * box_w + (n - 1) * gap, 260)
-    target_w, target_h = 240, 60
+    sources_w = n * box_w + (n - 1) * gap
+
+    target_w = 240
+    target_max_chars, target_max_lines, target_line_h = 16, 2, 19
+    target_lines = _wrap_svg_text(" ".join(target.split()), max_chars=target_max_chars, max_lines=target_max_lines)
+    target_h = 60 + (len(target_lines) - 1) * target_line_h
+
+    total_w = max(sources_w, target_w + 40, 260)
+    sources_x_offset = (total_w - sources_w) / 2
     target_x = (total_w - target_w) / 2
     sources_y = 10
     target_y = sources_y + box_h + 100
@@ -455,7 +522,7 @@ def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> s
     )
     target_cx = total_w / 2
     for i, label in enumerate(sources):
-        x = i * (box_w + gap)
+        x = sources_x_offset + i * (box_w + gap)
         cx = x + box_w / 2
         parts.append(
             f'<rect x="{x}" y="{sources_y}" width="{box_w}" height="{box_h}" rx="12" '
@@ -478,10 +545,14 @@ def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> s
     parts.append(
         f'<rect x="{target_x}" y="{target_y}" width="{target_w}" height="{target_h}" rx="14" fill="#5B24F9"/>'
     )
+    target_first_line_y = target_y + target_h / 2 - (len(target_lines) - 1) * target_line_h / 2 + 5
+    target_tspans = "".join(
+        f'<tspan x="{target_cx}" y="{target_first_line_y + li * target_line_h}">{html.escape(line)}</tspan>'
+        for li, line in enumerate(target_lines)
+    )
     parts.append(
-        f'<text x="{target_cx}" y="{target_y + target_h / 2 + 5}" text-anchor="middle" '
-        f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff">'
-        f'{html.escape(target)}</text>'
+        f'<text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" '
+        f'font-size="16" fill="#fff">{target_tspans}</text>'
     )
     parts.append("</svg>")
     svg = "".join(parts)
