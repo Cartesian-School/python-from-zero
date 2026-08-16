@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — часы без времени — Python с нуля — Cartesian School</title>
+<meta name="description" content="Строим статичный циферблат аналоговых часов: деления, числа и стрелки — геометрия, а не datetime." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html" class="active">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / Часы без времени</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>Мини-проект — часы без времени</h1>
+    <p class="lede">Узнаваемый циферблат — просто геометрия: деления через равные углы, числа, две стрелки на фиксированных направлениях.</p>
+
+
+    <h2>Что мы построим</h2>
+    <p>«Часы без времени» — статичный циферблат аналоговых часов. Модуль
+    <code class="inline">datetime</code> нам пока не нужен — стрелки встанут на фиксированный
+    угол, просто чтобы показать, как из геометрии собирается узнаваемый объект.</p>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>chasy_polnye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">&quot;#0D0230&quot;</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+artist.circle(<span class="tok-num">150</span>)
+
+<span class="tok-kw">for</span> hour <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">12</span>):
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">135</span>)
+    artist.pendown()
+    artist.forward(<span class="tok-num">15</span>)
+    artist.penup()
+
+<span class="tok-kw">for</span> hour, label <span class="tok-kw">in</span> [(<span class="tok-num">0</span>, <span class="tok-str">&quot;12&quot;</span>), (<span class="tok-num">3</span>, <span class="tok-str">&quot;3&quot;</span>), (<span class="tok-num">6</span>, <span class="tok-str">&quot;6&quot;</span>), (<span class="tok-num">9</span>, <span class="tok-str">&quot;9&quot;</span>)]:
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">110</span>)
+    artist.write(label, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">16</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+artist.pensize(<span class="tok-num">5</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">12</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">80</span>)
+artist.penup()
+
+artist.pensize(<span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#DB2777&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">2</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">120</span>)
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-21-clock-full.png" alt="Циферблат аналоговых часов с делениями на 12 часов, числами 12, 3, 6, 9 и двумя стрелками, показывающими фиксированное время"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Готовый результат: циферблат с делениями, числами 12/3/6/9 и двумя стрелками</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <h2>Геометрический план</h2>
+    <p>12 делений циферблата расположены по кругу через равные промежутки — знакомая формула
+    <code class="inline">360 / 12 = 30</code> градусов между соседними часами. Но в отличие от
+    обычного многоугольника, здесь удобнее задавать угол каждого деления АБСОЛЮТНО, через
+    <code class="inline">setheading()</code>, а не накапливать поворотами:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>ugol_deleniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># час 0 (12 часов) — направление вверх, 90°</span>
+<span class="tok-com"># час 3            — направление вправо, 0°</span>
+<span class="tok-com"># час 6            — направление вниз, -90°</span>
+<span class="tok-com"># час 9            — направление влево, 180°</span>
+<span class="tok-com"># в общем виде: ugol = 90 - hour * 30</span></code></pre>
+    </div>
+
+    <h2>Шаг 1: окружность и деления</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>chasy_delenia.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">&quot;#0D0230&quot;</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+artist.circle(<span class="tok-num">150</span>)
+
+<span class="tok-kw">for</span> hour <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">12</span>):
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">135</span>)
+    artist.pendown()
+    artist.forward(<span class="tok-num">15</span>)
+    artist.penup()
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-21-clock-marks.png" alt="Круглый циферблат с двенадцатью короткими штрихами-делениями по кругу, без цифр и стрелок"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Шаг 1 — окружность и 12 делений, без чисел и стрелок</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>chasy_delenia_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>artist.circle(<span class="tok-num">150</span>)
+
+<span class="tok-kw">for</span> hour <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">12</span>):
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">135</span>)
+    artist.pendown()
+    artist.forward(<span class="tok-num">15</span>)
+    artist.penup()</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Почему goto(0, 0) перед каждым делением</div>
+        <div class="callout-body">Каждое деление начинается заново от центра — иначе черепашка рисовала бы деления одно за другим по кругу, а не как независимые лучи от центра. penup()/pendown() вокруг каждого шага гарантирует, что линии между делениями не будет.</div>
+      </div>
+    </div>
+
+    <h2>Шаг 2: числа и стрелки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>chasy_chisla_strelki_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> hour, label <span class="tok-kw">in</span> [(<span class="tok-num">0</span>, <span class="tok-str">&quot;12&quot;</span>), (<span class="tok-num">3</span>, <span class="tok-str">&quot;3&quot;</span>), (<span class="tok-num">6</span>, <span class="tok-str">&quot;6&quot;</span>), (<span class="tok-num">9</span>, <span class="tok-str">&quot;9&quot;</span>)]:
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">110</span>)
+    artist.write(label, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">16</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+<span class="tok-com"># часовая стрелка — короче, толще, фиксирована на 12</span>
+artist.pensize(<span class="tok-num">5</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">12</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">80</span>)
+artist.penup()
+
+<span class="tok-com"># минутная стрелка — длиннее, тоньше, фиксирована на 2</span>
+artist.pensize(<span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#DB2777&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">2</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">120</span>)</code></pre>
+    </div>
+
+    <h2>Готовый результат</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>chasy_polnye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">&quot;#0D0230&quot;</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+artist.circle(<span class="tok-num">150</span>)
+
+<span class="tok-kw">for</span> hour <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">12</span>):
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">135</span>)
+    artist.pendown()
+    artist.forward(<span class="tok-num">15</span>)
+    artist.penup()
+
+<span class="tok-kw">for</span> hour, label <span class="tok-kw">in</span> [(<span class="tok-num">0</span>, <span class="tok-str">&quot;12&quot;</span>), (<span class="tok-num">3</span>, <span class="tok-str">&quot;3&quot;</span>), (<span class="tok-num">6</span>, <span class="tok-str">&quot;6&quot;</span>), (<span class="tok-num">9</span>, <span class="tok-str">&quot;9&quot;</span>)]:
+    artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    artist.setheading(<span class="tok-num">90</span> - hour * <span class="tok-num">30</span>)
+    artist.forward(<span class="tok-num">110</span>)
+    artist.write(label, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">16</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+artist.pensize(<span class="tok-num">5</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">12</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">80</span>)
+artist.penup()
+
+artist.pensize(<span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#DB2777&quot;</span>)
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">90</span> - <span class="tok-num">2</span> * <span class="tok-num">30</span>)
+artist.pendown()
+artist.forward(<span class="tok-num">120</span>)
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-21-clock-full.png" alt="Циферблат аналоговых часов с делениями на 12 часов, числами 12, 3, 6, 9 и двумя стрелками, показывающими фиксированное время"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Готовый результат: циферблат с делениями, числами 12/3/6/9 и двумя стрелками</figcaption>
+        </figure>
+      </div>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Все 12 чисел</div>
+      <p>Добавьте оставшиеся 8 чисел (1, 2, 4, 5, 7, 8, 10, 11) по тому же принципу.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Секундная стрелка</div>
+      <p>Добавьте третью, самую тонкую стрелку — секундную — на любой фиксированный угол.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Другое время</div>
+      <p>Измените углы часовой и минутной стрелки, чтобы часы показывали другое (тоже фиксированное) время.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: часы без времени</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-21">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-21/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-21"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-08-napravlenie-risovaniya.html"><div class="dir">← Назад</div><div class="lbl">Направление рисования</div></a><a href="07-22-mini-proekt-mishen.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: мишень</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

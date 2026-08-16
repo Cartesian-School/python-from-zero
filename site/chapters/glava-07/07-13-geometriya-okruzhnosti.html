@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Геометрия окружности — Python с нуля — Cartesian School</title>
+<meta name="description" content="Где находится центр окружности относительно черепашки, и как положительный/отрицательный радиус меняет направление рисования." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html" class="active">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / Геометрия окружности</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>Геометрия окружности</h1>
+    <p class="lede">circle() — не магия: у неё есть точная геометрия, которую полезно понимать, а не просто запомнить как заклинание.</p>
+
+
+    <p><code class="inline">circle()</code> выглядит как одна простая команда, но за ней стоит
+    настоящая геометрия — разберём её по-настоящему, а не как «магическую» функцию.</p>
+
+    <h2>Где на самом деле центр</h2>
+    <p>Официальное поведение <code class="inline">circle(radius)</code>: центр окружности
+    находится на расстоянии <code class="inline">radius</code> <strong>слева</strong> от
+    черепашки (относительно направления её курса) — не в текущей позиции черепашки, как можно
+    было бы подумать:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Центр окружности находится слева от черепашки, на расстоянии radius" style="width:100%;height:auto;max-width:320px"><circle cx="160" cy="110" r="80" fill="none" stroke="#B9A0FC" stroke-width="2" stroke-dasharray="5,5"/><circle cx="160" cy="110" r="4" fill="#0D0230"/><text x="160" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#0D0230">центр</text><line x1="160" y1="110" x2="240" y2="110" stroke="#5B24F9" stroke-width="2"/><text x="200" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#5B24F9">radius</text><polygon points="240,110 228,104 228,116" fill="#DB2777"/><text x="248" y="114" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#DB2777">черепашка</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Центр окружности находится на расстоянии radius слева от черепашки — не там, где сама черепашка стоит</figcaption></figure>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Один конец дуги — там, где стоит черепашка</div>
+        <div class="callout-body">Если нарисовать не полную окружность, а дугу (<code class="inline">extent</code> меньше 360°) — одним из концов дуги всегда будет текущая позиция черепашки. Это удобно: не нужно заранее вычислять, откуда начнётся дуга.</div>
+      </div>
+    </div>
+
+    <h2>Положительный и отрицательный радиус</h2>
+    <p>Положительный радиус рисует окружность против часовой стрелки; отрицательный — по
+    часовой, с тем же радиусом по модулю:</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <div style="flex:1 1 280px">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>krug_polozhitelnyj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">340</span>, height=<span class="tok-num">320</span>)
+artist = turtle.Turtle()
+artist.pensize(<span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+
+artist.circle(<span class="tok-num">80</span>)
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-13-circle-positive.png" alt="Окружность, нарисованная фиолетовым цветом против часовой стрелки"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">circle(80) — положительный радиус, против часовой стрелки</figcaption>
+        </figure>
+      </div>
+    </div></div>
+      <div style="flex:1 1 280px">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>krug_otricatelnyj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">340</span>, height=<span class="tok-num">320</span>)
+artist = turtle.Turtle()
+artist.pensize(<span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#DB2777&quot;</span>)
+
+artist.circle(-<span class="tok-num">80</span>)
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-13-circle-negative.png" alt="Окружность того же размера, нарисованная розовым цветом по часовой стрелке"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">circle(-80) — тот же радиус по модулю, но по часовой стрелке</figcaption>
+        </figure>
+      </div>
+    </div></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>napravlenie_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>artist.circle(<span class="tok-num">80</span>)    <span class="tok-com"># против часовой стрелки</span>
+artist.circle(-<span class="tok-num">80</span>)   <span class="tok-com"># по часовой стрелке — тот же размер, другое направление</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Направление меняет и курс черепашки в конце</div>
+        <div class="callout-body">После полной окружности курс черепашки возвращается к исходному в обоих случаях. Но если рисовать дугу (не полный круг), финальный курс будет РАЗНЫМ для положительного и отрицательного радиуса — черепашка развернётся в противоположные стороны.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: геометрия окружности</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-13"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-13/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-13"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-13"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-03-figury-bez-linij.html"><div class="dir">← Назад</div><div class="lbl">Фигуры, окружности, точки</div></a><a href="07-04-dugi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Дуги</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
