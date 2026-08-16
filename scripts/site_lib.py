@@ -754,6 +754,53 @@ def decision_map(entries: list[tuple[str, str]], *, title: str = "", caption: st
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{title_html}{rows}{cap}</figure>'
 
 
+def capability_map(groups: list[tuple[str, list[str]]], *, title: str = "", caption: str = "") -> str:
+    """Responsive HTML/CSS card grid (NOT an SVG diagram) for organizing a
+    toolbox (e.g. a stdlib module) or a small set of comparable states into
+    clearly labeled cards. Reflows naturally via CSS grid — 3 columns on a
+    wide desktop, 2 on tablet, 1 on mobile — instead of cramming many nodes
+    into a single SVG row, which is exactly what makes branch_diagram()
+    degrade into unreadably tiny text once it has more than 3-4 branches
+    or any branch needs more than one line of body content. Use this
+    instead whenever that's the case.
+
+    groups: list of (heading, body_lines) where body_lines is a list of
+    lines rendered stacked inside the card (e.g. a symbol, a short
+    description, and a function name on separate lines) — pass a
+    single-item list for a simple one-line card.
+    """
+    def render_card(heading: str, body_lines: list[str]) -> str:
+        lines_html = "".join(
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:#0D0230;'
+            f'line-height:1.7">{line}</div>'
+            for line in body_lines
+        )
+        return (
+            f'<div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+            f'border-radius:16px;padding:18px 20px">'
+            f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;'
+            f'text-transform:uppercase;color:#5B24F9;margin-bottom:10px">{html.escape(heading)}</div>'
+            f'{lines_html}'
+            f'</div>'
+        )
+
+    cards = "".join(render_card(heading, body_lines) for heading, body_lines in groups)
+    title_html = (
+        f'<div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;'
+        f'margin-bottom:16px;color:#0D0230">{html.escape(title)}</div>'
+        if title
+        else ""
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">'
+        f'{title_html}'
+        f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">{cards}</div>'
+        f'{cap}'
+        f'</figure>'
+    )
+
+
 def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
     """A real screenshot/photo, not a generated diagram — captioned figure."""
     width_attr = f' width="{width}"' if width else ""
