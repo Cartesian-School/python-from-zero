@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Черепашка как графический объект — Python с нуля — Cartesian School</title>
+<meta name="description" content="shape(), shapesize() и tilt() — внешний вид курсора черепашки отдельно от логики движения." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html" class="active">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / Черепашка как объект</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>Черепашка как графический объект</h1>
+    <p class="lede">Форма, размер и наклон курсора — настройки внешнего вида, независимые от того, куда и как черепашка на самом деле движется.</p>
+
+
+    <p>До сих пор форма черепашки была для нас просто «указателем». Но у неё есть собственные
+    настройки внешнего вида — размер и наклон — независимые от логики движения.</p>
+
+    <h2>Встроенные формы</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>galereya_form.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">560</span>, height=<span class="tok-num">180</span>)
+artist = turtle.Turtle()
+artist.penup()
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+
+shapes = [<span class="tok-str">&quot;arrow&quot;</span>, <span class="tok-str">&quot;turtle&quot;</span>, <span class="tok-str">&quot;circle&quot;</span>, <span class="tok-str">&quot;square&quot;</span>, <span class="tok-str">&quot;triangle&quot;</span>, <span class="tok-str">&quot;classic&quot;</span>]
+x = -<span class="tok-num">220</span>
+<span class="tok-kw">for</span> shape_name <span class="tok-kw">in</span> shapes:
+    artist.goto(x, <span class="tok-num">20</span>)
+    artist.shape(shape_name)
+    artist.stamp()
+    artist.goto(x, -<span class="tok-num">25</span>)
+    artist.write(shape_name, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">10</span>, <span class="tok-str">&quot;normal&quot;</span>))
+    x += <span class="tok-num">85</span>
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-17-shapes-gallery.png" alt="Шесть разных значков-курсоров черепашки в ряд: arrow, turtle, circle, square, triangle, classic — каждый подписан своим именем"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Все встроенные формы курсора черепашки — от arrow до classic</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>galereya_form_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>shapes = [<span class="tok-str">&quot;arrow&quot;</span>, <span class="tok-str">&quot;turtle&quot;</span>, <span class="tok-str">&quot;circle&quot;</span>, <span class="tok-str">&quot;square&quot;</span>, <span class="tok-str">&quot;triangle&quot;</span>, <span class="tok-str">&quot;classic&quot;</span>]
+<span class="tok-kw">for</span> shape_name <span class="tok-kw">in</span> shapes:
+    artist.shape(shape_name)
+    artist.stamp()</code></pre>
+    </div>
+
+    <h2>shapesize() — размер курсора, не размер рисунка</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>razmer_formy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">220</span>)
+artist = turtle.Turtle()
+artist.shape(<span class="tok-str">&quot;turtle&quot;</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+artist.penup()
+
+sizes = [(<span class="tok-num">0.5</span>, -<span class="tok-num">140</span>), (<span class="tok-num">1</span>, -<span class="tok-num">20</span>), (<span class="tok-num">2</span>, <span class="tok-num">140</span>)]
+<span class="tok-kw">for</span> factor, x <span class="tok-kw">in</span> sizes:
+    artist.goto(x, <span class="tok-num">0</span>)
+    artist.shapesize(factor, factor)
+    artist.stamp()
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-17-shapesize.png" alt="Три силуэта черепахи разного размера — маленький, обычный и увеличенный вдвое"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">shapesize() растягивает вид курсора — 0.5×, 1× и 2× одной и той же формы</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>razmer_formy_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>artist.shape(<span class="tok-str">&quot;turtle&quot;</span>)
+<span class="tok-kw">for</span> factor <span class="tok-kw">in</span> [<span class="tok-num">0.5</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>]:
+    artist.shapesize(factor, factor)
+    artist.stamp()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">shapesize() не меняет координаты</div>
+        <div class="callout-body">Увеличенная черепашка выглядит больше, но это только внешний вид курсора — все координаты, повороты и расстояния в коде остаются точно такими же, как были.</div>
+      </div>
+    </div>
+
+    <h2>tilt() — наклон вида, а не курс движения</h2>
+    <p>Здесь важно различать два похожих, но разных понятия:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Понятие</th><th>Что означает</th></tr></thead>
+      <tbody><tr><td><strong>heading</strong> (курс)</td><td>куда черепашка ДВИЖЕТСЯ — это меняют left()/right()/setheading()</td></tr><tr><td><strong>tilt</strong> (наклон)</td><td>как повёрнут ВИД курсора на экране — это меняет только tilt()/tiltangle()</td></tr></tbody>
+    </table>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>naklon.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">220</span>)
+artist = turtle.Turtle()
+artist.shape(<span class="tok-str">&quot;arrow&quot;</span>)
+artist.shapesize(<span class="tok-num">3</span>, <span class="tok-num">3</span>)
+artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+artist.penup()
+
+artist.goto(-<span class="tok-num">100</span>, <span class="tok-num">0</span>)
+artist.setheading(<span class="tok-num">0</span>)
+artist.stamp()
+
+artist.goto(<span class="tok-num">100</span>, <span class="tok-num">0</span>)
+artist.tilt(<span class="tok-num">45</span>)
+artist.stamp()
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-17-tilt.png" alt="Два стрелочных курсора одинакового размера — левый смотрит прямо, правый наклонён на 45 градусов"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">tilt(45) поворачивает ВИД курсора на 45°, не меняя направление движения</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>naklon_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>artist.shape(<span class="tok-str">&quot;arrow&quot;</span>)
+artist.shapesize(<span class="tok-num">3</span>, <span class="tok-num">3</span>)
+
+artist.stamp()          <span class="tok-com"># обычный вид</span>
+
+artist.tilt(<span class="tok-num">45</span>)          <span class="tok-com"># только поворачиваем ВИД, курс движения не изменился</span>
+artist.stamp()</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Зачем это может понадобиться</div>
+        <div class="callout-body">Представьте самолётик или машинку в игре: она может ЛЕТЕТЬ строго вправо (курс фиксирован), но слегка покачиваться визуально — это и есть разница между heading и tilt. Для базовых учебных рисунков tilt() нужен редко, но полезно знать, что курс движения и внешний вид — разные вещи.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: черепашка как графический объект</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-17">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-17"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-16-tekst-i-koordinaty.html"><div class="dir">← Назад</div><div class="lbl">Текст и координаты</div></a><a href="07-18-neskolko-cherepashek.html" class="next"><div class="dir">Далее →</div><div class="lbl">Несколько черепашек</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отладка графики — Python с нуля — Cartesian School</title>
+<meta name="description" content="Частые проблемы продвинутой графики Turtle: направление окружности, tracer без update, colormode-конфликты, спутанные черепашки — симптом, причина, исправление." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html" class="active">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / Отладка графики</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>Отладка графики</h1>
+    <p class="lede">Более продвинутая графика добавляет новые, специфичные способы ошибиться — разберём их по схеме «симптом → причина → исправление».</p>
+
+
+    <p>Графика добавляет несколько новых, специфичных для более продвинутого Turtle способов
+    что-то сделать не так — разберём их по схеме «симптом → причина → исправление».</p>
+
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Симптом</th><th>Причина</th><th>Исправление</th></tr></thead>
+      <tbody><tr><td>Окружность рисуется не в ту сторону, чем ожидалось</td><td>Радиус имеет не тот знак — положительный вместо отрицательного или наоборот</td><td>Проверьте знак: положительный радиус — против часовой стрелки, отрицательный — по</td></tr><tr><td>Текст появился совсем не там, где ожидалось</td><td>Забыли переместить черепашку через <code class="inline">goto()</code>/<code class="inline">penup()</code> перед <code class="inline">write()</code> — текст выводится от ТЕКУЩЕЙ позиции</td><td>Переместитесь в нужную точку до вызова <code class="inline">write()</code></td></tr><tr><td>Заливка не закрасилась, хотя fillcolor() был задан</td><td>Контур между <code class="inline">begin_fill()</code> и <code class="inline">end_fill()</code> не замкнулся — черепашка не вернулась в стартовую точку</td><td>Проверьте, что путь образует ЗАМКНУТУЮ фигуру — конец совпадает с началом</td></tr><tr><td>RGB-цвет вызывает ошибку вроде «недопустимое значение цвета»</td><td>Числа не соответствуют текущему <code class="inline">colormode</code> — например, <code class="inline">(255, 0, 0)</code> при <code class="inline">colormode(1.0)</code></td><td>Сверьте числа с активным режимом — 0–255 или 0.0–1.0</td></tr><tr><td>Код выполняется без ошибок, но на экране совсем ничего не появилось</td><td>Вызван <code class="inline">screen.tracer(0)</code>, но забыт <code class="inline">screen.update()</code> — экран так и не обновился ни разу</td><td>Добавьте <code class="inline">screen.update()</code> после всех команд рисования</td></tr><tr><td>На экране остался штамп, хотя казалось, что он должен был исчезнуть</td><td><code class="inline">clearstamp()</code> вызван с неверным id, либо id вообще не был сохранён при вызове <code class="inline">stamp()</code></td><td>Сохраняйте id каждого stamp() в переменную/список сразу при создании</td></tr><tr><td>Две черепашки двигаются одинаково, хотя должны были разойтись</td><td>Обе переменные на самом деле ссылаются на ОДНУ и ту же черепашку (например, <code class="inline">bob = alice</code> вместо <code class="inline">bob = turtle.Turtle()</code>)</td><td>Создавайте каждую черепашку отдельным вызовом <code class="inline">turtle.Turtle()</code> или через <code class="inline">clone()</code></td></tr><tr><td>Курсор черепашки выглядит повёрнутым не в ту сторону, хотя движется верно</td><td>Спутаны <code class="inline">heading</code> (направление движения) и <code class="inline">tilt</code> (визуальный поворот курсора) — они независимы</td><td>heading меняют left()/right()/setheading(); внешний вид — только tilt()/tiltangle()</td></tr><tr><td>Часть рисунка не видна, хотя код точно её рисует</td><td>Координаты вышли за пределы окна — оно не бесконечное</td><td>Проверьте <code class="inline">screen.setup()</code>/<code class="inline">screensize()</code> и держите координаты в пределах видимой области</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2><code class="inline">tracer(0)</code> без <code class="inline">update()</code> — разберём подробно</h2>
+    <p>Это настолько частая и настолько незаметная ошибка, что заслуживает отдельного разбора.
+    Программа выполняется полностью, без единой ошибки — но экран остаётся девственно пустым:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>tracer_bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>screen.tracer(<span class="tok-num">0</span>)
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+    artist.forward(<span class="tok-num">100</span>)
+    artist.right(<span class="tok-num">90</span>)
+
+<span class="tok-com"># если здесь нет screen.update() — окно так и останется пустым!</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Мысленная модель</div>
+        <div class="callout-body"><code class="inline">tracer(0)</code> — это не «выключить рисование», а «не показывать его на экране, пока не попросят». Рисование продолжает происходить по-настоящему, просто оно невидимо, пока не вызван <code class="inline">update()</code>.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: отладка графики (без Turtle)</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="07-23"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-23/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-20-clear-reset-home.html"><div class="dir">← Назад</div><div class="lbl">clear, reset, home</div></a><a href="07-07-mini-proekt-okruzhnost-kvadrat.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: окружность в квадрате</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

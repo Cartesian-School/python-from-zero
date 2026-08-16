@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — координатная мишень — Python с нуля — Cartesian School</title>
+<meta name="description" content="Собираем инфографику: концентрическая мишень, оси координат, случайные точки попаданий и подпись." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html" class="active">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / Координатная мишень</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>Мини-проект — координатная мишень</h1>
+    <p class="lede">Настоящая маленькая инфографика — мишень, оси, случайные точки и подпись, собранные из уже знакомых инструментов.</p>
+
+
+    <h2>Что мы построим</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>koordinatnaya_mishen.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+<span class="tok-kw">import</span> random
+
+random.seed(<span class="tok-num">4</span>)
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.hideturtle()
+
+rings = [(<span class="tok-num">140</span>, <span class="tok-str">&quot;#DC2626&quot;</span>), (<span class="tok-num">100</span>, <span class="tok-str">&quot;#FAFAFC&quot;</span>), (<span class="tok-num">60</span>, <span class="tok-str">&quot;#DC2626&quot;</span>), (<span class="tok-num">20</span>, <span class="tok-str">&quot;#FAFAFC&quot;</span>)]
+<span class="tok-kw">for</span> radius, color <span class="tok-kw">in</span> rings:
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, -radius)
+    artist.pendown()
+    artist.fillcolor(color)
+    artist.pencolor(<span class="tok-str">&quot;#0D0230&quot;</span>)
+    artist.begin_fill()
+    artist.circle(radius)
+    artist.end_fill()
+
+artist.penup()
+artist.goto(-<span class="tok-num">160</span>, <span class="tok-num">0</span>)
+artist.pendown()
+artist.goto(<span class="tok-num">160</span>, <span class="tok-num">0</span>)
+artist.penup()
+artist.goto(<span class="tok-num">0</span>, -<span class="tok-num">160</span>)
+artist.pendown()
+artist.goto(<span class="tok-num">0</span>, <span class="tok-num">160</span>)
+
+artist.penup()
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">6</span>):
+    x = random.randint(-<span class="tok-num">120</span>, <span class="tok-num">120</span>)
+    y = random.randint(-<span class="tok-num">120</span>, <span class="tok-num">120</span>)
+    artist.goto(x, y)
+    artist.dot(<span class="tok-num">10</span>, <span class="tok-str">&quot;#059669&quot;</span>)
+
+artist.goto(-<span class="tok-num">190</span>, <span class="tok-num">170</span>)
+artist.write(<span class="tok-str">&quot;Координатная мишень&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">13</span>, <span class="tok-str">&quot;bold&quot;</span>))
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-22-target-infographic.png" alt="Мишень из красных и белых концентрических колец с чёрным перекрестьем осей, шестью зелёными точками-попаданиями и заголовком «Координатная мишень»"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Готовый результат: концентрическая мишень, перекрестье осей, случайные точки-попадания и подпись</figcaption>
+        </figure>
+      </div>
+    </div>
+    <p>Полноценная небольшая инфографика — не просто мишень, а мишень С осями координат, точками
+    «попаданий» и подписью. Соберём её из того, что уже знаем: концентрические окружности с
+    заливкой, оси через <code class="inline">goto()</code>, случайные точки из главы 6 и
+    подпись через <code class="inline">write()</code>.</p>
+
+    <h2>Разложим на слои</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Слой</th><th>Из чего состоит</th><th>Что уже знакомо</th></tr></thead>
+      <tbody><tr><td>Кольца мишени</td><td>4 закрашенные окружности убывающего радиуса</td><td>begin_fill()/circle()/end_fill()</td></tr><tr><td>Перекрестье</td><td>две линии через центр</td><td>goto() из главы 6</td></tr><tr><td>Точки попаданий</td><td>случайные координаты</td><td>random + dot() из главы 6</td></tr><tr><td>Подпись</td><td>текст в углу</td><td>write() из этой главы</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Код целиком</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>koordinatnaya_mishen_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+random.seed(<span class="tok-num">4</span>)   <span class="tok-com"># фиксированный seed — точки одинаковые при каждом запуске</span>
+
+<span class="tok-com"># кольца мишени</span>
+rings = [(<span class="tok-num">140</span>, <span class="tok-str">&quot;#DC2626&quot;</span>), (<span class="tok-num">100</span>, <span class="tok-str">&quot;#FAFAFC&quot;</span>), (<span class="tok-num">60</span>, <span class="tok-str">&quot;#DC2626&quot;</span>), (<span class="tok-num">20</span>, <span class="tok-str">&quot;#FAFAFC&quot;</span>)]
+<span class="tok-kw">for</span> radius, color <span class="tok-kw">in</span> rings:
+    artist.penup()
+    artist.goto(<span class="tok-num">0</span>, -radius)
+    artist.pendown()
+    artist.fillcolor(color)
+    artist.begin_fill()
+    artist.circle(radius)
+    artist.end_fill()
+
+<span class="tok-com"># перекрестье осей</span>
+artist.penup(); artist.goto(-<span class="tok-num">160</span>, <span class="tok-num">0</span>); artist.pendown(); artist.goto(<span class="tok-num">160</span>, <span class="tok-num">0</span>)
+artist.penup(); artist.goto(<span class="tok-num">0</span>, -<span class="tok-num">160</span>); artist.pendown(); artist.goto(<span class="tok-num">0</span>, <span class="tok-num">160</span>)
+
+<span class="tok-com"># случайные точки попаданий</span>
+artist.penup()
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">6</span>):
+    x = random.randint(-<span class="tok-num">120</span>, <span class="tok-num">120</span>)
+    y = random.randint(-<span class="tok-num">120</span>, <span class="tok-num">120</span>)
+    artist.goto(x, y)
+    artist.dot(<span class="tok-num">10</span>, <span class="tok-str">&quot;#059669&quot;</span>)
+
+<span class="tok-com"># подпись</span>
+artist.goto(-<span class="tok-num">190</span>, <span class="tok-num">170</span>)
+artist.write(<span class="tok-str">&quot;Координатная мишень&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">13</span>, <span class="tok-str">&quot;bold&quot;</span>))</code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Почему random.seed(4)</div>
+        <div class="callout-body">Как и в главе 6, фиксированный seed делает картинку воспроизводимой — при каждом запуске точки окажутся ровно там же. Уберите эту строку, чтобы получить новый набор точек при каждом запуске.</div>
+      </div>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Подпись координат</div>
+      <p>Рядом с каждой точкой попадания добавьте write() с её координатами.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Счёт попаданий в яблочко</div>
+      <p>Посчитайте (напечатайте в консоль), сколько случайных точек попало в центральное красное кольцо (радиус < 60) — потребуется формула расстояния из главы 5.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: координатная мишень</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-22">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-22/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-22"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-21-mini-proekt-chasy.html"><div class="dir">← Назад</div><div class="lbl">Часы без времени</div></a><a href="07-09-mini-proekt-smajlik-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: смайлик и итоги</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

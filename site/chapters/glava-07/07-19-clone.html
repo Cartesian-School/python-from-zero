@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>clone() — копируем состояние — Python с нуля — Cartesian School</title>
+<meta name="description" content="clone() создаёт новую независимую черепашку с тем же стартовым состоянием, что и оригинал — с реальным выполненным результатом." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html" class="active">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / clone()</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>clone() — копируем состояние</h1>
+    <p class="lede">Не «новая черепашка с нуля», а «точная копия существующей» — а дальше они полностью независимы.</p>
+
+
+    <p><code class="inline">clone()</code> — ещё один способ получить вторую черепашку, но
+    принципиально другой: не «создать с нуля», а «скопировать состояние существующей».</p>
+
+    <h2>Копия стартует с того же места</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>clone.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">320</span>)
+
+original = turtle.Turtle()
+original.color(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+original.penup()
+original.goto(<span class="tok-num">0</span>, -<span class="tok-num">100</span>)
+original.setheading(<span class="tok-num">90</span>)
+
+copy = original.clone()
+copy.color(<span class="tok-str">&quot;#DB2777&quot;</span>)
+
+original.pendown()
+original.left(<span class="tok-num">30</span>)
+original.forward(<span class="tok-num">160</span>)
+
+copy.pendown()
+copy.right(<span class="tok-num">30</span>)
+copy.forward(<span class="tok-num">160</span>)
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-19-clone.png" alt="Два отрезка, выходящих из одной общей нижней точки в разные стороны — один синий, один розовый"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">original и copy стартуют из одной точки с одинаковым состоянием, затем расходятся</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>clone_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>original = turtle.Turtle()
+original.color(<span class="tok-str">&quot;#5B24F9&quot;</span>)
+original.penup(); original.goto(<span class="tok-num">0</span>, -<span class="tok-num">100</span>); original.pendown()
+original.setheading(<span class="tok-num">90</span>)
+
+copy = original.clone()   <span class="tok-com"># тот же цвет, та же позиция, тот же курс</span>
+copy.color(<span class="tok-str">&quot;#DB2777&quot;</span>)     <span class="tok-com"># меняем только цвет — чтобы отличить на рисунке</span>
+
+original.left(<span class="tok-num">30</span>)
+original.forward(<span class="tok-num">160</span>)
+
+copy.right(<span class="tok-num">30</span>)
+copy.forward(<span class="tok-num">160</span>)</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">clone() ≠ ссылка на ту же черепашку</div>
+        <div class="callout-body"><code class="inline">copy</code> — полностью НОВЫЙ, независимый объект. Он начинает с теми же позицией, курсом и настройками, что и <code class="inline">original</code> в момент клонирования — но дальнейшие изменения одной черепашки никак не затрагивают другую, как мы уже видели с <code class="inline">alice</code> и <code class="inline">bob</code>.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Когда это полезно</div>
+        <div class="callout-body">Представьте узор с несколькими одинаковыми лучами, но повёрнутыми под разными углами — вместо того, чтобы настраивать каждую черепашку с нуля, можно один раз настроить "эталонную" черепашку и клонировать её сколько угодно раз.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: clone() и независимые копии</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-19"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-19/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-19"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-19"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-18-neskolko-cherepashek.html"><div class="dir">← Назад</div><div class="lbl">Несколько черепашек</div></a><a href="07-20-clear-reset-home.html" class="next"><div class="dir">Далее →</div><div class="lbl">clear(), reset(), home()</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

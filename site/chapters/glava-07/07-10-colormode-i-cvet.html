@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>colormode и цвет — Python с нуля — Cartesian School</title>
+<meta name="description" content="Режимы colormode(1.0) и colormode(255) в Turtle, RGB-палитра и сравнение названий цветов, HEX-кодов и RGB-кортежей." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 7 · Turtle подробно</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="07-01-nastraivaem-ekran.html">Экран как графическая система</a></li><li><a href="07-10-colormode-i-cvet.html" class="active">colormode и цвет</a></li><li><a href="07-02-nastraivaem-grafiku.html">Настраиваем саму Turtle</a></li><li><a href="07-11-pero-i-zalivka.html">Перо и заливка — не одно и то же</a></li><li><a href="07-12-speed-tracer-update.html">speed, tracer и update</a></li><li><a href="07-03-figury-bez-linij.html">Фигуры без линий, окружности, точки</a></li><li><a href="07-13-geometriya-okruzhnosti.html">Геометрия окружности</a></li><li><a href="07-04-dugi.html">Дуги</a></li><li><a href="07-14-circle-steps.html">circle(steps=...) — от круга к многоугольнику</a></li><li><a href="07-05-eshche-vozmozhnosti.html">Штампы и другие приёмы</a></li><li><a href="07-06-tekst-na-ekrane.html">Рисуем текст на экране</a></li><li><a href="07-15-vyravnivanie-i-shrift.html">Выравнивание и шрифт</a></li><li><a href="07-16-tekst-i-koordinaty.html">Текст и координатная система</a></li><li><a href="07-17-forma-cherepashki.html">Черепашка как графический объект</a></li><li><a href="07-18-neskolko-cherepashek.html">Несколько черепашек</a></li><li><a href="07-19-clone.html">clone() — копируем состояние</a></li><li><a href="07-20-clear-reset-home.html">clear(), reset() и home()</a></li><li><a href="07-23-otladka-grafiki.html">Отладка графики</a></li><li><a href="07-07-mini-proekt-okruzhnost-kvadrat.html">Мини-проект: окружность в квадрате</a></li><li><a href="07-08-napravlenie-risovaniya.html">Меняем направление рисования</a></li><li><a href="07-21-mini-proekt-chasy.html">Мини-проект: часы без времени</a></li><li><a href="07-22-mini-proekt-mishen.html">Мини-проект: координатная мишень</a></li><li><a href="07-09-mini-proekt-smajlik-itogi.html">Мини-проект: смайлик и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/07-01/index.html">🐍 07-01: Практика</a></li><li><a href="../../practice/07-10/index.html">🐍 07-10: Практика</a></li><li><a href="../../practice/07-11/index.html">🐍 07-11: Практика</a></li><li><a href="../../practice/07-12/index.html">🐍 07-12: Практика</a></li><li><a href="../../practice/07-03/index.html">🐍 07-03: Практика</a></li><li><a href="../../practice/07-13/index.html">🐍 07-13: Практика</a></li><li><a href="../../practice/07-04/index.html">🐍 07-04: Практика</a></li><li><a href="../../practice/07-14/index.html">🐍 07-14: Практика</a></li><li><a href="../../practice/07-24/index.html">🐍 07-24: Практика</a></li><li><a href="../../practice/07-06/index.html">🐍 07-06: Практика</a></li><li><a href="../../practice/07-15/index.html">🐍 07-15: Практика</a></li><li><a href="../../practice/07-16/index.html">🐍 07-16: Практика</a></li><li><a href="../../practice/07-17/index.html">🐍 07-17: Практика</a></li><li><a href="../../practice/07-18/index.html">🐍 07-18: Практика</a></li><li><a href="../../practice/07-19/index.html">🐍 07-19: Практика</a></li><li><a href="../../practice/07-20/index.html">🐍 07-20: Практика</a></li><li><a href="../../practice/07-25/index.html">🐍 07-25: Практика</a></li><li><a href="../../practice/07-23/index.html">🐍 07-23: Практика</a></li><li><a href="../../practice/07-07/index.html">🐍 07-07: Практика</a></li><li><a href="../../practice/07-21/index.html">🐍 07-21: Практика</a></li><li><a href="../../practice/07-22/index.html">🐍 07-22: Практика</a></li><li><a href="../../practice/07-09/index.html">🐍 07-09: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 7</a> / colormode и цвет</div>
+    <div class="section-kicker">Глава 7 · Глубокое погружение в Turtle</div>
+    <h1>colormode и цвет</h1>
+    <p class="lede">Название, HEX-код или тройка чисел RGB — три способа сказать Turtle одно и то же: «вот этот цвет».</p>
+
+
+    <p>Мы уже задавали цвета по имени — <code class="inline">"purple"</code>,
+    <code class="inline">"gold"</code>. Но у Turtle есть и числовой способ — через компоненты
+    красного, зелёного и синего (RGB).</p>
+
+    <h2>Два режима: 0.0–1.0 и 0–255</h2>
+    <p><code class="inline">screen.colormode()</code> определяет, в каком диапазоне
+    записываются числа RGB:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Режим</th><th>Диапазон каждого числа</th><th>Пример красного</th></tr></thead>
+      <tbody><tr><td><code class="inline">colormode(1.0)</code> (по умолчанию)</td><td>0.0 — 1.0</td><td><code class="inline">(1.0, 0.0, 0.0)</code></td></tr><tr><td><code class="inline">colormode(255)</code></td><td>0 — 255</td><td><code class="inline">(255, 0, 0)</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>colormode_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>screen.colormode(<span class="tok-num">255</span>)
+artist.pencolor(<span class="tok-num">255</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>)   <span class="tok-com"># красный, компоненты 0-255</span>
+
+screen.colormode(<span class="tok-num">1.0</span>)
+artist.pencolor(<span class="tok-num">1.0</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>)  <span class="tok-com"># тот же красный, компоненты 0.0-1.0</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Числа вне диапазона — ошибка</div>
+        <div class="callout-body">Если установлен <code class="inline">colormode(1.0)</code>, а вы передадите <code class="inline">(255, 0, 0)</code> — Turtle не поймёт, что вы имели в виду красный: 255 вне диапазона 0.0–1.0, и будет ошибка. Режим и числа должны совпадать.</div>
+      </div>
+    </div>
+
+    <h2>RGB-палитра целиком</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+      <div style="flex:1 1 340px;min-width:280px">
+
+    <div class="code-block">
+      <div class="code-label"><span>rgb_svatchi.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">460</span>, height=<span class="tok-num">200</span>)
+screen.colormode(<span class="tok-num">255</span>)
+artist = turtle.Turtle()
+artist.hideturtle()
+artist.penup()
+
+swatches = [
+    ((<span class="tok-num">255</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>), <span class="tok-str">&quot;red&quot;</span>),
+    ((<span class="tok-num">0</span>, <span class="tok-num">200</span>, <span class="tok-num">0</span>), <span class="tok-str">&quot;green&quot;</span>),
+    ((<span class="tok-num">0</span>, <span class="tok-num">0</span>, <span class="tok-num">255</span>), <span class="tok-str">&quot;blue&quot;</span>),
+    ((<span class="tok-num">255</span>, <span class="tok-num">210</span>, <span class="tok-num">0</span>), <span class="tok-str">&quot;yellow&quot;</span>),
+]
+x = -<span class="tok-num">170</span>
+<span class="tok-kw">for</span> color, label <span class="tok-kw">in</span> swatches:
+    artist.goto(x, <span class="tok-num">0</span>)
+    artist.fillcolor(color)
+    artist.pencolor(<span class="tok-str">&quot;#0D0230&quot;</span>)
+    artist.pendown()
+    artist.begin_fill()
+    <span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+        artist.forward(<span class="tok-num">70</span>)
+        artist.left(<span class="tok-num">90</span>)
+    artist.end_fill()
+    artist.penup()
+    artist.goto(x, -<span class="tok-num">25</span>)
+    artist.write(label, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">12</span>, <span class="tok-str">&quot;normal&quot;</span>))
+    x += <span class="tok-num">110</span>
+
+screen.exitonclick()</code></pre>
+    </div>
+      </div>
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Результат выполнения</div>
+        <figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+          <img src="../../assets/img/chapter-07/output/07-10-rgb-swatches.png" alt="Четыре цветных квадрата в ряд — красный, зелёный, синий и жёлтый — с подписями под каждым"
+            style="width:100%;height:auto;border-radius:12px;display:block;background:#fff" />
+          <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">colormode(255) — четыре цвета, заданных тройками (r, g, b) от 0 до 255</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>rgb_svatchi_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>screen.colormode(<span class="tok-num">255</span>)
+
+artist.fillcolor(<span class="tok-num">255</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>)     <span class="tok-com"># красный</span>
+artist.fillcolor(<span class="tok-num">0</span>, <span class="tok-num">200</span>, <span class="tok-num">0</span>)     <span class="tok-com"># зелёный</span>
+artist.fillcolor(<span class="tok-num">0</span>, <span class="tok-num">0</span>, <span class="tok-num">255</span>)     <span class="tok-com"># синий</span>
+artist.fillcolor(<span class="tok-num">255</span>, <span class="tok-num">210</span>, <span class="tok-num">0</span>)   <span class="tok-com"># жёлтый</span></code></pre>
+    </div>
+
+    <h2>Три способа задать один и тот же цвет</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Способ</th><th>Пример</th><th>Когда удобно</th></tr></thead>
+      <tbody><tr><td>Название</td><td><code class="inline">"red"</code></td><td>быстро, для стандартных цветов</td></tr><tr><td>HEX-код</td><td><code class="inline">"#FF0000"</code></td><td>точный оттенок, как в CSS/дизайне</td></tr><tr><td>RGB-кортеж</td><td><code class="inline">(255, 0, 0)</code></td><td>когда цвет вычисляется в коде (например, случайный)</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Не углубляемся в теорию цвета</div>
+        <div class="callout-body">Этого достаточно для практики этой главы. Как RGB устроен «под капотом» — тема для отдельного курса по графике, а не для этой книги.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: colormode и RGB</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="07-10"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/07-10/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["07-10"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="07-10"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="07-01-nastraivaem-ekran.html"><div class="dir">← Назад</div><div class="lbl">Экран как система</div></a><a href="07-02-nastraivaem-grafiku.html" class="next"><div class="dir">Далее →</div><div class="lbl">Настраиваем саму Turtle</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
