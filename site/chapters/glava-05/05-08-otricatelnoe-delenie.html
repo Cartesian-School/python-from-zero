@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отрицательное floor-деление — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему -7 // 2 равно -4, а не -3 — округление к полу (минус бесконечности) в Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-08-otricatelnoe-delenie.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отрицательное floor-деление — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему -7 // 2 равно -4, а не -3 — округление к полу (минус бесконечности) в Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-08-otricatelnoe-delenie.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отрицательное floor-деление — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему -7 // 2 равно -4, а не -3 — округление к полу (минус бесконечности) в Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отрицательное floor-деление — Python с нуля — Cartesian School","description":"Почему -7 // 2 равно -4, а не -3 — округление к полу (минус бесконечности) в Python.","url":"https://www.cartesianschool.org/chapters/glava-05/05-08-otricatelnoe-delenie.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html" class="active">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Отрицательное floor-деление</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Отрицательное floor-деление</h1>
+    <p class="lede">Самая частая неожиданность в этой теме — что делает // с отрицательными числами. Разбираемся на числовой прямой.</p>
+
+
+    <p>Что будет, если разделить с остатком <strong>отрицательное</strong> число? Здесь Python
+    ведёт себя иначе, чем многие ожидают из школы — и это важно понять сейчас, а не в момент
+    отладки.</p>
+
+    <h2>Округление всегда вниз — то есть к минус бесконечности</h2>
+    <p><code class="inline">//</code> в Python называется <em>floor division</em> — «деление с
+    округлением к полу» (floor). Пол — это округление в сторону <strong>меньшего</strong> числа,
+    и для отрицательных чисел «меньшее» означает «более отрицательное»:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 640 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="-7 // 2 = -4 — округление к полу означает движение ВЛЕВО по числовой прямой, к −∞" style="width:100%;height:auto;max-width:640px"><defs><marker id='arrownl' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><line x1="40" y1="55" x2="600" y2="55" stroke="#B9A0FC" stroke-width="2.5"/><line x1="40.0" y1="49" x2="40.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="40.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-6</text><line x1="120.0" y1="49" x2="120.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="120.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-5</text><line x1="200.0" y1="49" x2="200.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="200.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-4</text><line x1="280.0" y1="49" x2="280.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="280.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-3</text><line x1="360.0" y1="49" x2="360.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="360.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-2</text><line x1="440.0" y1="49" x2="440.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="440.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">-1</text><line x1="520.0" y1="49" x2="520.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="520.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">0</text><line x1="600.0" y1="49" x2="600.0" y2="61" stroke="#B9A0FC" stroke-width="2"/><text x="600.0" y="79" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">1</text><circle cx="200.0" cy="55" r="7" fill="#5B24F9"/><text x="200.0" y="39" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#0D0230">-4</text><circle cx="240.0" cy="55" r="7" fill="#0D0230"/><text x="240.0" y="39" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#0D0230"></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">-7 // 2 = -4 — округление к полу означает движение ВЛЕВО по числовой прямой, к −∞</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>otricatelnoe_floor.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(-<span class="tok-num">7</span> // <span class="tok-num">2</span>)    <span class="tok-com"># -4, а не -3! Python округляет к минус бесконечности</span>
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> // <span class="tok-num">2</span>)     <span class="tok-com"># 3 — для положительных чисел разницы с округлением &#x27;к нулю&#x27; нет</span>
+<span class="tok-fn">print</span>(-<span class="tok-num">7</span> / <span class="tok-num">2</span>)     <span class="tok-com"># -3.5 — обычное деление честно показывает дробную часть</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не &#x27;округление к нулю&#x27;, как в некоторых языках</div>
+        <div class="callout-body">В части других языков программирования <code class="inline">-7 // 2</code> дало бы <code class="inline">-3</code> (округление к нулю). В Python результат — <code class="inline">-4</code>: это осознанный выбор языка, чтобы формула ниже работала всегда, без исключений для отрицательных чисел.</div>
+      </div>
+    </div>
+
+    <h2>Остаток при отрицательном делении</h2>
+    <p>Знак остатка в Python всегда совпадает со знаком <strong>делителя</strong>:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>otricatelnyj_ostatok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(-<span class="tok-num">7</span> % <span class="tok-num">2</span>)     <span class="tok-com"># 1 — остаток положителен, потому что делитель (2) положителен</span>
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> % -<span class="tok-num">2</span>)     <span class="tok-com"># -1 — остаток отрицателен, потому что делитель (-2) отрицателен</span></code></pre>
+    </div>
+
+    <h2>Тождество, которое работает всегда</h2>
+    <p>Как бы ни менялись знаки, для любых <code class="inline">a</code> и
+    <code class="inline">b</code> (кроме деления на 0) верно:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">a == (a // b) * b + a % b</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == (-7 // 2) * 2 + (-7 % 2)</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == (-4) * 2 + 1</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == -8 + 1</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == -7  ✓</div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Тождество деления с остатком проверено на примере -7 и 2</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>tozhdestvo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a, b = -<span class="tok-num">7</span>, <span class="tok-num">2</span>
+<span class="tok-fn">print</span>((a // b) * b + a % b == a)   <span class="tok-com"># True — тождество работает всегда</span></code></pre>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: отрицательное floor-деление</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="05-08"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/05-08/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-08"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-08"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="05-07-delenie-s-ostatkom.html"><div class="dir">← Назад</div><div class="lbl">Деление с остатком</div></a><a href="05-02-specialnye-operacii.html" class="next"><div class="dir">Далее →</div><div class="lbl">Степени и корни</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

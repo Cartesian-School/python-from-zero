@@ -11,6 +11,7 @@ math/cmath, random/secrets, statistics, inf/nan, отладка числовых
 сохранены и расширены на месте; новый материал добавлен как новые страницы.
 """
 
+import html
 import sys
 from pathlib import Path
 
@@ -23,6 +24,7 @@ from site_lib import (
     SidebarGroup,
     branch_diagram,
     callout,
+    capability_map,
     classic_vs_modern,
     code_block,
     comparison_table,
@@ -1305,16 +1307,16 @@ def build_04_conversions() -> None:
 
 
 def build_19_math_module() -> None:
-    math_map = branch_diagram(
-        "math",
+    math_map = capability_map(
         [
-            ("константы", "pi, e, tau"),
-            ("корни/степени", "sqrt, isqrt"),
-            ("округление", "floor, ceil, trunc"),
-            ("целочисленная математика", "factorial, gcd, lcm, comb, perm"),
-            ("геометрия", "hypot, dist"),
-            ("тригонометрия", "sin, cos, tan, radians"),
+            ("Константы", ["pi · e · tau · inf · nan"]),
+            ("Корни и степени", ["sqrt · isqrt · pow"]),
+            ("Округление", ["floor · ceil · trunc"]),
+            ("Целочисленная математика", ["factorial · gcd · lcm", "comb · perm"]),
+            ("Геометрия", ["hypot · dist"]),
+            ("Тригонометрия", ["sin · cos · tan", "radians · degrees"]),
         ],
+        title="math",
         caption="math как организованный набор возможностей, а не случайный список имён",
     )
 
@@ -1428,14 +1430,14 @@ def build_20_random_secrets() -> None:
 
 
 def build_21_statistics_inf_nan() -> None:
-    special_values = branch_diagram(
-        "Особые значения float",
+    special_values = capability_map(
         [
-            ("inf", "бесконечность"),
-            ("-inf", "минус бесконечность"),
-            ("nan", "не число (not a number)"),
+            ("inf", ["+∞", "бесконечность", "math.isinf()"]),
+            ("-inf", ["−∞", "минус бесконечность", "math.isinf()"]),
+            ("nan", ["не число", "not a number", "math.isnan()"]),
         ],
-        caption="Три особых значения, которые может принимать float",
+        title="Особые значения float",
+        caption="Три особых состояния, которые может принимать float — проверяются тремя разными функциями",
     )
 
     body = f"""
@@ -1499,14 +1501,39 @@ def build_21_statistics_inf_nan() -> None:
 
 
 def build_22_debugging() -> None:
-    error_flow = flow_diagram(
-        [
-            ("Ошибка\nс исключением", "программа останавливается"),
-            ("Или удивительный,\nно валидный результат", "программа работает, ответ неожиданный"),
-            ("В обоих случаях —\nразбираемся", "traceback или размышление"),
-        ],
-        caption="Два разных сценария: настоящая ошибка и «не ошибка, но не то, что вы ожидали»",
-    )
+    def _branch(header: str, symptoms: list[str], action: str) -> str:
+        symptoms_html = "<br>".join(html.escape(s) for s in symptoms)
+        return f"""
+        <div style="flex:1;min-width:230px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;background:#5B24F9;color:#fff;
+            border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">{html.escape(header)}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;text-align:center;line-height:1.7">{symptoms_html}</div>
+          <div style="color:#B9A0FC;font-size:20px">↓</div>
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid #5B24F9;
+            border-radius:14px;text-align:center;font-size:13px;color:#0D0230">{html.escape(action)}</div>
+        </div>"""
+
+    error_flow = f"""
+    <div style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+      <div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:17px;color:#0D0230;margin-bottom:20px">Что пошло не так?</div>
+      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap">
+{_branch(
+        "Python остановился с исключением",
+        ["ZeroDivisionError", "ValueError", "TypeError"],
+        "Читаем traceback и исправляем причину",
+    )}
+{_branch(
+        "Код выполнился без исключения",
+        ["Но результат выглядит неожиданно"],
+        "Проверяем математическую модель и представление чисел",
+    )}
+      </div>
+      <div style="text-align:center;color:#B9A0FC;font-size:22px;margin:14px 0">↓</div>
+      <div style="max-width:420px;margin:0 auto;box-sizing:border-box;padding:14px 18px;background:#5B24F9;color:#fff;
+        border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">
+        Исправляем код, ожидания или выбор числового типа
+      </div>
+    </div>"""
 
     def lab(num, title, code, symptom, explanation):
         return f"""

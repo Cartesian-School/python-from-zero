@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>seed и воспроизводимость — Python с нуля — Cartesian School</title>
+<meta name="description" content="random.seed() для воспроизводимости, независимые генераторы random.Random(), и почему random не подходит для паролей." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-20-seed.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="seed и воспроизводимость — Python с нуля — Cartesian School" />
+<meta property="og:description" content="random.seed() для воспроизводимости, независимые генераторы random.Random(), и почему random не подходит для паролей." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-20-seed.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="seed и воспроизводимость — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="random.seed() для воспроизводимости, независимые генераторы random.Random(), и почему random не подходит для паролей." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"seed и воспроизводимость — Python с нуля — Cartesian School","description":"random.seed() для воспроизводимости, независимые генераторы random.Random(), и почему random не подходит для паролей.","url":"https://www.cartesianschool.org/chapters/glava-05/05-20-seed.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html" class="active">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / seed и воспроизводимость</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>seed и воспроизводимость</h1>
+    <p class="lede">Псевдослучайность можно «заморозить» — и это не баг, а важнейшая возможность для отладки и тестирования.</p>
+
+
+    <h2><code class="inline">seed()</code> — задаём начальное состояние генератора</h2>
+    <p>Раз псевдослучайный генератор — это формула с состоянием, то, задав одно и то же начальное
+    состояние («зерно», seed), можно заставить его выдать ровно ту же последовательность чисел
+    снова:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>seed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+random.seed(<span class="tok-num">42</span>)
+<span class="tok-fn">print</span>(random.randint(<span class="tok-num">1</span>, <span class="tok-num">100</span>))   <span class="tok-com"># всегда одно и то же число при seed(42)</span>
+
+random.seed(<span class="tok-num">42</span>)                 <span class="tok-com"># сбрасываем состояние заново</span>
+<span class="tok-fn">print</span>(random.randint(<span class="tok-num">1</span>, <span class="tok-num">100</span>))   <span class="tok-com"># то же самое число, что и в первый раз</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Зачем это нужно на практике</div>
+        <div class="callout-body">Воспроизводимость критична при отладке: если баг проявляется только «иногда», <code class="inline">random.seed()</code> позволяет зафиксировать конкретную «случайную» последовательность и повторно воспроизвести баг столько раз, сколько нужно для его исправления. Она же используется для автоматической проверки практик этой главы — без фиксированного seed автоматически проверить случайный результат было бы невозможно.</div>
+      </div>
+    </div>
+
+    <h2>Независимые генераторы: <code class="inline">random.Random()</code></h2>
+    <p>Все функции модуля <code class="inline">random</code>, которые мы использовали, работают с
+    одним общим, «глобальным» генератором. Если нужен отдельный, независимый генератор —
+    например, чтобы одна часть программы не влияла на случайность другой — можно создать
+    собственный экземпляр:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>random_instance.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> random
+
+generator_a = random.Random(<span class="tok-num">1</span>)
+generator_b = random.Random(<span class="tok-num">1</span>)
+
+<span class="tok-fn">print</span>(generator_a.randint(<span class="tok-num">1</span>, <span class="tok-num">100</span>))   <span class="tok-com"># оба генератора созданы с одним и тем же seed —</span>
+<span class="tok-fn">print</span>(generator_b.randint(<span class="tok-num">1</span>, <span class="tok-num">100</span>))   <span class="tok-com"># значит, дадут одинаковый результат независимо друг от друга</span></code></pre>
+    </div>
+
+    <h2>random — это не безопасно для паролей и ключей</h2>
+    <p>Раз <code class="inline">random</code> — <strong>предсказуемый</strong> генератор (тот же
+    seed → та же последовательность), его нельзя использовать там, где случайность защищает от
+    взлома: пароли, токены сессий, ключи шифрования. Для этого в стандартной библиотеке Python
+    есть отдельный модуль — <code class="inline">secrets</code>, спроектированный именно для
+    безопасности, а не для скорости.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">random или secrets?</div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Нужна случайность для игры, симуляции, тестового примера?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">используйте <code class="inline">random</code></div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Нужна случайность для пароля, токена, ключа безопасности?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">используйте <code class="inline">secrets</code></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">random оптимизирован для скорости и предсказуемости при том же seed — это НЕ подходит для защиты данных</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>secrets_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> secrets
+
+token = secrets.token_hex(<span class="tok-num">16</span>)   <span class="tok-com"># криптографически надёжный случайный токен</span>
+<span class="tok-fn">print</span>(token)</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Мы не будем глубоко изучать secrets в этой главе</div>
+        <div class="callout-body">Достаточно запомнить сам принцип: <code class="inline">random</code> — для игр, симуляций и учебных задач; <code class="inline">secrets</code> — там, где случайность защищает что-то ценное. Подробнее о безопасности мы поговорим в более поздних главах.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: seed и воспроизводимость</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="05-20"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/05-20/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-20"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="05-19-choice-sample-shuffle.html"><div class="dir">← Назад</div><div class="lbl">choice, choices, sample, shuffle</div></a><a href="05-21-otladka-vychislenij.html" class="next"><div class="dir">Далее →</div><div class="lbl">Отладка вычислений</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

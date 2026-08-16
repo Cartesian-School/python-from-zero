@@ -54,7 +54,35 @@
     часть — про валидный, но неожиданный числовой результат. Важно уметь отличать эти два
     сценария.</p>
 
-<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 152" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Два разных сценария: настоящая ошибка и «не ошибка, но не то, что вы ожидали»" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Ошибка с</tspan><tspan x="92.0" y="50">исключением</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="78">программа</tspan><tspan x="92.0" y="92">останавливается</tspan></text><line x1="190" y1="66.0" x2="234" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">Или</tspan><tspan x="332.0" y="50">удивительный, н…</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="78">программа работает,</tspan><tspan x="332.0" y="92">ответ неожиданный</tspan></text><line x1="430" y1="66.0" x2="474" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">В обоих случаях</tspan><tspan x="572.0" y="50">— разбираемся</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="78">traceback или</tspan><tspan x="572.0" y="92">размышление</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Два разных сценария: настоящая ошибка и «не ошибка, но не то, что вы ожидали»</figcaption></figure>
+
+    <div style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+      <div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:17px;color:#0D0230;margin-bottom:20px">Что пошло не так?</div>
+      <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap">
+
+        <div style="flex:1;min-width:230px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;background:#5B24F9;color:#fff;
+            border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">Python остановился с исключением</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;text-align:center;line-height:1.7">ZeroDivisionError<br>ValueError<br>TypeError</div>
+          <div style="color:#B9A0FC;font-size:20px">↓</div>
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid #5B24F9;
+            border-radius:14px;text-align:center;font-size:13px;color:#0D0230">Читаем traceback и исправляем причину</div>
+        </div>
+
+        <div style="flex:1;min-width:230px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;background:#5B24F9;color:#fff;
+            border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">Код выполнился без исключения</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;text-align:center;line-height:1.7">Но результат выглядит неожиданно</div>
+          <div style="color:#B9A0FC;font-size:20px">↓</div>
+          <div style="width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid #5B24F9;
+            border-radius:14px;text-align:center;font-size:13px;color:#0D0230">Проверяем математическую модель и представление чисел</div>
+        </div>
+      </div>
+      <div style="text-align:center;color:#B9A0FC;font-size:22px;margin:14px 0">↓</div>
+      <div style="max-width:420px;margin:0 auto;box-sizing:border-box;padding:14px 18px;background:#5B24F9;color:#fff;
+        border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">
+        Исправляем код, ожидания или выбор числового типа
+      </div>
+    </div>
 
 
         <div class="callout callout-debug">

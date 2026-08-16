@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отладка вычислений — Python с нуля — Cartesian School</title>
+<meta name="description" content="Три типа ошибок в вычислениях Python — синтаксические, формульные и связанные с представлением чисел — и приём трассировки формулы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-21-otladka-vychislenij.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отладка вычислений — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Три типа ошибок в вычислениях Python — синтаксические, формульные и связанные с представлением чисел — и приём трассировки формулы." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-21-otladka-vychislenij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отладка вычислений — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Три типа ошибок в вычислениях Python — синтаксические, формульные и связанные с представлением чисел — и приём трассировки формулы." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отладка вычислений — Python с нуля — Cartesian School","description":"Три типа ошибок в вычислениях Python — синтаксические, формульные и связанные с представлением чисел — и приём трассировки формулы.","url":"https://www.cartesianschool.org/chapters/glava-05/05-21-otladka-vychislenij.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html" class="active">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Отладка вычислений</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Отладка вычислений</h1>
+    <p class="lede">Неверное число без единой ошибки — самый коварный тип бага. Разберём три причины и надёжный способ их искать.</p>
+
+
+    <p>Формула, которая выдаёт неверное число, — гораздо коварнее, чем ошибка, которая роняет
+    программу: Python не подскажет, что что-то не так. Разберём, как искать такие проблемы
+    осознанно, а не методом «поменял и посмотрел».</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 644 286" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Три разных типа проблем — и три разных способа их искать" style="width:100%;height:auto;max-width:644px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="202.0" y="10" width="240" height="96" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff"><tspan x="322.0" y="43.0">Вычисление даёт не</tspan><tspan x="322.0" y="63.0">тот результат, что</tspan><tspan x="322.0" y="83.0">ожидалось</tspan></text><path d="M322.0,106 C322.0,133.0 98.0,133.0 98.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="0.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="98.0" y="186">Синтаксическая</tspan><tspan x="98.0" y="204">ошибка</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="98.0" y="236">программа вообще не</tspan><tspan x="98.0" y="250">запускается — Python</tspan><tspan x="98.0" y="264">указывает на строку до…</tspan></text><path d="M322.0,106 C322.0,133.0 322.0,133.0 322.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="224.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="322.0" y="186">Ошибка в формуле</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="322.0" y="218">программа работает, но</tspan><tspan x="322.0" y="232">считает не то, что</tspan><tspan x="322.0" y="246">задумано — приоритет,…</tspan></text><path d="M322.0,106 C322.0,133.0 546.0,133.0 546.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="448.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="546.0" y="186">Особенность</tspan><tspan x="546.0" y="204">представления чисел</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="546.0" y="236">программа работает и вроде</tspan><tspan x="546.0" y="250">бы права, но сравнение или</tspan><tspan x="546.0" y="264">округление ведёт себя…</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Три разных типа проблем — и три разных способа их искать</figcaption></figure>
+
+    <h2>1. Синтаксическая ошибка</h2>
+    <p>Самый простой случай — программа не запускается вовсе, и Python указывает на конкретную
+    строку и символ ещё до начала выполнения:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>sintaksicheskaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># itog = (a + b * c</span>
+<span class="tok-com"># SyntaxError: &#x27;(&#x27; was never closed — не хватает закрывающей скобки</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Считайте скобки парами</div>
+        <div class="callout-body">Самый надёжный способ найти незакрытую скобку — считать открывающие и закрывающие скобки в подозрительной строке отдельно; их должно быть поровну.</div>
+      </div>
+    </div>
+
+    <h2>2. Ошибка в формуле</h2>
+    <p>Самая опасная категория — программа выполняется без единой ошибки, но результат неверен.
+    Обычно за этим стоит одна из трёх причин, которые мы уже разбирали в этой главе:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Причина</th><th>Пример</th><th>Где мы это уже видели</th></tr></thead>
+      <tbody><tr><td>забытые скобки</td><td><code class="inline">4 + 7 + 9 / 3</code> вместо <code class="inline">(4 + 7 + 9) / 3</code></td><td>раздел «Скобки и формулы»</td></tr><tr><td>не та переменная</td><td><code class="inline">print(shirina + shirina)</code> вместо <code class="inline">print(perimetr)</code></td><td>раздел «Скобки и формулы»</td></tr><tr><td>перепутанный приоритет</td><td><code class="inline">-2 ** 2</code> — не то же самое, что <code class="inline">(-2) ** 2</code></td><td>раздел «Унарные операторы»</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Приём: трассировка формулы через именованные шаги</h2>
+    <p>Когда одна длинная формула даёт подозрительный результат, самый надёжный способ найти
+    проблему — разбить её на именованные промежуточные шаги и напечатать каждый:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>trassirovka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># было — одна строка, непонятно, что пошло не так:</span>
+itog = (cena - skidka) * kolichestvo + dostavka / kolichestvo
+
+<span class="tok-com"># стало — видно каждый промежуточный результат:</span>
+cena_so_skidkoj = cena - skidka
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Цена со скидкой:&quot;</span>, cena_so_skidkoj)
+
+summa_za_tovar = cena_so_skidkoj * kolichestvo
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Сумма за товар:&quot;</span>, summa_za_tovar)
+
+dostavka_na_edinicu = dostavka / kolichestvo
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Доставка на единицу:&quot;</span>, dostavka_na_edinicu)
+
+itog = summa_za_tovar + dostavka_na_edinicu
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Итог:&quot;</span>, itog)</code></pre>
+    </div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">итог = (100 − 10) × 3 + 15 / 3</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">цена со скидкой = 90</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">сумма за товар = 270</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">доставка на единицу = 5.0</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">итог = 275.0</div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Трассировка превращает одну загадочную строку в последовательность понятных, проверяемых шагов</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Это временный код, а не постоянный</div>
+        <div class="callout-body">Разбиение на именованные шаги — приём именно для <strong>отладки</strong>. Когда формула заработает верно, промежуточные <code class="inline">print()</code> обычно убирают, но иногда осмысленные имена промежуточных переменных стоит оставить — они делают код понятнее, даже если он больше не в отладке.</div>
+      </div>
+    </div>
+
+    <h2>3. Особенность представления чисел</h2>
+    <p>Третья категория — код синтаксически верен, формула тоже верна, но результат всё равно
+    удивляет. Обычно причина в том, что мы уже подробно разбирали в главе 4:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>float_lovushka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span> == <span class="tok-num">0.3</span>)          <span class="tok-com"># False! — не баг, а особенность float</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">round</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>, <span class="tok-num">10</span>) == <span class="tok-num">0.3</span>)  <span class="tok-com"># True — сравнение с допуском работает верно</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Подробности — в главе 4</div>
+        <div class="callout-body">Почему так происходит и как сравнивать float правильно — подробно разобрано в разделе «Сравниваем float правильно» главы 4. Здесь достаточно узнавать симптом: сравнение <code class="inline">==</code> между float ведёт себя неожиданно — значит, дело в представлении чисел, а не в ошибке формулы.</div>
+      </div>
+    </div>
+
+    <h2>Предскажите, прежде чем запускать</h2>
+    <p>Лучшая привычка для отладки — формировать её ещё до появления багов: прежде чем запускать
+    код, предскажите результат. Если предсказание не совпало с реальностью — вы либо нашли баг,
+    либо неверно понимаете код. Оба случая стоит разобрать, не запуская код дальше не глядя.</p>
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Предскажите результат</div>
+      <p>Не запуская код, определите результат: <code class="inline">итог = 2 + 3 * 4 ** 2 // 5</code>. Затем проверьте себя.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Найдите ошибку в формуле</div>
+      <p>В коде <code class="inline">srednyaya_ocenka = ocenka1 + ocenka2 + ocenka3 / 3</code> есть ошибка приоритета. Найдите и исправьте её.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Трассируйте формулу</div>
+      <p>Возьмите формулу расчёта итоговой суммы заказа с учётом скидки и доставки из примера выше и добавьте к ней трассировку с понятными именами промежуточных переменных.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: отладка вычислений</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="05-21"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/05-21/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="05-20-seed.html"><div class="dir">← Назад</div><div class="lbl">seed и воспроизводимость</div></a><a href="05-06-mini-proekt-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проекты и итоги</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
