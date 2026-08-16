@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Создаём .venv — Python с нуля — Cartesian School</title>
+<meta name="description" content="Команда python -m venv, структура папки .venv на диске, активация и деактивация окружения на Windows, macOS и Linux." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-11-sozdanie-venv.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Создаём .venv — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Команда python -m venv, структура папки .venv на диске, активация и деактивация окружения на Windows, macOS и Linux." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-11-sozdanie-venv.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Создаём .venv — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Команда python -m venv, структура папки .venv на диске, активация и деактивация окружения на Windows, macOS и Linux." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Создаём .venv — Python с нуля — Cartesian School","description":"Команда python -m venv, структура папки .venv на диске, активация и деактивация окружения на Windows, macOS и Linux.","url":"https://www.cartesianschool.org/chapters/glava-02/02-11-sozdanie-venv.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html" class="active">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / Создаём .venv</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Создаём .venv</h1>
+    <p class="lede">От команды — к тому, что реально появляется на диске, и как включить и выключить окружение.</p>
+
+
+    <p>Теперь, когда понятно зачем — создадим первое виртуальное окружение. Модуль
+    <code class="inline">venv</code> входит в стандартную библиотеку Python — отдельно ставить
+    ничего не нужно (кроме Linux, где иногда требуется системный пакет
+    <code class="inline">python3-venv</code>, см. раздел 2.5).</p>
+
+    <h2 id="sozdanie">Создание окружения</h2>
+    <p>Откройте терминал в папке вашего проекта и выполните:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Windows / macOS / Linux</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>python -m venv .venv</code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">💡 Что означает точка перед именем</div>
+        <div class="callout-body">Имя <code class="inline">.venv</code> начинается с точки — на macOS и Linux это стандартное соглашение для «скрытых» файлов и папок: обычный файловый менеджер и команда <code class="inline">ls</code> без флагов их не показывают, чтобы не загромождать список служебными файлами. Папку можно назвать и без точки (например, просто <code class="inline">venv</code>), но <code class="inline">.venv</code> — самое распространённое соглашение, и его же по умолчанию узнают VS Code и PyCharm.</div>
+      </div>
+    </div>
+
+    <h2 id="chto-vnutri">Что появилось на диске</h2>
+    <p>Команда создала папку <code class="inline">.venv</code> со своей внутренней структурой:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>.venv/ (macOS / Linux)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>.venv/
+├── bin/
+│   ├── python -&gt; /usr/local/bin/python3.14
+│   ├── pip
+│   └── activate
+├── lib/
+│   └── python3.14/site-packages/
+└── pyvenv.cfg</code></pre>
+    </div>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>.venv\ (Windows)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>.venv\
+├── Scripts\
+│   ├── python.exe
+│   ├── pip.exe
+│   └── activate.bat
+├── Lib\
+│   └── site-packages\
+└── pyvenv.cfg</code></pre>
+    </div>
+
+    <p>Главное здесь — <code class="inline">site-packages</code>: именно сюда попадут пакеты,
+    которые вы установите для этого проекта, и именно эта папка изолирована от других проектов
+    (раздел 2.10). Файл <code class="inline">pyvenv.cfg</code> хранит ссылку на «родительский»
+    интерпретатор, из которого было создано окружение.</p>
+
+    <h2 id="aktivaciya">Активация окружения</h2>
+    <p>Само по себе создание окружения ещё не значит, что оно используется — его нужно
+    <strong>активировать</strong> в текущем терминале:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>macOS / Linux (bash/zsh)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>source .venv/bin/activate</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Windows (PowerShell)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>.venv\Scripts\Activate.ps1</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Windows (cmd.exe)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>.venv\Scripts\activate.bat</code></pre>
+    </div>
+
+    <p>После активации приглашение командной строки изменится — перед ним появится
+    <code class="inline">(.venv)</code>. Это визуальный сигнал: теперь команды
+    <code class="inline">python</code> и <code class="inline">pip</code> в этом терминале
+    указывают именно на интерпретатор и пакеты этого окружения, а не на системный или глобально
+    установленный Python.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал после активации</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>(.venv) anna@laptop project %</code></pre>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Активация — на каждую новую вкладку/окно терминала</div>
+        <div class="callout-body">Активация действует только в том окне терминала, где вы её выполнили. Открыли новую вкладку терминала — активируйте окружение заново. VS Code, как правило, делает это автоматически для встроенного терминала (раздел 2.8), если для проекта выбран этот интерпретатор.</div>
+      </div>
+    </div>
+
+    <h2 id="deaktivaciya">Деактивация</h2>
+    <p>Чтобы вернуться к обычному, «глобальному» состоянию терминала:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Любая ОС</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>deactivate</code></pre>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Создайте и активируйте своё первое окружение</div>
+      <p>Создайте папку с любым именем, откройте в ней терминал, выполните <code class="inline">python -m venv .venv</code>, активируйте его командой для вашей ОС и убедитесь, что приглашение командной строки изменилось на <code class="inline">(.venv)</code>.</p>
+    </div>
+
+    <div class="section-nav"><a href="02-10-zachem-nuzhny-venv.html"><div class="dir">← Назад</div><div class="lbl">Зачем нужны venv</div></a><a href="02-12-pervyj-paket.html" class="next"><div class="dir">Далее →</div><div class="lbl">Устанавливаем первый пакет</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

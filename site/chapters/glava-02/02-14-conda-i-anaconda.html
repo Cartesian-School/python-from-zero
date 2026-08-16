@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>conda, Miniconda, Miniforge, Anaconda — Python с нуля — Cartesian School</title>
+<meta name="description" content="Разбираем conda как менеджер окружений и пакетов для data science, разницу между Anaconda/Miniconda/Miniforge и взаимодействие conda с pip." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-14-conda-i-anaconda.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="conda, Miniconda, Miniforge, Anaconda — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Разбираем conda как менеджер окружений и пакетов для data science, разницу между Anaconda/Miniconda/Miniforge и взаимодействие conda с pip." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-14-conda-i-anaconda.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="conda, Miniconda, Miniforge, Anaconda — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Разбираем conda как менеджер окружений и пакетов для data science, разницу между Anaconda/Miniconda/Miniforge и взаимодействие conda с pip." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"conda, Miniconda, Miniforge, Anaconda — Python с нуля — Cartesian School","description":"Разбираем conda как менеджер окружений и пакетов для data science, разницу между Anaconda/Miniconda/Miniforge и взаимодействие conda с pip.","url":"https://www.cartesianschool.org/chapters/glava-02/02-14-conda-i-anaconda.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html" class="active">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / conda / Anaconda</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>conda, Miniconda, Miniforge, Anaconda</h1>
+    <p class="lede">Ещё одна семья инструментов, родом из data science — со своей моделью окружений и своим взглядом на пакеты.</p>
+
+
+    <p><strong>conda</strong> — ещё один менеджер пакетов и окружений, изначально созданный для
+    data science и научных вычислений компанией Anaconda, Inc. Его ключевое отличие от pip:
+    conda умеет устанавливать не только Python-пакеты, но и <strong>непитоновские</strong>
+    зависимости — например, компиляторы, библиотеки CUDA для видеокарт, системные библиотеки для
+    научных вычислений — то, с чем pip в одиночку не справляется.</p>
+
+    <h2 id="semejstvo">Anaconda, Miniconda, Miniforge — в чём разница</h2>
+    <p>Все три — это <em>способы получить conda на компьютер</em>, а не три разных инструмента:</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 644 246" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Все три ставят один и тот же инструмент conda — отличается только то, что идёт «в комплекте»" style="width:100%;height:auto;max-width:644px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="212.0" y="10" width="220" height="56" rx="14" fill="#5B24F9"/><text x="322.0" y="43.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff">Дистрибутивы на основе conda</text><path d="M322.0,66 C322.0,93.0 98.0,93.0 98.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="0" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="98.0" y="146">Anaconda</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="98.0" y="178">Полный набор: conda +</tspan><tspan x="98.0" y="192">сотни пакетов для данных</tspan><tspan x="98.0" y="206">сразу</tspan></text><path d="M322.0,66 C322.0,93.0 322.0,93.0 322.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="224" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="322.0" y="146">Miniconda</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="322.0" y="178">Минимальный: только conda,</tspan><tspan x="322.0" y="192">пакеты — по запросу</tspan></text><path d="M322.0,66 C322.0,93.0 546.0,93.0 546.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="448" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="546.0" y="146">Miniforge</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="546.0" y="178">Как Miniconda, но с</tspan><tspan x="546.0" y="192">открытым сообществом</tspan><tspan x="546.0" y="206">conda-forge…</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Все три ставят один и тот же инструмент conda — отличается только то, что идёт «в комплекте»</figcaption></figure>
+
+    <ul>
+      <li><strong>Anaconda</strong> — самый «тяжёлый» вариант: сразу ставит conda и несколько
+        сотен популярных пакетов для анализа данных (несколько гигабайт на диске);</li>
+      <li><strong>Miniconda</strong> — официальный минимальный установщик: только сам conda,
+        остальное вы ставите по мере необходимости;</li>
+      <li><strong>Miniforge</strong> — похож на Miniconda, но по умолчанию использует
+        сообщество-репозиторий conda-forge вместо канала по умолчанию от Anaconda, Inc.</li>
+    </ul>
+
+    <h2 id="conda-okruzheniya">Окружения в conda</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>conda create -n my-project python=3.14
+conda activate my-project
+conda install numpy pandas</code></pre>
+    </div>
+
+    <p>Идея точно та же, что и у venv (раздел 2.10) — изолированное окружение на проект. Отличие
+    в деталях: conda хранит окружения не в папке проекта, а в общем месте на диске, и вы
+    обращаетесь к ним по имени (<code class="inline">-n my-project</code>), а не по пути.</p>
+
+    <h2 id="conda-i-pip">Как conda и pip уживаются вместе</h2>
+    <p>Внутри активированного conda-окружения команда <code class="inline">pip</code> тоже
+    работает — и часто используется для пакетов, которых нет в репозиториях conda. Правило
+    хорошего тона: сначала ставьте через <code class="inline">conda install</code> всё, что
+    доступно этим способом, и только оставшееся — через <code class="inline">pip install</code>,
+    чтобы не запутать собственную систему разрешения зависимостей conda.</p>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Не смешивайте venv и conda для одного окружения</div>
+        <div class="callout-body">conda и venv — два независимых способа создавать изолированные окружения. Не пытайтесь активировать venv <em>внутри</em> conda-окружения (или наоборот) для одного и того же проекта — выберите один инструмент на проект.</div>
+      </div>
+    </div>
+
+    <h2 id="kogda-conda">Когда выбирать conda</h2>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">🚀 Практический совет</div>
+        <div class="callout-body">Если вы занимаетесь анализом данных, машинным обучением или научными вычислениями и используете библиотеки со сложными непитоновскими зависимостями (например, некоторые версии PyTorch с поддержкой GPU) — conda часто удобнее. Для этого курса и для большинства обычных проектов на Python вполне достаточно связки venv + pip из разделов 2.10–2.13.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="02-13-pip-pipx-venv-virtualenv-uv.html"><div class="dir">← Назад</div><div class="lbl">pip / pipx / venv / uv</div></a><a href="02-15-ide-i-okruzheniya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Как IDE, Python и окружение связаны</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

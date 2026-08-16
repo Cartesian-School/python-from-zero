@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pip, pipx, venv, virtualenv, uv — Python с нуля — Cartesian School</title>
+<meta name="description" content="Разбираем по отдельности pip, venv, virtualenv, pipx и uv — что каждый из них реально делает, чем отличаются и когда какой использовать." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-13-pip-pipx-venv-virtualenv-uv.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="pip, pipx, venv, virtualenv, uv — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Разбираем по отдельности pip, venv, virtualenv, pipx и uv — что каждый из них реально делает, чем отличаются и когда какой использовать." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-13-pip-pipx-venv-virtualenv-uv.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="pip, pipx, venv, virtualenv, uv — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Разбираем по отдельности pip, venv, virtualenv, pipx и uv — что каждый из них реально делает, чем отличаются и когда какой использовать." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"pip, pipx, venv, virtualenv, uv — Python с нуля — Cartesian School","description":"Разбираем по отдельности pip, venv, virtualenv, pipx и uv — что каждый из них реально делает, чем отличаются и когда какой использовать.","url":"https://www.cartesianschool.org/chapters/glava-02/02-13-pip-pipx-venv-virtualenv-uv.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html" class="active">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / pip / pipx / venv / uv</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>pip, pipx, venv, virtualenv, uv</h1>
+    <p class="lede">Пять похожих по звучанию инструментов — и очень разные задачи, которые каждый из них решает.</p>
+
+
+    <p>К этому моменту вы уже пользовались <code class="inline">pip</code> и
+    <code class="inline">venv</code> (разделы 2.11–2.12). В экосистеме Python есть ещё несколько
+    похожих по звучанию инструментов — разберём каждый отдельно, а не единым списком, чтобы не
+    путать их друг с другом.</p>
+
+    <h2 id="pip">pip</h2>
+    <p><strong>pip</strong> устанавливает, обновляет и удаляет пакеты <em>в уже существующее
+    активное окружение</em>. Он ничего не создаёт — только наполняет то, что уже есть.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pip install requests
+pip install requests==2.31.0
+pip uninstall requests</code></pre>
+    </div>
+
+    <h2 id="venv">venv</h2>
+    <p><strong>venv</strong> — модуль стандартной библиотеки (раздел 2.11), который делает ровно
+    одну вещь: создаёт новое изолированное окружение. Он входит в сам Python — устанавливать его
+    отдельно не нужно.</p>
+
+    <h2 id="virtualenv">virtualenv</h2>
+    <p><strong>virtualenv</strong> — сторонний пакет, предшественник <code class="inline">venv</code>
+    (модуль venv в стандартной библиотеке во многом вырос именно из него). Он решает ту же
+    задачу, но исторически работает быстрее и поддерживает чуть больше сценариев (например,
+    старые версии Python, где встроенного venv ещё не было). Для этого курса вам полностью
+    хватит обычного <code class="inline">venv</code> — virtualenv стоит знать по имени, если
+    встретите его в чужом проекте.</p>
+
+    <h2 id="pipx">pipx</h2>
+    <p><strong>pipx</strong> решает другую задачу — не «пакет для моего проекта», а «программа с
+    интерфейсом командной строки, которой я хочу пользоваться из любой папки». Пример: инструмент
+    форматирования кода <code class="inline">black</code> — вы не импортируете его в свой код, вы
+    запускаете его как команду. pipx автоматически создаёт для каждой такой программы своё
+    отдельное окружение, но делает саму команду доступной глобально, из любой папки — без
+    активации.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pipx install black
+black my_script.py</code></pre>
+    </div>
+
+    <h2 id="uv">uv</h2>
+    <p><strong>uv</strong> (от компании Astral — они же делают Ruff, раздел 2.7) — относительно
+    новый инструмент, который сам себя описывает как единую замену сразу для pip, pip-tools,
+    pipx, poetry, pyenv, virtualenv и других. Его главное преимущество — скорость: uv в 10–100 раз
+    быстрее pip на типичных операциях, потому что написан на Rust и агрессивно кеширует пакеты.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>uv venv
+uv pip install requests
+uv run my_script.py</code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">📚 Официальный источник</div>
+        <div class="callout-body">docs.astral.sh/uv — актуальная документация; на момент написания курса стабильная версия — 0.12.5.</div>
+      </div>
+    </div>
+
+    <h2 id="sravnenie">Сравнение</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Инструмент</th><th>Что делает</th><th>Устанавливает пакеты</th><th>Создаёт окружения</th></tr></thead>
+      <tbody><tr><td><strong>pip</strong></td><td>Устанавливает пакеты в текущее активное окружение</td><td>Да</td><td>Нет</td></tr><tr><td><strong>venv</strong></td><td>Создаёт изолированные окружения (входит в стандартную библиотеку)</td><td>Нет</td><td>Да</td></tr><tr><td><strong>virtualenv</strong></td><td>Более старый и быстрый сторонний аналог venv</td><td>Нет</td><td>Да</td></tr><tr><td><strong>pipx</strong></td><td>Устанавливает CLI-приложения на Python глобально, каждое — в своё изолированное окружение</td><td>Да (для приложений)</td><td>Да (по одному на приложение, автоматически)</td></tr><tr><td><strong>uv</strong></td><td>Один быстрый инструмент, заменяющий pip, venv, virtualenv, pipx и другие</td><td>Да</td><td>Да</td></tr></tbody>
+    </table>
+    </div>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 640 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Три частых вопроса и инструмент-ответ на каждый" style="width:100%;height:auto;max-width:640px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="88.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Нужен пакет
+для проекта?</text><text x="88.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">→ pip / uv pip</text><line x1="182" y1="56.0" x2="226" y2="56.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="232" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="320.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Нужно новое
+окружение?</text><text x="320.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">→ venv / uv venv</text><line x1="414" y1="56.0" x2="458" y2="56.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="464" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="552.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Нужна CLI-
+программа?</text><text x="552.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">→ pipx / uv tool</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Три частых вопроса и инструмент-ответ на каждый</figcaption></figure>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">🚀 Что использовать в этом курсе</div>
+        <div class="callout-body">Мы будем показывать примеры через <code class="inline">pip</code> и <code class="inline">venv</code> — это стандарт, который работает везде «из коробки» и на котором проще всего понять, что происходит на самом деле. Если позже вам понравится скорость uv — переключиться легко: команды почти зеркальные.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="02-12-pervyj-paket.html"><div class="dir">← Назад</div><div class="lbl">Первый пакет</div></a><a href="02-14-conda-i-anaconda.html" class="next"><div class="dir">Далее →</div><div class="lbl">conda, Miniconda, Miniforge, Anaconda</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

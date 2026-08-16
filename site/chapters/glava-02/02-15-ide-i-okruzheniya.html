@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Как IDE, Python и окружение связаны — Python с нуля — Cartesian School</title>
+<meta name="description" content="Сводная картина: почему IDE не владеет окружением, простая модель процесса выполнения кода и разница между notebook и kernel в Jupyter." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-15-ide-i-okruzheniya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Как IDE, Python и окружение связаны — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Сводная картина: почему IDE не владеет окружением, простая модель процесса выполнения кода и разница между notebook и kernel в Jupyter." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-15-ide-i-okruzheniya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Как IDE, Python и окружение связаны — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Сводная картина: почему IDE не владеет окружением, простая модель процесса выполнения кода и разница между notebook и kernel в Jupyter." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Как IDE, Python и окружение связаны — Python с нуля — Cartesian School","description":"Сводная картина: почему IDE не владеет окружением, простая модель процесса выполнения кода и разница между notebook и kernel в Jupyter.","url":"https://www.cartesianschool.org/chapters/glava-02/02-15-ide-i-okruzheniya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html" class="active">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / IDE и окружения</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Как IDE, Python и окружение связаны</h1>
+    <p class="lede">Собираем все части главы в одну целостную картину — включая частый источник путаницы: разницу между блокнотом и ядром Jupyter.</p>
+
+
+    <p>Мы установили Python (2.3–2.5), редактор кода (2.7–2.9) и научились создавать окружения
+    (2.10–2.12). Теперь соберём всё это в одну целостную картину — как эти части на самом деле
+    связаны друг с другом.</p>
+
+    <h2 id="ide-ne-vladeet">Главная идея: IDE не владеет окружением</h2>
+    <p>Это стоит проговорить прямо: <strong>VS Code и PyCharm не «содержат» в себе Python и
+    пакеты</strong> — они лишь находят на диске уже существующий интерпретатор (и его окружение)
+    и запускают его от своего имени. Одно и то же окружение <code class="inline">.venv</code>
+    можно с одинаковым успехом использовать хоть из VS Code, хоть из PyCharm, хоть из обычного
+    терминала — и результат будет одинаковым, потому что реально работает не редактор, а
+    интерпретатор.</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 516 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Три разных «фронтенда» — одно и то же окружение позади них" style="width:100%;height:auto;max-width:516px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">VS Code</tspan></text><path d="M78.0,70 C78.0,120.0 258.0,120.0 258.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="44.0">PyCharm</tspan></text><path d="M258.0,70 C258.0,120.0 258.0,120.0 258.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="360" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="438.0" y="44.0">Обычный терминал</tspan></text><path d="M438.0,70 C438.0,120.0 258.0,120.0 258.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="138.0" y="170" width="240" height="60" rx="14" fill="#5B24F9"/><text x="258.0" y="205.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff">.venv проекта</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Три разных «фронтенда» — одно и то же окружение позади них</figcaption></figure>
+
+    <h2 id="prostaya-model">Простая модель процесса</h2>
+    <p>Когда вы запускаете файл — не важно, из какого редактора или терминала — происходит одно и
+    то же:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 640 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Простая модель: интерпретатор ищет пакет только в своём собственном окружении" style="width:100%;height:auto;max-width:640px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="88.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Вы пишете
+импорт</text><text x="88.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">import requests</text><line x1="182" y1="56.0" x2="226" y2="56.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="232" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="320.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Интерпретатор
+ищет пакет</text><text x="320.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">в site-packages активного окружения</text><line x1="414" y1="56.0" x2="458" y2="56.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="464" y="10" width="176" height="92" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="552.0" y="50.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230">Найден</text><text x="552.0" y="72.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">→ код выполняется</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Простая модель: интерпретатор ищет пакет только в своём собственном окружении</figcaption></figure>
+
+    <h2 id="jupyter-kernel">Блокноты: notebook и kernel — тоже не одно и то же</h2>
+    <p>С блокнотами (<code class="inline">.ipynb</code>) добавляется ещё один слой, который часто
+    путает: <strong>notebook</strong> — это сам файл с ячейками кода и текста, а
+    <strong>kernel</strong> (ядро) — это работающий в фоне процесс Python, который реально
+    выполняет код из ячеек. Один и тот же файл блокнота можно открыть и подключить к разным
+    ядрам — например, к ядру из окружения проекта А или проекта Б.</p>
+
+    <p>Расширение Jupyter в VS Code (раздел 2.7) прямо предупреждает: оно <strong>не является
+    ядром</strong> само по себе — это лишь интерфейс, который показывает ячейки и отправляет их
+    код выбранному ядру. Чтобы ядро вообще появилось в списке выбора, в соответствующем окружении
+    должен быть установлен пакет <code class="inline">jupyter</code>:</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал (окружение активировано)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pip install jupyter</code></pre>
+    </div>
+
+    <p>После этого при открытии <code class="inline">.ipynb</code>-файла в VS Code в правом
+    верхнем углу можно выбрать ядро — в списке появится что-то вроде
+    <code class="inline">Python 3.14.7 ('.venv': venv)</code>, явно показывая, из какого именно
+    окружения оно взято.</p>
+
+
+    <div class="callout callout-debug">
+      <div>
+        <div class="callout-title">🐞 «В блокноте другие пакеты, чем в терминале»</div>
+        <div class="callout-body">Если <code class="inline">import</code> работает в обычном .py-файле, но не в блокноте (или наоборот) — почти всегда для блокнота выбрано другое ядро, то есть другое окружение. Проверьте выбор ядра в правом верхнем углу блокнота так же, как проверяли «Select Interpreter» в разделе 2.8.</div>
+      </div>
+    </div>
+
+    <h2 id="itog-svyazi">Итоговая картина главы</h2>
+
+    <div class="summary-box">
+      <h3>Кто есть кто</h3>
+      <ul><li><strong>Интерпретатор Python</strong> — программа, которая реально выполняет код.</li><li><strong>Виртуальное окружение</strong> — изолированный набор пакетов, привязанный к интерпретатору.</li><li><strong>VS Code / PyCharm</strong> — редакторы, которые находят и используют интерпретатор + окружение, но не содержат их внутри себя.</li><li><strong>pip / uv</strong> — устанавливают пакеты в текущее активное окружение.</li><li><strong>Notebook</strong> — файл с ячейками; <strong>kernel</strong> — процесс Python, который их выполняет.</li></ul>
+    </div>
+
+    <div class="section-nav"><a href="02-14-conda-i-anaconda.html"><div class="dir">← Назад</div><div class="lbl">conda / Anaconda</div></a><a href="02-16-diagnostika.html" class="next"><div class="dir">Далее →</div><div class="lbl">Типичные проблемы и диагностика</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

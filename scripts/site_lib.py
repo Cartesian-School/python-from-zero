@@ -403,7 +403,7 @@ def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str =
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
-    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
 def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
@@ -430,6 +430,78 @@ def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) 
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
       <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>
     </figure>"""
+
+
+def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> str:
+    """Diagram inverse of branch_diagram(): several source boxes on top, each
+    with an arrow flowing DOWN into one shared target box at the bottom.
+    Used for "several tools/editors, one shared environment" concepts."""
+    n = len(sources)
+    box_w, box_h, gap = 156, 60, 24
+    total_w = max(n * box_w + (n - 1) * gap, 260)
+    target_w, target_h = 240, 60
+    target_x = (total_w - target_w) / 2
+    sources_y = 10
+    target_y = sources_y + box_h + 100
+    total_h = target_y + target_h + 10
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' "
+        "markerWidth='6' markerHeight='6' orient='auto-start-reverse'>"
+        "<path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    )
+    target_cx = total_w / 2
+    for i, label in enumerate(sources):
+        x = i * (box_w + gap)
+        cx = x + box_w / 2
+        parts.append(
+            f'<rect x="{x}" y="{sources_y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+        )
+        label_lines = _wrap_svg_text(label, max_chars=18, max_lines=2)
+        label_top = sources_y + box_h / 2 - (len(label_lines) - 1) * 8 + 4
+        label_tspans = "".join(
+            f'<tspan x="{cx}" y="{label_top + li * 16}">{html.escape(line)}</tspan>' for li, line in enumerate(label_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
+            f'font-size="13" fill="#0D0230">{label_tspans}</text>'
+        )
+        parts.append(
+            f'<path d="M{cx},{sources_y + box_h} C{cx},{(sources_y + box_h + target_y) / 2} '
+            f'{target_cx},{(sources_y + box_h + target_y) / 2} {target_cx},{target_y}" '
+            f'fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/>'
+        )
+    parts.append(
+        f'<rect x="{target_x}" y="{target_y}" width="{target_w}" height="{target_h}" rx="14" fill="#5B24F9"/>'
+    )
+    parts.append(
+        f'<text x="{target_cx}" y="{target_y + target_h / 2 + 5}" text-anchor="middle" '
+        f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff">'
+        f'{html.escape(target)}</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def comparison_table(headers: list[str], rows: list[list[str]]) -> str:
+    """A real HTML comparison table (not an image) — headers + rows of cell HTML."""
+    thead = "".join(f"<th>{html.escape(h)}</th>" for h in headers)
+    tbody = "".join(
+        "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>" for row in rows
+    )
+    return f"""
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr>{thead}</tr></thead>
+      <tbody>{tbody}</tbody>
+    </table>
+    </div>"""
 
 
 def summary_box(title: str, items_html: list[str]) -> str:
@@ -690,7 +762,7 @@ def render_chapter_opener(
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
-    {brand_html}
+{brand_html}
     <div class="chapter-num">ГЛАВА {chapter_num} · СТР. {baseline_page}</div>
     <h1>{html.escape(title)}</h1>
     <p>{description}</p>
