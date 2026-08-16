@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отладка проблем со строками — Python с нуля — Cartesian School</title>
+<meta name="description" content="Частые ошибки со строками: невидимые пробелы, неверное экранирование, str+int, find/index, input() — симптом, причина, исправление." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-08/08-20-otladka-strok.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отладка проблем со строками — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Частые ошибки со строками: невидимые пробелы, неверное экранирование, str+int, find/index, input() — симптом, причина, исправление." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-20-otladka-strok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отладка проблем со строками — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Частые ошибки со строками: невидимые пробелы, неверное экранирование, str+int, find/index, input() — симптом, причина, исправление." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отладка проблем со строками — Python с нуля — Cartesian School","description":"Частые ошибки со строками: невидимые пробелы, неверное экранирование, str+int, find/index, input() — симптом, причина, исправление.","url":"https://www.cartesianschool.org/chapters/glava-08/08-20-otladka-strok.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html" class="active">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Отладка строк</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Отладка проблем со строками</h1>
+    <p class="lede">Строки часто выглядят правильными на глаз, а ломаются из-за одного невидимого символа. Учимся находить и чинить такие ошибки.</p>
+
+
+    <p>Строки — источник особенно коварных ошибок: они часто выглядят правильно на глаз, а
+    ломаются из-за одного невидимого символа. Разберём самые частые ситуации.</p>
+
+    <h2>Невидимые пробелы</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>nevidimye_probely.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>password = <span class="tok-str">&quot;секрет &quot;</span>     <span class="tok-com"># случайный пробел в конце!</span>
+<span class="tok-fn">print</span>(password == <span class="tok-str">&quot;секрет&quot;</span>)   <span class="tok-com"># False — а на глаз не отличить</span>
+<span class="tok-fn">print</span>(repr(password))          <span class="tok-com"># &#x27;секрет &#x27; — repr() выдаёт пробел</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">repr() — ваш главный инструмент</div>
+        <div class="callout-body">Мы уже видели repr() в разделе 8.2 — он показывает строку «как есть», включая пробелы и служебные символы, которые print() визуально скрывает.</div>
+      </div>
+    </div>
+
+    <h2>Забытая кавычка</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>zabytaya_kavychka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># text = &quot;Привет, мир!    # забыли закрывающую кавычку</span>
+<span class="tok-com"># SyntaxError: unterminated string literal</span></code></pre>
+    </div>
+
+    <h2>Неправильное экранирование</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>nepravilnoe_ekranirovanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># path = &quot;C:\new_folder&quot;   # \n здесь превратится в перенос строки!</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;C:\new_folder&quot;</span>)
+<span class="tok-com"># C:</span>
+<span class="tok-com"># ew_folder   — совсем не то, что хотели</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">r&quot;C:\new_folder&quot;</span>)    <span class="tok-com"># C:\new_folder — raw-строка (раздел 8.3) решает проблему</span></code></pre>
+    </div>
+
+    <h2>Склеивание строки с числом</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>stroka_plyus_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>score = <span class="tok-num">95</span>
+<span class="tok-com"># print(&quot;Результат: &quot; + score)   # TypeError</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Результат: &quot;</span> + <span class="tok-fn">str</span>(score))   <span class="tok-com"># исправлено — явное преобразование</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Результат: </span>{score}<span class="tok-str">&quot;</span>)        <span class="tok-com"># ещё лучше — f-строка сама преобразует</span></code></pre>
+    </div>
+
+    <h2>find() vs index() при отсутствии подстроки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>find_vs_index_oshibka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-fn">print</span>(text.find(<span class="tok-str">&quot;java&quot;</span>))    <span class="tok-com"># -1 — тихо возвращает -1, легко пропустить в коде</span>
+<span class="tok-com"># text.index(&quot;java&quot;)        # ValueError — а вот index() сразу сообщает об ошибке</span></code></pre>
+    </div>
+    <p>Частая ошибка — забыть, что <code class="inline">find()</code> при отсутствии подстроки
+    возвращает <code class="inline">-1</code>, а не <code class="inline">False</code> или
+    <code class="inline">None</code>. Проверка вроде <code class="inline">if text.find("java"):</code>
+    сработает неверно, потому что <code class="inline">-1</code> — это истина в логической
+    проверке! Правильно — сравнивать явно: <code class="inline">if text.find("java") != -1:</code>.</p>
+
+    <h2>input() «на самом деле» не число</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>input_ne_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-fn">input</span>(<span class="tok-str">&quot;Возраст? &quot;</span>)   <span class="tok-com"># даже если ввели &quot;28&quot; — это строка &quot;28&quot;</span>
+<span class="tok-com"># print(age + 1)           # TypeError — забыли int()</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">int</span>(age) + <span class="tok-num">1</span>)         <span class="tok-com"># правильно</span></code></pre>
+    </div>
+
+    <h2>Итоговая шпаргалка отладки строк</h2>
+    <div class="compare-table-wrap" style="overflow-x:auto">
+    <table class="compare-table">
+      <thead><tr><th>Симптом</th><th>Причина</th><th>Как исправить</th></tr></thead>
+      <tbody>
+        <tr><td>Сравнение <code class="inline">==</code> неожиданно False</td><td>невидимый пробел или другой регистр</td><td><code class="inline">repr()</code>, <code class="inline">.strip()</code>, <code class="inline">.lower()</code></td></tr>
+        <tr><td><code class="inline">SyntaxError: unterminated string</code></td><td>забыта закрывающая кавычка</td><td>проверить парность кавычек</td></tr>
+        <tr><td>Текст «сломался», появился неожиданный перенос строки</td><td>случайный <code class="inline">\n</code> в пути/тексте</td><td>raw-строка <code class="inline">r"..."</code></td></tr>
+        <tr><td><code class="inline">TypeError: can only concatenate str</code></td><td>сложение строки с числом через +</td><td><code class="inline">str()</code> или f-строка</td></tr>
+        <tr><td><code class="inline">if text.find(...)</code> ведёт себя странно</td><td>-1 — это истина в булевой проверке</td><td>сравнивать <code class="inline">!= -1</code> явно</td></tr>
+        <tr><td><code class="inline">TypeError</code> при арифметике с input()</td><td>input() всегда возвращает строку</td><td><code class="inline">int()</code>/<code class="inline">float()</code></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Найдите ошибку</div>
+      <p>В строке `total = "Сумма: " + 100` есть ошибка. Определите её тип, объясните причину и перепишите строку двумя разными способами, чтобы она работала.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: отладка строковых ошибок</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="08-20"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/08-20/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-20"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="08-19-unikod-i-emodzi.html"><div class="dir">← Назад</div><div class="lbl">Юникод и эмодзи</div></a><a href="08-08-mini-proekt-turtle-tekst.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: текст Turtle</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

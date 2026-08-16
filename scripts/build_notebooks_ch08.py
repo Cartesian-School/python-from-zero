@@ -276,6 +276,289 @@ print(f"{a} / {b} = {a / b}")''')
     print(f"Записано: 08-10 ({len(nb)} ячеек)")
 
 
+def build_11() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-11 · Экранирование\n\nПрактика к разделу "
+          "[«Экранирование: \\n, \\t и другие»](../../site/chapters/glava-08/08-11-ekranirovanie.html).")
+    nb.md("## Цель\n\nОсвоить служебные последовательности \\n, \\t и экранирование кавычек, "
+          "научиться пользоваться repr() для отладки.")
+    nb.md("## Рабочий пример")
+    nb.code('''print("Первая строка\\nВторая строка")
+print("Имя:\\tВозраст:")''')
+    nb.md("## Эксперимент 1 — repr() показывает служебные символы «как в коде»")
+    nb.code('''text = "a\\tb\\nc"
+print(text)
+print(repr(text))''')
+    nb.md("## Задание ★ Базовая практика\n\nСоздайте строку `quote` с экранированной двойной "
+          "кавычкой внутри — «Он сказал: \\\"привет\\\"» — и строку `two_lines` из двух строк "
+          "текста, разделённых `\\n`.")
+    nb.code('''quote = "Он сказал: \\"привет\\""
+two_lines = "Первая\\nВторая"
+print(quote)
+print(two_lines)''')
+    nb.write(OUT_DIR / "08-11-ekranirovanie.ipynb")
+    print(f"Записано: 08-11 ({len(nb)} ячеек)")
+
+
+def build_12() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-12 · Многострочные и raw-строки\n\nПрактика к разделу "
+          "[«Многострочные и raw-строки»](../../site/chapters/glava-08/08-12-mnogostrochnye-i-raw-stroki.html).")
+    nb.md("## Цель\n\nОсвоить тройные кавычки для многострочного текста и raw-строки r\"...\".")
+    nb.md("## Рабочий пример")
+    nb.code('''poem = """Код за кодом,
+шаг за шагом —
+так рождается
+программа."""
+print(poem)''')
+    nb.md("## Эксперимент 1 — raw-строка против обычной")
+    nb.code('''bez_raw = "C:\\\\Users\\\\Cartesian"
+s_raw = r"C:\\Users\\Cartesian"
+print(bez_raw)
+print(s_raw)
+print(bez_raw == s_raw)''')
+    nb.md("## Задание ★ Базовая практика\n\nСоздайте `multiline` — строку из трёх строк текста "
+          "через тройные кавычки — и `raw_path` — строку `D:\\Data\\file.txt` через raw-строку.")
+    nb.code('''multiline = """Первая
+Вторая
+Третья"""
+raw_path = r"D:\\Data\\file.txt"
+print(multiline)
+print(raw_path)''')
+    nb.write(OUT_DIR / "08-12-mnogostrochnye-i-raw-stroki.ipynb")
+    print(f"Записано: 08-12 ({len(nb)} ячеек)")
+
+
+def build_13() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-13 · Длина строки: len()\n\nПрактика к разделу "
+          "[«Длина строки: len()»](../../site/chapters/glava-08/08-13-dlina-stroki.html).")
+    nb.md("## Цель\n\nСчитать символы строки функцией len() и понимать связь длины с индексами.")
+    nb.md("## Рабочий пример")
+    nb.code('''word = "Python"
+print(len(word))
+
+phrase = "Python с нуля"
+print(len(phrase))''')
+    nb.md("## Задание ★ Базовая практика\n\nДля слова «Cartesian» найдите его длину `dlina` и "
+          "индекс последнего символа `posledniy_index` (через len()) — затем убедитесь, что "
+          "`word[posledniy_index]` совпадает с `word[-1]`.")
+    nb.code('''word = "Cartesian"
+dlina = len(word)
+posledniy_index = dlina - 1
+print(dlina, posledniy_index)
+print(word[posledniy_index] == word[-1])''')
+    nb.write(OUT_DIR / "08-13-dlina-stroki.ipynb")
+    print(f"Записано: 08-13 ({len(nb)} ячеек)")
+
+
+def build_14() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-14 · Срезы строки\n\nПрактика к разделам "
+          "[«Срезы строки»](../../site/chapters/glava-08/08-14-srezy-stroki.html) и "
+          "[«Строки нельзя изменить»](../../site/chapters/glava-08/08-15-neizmenyaemost.html).")
+    nb.md("## Цель\n\nОсвоить срезы [start:stop:step] и убедиться, что строки неизменяемы.")
+    nb.md("## Рабочий пример")
+    nb.code('''word = "Cartesian"
+print(word[0:3])
+print(word[-3:])
+print(word[::-1])''')
+    nb.md("## Типичная ошибка — строку нельзя изменить «на месте»")
+    nb.code('''word = "Cat"
+word[0] = "B"''', raises=True)
+    nb.md("## Исправление")
+    nb.code('''word = "Cat"
+word = "B" + word[1:]
+print(word)''')
+    nb.md("## Задание ★ Базовая практика\n\nДля слова «Cartesian» получите срезами: первые три "
+          "символа `first3`, последние три `last3`, каждый второй символ `every_second` и слово "
+          "задом наперёд `reversed_word`.")
+    nb.code('''word = "Cartesian"
+first3 = word[:3]
+last3 = word[-3:]
+every_second = word[::2]
+reversed_word = word[::-1]
+print(first3, last3, every_second, reversed_word)''')
+    nb.write(OUT_DIR / "08-14-srezy-stroki.ipynb")
+    print(f"Записано: 08-14 ({len(nb)} ячеек)")
+
+
+def build_16() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-16 · Методы строк: поиск и разбор\n\nПрактика к разделу "
+          "[«Методы строк: поиск и разбор»](../../site/chapters/glava-08/08-16-metody-strok-poisk-i-razbor.html).")
+    nb.md("## Цель\n\nОсвоить replace, split, join, count, find, index, startswith, endswith.")
+    nb.md("## Рабочий пример")
+    nb.code('''text = "я люблю Java"
+print(text.replace("Java", "Python"))
+
+sentence = "кот и пёс"
+words = sentence.split()
+print(words)
+print("-".join(words))''')
+    nb.md("## Эксперимент 1 — find() и index()")
+    nb.code('''text = "Python"
+print(text.find("th"))
+print(text.find("zz"))''')
+    nb.md("## Задание ★ Базовая практика\n\nДля имени файла «report_final.pdf» проверьте, "
+          "заканчивается ли оно на «.pdf» (`is_pdf`), найдите позицию символа «_» (`position`), "
+          "и разбейте имя по «_» на список частей (`parts`).")
+    nb.code('''filename = "report_final.pdf"
+is_pdf = filename.endswith(".pdf")
+position = filename.find("_")
+parts = filename.split("_")
+print(is_pdf, position, parts)''')
+    nb.write(OUT_DIR / "08-16-metody-strok-poisk-i-razbor.ipynb")
+    print(f"Записано: 08-16 ({len(nb)} ячеек)")
+
+
+def build_17() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-17 · Методы проверки строки\n\nПрактика к разделу "
+          "[«Методы проверки: isalpha и другие»](../../site/chapters/glava-08/08-17-metody-proverki.html).")
+    nb.md("## Цель\n\nОсвоить isalpha, isdigit, isalnum, isspace для проверки состава строки.")
+    nb.md("## Рабочий пример")
+    nb.code('''print("Python".isalpha())
+print("2026".isdigit())
+print("Python3".isalnum())
+print("   ".isspace())''')
+    nb.md("## Задание ★ Базовая практика\n\nПроверьте три строки: `s1 = \"Python\"` методом "
+          "isalpha() → `r1`, `s2 = \"2026\"` методом isdigit() → `r2`, `s3 = \"   \"` методом "
+          "isspace() → `r3`.")
+    nb.code('''s1 = "Python"
+s2 = "2026"
+s3 = "   "
+r1 = s1.isalpha()
+r2 = s2.isdigit()
+r3 = s3.isspace()
+print(r1, r2, r3)''')
+    nb.write(OUT_DIR / "08-17-metody-proverki.ipynb")
+    print(f"Записано: 08-17 ({len(nb)} ячеек)")
+
+
+def build_18() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-18 · Перебор строки в цикле\n\nПрактика к разделу "
+          "[«Перебираем строку в цикле»](../../site/chapters/glava-08/08-18-cikl-po-stroke.html).")
+    nb.md("## Цель\n\nПройтись по строке циклом for и посчитать вхождения символа вручную.")
+    nb.md("## Рабочий пример")
+    nb.code('''word = "Python"
+for ch in word:
+    print(ch)''')
+    nb.md("## Задание ★ Базовая практика\n\nВ строке «миссисипи» посчитайте в цикле for, "
+          "сколько раз встречается буква «и» — сохраните результат в `count`.")
+    nb.code('''text = "миссисипи"
+bukva = "и"
+count = 0
+for ch in text:
+    if ch == bukva:
+        count += 1
+print(count)''')
+    nb.write(OUT_DIR / "08-18-cikl-po-stroke.ipynb")
+    print(f"Записано: 08-18 ({len(nb)} ячеек)")
+
+
+def build_20() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-20 · Отладка проблем со строками\n\nПрактика к разделу "
+          "[«Отладка проблем со строками»](../../site/chapters/glava-08/08-20-otladka-strok.html).")
+    nb.md("## Цель\n\nНаучиться находить невидимые пробелы и другие частые ошибки строк.")
+    nb.md("## Рабочий пример")
+    nb.code('''password = "секрет "
+print(password == "секрет")
+print(repr(password))''')
+    nb.md("## Задание ★ Базовая практика\n\nПроверьте `password = \"секрет \"` (с пробелом в "
+          "конце): сравните его с `\"секрет\"` в `is_equal_before`, затем очистите через "
+          "strip() в `cleaned` и сравните снова в `is_equal_after`.")
+    nb.code('''password = "секрет "
+is_equal_before = password == "секрет"
+cleaned = password.strip()
+is_equal_after = cleaned == "секрет"
+print(is_equal_before, is_equal_after)''')
+    nb.write(OUT_DIR / "08-20-otladka-strok.ipynb")
+    print(f"Записано: 08-20 ({len(nb)} ячеек)")
+
+
+def build_21() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-21 · Приветствие и форматирование ФИО\n\nПрактика к разделу "
+          "[«Мини-проект: приветствие и ФИО»](../../site/chapters/glava-08/08-21-mini-proekt-privetstvie-i-imya.html).")
+    nb.md("## Цель\n\nСобрать strip(), capitalize() и f-строки в форматировщике ФИО.")
+    md, code = input_setup(["  ада  ", "ЛАВЛЕЙС"])
+    nb.md(md)
+    nb.code(code)
+    nb.md("## Задание ★ Базовая практика\n\nСпросите имя и фамилию через input(), приведите "
+          "каждое к аккуратному виду (strip + capitalize) и соберите `full_name` и `initials`.")
+    nb.code('''raw_first = input("Имя: ")
+raw_last = input("Фамилия: ")
+
+first = raw_first.strip().capitalize()
+last = raw_last.strip().capitalize()
+full_name = f"{first} {last}"
+initials = f"{first[0]}. {last[0]}."
+
+print(full_name)
+print(initials)''')
+    nb.write(OUT_DIR / "08-21-mini-proekt-privetstvie-i-imya.ipynb")
+    print(f"Записано: 08-21 ({len(nb)} ячеек)")
+
+
+def build_22() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-22 · Проверка пароля и e-mail\n\nПрактика к разделу "
+          "[«Мини-проект: пароль и e-mail»](../../site/chapters/glava-08/08-22-mini-proekt-parol-i-email.html).")
+    nb.md("## Цель\n\nСобрать методы проверки строк (isdigit, isalpha, in) в простой валидации ввода.")
+    nb.md("## Рабочий пример")
+    nb.code('''password = "abc12345"
+print(len(password) >= 8)
+print(any(ch.isdigit() for ch in password))''')
+    nb.md("## Задание ★ Базовая практика\n\nПроверьте `password = \"abc12345\"` по трём "
+          "правилам (длина от 8, есть цифра, есть буква) — итог в `nadyozhnyj`. Проверьте "
+          "`email = \"ada@cartesianschool.org\"` — есть ровно один «@» — итог в "
+          "`pohozhe_na_email`.")
+    nb.code('''password = "abc12345"
+dostatochno_dlinnyj = len(password) >= 8
+est_cifra = any(ch.isdigit() for ch in password)
+est_bukva = any(ch.isalpha() for ch in password)
+nadyozhnyj = dostatochno_dlinnyj and est_cifra and est_bukva
+
+email = "ada@cartesianschool.org"
+est_sobachka = "@" in email
+odna_sobachka = email.count("@") == 1
+pohozhe_na_email = est_sobachka and odna_sobachka
+
+print(nadyozhnyj, pohozhe_na_email)''')
+    nb.write(OUT_DIR / "08-22-mini-proekt-parol-i-email.ipynb")
+    print(f"Записано: 08-22 ({len(nb)} ячеек)")
+
+
+def build_23() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 08-23 · Счётчик слов\n\nПрактика к разделу "
+          "[«Мини-проект: счётчик слов»](../../site/chapters/glava-08/08-23-mini-proekt-schetchik-slov.html).")
+    nb.md("## Цель\n\nСобрать split() и подсчёт в словаре для анализа текста.")
+    nb.md("## Рабочий пример")
+    nb.code('''text = "кот и пёс и кот"
+words = text.lower().split()
+print(words)
+print(len(words))''')
+    nb.md("## Задание ★ Базовая практика\n\nДля `text = \"кот и пёс и кот\"` разбейте на слова "
+          "(`words`), посчитайте их количество (`total`), и через словарь `schetchik` "
+          "посчитайте, сколько раз встречается каждое слово.")
+    nb.code('''text = "кот и пёс и кот"
+words = text.lower().split()
+total = len(words)
+
+schetchik = {}
+for word in words:
+    schetchik[word] = schetchik.get(word, 0) + 1
+
+print(total)
+print(schetchik)''')
+    nb.write(OUT_DIR / "08-23-mini-proekt-schetchik-slov.ipynb")
+    print(f"Записано: 08-23 ({len(nb)} ячеек)")
+
+
 if __name__ == "__main__":
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     build_01()
@@ -285,3 +568,14 @@ if __name__ == "__main__":
     build_07()
     build_09()
     build_10()
+    build_11()
+    build_12()
+    build_13()
+    build_14()
+    build_16()
+    build_17()
+    build_18()
+    build_20()
+    build_21()
+    build_22()
+    build_23()

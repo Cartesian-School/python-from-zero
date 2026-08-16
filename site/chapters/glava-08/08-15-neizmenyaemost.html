@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Строки нельзя изменить — Python с нуля — Cartesian School</title>
+<meta name="description" content="Неизменяемость строк в Python: почему word[0] = ... не работает и как правильно строить изменённую строку." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-08/08-15-neizmenyaemost.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Строки нельзя изменить — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Неизменяемость строк в Python: почему word[0] = ... не работает и как правильно строить изменённую строку." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-15-neizmenyaemost.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Строки нельзя изменить — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Неизменяемость строк в Python: почему word[0] = ... не работает и как правильно строить изменённую строку." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Строки нельзя изменить — Python с нуля — Cartesian School","description":"Неизменяемость строк в Python: почему word[0] = ... не работает и как правильно строить изменённую строку.","url":"https://www.cartesianschool.org/chapters/glava-08/08-15-neizmenyaemost.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html" class="active">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Неизменяемость</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Строки нельзя изменить</h1>
+    <p class="lede">Строку невозможно поменять «на месте» — но можно построить новую. Разберём, почему это так и как это влияет на все методы строк.</p>
+
+
+    <h2>Строку нельзя изменить «на месте»</h2>
+    <p>Может показаться, что раз мы умеем доставать символ по индексу
+    (<code class="inline">word[0]</code>), то можно и <strong>заменить</strong> его тем же
+    способом. Это не так — строки в Python <strong>неизменяемы</strong> (immutable):</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>popytka_izmenit.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>word = <span class="tok-str">&quot;Cat&quot;</span>
+word[<span class="tok-num">0</span>] = <span class="tok-str">&quot;B&quot;</span>
+<span class="tok-com"># TypeError: &#x27;str&#x27; object does not support item assignment</span></code></pre>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Почему так странно?</div>
+        <div class="callout-body">Это осознанное устройство языка, а не ограничение. Неизменяемые строки проще и безопаснее передавать между разными частями программы — можно быть уверенным, что никакая другая часть кода «незаметно» не поменяет ваш текст, пока вы с ним работаете. Мы ещё вернёмся к этой идее в главе про списки, которые, наоборот, изменяемы.</div>
+      </div>
+    </div>
+
+    <h2>Правильный способ: создать новую строку</h2>
+    <p>Вместо изменения «на месте» строим НОВУЮ строку — из кусочков старой — и сохраняем её в
+    переменную (можно в ту же самую):</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>pravilnyj_sposob.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>word = <span class="tok-str">&quot;Cat&quot;</span>
+word = <span class="tok-str">&quot;B&quot;</span> + word[<span class="tok-num">1</span>:]     <span class="tok-com"># склеиваем &quot;B&quot; с &quot;at&quot; — получаем новую строку</span>
+<span class="tok-fn">print</span>(word)                <span class="tok-com"># Bat</span></code></pre>
+    </div>
+
+    <p>Именно поэтому все методы строк — <code class="inline">upper()</code>,
+    <code class="inline">replace()</code> и другие (разделы 8.9–8.10) — не меняют исходную
+    строку, а <strong>возвращают новую</strong>. Если результат нужно сохранить, его нужно
+    явно присвоить переменной:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>metody_ne_menyayut.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;python&quot;</span>
+text.upper()          <span class="tok-com"># результат создан, но никуда не сохранён — и потерян!</span>
+<span class="tok-fn">print</span>(text)            <span class="tok-com"># python — исходная строка не изменилась</span>
+
+text = text.upper()   <span class="tok-com"># а вот так — сохранили результат обратно в text</span>
+<span class="tok-fn">print</span>(text)            <span class="tok-com"># PYTHON</span></code></pre>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Замена первой буквы</div>
+      <p>Для строки «home» постройте новую строку «dome», заменив первый символ через срез и конкатенацию — так, как показано выше для «Cat» → «Bat».</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: неизменяемость строк</div>
+        <div class="nc-sub">Тот же ноутбук, что и в разделе «Срезы строки» — он охватывает и эту тему</div>
+        <div class="practice-inline-status" data-lesson-id="08-14"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/08-14/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-14"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-14"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="08-14-srezy-stroki.html"><div class="dir">← Назад</div><div class="lbl">Срезы строки</div></a><a href="08-04-metody-strok.html" class="next"><div class="dir">Далее →</div><div class="lbl">Методы строк: регистр и пробелы</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

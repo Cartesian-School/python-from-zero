@@ -609,6 +609,82 @@ def place_value_diagram(digits: list[str], place_values: list[int], *, total: st
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{inner}{cap}</figure>'
 
 
+def string_index_diagram(text: str, *, caption: str = "") -> str:
+    """Character-box diagram for string indexing: each character of `text` in
+    its own box, positive index (0, 1, 2, ...) above, negative index
+    (-n, ..., -1) below — the same box, read two ways. Spaces render as a
+    small centered dot so an "invisible" character stays visible."""
+    n = len(text)
+    box = 44
+
+    def cell(content: str, *, color: str = "#0D0230", weight: str = "700", size: str = "13px") -> str:
+        return (
+            f'<div style="width:{box}px;text-align:center;font-family:\'JetBrains Mono\',monospace;'
+            f'font-weight:{weight};font-size:{size};color:{color}">{content}</div>'
+        )
+
+    pos_row = "".join(cell(str(i), color="#5B24F9") for i in range(n))
+    char_row = "".join(
+        f'<div style="width:{box}px;height:{box}px;border:1.5px solid #0D0230;border-radius:8px;'
+        f'display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-weight:700;font-size:18px;background:#fff;color:#0D0230">'
+        f'{"·" if ch == " " else html.escape(ch)}</div>'
+        for ch in text
+    )
+    neg_row = "".join(cell(str(i - n), color="#DB2777") for i in range(n))
+    inner = (
+        f'<div style="display:flex">{pos_row}</div>'
+        f'<div style="display:flex;margin:4px 0">{char_row}</div>'
+        f'<div style="display:flex">{neg_row}</div>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{inner}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def string_slice_diagram(text: str, start: int, stop: int, *, caption: str = "") -> str:
+    """Slice-window diagram: characters as boxes, and BOUNDARY numbers (0..n)
+    drawn in the gaps between/around them — the correct mental model for
+    slicing ("cut here, cut there"). The [start:stop) range is shaded, and
+    the resulting substring is printed below. start/stop must already be
+    resolved to non-negative in-range ints by the caller (e.g. word[2:] ->
+    start=2, stop=len(word))."""
+    n = len(text)
+    box = 44
+
+    char_row = "".join(
+        f'<div style="width:{box}px;height:{box}px;border:1.5px solid #0D0230;border-radius:8px;'
+        f'display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-weight:700;font-size:18px;color:#0D0230;'
+        f'background:{"#E7DEFF" if start <= i < stop else "#fff"}">'
+        f'{"·" if ch == " " else html.escape(ch)}</div>'
+        for i, ch in enumerate(text)
+    )
+    boundary_row = "".join(
+        f'<div style="width:{box}px;text-align:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-weight:700;font-size:12px;color:{"#5B24F9" if j in (start, stop) else "#B9A0FC"}">{j}</div>'
+        for j in range(n + 1)
+    )
+    result = html.escape(text[start:stop])
+    inner = (
+        f'<div style="display:flex;margin-left:-{box // 2}px">{boundary_row}</div>'
+        f'<div style="display:flex;margin:4px 0">{char_row}</div>'
+        f'<div style="text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:14px;'
+        f'color:#0D0230;margin-top:6px">→ <strong>"{result}"</strong></div>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{inner}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
 def precedence_ladder(levels: list[tuple[str, str]], *, caption: str = "") -> str:
     """HTML ladder of precedence levels, highest first. levels: list of
     (symbols, description), e.g. ("() ", "скобки — всегда первыми")."""

@@ -10,6 +10,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-07/07-08-napravlenie-risovaniya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Меняем направление рисования — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Направление рисования окружности (по/против часовой стрелки) и режимы измерения углов — сводим воедино." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-07/07-08-napravlenie-risovaniya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Меняем направление рисования — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Направление рисования окружности (по/против часовой стрелки) и режимы измерения углов — сводим воедино." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Меняем направление рисования — Python с нуля — Cartesian School","description":"Направление рисования окружности (по/против часовой стрелки) и режимы измерения углов — сводим воедино.","url":"https://www.cartesianschool.org/chapters/glava-07/07-08-napravlenie-risovaniya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -49,27 +64,35 @@
       <pre><code><span class="tok-kw">import</span> turtle
 
 screen = turtle.Screen()
-screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">280</span>)
+screen.setup(width=<span class="tok-num">560</span>, height=<span class="tok-num">340</span>)
 artist = turtle.Turtle()
 artist.speed(<span class="tok-num">0</span>)
+artist.pensize(<span class="tok-num">3</span>)
 
+<span class="tok-com"># circle(70) — центр на 70 px СЛЕВА от курса: старт ниже центра на 70,</span>
+<span class="tok-com"># чтобы сам круг встал вокруг (-150, 0), не упираясь в край окна</span>
 artist.penup()
-artist.goto(-<span class="tok-num">100</span>, -<span class="tok-num">40</span>)
+artist.goto(-<span class="tok-num">150</span>, -<span class="tok-num">70</span>)
 artist.pendown()
 artist.pencolor(<span class="tok-str">&quot;#5B24F9&quot;</span>)
-artist.pensize(<span class="tok-num">3</span>)
-artist.circle(<span class="tok-num">60</span>)
+artist.circle(<span class="tok-num">70</span>)
 artist.penup()
-artist.goto(-<span class="tok-num">140</span>, <span class="tok-num">40</span>)
-artist.write(<span class="tok-str">&quot;против часовой (+)&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">11</span>, <span class="tok-str">&quot;bold&quot;</span>))
+artist.goto(-<span class="tok-num">150</span>, <span class="tok-num">115</span>)
+artist.write(<span class="tok-str">&quot;circle(70)&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">13</span>, <span class="tok-str">&quot;bold&quot;</span>))
+artist.goto(-<span class="tok-num">150</span>, <span class="tok-num">95</span>)
+artist.write(<span class="tok-str">&quot;против часовой (+)&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">11</span>, <span class="tok-str">&quot;normal&quot;</span>))
 
-artist.goto(<span class="tok-num">100</span>, -<span class="tok-num">40</span>)
+<span class="tok-com"># circle(-70) — центр на 70 px СПРАВА от курса: старт выше центра на 70,</span>
+<span class="tok-com"># чтобы круг встал вокруг (150, 0) — симметрично первому</span>
+artist.goto(<span class="tok-num">150</span>, <span class="tok-num">70</span>)
 artist.pendown()
 artist.pencolor(<span class="tok-str">&quot;#DB2777&quot;</span>)
-artist.circle(-<span class="tok-num">60</span>)
+artist.circle(-<span class="tok-num">70</span>)
 artist.penup()
-artist.goto(<span class="tok-num">60</span>, <span class="tok-num">40</span>)
-artist.write(<span class="tok-str">&quot;по часовой (-)&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">11</span>, <span class="tok-str">&quot;bold&quot;</span>))
+artist.goto(<span class="tok-num">150</span>, <span class="tok-num">115</span>)
+artist.write(<span class="tok-str">&quot;circle(-70)&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">13</span>, <span class="tok-str">&quot;bold&quot;</span>))
+artist.goto(<span class="tok-num">150</span>, <span class="tok-num">95</span>)
+artist.write(<span class="tok-str">&quot;по часовой (-)&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">11</span>, <span class="tok-str">&quot;normal&quot;</span>))
 
 screen.exitonclick()</code></pre>
     </div>

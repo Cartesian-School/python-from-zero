@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Форматирование строк — Python с нуля — Cartesian School</title>
-<meta name="description" content="Три способа форматирования строк в Python: %, .format() и современные f-строки." />
+<meta name="description" content="f-строки в глубину: подстановка, выражения, форматирование чисел, ширина и выравнивание — плюс исторический контекст % и .format()." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Форматирование строк — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Три способа форматирования строк в Python: %, .format() и современные f-строки." />
+<meta property="og:description" content="f-строки в глубину: подстановка, выражения, форматирование чисел, ширина и выравнивание — плюс исторический контекст % и .format()." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-06-formatirovanie-strok.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Форматирование строк — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Три способа форматирования строк в Python: %, .format() и современные f-строки." />
+<meta name="twitter:description" content="f-строки в глубину: подстановка, выражения, форматирование чисел, ширина и выравнивание — плюс исторический контекст % и .format()." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Форматирование строк — Python с нуля — Cartesian School","description":"Три способа форматирования строк в Python: %, .format() и современные f-строки.","url":"https://www.cartesianschool.org/chapters/glava-08/08-06-formatirovanie-strok.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Форматирование строк — Python с нуля — Cartesian School","description":"f-строки в глубину: подстановка, выражения, форматирование чисел, ширина и выравнивание — плюс исторический контекст % и .format().","url":"https://www.cartesianschool.org/chapters/glava-08/08-06-formatirovanie-strok.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,21 +40,93 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки и объединение строк</a></li><li><a href="08-03-dostup-k-simvolam.html">Доступ к символам и срезы</a></li><li><a href="08-04-metody-strok.html">Методы строк</a></li><li><a href="08-05-istina-lozh.html">Истина? Ложь?</a></li><li><a href="08-06-formatirovanie-strok.html" class="active">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот имени</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html" class="active">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Форматирование строк</div>
     <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
     <h1>Форматирование строк</h1>
-    <p class="lede">Три поколения одного и того же инструмента — вставить значение внутрь текста.</p>
+    <p class="lede">f-строки — главный современный инструмент вставки значений в текст. Разберём их по-настоящему полно: от простой подстановки до выравнивания в столбик.</p>
 
 
     <p>Мы уже пользовались f-строками начиная с главы 4 — теперь разберём форматирование строк
-    полностью, включая исторический контекст: в старом коде вы неизбежно встретите и другие
-    способы.</p>
+    по-настоящему полно.</p>
 
-    
+    <h2>f-строка — простая подстановка</h2>
+    <p>Перед открывающей кавычкой ставится буква <code class="inline">f</code>, а внутри
+    фигурных скобок <code class="inline">{}</code> — имя переменной. Python сам подставит
+    туда значение:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>f_stroka_prostaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;Ада&quot;</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Привет, </span>{name}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)
+<span class="tok-com"># Привет, Ада!</span></code></pre>
+    </div>
+
+    <h2>Внутри {} можно писать выражения</h2>
+    <p>Это не просто подстановка имени — внутри скобок работает ЛЮБОЕ Python-выражение:
+    арифметика, вызов метода, что угодно:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>f_stroka_vyrazheniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age = <span class="tok-num">5</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Через год будет </span>{age + <span class="tok-num">1</span>}<span class="tok-str">.</span><span class="tok-str">&quot;</span>)           <span class="tok-com"># Через год будет 6.</span>
+
+name = <span class="tok-str">&quot;cartesian&quot;</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Заглавными: </span>{name.upper()}<span class="tok-str">&quot;</span>)            <span class="tok-com"># Заглавными: CARTESIAN</span></code></pre>
+    </div>
+
+    <h2>Форматирование чисел: точность и разделители</h2>
+    <p>После значения можно поставить двоеточие и <strong>спецификатор формата</strong> — как
+    именно отобразить число:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>format_specifikatory.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pi = <span class="tok-num">3.14159265</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Пи округлённо: </span>{pi:<span class="tok-str">.2f</span>}<span class="tok-str">&quot;</span>)   <span class="tok-com"># Пи округлённо: 3.14 — 2 знака после запятой</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{<span class="tok-num">1234567</span>:<span class="tok-str">,</span>}<span class="tok-str">&quot;</span>)               <span class="tok-com"># 1,234,567 — разделитель тысяч</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{<span class="tok-num">0.4567</span>:<span class="tok-str">.1%</span>}<span class="tok-str">&quot;</span>)              <span class="tok-com"># 45.7% — доля как проценты</span></code></pre>
+    </div>
+    <p><code class="inline">.2f</code> читается так: <code class="inline">f</code> — число с
+    плавающей точкой, <code class="inline">.2</code> — округлить до 2 знаков после запятой.</p>
+
+    <h2>Выравнивание и ширина</h2>
+    <p>Число после двоеточия (без точки) задаёт минимальную ширину поля — удобно для
+    выравнивания текста в столбик:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>vyravnivanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> name, score <span class="tok-kw">in</span> [(<span class="tok-str">&quot;Ада&quot;</span>, <span class="tok-num">98</span>), (<span class="tok-str">&quot;Алан&quot;</span>, <span class="tok-num">87</span>), (<span class="tok-str">&quot;Грейс&quot;</span>, <span class="tok-num">100</span>)]:
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{name:<span class="tok-str">&lt;8</span>}<span class="tok-str"> </span>{score:<span class="tok-str">&gt;5</span>}<span class="tok-str">&quot;</span>)
+<span class="tok-com"># Ада        98</span>
+<span class="tok-com"># Алан       87</span>
+<span class="tok-com"># Грейс     100</span></code></pre>
+    </div>
+
+    <div class="compare-table-wrap" style="overflow-x:auto">
+    <table class="compare-table">
+      <thead><tr><th>Спецификатор</th><th>Значение</th></tr></thead>
+      <tbody>
+        <tr><td><code class="inline">{value:&lt;10}</code></td><td>по левому краю, ширина поля 10</td></tr>
+        <tr><td><code class="inline">{value:&gt;10}</code></td><td>по правому краю, ширина поля 10</td></tr>
+        <tr><td><code class="inline">{value:^10}</code></td><td>по центру, ширина поля 10</td></tr>
+        <tr><td><code class="inline">{value:.2f}</code></td><td>дробное число, 2 знака после запятой</td></tr>
+        <tr><td><code class="inline">{value:,}</code></td><td>разделитель тысяч запятой</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Отладочный приём: f&quot;{{value=}}&quot;</div>
+        <div class="callout-body">Если внутри f-строки после выражения поставить знак <code class="inline">=</code> — Python выведет и само выражение, и его значение. Отлично подходит для быстрой проверки: <code class="inline">print(f"{{age=}}")</code> выведет <code class="inline">age=28</code> — без ручного набора текста «age =».</div>
+      </div>
+    </div>
+
+
     <div class="cvm">
       <div class="cvm-header">Форматирование строк: % → .format() → f-строки</div>
       <div class="cvm-grid">
@@ -84,18 +156,14 @@ age = <span class="tok-num">5</span>
       <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> f-строки — они появились в Python 3.6 и с тех пор являются стандартом. Оператор <code class="inline">%</code> — самый старый способ, доставшийся от языка Си, всё ещё встречается в старом коде. <code class="inline">.format()</code> — промежуточный шаг между ними. f-строки читаются лучше всего: значение видно прямо там, где оно будет подставлено, и можно писать любые выражения, а не только имена переменных.</div>
     </div>
 
-    <h2>Форматирование чисел внутри f-строк</h2>
-    <p>Внутри фигурных скобок f-строки можно не только подставить значение, но и указать, как
-    именно его отформатировать — например, сколько знаков после запятой:</p>
-    
-    <div class="code-block">
-      <div class="code-label"><span>format_specifikatory.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>pi = <span class="tok-num">3.14159265</span>
-<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Пи округлённо: </span>{pi:<span class="tok-str">.2f</span>}<span class="tok-str">&quot;</span>)   <span class="tok-com"># Пи округлённо: 3.14</span>
-<span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{<span class="tok-num">1234567</span>:<span class="tok-str">,</span>}<span class="tok-str">&quot;</span>)               <span class="tok-com"># 1,234,567 — разделитель тысяч</span></code></pre>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Чек «на столе»</div>
+      <p>Выведите строку «Итого: 1234.5 → 1 234.50 ₽» (используя :,.2f) для суммы 1234.5, и отдельно — «Скидка: 15.0%» для доли 0.15 (используя :.1%).</p>
     </div>
 
-    
+
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: %, .format() и f-строки</div>
@@ -116,9 +184,9 @@ age = <span class="tok-num">5</span>
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="08-05-istina-lozh.html"><div class="dir">← Назад</div><div class="lbl">Истина? Ложь?</div></a><a href="08-07-vvod-polzovatelya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Ввод от пользователя</div></a></div>
+
+    <div class="section-nav"><a href="08-18-cikl-po-stroke.html"><div class="dir">← Назад</div><div class="lbl">Цикл по строке</div></a><a href="08-07-vvod-polzovatelya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Ввод от пользователя</div></a></div>
   </article>
 </div>
 

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Методы строк: поиск и разбор — Python с нуля — Cartesian School</title>
+<meta name="description" content="Методы строк replace, split, join, count, find, index, startswith, endswith — с наглядными диаграммами до/после." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-08/08-16-metody-strok-poisk-i-razbor.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Методы строк: поиск и разбор — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Методы строк replace, split, join, count, find, index, startswith, endswith — с наглядными диаграммами до/после." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-16-metody-strok-poisk-i-razbor.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Методы строк: поиск и разбор — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Методы строк replace, split, join, count, find, index, startswith, endswith — с наглядными диаграммами до/после." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Методы строк: поиск и разбор — Python с нуля — Cartesian School","description":"Методы строк replace, split, join, count, find, index, startswith, endswith — с наглядными диаграммами до/после.","url":"https://www.cartesianschool.org/chapters/glava-08/08-16-metody-strok-poisk-i-razbor.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html" class="active">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Методы: поиск и разбор</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Методы строк: поиск и разбор</h1>
+    <p class="lede">Заменяем подстроки, разбиваем строку на части и снова склеиваем — а ещё ищем подстроки внутри текста.</p>
+
+
+    <h2>replace() — замена подстроки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>replace.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;я люблю Java&quot;</span>
+<span class="tok-fn">print</span>(text.replace(<span class="tok-str">&quot;Java&quot;</span>, <span class="tok-str">&quot;Python&quot;</span>))   <span class="tok-com"># я люблю Python</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="text.replace(&quot;Java&quot;, &quot;Python&quot;) — заменяет ВСЕ вхождения подстроки" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Исходная строка</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">&quot;я люблю Java&quot;</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">.replace(...)</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">&quot;Java&quot; → &quot;Python&quot;</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Результат</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">&quot;я люблю Python&quot;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">text.replace(&quot;Java&quot;, &quot;Python&quot;) — заменяет ВСЕ вхождения подстроки</figcaption></figure>
+
+    <h2>split() — разбить строку на части</h2>
+    <p><code class="inline">split()</code> без аргументов разбивает строку по пробелам (и
+    группам пробелов) на список отдельных слов:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>split.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>sentence = <span class="tok-str">&quot;кот  и пёс&quot;</span>
+words = sentence.split()
+<span class="tok-fn">print</span>(words)          <span class="tok-com"># [&#x27;кот&#x27;, &#x27;и&#x27;, &#x27;пёс&#x27;]</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(words))     <span class="tok-com"># 3 слова</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="split() превращает строку в список слов (со списками подробно познакомимся в главе 10)" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Исходная строка</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">&quot;кот и пёс&quot;</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">.split()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">разбить по пробелам</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Список слов</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">[&#x27;кот&#x27;, &#x27;и&#x27;, &#x27;пёс&#x27;]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">split() превращает строку в список слов (со списками подробно познакомимся в главе 10)</figcaption></figure>
+    <p>Можно указать свой разделитель — например, запятую:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>split_razdelitel.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>csv_row = <span class="tok-str">&quot;Ада,28,программист&quot;</span>
+fields = csv_row.split(<span class="tok-str">&quot;,&quot;</span>)
+<span class="tok-fn">print</span>(fields)          <span class="tok-com"># [&#x27;Ада&#x27;, &#x27;28&#x27;, &#x27;программист&#x27;]</span></code></pre>
+    </div>
+
+    <h2>join() — обратная операция: склеить список в строку</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>join.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>words = [<span class="tok-str">&quot;кот&quot;</span>, <span class="tok-str">&quot;и&quot;</span>, <span class="tok-str">&quot;пёс&quot;</span>]
+result = <span class="tok-str">&quot;-&quot;</span>.join(words)
+<span class="tok-fn">print</span>(result)          <span class="tok-com"># кот-и-пёс</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="join() — действие, обратное split(): склеивает список обратно в строку" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Список слов</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">[&#x27;кот&#x27;, &#x27;и&#x27;, &#x27;пёс&#x27;]</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">&quot;-&quot;.join(...)</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">склеить через дефис</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Строка</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">&quot;кот-и-пёс&quot;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">join() — действие, обратное split(): склеивает список обратно в строку</figcaption></figure>
+
+    <h2>count() — сколько раз встречается</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>count.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;миссисипи&quot;</span>
+<span class="tok-fn">print</span>(text.count(<span class="tok-str">&quot;с&quot;</span>))     <span class="tok-com"># 4</span>
+<span class="tok-fn">print</span>(text.count(<span class="tok-str">&quot;си&quot;</span>))    <span class="tok-com"># 2</span></code></pre>
+    </div>
+
+    <h2>find() и index() — где встречается</h2>
+    <p>Оба метода ищут подстроку и возвращают индекс её первого символа. Разница — в поведении,
+    когда подстрока не найдена:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>find_i_index.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;Python&quot;</span>
+<span class="tok-fn">print</span>(text.find(<span class="tok-str">&quot;th&quot;</span>))     <span class="tok-com"># 2 — нашли, начинается с индекса 2</span>
+<span class="tok-fn">print</span>(text.find(<span class="tok-str">&quot;zz&quot;</span>))     <span class="tok-com"># -1 — не нашли, find() возвращает -1</span>
+
+<span class="tok-fn">print</span>(text.index(<span class="tok-str">&quot;th&quot;</span>))    <span class="tok-com"># 2 — то же самое, что find(), если найдено</span>
+<span class="tok-com"># text.index(&quot;zz&quot;)         # ValueError: substring not found — index() «падает» с ошибкой!</span></code></pre>
+    </div>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Когда что выбрать</div>
+        <div class="callout-body">Если подстроки может не оказаться в тексте — используйте <code class="inline">find()</code> и проверяйте результат на <code class="inline">-1</code>. Если вы уверены, что подстрока обязана быть (и хотите узнать сразу, если это не так), — <code class="inline">index()</code> сообщит об ошибке явно, а не тихо вернёт -1.</div>
+      </div>
+    </div>
+
+    <h2>startswith() и endswith()</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>startswith_endswith.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>filename = <span class="tok-str">&quot;otchet_2026.pdf&quot;</span>
+<span class="tok-fn">print</span>(filename.startswith(<span class="tok-str">&quot;otchet&quot;</span>))   <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(filename.endswith(<span class="tok-str">&quot;.pdf&quot;</span>))       <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(filename.endswith(<span class="tok-str">&quot;.docx&quot;</span>))      <span class="tok-com"># False</span></code></pre>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Разбираем имя файла</div>
+      <p>Для строки «report_final_v2.pdf» проверьте endswith(".pdf"), найдите позицию символа «_» методом find(), и через split("_") получите список частей имени.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: поиск и разбор строк</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="08-16"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/08-16/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="08-04-metody-strok.html"><div class="dir">← Назад</div><div class="lbl">Методы: регистр и пробелы</div></a><a href="08-17-metody-proverki.html" class="next"><div class="dir">Далее →</div><div class="lbl">Методы проверки</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
