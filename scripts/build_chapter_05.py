@@ -34,6 +34,8 @@ from site_lib import (
     expression_tree,
     fraction_bar_diagram,
     grouping_diagram,
+    math_formula,
+    math_inline,
     number_line_diagram,
     precedence_ladder,
     practice_card,
@@ -684,6 +686,31 @@ def build_11_parentheses_formulas() -> None:
 
 def build_12_formula_translation() -> None:
     tree = expression_tree(("/", ("+", "a", "b"), "c"), caption="(a + b) / c — дерево показывает, что вся сумма должна оказаться ПОД чертой дроби")
+
+    frac_ab_c = math_inline(("frac", ("row", "a", ("mo", "+"), "b"), "c"), aria_label="дробь: a плюс b, всё это делённое на c")
+    frac_ab_cd = math_inline(("frac", ("row", "a", ("mo", "+"), "b"), ("row", "c", ("mo", "+"), "d")), aria_label="дробь: a плюс b, делённое на c плюс d")
+    two_x = math_inline(("row", "2", "x"), aria_label="два икс")
+    x_sq = math_inline(("sup", "x", "2"), aria_label="икс в квадрате")
+    sqrt_x = math_inline(("sqrt", "x"), aria_label="корень из икс")
+    pi_r_sq = math_inline(("row", "π", ("sup", "r", "2")), aria_label="пи эр в квадрате")
+    a_bc = math_inline(("row", "a", ("mo", "("), "b", ("mo", "+"), "c", ("mo", ")")), aria_label="a умножить на скобку b плюс c")
+
+    circle_svg = (
+        '<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        '<svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" role="img" '
+        'aria-label="Круг радиусом r — радиус соединяет центр с краем окружности" style="width:100%;height:auto;max-width:220px">'
+        '<circle cx="110" cy="90" r="70" fill="#FAFAFC" stroke="#5B24F9" stroke-width="2.5"/>'
+        '<line x1="110" y1="90" x2="180" y2="90" stroke="#5B24F9" stroke-width="2.5"/>'
+        '<circle cx="110" cy="90" r="4" fill="#0D0230"/>'
+        '<text x="145" y="83" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+        'font-weight="700" font-size="16" fill="#5B24F9">r</text>'
+        '</svg>'
+        '<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">'
+        'Радиус r соединяет центр круга с его краем — из него вычисляется площадь A = πr²</figcaption>'
+        '</figure>'
+    )
+
     body = f"""
     <p>Формулы в учебниках математики записаны иначе, чем код Python — умножение часто вообще
     не пишут, степень поднимают над строкой, деление рисуют чертой. Переводить такие формулы в
@@ -693,10 +720,13 @@ def build_12_formula_translation() -> None:
 {comparison_table(
         ["В математике", "В Python", "Частая ошибка"],
         [
-            ["2x", "<code class=\"inline\">2 * x</code>", "написать <code class=\"inline\">2x</code> — SyntaxError, умножение никогда не подразумевается"],
-            ["x²", "<code class=\"inline\">x ** 2</code>", "написать <code class=\"inline\">x^2</code> — сработает, но даст совсем не то число!"],
-            ["<sup>a + b</sup>&frasl;<sub>c</sub>", "<code class=\"inline\">(a + b) / c</code>", "написать <code class=\"inline\">a + b / c</code> — разделится только b, не вся сумма"],
-            ["√x", "<code class=\"inline\">x ** 0.5</code> или <code class=\"inline\">math.sqrt(x)</code>", "забыть, что корень — это тоже степень (0.5)"],
+            [two_x, "<code class=\"inline\">2 * x</code>", "написать <code class=\"inline\">2x</code> — SyntaxError, умножение никогда не подразумевается"],
+            [x_sq, "<code class=\"inline\">x ** 2</code>", "написать <code class=\"inline\">x^2</code> — сработает, но даст совсем не то число!"],
+            [frac_ab_c, "<code class=\"inline\">(a + b) / c</code>", "написать <code class=\"inline\">a + b / c</code> — разделится только b, не вся сумма"],
+            [sqrt_x, "<code class=\"inline\">x ** 0.5</code> или <code class=\"inline\">math.sqrt(x)</code>", "забыть, что корень — это тоже степень (0.5)"],
+            [pi_r_sq, "<code class=\"inline\">math.pi * radius ** 2</code>", "забыть импортировать <code class=\"inline\">math</code>, или написать <code class=\"inline\">pi</code> вместо <code class=\"inline\">math.pi</code>"],
+            [a_bc, "<code class=\"inline\">a * (b + c)</code>", "написать <code class=\"inline\">a(b + c)</code> — Python решит, что <code class=\"inline\">a</code> это функция, и попытается её вызвать"],
+            [frac_ab_cd, "<code class=\"inline\">(a + b) / (c + d)</code>", "написать <code class=\"inline\">a + b / c + d</code> — разделится только b на c"],
         ],
     )}
 {callout(
@@ -710,15 +740,11 @@ def build_12_formula_translation() -> None:
     )}
 {code_block("proverka_karety.py", "print(5 ** 3)   # 125 — степень\nprint(5 ^ 3)    # 6 — совсем другая операция!\n")}
 
-    <h2>Пример перевода: формула среднего</h2>
-    <p>Формула среднего трёх чисел <sup>a + b + c</sup>&frasl;<sub>3</sub> переводится в Python
-    так — вся сумма должна попасть в скобки, прежде чем делить:</p>
-{tree}
-{code_block("srednee_perevod.py", "a, b, c = 4, 7, 9\nsrednee = (a + b + c) / 3\nprint(srednee)   # 6.666...\n")}
-
-    <h2>Ещё один пример: формула площади круга</h2>
-    <p>π в математике — отдельная константа; в Python она приходит из модуля <code class="inline">math</code>
-    (подробно познакомимся с этим модулем в следующем разделе):</p>
+    <h2>От математики — через геометрию — к Python</h2>
+    <p>Таблица показывает перевод построчно. Но у формулы <math xmlns="http://www.w3.org/1998/Math/MathML" style="font-size:1.15em;color:#0D0230"><mi>A</mi><mo>=</mo><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup></math>
+    есть третий, самый наглядный уровень — сама геометрическая фигура, которую формула описывает:</p>
+{math_formula(("row", "A", ("mo", "="), "π", ("sup", "r", "2")), caption="A = πr² — площадь круга через его радиус")}
+{circle_svg}
 {code_block("ploshad_kruga_perevod.py", "import math\n\nradius = 5\nploshad = math.pi * radius ** 2\nprint(round(ploshad, 2))   # 78.54\n")}
 {callout(
         "tip",
@@ -728,6 +754,21 @@ def build_12_formula_translation() -> None:
         "<code class=\"inline\">math.pi * radius</code> (умножение и степень — разные уровни "
         "приоритета, степень выше).",
     )}
+
+    <h2>Почему скобки вокруг суммы обязательны</h2>
+    <p>Вернёмся к дроби <math xmlns="http://www.w3.org/1998/Math/MathML" style="font-size:1.15em;color:#0D0230"><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mi>c</mi></mfrac></math>
+    и посмотрим на неё с трёх сторон: как формулу, как дерево вычислений и как код.</p>
+{math_formula(("frac", ("row", "a", ("mo", "+"), "b"), "c"), caption="Черта дроби ГРУППИРУЕТ a + b в один числитель — это визуально очевидно")}
+{tree}
+    <p>Дерево показывает то же самое, что и черта дроби: <code class="inline">a + b</code> —
+    единый блок, который целиком становится числителем. В Python черты нет, поэтому эту
+    группировку нужно обозначить явно — круглыми скобками:</p>
+{code_block("pochemu_skobki.py", "a, b, c = 8, 4, 3\n\n# ПРАВИЛЬНО — скобки воспроизводят черту дроби:\nprint((a + b) / c)   # 4.0\n\n# НЕПРАВИЛЬНО — без скобок делится только b:\nprint(a + b / c)     # 9.333... — это a + (b / c), совсем другая формула!\n")}
+
+    <h2>Пример перевода: формула среднего</h2>
+    <p>Формула среднего трёх чисел <math xmlns="http://www.w3.org/1998/Math/MathML" style="font-size:1.15em;color:#0D0230"><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi><mo>+</mo><mi>c</mi></mrow><mn>3</mn></mfrac></math>
+    переводится в Python по тому же правилу — вся сумма должна попасть в скобки, прежде чем делить:</p>
+{code_block("srednee_perevod.py", "a, b, c = 4, 7, 9\nsrednee = (a + b + c) / 3\nprint(srednee)   # 6.666...\n")}
 
 {practice_card(
         "05-12",
@@ -753,54 +794,162 @@ def build_12_formula_translation() -> None:
 
 
 def build_04_math_module() -> None:
+    builtin_vs_module = capability_map(
+        [
+            ("Встроено в язык — доступно всегда", ["print() · abs()", "round() · pow()", "не требует import"]),
+            ("Модуль math — отдельный ящик с инструментами", ["sqrt() · hypot() · gcd()", "sin() · log() · pi", "требует import math"]),
+        ],
+        title="Python: то, что встроено, и то, что лежит в модулях",
+        caption="Модуль — это отдельный, заранее подписанный ящик с инструментами, а не часть самого языка",
+    )
+
+    anatomy = (
+        '<figure style="margin:24px 0;padding:28px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        '<div style="display:flex;justify-content:center;font-family:\'JetBrains Mono\',monospace;'
+        'font-size:22px;font-weight:700;color:#0D0230;gap:2px;flex-wrap:wrap">'
+        '<span style="color:#5B24F9">math</span><span>.</span><span style="color:#5B24F9">sqrt</span>'
+        '<span>(</span><span>25</span><span>)</span></div>'
+        '<div style="display:flex;justify-content:center;gap:28px;margin-top:14px;flex-wrap:wrap;text-align:center">'
+        '<div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div>'
+        '<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">модуль</div>'
+        '<div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">где искать</div></div>'
+        '<div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div>'
+        '<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">инструмент</div>'
+        '<div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">что делать</div></div>'
+        '<div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div>'
+        '<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">аргумент</div>'
+        '<div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">с чем работать</div></div>'
+        '</div>'
+        '<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:14px">'
+        'Точка означает «возьми sqrt ИЗ модуля math» — это не украшение синтаксиса, а указание адреса</figcaption>'
+        '</figure>'
+    )
+
     cmap = capability_map(
         [
             ("Корни и расстояния", ["sqrt · isqrt", "hypot · dist"]),
-            ("Целые числа", ["gcd · lcm", "factorial · comb · perm"]),
-            ("Геометрия", ["pi · площадь и длина окружности"]),
+            ("Целочисленная математика", ["gcd · lcm", "factorial · comb · perm"]),
+            ("Геометрия", ["pi", "hypot · dist"]),
             ("Тригонометрия", ["sin · cos · tan", "radians · degrees"]),
-            ("Логарифмы", ["log · log2 · log10 · exp"]),
+            ("Логарифмы и рост", ["log · log2 · log10 · exp"]),
         ],
-        title="Куда мы идём в этой главе",
+        title="Что умеет модуль math",
         caption="Каждая карточка — отдельный раздел ниже, с реальными задачами и картинками",
     )
-    body = f"""
-    <p>В главе 4 мы уже открывали модуль <code class="inline">math</code> — видели, что в нём
-    вообще есть, и разобрались с <code class="inline">floor</code>, <code class="inline">ceil</code>,
-    <code class="inline">Decimal</code> и <code class="inline">Fraction</code>. Здесь мы не будем
-    повторять тот обзор — вместо этого возьмём несколько самых полезных инструментов
-    <code class="inline">math</code> и научимся решать ими <strong>настоящие</strong> задачи: искать
-    расстояния, работать с целыми числами, считать геометрию, разбираться с углами.</p>
-{code_block("import_math.py", "import math\n\n# math уже импортирован — все функции доступны через math.имя_функции\nprint(math.sqrt(2))\n")}
 
+    body = f"""
+    <p>Python уже кое-что умеет считать без всякой подготовки:</p>
+{code_block("vstroennoe.py", "print(abs(-7))     # 7\nprint(round(4.5))  # 4\nprint(pow(2, 10))  # 1024\n")}
+    <p>Но настоящей математики в мире куда больше, чем четыре встроенные функции: корни, синусы,
+    логарифмы, работа с углами и расстояниями. Если бы <strong>все</strong> такие инструменты
+    были встроены прямо в язык — Python превратился бы в загромождённый список из сотен имён,
+    и запомнить, что вообще доступно, стало бы невозможно.</p>
+
+    <h2>Модуль — это отдельный, подписанный ящик с инструментами</h2>
+    <p>Вместо этого стандартная библиотека Python организует связанные инструменты в
+    <strong>модули</strong> — отдельные «ящики», которые лежат рядом, но не смешиваются с языком
+    напрямую и друг с другом. Один из таких ящиков называется <code class="inline">math</code> —
+    в нём собраны математические инструменты: корни, тригонометрия, логарифмы и многое другое.</p>
+{builtin_vs_module}
+
+    <h2><code class="inline">import math</code> — открываем ящик</h2>
+    <p>Чтобы воспользоваться инструментами из ящика <code class="inline">math</code>, его нужно
+    сначала явно <strong>открыть</strong> — командой <code class="inline">import</code>:</p>
+{code_block("import_math.py", "import math\n\n# теперь всё содержимое ящика math доступно в этой программе\nprint(math.sqrt(2))\n")}
+{callout(
+        "info",
+        "import math — это не «включить математику»",
+        "Строка <code class=\"inline\">import math</code> примерно означает: «сделай содержимое "
+        "модуля math доступным в этой программе». Без неё <code class=\"inline\">math.sqrt(25)</code> "
+        "вызовет <code class=\"inline\">NameError</code> — Python ещё не знает, где искать "
+        "<code class=\"inline\">math</code>.",
+    )}
+
+    <h2>Что означает точка</h2>
+    <p>Разберём запись <code class="inline">math.sqrt(25)</code> по частям:</p>
+{anatomy}
+    <p>Точка здесь значит «возьми <code class="inline">sqrt</code> <strong>из</strong> модуля
+    <code class="inline">math</code>» — так Python отличает, например, <code class="inline">math.sqrt</code>
+    от какой-нибудь другой функции с похожим именем из совсем другого модуля: у каждого
+    инструмента есть свой явный адрес.</p>
+
+    <h2>А что если аргумент не нужен: <code class="inline">math.pi</code></h2>
+    <p><code class="inline">math.pi</code> — не функция, а готовое <strong>значение</strong>
+    (константа): число π уже вычислено и лежит внутри модуля под именем <code class="inline">pi</code>.
+    Поэтому у него нет круглых скобок — скобки означают «вызови функцию», а
+    <code class="inline">pi</code> вызывать не нужно, его нужно просто прочитать:</p>
+{code_block("math_pi.py", "import math\n\nprint(math.pi)        # 3.141592653589793 — значение, не вызов\nprint(math.sqrt(25))  # 5.0 — а это вызов функции, поэтому есть скобки\n")}
+
+    <h2>Первые эксперименты</h2>
+    <p>Несколько маленьких примеров — код и его результат:</p>
+{code_block("eksperiment_1.py", "import math\n\nprint(math.sqrt(25))\n")}
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">5.0</code> — квадратный корень из 25.</p>
+{code_block("eksperiment_2.py", "import math\n\nprint(math.pi)\n")}
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">3.141592653589793</code> — число π с точностью float.</p>
+{code_block("eksperiment_3.py", "import math\n\nprint(math.gcd(18, 24))\n")}
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">6</code> — наибольший общий делитель 18 и 24.</p>
+{code_block("eksperiment_4.py", "import math\n\nprint(math.hypot(3, 4))\n")}
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">5.0</code> — длина гипотенузы прямоугольного треугольника со сторонами 3 и 4.</p>
+
+    <h2>Встроенное vs math — не путаем</h2>
+    <p>Ещё раз проведём чёткую границу — какие инструменты встроены в язык напрямую, а какие
+    нужно явно импортировать, и откуда именно:</p>
+{comparison_table(
+        ["Инструмент", "Откуда", "Нужен import?"],
+        [
+            ["<code class=\"inline\">abs()</code>, <code class=\"inline\">round()</code>, <code class=\"inline\">pow()</code>", "встроены в язык", "нет"],
+            ["<code class=\"inline\">math.sqrt()</code>, <code class=\"inline\">math.floor()</code>, <code class=\"inline\">math.sin()</code>, <code class=\"inline\">math.log()</code>", "модуль <code class=\"inline\">math</code>", "<code class=\"inline\">import math</code>"],
+            ["<code class=\"inline\">Decimal</code>", "модуль <code class=\"inline\">decimal</code> (глава 4)", "<code class=\"inline\">from decimal import Decimal</code>"],
+            ["<code class=\"inline\">Fraction</code>", "модуль <code class=\"inline\">fractions</code> (глава 4)", "<code class=\"inline\">from fractions import Fraction</code>"],
+        ],
+    )}
+{callout(
+        "warning",
+        "Decimal и Fraction — НЕ часть math",
+        "Это частая путаница: <code class=\"inline\">Decimal</code> и <code class=\"inline\">Fraction</code> "
+        "из главы 4 — инструменты для точных чисел, но живут в СВОИХ собственных модулях "
+        "(<code class=\"inline\">decimal</code> и <code class=\"inline\">fractions</code>), "
+        "отдельно от <code class=\"inline\">math</code>. Три разных ящика — три разных импорта.",
+    )}
+
+    <h2>Полная карта: что умеет math</h2>
+    <p>Теперь, когда понятно, что такое модуль и зачем нужна точка, можно спокойно посмотреть на
+    карту того, что <code class="inline">math</code> предлагает — следующие разделы главы разберут
+    каждую карточку подробно, с реальными задачами:</p>
 {cmap}
 
+    <h2>Как искать то, чего нет на карте</h2>
+    <p>У <code class="inline">math</code> около полусотни функций — эта карта показывает только
+    самые полезные для начала. Никто не держит в голове весь список, и это нормально:
+    профессиональный навык — не «знать всё наизусть», а знать <strong>примерно</strong>, что
+    существует, и уметь быстро найти точную деталь.</p>
 {callout(
         "tip",
-        "Не нужно запоминать всё сразу",
-        "У <code class=\"inline\">math</code> около полусотни функций. Никто не держит их все "
-        "в голове — опытные программисты гуглят или открывают документацию "
-        "(<a href=\"https://docs.python.org/3/library/math.html\" target=\"_blank\" rel=\"noopener\">"
-        "docs.python.org/3/library/math.html</a>). Важнее знать, что функция, скорее всего, "
-        "существует — и уметь её найти.",
+        "Официальная документация — не враг, а инструмент",
+        "Полный и точный список всего, что есть в <code class=\"inline\">math</code>, — на "
+        "странице официальной документации Python 3.14: "
+        "<a href=\"https://docs.python.org/3.14/library/math.html\" target=\"_blank\" rel=\"noopener\">"
+        "docs.python.org/3.14/library/math</a> (Standard Library → math). Опытные разработчики "
+        "заглядывают туда постоянно — это не признак незнания, а нормальная часть работы.",
     )}
 
 {practice_card(
         "05-04",
-        "Практика: модуль math — быстрая разминка",
+        "Практика: модуль math — что такое модуль и первые вызовы",
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
         "../../practice/05-04/index.html",
     )}
     """
     out = render_page(
         page_title="Модуль math — карта возможностей",
-        description="От обзора модуля math (глава 4) к реальным задачам: расстояния, целые числа, геометрия, тригонометрия, логарифмы.",
+        description="Что такое модуль в Python, зачем нужен import math, что означает точка в math.sqrt() — и полная карта возможностей модуля math.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 5", "index.html"), ("Модуль math", "")],
         kicker="Глава 5 · Давайте поиграем с числами!",
         h1="Модуль math — от каталога к инструментам",
-        lede="В главе 4 мы увидели, что в math есть. Теперь научимся решать этими инструментами "
-        "настоящие задачи.",
+        lede="Что такое модуль, зачем нужен import и что означает точка в math.sqrt() — прежде "
+        "чем нырять в конкретные функции, разберёмся, как вообще устроен этот ящик с инструментами.",
         body_html=body,
         sidebar_groups=sidebar("05-04-matematicheskie-funkcii.html"),
         nav=PageNav(prev_href="05-12-perevod-formul.html", prev_label="Перевод формул", next_href="05-13-korni-rasstoyaniya.html", next_label="Корни и расстояния"),

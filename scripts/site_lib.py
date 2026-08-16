@@ -1120,6 +1120,80 @@ def capability_map(groups: list[tuple[str, list[str]]], *, title: str = "", capt
     )
 
 
+def _render_math_node(node) -> str:
+    """Recursively renders one node of the tiny MathML DSL used by
+    math_formula()/math_inline(). A node is either a plain string (auto-
+    classified as <mn> if it looks like a number, <mi> otherwise — this
+    covers both real identifiers like "x" and symbols like "π", which
+    MathML also renders as an italic <mi>), or a tuple whose first element
+    names the MathML construct:
+
+      ("mo", "+")            -> <mo>+</mo>                (explicit operator/paren)
+      ("sup", base, exp)     -> <msup>...</msup>           (x², superscript)
+      ("frac", num, den)     -> <mfrac>...</mfrac>         (real stacked fraction)
+      ("sqrt", arg)          -> <msqrt>...</msqrt>         (real radical)
+      ("row", *items)        -> <mrow>...</mrow>           (adjacent items — e.g. implicit "2x")
+    """
+    if isinstance(node, str):
+        text = node.strip()
+        is_number = text.replace(".", "", 1).replace("-", "", 1).isdigit()
+        wrapper = "mn" if is_number else "mi"
+        return f"<{wrapper}>{html.escape(text)}</{wrapper}>"
+    tag, *rest = node
+    if tag == "mo":
+        return f"<mo>{html.escape(rest[0])}</mo>"
+    if tag == "sup":
+        base, exp = rest
+        return f"<msup>{_render_math_node(base)}{_render_math_node(exp)}</msup>"
+    if tag == "frac":
+        num, den = rest
+        return f"<mfrac>{_render_math_node(num)}{_render_math_node(den)}</mfrac>"
+    if tag == "sqrt":
+        return f"<msqrt>{_render_math_node(rest[0])}</msqrt>"
+    if tag == "row":
+        return "<mrow>" + "".join(_render_math_node(n) for n in rest) + "</mrow>"
+    raise ValueError(f"Неизвестный узел math DSL: {tag!r}")
+
+
+def math_inline(node, *, aria_label: str = "") -> str:
+    """Real, semantic MathML for one formula — <msup>/<mfrac>/<msqrt>, not
+    <sup>/&frasl;/<sub> text hacks. Renders inline (no surrounding figure),
+    so it can sit inside a table cell or a sentence. Native MathML gives
+    correctly-shaped fractions, superscripts and radicals with zero JS
+    runtime cost — no MathJax/KaTeX needed for formulas this simple.
+    aria_label is optional spoken-form text (e.g. "икс в квадрате") for
+    screen readers; browsers already read MathML structurally without it,
+    so most callers can omit it."""
+    inner = _render_math_node(node)
+    label_attr = f' aria-label="{html.escape(aria_label)}"' if aria_label else ""
+    return (
+        f'<math xmlns="http://www.w3.org/1998/Math/MathML"{label_attr} '
+        f'style="font-size:1.15em;color:#0D0230">{inner}</math>'
+    )
+
+
+def math_formula(node, *, caption: str = "", aria_label: str = "") -> str:
+    """Like math_inline(), but as a standalone centered display-block figure
+    — for showing one formula on its own, at a size large enough that a
+    fraction bar and its numerator/denominator are unmistakably legible."""
+    inner = _render_math_node(node)
+    label_attr = f' aria-label="{html.escape(aria_label or caption)}"' if (aria_label or caption) else ""
+    math_html = (
+        f'<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"{label_attr} '
+        f'style="font-size:2em;color:#0D0230">{inner}</math>'
+    )
+    cap = (
+        f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>'
+        if caption
+        else ""
+    )
+    return (
+        f'<figure style="margin:24px 0;padding:28px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);display:flex;flex-direction:column;align-items:center;overflow-x:auto">'
+        f'{math_html}{cap}</figure>'
+    )
+
+
 def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
     """A real screenshot/photo, not a generated diagram — captioned figure."""
     width_attr = f' width="{width}"' if width else ""

@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Модуль math — карта возможностей — Python с нуля — Cartesian School</title>
-<meta name="description" content="От обзора модуля math (глава 4) к реальным задачам: расстояния, целые числа, геометрия, тригонометрия, логарифмы." />
+<meta name="description" content="Что такое модуль в Python, зачем нужен import math, что означает точка в math.sqrt() — и полная карта возможностей модуля math." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Модуль math — карта возможностей — Python с нуля — Cartesian School" />
-<meta property="og:description" content="От обзора модуля math (глава 4) к реальным задачам: расстояния, целые числа, геометрия, тригонометрия, логарифмы." />
+<meta property="og:description" content="Что такое модуль в Python, зачем нужен import math, что означает точка в math.sqrt() — и полная карта возможностей модуля math." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-04-matematicheskie-funkcii.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Модуль math — карта возможностей — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="От обзора модуля math (глава 4) к реальным задачам: расстояния, целые числа, геометрия, тригонометрия, логарифмы." />
+<meta name="twitter:description" content="Что такое модуль в Python, зачем нужен import math, что означает точка в math.sqrt() — и полная карта возможностей модуля math." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Модуль math — карта возможностей — Python с нуля — Cartesian School","description":"От обзора модуля math (глава 4) к реальным задачам: расстояния, целые числа, геометрия, тригонометрия, логарифмы.","url":"https://www.cartesianschool.org/chapters/glava-05/05-04-matematicheskie-funkcii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Модуль math — карта возможностей — Python с нуля — Cartesian School","description":"Что такое модуль в Python, зачем нужен import math, что означает точка в math.sqrt() — и полная карта возможностей модуля math.","url":"https://www.cartesianschool.org/chapters/glava-05/05-04-matematicheskie-funkcii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -47,38 +47,146 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Модуль math</div>
     <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
     <h1>Модуль math — от каталога к инструментам</h1>
-    <p class="lede">В главе 4 мы увидели, что в math есть. Теперь научимся решать этими инструментами настоящие задачи.</p>
+    <p class="lede">Что такое модуль, зачем нужен import и что означает точка в math.sqrt() — прежде чем нырять в конкретные функции, разберёмся, как вообще устроен этот ящик с инструментами.</p>
 
 
-    <p>В главе 4 мы уже открывали модуль <code class="inline">math</code> — видели, что в нём
-    вообще есть, и разобрались с <code class="inline">floor</code>, <code class="inline">ceil</code>,
-    <code class="inline">Decimal</code> и <code class="inline">Fraction</code>. Здесь мы не будем
-    повторять тот обзор — вместо этого возьмём несколько самых полезных инструментов
-    <code class="inline">math</code> и научимся решать ими <strong>настоящие</strong> задачи: искать
-    расстояния, работать с целыми числами, считать геометрию, разбираться с углами.</p>
+    <p>Python уже кое-что умеет считать без всякой подготовки:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>vstroennoe.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">abs</span>(-<span class="tok-num">7</span>))     <span class="tok-com"># 7</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">round</span>(<span class="tok-num">4.5</span>))  <span class="tok-com"># 4</span>
+<span class="tok-fn">print</span>(pow(<span class="tok-num">2</span>, <span class="tok-num">10</span>))  <span class="tok-com"># 1024</span></code></pre>
+    </div>
+    <p>Но настоящей математики в мире куда больше, чем четыре встроенные функции: корни, синусы,
+    логарифмы, работа с углами и расстояниями. Если бы <strong>все</strong> такие инструменты
+    были встроены прямо в язык — Python превратился бы в загромождённый список из сотен имён,
+    и запомнить, что вообще доступно, стало бы невозможно.</p>
+
+    <h2>Модуль — это отдельный, подписанный ящик с инструментами</h2>
+    <p>Вместо этого стандартная библиотека Python организует связанные инструменты в
+    <strong>модули</strong> — отдельные «ящики», которые лежат рядом, но не смешиваются с языком
+    напрямую и друг с другом. Один из таких ящиков называется <code class="inline">math</code> —
+    в нём собраны математические инструменты: корни, тригонометрия, логарифмы и многое другое.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Python: то, что встроено, и то, что лежит в модулях</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Встроено в язык — доступно всегда</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">print() · abs()</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">round() · pow()</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">не требует import</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Модуль math — отдельный ящик с инструментами</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sqrt() · hypot() · gcd()</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sin() · log() · pi</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">требует import math</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Модуль — это отдельный, заранее подписанный ящик с инструментами, а не часть самого языка</figcaption></figure>
+
+    <h2><code class="inline">import math</code> — открываем ящик</h2>
+    <p>Чтобы воспользоваться инструментами из ящика <code class="inline">math</code>, его нужно
+    сначала явно <strong>открыть</strong> — командой <code class="inline">import</code>:</p>
 
     <div class="code-block">
       <div class="code-label"><span>import_math.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">import</span> math
 
-<span class="tok-com"># math уже импортирован — все функции доступны через math.имя_функции</span>
+<span class="tok-com"># теперь всё содержимое ящика math доступно в этой программе</span>
 <span class="tok-fn">print</span>(math.sqrt(<span class="tok-num">2</span>))</code></pre>
     </div>
 
-<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Куда мы идём в этой главе</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Корни и расстояния</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sqrt · isqrt</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">hypot · dist</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Целые числа</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">gcd · lcm</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">factorial · comb · perm</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Геометрия</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">pi · площадь и длина окружности</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Тригонометрия</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sin · cos · tan</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">radians · degrees</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Логарифмы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">log · log2 · log10 · exp</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Каждая карточка — отдельный раздел ниже, с реальными задачами и картинками</figcaption></figure>
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">import math — это не «включить математику»</div>
+        <div class="callout-body">Строка <code class="inline">import math</code> примерно означает: «сделай содержимое модуля math доступным в этой программе». Без неё <code class="inline">math.sqrt(25)</code> вызовет <code class="inline">NameError</code> — Python ещё не знает, где искать <code class="inline">math</code>.</div>
+      </div>
+    </div>
 
+    <h2>Что означает точка</h2>
+    <p>Разберём запись <code class="inline">math.sqrt(25)</code> по частям:</p>
+<figure style="margin:24px 0;padding:28px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#0D0230;gap:2px;flex-wrap:wrap"><span style="color:#5B24F9">math</span><span>.</span><span style="color:#5B24F9">sqrt</span><span>(</span><span>25</span><span>)</span></div><div style="display:flex;justify-content:center;gap:28px;margin-top:14px;flex-wrap:wrap;text-align:center"><div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div><div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">модуль</div><div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">где искать</div></div><div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div><div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">инструмент</div><div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">что делать</div></div><div><div style="width:2px;height:14px;background:#B9A0FC;margin:0 auto"></div><div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;color:#5B24F9">аргумент</div><div style="font-size:12px;color:var(--ink-soft,#6B6B7D)">с чем работать</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:14px">Точка означает «возьми sqrt ИЗ модуля math» — это не украшение синтаксиса, а указание адреса</figcaption></figure>
+    <p>Точка здесь значит «возьми <code class="inline">sqrt</code> <strong>из</strong> модуля
+    <code class="inline">math</code>» — так Python отличает, например, <code class="inline">math.sqrt</code>
+    от какой-нибудь другой функции с похожим именем из совсем другого модуля: у каждого
+    инструмента есть свой явный адрес.</p>
+
+    <h2>А что если аргумент не нужен: <code class="inline">math.pi</code></h2>
+    <p><code class="inline">math.pi</code> — не функция, а готовое <strong>значение</strong>
+    (константа): число π уже вычислено и лежит внутри модуля под именем <code class="inline">pi</code>.
+    Поэтому у него нет круглых скобок — скобки означают «вызови функцию», а
+    <code class="inline">pi</code> вызывать не нужно, его нужно просто прочитать:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>math_pi.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.pi)        <span class="tok-com"># 3.141592653589793 — значение, не вызов</span>
+<span class="tok-fn">print</span>(math.sqrt(<span class="tok-num">25</span>))  <span class="tok-com"># 5.0 — а это вызов функции, поэтому есть скобки</span></code></pre>
+    </div>
+
+    <h2>Первые эксперименты</h2>
+    <p>Несколько маленьких примеров — код и его результат:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eksperiment_1.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.sqrt(<span class="tok-num">25</span>))</code></pre>
+    </div>
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">5.0</code> — квадратный корень из 25.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eksperiment_2.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.pi)</code></pre>
+    </div>
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">3.141592653589793</code> — число π с точностью float.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eksperiment_3.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.gcd(<span class="tok-num">18</span>, <span class="tok-num">24</span>))</code></pre>
+    </div>
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">6</code> — наибольший общий делитель 18 и 24.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eksperiment_4.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+<span class="tok-fn">print</span>(math.hypot(<span class="tok-num">3</span>, <span class="tok-num">4</span>))</code></pre>
+    </div>
+    <p style="color:var(--ink-soft,#6B6B7D);font-size:14px;margin-top:-12px">РЕЗУЛЬТАТ: <code class="inline">5.0</code> — длина гипотенузы прямоугольного треугольника со сторонами 3 и 4.</p>
+
+    <h2>Встроенное vs math — не путаем</h2>
+    <p>Ещё раз проведём чёткую границу — какие инструменты встроены в язык напрямую, а какие
+    нужно явно импортировать, и откуда именно:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Инструмент</th><th>Откуда</th><th>Нужен import?</th></tr></thead>
+      <tbody><tr><td><code class="inline">abs()</code>, <code class="inline">round()</code>, <code class="inline">pow()</code></td><td>встроены в язык</td><td>нет</td></tr><tr><td><code class="inline">math.sqrt()</code>, <code class="inline">math.floor()</code>, <code class="inline">math.sin()</code>, <code class="inline">math.log()</code></td><td>модуль <code class="inline">math</code></td><td><code class="inline">import math</code></td></tr><tr><td><code class="inline">Decimal</code></td><td>модуль <code class="inline">decimal</code> (глава 4)</td><td><code class="inline">from decimal import Decimal</code></td></tr><tr><td><code class="inline">Fraction</code></td><td>модуль <code class="inline">fractions</code> (глава 4)</td><td><code class="inline">from fractions import Fraction</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Decimal и Fraction — НЕ часть math</div>
+        <div class="callout-body">Это частая путаница: <code class="inline">Decimal</code> и <code class="inline">Fraction</code> из главы 4 — инструменты для точных чисел, но живут в СВОИХ собственных модулях (<code class="inline">decimal</code> и <code class="inline">fractions</code>), отдельно от <code class="inline">math</code>. Три разных ящика — три разных импорта.</div>
+      </div>
+    </div>
+
+    <h2>Полная карта: что умеет math</h2>
+    <p>Теперь, когда понятно, что такое модуль и зачем нужна точка, можно спокойно посмотреть на
+    карту того, что <code class="inline">math</code> предлагает — следующие разделы главы разберут
+    каждую карточку подробно, с реальными задачами:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Что умеет модуль math</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Корни и расстояния</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sqrt · isqrt</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">hypot · dist</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Целочисленная математика</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">gcd · lcm</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">factorial · comb · perm</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Геометрия</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">pi</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">hypot · dist</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Тригонометрия</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">sin · cos · tan</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">radians · degrees</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Логарифмы и рост</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">log · log2 · log10 · exp</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Каждая карточка — отдельный раздел ниже, с реальными задачами и картинками</figcaption></figure>
+
+    <h2>Как искать то, чего нет на карте</h2>
+    <p>У <code class="inline">math</code> около полусотни функций — эта карта показывает только
+    самые полезные для начала. Никто не держит в голове весь список, и это нормально:
+    профессиональный навык — не «знать всё наизусть», а знать <strong>примерно</strong>, что
+    существует, и уметь быстро найти точную деталь.</p>
 
     <div class="callout callout-tip">
       <div>
-        <div class="callout-title">Не нужно запоминать всё сразу</div>
-        <div class="callout-body">У <code class="inline">math</code> около полусотни функций. Никто не держит их все в голове — опытные программисты гуглят или открывают документацию (<a href="https://docs.python.org/3/library/math.html" target="_blank" rel="noopener">docs.python.org/3/library/math.html</a>). Важнее знать, что функция, скорее всего, существует — и уметь её найти.</div>
+        <div class="callout-title">Официальная документация — не враг, а инструмент</div>
+        <div class="callout-body">Полный и точный список всего, что есть в <code class="inline">math</code>, — на странице официальной документации Python 3.14: <a href="https://docs.python.org/3.14/library/math.html" target="_blank" rel="noopener">docs.python.org/3.14/library/math</a> (Standard Library → math). Опытные разработчики заглядывают туда постоянно — это не признак незнания, а нормальная часть работы.</div>
       </div>
     </div>
 
 
     <div class="notebook-card">
       <div>
-        <div class="nc-title">Практика: модуль math — быстрая разминка</div>
+        <div class="nc-title">Практика: модуль math — что такое модуль и первые вызовы</div>
         <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
         <div class="practice-inline-status" data-lesson-id="05-04"></div>
       </div>
