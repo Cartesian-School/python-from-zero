@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>is против == — Python с нуля — Cartesian School</title>
+<meta name="description" content="Разница между == (равенство значений) и is (тождественность объекта); правильная проверка на None." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-09/09-19-is-vs-ravno.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="is против == — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Разница между == (равенство значений) и is (тождественность объекта); правильная проверка на None." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-09/09-19-is-vs-ravno.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="is против == — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Разница между == (равенство значений) и is (тождественность объекта); правильная проверка на None." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"is против == — Python с нуля — Cartesian School","description":"Разница между == (равенство значений) и is (тождественность объекта); правильная проверка на None.","url":"https://www.cartesianschool.org/chapters/glava-09/09-19-is-vs-ravno.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-07-algoritmy-i-komandy.html">Алгоритмы и команды</a></li><li><a href="09-08-tri-struktury-i-vetvlenie.html">Три структуры алгоритма и ветвление</a></li><li><a href="09-01-istina-ili-lozh.html">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-09-ravno-i-sravnenie-strok.html">== против =, и сравнение строк</a></li><li><a href="09-10-cepochki-sravnenij.html">Цепочки сравнений</a></li><li><a href="09-11-truthiness-i-none.html">Truthiness и None</a></li><li><a href="09-03-if-inache.html">Если это произошло — выполни команду!</a></li><li><a href="09-12-elif-lestnica.html">elif — несколько вариантов</a></li><li><a href="09-13-neskolko-if-protiv-elif.html">Несколько if ≠ if/elif/else</a></li><li><a href="09-14-and.html">and — все условия сразу</a></li><li><a href="09-15-or.html">or — хотя бы одно</a></li><li><a href="09-16-not.html">not — переворачиваем условие</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-17-short-circuit.html">Short-circuit: Python иногда ленится</a></li><li><a href="09-18-in-not-in.html">in / not in как условие</a></li><li><a href="09-19-is-vs-ravno.html" class="active">is против ==</a></li><li><a href="09-20-vlozhennye-uslovija.html">Вложенные условия</a></li><li><a href="09-21-proektirovanie-uslovij.html">Проектируем условие: ввод, валидация, границы</a></li><li><a href="09-22-otladka-logiki.html">Отладка логических ошибок</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-23-mini-proekt-klub-i-pogoda.html">Мини-проекты: клуб и погода</a></li><li><a href="09-24-mini-proekt-ocenki-i-komandy.html">Мини-проекты: оценки и команды</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/09-07/index.html">🐍 09-07: Практика</a></li><li><a href="../../practice/09-08/index.html">🐍 09-08: Практика</a></li><li><a href="../../practice/09-01/index.html">🐍 09-01: Практика</a></li><li><a href="../../practice/09-02/index.html">🐍 09-02: Практика</a></li><li><a href="../../practice/09-09/index.html">🐍 09-09: Практика</a></li><li><a href="../../practice/09-10/index.html">🐍 09-10: Практика</a></li><li><a href="../../practice/09-11/index.html">🐍 09-11: Практика</a></li><li><a href="../../practice/09-03/index.html">🐍 09-03: Практика</a></li><li><a href="../../practice/09-12/index.html">🐍 09-12: Практика</a></li><li><a href="../../practice/09-13/index.html">🐍 09-13: Практика</a></li><li><a href="../../practice/09-14/index.html">🐍 09-14: Практика</a></li><li><a href="../../practice/09-15/index.html">🐍 09-15: Практика</a></li><li><a href="../../practice/09-16/index.html">🐍 09-16: Практика</a></li><li><a href="../../practice/09-04/index.html">🐍 09-04: Практика</a></li><li><a href="../../practice/09-17/index.html">🐍 09-17: Практика</a></li><li><a href="../../practice/09-18/index.html">🐍 09-18: Практика</a></li><li><a href="../../practice/09-19/index.html">🐍 09-19: Практика</a></li><li><a href="../../practice/09-20/index.html">🐍 09-20: Практика</a></li><li><a href="../../practice/09-21/index.html">🐍 09-21: Практика</a></li><li><a href="../../practice/09-22/index.html">🐍 09-22: Практика</a></li><li><a href="../../practice/09-05/index.html">🐍 09-05: Практика</a></li><li><a href="../../practice/09-23/index.html">🐍 09-23: Практика</a></li><li><a href="../../practice/09-24/index.html">🐍 09-24: Практика</a></li><li><a href="../../practice/09-06/index.html">🐍 09-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / is против ==</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>is против ==</h1>
+    <p class="lede">Два похожих оператора спрашивают о совершенно разных вещах — и есть ровно один правильный повод использовать is прямо сейчас.</p>
+
+
+    <h2>Два разных вопроса</h2>
+    <p><code class="inline">==</code> и <code class="inline">is</code> выглядят похоже, но
+    спрашивают о совершенно разном:</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin:24px 0">
+      <div style="flex:1;min-width:220px;padding:20px;border-radius:16px;background:var(--color-bg-surface,#FAFAFC);border:1.5px solid var(--color-border-default,#E4E1F5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:#5B24F9">==</div>
+        <div style="font-size:14px;margin-top:8px;color:#0D0230">«Равны ли ЗНАЧЕНИЯ?»</div>
+      </div>
+      <div style="flex:1;min-width:220px;padding:20px;border-radius:16px;background:var(--color-bg-surface,#FAFAFC);border:1.5px solid var(--color-border-default,#E4E1F5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:#DB2777">is</div>
+        <div style="font-size:14px;margin-top:8px;color:#0D0230">«Это ОДИН И ТОТ ЖЕ объект?»</div>
+      </div>
+    </div>
+
+    <h2>Главное практическое применение — None</h2>
+    <p>В подавляющем большинстве случаев для чисел, строк и вообще обычных сравнений нужен
+    именно <code class="inline">==</code>. Правильное и по-настоящему важное применение
+    <code class="inline">is</code> на этом этапе — проверка на <code class="inline">None</code>:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>is_none.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>value = <span class="tok-kw">None</span>
+
+<span class="tok-fn">print</span>(value <span class="tok-kw">is</span> <span class="tok-kw">None</span>)       <span class="tok-com"># True — правильный способ</span>
+<span class="tok-fn">print</span>(value <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>)   <span class="tok-com"># False</span></code></pre>
+    </div>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Почему не value == None</div>
+        <div class="callout-body">Технически <code class="inline">value == None</code> в большинстве случаев тоже сработает — но <code class="inline">is None</code> считается более правильным стилем в Python: он однозначно спрашивает «это именно None?», а не «равно ли значение чему-то, что ведёт себя как None?». Договоримся всегда использовать <code class="inline">is None</code> / <code class="inline">is not None</code>.</div>
+      </div>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не используйте is для чисел и строк</div>
+        <div class="callout-body"><code class="inline">256 is 256</code> или <code class="inline">"a" is "a"</code> могут вести себя неожиданно — их результат зависит от внутренних деталей реализации Python, которые не гарантированы и могут отличаться в разных ситуациях. Это не то, чему стоит учиться сейчас: для сравнения значений всегда используйте <code class="inline">==</code>. Идея «сравнение по объекту» подробно вернётся в главе про ООП.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: is против ==</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="09-19"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/09-19/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["09-19"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="09-19"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="09-18-in-not-in.html"><div class="dir">← Назад</div><div class="lbl">in / not in</div></a><a href="09-20-vlozhennye-uslovija.html" class="next"><div class="dir">Далее →</div><div class="lbl">Вложенные условия</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
