@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Перевод формул: математика → Python — Python с нуля — Cartesian School</title>
+<meta name="description" content="Как переводить формулы из математической записи в код Python — умножение, степени, дроби и частые ошибки перевода." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-12-perevod-formul.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Перевод формул: математика → Python — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Как переводить формулы из математической записи в код Python — умножение, степени, дроби и частые ошибки перевода." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-12-perevod-formul.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Перевод формул: математика → Python — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Как переводить формулы из математической записи в код Python — умножение, степени, дроби и частые ошибки перевода." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Перевод формул: математика → Python — Python с нуля — Cartesian School","description":"Как переводить формулы из математической записи в код Python — умножение, степени, дроби и частые ошибки перевода.","url":"https://www.cartesianschool.org/chapters/glava-05/05-12-perevod-formul.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html" class="active">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Перевод формул</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Перевод формул: математика → Python</h1>
+    <p class="lede">Учебник записывает формулы иначе, чем Python. Разбираем правила перевода — и самые частые ошибки при этом переводе.</p>
+
+
+    <p>Формулы в учебниках математики записаны иначе, чем код Python — умножение часто вообще
+    не пишут, степень поднимают над строкой, деление рисуют чертой. Переводить такие формулы в
+    Python нужно осторожно.</p>
+
+    <h2>Таблица перевода</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>В математике</th><th>В Python</th><th>Частая ошибка</th></tr></thead>
+      <tbody><tr><td>2x</td><td><code class="inline">2 * x</code></td><td>написать <code class="inline">2x</code> — SyntaxError, умножение никогда не подразумевается</td></tr><tr><td>x²</td><td><code class="inline">x ** 2</code></td><td>написать <code class="inline">x^2</code> — сработает, но даст совсем не то число!</td></tr><tr><td><sup>a + b</sup>&frasl;<sub>c</sub></td><td><code class="inline">(a + b) / c</code></td><td>написать <code class="inline">a + b / c</code> — разделится только b, не вся сумма</td></tr><tr><td>√x</td><td><code class="inline">x ** 0.5</code> или <code class="inline">math.sqrt(x)</code></td><td>забыть, что корень — это тоже степень (0.5)</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">^ в Python — это НЕ степень</div>
+        <div class="callout-body">В математике <code class="inline">^</code> иногда означает возведение в степень. В Python <code class="inline">^</code> — совсем другой оператор (побитовое исключающее ИЛИ, разберём его в главе про биты): <code class="inline">5 ^ 3</code> равно <code class="inline">6</code>, а не <code class="inline">125</code>. Для степени всегда используйте <code class="inline">**</code>.</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_karety.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">5</span> ** <span class="tok-num">3</span>)   <span class="tok-com"># 125 — степень</span>
+<span class="tok-fn">print</span>(<span class="tok-num">5</span> ^ <span class="tok-num">3</span>)    <span class="tok-com"># 6 — совсем другая операция!</span></code></pre>
+    </div>
+
+    <h2>Пример перевода: формула среднего</h2>
+    <p>Формула среднего трёх чисел <sup>a + b + c</sup>&frasl;<sub>3</sub> переводится в Python
+    так — вся сумма должна попасть в скобки, прежде чем делить:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 250 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="(a + b) / c — дерево показывает, что вся сумма должна оказаться ПОД чертой дроби" style="width:100%;height:auto;max-width:250px"><line x1="125.0" y1="30" x2="80.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="125.0" y1="30" x2="215.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="35.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="125.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><circle cx="125.0" cy="20" r="18" fill="#5B24F9"/><text x="125.0" y="25" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">/</text><circle cx="80.0" cy="76" r="18" fill="#5B24F9"/><text x="80.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">+</text><rect x="9.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="35.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">a</text><rect x="99.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="125.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">b</text><rect x="189.0" y="60" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="215.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">c</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">(a + b) / c — дерево показывает, что вся сумма должна оказаться ПОД чертой дроби</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>srednee_perevod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a, b, c = <span class="tok-num">4</span>, <span class="tok-num">7</span>, <span class="tok-num">9</span>
+srednee = (a + b + c) / <span class="tok-num">3</span>
+<span class="tok-fn">print</span>(srednee)   <span class="tok-com"># 6.666...</span></code></pre>
+    </div>
+
+    <h2>Ещё один пример: формула площади круга</h2>
+    <p>π в математике — отдельная константа; в Python она приходит из модуля <code class="inline">math</code>
+    (подробно познакомимся с этим модулем в следующем разделе):</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>ploshad_kruga_perevod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> math
+
+radius = <span class="tok-num">5</span>
+ploshad = math.pi * radius ** <span class="tok-num">2</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">round</span>(ploshad, <span class="tok-num">2</span>))   <span class="tok-com"># 78.54</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">radius ** 2, а не (radius) ** 2</div>
+        <div class="callout-body">Скобки вокруг одиночной переменной не нужны — <code class="inline">**</code> уже применяется только к <code class="inline">radius</code>, а не ко всему выражению <code class="inline">math.pi * radius</code> (умножение и степень — разные уровни приоритета, степень выше).</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: перевод формул из математики в Python</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="05-12"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/05-12/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-12"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-12"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="05-11-skobki-i-formuly.html"><div class="dir">← Назад</div><div class="lbl">Скобки и формулы из переменных</div></a><a href="05-04-matematicheskie-funkcii.html" class="next"><div class="dir">Далее →</div><div class="lbl">Модуль math — карта возможностей</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

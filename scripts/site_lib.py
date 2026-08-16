@@ -632,14 +632,20 @@ def number_line_diagram(
     lo: float,
     hi: float,
     highlight: float | None = None,
+    jumps: list[tuple[float, float, str]] | None = None,
     caption: str = "",
 ) -> str:
     """A horizontal number line from lo to hi with labeled tick marks —
     used for floor/ceil/trunc and negative floor-division explanations.
-    marks: list of (position, label)."""
-    total_w, total_h = 640, 110
+    marks: list of (position, label).
+    jumps: optional list of (from, to, label) drawn as a curved arrow above
+    the line — for addition/subtraction ("start at 3, move 4, arrive at 7")."""
+    total_w = 640
     pad = 40
     usable = total_w - 2 * pad
+    jumps = jumps or []
+    total_h = 110 + (46 if jumps else 0)
+    y_offset = 46 if jumps else 0
 
     def x_of(v: float) -> float:
         return pad + (v - lo) / (hi - lo) * usable
@@ -648,7 +654,11 @@ def number_line_diagram(
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
         f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
     ]
-    y = 55
+    parts.append(
+        "<defs><marker id='arrownl' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs>"
+    )
+    y = 55 + y_offset
     parts.append(f'<line x1="{pad}" y1="{y}" x2="{total_w - pad}" y2="{y}" stroke="#B9A0FC" stroke-width="2.5"/>')
     for v in range(int(lo), int(hi) + 1):
         x = x_of(v)
@@ -656,6 +666,18 @@ def number_line_diagram(
         parts.append(
             f'<text x="{x}" y="{y + 24}" text-anchor="middle" font-family="Inter, sans-serif" '
             f'font-size="11" fill="#8A8A9A">{v}</text>'
+        )
+    for jfrom, jto, jlabel in jumps:
+        x1, x2 = x_of(jfrom), x_of(jto)
+        mid = (x1 + x2) / 2
+        arc_h = y - 34
+        parts.append(
+            f'<path d="M{x1},{y - 8} Q{mid},{arc_h} {x2},{y - 8}" fill="none" '
+            f'stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrownl)"/>'
+        )
+        parts.append(
+            f'<text x="{mid}" y="{arc_h - 8}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="13" fill="#5B24F9">{html.escape(jlabel)}</text>'
         )
     for pos, label in marks:
         x = x_of(pos)
@@ -733,6 +755,303 @@ def complex_plane_diagram(real: float, imag: float, *, caption: str = "") -> str
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def _dot_group_html(count: int) -> str:
+    dots = "".join(
+        '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;'
+        'background:#5B24F9;margin:2px"></span>'
+        for _ in range(count)
+    )
+    return (
+        '<div style="display:inline-flex;flex-wrap:wrap;max-width:120px;padding:8px;'
+        'border:1.5px solid #5B24F9;border-radius:10px;background:var(--color-bg-canvas,#fff)">'
+        f'{dots}</div>'
+    )
+
+
+def grouping_diagram(total: int, group_size: int, *, caption: str = "") -> str:
+    """Dot-grouping visual for floor division / modulo, e.g. 17 objects into
+    groups of 5 -> 3 full groups + a remainder group of 2. HTML/CSS, not
+    SVG — a real grid of dots communicates "these things are being counted
+    out and grouped" far better than an abstract box diagram."""
+    full_groups = total // group_size
+    remainder = total % group_size
+    groups_html = "".join(_dot_group_html(group_size) for _ in range(full_groups))
+    if remainder:
+        groups_html += _dot_group_html(remainder)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    label = f'{total} // {group_size} = {full_groups}, {total} % {group_size} = {remainder}'
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">{groups_html}</div>'
+        f'<div style="text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:13px;'
+        f'color:#0D0230;margin-top:12px">{html.escape(label)}</div>'
+        f'{cap}</figure>'
+    )
+
+
+def rectangle_grid_diagram(width: int, height: int, *, caption: str = "") -> str:
+    """Dot-grid rectangle for multiplication as area, e.g. 4 x 3 = 12 —
+    HTML/CSS grid, one row per unit of height, one dot per unit of width."""
+    rows = "".join(
+        '<div style="display:flex;gap:6px;justify-content:center">'
+        + "".join(
+            '<span style="display:inline-block;width:16px;height:16px;border-radius:4px;'
+            'background:#5B24F9"></span>'
+            for _ in range(width)
+        )
+        + "</div>"
+        for _ in range(height)
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    label = f'{width} × {height} = {width * height}'
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;flex-direction:column;gap:6px;align-items:center">{rows}</div>'
+        f'<div style="text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:13px;'
+        f'color:#0D0230;margin-top:12px">{html.escape(label)}</div>'
+        f'{cap}</figure>'
+    )
+
+
+def square_area_diagram(side: float, *, label_area: bool = True, caption: str = "") -> str:
+    """A labeled square — side length on the edge, area inside — for
+    x**2 (area from a side) and sqrt(area) (side from an area), used
+    together so the two directions of the same picture teach both ideas."""
+    area = side * side
+    size_px = 140
+    total_w, total_h = 220, 190
+    x0 = (total_w - size_px) / 2
+    y0 = 20
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+        f'aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(f'<rect x="{x0}" y="{y0}" width="{size_px}" height="{size_px}" rx="6" fill="#FAFAFC" stroke="#5B24F9" stroke-width="2"/>')
+    if label_area:
+        parts.append(
+            f'<text x="{x0 + size_px / 2}" y="{y0 + size_px / 2 + 6}" text-anchor="middle" '
+            f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="18" fill="#0D0230">'
+            f'{area:g}</text>'
+        )
+    parts.append(
+        f'<text x="{x0 + size_px / 2}" y="{y0 + size_px + 22}" text-anchor="middle" '
+        f'font-family="JetBrains Mono, monospace" font-size="13" fill="#5B24F9">сторона = {side:g}</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def right_triangle_diagram(a: float, b: float, c: float, *, caption: str = "") -> str:
+    """A right triangle with legs a (horizontal), b (vertical) and
+    hypotenuse c labeled — for math.hypot(). Scale is derived from a and b
+    so the triangle always fills most of the canvas, whether the legs are
+    small (3, 4) or larger — a fixed scale factor would either shrink small
+    triangles to an unreadable speck or overflow the canvas for big ones."""
+    total_w, total_h = 260, 200
+    x0, y0 = 40, 170
+    avail_w, avail_h = total_w - x0 - 50, y0 - 30
+    scale = min(avail_w / max(a, 1e-9), avail_h / max(b, 1e-9))
+    scale = max(min(scale, 30), 1)
+    x1 = x0 + a * scale
+    y1 = y0 - b * scale
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+        f'aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(f'<polygon points="{x0},{y0} {x1},{y0} {x1},{y1}" fill="#FAFAFC" stroke="#5B24F9" stroke-width="2"/>')
+    parts.append(f'<rect x="{x1 - 12}" y="{y0 - 12}" width="12" height="12" fill="none" stroke="#B9A0FC" stroke-width="1.5"/>')
+    parts.append(f'<text x="{(x0 + x1) / 2}" y="{y0 + 18}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#0D0230">a = {a:g}</text>')
+    parts.append(f'<text x="{x1 + 14}" y="{(y0 + y1) / 2}" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="13" fill="#0D0230">b = {b:g}</text>')
+    mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+    parts.append(f'<text x="{mx - 18}" y="{my - 8}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#5B24F9">c = {c:g}</text>')
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def coordinate_plane_diagram(
+    points: list[tuple[float, float, str]],
+    *,
+    circle_radius: float | None = None,
+    lo: float = -5,
+    hi: float = 5,
+    caption: str = "",
+) -> str:
+    """A Cartesian x/y plane with labeled points, and an optional circle of
+    given radius centered at the origin (for angle/unit-circle diagrams).
+    points: list of (x, y, label)."""
+    total_w = total_h = 320
+    cx = cy = total_w / 2
+    scale = (total_w / 2 - 30) / max(abs(lo), abs(hi))
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+        f'aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowcp' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#0D0230'/></marker></defs>"
+    )
+    parts.append(f'<line x1="18" y1="{cy}" x2="{total_w - 12}" y2="{cy}" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcp)"/>')
+    parts.append(f'<line x1="{cx}" y1="{total_h - 18}" x2="{cx}" y2="12" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcp)"/>')
+    parts.append(f'<text x="{total_w - 16}" y="{cy - 8}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">x</text>')
+    parts.append(f'<text x="{cx + 10}" y="18" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">y</text>')
+    if circle_radius is not None:
+        r_px = circle_radius * scale
+        parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r_px}" fill="none" stroke="#B9A0FC" stroke-width="1.5" stroke-dasharray="4,4"/>')
+    for x, y, label in points:
+        px = cx + x * scale
+        py = cy - y * scale
+        parts.append(f'<line x1="{cx}" y1="{cy}" x2="{px}" y2="{py}" stroke="#B9A0FC" stroke-width="2" stroke-dasharray="3,3"/>')
+        parts.append(f'<circle cx="{px}" cy="{py}" r="6" fill="#5B24F9"/>')
+        # Anchor/offset the label away from whichever edge the point is near,
+        # so it never runs off the canvas (e.g. a point near the right edge
+        # gets a right-aligned label placed to its LEFT, not clipped text
+        # spilling past the viewBox on the right).
+        anchor = "start" if px <= cx else "end"
+        label_x = px + 10 if anchor == "start" else px - 10
+        label_y = py - 8 if py > 30 else py + 20
+        parts.append(
+            f'<text x="{label_x}" y="{label_y}" text-anchor="{anchor}" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="12" fill="#0D0230">{html.escape(label)}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def expression_tree(node: tuple, *, caption: str = "") -> str:
+    """Recursive expression tree: node is either a leaf value (str/number)
+    or a tuple (operator_label, left_node, right_node). Deeper subtrees are
+    laid out with enough horizontal spacing that labels never collide —
+    used for operator-precedence and associativity explanations, where
+    SEEING which operation nests inside which is the entire point.
+    """
+    LEAF_W = 70
+
+    def layout(n) -> tuple[list, float]:
+        """Returns (list of (depth, cx, label, is_op), subtree_width)."""
+        if not isinstance(n, tuple):
+            return [(0, 0.0, str(n), False)], LEAF_W
+        op, left, right = n
+        left_items, left_w = layout(left)
+        right_items, right_w = layout(right)
+        gap = 20
+        width = left_w + right_w + gap
+        left_cx = left_w / 2
+        right_cx = left_w + gap + right_w / 2
+        root_cx = (left_cx + right_cx) / 2
+        items = [(0, root_cx, op, True)]
+        for depth, cx, label, is_op in left_items:
+            items.append((depth + 1, cx, label, is_op))
+        for depth, cx, label, is_op in right_items:
+            items.append((depth + 1, cx, label, is_op))
+        return items, width
+
+    items, total_w_raw = layout(node)
+    total_w = max(total_w_raw, 160)
+    max_depth = max(depth for depth, *_ in items)
+    row_h = 56
+    total_h = (max_depth + 1) * row_h + 20
+
+    # Re-derive child->parent lines by re-walking the tree structurally.
+    def collect_edges(n, depth, cx, edges):
+        if not isinstance(n, tuple):
+            return
+        op, left, right = n
+
+        def subtree_w(m):
+            if not isinstance(m, tuple):
+                return LEAF_W
+            _, l, r = m
+            return subtree_w(l) + subtree_w(r) + 20
+
+        lw, rw = subtree_w(left), subtree_w(right)
+        left_cx = cx - (rw + 20) / 2
+        right_cx = cx + (lw + 20) / 2
+        edges.append((cx, depth, left_cx, depth + 1))
+        edges.append((cx, depth, right_cx, depth + 1))
+        collect_edges(left, depth + 1, left_cx, edges)
+        collect_edges(right, depth + 1, right_cx, edges)
+
+    root_cx = total_w / 2
+    edges: list[tuple[float, int, float, int]] = []
+    collect_edges(node, 0, root_cx, edges)
+
+    def y_of(depth: int) -> float:
+        return 20 + depth * row_h
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+        f'aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    for x1, d1, x2, d2 in edges:
+        parts.append(f'<line x1="{x1}" y1="{y_of(d1) + 10}" x2="{x2}" y2="{y_of(d2) - 10}" stroke="#B9A0FC" stroke-width="2"/>')
+
+    def render_items(n, depth, cx):
+        if not isinstance(n, tuple):
+            parts.append(
+                f'<rect x="{cx - 26}" y="{y_of(depth) - 16}" width="52" height="32" rx="9" '
+                f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+            )
+            parts.append(
+                f'<text x="{cx}" y="{y_of(depth) + 5}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+                f'font-size="14" fill="#0D0230">{html.escape(str(n))}</text>'
+            )
+            return
+        op, left, right = n
+
+        def subtree_w(m):
+            if not isinstance(m, tuple):
+                return LEAF_W
+            _, l, r = m
+            return subtree_w(l) + subtree_w(r) + 20
+
+        lw, rw = subtree_w(left), subtree_w(right)
+        left_cx = cx - (rw + 20) / 2
+        right_cx = cx + (lw + 20) / 2
+        parts.append(f'<circle cx="{cx}" cy="{y_of(depth)}" r="18" fill="#5B24F9"/>')
+        parts.append(
+            f'<text x="{cx}" y="{y_of(depth) + 5}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="15" fill="#fff">{html.escape(op)}</text>'
+        )
+        render_items(left, depth + 1, left_cx)
+        render_items(right, depth + 1, right_cx)
+
+    render_items(node, 0, root_cx)
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def step_reduction_diagram(steps: list[str], *, caption: str = "") -> str:
+    """Vertical stack of progressively-reduced expression strings — for
+    walking an expression down to its final value one operation at a
+    time. steps are plain text (already formatted, e.g. via monospace-
+    friendly spacing); each renders as its own row with a down arrow
+    between rows."""
+    rows = []
+    for i, step in enumerate(steps):
+        rows.append(
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:15px;color:#0D0230;'
+            f'text-align:center;padding:8px 0">{html.escape(step)}</div>'
+        )
+        if i < len(steps) - 1:
+            rows.append('<div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div>')
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'{"".join(rows)}{cap}</figure>'
+    )
 
 
 def decision_map(entries: list[tuple[str, str]], *, title: str = "", caption: str = "") -> str:

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ассоциативность операторов — Python с нуля — Cartesian School</title>
+<meta name="description" content="Левая и правая ассоциативность операторов в Python — почему 2 ** 3 ** 2 равно 512." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-10-associativnost.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Ассоциативность операторов — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Левая и правая ассоциативность операторов в Python — почему 2 ** 3 ** 2 равно 512." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-10-associativnost.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ассоциативность операторов — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Левая и правая ассоциативность операторов в Python — почему 2 ** 3 ** 2 равно 512." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Ассоциативность операторов — Python с нуля — Cartesian School","description":"Левая и правая ассоциативность операторов в Python — почему 2 ** 3 ** 2 равно 512.","url":"https://www.cartesianschool.org/chapters/glava-05/05-10-associativnost.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html" class="active">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Ассоциативность операторов</div>
+    <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
+    <h1>Ассоциативность операторов</h1>
+    <p class="lede">Приоритет говорит, какой оператор раньше. Ассоциативность говорит, в каком порядке считать несколько одинаковых по приоритету операторов подряд.</p>
+
+
+    <p>Приоритет отвечает на вопрос «какой оператор раньше», а <strong>ассоциативность</strong> —
+    на вопрос «в каком порядке считать несколько операторов ОДНОГО приоритета подряд».</p>
+
+    <h2>Большинство операторов — слева направо</h2>
+    <p><code class="inline">8 - 4 - 2</code> считается как <code class="inline">(8 - 4) - 2</code>,
+    то есть слева направо. Это называется <strong>левой ассоциативностью</strong>, и так ведут себя
+    почти все операторы Python: <code class="inline">+ - * / // %</code>.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 250 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="8 - 4 - 2 — левоассоциативно: сначала левая пара (8 - 4), потом результат минус 2" style="width:100%;height:auto;max-width:250px"><line x1="125.0" y1="30" x2="80.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="125.0" y1="30" x2="215.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="35.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="125.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><circle cx="125.0" cy="20" r="18" fill="#5B24F9"/><text x="125.0" y="25" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">-</text><circle cx="80.0" cy="76" r="18" fill="#5B24F9"/><text x="80.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">-</text><rect x="9.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="35.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">8</text><rect x="99.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="125.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">4</text><rect x="189.0" y="60" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="215.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">2</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">8 - 4 - 2 — левоассоциативно: сначала левая пара (8 - 4), потом результат минус 2</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>levaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">8</span> - <span class="tok-num">4</span> - <span class="tok-num">2</span>)     <span class="tok-com"># 2, потому что это (8 - 4) - 2 = 4 - 2</span>
+<span class="tok-fn">print</span>((<span class="tok-num">8</span> - <span class="tok-num">4</span>) - <span class="tok-num">2</span>)   <span class="tok-com"># 2 — то же самое явно</span>
+<span class="tok-fn">print</span>(<span class="tok-num">8</span> - (<span class="tok-num">4</span> - <span class="tok-num">2</span>))   <span class="tok-com"># 6 — а вот это другое число!</span></code></pre>
+    </div>
+
+    <h2>Исключение: <code class="inline">**</code> — справа налево</h2>
+    <p>Возведение в степень — единственный оператор в этой главе с <strong>правой</strong>
+    ассоциативностью. Сравним, что дал бы каждый вариант для <code class="inline">2 ** 3 ** 2</code>:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 250 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Если бы ** было левоассоциативным: (2 ** 3) ** 2 = 64 — но это НЕ то, что делает Python" style="width:100%;height:auto;max-width:250px"><line x1="125.0" y1="30" x2="80.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="125.0" y1="30" x2="215.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="35.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><line x1="80.0" y1="86" x2="125.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><circle cx="125.0" cy="20" r="18" fill="#5B24F9"/><text x="125.0" y="25" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">**</text><circle cx="80.0" cy="76" r="18" fill="#5B24F9"/><text x="80.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">**</text><rect x="9.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="35.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">2</text><rect x="99.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="125.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">3</text><rect x="189.0" y="60" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="215.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">2</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Если бы ** было левоассоциативным: (2 ** 3) ** 2 = 64 — но это НЕ то, что делает Python</figcaption></figure>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 250 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="На самом деле ** правоассоциативно: 2 ** (3 ** 2) = 512" style="width:100%;height:auto;max-width:250px"><line x1="125.0" y1="30" x2="35.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="125.0" y1="30" x2="170.0" y2="66" stroke="#B9A0FC" stroke-width="2"/><line x1="170.0" y1="86" x2="125.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><line x1="170.0" y1="86" x2="215.0" y2="122" stroke="#B9A0FC" stroke-width="2"/><circle cx="125.0" cy="20" r="18" fill="#5B24F9"/><text x="125.0" y="25" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">**</text><rect x="9.0" y="60" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="35.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">2</text><circle cx="170.0" cy="76" r="18" fill="#5B24F9"/><text x="170.0" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#fff">**</text><rect x="99.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="125.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">3</text><rect x="189.0" y="116" width="52" height="32" rx="9" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text x="215.0" y="137" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#0D0230">2</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">На самом деле ** правоассоциативно: 2 ** (3 ** 2) = 512</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>stepen_associativnost.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-num">2</span> ** <span class="tok-num">3</span> ** <span class="tok-num">2</span>)     <span class="tok-com"># 512 — Python считает как 2 ** (3 ** 2)</span>
+<span class="tok-fn">print</span>((<span class="tok-num">2</span> ** <span class="tok-num">3</span>) ** <span class="tok-num">2</span>)   <span class="tok-com"># 64  — левоассоциативный вариант дал бы другое число</span>
+<span class="tok-fn">print</span>(<span class="tok-num">2</span> ** (<span class="tok-num">3</span> ** <span class="tok-num">2</span>))   <span class="tok-com"># 512 — совпадает с реальным поведением Python</span></code></pre>
+    </div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">2 ** 3 ** 2</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">2 ** (3 ** 2)</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">2 ** 9</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">512</div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Правая ассоциативность: сначала считается ВЕРХНИЙ (правый) показатель степени</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Зачем ** вообще так сделали</div>
+        <div class="callout-body">Правая ассоциативность степени совпадает с математической традицией «башни степеней» (<em>tetration</em>): в математике <em>a<sup>b<sup>c</sup></sup></em> всегда читается как <em>a<sup>(b<sup>c</sup>)</sup></em>, а не наоборот. Python здесь просто следует давнему математическому соглашению.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: ассоциативность операторов</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="05-10"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/05-10/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-10"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-10"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+    
+
+    <div class="section-nav"><a href="05-03-prisvaivanie-poryadok.html"><div class="dir">← Назад</div><div class="lbl">Присваивание и порядок вычислений</div></a><a href="05-11-skobki-i-formuly.html" class="next"><div class="dir">Далее →</div><div class="lbl">Скобки и формулы из переменных</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

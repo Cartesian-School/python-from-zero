@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Работа со случайными числами — Python с нуля — Cartesian School</title>
-<meta name="description" content="Модуль random в Python: random(), randint(), uniform(), choice()." />
+<title>Модуль random: псевдослучайность — Python с нуля — Cartesian School</title>
+<meta name="description" content="Что такое псевдослучайный генератор в Python, и почему random() не создаёт настоящую случайность." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +14,16 @@
 <link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-05/05-05-sluchaynye-chisla.html" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Работа со случайными числами — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Модуль random в Python: random(), randint(), uniform(), choice()." />
+<meta property="og:title" content="Модуль random: псевдослучайность — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Что такое псевдослучайный генератор в Python, и почему random() не создаёт настоящую случайность." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-05/05-05-sluchaynye-chisla.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Работа со случайными числами — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Модуль random в Python: random(), randint(), uniform(), choice()." />
+<meta name="twitter:title" content="Модуль random: псевдослучайность — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Что такое псевдослучайный генератор в Python, и почему random() не создаёт настоящую случайность." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Работа со случайными числами — Python с нуля — Cartesian School","description":"Модуль random в Python: random(), randint(), uniform(), choice().","url":"https://www.cartesianschool.org/chapters/glava-05/05-05-sluchaynye-chisla.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Модуль random: псевдослучайность — Python с нуля — Cartesian School","description":"Что такое псевдослучайный генератор в Python, и почему random() не создаёт настоящую случайность.","url":"https://www.cartesianschool.org/chapters/glava-05/05-05-sluchaynye-chisla.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,78 +40,49 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Основные математические операции</a></li><li><a href="05-02-specialnye-operacii.html">Специальные математические операции</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Операции присваивания и порядок вычислений</a></li><li><a href="05-04-matematicheskie-funkcii.html">Интересные возможности работы с числами</a></li><li><a href="05-05-sluchaynye-chisla.html" class="active">Работа со случайными числами</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проект и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 5 · Числа играют</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="05-01-osnovnye-operacii.html">Выражения и основные операции</a></li><li><a href="05-07-delenie-s-ostatkom.html">Деление с остатком</a></li><li><a href="05-08-otricatelnoe-delenie.html">Отрицательное floor-деление</a></li><li><a href="05-02-specialnye-operacii.html">Степени и корни</a></li><li><a href="05-09-unarnye-operatory.html">Унарные операторы</a></li><li><a href="05-03-prisvaivanie-poryadok.html">Присваивание и порядок вычислений</a></li><li><a href="05-10-associativnost.html">Ассоциативность операторов</a></li><li><a href="05-11-skobki-i-formuly.html">Скобки и формулы из переменных</a></li><li><a href="05-12-perevod-formul.html">Перевод формул: математика → Python</a></li><li><a href="05-04-matematicheskie-funkcii.html">Модуль math — карта возможностей</a></li><li><a href="05-13-korni-rasstoyaniya.html">Корни и расстояния</a></li><li><a href="05-14-gcd-lcm-faktorial.html">gcd, lcm, факториал, comb, perm</a></li><li><a href="05-15-geometriya-s-math.html">Геометрия с math</a></li><li><a href="05-16-trigonometriya.html">Тригонометрия без страха</a></li><li><a href="05-17-logarifmy.html">Логарифмы и экспоненты</a></li><li><a href="05-05-sluchaynye-chisla.html" class="active">Модуль random: псевдослучайность</a></li><li><a href="05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="05-20-seed.html">seed и воспроизводимость</a></li><li><a href="05-21-otladka-vychislenij.html">Отладка вычислений</a></li><li><a href="05-06-mini-proekt-itogi.html">Мини-проекты и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/05-01/index.html">🐍 05-01: Практика</a></li><li><a href="../../practice/05-07/index.html">🐍 05-07: Практика</a></li><li><a href="../../practice/05-08/index.html">🐍 05-08: Практика</a></li><li><a href="../../practice/05-02/index.html">🐍 05-02: Практика</a></li><li><a href="../../practice/05-09/index.html">🐍 05-09: Практика</a></li><li><a href="../../practice/05-10/index.html">🐍 05-10: Практика</a></li><li><a href="../../practice/05-11/index.html">🐍 05-11: Практика</a></li><li><a href="../../practice/05-12/index.html">🐍 05-12: Практика</a></li><li><a href="../../practice/05-04/index.html">🐍 05-04: Практика</a></li><li><a href="../../practice/05-13/index.html">🐍 05-13: Практика</a></li><li><a href="../../practice/05-14/index.html">🐍 05-14: Практика</a></li><li><a href="../../practice/05-15/index.html">🐍 05-15: Практика</a></li><li><a href="../../practice/05-16/index.html">🐍 05-16: Практика</a></li><li><a href="../../practice/05-17/index.html">🐍 05-17: Практика</a></li><li><a href="../../practice/05-05/index.html">🐍 05-05: Практика</a></li><li><a href="../../practice/05-18/index.html">🐍 05-18: Практика</a></li><li><a href="../../practice/05-19/index.html">🐍 05-19: Практика</a></li><li><a href="../../practice/05-20/index.html">🐍 05-20: Практика</a></li><li><a href="../../practice/05-21/index.html">🐍 05-21: Практика</a></li><li><a href="../../practice/05-06/index.html">🐍 05-06: Практика</a></li></ul>
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Случайные числа</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 5</a> / Модуль random</div>
     <div class="section-kicker">Глава 5 · Давайте поиграем с числами!</div>
-    <h1>Работа со случайными числами</h1>
-    <p class="lede">Без капли случайности сложно представить хоть одну игру — знакомимся с модулем random.</p>
+    <h1>Модуль random: псевдослучайность</h1>
+    <p class="lede">Без капли случайности сложно представить хоть одну игру — но эта «случайность» устроена куда интереснее, чем кажется.</p>
 
 
     <p>Модуль <code class="inline">random</code> добавляет в Python элемент случайности —
     без него не обходится почти ни одна игра: случайный противник, случайная карта, случайное
     число для игры «Угадай число» в главе 9.</p>
 
-    
+    <h2>«Случайное» число — на самом деле не совсем случайное</h2>
+    <p>Компьютер не умеет создавать настоящую случайность из ничего — вместо этого
+    <code class="inline">random</code> использует <strong>псевдослучайный генератор</strong>:
+    формулу, которая по одному числу («состоянию») вычисляет следующее число, выглядящее
+    беспорядочным, а затем обновляет своё состояние для следующего вызова. Числа выглядят
+    случайными, но получены полностью детерминированной формулой.</p>
+
     <div class="code-block">
-      <div class="code-label"><span>sluchaynye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <div class="code-label"><span>psevdosluchajnost.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">import</span> random
 
-<span class="tok-fn">print</span>(random.random())          <span class="tok-com"># случайное дробное число от 0.0 до 1.0 (не включая 1.0)</span>
-<span class="tok-fn">print</span>(random.randint(<span class="tok-num">1</span>, <span class="tok-num">6</span>))     <span class="tok-com"># случайное целое от 1 до 6 включительно — как кубик</span>
-<span class="tok-fn">print</span>(random.uniform(<span class="tok-num">1</span>, <span class="tok-num">10</span>))    <span class="tok-com"># случайное дробное от 1 до 10</span></code></pre>
+<span class="tok-fn">print</span>(random.random())   <span class="tok-com"># случайное дробное число от 0.0 до 1.0 (не включая 1.0)</span>
+<span class="tok-fn">print</span>(random.random())   <span class="tok-com"># другое число — состояние генератора обновилось</span></code></pre>
     </div>
 
-    
-    <div class="callout callout-warning">
+    <div class="callout callout-info">
       <div>
-        <div class="callout-title">randint включает обе границы</div>
-        <div class="callout-body"><code class="inline">random.randint(1, 6)</code> может вернуть и <code class="inline">1</code>, и <code class="inline">6</code> — обе границы включены. Это частая причина ошибок «на единицу» (off-by-one), если забыть об этом.</div>
+        <div class="callout-title">Зачем это знать, если можно просто пользоваться?</div>
+        <div class="callout-body">Потому что из этого следует важное практическое свойство: генератор можно <strong>перезапустить</strong> с того же самого состояния — и тогда он выдаст ту же самую последовательность чисел заново. Это называется воспроизводимостью, и мы разберём её подробно через несколько разделов — она незаменима при отладке программ со случайностью.</div>
       </div>
     </div>
 
-    <h2>Случайный выбор из списка</h2>
-    <p>Забегая немного вперёд (списки подробно разберём в главе 11) — <code class="inline">random.choice()</code>
-    умеет выбрать случайный элемент из готового набора значений:</p>
-    
-    <div class="code-block">
-      <div class="code-label"><span>sluchaynyj_vybor.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code><span class="tok-kw">import</span> random
+    <h2>Что дальше в этом разделе</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">randint · randrange · uniform</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">случайные числа в диапазоне</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">choice · choices · sample · shuffle</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">случайный выбор из набора</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">seed</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">воспроизводимость и random vs secrets</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Каждая карточка — отдельный раздел ниже</figcaption></figure>
 
-variants = [<span class="tok-str">&quot;камень&quot;</span>, <span class="tok-str">&quot;ножницы&quot;</span>, <span class="tok-str">&quot;бумага&quot;</span>]
-<span class="tok-fn">print</span>(random.choice(variants))</code></pre>
-    </div>
 
-    
-    <div class="cvm">
-      <div class="cvm-header">Диапазон случайных чисел: вручную → готовая функция</div>
-      <div class="cvm-grid">
-        <div class="cvm-col classic">
-          <div class="cvm-label">Классический подход</div>
-          <pre><code><span class="tok-kw">import</span> random
-
-<span class="tok-com"># случайное целое от 1 до 6 вручную:</span>
-roll = <span class="tok-fn">int</span>(random.random() * <span class="tok-num">6</span>) + <span class="tok-num">1</span>
-<span class="tok-fn">print</span>(roll)</code></pre>
-        </div>
-        <div class="cvm-col modern">
-          <div class="cvm-label">Современный Python 3.14</div>
-          <pre><code><span class="tok-kw">import</span> random
-
-<span class="tok-com"># то же самое — готовой функцией</span>
-roll = random.randint(<span class="tok-num">1</span>, <span class="tok-num">6</span>)
-<span class="tok-fn">print</span>(roll)</code></pre>
-        </div>
-      </div>
-      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> готовые функции вроде <code class="inline">randint()</code> и <code class="inline">uniform()</code> — они существовали в модуле random ещё в старых версиях Python, но начинающие часто сначала пытаются собрать диапазон вручную через <code class="inline">random.random()</code>, не зная о них. Готовые функции короче и меньше подвержены ошибкам — особенно на границах диапазона.</div>
-    </div>
-
-    
     <div class="notebook-card">
       <div>
-        <div class="nc-title">Практика: модуль random на практике</div>
+        <div class="nc-title">Практика: основы random</div>
         <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
         <div class="practice-inline-status" data-lesson-id="05-05"></div>
       </div>
@@ -131,7 +102,7 @@ roll = random.randint(<span class="tok-num">1</span>, <span class="tok-num">6</s
     </script>
     
 
-    <div class="section-nav"><a href="05-04-matematicheskie-funkcii.html"><div class="dir">← Назад</div><div class="lbl">Интересные возможности</div></a><a href="05-06-mini-proekt-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект и итоги</div></a></div>
+    <div class="section-nav"><a href="05-17-logarifmy.html"><div class="dir">← Назад</div><div class="lbl">Логарифмы и экспоненты</div></a><a href="05-18-randint-randrange-uniform.html" class="next"><div class="dir">Далее →</div><div class="lbl">randint, randrange, uniform</div></a></div>
   </article>
 </div>
 
