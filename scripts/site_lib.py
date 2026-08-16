@@ -572,6 +572,188 @@ def namespace_diagram(
     return f'<figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
+def place_value_diagram(digits: list[str], place_values: list[int], *, total: str = "", caption: str = "") -> str:
+    """HTML/CSS place-value breakdown for a number system explanation, e.g.
+    1010(2) -> boxes [1,0,1,0] over place values [8,4,2,1] -> sum -> total.
+    digits and place_values must be the same length, most-significant first.
+    """
+    n = len(digits)
+    cells = "".join(
+        f'<div style="display:flex;flex-direction:column;align-items:center;gap:6px">'
+        f'<div style="width:56px;height:56px;border-radius:12px;background:var(--color-bg-canvas,#fff);'
+        f'border:1.5px solid #5B24F9;display:flex;align-items:center;justify-content:center;'
+        f'font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:22px;color:#0D0230">'
+        f'{html.escape(d)}</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">×{pv}</div>'
+        f'</div>'
+        for d, pv in zip(digits, place_values)
+    )
+    plus_row = "".join(
+        '<div style="width:56px;text-align:center;font-size:18px;color:#B9A0FC">'
+        + ("+" if i < n - 1 else "")
+        + "</div>"
+        for i in range(n)
+    )
+    sum_html = (
+        f'<div style="margin-top:14px;text-align:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-size:15px;color:#0D0230">= {html.escape(total)}</div>'
+        if total
+        else ""
+    )
+    inner = (
+        f'<div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">{cells}</div>'
+        f'<div style="display:flex;gap:14px;justify-content:center;margin-top:2px">{plus_row}</div>'
+        f'{sum_html}'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{inner}{cap}</figure>'
+
+
+def precedence_ladder(levels: list[tuple[str, str]], *, caption: str = "") -> str:
+    """HTML ladder of precedence levels, highest first. levels: list of
+    (symbols, description), e.g. ("() ", "скобки — всегда первыми")."""
+    rows = "".join(
+        f'<div style="display:flex;align-items:center;gap:16px;padding:10px 16px;'
+        f'background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:12px;margin-bottom:8px">'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:16px;'
+        f'color:#5B24F9;min-width:64px">{html.escape(sym)}</div>'
+        f'<div style="font-size:14px;color:#0D0230">{html.escape(desc)}</div>'
+        f'</div>'
+        for sym, desc in levels
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">{rows}{cap}</figure>'
+
+
+def number_line_diagram(
+    marks: list[tuple[float, str]],
+    *,
+    lo: float,
+    hi: float,
+    highlight: float | None = None,
+    caption: str = "",
+) -> str:
+    """A horizontal number line from lo to hi with labeled tick marks —
+    used for floor/ceil/trunc and negative floor-division explanations.
+    marks: list of (position, label)."""
+    total_w, total_h = 640, 110
+    pad = 40
+    usable = total_w - 2 * pad
+
+    def x_of(v: float) -> float:
+        return pad + (v - lo) / (hi - lo) * usable
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    y = 55
+    parts.append(f'<line x1="{pad}" y1="{y}" x2="{total_w - pad}" y2="{y}" stroke="#B9A0FC" stroke-width="2.5"/>')
+    for v in range(int(lo), int(hi) + 1):
+        x = x_of(v)
+        parts.append(f'<line x1="{x}" y1="{y - 6}" x2="{x}" y2="{y + 6}" stroke="#B9A0FC" stroke-width="2"/>')
+        parts.append(
+            f'<text x="{x}" y="{y + 24}" text-anchor="middle" font-family="Inter, sans-serif" '
+            f'font-size="11" fill="#8A8A9A">{v}</text>'
+        )
+    for pos, label in marks:
+        x = x_of(pos)
+        filled = highlight is not None and abs(pos - highlight) < 1e-9
+        parts.append(f'<circle cx="{x}" cy="{y}" r="7" fill="{"#5B24F9" if filled else "#0D0230"}"/>')
+        parts.append(
+            f'<text x="{x}" y="{y - 16}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="13" fill="#0D0230">{html.escape(label)}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def fraction_bar_diagram(numerator: int, denominator: int, *, caption: str = "") -> str:
+    """A horizontal bar split into `denominator` equal segments, the first
+    `numerator` of them filled — a visual for Fraction(numerator, denominator)."""
+    denominator = max(denominator, 1)
+    total_w, total_h = 420, 90
+    bar_w = 360
+    seg_w = bar_w / denominator
+    bar_x = (total_w - bar_w) / 2
+    bar_y = 20
+    bar_h = 44
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    for i in range(denominator):
+        x = bar_x + i * seg_w
+        fill = "#5B24F9" if i < numerator else "#FAFAFC"
+        parts.append(
+            f'<rect x="{x}" y="{bar_y}" width="{seg_w}" height="{bar_h}" '
+            f'fill="{fill}" stroke="#0D0230" stroke-width="1.2"/>'
+        )
+    parts.append(
+        f'<text x="{total_w / 2}" y="{bar_y + bar_h + 26}" text-anchor="middle" '
+        f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#0D0230">'
+        f'{numerator}/{denominator}</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def complex_plane_diagram(real: float, imag: float, *, caption: str = "") -> str:
+    """Plots one point z = real + imag*j on a labeled complex plane."""
+    total_w, total_h = 320, 320
+    cx, cy = total_w / 2, total_h / 2
+    scale = 30
+    px = cx + real * scale
+    py = cy - imag * scale
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowcx' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#0D0230'/></marker></defs>"
+    )
+    parts.append(f'<line x1="20" y1="{cy}" x2="{total_w - 12}" y2="{cy}" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcx)"/>')
+    parts.append(f'<line x1="{cx}" y1="{total_h - 20}" x2="{cx}" y2="12" stroke="#0D0230" stroke-width="1.5" marker-end="url(#arrowcx)"/>')
+    parts.append(f'<text x="{total_w - 16}" y="{cy - 8}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">real</text>')
+    parts.append(f'<text x="{cx + 10}" y="20" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D">imaginary</text>')
+    parts.append(f'<line x1="{cx}" y1="{cy}" x2="{px}" y2="{py}" stroke="#B9A0FC" stroke-width="2" stroke-dasharray="4,4"/>')
+    parts.append(f'<circle cx="{px}" cy="{py}" r="7" fill="#5B24F9"/>')
+    label = f"({real:g}, {imag:g})"
+    parts.append(
+        f'<text x="{px + 12}" y="{py - 10}" font-family="JetBrains Mono, monospace" font-weight="700" '
+        f'font-size="13" fill="#0D0230">z = {real:g}{"+" if imag >= 0 else "-"}{abs(imag):g}j</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def decision_map(entries: list[tuple[str, str]], *, title: str = "", caption: str = "") -> str:
+    """Q -> A decision ladder, e.g. for "which numeric type do I need?".
+    entries: list of (question, answer)."""
+    rows = "".join(
+        f'<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;'
+        f'background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:14px;margin-bottom:10px">'
+        f'<div style="flex:1;font-size:14px;color:#0D0230">{q}</div>'
+        f'<div style="font-size:16px;color:#B9A0FC">→</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:15px;'
+        f'color:#5B24F9;white-space:nowrap">{a}</div>'
+        f'</div>'
+        for q, a in entries
+    )
+    title_html = f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">{html.escape(title)}</div>' if title else ""
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{title_html}{rows}{cap}</figure>'
+
+
 def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
     """A real screenshot/photo, not a generated diagram — captioned figure."""
     width_attr = f' width="{width}"' if width else ""
