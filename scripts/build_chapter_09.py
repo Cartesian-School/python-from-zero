@@ -16,12 +16,13 @@ from site_lib import (
     code_block,
     comparison_number_line,
     comparison_table,
-    converge_diagram,
+    condition_cascade,
     decision_diamond_diagram,
     decision_map,
-    elif_ladder_diagram,
     exercise,
     flow_diagram,
+    flowchart,
+    loop_preview_diagram,
     practice_card,
     precedence_ladder,
     render_chapter_opener,
@@ -146,30 +147,70 @@ def build_opener() -> None:
 # ---------------------------------------------------------------------------
 
 def build_07() -> None:
-    tea_algo = flow_diagram(
+    legend = f"""
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;padding:20px;
+      background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+      <div style="flex:1;min-width:150px;text-align:center">
+        <svg viewBox="0 0 140 50" style="width:100%;max-width:140px;height:auto">
+          <rect x="5" y="5" width="130" height="40" rx="20" fill="#0D0230"/>
+        </svg>
+        <div style="font-size:13px;margin-top:6px"><strong>Начало / конец</strong><br>терминатор</div>
+      </div>
+      <div style="flex:1;min-width:150px;text-align:center">
+        <svg viewBox="0 0 140 50" style="width:100%;max-width:140px;height:auto">
+          <rect x="5" y="5" width="130" height="40" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="2"/>
+        </svg>
+        <div style="font-size:13px;margin-top:6px"><strong>Действие</strong><br>процесс / команда</div>
+      </div>
+      <div style="flex:1;min-width:150px;text-align:center">
+        <svg viewBox="0 0 140 50" style="width:100%;max-width:140px;height:auto">
+          <polygon points="27,5 135,5 113,45 5,45" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>
+        </svg>
+        <div style="font-size:13px;margin-top:6px"><strong>Ввод / вывод</strong><br>параллелограмм</div>
+      </div>
+      <div style="flex:1;min-width:150px;text-align:center">
+        <svg viewBox="0 0 140 50" style="width:100%;max-width:140px;height:auto">
+          <polygon points="70,3 137,25 70,47 3,25" fill="#5B24F9"/>
+        </svg>
+        <div style="font-size:13px;margin-top:6px"><strong>Условие?</strong><br>решение (ромб)</div>
+      </div>
+    </div>
+    """
+    tea_algo = flowchart(
         [
-            ("Взять кружку", ""),
-            ("Положить чай", ""),
-            ("Налить воду", ""),
-            ("Подождать", ""),
-            ("Выпить чай", ""),
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "process", "label": "Взять кружку"},
+            {"kind": "process", "label": "Положить чай"},
+            {"kind": "process", "label": "Вскипятить воду"},
+            {"kind": "process", "label": "Налить воду"},
+            {"kind": "process", "label": "Подождать"},
+            {"kind": "process", "label": "Выпить чай"},
+            {"kind": "end", "label": "КОНЕЦ"},
         ],
-        caption="Алгоритм «приготовить чай» — понятная последовательность действий от старта до результата",
+        caption="Алгоритм «приготовить чай» — все шесть действий, от старта до результата",
     )
-    trace = flow_diagram(
+    trace = flowchart(
         [
-            ("КОМАНДА 1", 'print("Старт")'),
-            ("КОМАНДА 2", "input(...)"),
-            ("КОМАНДА 3", "print(...)"),
-            ("КОМАНДА 4", 'print("Конец")'),
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "output", "label": 'print("Старт")'},
+            {"kind": "input", "label": "name = input(...)"},
+            {"kind": "output", "label": 'print("Привет,", name)'},
+            {"kind": "output", "label": 'print("Конец")'},
+            {"kind": "end", "label": "КОНЕЦ"},
         ],
-        caption="Python выполняет команды строго сверху вниз — это называется последовательным выполнением",
+        caption="Тот же код как блок-схема — ввод и вывод нарисованы по-разному, не как одинаковые прямоугольники",
     )
 
     body = f"""
     <p>До сих пор наши программы выполняли одни и те же команды в одном и том же порядке при
     каждом запуске. Прежде чем научить программу <strong>выбирать</strong>, что делать дальше,
-    разберёмся, что вообще значит «выполнять команды».</p>
+    разберёмся, что вообще значит «выполнять команды» — и договоримся об одном важном
+    инструменте: языке блок-схем.</p>
+
+    <h2>Форма блока — не украшение</h2>
+    <p>Каждая фигура на блок-схеме имеет строгий смысл: она подсказывает, какого рода шаг
+    алгоритма перед вами. Мы будем пользоваться этим языком на протяжении всей главы:</p>
+    {legend}
 
     <h2>Что такое алгоритм</h2>
     <p><strong>Алгоритм</strong> — это понятная последовательность действий, которая приводит
@@ -215,7 +256,10 @@ def build_07() -> None:
     )}
 
     <h2>Программа — это последовательность команд</h2>
-    <p>Рассмотрим простую программу и проследим, как Python выполняет её команда за командой:</p>
+    <p>Рассмотрим простую программу и проследим, как Python выполняет её команда за командой.
+    Обратите внимание: <code class="inline">input()</code> нарисован как ВВОД, а
+    <code class="inline">print()</code> — как ВЫВОД, разными фигурами, а не одинаковыми
+    прямоугольниками:</p>
     {code_block("posledovatelnaya_programma.py", 'print("Старт")\n\nname = input("Как вас зовут? ")\n\nprint("Привет,", name)\n\nprint("Конец")\n')}
     {trace}
 
@@ -251,18 +295,37 @@ def build_07() -> None:
 # ---------------------------------------------------------------------------
 
 def build_08() -> None:
-    umbrella_before = converge_diagram(
-        ["Идёт дождь? — ДА → взять зонт", "Идёт дождь? — НЕТ → без зонта"],
-        "выйти из дома",
-        caption="После развилки обе ветки снова сходятся к одному и тому же следующему шагу",
+    seq_diagram = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "process", "label": "A"},
+            {"kind": "process", "label": "B"},
+            {"kind": "process", "label": "C"},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="Последовательность — каждый шаг идёт сразу после предыдущего",
     )
-    branch_diamond = decision_diamond_diagram(
-        "Идёт дождь?",
-        yes_label="ДА",
-        no_label="НЕТ",
-        yes_result="взять зонт",
-        no_result="без зонта",
-        caption="Ветвление: дальнейшие действия зависят от ответа на вопрос",
+    branch_diagram = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "decision", "label": "условие?", "yes": [{"kind": "process", "label": "A"}], "no": [{"kind": "process", "label": "B"}]},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="Ветвление — выбирается ровно один путь, оба варианта затем сходятся",
+    )
+    repeat_diagram = loop_preview_diagram(
+        action_label="Действие",
+        question_label="Повторить?",
+        caption="Повторение — предварительная схема, синтаксис циклов изучим в главе 10",
+    )
+    umbrella_algo = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "decision", "label": "Идёт дождь?", "yes": [{"kind": "process", "label": "Взять зонт"}], "no": [{"kind": "process", "label": "Идти без зонта"}]},
+            {"kind": "process", "label": "Выйти из дома"},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="Ветвление, а затем продолжение: обе ветки сходятся и алгоритм идёт дальше",
     )
     human_python = comparison_table(
         ["Человек", "Python"],
@@ -273,33 +336,31 @@ def build_08() -> None:
     <h2>Три структуры, из которых строится любой алгоритм</h2>
     <p>Почти любой алгоритм — от рецепта чая до огромной программы — собирается всего из трёх
     базовых идей:</p>
-    <ol style="font-size:15px;line-height:1.9">
-      <li><strong>Последовательность</strong> — команды выполняются одна за другой.</li>
-      <li><strong>Ветвление</strong> — выбирается один путь в зависимости от условия.</li>
-      <li><strong>Повторение</strong> — действия повторяются несколько раз.</li>
-    </ol>
     {decision_map([
         ("Команды идут одна за другой, без выбора?", "Последовательность — уже знакомо"),
         ("Нужно выбрать ОДИН путь из нескольких, в зависимости от условия?", "Ветвление — эта глава"),
         ("Нужно повторить действие несколько раз?", "Повторение — глава 10"),
     ], title="Какая структура нужна?")}
 
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:24px 0">
+      <div>{seq_diagram}</div>
+      <div>{branch_diagram}</div>
+      <div>{repeat_diagram}</div>
+    </div>
+
     <h2>Когда одной последовательности не хватает</h2>
     <p>Простой линейный алгоритм — «выйти из дома, идти гулять» — прекрасно работает, пока в
     реальной жизни не появляется вопрос. Идёт дождь?</p>
-    {branch_diamond}
-    <p>Это уже не чисто последовательный алгоритм — он <strong>ветвится</strong>.</p>
 
     <h2>Что такое ветвление</h2>
     <p><strong>Ветвление</strong> — это место в алгоритме, где дальнейшие действия зависят от
     ответа на вопрос. Каждая развилка начинается с <strong>условия</strong> — вопроса, на
     который можно ответить «да» или «нет». Программа не выбирает ветку случайно: она вычисляет
-    условие, и результат определяет путь.</p>
-
-    <h2>После развилки пути снова сходятся</h2>
-    <p>Какую бы ветку ни выбрала программа, дальше выполнение обычно продолжается с одного и
-    того же следующего шага:</p>
-    {umbrella_before}
+    условие, и результат определяет путь. Какую бы ветку ни выбрала программа, дальше
+    выполнение обычно продолжается с одного и того же следующего шага:</p>
+    {umbrella_algo}
+    <p>Это уже не чисто последовательный алгоритм — он <strong>ветвится</strong>, а затем обе
+    ветки снова сходятся к шагу «Выйти из дома».</p>
 
     <h2>От «да/нет» к True/False</h2>
     <p>Человеческие «да» и «нет» в Python превращаются в два особых значения:</p>
@@ -400,13 +461,25 @@ def build_01() -> None:
 # ---------------------------------------------------------------------------
 
 def build_02() -> None:
-    machine = decision_diamond_diagram(
-        "5 > 3",
-        yes_label="True",
-        no_label="False",
-        yes_result="результат сравнения",
-        no_result="(здесь не сработает)",
-        caption="Сравнение — это «машина», которая берёт два значения и выдаёт bool",
+    machine_true = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "input", "label": "Значения: 5 и 3"},
+            {"kind": "process", "label": "Сравнение: 5 > 3"},
+            {"kind": "output", "label": "Результат: True"},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="5 > 3 — сравнение выполнилось УСПЕШНО и дало True",
+    )
+    machine_false = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "input", "label": "Значения: 2 и 3"},
+            {"kind": "process", "label": "Сравнение: 2 > 3"},
+            {"kind": "output", "label": "Результат: False"},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="2 > 3 — сравнение ТОЖЕ выполнилось успешно, просто дало False",
     )
     nl_ge = comparison_number_line(axis_lo=0, axis_hi=30, lo_bound=18, lo_inclusive=True, caption="age >= 18 — закрашенная точка: 18 включено")
     nl_lt = comparison_number_line(axis_lo=-10, axis_hi=10, hi_bound=0, hi_inclusive=False, caption="temperature < 0 — пустая точка: 0 НЕ включён")
@@ -424,11 +497,24 @@ def build_02() -> None:
     )
 
     body = f"""
-    <h2>Сравнение — это машина, которая производит bool</h2>
+    <h2>Сравнение — это шаг алгоритма, который производит bool</h2>
     <p>Возьмите два значения, примените оператор сравнения — и получите ровно одно из двух:
-    <code class="inline">True</code> или <code class="inline">False</code>.</p>
-    {machine}
+    <code class="inline">True</code> или <code class="inline">False</code>. Оба исхода —
+    <strong>одинаково успешный</strong> результат: сравнение не «падает» и не «не срабатывает»,
+    когда ответ False — оно просто честно отвечает «нет».</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0">
+      <div>{machine_true}</div>
+      <div>{machine_false}</div>
+    </div>
     {code_block("sravnenie.py", "print(5 > 3)     # True\nprint(5 == 3)    # False\n")}
+    {callout(
+        "info",
+        "False — тоже правильный ответ",
+        "<code class=\"inline\">2 &gt; 3</code> выполняется так же успешно, как "
+        "<code class=\"inline\">5 &gt; 3</code> — просто их результаты разные. Не путайте "
+        "«условие ложно» с «программа не сработала»: это два совершенно разных явления, и мы "
+        "вернёмся к этому различию в разделе про <code class=\"inline\">if</code>.",
+    )}
 
     <h2>Все шесть операторов сравнения</h2>
     {ops_table}
@@ -700,35 +786,40 @@ def build_11() -> None:
 # ---------------------------------------------------------------------------
 
 def build_03() -> None:
-    pseudocode_diamond = decision_diamond_diagram(
-        "temperature < 0?",
-        yes_result='"мороз"',
-        no_result="ничего",
+    pseudocode_diagram = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "input", "label": "temperature"},
+            {"kind": "decision", "label": "temperature < 0?", "yes": [{"kind": "output", "label": '"мороз"'}], "no": []},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
         caption="Сначала решаем задачу как схему — потом переводим на Python",
     )
-    if_flow = decision_diamond_diagram(
-        "age >= 18?",
-        yes_result='print("Доступ разрешён")',
-        no_result="блок пропускается",
-        caption="if без else: при False блок просто пропускается, программа идёт дальше",
+    if_flow = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "input", "label": "temperature"},
+            {"kind": "decision", "label": "temperature < 0?", "yes": [{"kind": "output", "label": '"Мороз"'}], "no": []},
+            {"kind": "process", "label": "Продолжаем программу"},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="Первый if — при False блок просто пропускается, выполнение идёт дальше",
     )
-    if_else_flow = decision_diamond_diagram(
-        "age >= 18?",
-        yes_result='"вход"',
-        no_result='"отказ"',
-        caption="if/else: два пути, один из них выполнится обязательно",
-    )
-    rejoin = converge_diagram(
-        ['if: print("Доступ разрешён")', 'else: print("Доступ запрещён")'],
-        "продолжение программы",
-        caption="После if/else обе ветки снова сходятся к одному и тому же следующему шагу",
+    if_else_flow = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {"kind": "input", "label": "age"},
+            {"kind": "decision", "label": "age >= 18?", "yes": [{"kind": "output", "label": '"Доступ разрешён"'}], "no": [{"kind": "output", "label": '"Доступ запрещён"'}]},
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="if/else: два пути — один из них выполнится обязательно, и оба сходятся дальше",
     )
 
     body = f"""
     <h2>Сначала схема, потом код</h2>
     <p>Возьмём задачу: «если температура ниже нуля, показать „мороз“». Прежде чем писать
     Python, решим её как схему:</p>
-    {pseudocode_diamond}
+    {pseudocode_diagram}
     <p>Где здесь вопрос? Какая ветка выполнится? Что произойдёт, если условие ложно? Только
     когда ответы понятны — переводим схему на Python.</p>
 
@@ -751,7 +842,8 @@ def build_03() -> None:
     )}
     {if_flow}
     <p>Если условие ложно, блок <code class="inline">if</code> просто <strong>пропускается</strong>
-    — программа не «падает», не выдаёт ошибку, а идёт дальше как ни в чём не бывало.</p>
+    — программа не «падает», не выдаёт ошибку, а идёт дальше как ни в чём не бывало. Ложное
+    условие не означает «программа остановилась»: она продолжает выполнение со следующего шага.</p>
 
     <h2>Отступ — это часть программы</h2>
     <p>В Python отступ — не просто оформление для красоты. Именно отступом Python определяет,
@@ -794,9 +886,10 @@ def build_03() -> None:
     {if_else_flow}
 
     <h2>Ветки снова сходятся</h2>
-    <p>Какая бы ветка ни выполнилась, дальше программа обычно продолжается с одного и того же
-    следующего шага:</p>
-    {rejoin}
+    <p>Какая бы ветка ни выполнилась — <code class="inline">if</code> или
+    <code class="inline">else</code> — дальше программа обычно продолжается с одного и того же
+    следующего шага. На схеме выше это видно по стрелкам, сходящимся в общую точку перед
+    <code class="inline">КОНЕЦ</code>.</p>
 
     {practice_card(
         "09-03",
@@ -826,14 +919,15 @@ def build_03() -> None:
 # ---------------------------------------------------------------------------
 
 def build_12() -> None:
-    ladder = elif_ladder_diagram(
+    ladder = condition_cascade(
         [
             ("temperature < 0?", '"мороз"'),
             ("temperature < 15?", '"прохладно"'),
             ("temperature < 25?", '"комфортно"'),
         ],
-        else_label='"жарко"',
-        caption="if/elif/else как лестница условий — первое истинное условие выигрывает",
+        default_label='"жарко"',
+        input_label="temperature",
+        caption="if/elif/else как лестница условий — первое истинное условие выигрывает, остальное пропускается",
     )
     bad_order = decision_diamond_diagram(
         "score >= 50?",
@@ -1266,21 +1360,19 @@ def build_04() -> None:
 # ---------------------------------------------------------------------------
 
 def build_17() -> None:
-    and_flow = flow_diagram(
-        [
-            ("A?", "если False"),
-            ("СТОП", "B не проверяется"),
-            ("Результат", "False"),
-        ],
-        caption="and: если A уже False, результат заведомо False — B проверять незачем",
+    and_flow = condition_cascade(
+        [("A?", "False"), ("B?", "False")],
+        default_label="True",
+        exit_label="НЕТ",
+        continue_label="ДА",
+        caption="and: НЕТ на любом шаге сразу даёт False — второе условие проверяется, только если первое истинно",
     )
-    or_flow = flow_diagram(
-        [
-            ("A?", "если True"),
-            ("СТОП", "B не проверяется"),
-            ("Результат", "True"),
-        ],
-        caption="or: если A уже True, результат заведомо True — B проверять незачем",
+    or_flow = condition_cascade(
+        [("A?", "True"), ("B?", "True")],
+        default_label="False",
+        exit_label="ДА",
+        continue_label="НЕТ",
+        caption="or: ДА на любом шаге сразу даёт True — второе условие проверяется, только если первое ложно",
     )
 
     body = f"""
@@ -1492,17 +1584,21 @@ def build_19() -> None:
 # ---------------------------------------------------------------------------
 
 def build_20() -> None:
-    outer = decision_diamond_diagram(
-        "has_account?",
-        yes_result="проверить пароль (следующий вопрос)",
-        no_result='"Зарегистрируйтесь"',
-        caption="Внешнее условие",
-    )
-    inner = decision_diamond_diagram(
-        "password_ok?",
-        yes_result='"Добро пожаловать"',
-        no_result='"Неверный пароль"',
-        caption="Внутреннее условие — проверяется только если has_account истинно",
+    nested_flow = flowchart(
+        [
+            {"kind": "start", "label": "СТАРТ"},
+            {
+                "kind": "decision", "label": "has_account?",
+                "yes": [{
+                    "kind": "decision", "label": "password_ok?",
+                    "yes": [{"kind": "output", "label": '"Добро пожаловать"'}],
+                    "no": [{"kind": "output", "label": '"Неверный пароль"'}],
+                }],
+                "no": [{"kind": "output", "label": '"Зарегистрируйтесь"'}],
+            },
+            {"kind": "end", "label": "КОНЕЦ"},
+        ],
+        caption="Вложенное условие: password_ok проверяется только внутри ветки has_account = True",
     )
     flatten = classic_vs_modern(
         "Вложенные условия vs один and",
@@ -1524,9 +1620,8 @@ def build_20() -> None:
     <h2>Условие внутри условия</h2>
     <p>Внутри блока <code class="inline">if</code> может быть ещё один
     <code class="inline">if</code> — это называется <strong>вложенным условием</strong>. Решим
-    задачу входа в аккаунт по шагам.</p>
-    {outer}
-    {inner}
+    задачу входа в аккаунт целиком, одной схемой.</p>
+    {nested_flow}
     {code_block(
         "vlozhennye_usloviya.py",
         "has_account = True\n"
@@ -1807,12 +1902,14 @@ def build_22() -> None:
 # ---------------------------------------------------------------------------
 
 def build_05() -> None:
-    game_tree = elif_ladder_diagram(
+    game_tree = condition_cascade(
         [
-            ("guess == secret?", "🎉 ПОБЕДА"),
-            ("guess < secret?", '"слишком мало"'),
+            ("guess == secret?", "🎉 Вы угадали!"),
+            ("guess < secret?", '"Слишком мало"'),
         ],
-        else_label='"слишком много"',
+        default_label='"Слишком много"',
+        input_label="guess",
+        start_label="СТАРТ",
         caption="Решающее дерево игры — переводим прямо в if / elif / else",
     )
 
@@ -2161,12 +2258,10 @@ def build_06() -> None:
     принимают решения СНОВА И СНОВА. «Угадай число» пока даёт только одну попытку — в
     следующей главе мы научим программу <strong>повторять</strong> действия, и игра сможет
     продолжаться, пока число не будет угадано.</p>
-    {flow_diagram(
-        [
-            ("ГЛАВА 9", "вопрос → решение → конец"),
-            ("ГЛАВА 10", "вопрос → решение → повтор, пока не выполнено"),
-        ],
-        caption="От одного решения — к решениям, которые повторяются",
+    {loop_preview_diagram(
+        action_label="Спросить попытку",
+        question_label="Угадал?",
+        caption="Глава 10: тот же backward-стрелка добавляет повтор — «Угадай число» сможет продолжаться, пока число не будет угадано",
     )}
 
     {practice_card(
