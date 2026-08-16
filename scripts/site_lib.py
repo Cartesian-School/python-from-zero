@@ -476,6 +476,102 @@ def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center">{svg}{cap}</figure>'
 
 
+def namespace_diagram(
+    bindings: list[tuple[str, str]],
+    *,
+    unreachable: list[str] | None = None,
+    caption: str = "",
+) -> str:
+    """Snapshot of a namespace: each (name, value_repr) pair drawn as its own
+    independent row — name on the left, an arrow, a value box on the right —
+    stacked top to bottom. Two rows that happen to share a value_repr are
+    drawn as two SEPARATE boxes (this function never merges rows), which is
+    exactly right for showing "these two names now point to different
+    objects" after a rebinding. For "several names point at the SAME single
+    object" use converge_diagram() instead — merging boxes there is the
+    correct picture, not this one.
+
+    unreachable: optional list of value_repr strings drawn below the normal
+    rows, each in a dashed muted box with no incoming arrow and a small
+    "0 ссылок" label — for showing an object nothing refers to any more.
+    """
+    unreachable = unreachable or []
+    row_h = 64
+    name_col_w = 170
+    box_w, box_h = 160, 46
+    total_w = name_col_w + box_w + 40
+    n = len(bindings)
+    m = len(unreachable)
+    top_pad = 16
+    total_h = top_pad + n * row_h + (m * (row_h + 14) if m else 0) + 10
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        "<defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' "
+        "markerWidth='7' markerHeight='7' orient='auto-start-reverse'>"
+        "<path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs>"
+    )
+    box_x = name_col_w + 30
+    for i, (name, value_repr) in enumerate(bindings):
+        y = top_pad + i * row_h
+        cy = y + box_h / 2
+        name_lines = _wrap_svg_text(" ".join(name.split()), max_chars=16, max_lines=2)
+        name_tspans = "".join(
+            f'<tspan x="0" y="{cy - (len(name_lines) - 1) * 10 + 6 + li * 20}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(name_lines)
+        )
+        parts.append(
+            f'<text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" '
+            f'fill="#0D0230">{name_tspans}</text>'
+        )
+        parts.append(
+            f'<line x1="{name_col_w - 30}" y1="{cy}" x2="{box_x - 8}" y2="{cy}" '
+            f'stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/>'
+        )
+        parts.append(
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+        )
+        value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
+        value_top = cy - (len(value_lines) - 1) * 9 + 5
+        value_tspans = "".join(
+            f'<tspan x="{box_x + box_w / 2}" y="{value_top + li * 18}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(value_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" '
+            f'fill="#0D0230">{value_tspans}</text>'
+        )
+    for j, value_repr in enumerate(unreachable):
+        y = top_pad + n * row_h + j * (row_h + 14) + (14 if n else 0)
+        cy = y + box_h / 2
+        parts.append(
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="none" stroke="#B9A0FC" stroke-width="1.5" stroke-dasharray="6,5"/>'
+        )
+        value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
+        value_top = cy - (len(value_lines) - 1) * 9 + 5
+        value_tspans = "".join(
+            f'<tspan x="{box_x + box_w / 2}" y="{value_top + li * 18}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(value_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" '
+            f'fill="#8A8A9A">{value_tspans}</text>'
+        )
+        parts.append(
+            f'<text x="{box_x + box_w / 2}" y="{y + box_h + 16}" text-anchor="middle" '
+            f'font-family="Inter, sans-serif" font-size="11" fill="#8A8A9A">0 ссылок</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
 def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
     """A real screenshot/photo, not a generated diagram — captioned figure."""
     width_attr = f' width="{width}"' if width else ""
