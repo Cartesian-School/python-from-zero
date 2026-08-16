@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import html
 import io
+import itertools
 import keyword
 import tokenize
 from dataclasses import dataclass, field
@@ -937,6 +938,392 @@ def comparison_number_line(
 
 def _fmt_num(v: float) -> str:
     return str(int(v)) if float(v).is_integer() else str(v)
+
+
+# ---------------------------------------------------------------------------
+# Conventional flowchart primitives (terminator/process/input-output/decision)
+# ---------------------------------------------------------------------------
+# Shared by flowchart(), condition_cascade() and loop_preview_diagram() so
+# every algorithm/control-flow diagram in the course uses the same visual
+# vocabulary: rounded PILL = start/end, RECTANGLE = process/action,
+# PARALLELOGRAM = input/output, DIAMOND = decision. Shape carries meaning —
+# never rely on color alone (see accessibility note in each caption).
+
+_FC_TERM_W, _FC_TERM_H = 190, 52
+_FC_PROC_W, _FC_PROC_H = 210, 56
+_FC_IO_W, _FC_IO_H = 220, 56
+_FC_IO_SKEW = 22
+_FC_DEC_W, _FC_DEC_H = 230, 100
+_FC_GAP_Y = 26
+_FC_BRANCH_GAP = 32
+_FC_MERGE_GAP = 32
+_FC_BRANCH_OFFSET = 200
+
+_fc_id_counter = itertools.count()
+
+
+def _fc_new_marker_id() -> str:
+    """A fresh marker id per diagram instance — pages routinely embed
+    several flowchart()/condition_cascade()/loop_preview_diagram() figures,
+    and each one's own <defs><marker id=...> must be unique across the
+    whole HTML document, not just within its own <svg>."""
+    return f"arrowfc{next(_fc_id_counter)}"
+
+
+def _fc_arrow_defs(marker_id: str) -> str:
+    return (
+        f"<defs><marker id='{marker_id}' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' "
+        f"orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    )
+
+
+def _fc_node_height(kind: str, label: str) -> float:
+    if kind in ("start", "end"):
+        return _FC_TERM_H
+    if kind == "process":
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
+        return max(_FC_PROC_H, 26 + len(lines) * 20)
+    if kind in ("input", "output"):
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=20, max_lines=2)
+        return max(_FC_IO_H, 26 + len(lines) * 20)
+    if kind == "decision":
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=15, max_lines=3)
+        return max(_FC_DEC_H, 60 + len(lines) * 20)
+    raise ValueError(f"unknown flowchart node kind: {kind}")
+
+
+def _fc_node_width(kind: str) -> float:
+    return {
+        "start": _FC_TERM_W, "end": _FC_TERM_W, "process": _FC_PROC_W,
+        "input": _FC_IO_W, "output": _FC_IO_W, "decision": _FC_DEC_W,
+    }[kind]
+
+
+def _fc_draw_node(parts: list[str], kind: str, label: str, cx: float, top: float) -> None:
+    h = _fc_node_height(kind, label)
+    w = _fc_node_width(kind)
+    cy = top + h / 2
+    if kind in ("start", "end"):
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
+        parts.append(f'<rect x="{cx - w/2}" y="{top}" width="{w}" height="{h}" rx="{h/2}" fill="#0D0230"/>')
+        color, family, weight, size = "#fff", "Sora, sans-serif", "700", 14
+    elif kind == "process":
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
+        parts.append(f'<rect x="{cx - w/2}" y="{top}" width="{w}" height="{h}" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>')
+        color, family, weight, size = "#0D0230", "'JetBrains Mono', monospace", "600", 13
+    elif kind in ("input", "output"):
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=20, max_lines=2)
+        skew = _FC_IO_SKEW
+        x0, x1 = cx - w / 2, cx + w / 2
+        points = f"{x0 + skew},{top} {x1},{top} {x1 - skew},{top + h} {x0},{top + h}"
+        fill = "#EDE9FE" if kind == "input" else "#DCFCE7"
+        stroke = "#5B24F9" if kind == "input" else "#059669"
+        parts.append(f'<polygon points="{points}" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>')
+        color, family, weight, size = "#0D0230", "'JetBrains Mono', monospace", "600", 13
+    elif kind == "decision":
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=15, max_lines=3)
+        top_v, right_v, bot_v, left_v = (cx, top), (cx + w / 2, cy), (cx, top + h), (cx - w / 2, cy)
+        parts.append(
+            f'<polygon points="{top_v[0]},{top_v[1]} {right_v[0]},{right_v[1]} '
+            f'{bot_v[0]},{bot_v[1]} {left_v[0]},{left_v[1]}" fill="#5B24F9"/>'
+        )
+        color, family, weight, size = "#fff", "Sora, sans-serif", "700", 13
+    else:
+        raise ValueError(f"unknown flowchart node kind: {kind}")
+    first_y = cy - (len(lines) - 1) * 9 + 5
+    tspans = "".join(
+        f'<tspan x="{cx}" y="{first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
+    )
+    parts.append(
+        f'<text text-anchor="middle" font-family="{family}" font-weight="{weight}" '
+        f'font-size="{size}" fill="{color}">{tspans}</text>'
+    )
+
+
+def _fc_arrow(parts: list[str], mid: str, x1: float, y1: float, x2: float, y2: float, *, color: str = "#B9A0FC", curve: bool = False) -> None:
+    if curve:
+        mid_y = (y1 + y2) / 2
+        parts.append(
+            f'<path d="M{x1},{y1} C{x1},{mid_y} {x2},{mid_y} {x2},{y2}" fill="none" '
+            f'stroke="{color}" stroke-width="2.5" marker-end="url(#{mid})"/>'
+        )
+    else:
+        parts.append(
+            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" '
+            f'stroke-width="2.5" marker-end="url(#{mid})"/>'
+        )
+
+
+def _fc_label(parts: list[str], x: float, y: float, text: str, color: str, *, anchor: str = "middle") -> None:
+    parts.append(
+        f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family="JetBrains Mono, monospace" '
+        f'font-weight="700" font-size="12" fill="{color}">{html.escape(text)}</text>'
+    )
+
+
+def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "НЕТ", caption: str = "") -> str:
+    """Recursive top-down flowchart with conventional shape semantics —
+    the single reusable primitive behind every algorithm/control-flow
+    diagram in Chapter 9. Each step is a dict:
+
+      {"kind": "start"|"end"|"process"|"input"|"output", "label": str}
+      {"kind": "decision", "label": str, "yes": [steps], "no": [steps],
+       "yes_label": optional override, "no_label": optional override}
+
+    A decision's "yes"/"no" branches are laid out side by side and
+    automatically merge back into the continuing flow below — the reader
+    never has to wonder whether a branch just stops. An empty/omitted
+    branch list means "nothing happens on this path": drawn as a single
+    direct, labeled bypass arrow from the diamond straight to the merge
+    point, showing that the block is skipped, not that the program halts.
+    """
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    bounds = {"min_x": 0.0, "max_x": 0.0, "max_y": 0.0}
+
+    def track(x0: float, x1: float, y1: float) -> None:
+        bounds["min_x"] = min(bounds["min_x"], x0)
+        bounds["max_x"] = max(bounds["max_x"], x1)
+        bounds["max_y"] = max(bounds["max_y"], y1)
+
+    def draw(kind: str, label: str, cx: float, top: float) -> float:
+        h = _fc_node_height(kind, label)
+        w = _fc_node_width(kind)
+        track(cx - w / 2, cx + w / 2, top + h)
+        _fc_draw_node(parts, kind, label, cx, top)
+        return h
+
+    def render(steps_list: list[dict], cx: float, y: float) -> float:
+        prev_bottom: float | None = None
+        for step in steps_list:
+            kind = step["kind"]
+            label = step.get("label", "")
+            if kind == "decision":
+                if prev_bottom is not None:
+                    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+                h = draw("decision", label, cx, y)
+                w = _FC_DEC_W
+                dia_cy = y + h / 2
+                dia_bottom = y + h
+                left_vx, right_vx = cx - w / 2, cx + w / 2
+                left_x, right_x = cx - _FC_BRANCH_OFFSET, cx + _FC_BRANCH_OFFSET
+                branch_top = dia_bottom + _FC_BRANCH_GAP
+                yes_steps = step.get("yes") or []
+                no_steps = step.get("no") or []
+                yl = step.get("yes_label", yes_label)
+                nl = step.get("no_label", no_label)
+
+                if yes_steps:
+                    _fc_arrow(parts, mid, left_vx, dia_cy, left_x, branch_top, curve=True, color="#059669")
+                    _fc_label(parts, (left_vx + left_x) / 2 - 4, (dia_cy + branch_top) / 2 - 8, yl, "#059669")
+                    yes_bottom = render(yes_steps, left_x, branch_top)
+                else:
+                    yes_bottom = dia_cy
+                if no_steps:
+                    _fc_arrow(parts, mid, right_vx, dia_cy, right_x, branch_top, curve=True, color="#DB2777")
+                    _fc_label(parts, (right_vx + right_x) / 2 + 4, (dia_cy + branch_top) / 2 - 8, nl, "#DB2777")
+                    no_bottom = render(no_steps, right_x, branch_top)
+                else:
+                    no_bottom = dia_cy
+
+                merge_y = max(yes_bottom, no_bottom, dia_bottom) + _FC_MERGE_GAP
+                if yes_steps:
+                    _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=True)
+                else:
+                    _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=True, color="#059669")
+                    _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
+                if no_steps:
+                    _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=True)
+                else:
+                    _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=True, color="#DB2777")
+                    _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
+
+                y = merge_y
+                prev_bottom = merge_y
+            else:
+                if prev_bottom is not None:
+                    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+                h = draw(kind, label, cx, y)
+                prev_bottom = y + h
+                y = prev_bottom + _FC_GAP_Y
+        return prev_bottom if prev_bottom is not None else y
+
+    render(steps, 0.0, 10.0)
+    pad = 40
+    min_x, max_x, max_y = bounds["min_x"] - pad, bounds["max_x"] + pad, bounds["max_y"] + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def condition_cascade(
+    conditions: list[tuple[str, str]],
+    *,
+    default_label: str,
+    start_label: str = "СТАРТ",
+    input_label: str | None = None,
+    end_label: str = "КОНЕЦ",
+    exit_label: str = "ДА",
+    continue_label: str = "НЕТ",
+    caption: str = "",
+) -> str:
+    """Vertical cascade of conditions (elif-ladder / short-circuit shape),
+    built from the same shape vocabulary as flowchart(): each condition is
+    tested in turn; the `exit_label` branch immediately peels off to its
+    paired result and merges toward END, while the other branch falls
+    through to the next condition. After the last condition, default_label
+    executes unconditionally. Every result — peeled or default — visibly
+    merges through a shared collector line into one END, so "first true
+    wins, the rest is skipped" is impossible to misread."""
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    dia_w = _FC_DEC_W
+    box_w, box_h = _FC_IO_W, _FC_IO_H
+    col_gap = 70
+    row_gap = 40
+
+    cx = dia_w / 2 + 20
+    box_x = cx + dia_w / 2 + col_gap
+    box_cx = box_x + box_w / 2
+    collector_x = box_x + box_w + 60
+
+    y = 10.0
+    h = _fc_node_height("start", start_label)
+    _fc_draw_node(parts, "start", start_label, cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    if input_label:
+        _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+        h = _fc_node_height("input", input_label)
+        _fc_draw_node(parts, "input", input_label, cx, y)
+        prev_bottom = y + h
+        y = prev_bottom + _FC_GAP_Y
+
+    result_ys: list[float] = []
+    max_box_bottom = prev_bottom
+    for i, (cond, result) in enumerate(conditions):
+        _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+        dh = _fc_node_height("decision", cond)
+        _fc_draw_node(parts, "decision", cond, cx, y)
+        dia_cy = y + dh / 2
+        dia_bottom = y + dh
+
+        _fc_arrow(parts, mid, cx + dia_w / 2, dia_cy, box_x, dia_cy, color="#059669")
+        _fc_label(parts, (cx + dia_w / 2 + box_x) / 2, dia_cy - 10, exit_label, "#059669")
+        box_h_actual = _fc_node_height("output", result)
+        _fc_draw_node(parts, "output", result, box_cx, dia_cy - box_h_actual / 2)
+        result_ys.append(dia_cy)
+        max_box_bottom = max(max_box_bottom, dia_cy + box_h_actual / 2)
+
+        prev_bottom = dia_bottom
+        y = dia_bottom + row_gap
+        _fc_label(parts, cx + 24, (dia_bottom + y) / 2, continue_label, "#DB2777")
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh = _fc_node_height("output", default_label)
+    _fc_draw_node(parts, "output", default_label, cx, y)
+    default_bottom = y + dh
+    y = default_bottom + _FC_GAP_Y
+
+    end_y = y
+    eh = _fc_node_height("end", end_label)
+    end_cy = end_y + eh / 2
+
+    for by in result_ys:
+        parts.append(f'<line x1="{box_x + box_w}" y1="{by}" x2="{collector_x}" y2="{by}" stroke="#B9A0FC" stroke-width="2"/>')
+    top_collector_y = min(result_ys) if result_ys else end_cy
+    parts.append(f'<line x1="{collector_x}" y1="{top_collector_y}" x2="{collector_x}" y2="{end_cy}" stroke="#B9A0FC" stroke-width="2"/>')
+    _fc_arrow(parts, mid, collector_x, end_cy, cx + _FC_TERM_W / 2, end_cy, color="#B9A0FC")
+    _fc_arrow(parts, mid, cx, default_bottom, cx, end_y)
+    _fc_draw_node(parts, "end", end_label, cx, end_y)
+
+    pad = 40
+    min_x = -pad
+    max_x = collector_x + pad
+    max_y = end_y + eh + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def loop_preview_diagram(*, action_label: str, question_label: str, caption: str = "") -> str:
+    """One-off cyclic diagram for the repetition preview and the Chapter
+    9 -> 10 bridge: START -> ACTION -> question? -> ДА loops visibly
+    BACKWARD to ACTION again, НЕТ continues down to END. Loop syntax is
+    deliberately not shown — only the shape of repetition itself."""
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    cx = 150.0
+
+    y = 10.0
+    h = _fc_node_height("start", "СТАРТ")
+    _fc_draw_node(parts, "start", "СТАРТ", cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    ph = _fc_node_height("process", action_label)
+    proc_top = y
+    _fc_draw_node(parts, "process", action_label, cx, y)
+    prev_bottom = y + ph
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh = _fc_node_height("decision", question_label)
+    _fc_draw_node(parts, "decision", question_label, cx, y)
+    dia_cy = y + dh / 2
+    dia_bottom = y + dh
+    dia_right = cx + _FC_DEC_W / 2
+
+    loop_x = dia_right + 110
+    proc_cy = proc_top + ph / 2
+    parts.append(
+        f'<path d="M{dia_right},{dia_cy} L{loop_x},{dia_cy} L{loop_x},{proc_cy} L{cx + _FC_PROC_W / 2},{proc_cy}" '
+        f'fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid})"/>'
+    )
+    _fc_label(parts, loop_x + 8, dia_cy - 10, "ДА — повторить", "#5B24F9", anchor="start")
+
+    prev_bottom = dia_bottom
+    y = dia_bottom + _FC_GAP_Y
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y, color="#DB2777")
+    _fc_label(parts, cx + 26, (prev_bottom + y) / 2, "НЕТ", "#DB2777")
+    _fc_draw_node(parts, "end", "КОНЕЦ", cx, y)
+    end_bottom = y + _fc_node_height("end", "КОНЕЦ")
+
+    pad = 40
+    min_x, max_x = cx - _FC_PROC_W / 2 - pad, loop_x + 150 + pad
+    max_y = end_bottom + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
 
 
 def precedence_ladder(levels: list[tuple[str, str]], *, caption: str = "") -> str:
