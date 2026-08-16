@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>elif — несколько вариантов — Python с нуля — Cartesian School</title>
+<meta name="description" content="Оператор elif для нескольких взаимоисключающих вариантов; почему порядок условий критически важен." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-09/09-12-elif-lestnica.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="elif — несколько вариантов — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Оператор elif для нескольких взаимоисключающих вариантов; почему порядок условий критически важен." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-09/09-12-elif-lestnica.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="elif — несколько вариантов — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Оператор elif для нескольких взаимоисключающих вариантов; почему порядок условий критически важен." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"elif — несколько вариантов — Python с нуля — Cartesian School","description":"Оператор elif для нескольких взаимоисключающих вариантов; почему порядок условий критически важен.","url":"https://www.cartesianschool.org/chapters/glava-09/09-12-elif-lestnica.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-07-algoritmy-i-komandy.html">Алгоритмы и команды</a></li><li><a href="09-08-tri-struktury-i-vetvlenie.html">Три структуры алгоритма и ветвление</a></li><li><a href="09-01-istina-ili-lozh.html">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-09-ravno-i-sravnenie-strok.html">== против =, и сравнение строк</a></li><li><a href="09-10-cepochki-sravnenij.html">Цепочки сравнений</a></li><li><a href="09-11-truthiness-i-none.html">Truthiness и None</a></li><li><a href="09-03-if-inache.html">Если это произошло — выполни команду!</a></li><li><a href="09-12-elif-lestnica.html" class="active">elif — несколько вариантов</a></li><li><a href="09-13-neskolko-if-protiv-elif.html">Несколько if ≠ if/elif/else</a></li><li><a href="09-14-and.html">and — все условия сразу</a></li><li><a href="09-15-or.html">or — хотя бы одно</a></li><li><a href="09-16-not.html">not — переворачиваем условие</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-17-short-circuit.html">Short-circuit: Python иногда ленится</a></li><li><a href="09-18-in-not-in.html">in / not in как условие</a></li><li><a href="09-19-is-vs-ravno.html">is против ==</a></li><li><a href="09-20-vlozhennye-uslovija.html">Вложенные условия</a></li><li><a href="09-21-proektirovanie-uslovij.html">Проектируем условие: ввод, валидация, границы</a></li><li><a href="09-22-otladka-logiki.html">Отладка логических ошибок</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-23-mini-proekt-klub-i-pogoda.html">Мини-проекты: клуб и погода</a></li><li><a href="09-24-mini-proekt-ocenki-i-komandy.html">Мини-проекты: оценки и команды</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/09-07/index.html">🐍 09-07: Практика</a></li><li><a href="../../practice/09-08/index.html">🐍 09-08: Практика</a></li><li><a href="../../practice/09-01/index.html">🐍 09-01: Практика</a></li><li><a href="../../practice/09-02/index.html">🐍 09-02: Практика</a></li><li><a href="../../practice/09-09/index.html">🐍 09-09: Практика</a></li><li><a href="../../practice/09-10/index.html">🐍 09-10: Практика</a></li><li><a href="../../practice/09-11/index.html">🐍 09-11: Практика</a></li><li><a href="../../practice/09-03/index.html">🐍 09-03: Практика</a></li><li><a href="../../practice/09-12/index.html">🐍 09-12: Практика</a></li><li><a href="../../practice/09-13/index.html">🐍 09-13: Практика</a></li><li><a href="../../practice/09-14/index.html">🐍 09-14: Практика</a></li><li><a href="../../practice/09-15/index.html">🐍 09-15: Практика</a></li><li><a href="../../practice/09-16/index.html">🐍 09-16: Практика</a></li><li><a href="../../practice/09-04/index.html">🐍 09-04: Практика</a></li><li><a href="../../practice/09-17/index.html">🐍 09-17: Практика</a></li><li><a href="../../practice/09-18/index.html">🐍 09-18: Практика</a></li><li><a href="../../practice/09-19/index.html">🐍 09-19: Практика</a></li><li><a href="../../practice/09-20/index.html">🐍 09-20: Практика</a></li><li><a href="../../practice/09-21/index.html">🐍 09-21: Практика</a></li><li><a href="../../practice/09-22/index.html">🐍 09-22: Практика</a></li><li><a href="../../practice/09-05/index.html">🐍 09-05: Практика</a></li><li><a href="../../practice/09-23/index.html">🐍 09-23: Практика</a></li><li><a href="../../practice/09-24/index.html">🐍 09-24: Практика</a></li><li><a href="../../practice/09-06/index.html">🐍 09-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / elif</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>elif — несколько вариантов</h1>
+    <p class="lede">Когда исходов больше двух — elif проверяет условия по очереди, и первое истинное побеждает.</p>
+
+
+    <h2>Когда исходов больше двух</h2>
+    <p>Температура: ниже нуля — «мороз», от 0 до 14 — «прохладно», от 15 до 24 —
+    «комфортно», иначе — «жарко». Четыре исхода, а не два — здесь <code class="inline">if/else</code>
+    уже не хватает.</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 490 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="if/elif/else как лестница условий — первое истинное условие выигрывает" style="width:100%;height:auto;max-width:490px"><defs><marker id='arrowel' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><polygon points="120.0,10 230.0,42.0 120.0,74 10.0,42.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="47.0">temperature &lt; 0?</tspan></text><path d="M230.0,42.0 L290.0,42.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="32.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="12.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="47.0">&quot;мороз&quot;</tspan></text><path d="M120.0,74 L120.0,120" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="101.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><polygon points="120.0,120 230.0,152.0 120.0,184 10.0,152.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="157.0">temperature &lt; 15?</tspan></text><path d="M230.0,152.0 L290.0,152.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="142.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="122.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="157.0">&quot;прохладно&quot;</tspan></text><path d="M120.0,184 L120.0,230" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="211.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><polygon points="120.0,230 230.0,262.0 120.0,294 10.0,262.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="267.0">temperature &lt; 25?</tspan></text><path d="M230.0,262.0 L290.0,262.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="252.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="232.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="267.0">&quot;комфортно&quot;</tspan></text><path d="M120.0,294 L120.0,340" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="321.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><rect x="25.0" y="340" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5" stroke-dasharray="5 4"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="120.0" y="375.0">&quot;жарко&quot;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">if/elif/else как лестница условий — первое истинное условие выигрывает</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>elif_cepochka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>temperature = <span class="tok-num">10</span>
+
+<span class="tok-kw">if</span> temperature &lt; <span class="tok-num">0</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;мороз&quot;</span>)
+<span class="tok-kw">elif</span> temperature &lt; <span class="tok-num">15</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;прохладно&quot;</span>)
+<span class="tok-kw">elif</span> temperature &lt; <span class="tok-num">25</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;комфортно&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;жарко&quot;</span>)</code></pre>
+    </div>
+    <p><code class="inline">elif</code> — сокращение от <em>else if</em>, «а иначе, если». Он
+    добавляет ещё одно условие между <code class="inline">if</code> и
+    <code class="inline">else</code>.</p>
+
+    <h2>Первое истинное условие побеждает</h2>
+    <p>Python проверяет условия <strong>по порядку, сверху вниз</strong>, и останавливается на
+    первом истинном — даже если следующие условия тоже подошли бы. Оставшаяся часть цепочки
+    просто пропускается.</p>
+
+    <h2>Порядок условий имеет значение</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>nepravilnyj_poryadok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>score = <span class="tok-num">95</span>
+
+<span class="tok-kw">if</span> score &gt;= <span class="tok-num">50</span>:
+    bukva = <span class="tok-str">&quot;D&quot;</span>
+<span class="tok-kw">elif</span> score &gt;= <span class="tok-num">90</span>:
+    bukva = <span class="tok-str">&quot;A&quot;</span>   <span class="tok-com"># никогда не выполнится для score &gt;= 50!</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 470 252" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="score = 95: если &gt;= 50 стоит первым, программа никогда не дойдёт до &gt;= 90" style="width:100%;height:auto;max-width:470px"><defs><marker id='arrowdd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><polygon points="235.0,10 355.0,60.0 235.0,110 115.0,60.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#fff"><tspan x="235.0" y="65.0">score &gt;= 50?</tspan></text><path d="M115.0,60.0 L95.0,166" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowdd)"/><path d="M355.0,60.0 L375.0,166" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowdd)"/><text x="91.0" y="113.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#059669">True</text><text x="379.0" y="113.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#DB2777">False</text><rect x="0.0" y="166" width="190" height="76" rx="14" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="95.0" y="191.0">branch выбрана —</tspan><tspan x="95.0" y="209.0">остальные elif</tspan><tspan x="95.0" y="227.0">ПРОПУЩЕНЫ, даже &gt;=…</tspan></text><rect x="280.0" y="166" width="190" height="76" rx="14" fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="375.0" y="200.0">проверяем следующее</tspan><tspan x="375.0" y="218.0">условие</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">score = 95: если &gt;= 50 стоит первым, программа никогда не дойдёт до &gt;= 90</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">score = 95 попадёт в «D», а не в «A»</div>
+        <div class="callout-body">Раз <code class="inline">score &gt;= 50</code> стоит первым и <code class="inline">95 &gt;= 50</code> истинно, Python выбирает именно эту ветку и даже не проверяет <code class="inline">score &gt;= 90</code>.</div>
+      </div>
+    </div>
+    <p><strong>Исправление</strong> — расположить условия от более строгого к менее строгому:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>pravilnyj_poryadok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>score = <span class="tok-num">95</span>
+
+<span class="tok-kw">if</span> score &gt;= <span class="tok-num">90</span>:
+    bukva = <span class="tok-str">&quot;A&quot;</span>
+<span class="tok-kw">elif</span> score &gt;= <span class="tok-num">75</span>:
+    bukva = <span class="tok-str">&quot;B&quot;</span>
+<span class="tok-kw">elif</span> score &gt;= <span class="tok-num">50</span>:
+    bukva = <span class="tok-str">&quot;C&quot;</span>
+<span class="tok-kw">else</span>:
+    bukva = <span class="tok-str">&quot;D&quot;</span></code></pre>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Три ступени скидки</div>
+      <p>Постройте elif-лестницу: сумма покупки >= 5000 — скидка 15%, >= 2000 — скидка 10%, >= 500 — скидка 5%, иначе — скидки нет. Проверьте на сумме 3000 — какая скидка выиграет?</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: elif-лестница и порядок условий</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="09-12"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/09-12/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["09-12"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="09-12"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="09-03-if-inache.html"><div class="dir">← Назад</div><div class="lbl">if / else</div></a><a href="09-13-neskolko-if-protiv-elif.html" class="next"><div class="dir">Далее →</div><div class="lbl">Несколько if ≠ if/elif/else</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

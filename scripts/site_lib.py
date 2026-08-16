@@ -685,6 +685,260 @@ def string_slice_diagram(text: str, start: int, stop: int, *, caption: str = "")
     )
 
 
+def decision_diamond_diagram(
+    question: str,
+    *,
+    yes_label: str = "True",
+    no_label: str = "False",
+    yes_result: str = "",
+    no_result: str = "",
+    caption: str = "",
+) -> str:
+    """The core recurring Chapter 9 visual: one question in a diamond,
+    branching down-left to a True/Да outcome and down-right to a False/Нет
+    outcome. Used for every single-condition decision throughout the
+    chapter (age >= 18?, temperature < 0?, the first if, if/else, ...)."""
+    q_lines = _wrap_svg_text(" ".join(question.split()), max_chars=15, max_lines=3)
+    dia_w, dia_base_h = 240, 100
+    dia_h = dia_base_h + (len(q_lines) - 1) * 20
+    box_w, box_h, gap = 190, 76, 90
+
+    total_w = max(2 * box_w + gap, dia_w + 40)
+    cx = total_w / 2
+    dia_top, dia_bottom = 10, 10 + dia_h
+    dia_cy = (dia_top + dia_bottom) / 2
+    left_v = (cx - dia_w / 2, dia_cy)
+    right_v = (cx + dia_w / 2, dia_cy)
+
+    boxes_y = dia_bottom + 56
+    left_x = cx - gap / 2 - box_w
+    right_x = cx + gap / 2
+    left_cx, right_cx = left_x + box_w / 2, right_x + box_w / 2
+    total_h = boxes_y + box_h + 10
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs><marker id='arrowdd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    ]
+    parts.append(
+        f'<polygon points="{cx},{dia_top} {right_v[0]},{dia_cy} {cx},{dia_bottom} {left_v[0]},{dia_cy}" '
+        f'fill="#5B24F9"/>'
+    )
+    q_first_y = dia_cy - (len(q_lines) - 1) * 10 + 5
+    q_tspans = "".join(
+        f'<tspan x="{cx}" y="{q_first_y + li * 20}">{html.escape(line)}</tspan>' for li, line in enumerate(q_lines)
+    )
+    parts.append(
+        f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
+        f'font-size="15" fill="#fff">{q_tspans}</text>'
+    )
+    parts.append(
+        f'<path d="M{left_v[0]},{left_v[1]} L{left_cx},{boxes_y}" fill="none" stroke="#059669" '
+        f'stroke-width="2.5" marker-end="url(#arrowdd)"/>'
+    )
+    parts.append(
+        f'<path d="M{right_v[0]},{right_v[1]} L{right_cx},{boxes_y}" fill="none" stroke="#DB2777" '
+        f'stroke-width="2.5" marker-end="url(#arrowdd)"/>'
+    )
+    mid_left = ((left_v[0] + left_cx) / 2 - 14, (left_v[1] + boxes_y) / 2)
+    mid_right = ((right_v[0] + right_cx) / 2 + 14, (right_v[1] + boxes_y) / 2)
+    parts.append(
+        f'<text x="{mid_left[0]}" y="{mid_left[1]}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+        f'font-weight="700" font-size="13" fill="#059669">{html.escape(yes_label)}</text>'
+    )
+    parts.append(
+        f'<text x="{mid_right[0]}" y="{mid_right[1]}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+        f'font-weight="700" font-size="13" fill="#DB2777">{html.escape(no_label)}</text>'
+    )
+    for x, cxb, result, color in ((left_x, left_cx, yes_result, "#059669"), (right_x, right_cx, no_result, "#DB2777")):
+        parts.append(
+            f'<rect x="{x}" y="{boxes_y}" width="{box_w}" height="{box_h}" rx="14" '
+            f'fill="#FAFAFC" stroke="{color}" stroke-width="1.5"/>'
+        )
+        r_lines = _wrap_svg_text(" ".join(result.split()), max_chars=20, max_lines=3)
+        r_first_y = boxes_y + box_h / 2 - (len(r_lines) - 1) * 9 + 5
+        r_tspans = "".join(
+            f'<tspan x="{cxb}" y="{r_first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(r_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="13" '
+            f'fill="#0D0230">{r_tspans}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def elif_ladder_diagram(steps: list[tuple[str, str]], *, else_label: str = "", caption: str = "") -> str:
+    """Vertical cascade of conditions — condition 1, and if False, condition
+    2, and so on — with each True branch peeling off to the right to a
+    labeled result, and the final False falling through to else_label (if
+    given). Used for if/elif/else, elif ordering, and the Guess-the-Number
+    decision tree."""
+    dia_w, dia_h = 220, 64
+    box_w, box_h = 190, 60
+    row_gap = 46
+    col_gap = 60
+
+    n = len(steps)
+    total_w = dia_w + col_gap + box_w + 20
+    dia_cx = 10 + dia_w / 2
+    total_h = 10 + n * (dia_h + row_gap) + (box_h + 30 if else_label else 0)
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs><marker id='arrowel' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    ]
+    y = 10
+    for i, (cond, result) in enumerate(steps):
+        top, bottom = y, y + dia_h
+        cy = (top + bottom) / 2
+        left_v = (dia_cx - dia_w / 2, cy)
+        right_v = (dia_cx + dia_w / 2, cy)
+        parts.append(
+            f'<polygon points="{dia_cx},{top} {right_v[0]},{cy} {dia_cx},{bottom} {left_v[0]},{cy}" fill="#5B24F9"/>'
+        )
+        c_lines = _wrap_svg_text(" ".join(cond.split()), max_chars=17, max_lines=2)
+        c_first_y = cy - (len(c_lines) - 1) * 9 + 5
+        c_tspans = "".join(
+            f'<tspan x="{dia_cx}" y="{c_first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(c_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" '
+            f'fill="#fff">{c_tspans}</text>'
+        )
+        box_x = dia_cx + dia_w / 2 + col_gap
+        box_cx = box_x + box_w / 2
+        parts.append(
+            f'<path d="M{right_v[0]},{cy} L{box_x},{cy}" fill="none" stroke="#059669" stroke-width="2.5" '
+            f'marker-end="url(#arrowel)"/>'
+        )
+        parts.append(
+            f'<text x="{(right_v[0] + box_x) / 2}" y="{cy - 10}" text-anchor="middle" '
+            f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text>'
+        )
+        parts.append(
+            f'<rect x="{box_x}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/>'
+        )
+        r_lines = _wrap_svg_text(" ".join(result.split()), max_chars=20, max_lines=2)
+        r_first_y = cy - (len(r_lines) - 1) * 9 + 5
+        r_tspans = "".join(
+            f'<tspan x="{box_cx}" y="{r_first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(r_lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="13" '
+            f'fill="#0D0230">{r_tspans}</text>'
+        )
+        next_top = bottom + row_gap
+        if i < n - 1 or else_label:
+            arrow_bottom = next_top if i < n - 1 else next_top
+            parts.append(
+                f'<path d="M{dia_cx},{bottom} L{dia_cx},{arrow_bottom}" fill="none" stroke="#DB2777" '
+                f'stroke-width="2.5" marker-end="url(#arrowel)"/>'
+            )
+            parts.append(
+                f'<text x="{dia_cx + 14}" y="{(bottom + arrow_bottom) / 2 + 4}" '
+                f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text>'
+            )
+        y = next_top
+    if else_label:
+        el_lines = _wrap_svg_text(" ".join(else_label.split()), max_chars=22, max_lines=2)
+        el_cy = y + box_h / 2
+        el_first_y = el_cy - (len(el_lines) - 1) * 9 + 5
+        el_tspans = "".join(
+            f'<tspan x="{dia_cx}" y="{el_first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(el_lines)
+        )
+        parts.append(
+            f'<rect x="{dia_cx - box_w / 2}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5" stroke-dasharray="5 4"/>'
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="13" '
+            f'fill="#0D0230">{el_tspans}</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def comparison_number_line(
+    *,
+    axis_lo: float,
+    axis_hi: float,
+    lo_bound: float | None = None,
+    hi_bound: float | None = None,
+    lo_inclusive: bool = True,
+    hi_inclusive: bool = True,
+    caption: str = "",
+) -> str:
+    """Horizontal number line shading the region that satisfies a
+    comparison. Pass only lo_bound for "value >= / > lo_bound" (shades
+    right of it); only hi_bound for "value < / <= hi_bound" (shades left of
+    it); both for a chained/range comparison (shades between them). Filled
+    circle = inclusive boundary (>=, <=); open circle = exclusive (>, <)."""
+    total_w, pad = 640, 50
+    usable = total_w - 2 * pad
+    y = 70
+    total_h = 110
+
+    def x_of(v: float) -> float:
+        return pad + (v - axis_lo) / (axis_hi - axis_lo) * usable
+
+    shade_lo = x_of(lo_bound) if lo_bound is not None else x_of(axis_lo)
+    shade_hi = x_of(hi_bound) if hi_bound is not None else x_of(axis_hi)
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs><marker id='arrownc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    ]
+    parts.append(
+        f'<line x1="{pad - 8}" y1="{y}" x2="{total_w - pad + 8}" y2="{y}" stroke="#E4E1F5" stroke-width="4" '
+        f'marker-end="url(#arrownc)"/>'
+    )
+    parts.append(f'<line x1="{shade_lo}" y1="{y}" x2="{shade_hi}" y2="{y}" stroke="#5B24F9" stroke-width="6"/>')
+
+    def boundary(x: float, value: float, inclusive: bool) -> None:
+        fill = "#5B24F9" if inclusive else "#FAFAFC"
+        parts.append(f'<circle cx="{x}" cy="{y}" r="8" fill="{fill}" stroke="#5B24F9" stroke-width="2.5"/>')
+        label = _fmt_num(value)
+        parts.append(
+            f'<text x="{x}" y="{y - 20}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="14" fill="#0D0230">{html.escape(label)}</text>'
+        )
+
+    if lo_bound is not None:
+        boundary(x_of(lo_bound), lo_bound, lo_inclusive)
+    if hi_bound is not None:
+        boundary(x_of(hi_bound), hi_bound, hi_inclusive)
+
+    label_y = y + 32
+    if lo_bound is not None and hi_bound is None:
+        parts.append(f'<text x="{(pad + shade_lo) / 2}" y="{label_y}" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8A8A9A">False</text>')
+        parts.append(f'<text x="{(shade_lo + total_w - pad) / 2}" y="{label_y}" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="#059669">True</text>')
+    elif hi_bound is not None and lo_bound is None:
+        parts.append(f'<text x="{(pad + shade_hi) / 2}" y="{label_y}" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="#059669">True</text>')
+        parts.append(f'<text x="{(shade_hi + total_w - pad) / 2}" y="{label_y}" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8A8A9A">False</text>')
+    elif lo_bound is not None and hi_bound is not None:
+        parts.append(f'<text x="{(shade_lo + shade_hi) / 2}" y="{label_y}" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="12" fill="#059669">True</text>')
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">{svg}{cap}</figure>'
+
+
+def _fmt_num(v: float) -> str:
+    return str(int(v)) if float(v).is_integer() else str(v)
+
+
 def precedence_ladder(levels: list[tuple[str, str]], *, caption: str = "") -> str:
     """HTML ladder of precedence levels, highest first. levels: list of
     (symbols, description), e.g. ("() ", "скобки — всегда первыми")."""

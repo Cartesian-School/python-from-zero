@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Short-circuit: Python иногда ленится — Python с нуля — Cartesian School</title>
+<meta name="description" content="Short-circuit evaluation для and/or: Python не всегда вычисляет второй операнд — и как это защищает от ошибок вроде IndexError." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-09/09-17-short-circuit.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Short-circuit: Python иногда ленится — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Short-circuit evaluation для and/or: Python не всегда вычисляет второй операнд — и как это защищает от ошибок вроде IndexError." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-09/09-17-short-circuit.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Short-circuit: Python иногда ленится — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Short-circuit evaluation для and/or: Python не всегда вычисляет второй операнд — и как это защищает от ошибок вроде IndexError." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Short-circuit: Python иногда ленится — Python с нуля — Cartesian School","description":"Short-circuit evaluation для and/or: Python не всегда вычисляет второй операнд — и как это защищает от ошибок вроде IndexError.","url":"https://www.cartesianschool.org/chapters/glava-09/09-17-short-circuit.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 9 · Условия</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="09-07-algoritmy-i-komandy.html">Алгоритмы и команды</a></li><li><a href="09-08-tri-struktury-i-vetvlenie.html">Три структуры алгоритма и ветвление</a></li><li><a href="09-01-istina-ili-lozh.html">Истина или ложь</a></li><li><a href="09-02-sravnenie-i-reshenie.html">Сравниваем и принимаем решение</a></li><li><a href="09-09-ravno-i-sravnenie-strok.html">== против =, и сравнение строк</a></li><li><a href="09-10-cepochki-sravnenij.html">Цепочки сравнений</a></li><li><a href="09-11-truthiness-i-none.html">Truthiness и None</a></li><li><a href="09-03-if-inache.html">Если это произошло — выполни команду!</a></li><li><a href="09-12-elif-lestnica.html">elif — несколько вариантов</a></li><li><a href="09-13-neskolko-if-protiv-elif.html">Несколько if ≠ if/elif/else</a></li><li><a href="09-14-and.html">and — все условия сразу</a></li><li><a href="09-15-or.html">or — хотя бы одно</a></li><li><a href="09-16-not.html">not — переворачиваем условие</a></li><li><a href="09-04-neskolko-uslovij.html">Больше одного условия!</a></li><li><a href="09-17-short-circuit.html" class="active">Short-circuit: Python иногда ленится</a></li><li><a href="09-18-in-not-in.html">in / not in как условие</a></li><li><a href="09-19-is-vs-ravno.html">is против ==</a></li><li><a href="09-20-vlozhennye-uslovija.html">Вложенные условия</a></li><li><a href="09-21-proektirovanie-uslovij.html">Проектируем условие: ввод, валидация, границы</a></li><li><a href="09-22-otladka-logiki.html">Отладка логических ошибок</a></li><li><a href="09-05-mini-proekt-ugadaj-chislo.html">Мини-проект: «Угадай число»</a></li><li><a href="09-23-mini-proekt-klub-i-pogoda.html">Мини-проекты: клуб и погода</a></li><li><a href="09-24-mini-proekt-ocenki-i-komandy.html">Мини-проекты: оценки и команды</a></li><li><a href="09-06-nakoplenie-uslovij-itogi.html">Условия накапливаются и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/09-07/index.html">🐍 09-07: Практика</a></li><li><a href="../../practice/09-08/index.html">🐍 09-08: Практика</a></li><li><a href="../../practice/09-01/index.html">🐍 09-01: Практика</a></li><li><a href="../../practice/09-02/index.html">🐍 09-02: Практика</a></li><li><a href="../../practice/09-09/index.html">🐍 09-09: Практика</a></li><li><a href="../../practice/09-10/index.html">🐍 09-10: Практика</a></li><li><a href="../../practice/09-11/index.html">🐍 09-11: Практика</a></li><li><a href="../../practice/09-03/index.html">🐍 09-03: Практика</a></li><li><a href="../../practice/09-12/index.html">🐍 09-12: Практика</a></li><li><a href="../../practice/09-13/index.html">🐍 09-13: Практика</a></li><li><a href="../../practice/09-14/index.html">🐍 09-14: Практика</a></li><li><a href="../../practice/09-15/index.html">🐍 09-15: Практика</a></li><li><a href="../../practice/09-16/index.html">🐍 09-16: Практика</a></li><li><a href="../../practice/09-04/index.html">🐍 09-04: Практика</a></li><li><a href="../../practice/09-17/index.html">🐍 09-17: Практика</a></li><li><a href="../../practice/09-18/index.html">🐍 09-18: Практика</a></li><li><a href="../../practice/09-19/index.html">🐍 09-19: Практика</a></li><li><a href="../../practice/09-20/index.html">🐍 09-20: Практика</a></li><li><a href="../../practice/09-21/index.html">🐍 09-21: Практика</a></li><li><a href="../../practice/09-22/index.html">🐍 09-22: Практика</a></li><li><a href="../../practice/09-05/index.html">🐍 09-05: Практика</a></li><li><a href="../../practice/09-23/index.html">🐍 09-23: Практика</a></li><li><a href="../../practice/09-24/index.html">🐍 09-24: Практика</a></li><li><a href="../../practice/09-06/index.html">🐍 09-06: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 9</a> / Short-circuit</div>
+    <div class="section-kicker">Глава 9 · Выполняй мою команду!</div>
+    <h1>Short-circuit: Python иногда ленится</h1>
+    <p class="lede">and и or не всегда вычисляют оба операнда — и это свойство можно использовать, чтобы защититься от ошибок.</p>
+
+
+    <h2>Python иногда не проверяет всё условие</h2>
+    <p>У <code class="inline">and</code> и <code class="inline">or</code> есть важное
+    свойство — <strong>short-circuit</strong> («короткое замыкание»): Python вычисляет второй
+    операнд, только если это действительно нужно для ответа.</p>
+
+    <h2>and: если A уже False</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="and: если A уже False, результат заведомо False — B проверять незачем" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">A?</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">если False</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">СТОП</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">B не проверяется</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Результат</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">False</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">and: если A уже False, результат заведомо False — B проверять незачем</figcaption></figure>
+    <p>Если <code class="inline">A</code> ложно, весь <code class="inline">A and B</code> уже
+    обязан быть ложным — независимо от <code class="inline">B</code>. Python это понимает и не
+    тратит время на вычисление <code class="inline">B</code>.</p>
+
+    <h2>or: если A уже True</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="or: если A уже True, результат заведомо True — B проверять незачем" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">A?</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">если True</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">СТОП</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">B не проверяется</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Результат</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">True</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">or: если A уже True, результат заведомо True — B проверять незачем</figcaption></figure>
+    <p>Аналогично: если <code class="inline">A</code> истинно, весь
+    <code class="inline">A or B</code> уже обязан быть истинным.</p>
+
+    <h2>Реальная польза: защита от ошибки</h2>
+    <p>Это не просто оптимизация скорости — иногда именно она спасает программу от падения:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>short_circuit_zashchita.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;&quot;</span>
+
+<span class="tok-kw">if</span> name <span class="tok-kw">and</span> name[<span class="tok-num">0</span>] == <span class="tok-str">&quot;A&quot;</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Имя начинается на A&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Условие не выполнено&quot;</span>)</code></pre>
+    </div>
+    <p>Если <code class="inline">name</code> — пустая строка, она сама по себе falsy (глава 8),
+    поэтому <code class="inline">name and ...</code> уже ложно, и Python <strong>даже не
+    пытается</strong> вычислить <code class="inline">name[0]</code>. Если бы порядок был
+    обратным...</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_zashchity.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;&quot;</span>
+<span class="tok-fn">print</span>(name[<span class="tok-num">0</span>] == <span class="tok-str">&quot;A&quot;</span> <span class="tok-kw">and</span> name)
+<span class="tok-com"># IndexError: string index out of range!</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Порядок операндов имеет значение</div>
+        <div class="callout-body"><code class="inline">name and name[0] == "A"</code> — безопасно: сначала проверяется, что name вообще непустая. <code class="inline">name[0] == "A" and name</code> — опасно: Python попытается вычислить <code class="inline">name[0]</code> ещё до всякой проверки на пустоту, и получит <code class="inline">IndexError</code> для пустой строки (глава 8, раздел про индексы).</div>
+      </div>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Безопасная проверка последнего символа</div>
+      <p>Напишите условие, которое безопасно проверяет, заканчивается ли непустая строка text на символ '!' — так, чтобы для пустой строки не возникало IndexError.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: short-circuit и защита от ошибок</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="09-17"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/09-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["09-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="09-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="09-04-neskolko-uslovij.html"><div class="dir">← Назад</div><div class="lbl">Больше одного условия</div></a><a href="09-18-in-not-in.html" class="next"><div class="dir">Далее →</div><div class="lbl">in / not in как условие</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
