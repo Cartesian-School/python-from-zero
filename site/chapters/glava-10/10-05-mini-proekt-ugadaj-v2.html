@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Мини-проект — «Угадай число», версия 2 — Python с нуля — Cartesian School</title>
-<meta name="description" content="Переписываем игру «Угадай число» из главы 9, добавляя цикл и несколько попыток." />
+<meta name="description" content="Проектируем игру заново: псевдокод → flowchart → трассировка → код. while+break, затем ограничение попыток с loop-else." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Мини-проект — «Угадай число», версия 2 — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Переписываем игру «Угадай число» из главы 9, добавляя цикл и несколько попыток." />
+<meta property="og:description" content="Проектируем игру заново: псевдокод → flowchart → трассировка → код. while+break, затем ограничение попыток с loop-else." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-10/10-05-mini-proekt-ugadaj-v2.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Мини-проект — «Угадай число», версия 2 — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Переписываем игру «Угадай число» из главы 9, добавляя цикл и несколько попыток." />
+<meta name="twitter:description" content="Проектируем игру заново: псевдокод → flowchart → трассировка → код. while+break, затем ограничение попыток с loop-else." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Мини-проект — «Угадай число», версия 2 — Python с нуля — Cartesian School","description":"Переписываем игру «Угадай число» из главы 9, добавляя цикл и несколько попыток.","url":"https://www.cartesianschool.org/chapters/glava-10/10-05-mini-proekt-ugadaj-v2.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Мини-проект — «Угадай число», версия 2 — Python с нуля — Cartesian School","description":"Проектируем игру заново: псевдокод → flowchart → трассировка → код. while+break, затем ограничение попыток с loop-else.","url":"https://www.cartesianschool.org/chapters/glava-10/10-05-mini-proekt-ugadaj-v2.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,20 +40,49 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Волшебные циклы! Циклы for</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break и continue</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html" class="active">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 10 · Циклы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="10-01-cikly-for.html">Повторение и первый цикл for</a></li><li><a href="10-09-range-podrobno.html">range() подробно: старт, стоп, шаг</a></li><li><a href="10-10-enumerate-i-nakoplenie.html">Индекс, значение, enumerate() и накопление</a></li><li><a href="10-02-if-vlozhennye-cikly.html">if внутри циклов, вложенные циклы</a></li><li><a href="10-03-perebor-strok-while.html">Перебор строк и циклы while</a></li><li><a href="10-04-break-continue.html">break, continue и loop-else</a></li><li><a href="10-11-poisk-filtr-summa.html">Поиск, фильтрация и суммирование</a></li><li><a href="10-12-proverka-vvoda.html">Проверка ввода в цикле</a></li><li><a href="10-05-mini-proekt-ugadaj-v2.html" class="active">Мини-проект: «Угадай число», версия 2</a></li><li><a href="10-13-otladka-ciklov.html">Отладка циклов: 10 типичных ошибок</a></li><li><a href="10-06-avtomatiziruem-figury.html">Автоматизируем квадрат и любую фигуру</a></li><li><a href="10-07-avtomatiziruem-mandalu.html">Автоматически рисуем мандалу</a></li><li><a href="10-14-sluchajnye-uzory.html">Случайные узоры: блуждание и звёзды</a></li><li><a href="10-15-setka-figur.html">Сетка фигур: вложенные циклы в Turtle</a></li><li><a href="10-08-spirali-itogi.html">Спирали из дуг и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/10-01/index.html">🐍 10-01: Практика</a></li><li><a href="../../practice/10-09/index.html">🐍 10-09: Практика</a></li><li><a href="../../practice/10-10/index.html">🐍 10-10: Практика</a></li><li><a href="../../practice/10-11/index.html">🐍 10-11: Практика</a></li><li><a href="../../practice/10-02/index.html">🐍 10-02: Практика</a></li><li><a href="../../practice/10-12/index.html">🐍 10-12: Практика</a></li><li><a href="../../practice/10-24/index.html">🐍 10-24: Практика</a></li><li><a href="../../practice/10-03/index.html">🐍 10-03: Практика</a></li><li><a href="../../practice/10-23/index.html">🐍 10-23: Практика</a></li><li><a href="../../practice/10-04/index.html">🐍 10-04: Практика</a></li><li><a href="../../practice/10-13/index.html">🐍 10-13: Практика</a></li><li><a href="../../practice/10-14/index.html">🐍 10-14: Практика</a></li><li><a href="../../practice/10-22/index.html">🐍 10-22: Практика</a></li><li><a href="../../practice/10-15/index.html">🐍 10-15: Практика</a></li><li><a href="../../practice/10-05/index.html">🐍 10-05: Практика</a></li><li><a href="../../practice/10-16/index.html">🐍 10-16: Практика</a></li><li><a href="../../practice/10-17/index.html">🐍 10-17: Практика</a></li><li><a href="../../practice/10-18/index.html">🐍 10-18: Практика</a></li><li><a href="../../practice/10-06/index.html">🐍 10-06: Практика</a></li><li><a href="../../practice/10-07/index.html">🐍 10-07: Практика</a></li><li><a href="../../practice/10-19/index.html">🐍 10-19: Практика</a></li><li><a href="../../practice/10-20/index.html">🐍 10-20: Практика</a></li><li><a href="../../practice/10-08/index.html">🐍 10-08: Практика</a></li><li><a href="../../practice/10-21/index.html">🐍 10-21: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 10</a> / Угадай число v2</div>
     <div class="section-kicker">Глава 10 · Немного автоматизации!</div>
     <h1>Мини-проект — игра «Угадай число», версия 2</h1>
-    <p class="lede">Та же игра, что и в главе 9, — но теперь с неограниченным числом попыток, благодаря while и break.</p>
+    <p class="lede">Та же игра, что и в главе 9, — но теперь с неограниченным числом попыток, спроектированная от псевдокода и схемы до готового кода.</p>
 
 
     <p>Помните игру «Угадай число» из главы 9? У неё была одна проблема — всего одна попытка.
     Теперь, вооружившись <code class="inline">while</code> и <code class="inline">break</code>,
-    дадим игроку сколько угодно попыток.</p>
-    
+    дадим игроку сколько угодно попыток. Спроектируем её как настоящий алгоритм — сначала
+    словами, потом схемой, потом кодом.</p>
+
+    <h2>Шаг 1 — псевдокод</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>psevdokod.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>загадать случайное число от 1 до 20
+счётчик попыток = 0
+повторять пока не угадано:
+    получить попытку игрока
+    увеличить счётчик попыток
+    если попытка равна загаданному — сообщить победу и остановиться
+    иначе если попытка меньше — подсказать «больше»
+    иначе — подсказать «меньше»</code></pre>
+    </div>
+
+    <h2>Шаг 2 — flowchart</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="-350.0 0 900.0 830.0" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Угадай число v2 — алгоритм целиком, до единой строчки Python" style="width:100%;height:auto;max-width:900px"><defs><marker id='arrowfc9' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker><marker id='arrowfc9-g' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='arrowfc9-p' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker><marker id='arrowfc9-v' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="-95.0" y="10.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="41.0">СТАРТ</tspan></text><line x1="0.0" y1="62.0" x2="0.0" y2="88.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><rect x="-105.0" y="88.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="117.0">загадать число 1..20,</tspan><tspan x="0.0" y="135.0">popytki = 0</tspan></text><line x1="0.0" y1="154.0" x2="0.0" y2="180.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><polygon points="-88.0,180.0 110.0,180.0 88.0,246.0 -110.0,246.0" fill="#EDE9FE" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="209.0">получить попытку</tspan><tspan x="0.0" y="227.0">игрока</tspan></text><line x1="0.0" y1="246.0" x2="0.0" y2="272.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><rect x="-105.0" y="272.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="305.0">popytki += 1</tspan></text><line x1="0.0" y1="328.0" x2="0.0" y2="354.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><polygon points="0.0,354.0 115.0,404.0 0.0,454.0 -115.0,404.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="0.0" y="400.0">попытка ==</tspan><tspan x="0.0" y="418.0">загаданное?</tspan></text><path d="M-115.0,404.0 C-115.0,445.0 -200.0,445.0 -200.0,486.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc9-g)"/><text x="-161.5" y="437.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><polygon points="-288.0,486.0 -90.0,486.0 -112.0,542.0 -310.0,542.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="-200.0" y="519.0">сообщить победу</tspan></text><path d="M115.0,404.0 C115.0,445.0 200.0,445.0 200.0,486.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc9-p)"/><text x="161.5" y="437.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><polygon points="200.0,486.0 315.0,536.0 200.0,586.0 85.0,536.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="200.0" y="532.0">попытка &lt;</tspan><tspan x="200.0" y="550.0">загаданное?</tspan></text><path d="M85.0,536.0 C85.0,577.0 0.0,577.0 0.0,618.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc9-g)"/><text x="38.5" y="569.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><polygon points="-88.0,618.0 110.0,618.0 88.0,674.0 -110.0,674.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="651.0">подсказать «больше»</tspan></text><path d="M315.0,536.0 C315.0,577.0 400.0,577.0 400.0,618.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc9-p)"/><text x="361.5" y="569.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><polygon points="312.0,618.0 510.0,618.0 488.0,674.0 290.0,674.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="400.0" y="651.0">подсказать «меньше»</tspan></text><path d="M0.0,674.0 C0.0,690.0 200.0,690.0 200.0,706.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><path d="M400.0,674.0 C400.0,690.0 200.0,690.0 200.0,706.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><path d="M-200.0,542.0 C-200.0,640.0 0.0,640.0 0.0,738.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><path d="M200.0,706.0 C200.0,722.0 0.0,722.0 0.0,738.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><line x1="0.0" y1="738.0" x2="0.0" y2="738.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc9)"/><rect x="-95.0" y="738.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="769.0">КОНЕЦ</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Угадай число v2 — алгоритм целиком, до единой строчки Python</figcaption></figure>
+
+    <h2>Шаг 3 — таблица трассировки (пример игры)</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Попытка №</th><th>Ввод игрока</th><th>Загадано</th><th>Результат</th></tr></thead>
+      <tbody><tr><td>1</td><td>10</td><td>14</td><td>меньше</td></tr><tr><td>2</td><td>17</td><td>14</td><td>больше</td></tr><tr><td>3</td><td>14</td><td>14</td><td>угадал!</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Шаг 4 — код</h2>
+
     <div class="code-block">
       <div class="code-label"><span>ugadaj_chislo_v2.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">import</span> random
@@ -73,21 +102,23 @@ popytki = <span class="tok-num">0</span>
     <span class="tok-kw">else</span>:
         <span class="tok-fn">print</span>(<span class="tok-str">&quot;Загаданное число меньше.&quot;</span>)</code></pre>
     </div>
-    
+
     <div class="callout callout-info">
       <div>
         <div class="callout-title">while True — намеренно бесконечный цикл</div>
-        <div class="callout-body"><code class="inline">while True:</code> создаёт цикл, который сам по себе никогда не остановится, — единственный выход из него: <code class="inline">break</code> внутри. Это распространённый и совершенно нормальный приём, когда условие остановки естественнее проверить в середине цикла, а не в его начале.</div>
+        <div class="callout-body"><code class="inline">while True:</code> сам по себе никогда не остановится — единственный выход: <code class="inline">break</code> внутри. Условие остановки («игрок угадал») естественнее проверить в середине тела, а не в начале — идеальный случай для этого приёма.</div>
       </div>
     </div>
-    
+
+    <h2>Задача на закрепление: ограничение попыток и loop-else</h2>
+
     <div class="exercise">
       <div class="exercise-stars">★★ Самостоятельная задача</div>
       <div class="exercise-title">Ограничение попыток</div>
-      <p>Добавьте ограничение — не более 5 попыток; если игрок не угадал за 5 попыток, сообщите правильный ответ и завершите игру.</p>
+      <p>Перепишите игру так, чтобы у игрока было не более 5 попыток — используйте цикл for по range(5) вместо while True, и блок else у цикла, чтобы сообщить правильный ответ, если игрок за 5 попыток не угадал.</p>
     </div>
 
-    
+
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: «Угадай число» с неограниченными попытками</div>
@@ -108,9 +139,30 @@ popytki = <span class="tok-num">0</span>
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="10-04-break-continue.html"><div class="dir">← Назад</div><div class="lbl">break и continue</div></a><a href="10-06-avtomatiziruem-figury.html" class="next"><div class="dir">Далее →</div><div class="lbl">Автоматизируем квадрат и любую фигуру</div></a></div>
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: «Угадай число» с ограничением попыток (loop-else)</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="10-16"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/10-16/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="10-12-proverka-vvoda.html"><div class="dir">← Назад</div><div class="lbl">Проверка ввода</div></a><a href="10-13-otladka-ciklov.html" class="next"><div class="dir">Далее →</div><div class="lbl">Отладка циклов</div></a></div>
   </article>
 </div>
 

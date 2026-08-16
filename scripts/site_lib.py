@@ -970,11 +970,22 @@ def _fc_new_marker_id() -> str:
     return f"arrowfc{next(_fc_id_counter)}"
 
 
+_FC_ARROW_COLORS = {"#B9A0FC": "", "#059669": "-g", "#DB2777": "-p", "#5B24F9": "-v"}
+
+
+def _fc_marker_ref(marker_id: str, color: str) -> str:
+    """Arrowhead markers are per-color (see _fc_arrow_defs) so a green ДА
+    arrow gets a green arrowhead, not a mismatched default one."""
+    return f"{marker_id}{_FC_ARROW_COLORS.get(color, '')}"
+
+
 def _fc_arrow_defs(marker_id: str) -> str:
-    return (
-        f"<defs><marker id='{marker_id}' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' "
-        f"orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    markers = "".join(
+        f"<marker id='{marker_id}{suffix}' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' "
+        f"orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='{color}'/></marker>"
+        for color, suffix in _FC_ARROW_COLORS.items()
     )
+    return f"<defs>{markers}</defs>"
 
 
 def _fc_node_height(kind: str, label: str) -> float:
@@ -1041,16 +1052,17 @@ def _fc_draw_node(parts: list[str], kind: str, label: str, cx: float, top: float
 
 
 def _fc_arrow(parts: list[str], mid: str, x1: float, y1: float, x2: float, y2: float, *, color: str = "#B9A0FC", curve: bool = False) -> None:
+    marker = _fc_marker_ref(mid, color)
     if curve:
         mid_y = (y1 + y2) / 2
         parts.append(
             f'<path d="M{x1},{y1} C{x1},{mid_y} {x2},{mid_y} {x2},{y2}" fill="none" '
-            f'stroke="{color}" stroke-width="2.5" marker-end="url(#{mid})"/>'
+            f'stroke="{color}" stroke-width="2.5" marker-end="url(#{marker})"/>'
         )
     else:
         parts.append(
             f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" '
-            f'stroke-width="2.5" marker-end="url(#{mid})"/>'
+            f'stroke-width="2.5" marker-end="url(#{marker})"/>'
         )
 
 
@@ -1298,7 +1310,7 @@ def loop_preview_diagram(*, action_label: str, question_label: str, caption: str
     proc_cy = proc_top + ph / 2
     parts.append(
         f'<path d="M{dia_right},{dia_cy} L{loop_x},{dia_cy} L{loop_x},{proc_cy} L{cx + _FC_PROC_W / 2},{proc_cy}" '
-        f'fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid})"/>'
+        f'fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
     )
     _fc_label(parts, loop_x + 8, dia_cy - 10, "ДА — повторить", "#5B24F9", anchor="start")
 
@@ -1318,6 +1330,431 @@ def loop_preview_diagram(*, action_label: str, question_label: str, caption: str
         f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def for_loop_flowchart(source_label: str, item_label: str, body_label: str, *, caption: str = "") -> str:
+    """Canonical FOR-loop flowchart: START -> get next item from
+    source_label -> item_label exists? -> ДА: body_label, looping visibly
+    BACK to "get next item" -> НЕТ: END. This is the one shape every for
+    loop in the chapter maps onto — a for loop is repeatedly asking "is
+    there a next item", not "run the body N times by magic"."""
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    cx = 160.0
+
+    y = 10.0
+    h = _fc_node_height("start", "СТАРТ")
+    _fc_draw_node(parts, "start", "СТАРТ", cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    get_next_label = f"Получить следующий элемент из {source_label}"
+    ph = _fc_node_height("process", get_next_label)
+    proc_top = y
+    _fc_draw_node(parts, "process", get_next_label, cx, y)
+    prev_bottom = y + ph
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh = _fc_node_height("decision", item_label)
+    _fc_draw_node(parts, "decision", item_label, cx, y)
+    dia_cy = y + dh / 2
+    dia_bottom = y + dh
+    dia_right = cx + _FC_DEC_W / 2
+
+    body_x = dia_right + 130
+    body_top = dia_cy - _fc_node_height("process", body_label) / 2
+    _fc_arrow(parts, mid, dia_right, dia_cy, body_x - _FC_PROC_W / 2, dia_cy, color="#059669")
+    _fc_label(parts, (dia_right + body_x - _FC_PROC_W / 2) / 2, dia_cy - 10, "ДА", "#059669")
+    _fc_draw_node(parts, "process", body_label, body_x, body_top)
+
+    loop_x = body_x + _FC_PROC_W / 2 + 60
+    proc_cy = proc_top + ph / 2
+    body_cy = body_top + _fc_node_height("process", body_label) / 2
+    parts.append(
+        f'<path d="M{body_x + _FC_PROC_W / 2},{body_cy} L{loop_x},{body_cy} L{loop_x},{proc_cy} '
+        f'L{cx + _FC_PROC_W / 2},{proc_cy}" fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
+    )
+    _fc_label(parts, loop_x + 8, (body_cy + proc_cy) / 2, "назад", "#5B24F9", anchor="start")
+
+    prev_bottom = dia_bottom
+    y = dia_bottom + _FC_GAP_Y
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y, color="#DB2777")
+    _fc_label(parts, cx + 26, (prev_bottom + y) / 2, "НЕТ", "#DB2777")
+    _fc_draw_node(parts, "end", "КОНЕЦ", cx, y)
+    end_bottom = y + _fc_node_height("end", "КОНЕЦ")
+
+    pad = 40
+    min_x, max_x = cx - _FC_PROC_W / 2 - pad, loop_x + 150 + pad
+    max_y = end_bottom + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def while_loop_flowchart(init_label: str, condition_label: str, body_label: str, update_label: str, *, caption: str = "") -> str:
+    """Canonical WHILE-loop flowchart: START -> INIT -> condition_label? ->
+    ДА: body_label -> update_label, looping visibly BACK to the condition
+    -> НЕТ: END. The three-part model (initialize / condition / update)
+    is the reusable mental model for every while loop in the chapter."""
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    cx = 160.0
+
+    y = 10.0
+    h = _fc_node_height("start", "СТАРТ")
+    _fc_draw_node(parts, "start", "СТАРТ", cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    ih = _fc_node_height("process", init_label)
+    _fc_draw_node(parts, "process", init_label, cx, y)
+    prev_bottom = y + ih
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh = _fc_node_height("decision", condition_label)
+    dia_top = y
+    _fc_draw_node(parts, "decision", condition_label, cx, y)
+    dia_cy = y + dh / 2
+    dia_bottom = y + dh
+    dia_right = cx + _FC_DEC_W / 2
+
+    body_x = dia_right + 130
+    body_h = _fc_node_height("process", body_label)
+    body_top = dia_cy - body_h - 6
+    _fc_arrow(parts, mid, dia_right, dia_cy, body_x - _FC_PROC_W / 2, body_top + body_h / 2, color="#059669")
+    _fc_label(parts, (dia_right + body_x - _FC_PROC_W / 2) / 2, dia_cy - 16, "ДА", "#059669")
+    _fc_draw_node(parts, "process", body_label, body_x, body_top)
+    body_cy = body_top + body_h / 2
+
+    update_top = dia_cy + 6
+    update_h = _fc_node_height("process", update_label)
+    _fc_arrow(parts, mid, body_x, body_top + body_h, body_x, update_top)
+    _fc_draw_node(parts, "process", update_label, body_x, update_top)
+    update_cy = update_top + update_h / 2
+
+    loop_x = body_x + _FC_PROC_W / 2 + 60
+    parts.append(
+        f'<path d="M{body_x + _FC_PROC_W / 2},{update_cy} L{loop_x},{update_cy} L{loop_x},{dia_cy} '
+        f'L{dia_right},{dia_cy}" fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
+    )
+    _fc_label(parts, loop_x + 8, (update_cy + dia_cy) / 2, "назад", "#5B24F9", anchor="start")
+
+    prev_bottom = dia_bottom
+    y = dia_bottom + _FC_GAP_Y
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y, color="#DB2777")
+    _fc_label(parts, cx + 26, (prev_bottom + y) / 2, "НЕТ", "#DB2777")
+    _fc_draw_node(parts, "end", "КОНЕЦ", cx, y)
+    end_bottom = y + _fc_node_height("end", "КОНЕЦ")
+
+    pad = 40
+    min_x = cx - _FC_PROC_W / 2 - pad
+    max_x = loop_x + 150 + pad
+    max_y = max(end_bottom, update_top + update_h) + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def break_continue_flowchart(kind: str, loop_label: str, condition_label: str, *, caption: str = "") -> str:
+    """Shared shape for break (kind='break') and continue (kind='continue')
+    inside a loop: START -> loop_label -> condition_label? -> ДА takes the
+    action the keyword actually performs (break: exit straight to END,
+    bypassing the rest of the loop; continue: jump straight BACK to
+    loop_label, skipping the rest of the body) -> НЕТ: the rest of the
+    body runs, then loops back to loop_label as usual."""
+    is_break = kind == "break"
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    cx = 160.0
+
+    y = 10.0
+    h = _fc_node_height("start", "СТАРТ")
+    _fc_draw_node(parts, "start", "СТАРТ", cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    lh = _fc_node_height("process", loop_label)
+    loop_top = y
+    _fc_draw_node(parts, "process", loop_label, cx, y)
+    prev_bottom = y + lh
+    y = prev_bottom + _FC_GAP_Y
+    loop_cy = loop_top + lh / 2
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh = _fc_node_height("decision", condition_label)
+    _fc_draw_node(parts, "decision", condition_label, cx, y)
+    dia_cy = y + dh / 2
+    dia_bottom = y + dh
+    dia_right = cx + _FC_DEC_W / 2
+
+    rest_x = cx
+    rest_top = dia_bottom + _FC_BRANCH_GAP
+    rest_label = "остальная часть тела" if is_break else "остальная часть тела"
+    rh = _fc_node_height("process", rest_label)
+    _fc_arrow(parts, mid, cx, dia_bottom, rest_x, rest_top, color="#DB2777")
+    _fc_label(parts, cx - 40, (dia_bottom + rest_top) / 2, "НЕТ", "#DB2777")
+    _fc_draw_node(parts, "process", rest_label, rest_x, rest_top)
+    rest_bottom = rest_top + rh
+
+    loop_x = dia_right + 150
+    if is_break:
+        end_top = rest_bottom + _FC_GAP_Y
+        parts.append(
+            f'<path d="M{dia_right},{dia_cy} L{loop_x},{dia_cy} L{loop_x},{end_top + _fc_node_height("end", "КОНЕЦ") / 2} '
+            f'L{cx + _FC_TERM_W / 2},{end_top + _fc_node_height("end", "КОНЕЦ") / 2}" '
+            f'fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#{mid}-g)"/>'
+        )
+        _fc_label(parts, loop_x + 8, dia_cy - 10, "ДА — break: выйти из цикла", "#059669", anchor="start")
+        _fc_arrow(parts, mid, rest_x, rest_bottom, cx, rest_bottom + _FC_GAP_Y - 4, color="#5B24F9")
+        # rest-of-body path loops back up to loop_label
+        loop_back_x = cx - 150
+        parts.append(
+            f'<path d="M{rest_x - _FC_PROC_W / 2},{rest_top + rh / 2} L{loop_back_x},{rest_top + rh / 2} '
+            f'L{loop_back_x},{loop_cy} L{cx - _FC_PROC_W / 2},{loop_cy}" fill="none" stroke="#5B24F9" '
+            f'stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
+        )
+        _fc_draw_node(parts, "end", "КОНЕЦ", cx, end_top)
+        max_y_bottom = end_top + _fc_node_height("end", "КОНЕЦ") + 40
+    else:
+        parts.append(
+            f'<path d="M{dia_right},{dia_cy} L{loop_x},{dia_cy} L{loop_x},{loop_cy} '
+            f'L{cx + _FC_PROC_W / 2},{loop_cy}" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#{mid}-g)"/>'
+        )
+        _fc_label(parts, loop_x + 8, dia_cy - 10, "ДА — continue: сразу к следующему шагу", "#059669", anchor="start")
+        loop_back_x = cx - 150
+        parts.append(
+            f'<path d="M{rest_x - _FC_PROC_W / 2},{rest_top + rh / 2} L{loop_back_x},{rest_top + rh / 2} '
+            f'L{loop_back_x},{loop_cy} L{cx - _FC_PROC_W / 2},{loop_cy}" fill="none" stroke="#5B24F9" '
+            f'stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
+        )
+        max_y_bottom = rest_bottom + 40
+
+    pad = 40
+    min_x = min(cx - _FC_PROC_W / 2, loop_back_x if not is_break else cx - 150) - pad
+    max_x = loop_x + 260 + pad
+    width, height = max_x - min_x, max_y_bottom
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def loop_else_flowchart(source_label: str, item_label: str, found_label: str, action_label: str, else_label: str, *, caption: str = "") -> str:
+    """The for/else search shape: get next item -> item_label exists? ->
+    НЕТ (the loop ran out of items without breaking): else_label runs,
+    then END -> ДА: found_label? -> ДА: action_label, then break straight
+    to END (skipping else) -> НЕТ: loop back for the next item. This is
+    the one flowchart that makes `for ... else` legible."""
+    parts: list[str] = []
+    mid = _fc_new_marker_id()
+    cx = 180.0
+
+    y = 10.0
+    h = _fc_node_height("start", "СТАРТ")
+    _fc_draw_node(parts, "start", "СТАРТ", cx, y)
+    prev_bottom = y + h
+    y = prev_bottom + _FC_GAP_Y
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    get_next_label = f"Получить следующий элемент из {source_label}"
+    ph = _fc_node_height("process", get_next_label)
+    proc_top = y
+    _fc_draw_node(parts, "process", get_next_label, cx, y)
+    prev_bottom = y + ph
+    y = prev_bottom + _FC_GAP_Y
+    proc_cy = proc_top + ph / 2
+
+    _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
+    dh1 = _fc_node_height("decision", item_label)
+    _fc_draw_node(parts, "decision", item_label, cx, y)
+    dia1_cy = y + dh1 / 2
+    dia1_bottom = y + dh1
+    dia1_left = cx - _FC_DEC_W / 2
+    dia1_right = cx + _FC_DEC_W / 2
+
+    else_x = cx - 220
+    else_top = dia1_cy - _fc_node_height("output", else_label) / 2
+    _fc_arrow(parts, mid, dia1_left, dia1_cy, else_x + _FC_IO_W / 2, dia1_cy, color="#DB2777")
+    _fc_label(parts, (dia1_left + else_x + _FC_IO_W / 2) / 2, else_top - 10, "НЕТ", "#DB2777")
+    _fc_draw_node(parts, "output", else_label, else_x, else_top)
+    else_bottom = else_top + _fc_node_height("output", else_label)
+
+    y2 = dia1_bottom + _FC_BRANCH_GAP
+    _fc_arrow(parts, mid, cx, dia1_bottom, cx, y2, color="#059669")
+    _fc_label(parts, cx + 26, (dia1_bottom + y2) / 2, "ДА", "#059669")
+    dh2 = _fc_node_height("decision", found_label)
+    _fc_draw_node(parts, "decision", found_label, cx, y2)
+    dia2_cy = y2 + dh2 / 2
+    dia2_bottom = y2 + dh2
+    dia2_right = cx + _FC_DEC_W / 2
+
+    action_x = cx + 230
+    action_top = dia2_cy - _fc_node_height("output", action_label) / 2
+    _fc_arrow(parts, mid, dia2_right, dia2_cy, action_x - _FC_IO_W / 2, dia2_cy, color="#059669")
+    _fc_label(parts, (dia2_right + action_x - _FC_IO_W / 2) / 2, action_top - 10, "ДА", "#059669")
+    _fc_draw_node(parts, "output", action_label, action_x, action_top)
+
+    end_x = (else_x + action_x) / 2
+    end_top = max(else_bottom, action_top + _fc_node_height("output", action_label)) + _FC_GAP_Y + 20
+    parts.append(
+        f'<line x1="{else_x}" y1="{else_bottom}" x2="{else_x}" y2="{end_top + _fc_node_height("end", "КОНЕЦ") / 2}" stroke="#B9A0FC" stroke-width="2"/>'
+    )
+    action_bottom = action_top + _fc_node_height("output", action_label)
+    parts.append(
+        f'<line x1="{action_x}" y1="{action_bottom}" x2="{action_x}" y2="{end_top + _fc_node_height("end", "КОНЕЦ") / 2}" stroke="#B9A0FC" stroke-width="2"/>'
+    )
+    parts.append(
+        f'<line x1="{else_x}" y1="{end_top + _fc_node_height("end", "КОНЕЦ") / 2}" x2="{action_x}" y2="{end_top + _fc_node_height("end", "КОНЕЦ") / 2}" stroke="#B9A0FC" stroke-width="2"/>'
+    )
+    _fc_arrow(parts, mid, end_x, end_top + _fc_node_height("end", "КОНЕЦ") / 2, end_x, end_top)
+    _fc_draw_node(parts, "end", "КОНЕЦ", end_x, end_top)
+    end_bottom = end_top + _fc_node_height("end", "КОНЕЦ")
+
+    loop_x = action_x + _FC_IO_W / 2 + 60
+    parts.append(
+        f'<path d="M{dia2_right},{dia2_cy + 6} L{loop_x},{dia2_cy + 6} L{loop_x},{proc_cy} '
+        f'L{cx + _FC_PROC_W / 2},{proc_cy}" fill="none" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#{mid}-v)"/>'
+    )
+    _fc_label(parts, loop_x + 8, (dia2_cy + proc_cy) / 2, "НЕТ — назад", "#5B24F9", anchor="start")
+
+    pad = 40
+    min_x = else_x - _FC_IO_W / 2 - pad
+    max_x = loop_x + 150 + pad
+    max_y = max(end_bottom, action_top + _fc_node_height("output", action_label)) + pad
+    width, height = max_x - min_x, max_y
+    svg = (
+        f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def nested_loop_grid(rows: int, cols: int, *, row_label: str = "строка", col_label: str = "столбец", caption: str = "") -> str:
+    """Simple dot-grid visual for nested loops — rows × cols dots, labeled
+    axes. Deliberately NOT a flowchart (per the "prefer clarity over
+    formal graph complexity" rule): the grid itself is the clearest way to
+    show what an outer/inner loop pair actually iterates over."""
+    cell = 46
+    pad_left, pad_top = 70, 50
+    total_w = pad_left + cols * cell + 40
+    total_h = pad_top + rows * cell + 50
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    parts.append(
+        f'<text x="{pad_left + cols * cell / 2}" y="20" text-anchor="middle" font-family="Sora, sans-serif" '
+        f'font-weight="700" font-size="13" fill="#5B24F9">внутренний цикл — {html.escape(col_label)} →</text>'
+    )
+    parts.append(
+        f'<text x="18" y="{pad_top + rows * cell / 2}" text-anchor="middle" font-family="Sora, sans-serif" '
+        f'font-weight="700" font-size="13" fill="#DB2777" transform="rotate(-90 18 {pad_top + rows * cell / 2})">'
+        f'внешний цикл — {html.escape(row_label)} ↓</text>'
+    )
+    for r in range(rows):
+        for c in range(cols):
+            cx = pad_left + c * cell + cell / 2
+            cy = pad_top + r * cell + cell / 2
+            parts.append(f'<circle cx="{cx}" cy="{cy}" r="9" fill="#5B24F9"/>')
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'{svg}{cap}</figure>'
+    )
+
+
+def range_diagram(*, start: int, stop: int, step: int = 1, caption: str = "") -> str:
+    """Dots-and-arrows progression visual for range(start, stop, step):
+    a filled dot per value actually produced, a connecting arrow labeled
+    with the step where it isn't 1, and stop drawn as a faded, unfilled
+    dot past the last real value — visibly excluded, never reached."""
+    values = list(range(start, stop, step)) if step != 0 else []
+    n = max(len(values), 1)
+    slot = 78
+    pad = 50
+    total_w = pad * 2 + slot * n + (40 if step != 1 else 0)
+    total_h = 110
+    y = 55
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs><marker id='arrowrd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    ]
+    xs = [pad + i * slot for i in range(n)]
+    for i, v in enumerate(values):
+        x = xs[i]
+        if i > 0:
+            parts.append(f'<line x1="{xs[i-1] + 10}" y1="{y}" x2="{x - 10}" y2="{y}" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowrd)"/>')
+            if step not in (1,):
+                parts.append(
+                    f'<text x="{(xs[i-1] + x) / 2}" y="{y - 12}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+                    f'font-weight="700" font-size="11" fill="#5B24F9">{"+" if step > 0 else ""}{step}</text>'
+                )
+        parts.append(f'<circle cx="{x}" cy="{y}" r="10" fill="#5B24F9"/>')
+        parts.append(
+            f'<text x="{x}" y="{y + 30}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+            f'font-weight="700" font-size="14" fill="#0D0230">{v}</text>'
+        )
+    stop_x = (xs[-1] if values else pad) + slot
+    if values:
+        parts.append(f'<line x1="{xs[-1] + 10}" y1="{y}" x2="{stop_x - 10}" y2="{y}" stroke="#E4E1F5" stroke-width="2.5" stroke-dasharray="4 4"/>')
+    parts.append(f'<circle cx="{stop_x}" cy="{y}" r="10" fill="#fff" stroke="#B9A0FC" stroke-width="2.5"/>')
+    parts.append(
+        f'<text x="{stop_x}" y="{y + 30}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
+        f'font-size="13" fill="#8A8A9A">{stop}</text>'
+    )
+    parts.append(
+        f'<text x="{stop_x}" y="{y - 20}" text-anchor="middle" font-family="Inter, sans-serif" '
+        f'font-size="11" fill="#8A8A9A">stop — исключён</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
     return (
         f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
