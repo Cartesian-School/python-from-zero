@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Методы проверки: isalpha и другие — Python с нуля — Cartesian School</title>
+<meta name="description" content="Методы проверки строк isalpha, isdigit, isalnum, isspace — и как использовать их перед преобразованием текста в число." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-08/08-17-metody-proverki.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Методы проверки: isalpha и другие — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Методы проверки строк isalpha, isdigit, isalnum, isspace — и как использовать их перед преобразованием текста в число." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-17-metody-proverki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Методы проверки: isalpha и другие — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Методы проверки строк isalpha, isdigit, isalnum, isspace — и как использовать их перед преобразованием текста в число." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Методы проверки: isalpha и другие — Python с нуля — Cartesian School","description":"Методы проверки строк isalpha, isdigit, isalnum, isspace — и как использовать их перед преобразованием текста в число.","url":"https://www.cartesianschool.org/chapters/glava-08/08-17-metody-proverki.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html" class="active">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Методы проверки</div>
+    <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
+    <h1>Методы проверки: isalpha и другие</h1>
+    <p class="lede">Методы, которые отвечают True/False о том, из чего состоит строка — незаменимы перед преобразованием текста в число.</p>
+
+
+    <h2>Методы, которые отвечают True или False</h2>
+    <p>У строк есть целая группа методов, которые проверяют, ИЗ ЧЕГО состоит строка, и отвечают
+    <code class="inline">True</code> или <code class="inline">False</code>. Они особенно
+    полезны для проверки ввода пользователя (раздел 8.15) — до того, как пытаться
+    преобразовать текст в число.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>metody_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-str">&quot;Python&quot;</span>.isalpha())     <span class="tok-com"># True — только буквы</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Python3&quot;</span>.isalpha())    <span class="tok-com"># False — есть цифра</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;2026&quot;</span>.isdigit())       <span class="tok-com"># True — только цифры</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;28 лет&quot;</span>.isdigit())     <span class="tok-com"># False — есть пробел и буквы</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Python3&quot;</span>.isalnum())    <span class="tok-com"># True — только буквы и/или цифры</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Python 3&quot;</span>.isalnum())   <span class="tok-com"># False — есть пробел</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;   &quot;</span>.isspace())        <span class="tok-com"># True — только пробельные символы</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;&quot;</span>.isspace())           <span class="tok-com"># False — пустая строка не считается</span></code></pre>
+    </div>
+
+    <div class="compare-table-wrap" style="overflow-x:auto">
+    <table class="compare-table">
+      <thead><tr><th>Метод</th><th>Проверяет</th></tr></thead>
+      <tbody>
+        <tr><td><code class="inline">isalpha()</code></td><td>только буквы (любого алфавита)</td></tr>
+        <tr><td><code class="inline">isdigit()</code></td><td>только цифры 0–9</td></tr>
+        <tr><td><code class="inline">isalnum()</code></td><td>только буквы и/или цифры</td></tr>
+        <tr><td><code class="inline">isspace()</code></td><td>только пробелы/табуляции/переносы</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">isnumeric() и isdecimal() — родственники isdigit()</div>
+        <div class="callout-body">Это более редкие варианты той же идеи: <code class="inline">isdecimal()</code> — самый строгий (только обычные цифры 0-9), <code class="inline">isdigit()</code> — чуть шире (включает и некоторые специальные цифровые символы), <code class="inline">isnumeric()</code> — самый широкий (понимает и текстовые числительные вроде римских цифр в некоторых системах письма). Для учебных задач и проверки обычного пользовательского ввода <code class="inline">isdigit()</code> достаточно почти всегда.</div>
+      </div>
+    </div>
+
+    <h2>Практическое применение: проверка перед преобразованием</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_pered_int.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>age_text = <span class="tok-str">&quot;28&quot;</span>
+<span class="tok-kw">if</span> age_text.isdigit():
+    age = <span class="tok-fn">int</span>(age_text)
+    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Через 5 лет: </span>{age + <span class="tok-num">5</span>}<span class="tok-str">&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Это не похоже на число&quot;</span>)</code></pre>
+    </div>
+    <p>Полный оператор <code class="inline">if</code> подробно разберём в главе 9 — но уже
+    сейчас видно, как <code class="inline">isdigit()</code> помогает не дать программе упасть
+    с ошибкой при попытке <code class="inline">int()</code> от нечислового текста.</p>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★ Базовая практика</div>
+      <div class="exercise-title">Что за строка?</div>
+      <p>Для трёх строк «Python3», «2026», «   » выведите результат isalpha(), isdigit() и isspace() для каждой — и убедитесь, что понимаете, почему получился именно такой результат.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: методы проверки строки</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="08-17"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/08-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="08-16-metody-strok-poisk-i-razbor.html"><div class="dir">← Назад</div><div class="lbl">Методы: поиск и разбор</div></a><a href="08-05-istina-lozh.html" class="next"><div class="dir">Далее →</div><div class="lbl">in, сравнение и истинность</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

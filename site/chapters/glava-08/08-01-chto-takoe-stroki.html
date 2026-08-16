@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Что такое строки? — Python с нуля — Cartesian School</title>
-<meta name="description" content="Введение в строки Python: создание, одинарные/двойные и тройные кавычки." />
+<meta name="description" content="Введение в строки Python: текст как данные, создание строк, пустая строка и type()." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Что такое строки? — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Введение в строки Python: создание, одинарные/двойные и тройные кавычки." />
+<meta property="og:description" content="Введение в строки Python: текст как данные, создание строк, пустая строка и type()." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-08/08-01-chto-takoe-stroki.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Что такое строки? — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Введение в строки Python: создание, одинарные/двойные и тройные кавычки." />
+<meta name="twitter:description" content="Введение в строки Python: текст как данные, создание строк, пустая строка и type()." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Что такое строки? — Python с нуля — Cartesian School","description":"Введение в строки Python: создание, одинарные/двойные и тройные кавычки.","url":"https://www.cartesianschool.org/chapters/glava-08/08-01-chto-takoe-stroki.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Что такое строки? — Python с нуля — Cartesian School","description":"Введение в строки Python: текст как данные, создание строк, пустая строка и type().","url":"https://www.cartesianschool.org/chapters/glava-08/08-01-chto-takoe-stroki.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,49 +40,90 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html" class="active">Что такое строки?</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки и объединение строк</a></li><li><a href="08-03-dostup-k-simvolam.html">Доступ к символам и срезы</a></li><li><a href="08-04-metody-strok.html">Методы строк</a></li><li><a href="08-05-istina-lozh.html">Истина? Ложь?</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот имени</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 8 · Строки</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="08-01-chto-takoe-stroki.html" class="active">Что такое строки?</a></li><li><a href="08-11-ekranirovanie.html">Экранирование: \n, \t и другие</a></li><li><a href="08-12-mnogostrochnye-i-raw-stroki.html">Многострочные и raw-строки</a></li><li><a href="08-02-kavychki-konkatenaciya.html">Кавычки, склеивание, повторение</a></li><li><a href="08-13-dlina-stroki.html">Длина строки: len()</a></li><li><a href="08-03-dostup-k-simvolam.html">Индексы строки</a></li><li><a href="08-14-srezy-stroki.html">Срезы строки</a></li><li><a href="08-15-neizmenyaemost.html">Строки нельзя изменить</a></li><li><a href="08-04-metody-strok.html">Методы строк: регистр и пробелы</a></li><li><a href="08-16-metody-strok-poisk-i-razbor.html">Методы строк: поиск и разбор</a></li><li><a href="08-17-metody-proverki.html">Методы проверки: isalpha и другие</a></li><li><a href="08-05-istina-lozh.html">in, сравнение и истинность</a></li><li><a href="08-18-cikl-po-stroke.html">Перебираем строку в цикле</a></li><li><a href="08-06-formatirovanie-strok.html">Форматирование строк</a></li><li><a href="08-07-vvod-polzovatelya.html">Ввод от пользователя</a></li><li><a href="08-19-unikod-i-emodzi.html">Кириллица, юникод и эмодзи</a></li><li><a href="08-20-otladka-strok.html">Отладка проблем со строками</a></li><li><a href="08-08-mini-proekt-turtle-tekst.html">Мини-проект: текст Turtle</a></li><li><a href="08-21-mini-proekt-privetstvie-i-imya.html">Мини-проект: приветствие и ФИО</a></li><li><a href="08-09-mini-proekty-krik-perevorot.html">Мини-проекты: крик и переворот</a></li><li><a href="08-22-mini-proekt-parol-i-email.html">Мини-проект: пароль и e-mail</a></li><li><a href="08-23-mini-proekt-schetchik-slov.html">Мини-проект: счётчик слов</a></li><li><a href="08-10-mini-proekt-matematika-itogi.html">Мини-проект: динамическая математика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/08-01/index.html">🐍 08-01: Практика</a></li><li><a href="../../practice/08-11/index.html">🐍 08-11: Практика</a></li><li><a href="../../practice/08-12/index.html">🐍 08-12: Практика</a></li><li><a href="../../practice/08-13/index.html">🐍 08-13: Практика</a></li><li><a href="../../practice/08-14/index.html">🐍 08-14: Практика</a></li><li><a href="../../practice/08-04/index.html">🐍 08-04: Практика</a></li><li><a href="../../practice/08-16/index.html">🐍 08-16: Практика</a></li><li><a href="../../practice/08-17/index.html">🐍 08-17: Практика</a></li><li><a href="../../practice/08-03/index.html">🐍 08-03: Практика</a></li><li><a href="../../practice/08-18/index.html">🐍 08-18: Практика</a></li><li><a href="../../practice/08-06/index.html">🐍 08-06: Практика</a></li><li><a href="../../practice/08-07/index.html">🐍 08-07: Практика</a></li><li><a href="../../practice/08-20/index.html">🐍 08-20: Практика</a></li><li><a href="../../practice/08-21/index.html">🐍 08-21: Практика</a></li><li><a href="../../practice/08-09/index.html">🐍 08-09: Практика</a></li><li><a href="../../practice/08-22/index.html">🐍 08-22: Практика</a></li><li><a href="../../practice/08-23/index.html">🐍 08-23: Практика</a></li><li><a href="../../practice/08-10/index.html">🐍 08-10: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 8</a> / Что такое строки?</div>
     <div class="section-kicker">Глава 8 · Играем с буквами и словами</div>
     <h1>Что такое строки?</h1>
-    <p class="lede">Текст в Python — это строки. Разберёмся, как их создавать: в одну строку и в несколько сразу.</p>
+    <p class="lede">Текст в Python — это строки: последовательность символов, с которой можно работать так же уверенно, как с числами.</p>
 
 
-    <h2>Что такое строки?</h2>
-    <p><strong>Строка</strong> (<code class="inline">str</code>) — это текст: последовательность
-    символов — букв, цифр, знаков препинания, пробелов — заключённая в кавычки. Мы уже
-    пользовались строками с самой первой программы в главе 1, теперь разберём их подробно.</p>
+    <h2>Текст — тоже данные</h2>
+    <p>Почти любая программа работает с текстом: имя пользователя, сообщение в чате, название
+    файла, адрес сайта, команда терминала. В Python текст хранится в специальном типе данных —
+    <strong>строке</strong> (<code class="inline">str</code>). Строка — это
+    <strong>последовательность символов</strong>: букв, цифр, знаков препинания, пробелов,
+    эмодзи — идущих друг за другом по порядку, как бусины на нитке.</p>
 
-    <h2>Создаём строки</h2>
-    
+
+    <div class="code-block">
+      <div class="code-label"><span>primery_strok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>imya = <span class="tok-str">&quot;Ада&quot;</span>
+soobshchenie = <span class="tok-str">&quot;Привет, как дела?&quot;</span>
+faijl = <span class="tok-str">&quot;otchet_2026.pdf&quot;</span>
+adres = <span class="tok-str">&quot;https://cartesianschool.org&quot;</span>
+komanda = <span class="tok-str">&quot;git commit -m fix&quot;</span></code></pre>
+    </div>
+
+    <p>Всё, что вы вводите с клавиатуры через <code class="inline">input()</code> (раздел 8.15),
+    тоже приходит в виде строки — даже если это выглядит как число.</p>
+
+    <h2>Создаём строку</h2>
+    <p>Строку заключают в кавычки — одинарные <code class="inline">'...'</code> или двойные
+    <code class="inline">"..."</code>. В Python они полностью равнозначны: выбирайте любые,
+    главное — не смешивать тип кавычек внутри одной пары.</p>
+
     <div class="code-block">
       <div class="code-label"><span>sozdaem_stroki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>greeting = <span class="tok-str">&quot;Привет&quot;</span>
 name = <span class="tok-str">&#x27;Cartesian&#x27;</span>
-<span class="tok-fn">print</span>(greeting, name)</code></pre>
+<span class="tok-fn">print</span>(greeting, name)
+<span class="tok-com"># Привет Cartesian</span></code></pre>
     </div>
-    <p>Одинарные и двойные кавычки в Python равнозначны — выбирайте любые, главное быть
-    последовательным в рамках одной строки.</p>
 
-    <h2>Хочу много-много строк!</h2>
-    <p>Если текст должен занимать несколько строк, используют <strong>тройные кавычки</strong>
-    — тогда переносы строк внутри текста сохраняются как есть:</p>
-    
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Когда какие кавычки удобнее</div>
+        <div class="callout-body">Разницы для Python нет, но людям иногда удобнее один тип: если в тексте будет апостроф — <code class="inline">it's</code> — проще обернуть его двойными кавычками; если внутри будет прямая речь в кавычках — проще обернуть одинарными. Подробно об этом — в разделе 8.4.</div>
+      </div>
+    </div>
+
+    <h2>Пустая строка</h2>
+    <p>Строка может не содержать ни одного символа — это тоже полноценная строка, просто
+    <strong>пустая</strong>: <code class="inline">""</code> или <code class="inline">''</code>.
+    Она часто служит стартовым значением, к которому потом что-то добавляют.</p>
+
     <div class="code-block">
-      <div class="code-label"><span>mnogo_strok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>poem = <span class="tok-str">&quot;&quot;&quot;Код за кодом,
-шаг за шагом —
-так рождается
-программа.&quot;&quot;&quot;</span>
-<span class="tok-fn">print</span>(poem)</code></pre>
+      <div class="code-label"><span>pustaya_stroka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pusto = <span class="tok-str">&quot;&quot;</span>
+<span class="tok-fn">print</span>(pusto)          <span class="tok-com"># (ничего не выведется — строка пуста)</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(pusto))     <span class="tok-com"># 0</span></code></pre>
     </div>
 
-    
+    <h2>type() — как узнать, что перед вами строка</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_tipa.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-kw">type</span>(<span class="tok-str">&quot;Python&quot;</span>))   <span class="tok-com"># &lt;class &#x27;str&#x27;&gt;</span>
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(<span class="tok-num">5</span>))          <span class="tok-com"># &lt;class &#x27;int&#x27;&gt;</span>
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(<span class="tok-str">&quot;5&quot;</span>))        <span class="tok-com"># &lt;class &#x27;str&#x27;&gt; — цифра в кавычках всё равно строка!</span></code></pre>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">&quot;5&quot; — это не число</div>
+        <div class="callout-body">Строка <code class="inline">"5"</code> состоит из символа «пятёрка», а не хранит числовое значение 5. С ней нельзя напрямую выполнять арифметику — подробнее в разделе 8.15, когда мы будем разбирать <code class="inline">input()</code>.</div>
+      </div>
+    </div>
+
+
     <div class="notebook-card">
       <div>
-        <div class="nc-title">Практика: создание строк и многострочный текст</div>
+        <div class="nc-title">Практика: создание строк и type()</div>
         <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
         <div class="practice-inline-status" data-lesson-id="08-01"></div>
       </div>
@@ -100,9 +141,9 @@ name = <span class="tok-str">&#x27;Cartesian&#x27;</span>
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="08-02-kavychki-konkatenaciya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Кавычки и объединение строк</div></a></div>
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="08-11-ekranirovanie.html" class="next"><div class="dir">Далее →</div><div class="lbl">Экранирование</div></a></div>
   </article>
 </div>
 
