@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Лаборатории отладки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Пять коротких лабораторий отладки: пропущенная кавычка, опечатка в имени, ошибка отступа, перепутанные переменные и не тот интерпретатор." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-03/03-14-debug-laboratorii.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Лаборатории отладки — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Пять коротких лабораторий отладки: пропущенная кавычка, опечатка в имени, ошибка отступа, перепутанные переменные и не тот интерпретатор." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-03/03-14-debug-laboratorii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Лаборатории отладки — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Пять коротких лабораторий отладки: пропущенная кавычка, опечатка в имени, ошибка отступа, перепутанные переменные и не тот интерпретатор." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Лаборатории отладки — Python с нуля — Cartesian School","description":"Пять коротких лабораторий отладки: пропущенная кавычка, опечатка в имени, ошибка отступа, перепутанные переменные и не тот интерпретатор.","url":"https://www.cartesianschool.org/chapters/glava-03/03-14-debug-laboratorii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-06-terminal-shell-i-python-repl.html">Терминал, shell и Python REPL</a></li><li><a href="03-07-semejstvo-obolochek.html">Семейство командных оболочек</a></li><li><a href="03-08-pysh.html">PySH: Python-first оболочка</a></li><li><a href="03-02-interaktivny-rezhim.html">Интерактивный режим (Python REPL)</a></li><li><a href="03-09-repl-kak-instrument.html">REPL как инструмент исследования</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-10-input-i-dialog.html">input(): первый диалог</a></li><li><a href="03-11-imena-i-znacheniya.html">Имена и значения</a></li><li><a href="03-12-kommentarii-i-stil.html">Комментарии и читаемый код</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика: выведите своё имя</a></li><li><a href="03-13-oshibki-i-traceback.html">Ошибки, traceback и как их читать</a></li><li><a href="03-14-debug-laboratorii.html" class="active">Лаборатории отладки</a></li><li><a href="03-15-otladchik-v-ide.html">Первый отладчик в IDE</a></li><li><a href="03-16-notebook-i-kernel.html">Notebook и kernel</a></li><li><a href="03-17-mini-proekt-i-itogi.html">Мини-проект и итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li><li><a href="../../practice/03-05/index.html">🐍 03-05: Практика</a></li><li><a href="../../practice/03-06/index.html">🐍 03-06: Практика</a></li><li><a href="../../practice/03-07/index.html">🐍 03-07: Практика</a></li><li><a href="../../practice/03-08/index.html">🐍 03-08: Практика</a></li><li><a href="../../practice/03-09/index.html">🐍 03-09: Практика</a></li><li><a href="../../practice/03-10/index.html">🐍 03-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / Лаборатории отладки</div>
+    <div class="section-kicker">Глава 3 · Ваша первая программа на Python</div>
+    <h1>Лаборатории отладки</h1>
+    <p class="lede">Пять коротких, специально сломанных примеров — потренируем один и тот же навык: предсказать, запустить, изучить, исправить.</p>
+
+
+    <p>Пять коротких лабораторий — специально сломанный код, чтобы потренироваться находить и
+    чинить проблему по одному и тому же алгоритму: предсказать → запустить → изучить → исправить
+    → объяснить себе, почему это сработало.</p>
+
+
+        <div class="callout callout-debug">
+          <div>
+            <div class="callout-title">🐞 Лаборатория 1. Пропущенная кавычка или скобка</div>
+            <div class="callout-body">
+              <p><strong>1. Предскажите:</strong> прочитайте код ниже — как вы думаете, что произойдёт?</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>сломанный код</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>print(&quot;Привет, мир!</code></pre>
+    </div>
+              <p><strong>2. Запустите</strong> — вы увидите: <code class="inline">SyntaxError: unterminated string literal</code></p>
+              <p><strong>3. Исправление:</strong></p>
+
+    <div class="code-block">
+      <div class="code-label"><span>исправлено</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-str">&quot;Привет, мир!&quot;</span>)</code></pre>
+    </div>
+              <p><strong>4. Почему:</strong> у открывающей кавычки не было пары — Python не понял, где заканчивается текст.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-debug">
+          <div>
+            <div class="callout-title">🐞 Лаборатория 2. Неправильное имя переменной</div>
+            <div class="callout-body">
+              <p><strong>1. Предскажите:</strong> прочитайте код ниже — как вы думаете, что произойдёт?</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>сломанный код</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>user_name = <span class="tok-str">&quot;Cartesian&quot;</span>
+<span class="tok-fn">print</span>(usr_name)</code></pre>
+    </div>
+              <p><strong>2. Запустите</strong> — вы увидите: <code class="inline">NameError: name 'usr_name' is not defined</code></p>
+              <p><strong>3. Исправление:</strong></p>
+
+    <div class="code-block">
+      <div class="code-label"><span>исправлено</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>user_name = <span class="tok-str">&quot;Cartesian&quot;</span>
+<span class="tok-fn">print</span>(user_name)</code></pre>
+    </div>
+              <p><strong>4. Почему:</strong> опечатка в имени — <code class="inline">usr_name</code> вместо <code class="inline">user_name</code>. Python не «догадывается» об опечатках — для него это два разных имени.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-debug">
+          <div>
+            <div class="callout-title">🐞 Лаборатория 3. Ошибка отступа</div>
+            <div class="callout-body">
+              <p><strong>1. Предскажите:</strong> прочитайте код ниже — как вы думаете, что произойдёт?</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>сломанный код</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-str">&quot;Начало&quot;</span>)
+  <span class="tok-fn">print</span>(<span class="tok-str">&quot;Продолжение&quot;</span>)</code></pre>
+    </div>
+              <p><strong>2. Запустите</strong> — вы увидите: <code class="inline">IndentationError: unexpected indent</code></p>
+              <p><strong>3. Исправление:</strong></p>
+
+    <div class="code-block">
+      <div class="code-label"><span>исправлено</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-str">&quot;Начало&quot;</span>)
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Продолжение&quot;</span>)</code></pre>
+    </div>
+              <p><strong>4. Почему:</strong> у второй строки появился отступ, которого там быть не должно — вне блоков (if/for/def, которые встретятся в следующих главах) все строки должны начинаться с одной и той же позиции.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-debug">
+          <div>
+            <div class="callout-title">🐞 Лаборатория 4. Программа работает, но выводит не то</div>
+            <div class="callout-body">
+              <p><strong>1. Предскажите:</strong> прочитайте код ниже — как вы думаете, что произойдёт?</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>сломанный код</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;Анна&quot;</span>
+city = <span class="tok-str">&quot;Москва&quot;</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Привет,&quot;</span>, city)</code></pre>
+    </div>
+              <p><strong>2. Запустите</strong> — вы увидите: <code class="inline">Привет, Москва  (а должно быть — имя)</code></p>
+              <p><strong>3. Исправление:</strong></p>
+
+    <div class="code-block">
+      <div class="code-label"><span>исправлено</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;Анна&quot;</span>
+city = <span class="tok-str">&quot;Москва&quot;</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Привет,&quot;</span>, name)</code></pre>
+    </div>
+              <p><strong>4. Почему:</strong> программа выполнилась без единой ошибки — но перепутаны переменные. Это самый коварный тип бага: Python не может знать, что вы имели в виду не то, что написали.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-debug">
+          <div>
+            <div class="callout-title">🐞 Лаборатория 5. Не тот интерпретатор — привет из главы 2</div>
+            <div class="callout-body">
+              <p><strong>1. Предскажите:</strong> прочитайте код ниже — как вы думаете, что произойдёт?</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>сломанный код</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> requests
+<span class="tok-fn">print</span>(<span class="tok-str">&quot;Пакет найден!&quot;</span>)</code></pre>
+    </div>
+              <p><strong>2. Запустите</strong> — вы увидите: <code class="inline">ModuleNotFoundError: No module named 'requests' (хотя вы точно его ставили!)</code></p>
+              <p><strong>3. Исправление:</strong></p>
+
+    <div class="code-block">
+      <div class="code-label"><span>исправлено</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># в VS Code: Ctrl+Shift+P -&gt; &quot;Python: Select Interpreter&quot;</span>
+<span class="tok-com"># выбрать интерпретатор именно из активного .venv проекта</span></code></pre>
+    </div>
+              <p><strong>4. Почему:</strong> пакет установлен в одно окружение, а код запускается через другое — классическая проблема из главы 2 (раздел 2.16). Проверьте <code class="inline">sys.executable</code> и выбранный интерпретатор в редакторе.</p>
+            </div>
+          </div>
+        </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: прочитайте traceback (SyntaxError)</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — найдите пропущенную скобку и кавычку</div>
+        <div class="practice-inline-status" data-lesson-id="03-09"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/03-09/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["03-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="03-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <div class="section-nav"><a href="03-13-oshibki-i-traceback.html"><div class="dir">← Назад</div><div class="lbl">Ошибки и traceback</div></a><a href="03-15-otladchik-v-ide.html" class="next"><div class="dir">Далее →</div><div class="lbl">Первый отладчик в IDE</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

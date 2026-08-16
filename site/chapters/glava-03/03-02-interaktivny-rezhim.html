@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Интерактивный режим Python (Python Shell) — Python с нуля — Cartesian School</title>
-<meta name="description" content="Что такое интерактивная оболочка Python (REPL) и почему в ней можно использовать Python как калькулятор." />
+<title>Интерактивный режим Python (Python REPL) — Python с нуля — Cartesian School</title>
+<meta name="description" content="Python REPL подробно: цикл Read-Eval-Print-Loop, первые выражения, приглашения &gt;&gt;&gt; и ..., и выход из режима." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +14,16 @@
 <link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Интерактивный режим Python (Python Shell) — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Что такое интерактивная оболочка Python (REPL) и почему в ней можно использовать Python как калькулятор." />
+<meta property="og:title" content="Интерактивный режим Python (Python REPL) — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Python REPL подробно: цикл Read-Eval-Print-Loop, первые выражения, приглашения &gt;&gt;&gt; и ..., и выход из режима." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Интерактивный режим Python (Python Shell) — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Что такое интерактивная оболочка Python (REPL) и почему в ней можно использовать Python как калькулятор." />
+<meta name="twitter:title" content="Интерактивный режим Python (Python REPL) — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Python REPL подробно: цикл Read-Eval-Print-Loop, первые выражения, приглашения &gt;&gt;&gt; и ..., и выход из режима." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Интерактивный режим Python (Python Shell) — Python с нуля — Cartesian School","description":"Что такое интерактивная оболочка Python (REPL) и почему в ней можно использовать Python как калькулятор.","url":"https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Интерактивный режим Python (Python REPL) — Python с нуля — Cartesian School","description":"Python REPL подробно: цикл Read-Eval-Print-Loop, первые выражения, приглашения >>> и ..., и выход из режима.","url":"https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,48 +40,90 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-02-interaktivny-rezhim.html" class="active">Интерактивный режим (Shell)</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 3 · Первая программа</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="03-01-sozdanie-i-zapusk-programm.html">Создание и запуск программ</a></li><li><a href="03-06-terminal-shell-i-python-repl.html">Терминал, shell и Python REPL</a></li><li><a href="03-07-semejstvo-obolochek.html">Семейство командных оболочек</a></li><li><a href="03-08-pysh.html">PySH: Python-first оболочка</a></li><li><a href="03-02-interaktivny-rezhim.html" class="active">Интерактивный режим (Python REPL)</a></li><li><a href="03-09-repl-kak-instrument.html">REPL как инструмент исследования</a></li><li><a href="03-03-vyvod-dannyh.html">Вывод данных с помощью Python</a></li><li><a href="03-10-input-i-dialog.html">input(): первый диалог</a></li><li><a href="03-11-imena-i-znacheniya.html">Имена и значения</a></li><li><a href="03-12-kommentarii-i-stil.html">Комментарии и читаемый код</a></li><li><a href="03-04-idle.html">Режим сценариев IDLE</a></li><li><a href="03-05-praktika-itogi.html">Практика: выведите своё имя</a></li><li><a href="03-13-oshibki-i-traceback.html">Ошибки, traceback и как их читать</a></li><li><a href="03-14-debug-laboratorii.html">Лаборатории отладки</a></li><li><a href="03-15-otladchik-v-ide.html">Первый отладчик в IDE</a></li><li><a href="03-16-notebook-i-kernel.html">Notebook и kernel</a></li><li><a href="03-17-mini-proekt-i-itogi.html">Мини-проект и итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/03-01/index.html">🐍 03-01: Практика</a></li><li><a href="../../practice/03-02/index.html">🐍 03-02: Практика</a></li><li><a href="../../practice/03-03/index.html">🐍 03-03: Практика</a></li><li><a href="../../practice/03-04/index.html">🐍 03-04: Практика</a></li><li><a href="../../practice/03-05/index.html">🐍 03-05: Практика</a></li><li><a href="../../practice/03-06/index.html">🐍 03-06: Практика</a></li><li><a href="../../practice/03-07/index.html">🐍 03-07: Практика</a></li><li><a href="../../practice/03-08/index.html">🐍 03-08: Практика</a></li><li><a href="../../practice/03-09/index.html">🐍 03-09: Практика</a></li><li><a href="../../practice/03-10/index.html">🐍 03-10: Практика</a></li></ul>
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / Интерактивный режим (Shell)</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 3</a> / Интерактивный режим (Python REPL)</div>
     <div class="section-kicker">Глава 3 · Ваша первая программа на Python</div>
-    <h1>Интерактивный режим Python (Python Shell)</h1>
-    <p class="lede">Второй способ работать с Python — вводить код по одной строке и сразу видеть результат, без файла и без print().</p>
+    <h1>Интерактивный режим Python (Python REPL)</h1>
+    <p class="lede">Второй способ работать с Python — вводить код по одной строке и сразу видеть результат. Разберём, как он устроен на самом деле.</p>
 
 
-    <h2>Интерактивный режим Python (Python Shell)</h2>
-    <p>Кроме запуска файлов, у Python есть второй, не менее полезный режим —
-    <strong>интерактивная оболочка</strong> (Python Shell, или REPL — Read-Eval-Print Loop:
-    «прочитать — выполнить — напечатать — повторить»). В ней вы вводите код по одной строке и
-    сразу видите результат — без файла и без «запуска» в привычном смысле.</p>
-    <p>Открыть её можно прямо в терминале VS Code или PyCharm, набрав <code class="inline">python</code>
-    (Windows) или <code class="inline">python3</code> (Mac). Появится приглашение
-    <code class="inline">&gt;&gt;&gt;</code> — это значит, что оболочка ждёт вашу команду.</p>
+    <p>Кроме запуска файлов (раздел 3.1), у Python есть второй режим работы —
+    <strong>интерактивный</strong>. В нём вы вводите код по одной строке и сразу видите
+    результат, без файла и без явного «запуска» в привычном смысле. Мы уже называли это Python
+    REPL или Python Shell в разделе 3.2 — теперь разберём его по-настоящему подробно.</p>
 
-    
+    <h2 id="zapusk-repl">Запуск</h2>
+    <p>Откройте терминал (в VS Code, PyCharm или отдельным приложением — раздел 3.2) и наберите:</p>
+
     <div class="code-block">
-      <div class="code-label"><span>терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>$ python
-Python <span class="tok-num">3.14</span><span class="tok-num">.0</span> (main, ...) 
-&gt;&gt;&gt; <span class="tok-fn">print</span>(<span class="tok-str">&quot;Привет!&quot;</span>)
-Привет!
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>python</code></pre>
+    </div>
+    <p>Вы увидите что-то вроде:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>Реальный вывод</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>Python 3.14.7 (main, Aug  5 2026, 00:00:00) [GCC ...] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 &gt;&gt;&gt; </code></pre>
     </div>
+    <p>Приглашение <code class="inline">&gt;&gt;&gt;</code> означает: Python готов и ждёт вашу
+    команду.</p>
 
-    
-    <div class="callout callout-info">
+    <h2 id="chto-takoe-repl">Что означает R-E-P-L</h2>
+    <p>REPL — сокращение от <strong>Read–Eval–Print Loop</strong> («прочитать — выполнить —
+    напечатать — повторить»). Именно так и работает интерактивный режим:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 640 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="REPL = Read – Eval – Print – Loop" style="width:100%;height:auto;max-width:640px"><line x1="28" y1="44" x2="28" y2="308" stroke="#B9A0FC" stroke-width="3"/><circle cx="28" cy="44" r="9" fill="#5B24F9"/><circle cx="28" cy="44" r="4" fill="#fff"/><text x="56" y="40" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Read</text><text x="56" y="62" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">Python читает строку, которую вы набрали</text><circle cx="28" cy="132" r="9" fill="#5B24F9"/><circle cx="28" cy="132" r="4" fill="#fff"/><text x="56" y="128" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Eval</text><text x="56" y="150" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">вычисляет её как выражение или выполняет как код</text><circle cx="28" cy="220" r="9" fill="#5B24F9"/><circle cx="28" cy="220" r="4" fill="#fff"/><text x="56" y="216" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Print</text><text x="56" y="238" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">если это выражение — печатает результат</text><circle cx="28" cy="308" r="9" fill="#5B24F9"/><circle cx="28" cy="308" r="4" fill="#fff"/><text x="56" y="304" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Loop</text><text x="56" y="326" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">и снова ждёт следующую строку</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">REPL = Read – Eval – Print – Loop</figcaption></figure>
+
+    <h2 id="primery">Первые примеры</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>Python REPL</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&gt;&gt;&gt; 2 + 2
+4
+&gt;&gt;&gt; &quot;Py&quot; + &quot;thon&quot;
+&#x27;Python&#x27;
+&gt;&gt;&gt; name = &quot;Анна&quot;
+&gt;&gt;&gt; name
+&#x27;Анна&#x27;</code></pre>
+    </div>
+    <p>Обратите внимание: строка <code class="inline">name = "Анна"</code> НЕ показала результат
+    — присваивание само по себе не является выражением, значение которого нужно печатать. А вот
+    следующая строка, где мы просто написали <code class="inline">name</code>, — это уже
+    выражение, и REPL сразу же его вычислил и напечатал.</p>
+
+
+    <div class="callout callout-tip">
       <div>
-        <div class="callout-title">Как выйти</div>
-        <div class="callout-body">Наберите <code class="inline">exit()</code> и нажмите Enter, либо нажмите <code class="inline">Ctrl+Z</code> затем Enter (Windows) или <code class="inline">Ctrl+D</code> (Mac/Linux).</div>
+        <div class="callout-title">💡 Почему REPL печатает сам, а файл — нет</div>
+        <div class="callout-body">REPL автоматически показывает результат <em>последнего вычисленного выражения</em> в каждой введённой строке — это удобство именно интерактивного режима. Обычный <code class="inline">.py</code>-файл выполняется целиком и молча — если нигде явно не вызвать <code class="inline">print()</code>, на экране ничего не появится, даже если где-то в середине файла встретилось выражение вроде <code class="inline">2 + 2</code>.</div>
       </div>
     </div>
 
-    
+    <h2 id="schitaet">Ваша оболочка умеет считать</h2>
+    <p>Раз REPL сразу показывает результат каждой строки, его удобно использовать как быстрый
+    калькулятор — без единого <code class="inline">print()</code>:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>Python REPL</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&gt;&gt;&gt; 2 + 2
+4
+&gt;&gt;&gt; 10 / 4
+2.5
+&gt;&gt;&gt; 3 * 7
+21</code></pre>
+    </div>
+    <p>Это работает только в самой оболочке: в обычном <code class="inline">.py</code>-файле
+    строка <code class="inline">2 + 2</code> сама по себе ничего не выведет.</p>
+
+
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: интерактивный режим в ноутбуке</div>
-        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — сравните ячейку Jupyter с Python Shell</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — сравните ячейку Jupyter с Python REPL</div>
         <div class="practice-inline-status" data-lesson-id="03-02"></div>
       </div>
       <a class="nc-btn" href="../../practice/03-02/index.html">Открыть практику →</a>
@@ -99,25 +141,6 @@ Python <span class="tok-num">3.14</span><span class="tok-num">.0</span> (main, .
     })();
     </script>
 
-    <h2 id="schitaet">Ваша оболочка умеет считать</h2>
-    <p>Раз оболочка сразу показывает результат каждой строки, её удобно использовать как быстрый
-    калькулятор — без единого <code class="inline">print()</code>:</p>
-    
-    <div class="code-block">
-      <div class="code-label"><span>Python Shell</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>&gt;&gt;&gt; <span class="tok-num">2</span> + <span class="tok-num">2</span>
-<span class="tok-num">4</span>
-&gt;&gt;&gt; <span class="tok-num">10</span> / <span class="tok-num">4</span>
-<span class="tok-num">2.5</span>
-&gt;&gt;&gt; <span class="tok-num">3</span> * <span class="tok-num">7</span>
-<span class="tok-num">21</span></code></pre>
-    </div>
-    <p>Это работает только в самой оболочке: в обычном <code class="inline">.py</code>-файле
-    строка <code class="inline">2 + 2</code> сама по себе ничего не выведет — файл выполняется
-    целиком и молча, если явно не попросить вывод через <code class="inline">print()</code>.
-    Подробно об этом — в следующем разделе.</p>
-
-    
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: используйте Python как калькулятор</div>
@@ -138,9 +161,32 @@ Python <span class="tok-num">3.14</span><span class="tok-num">.0</span> (main, .
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="03-01-sozdanie-i-zapusk-programm.html"><div class="dir">← Назад</div><div class="lbl">Создание и запуск программ</div></a><a href="03-03-vyvod-dannyh.html" class="next"><div class="dir">Далее →</div><div class="lbl">Вывод данных с помощью Python</div></a></div>
+    <h2 id="prompty">Два вида приглашения</h2>
+    <ul>
+      <li><code class="inline">&gt;&gt;&gt;</code> — <strong>основное</strong> приглашение: Python
+        ждёт начало новой команды;</li>
+      <li><code class="inline">...</code> — <strong>приглашение продолжения</strong>: Python
+        видит, что текущая команда ещё не закончена (например, открыта скобка или начат блок), и
+        ждёт остальное.</li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-label"><span>Python REPL — многострочный пример</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&gt;&gt;&gt; total = (
+...     2
+...     + 2
+... )
+&gt;&gt;&gt; total
+4</code></pre>
+    </div>
+
+    <h2 id="vyhod">Как выйти</h2>
+    <p>Наберите <code class="inline">exit()</code> и нажмите Enter. Также работают клавиатурные
+    сочетания: <code class="inline">Ctrl+Z</code> затем Enter на Windows, или
+    <code class="inline">Ctrl+D</code> на macOS/Linux.</p>
+
+    <div class="section-nav"><a href="03-08-pysh.html"><div class="dir">← Назад</div><div class="lbl">PySH</div></a><a href="03-09-repl-kak-instrument.html" class="next"><div class="dir">Далее →</div><div class="lbl">REPL как инструмент исследования</div></a></div>
   </article>
 </div>
 
