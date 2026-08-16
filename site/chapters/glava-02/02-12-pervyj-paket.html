@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Устанавливаем первый пакет — Python с нуля — Cartesian School</title>
+<meta name="description" content="pip install внутри активированного окружения и разбор частой проблемы: пакет установлен, но import не работает." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-12-pervyj-paket.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Устанавливаем первый пакет — Python с нуля — Cartesian School" />
+<meta property="og:description" content="pip install внутри активированного окружения и разбор частой проблемы: пакет установлен, но import не работает." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-12-pervyj-paket.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Устанавливаем первый пакет — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="pip install внутри активированного окружения и разбор частой проблемы: пакет установлен, но import не работает." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Устанавливаем первый пакет — Python с нуля — Cartesian School","description":"pip install внутри активированного окружения и разбор частой проблемы: пакет установлен, но import не работает.","url":"https://www.cartesianschool.org/chapters/glava-02/02-12-pervyj-paket.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html" class="active">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / Первый пакет</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Устанавливаем первый пакет</h1>
+    <p class="lede">pip install — и диагностика самой частой ошибки новичков: «установлено, но почему-то не импортируется».</p>
+
+
+    <p>С активированным окружением (раздел 2.11) можно установить первый пакет. Мы возьмём
+    <code class="inline">requests</code> — популярную библиотеку для запросов к веб-серверам,
+    её мы позже используем в проектах курса.</p>
+
+    <h2 id="ustanovka-paketa">pip install</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал (окружение активировано)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>(.venv) $ pip install requests</code></pre>
+    </div>
+
+    <p>pip скачивает пакет с <strong>PyPI</strong> (Python Package Index — мы знакомились с ним в
+    главе 1) и распаковывает его прямо в <code class="inline">site-packages</code> вашего
+    активного окружения (раздел 2.11).</p>
+
+    <h2 id="proverka-paketa">Проверка установки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>pip show requests
+pip list</code></pre>
+    </div>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>python</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> requests
+<span class="tok-fn">print</span>(requests.__version__)</code></pre>
+    </div>
+
+    <h2 id="ustanovleno-no-ne-importiruetsya">Лаборатория: «Установлено, но import не работает»</h2>
+    <p>Одна из самых частых и самых запутывающих проблем новичков: вы только что установили
+    пакет, видите его в <code class="inline">pip list</code> — а <code class="inline">import</code>
+    в коде всё равно выдаёт <code class="inline">ModuleNotFoundError</code>.</p>
+
+
+    <div class="callout callout-debug">
+      <div>
+        <div class="callout-title">🐞 Почти всегда причина одна</div>
+        <div class="callout-body">Пакет установлен в <strong>одно</strong> окружение, а код запускается через <strong>другое</strong>. Например: вы активировали <code class="inline">.venv</code> в терминале и поставили туда пакет — но VS Code запускает файл через глобальный интерпретатор, потому что для проекта выбран не тот Python (раздел 2.8).</div>
+      </div>
+    </div>
+
+    <p>Порядок диагностики:</p>
+    <ol>
+      <li>Проверьте <code class="inline">sys.executable</code> (раздел 2.6) прямо из места,
+        где падает импорт — какой интерпретатор реально используется?</li>
+      <li>Проверьте, что приглашение терминала показывает <code class="inline">(.venv)</code> —
+        окружение точно активировано?</li>
+      <li>Выполните <code class="inline">pip show requests</code> в этом же терминале — пакет
+        точно виден отсюда?</li>
+      <li>Если вы в VS Code — откройте «Select Interpreter» (раздел 2.8) и убедитесь, что выбран
+        путь именно к <code class="inline">.venv</code>, а не к системному или глобальному Python.</li>
+    </ol>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Найдите и почините «два окружения»</div>
+      <p>Создайте новое окружение <code class="inline">.venv2</code> рядом с существующим <code class="inline">.venv</code> (но не активируйте его). В активном <code class="inline">.venv</code> установите <code class="inline">requests</code>. Деактивируйте окружение, активируйте <code class="inline">.venv2</code> и попробуйте <code class="inline">import requests</code> — вы должны увидеть <code class="inline">ModuleNotFoundError</code>. Это тот самый сценарий «установлено, но не импортируется» — только вы теперь понимаете, почему.</p>
+    </div>
+
+    <div class="section-nav"><a href="02-11-sozdanie-venv.html"><div class="dir">← Назад</div><div class="lbl">Создаём .venv</div></a><a href="02-13-pip-pipx-venv-virtualenv-uv.html" class="next"><div class="dir">Далее →</div><div class="lbl">pip, pipx, venv, virtualenv, uv</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

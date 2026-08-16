@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Какой Python действительно запущен — Python с нуля — Cartesian School</title>
+<meta name="description" content="Как узнать точный путь к работающему интерпретатору через sys.executable и команды which/where." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-06-kakoj-python-zapushen.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Какой Python действительно запущен — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Как узнать точный путь к работающему интерпретатору через sys.executable и команды which/where." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-06-kakoj-python-zapushen.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Какой Python действительно запущен — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Как узнать точный путь к работающему интерпретатору через sys.executable и команды which/where." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Какой Python действительно запущен — Python с нуля — Cartesian School","description":"Как узнать точный путь к работающему интерпретатору через sys.executable и команды which/where.","url":"https://www.cartesianschool.org/chapters/glava-02/02-06-kakoj-python-zapushen.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html" class="active">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / Какой Python запущен</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Какой Python действительно запущен</h1>
+    <p class="lede">Один и тот же вопрос спасёт вас от половины будущих проблем с окружениями: «а какой именно интерпретатор сейчас работает?»</p>
+
+
+    <p>Если на компьютере может быть несколько Python (системный + установленный вами, а позже
+    ещё и виртуальные окружения), рано или поздно встаёт вопрос: <strong>какой именно Python
+    сейчас запускается командой <code class="inline">python</code></strong>? Хорошая новость —
+    сам Python умеет отвечать на этот вопрос.</p>
+
+    <h2 id="sys-executable">sys.executable — самый честный ответ</h2>
+    <p>Каждый запущенный интерпретатор Python знает точный путь к своему собственному
+    исполняемому файлу. Он хранится в переменной <code class="inline">sys.executable</code>.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>python</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> sys
+<span class="tok-fn">print</span>(sys.executable)
+<span class="tok-fn">print</span>(sys.version)</code></pre>
+    </div>
+
+    <p>Запустите это двумя способами и сравните результат — из обычного терминала и (когда
+    дойдём до VS Code, раздел 2.8) из встроенного терминала редактора. Если пути отличаются —
+    значит, в этих двух местах запускаются <em>разные</em> интерпретаторы, и это многое объясняет,
+    если пакет «установлен», а импорт всё равно падает (см. диагностику в разделе 2.16).</p>
+
+    <h2 id="which-where">which / where — короткая версия из терминала</h2>
+    <p>Не запуская Python вовсе, можно спросить у самого shell, какой файл он найдёт первым по
+    PATH (вспомните раздел 2.2):</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>macOS / Linux</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>which python3</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Windows (PowerShell)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>where.exe python</code></pre>
+    </div>
+
+
+    <div class="callout callout-debug">
+      <div>
+        <div class="callout-title">🐞 Лаборатория: «два Python»</div>
+        <div class="callout-body">Если на вашем компьютере одновременно есть системный Python и Python с python.org, выполните <code class="inline">which python3</code> (или <code class="inline">where.exe python</code>) и сравните путь с тем, что печатает <code class="inline">sys.executable</code> изнутри Python. Они должны совпадать — если нет, значит переменная PATH ссылается не на тот интерпретатор, который вы ожидали.</div>
+      </div>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">📚 Официальный источник</div>
+        <div class="callout-body">Подробнее про <code class="inline">sys.executable</code> и <code class="inline">sys.version</code> — в модуле <code class="inline">sys</code> на docs.python.org.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="02-05-linux.html"><div class="dir">← Назад</div><div class="lbl">Установка на Linux</div></a><a href="02-07-vscode-ustanovka-i-rasshireniya.html" class="next"><div class="dir">Далее →</div><div class="lbl">VS Code: установка и расширения</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

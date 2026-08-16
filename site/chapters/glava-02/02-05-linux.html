@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Установка на Linux — Python с нуля — Cartesian School</title>
+<meta name="description" content="Установка Python на Linux через менеджер пакетов дистрибутива и почему PEP 668 запрещает pip install в системный Python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-05-linux.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Установка на Linux — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Установка Python на Linux через менеджер пакетов дистрибутива и почему PEP 668 запрещает pip install в системный Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-05-linux.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Установка на Linux — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Установка Python на Linux через менеджер пакетов дистрибутива и почему PEP 668 запрещает pip install в системный Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Установка на Linux — Python с нуля — Cartesian School","description":"Установка Python на Linux через менеджер пакетов дистрибутива и почему PEP 668 запрещает pip install в системный Python.","url":"https://www.cartesianschool.org/chapters/glava-02/02-05-linux.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html" class="active">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / Установка на Linux</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Установка Python на Linux</h1>
+    <p class="lede">Linux — полноценная платформа первого класса для Python, со своими правилами хорошего тона: системный менеджер пакетов и обязательные виртуальные окружения.</p>
+
+
+    <p>Linux — такая же первоклассная платформа для Python, как Windows и macOS, и во многих
+    профессиональных командах именно Linux — основная рабочая система (а ещё почти все серверы,
+    на которых работает ваш будущий код, тоже Linux). Как и macOS, большинство дистрибутивов
+    Linux уже включают системный Python — и здесь действует то же правило: <strong>не трогайте
+    системный Python</strong>.</p>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ PEP 668: «externally-managed-environment»</div>
+        <div class="callout-body">На современных дистрибутивах (Ubuntu 23.04+, Debian 12+ и других) команда <code class="inline">pip install</code> без виртуального окружения специально <strong>откажется работать</strong> и покажет ошибку <code class="inline">error: externally-managed-environment</code>. Это не баг — это защита, описанная в официальном стандарте PEP 668, чтобы вы случайно не сломали системные инструменты, которые тоже написаны на Python. Правильный ответ на эту ошибку — не «обойти» её флагом, а создать виртуальное окружение (раздел 2.10) и ставить пакеты туда.</div>
+      </div>
+    </div>
+
+    <h2 id="ustanovka-linux">Установка через менеджер пакетов</h2>
+    <p>На Linux Python принято устанавливать через системный менеджер пакетов дистрибутива, а не
+    скачивать установщик отдельно — это стандартный, официально рекомендуемый способ.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Debian / Ubuntu</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>sudo apt update
+sudo apt install python3 python3-venv python3-pip</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Fedora</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>sudo dnf install python3 python3-pip</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>Arch Linux</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>sudo pacman -S python python-pip</code></pre>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">💡 Зачем отдельно ставить python3-venv?</div>
+        <div class="callout-body">На Debian/Ubuntu модуль для создания виртуальных окружений иногда выносят в отдельный пакет <code class="inline">python3-venv</code> — без него команда <code class="inline">python3 -m venv</code> (раздел 2.11) не сработает. Если вы планируете использовать виртуальные окружения (а мы будем), поставьте его сразу.</div>
+      </div>
+    </div>
+
+    <h2 id="proverka-linux">Проверка установки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>bash</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>python3 --version
+pip3 --version</code></pre>
+    </div>
+
+    <h2 id="pochemu-ne-trogat">Почему это так строго на Linux</h2>
+    <p>Сама операционная система на Linux нередко написана частично на Python и использует
+    системный интерпретатор для своих инструментов (менеджера пакетов, системных утилит). Если
+    вы командой <code class="inline">pip install</code> без окружения замените версию библиотеки,
+    от которой зависит сама система, — можно сломать что-то важное в ОС. PEP 668 — это
+    общеотраслевой стандарт, который защищает именно от этого сценария, а не прихоть конкретного
+    дистрибутива.</p>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">🚀 Практический вывод</div>
+        <div class="callout-body">На Linux правило «всегда работайте внутри виртуального окружения» — не совет, а во многих случаях техническое требование. Хорошая новость: как только вы освоите виртуальные окружения (раздел 2.10–2.12), это правило станет привычкой, а не препятствием.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="02-03-mac.html"><div class="dir">← Назад</div><div class="lbl">Установка на macOS</div></a><a href="02-06-kakoj-python-zapushen.html" class="next"><div class="dir">Далее →</div><div class="lbl">Какой Python действительно запущен</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

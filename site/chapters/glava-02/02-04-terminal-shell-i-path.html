@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Терминал, shell и PATH — Python с нуля — Cartesian School</title>
+<meta name="description" content="Что такое терминал, shell, команда и аргумент — и как переменная окружения PATH решает, какая программа запустится по имени python." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-02/02-04-terminal-shell-i-path.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Терминал, shell и PATH — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Что такое терминал, shell, команда и аргумент — и как переменная окружения PATH решает, какая программа запустится по имени python." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-02/02-04-terminal-shell-i-path.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Терминал, shell и PATH — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Что такое терминал, shell, команда и аргумент — и как переменная окружения PATH решает, какая программа запустится по имени python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Терминал, shell и PATH — Python с нуля — Cartesian School","description":"Что такое терминал, shell, команда и аргумент — и как переменная окружения PATH решает, какая программа запустится по имени python.","url":"https://www.cartesianschool.org/chapters/glava-02/02-04-terminal-shell-i-path.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 2 · Установка Python</div><ul class="toc-list"><li><a href="index.html">Приступаем</a></li><li><a href="02-01-govorim-na-yazyke-kompyutera.html">Что именно мы устанавливаем?</a></li><li><a href="02-04-terminal-shell-i-path.html" class="active">Терминал, shell и PATH</a></li><li><a href="02-02-windows.html">Установка на Windows</a></li><li><a href="02-03-mac.html">Установка на macOS</a></li><li><a href="02-05-linux.html">Установка на Linux</a></li><li><a href="02-06-kakoj-python-zapushen.html">Какой Python действительно запущен</a></li><li><a href="02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: установка и расширения</a></li><li><a href="02-08-vscode-konfiguraciya.html">VS Code: интерпретатор и рабочий процесс</a></li><li><a href="02-09-pycharm.html">PyCharm: проект, интерпретатор, окружение</a></li><li><a href="02-10-zachem-nuzhny-venv.html">Виртуальные окружения — зачем они нужны</a></li><li><a href="02-11-sozdanie-venv.html">Создаём .venv</a></li><li><a href="02-12-pervyj-paket.html">Устанавливаем первый пакет</a></li><li><a href="02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="02-15-ide-i-okruzheniya.html">Как IDE, Python и окружение связаны</a></li><li><a href="02-16-diagnostika.html">Типичные проблемы и диагностика</a></li><li><a href="02-17-rekomendacii-i-itogi.html">Рекомендации Cartesian School и итоги</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 2</a> / Терминал, shell и PATH</div>
+    <div class="section-kicker">Глава 2 · Давайте установим Python!</div>
+    <h1>Терминал, shell и PATH</h1>
+    <p class="lede">Одно из самых важных объяснений этой главы: что на самом деле происходит, когда вы вводите команду и нажимаете Enter.</p>
+
+
+    <h2 id="terminal-i-shell">Терминал и shell</h2>
+    <p><strong>Терминал</strong> — окно программы, где вы вводите текстовые команды и видите
+    текстовый ответ компьютера. <strong>Shell</strong> (командная оболочка) — программа, которая
+    внутри терминала на самом деле читает вашу команду и решает, что с ней делать. На Windows это
+    обычно PowerShell или классическая cmd, на macOS и Linux — чаще всего <code class="inline">zsh</code>
+    или <code class="inline">bash</code>.</p>
+    <p>Команда обычно состоит из имени программы и, при необходимости, <strong>аргументов</strong> —
+    дополнительных слов после неё: в <code class="inline">python --version</code> само
+    <code class="inline">python</code> — команда, а <code class="inline">--version</code> — аргумент.</p>
+
+    <h2 id="puti">Путь, файловая система и текущая папка</h2>
+    <p>Shell всегда «стоит» в какой-то одной папке — она называется <strong>текущей рабочей
+    папкой</strong> (current directory). <strong>Путь</strong> (path) — это адрес файла или папки
+    в файловой системе. Путь бывает:</p>
+    <ul>
+      <li><strong>абсолютным</strong> — начинается от корня диска, например
+        <code class="inline">C:\Users\anna\project</code> или <code class="inline">/home/anna/project</code>,
+        и работает откуда угодно;</li>
+      <li><strong>относительным</strong> — отсчитывается от текущей папки, например
+        <code class="inline">./project</code> или просто <code class="inline">project</code>.</li>
+    </ul>
+
+    <h2 id="peremennaya-path">Переменная окружения PATH</h2>
+    <p>Когда вы вводите короткую команду вроде <code class="inline">python</code>, компьютер не
+    ищет файл по всему диску — это заняло бы слишком много времени. Вместо этого shell смотрит в
+    специальный список папок — <strong>переменную окружения PATH</strong> — и проверяет их по
+    очереди в заданном порядке, пока не найдёт исполняемый файл с таким именем.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>PATH (Linux/macOS, упрощённо)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>/usr/local/bin
+/usr/bin
+/bin
+~/.local/bin</code></pre>
+    </div>
+
+    <p>Если вы наберёте <code class="inline">python</code>, shell проверит
+    <code class="inline">/usr/local/bin/python</code>, затем <code class="inline">/usr/bin/python</code>
+    и так далее — и запустит первый найденный файл. Если ни в одной из папок PATH такого файла
+    нет — вы увидите ошибку вроде <code class="inline">command not found</code> (macOS/Linux) или
+    <code class="inline">'python' is not recognized...</code> (Windows).</p>
+
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 640 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Что происходит, когда вы нажимаете Enter после команды" style="width:100%;height:auto;max-width:640px"><line x1="28" y1="44" x2="28" y2="396" stroke="#B9A0FC" stroke-width="3"/><circle cx="28" cy="44" r="9" fill="#5B24F9"/><circle cx="28" cy="44" r="4" fill="#fff"/><text x="56" y="40" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Вы вводите команду</text><text x="56" y="62" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">например, python</text><circle cx="28" cy="132" r="9" fill="#5B24F9"/><circle cx="28" cy="132" r="4" fill="#fff"/><text x="56" y="128" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Shell получает текст</text><text x="56" y="150" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">программа-командная оболочка</text><circle cx="28" cy="220" r="9" fill="#5B24F9"/><circle cx="28" cy="220" r="4" fill="#fff"/><text x="56" y="216" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Поиск по PATH</text><text x="56" y="238" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">shell проверяет папки по очереди</text><circle cx="28" cy="308" r="9" fill="#5B24F9"/><circle cx="28" cy="308" r="4" fill="#fff"/><text x="56" y="304" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Исполняемый файл найден</text><text x="56" y="326" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">первое совпадение побеждает</text><circle cx="28" cy="396" r="9" fill="#5B24F9"/><circle cx="28" cy="396" r="4" fill="#fff"/><text x="56" y="392" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">Команда запускается</text><text x="56" y="414" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">или «command not found», если нигде не нашлось</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Что происходит, когда вы нажимаете Enter после команды</figcaption></figure>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">⚠️ Типичная ошибка</div>
+        <div class="callout-body">Если на компьютере установлено <strong>два разных Python</strong>, а в PATH они перечислены не в том порядке, который вы ожидаете, — команда <code class="inline">python</code> может запускать совсем не ту версию, которую вы только что установили. Раздел 2.6 научит это проверять.</div>
+      </div>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">📚 Официальный источник</div>
+        <div class="callout-body">Подробное объяснение переменных окружения — в документации вашей операционной системы; для самого Python — раздел «Using Python on Unix platforms» / «Using Python on Windows» на docs.python.org.</div>
+      </div>
+    </div>
+
+    <div class="section-nav"><a href="02-01-govorim-na-yazyke-kompyutera.html"><div class="dir">← Назад</div><div class="lbl">Что именно мы устанавливаем?</div></a><a href="02-02-windows.html" class="next"><div class="dir">Далее →</div><div class="lbl">Установка на Windows</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
