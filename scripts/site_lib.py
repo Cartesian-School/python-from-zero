@@ -2508,6 +2508,378 @@ def summary_box(title: str, items_html: list[str]) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Главa 11 — коллекции: индексы/срезы списков, Венн-диаграммы множеств,
+# вложенные деревья, поверхностное копирование, матрицы
+# ---------------------------------------------------------------------------
+
+def list_box_diagram(items: list[str], *, indices: bool = True, highlight: list[int] | None = None, caption: str = "") -> str:
+    """Box-per-element diagram for a list/tuple, each box sized to its own
+    content (values can be longer than one character, unlike
+    string_index_diagram) — positive index above (purple), negative index
+    below (pink). `highlight` marks specific positions (e.g. a just-changed
+    or just-inserted cell) with an accent fill. Set indices=False for a
+    plain "these are the elements" picture (e.g. a set's unique values)."""
+    highlight = set(highlight or [])
+    n = len(items)
+    box_h = 52
+    pad_x = 14
+    widths = [max(52, 11 * len(str(it)) + pad_x * 2) for it in items]
+    gaps = 6
+    total_w = sum(widths) + gaps * max(0, n - 1) + 20
+    top_h = 26 if indices else 6
+    bot_h = 26 if indices else 6
+    total_h = top_h + box_h + bot_h + 10
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    x = 10
+    box_y = top_h
+    for i, it in enumerate(items):
+        w = widths[i]
+        cx = x + w / 2
+        is_hl = i in highlight
+        fill = "#E7DEFF" if is_hl else "#fff"
+        stroke = "#5B24F9" if is_hl else "#0D0230"
+        sw = "2.5" if is_hl else "1.5"
+        parts.append(
+            f'<rect x="{x}" y="{box_y}" width="{w}" height="{box_h}" rx="10" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="{sw}"/>'
+        )
+        parts.append(
+            f'<text x="{cx}" y="{box_y + box_h / 2 + 6}" text-anchor="middle" '
+            f'font-family="\'JetBrains Mono\', monospace" font-weight="700" font-size="15" '
+            f'fill="#0D0230">{html.escape(str(it))}</text>'
+        )
+        if indices:
+            parts.append(
+                f'<text x="{cx}" y="{top_h - 9}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" '
+                f'font-weight="700" font-size="12" fill="#5B24F9">{i}</text>'
+            )
+            parts.append(
+                f'<text x="{cx}" y="{box_y + box_h + 18}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" '
+                f'font-weight="700" font-size="12" fill="#DB2777">{i - n}</text>'
+            )
+        x += w + gaps
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def list_slice_diagram(items: list[str], start: int, stop: int, *, caption: str = "") -> str:
+    """Boundary-cut slice diagram for a list — the list_box_diagram sibling
+    of string_slice_diagram(): boundary numbers (0..n) live in the GAPS
+    between/around variable-width element boxes, the [start:stop) span is
+    shaded, and the resulting sub-list is printed below. start/stop must
+    already be resolved to non-negative in-range ints by the caller."""
+    n = len(items)
+    box_h = 52
+    pad_x = 14
+    widths = [max(52, 11 * len(str(it)) + pad_x * 2) for it in items]
+    gaps = 6
+    total_w = sum(widths) + gaps * max(0, n - 1) + 20
+    total_h = 26 + box_h + 40
+
+    xs = [10]
+    for w in widths:
+        xs.append(xs[-1] + w + gaps)
+    centers = [xs[i] + widths[i] / 2 for i in range(n)]
+    boundary_xs = [xs[0]] + [xs[i] + widths[i] + gaps / 2 for i in range(n)]
+    boundary_xs[-1] = xs[-1] - gaps + widths[-1] if n else xs[0]
+    # boundary j sits at the left edge of box j (or right edge of the last box for j == n)
+    boundary_xs = [xs[i] for i in range(n)] + ([xs[n - 1] + widths[n - 1]] if n else [xs[0]])
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    box_y = 26
+    for i, it in enumerate(items):
+        w = widths[i]
+        in_slice = start <= i < stop
+        parts.append(
+            f'<rect x="{xs[i]}" y="{box_y}" width="{w}" height="{box_h}" rx="10" '
+            f'fill="{"#E7DEFF" if in_slice else "#fff"}" stroke="#0D0230" stroke-width="1.5"/>'
+        )
+        parts.append(
+            f'<text x="{centers[i]}" y="{box_y + box_h / 2 + 6}" text-anchor="middle" '
+            f'font-family="\'JetBrains Mono\', monospace" font-weight="700" font-size="15" '
+            f'fill="#0D0230">{html.escape(str(it))}</text>'
+        )
+    for j in range(n + 1):
+        bx = boundary_xs[j] if j < len(boundary_xs) else xs[-1] + widths[-1]
+        on_edge = j in (start, stop)
+        parts.append(
+            f'<text x="{bx}" y="{box_y - 9}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" '
+            f'font-weight="700" font-size="12" fill="{"#5B24F9" if on_edge else "#B9A0FC"}">{j}</text>'
+        )
+    result = "[" + ", ".join(str(it) for it in items[start:stop]) + "]"
+    parts.append(
+        f'<text x="{total_w / 2}" y="{box_y + box_h + 28}" text-anchor="middle" '
+        f'font-family="\'JetBrains Mono\', monospace" font-size="14" fill="#0D0230">→ '
+        f'<tspan font-weight="700">{html.escape(result)}</tspan></text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def venn_diagram(
+    label_a: str,
+    label_b: str,
+    only_a: list[str],
+    both: list[str],
+    only_b: list[str],
+    *,
+    mode: str = "venn",
+    highlight: str = "none",
+    result_label: str = "",
+    caption: str = "",
+) -> str:
+    """Two-circle Venn diagram for set algebra (union/intersection/
+    difference/symmetric difference). Rather than clip-path region shading
+    (fragile across renderers), the outline stays constant and the
+    individual VALUE CHIPS in the highlighted region(s) get an accent fill
+    — this points straight at the actual resulting values, which is exactly
+    what a learner checking "did I get the right elements?" needs.
+
+    highlight: "union" | "intersection" | "diff_a" | "diff_b" | "symdiff" | "none".
+    mode: "venn" (two overlapping circles) or "subset" (small circle inside
+    a big one — for A <= B / issubset). In "subset" mode only_a is ignored
+    (pass []), `both` holds A's items (drawn inside the inner circle) and
+    only_b holds B's extra items (drawn in the outer ring).
+    """
+    hl_a = highlight in ("union", "diff_a", "symdiff")
+    hl_both = highlight in ("union", "intersection")
+    hl_b = highlight in ("union", "diff_b", "symdiff")
+
+    def chip(text: str, hl: bool) -> str:
+        bg = "#5B24F9" if hl else "#fff"
+        fg = "#fff" if hl else "#0D0230"
+        bd = "#5B24F9" if hl else "#B9A0FC"
+        return (
+            f'<div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;'
+            f'background:{bg};color:{fg};border:1.5px solid {bd};font-family:\'JetBrains Mono\',monospace;'
+            f'font-size:13px;font-weight:700;white-space:nowrap">{html.escape(str(text))}</div>'
+        )
+
+    def zone(items: list[str], hl: bool) -> str:
+        if not items:
+            return '<div style="min-height:24px"></div>'
+        return "".join(chip(it, hl) for it in items)
+
+    if mode == "subset":
+        svg_w, svg_h = 420, 300
+        svg = f"""<svg viewBox="0 0 {svg_w} {svg_h}" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{svg_w}px">
+          <ellipse cx="{svg_w/2}" cy="{svg_h/2+6}" rx="190" ry="120" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="{svg_w/2}" cy="{svg_h/2+40}" rx="95" ry="60" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="{svg_w/2}" y="30" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">{html.escape(label_b)}</text>
+          <text x="{svg_w/2}" y="{svg_h/2-1}" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#DB2777">{html.escape(label_a)}</text>
+        </svg>"""
+        rows = (
+            f'<div style="text-align:center;margin-top:-64px;padding:0 20px">{zone(both, hl_both)}</div>'
+            f'<div style="text-align:center;margin-top:74px;padding:0 12px">{zone(only_b, hl_b)}</div>'
+        )
+        body = svg + rows
+    else:
+        svg_w, svg_h = 460, 230
+        svg = f"""<svg viewBox="0 0 {svg_w} {svg_h}" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{svg_w}px">
+          <ellipse cx="180" cy="115" rx="145" ry="100" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="280" cy="115" rx="145" ry="100" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="95" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">{html.escape(label_a)}</text>
+          <text x="365" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#DB2777">{html.escape(label_b)}</text>
+        </svg>"""
+        rows = (
+            f'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:-38px;padding:0 6px;align-items:start">'
+            f'<div style="text-align:center">{zone(only_a, hl_a)}</div>'
+            f'<div style="text-align:center">{zone(both, hl_both)}</div>'
+            f'<div style="text-align:center">{zone(only_b, hl_b)}</div>'
+            f'</div>'
+        )
+        body = svg + rows
+
+    result_html = (
+        f'<div style="text-align:center;margin-top:14px;font-family:\'JetBrains Mono\',monospace;'
+        f'font-size:14px;color:#0D0230">→ <strong>{html.escape(result_label)}</strong></div>'
+        if result_label
+        else ""
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center">'
+        f'<div style="width:100%;max-width:520px">{body}</div>{result_html}{cap}</figure>'
+    )
+
+
+def tree_diagram(node: tuple, *, caption: str = "") -> str:
+    """Indented HTML/CSS tree (not SVG, so it reflows naturally on mobile
+    instead of demanding fragile auto-layout width math) for nested
+    dict/list structures — node = (label, children), children a list of
+    such tuples or [] for a leaf. Root dots are purple, branch dots pink,
+    leaf dots green."""
+
+    def render_node(n: tuple, depth: int) -> str:
+        label, children = n
+        leaf = not children
+        dot_color = "#5B24F9" if depth == 0 else ("#059669" if leaf else "#DB2777")
+        out = (
+            f'<div style="display:flex;align-items:center;gap:10px;padding:5px 0">'
+            f'<span style="width:9px;height:9px;border-radius:50%;background:{dot_color};flex-shrink:0"></span>'
+            f'<span style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:#0D0230">{html.escape(str(label))}</span>'
+            f'</div>'
+        )
+        if children:
+            kids = "".join(render_node(c, depth + 1) for c in children)
+            out += f'<div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5">{kids}</div>'
+        return out
+
+    body = render_node(node, 0)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">{body}{cap}</figure>'
+    )
+
+
+def shallow_copy_diagram(outer_a_label: str, outer_b_label: str, inner_items: list[str], *, caption: str = "") -> str:
+    """Two independent OUTER lists (e.g. `original` and `original.copy()`),
+    drawn as two stacked rows of slot boxes, both fanning arrows down into
+    ONE SHARED row of inner-object boxes below — the correct picture for a
+    shallow copy: a new outer container, but the same referenced inner
+    objects."""
+    n = len(inner_items)
+    slot_w, slot_h, gap = 100, 44, 18
+    label_col = 130
+    row_w = n * slot_w + max(0, n - 1) * gap
+    total_w = label_col + row_w + 20
+    outer_a_y, outer_b_y = 10, 84
+    inner_y = 210
+    total_h = inner_y + slot_h + 10
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs><marker id='arrowsc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
+    ]
+
+    def label_text(text: str, y: float, color: str) -> None:
+        parts.append(
+            f'<text x="0" y="{y + slot_h / 2 + 5}" font-family="Sora, sans-serif" font-weight="700" '
+            f'font-size="13" fill="{color}">{html.escape(text)}</text>'
+        )
+
+    label_text(outer_a_label, outer_a_y, "#5B24F9")
+    label_text(outer_b_label, outer_b_y, "#DB2777")
+
+    for i in range(n):
+        x = label_col + i * (slot_w + gap)
+        cx = x + slot_w / 2
+        for y, color in ((outer_a_y, "#5B24F9"), (outer_b_y, "#DB2777")):
+            parts.append(
+                f'<rect x="{x}" y="{y}" width="{slot_w}" height="{slot_h}" rx="10" '
+                f'fill="#FAFAFC" stroke="{color}" stroke-width="1.5"/>'
+            )
+            parts.append(
+                f'<text x="{cx}" y="{y + slot_h / 2 + 5}" text-anchor="middle" '
+                f'font-family="\'JetBrains Mono\', monospace" font-size="12" fill="#0D0230">[{i}]</text>'
+            )
+        parts.append(
+            f'<rect x="{x}" y="{inner_y}" width="{slot_w}" height="{slot_h}" rx="10" '
+            f'fill="#E7DEFF" stroke="#0D0230" stroke-width="1.5"/>'
+        )
+        parts.append(
+            f'<text x="{cx}" y="{inner_y + slot_h / 2 + 5}" text-anchor="middle" '
+            f'font-family="\'JetBrains Mono\', monospace" font-weight="700" font-size="13" '
+            f'fill="#0D0230">{html.escape(str(inner_items[i]))}</text>'
+        )
+        parts.append(
+            f'<path d="M{cx - 8},{outer_a_y + slot_h} C{cx - 8},{(outer_a_y + slot_h + inner_y) / 2} '
+            f'{cx - 6},{(outer_a_y + slot_h + inner_y) / 2} {cx - 4},{inner_y}" '
+            f'fill="none" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrowsc)"/>'
+        )
+        parts.append(
+            f'<path d="M{cx + 8},{outer_b_y + slot_h} C{cx + 8},{(outer_b_y + slot_h + inner_y) / 2} '
+            f'{cx + 6},{(outer_b_y + slot_h + inner_y) / 2} {cx + 4},{inner_y}" '
+            f'fill="none" stroke="#DB2777" stroke-width="2" marker-end="url(#arrowsc)"/>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def matrix_diagram(
+    rows: list[list[str]],
+    *,
+    row_labels: list[str] | None = None,
+    col_labels: list[str] | None = None,
+    highlight: tuple[int, int] | None = None,
+    caption: str = "",
+) -> str:
+    """Real-value grid for a nested list (matrix/board) — an HTML/CSS grid
+    (not SVG) so arbitrary-width cell content reflows safely. Distinct from
+    nested_loop_grid(), which draws an ABSTRACT rows×cols shape; this one
+    shows the actual values, with optional row/col index headers and a
+    single highlighted (row, col) cell."""
+    ncols = max((len(r) for r in rows), default=0)
+    has_col_labels = col_labels is not None
+    has_row_labels = row_labels is not None
+    n_grid_cols = ncols + (1 if has_row_labels else 0)
+
+    def cell(text: str, *, header: bool = False, hl: bool = False) -> str:
+        bg = "#5B24F9" if hl else ("#F1EEFC" if header else "#fff")
+        fg = "#fff" if hl else ("#5B24F9" if header else "#0D0230")
+        return (
+            f'<div style="min-width:44px;padding:10px 12px;border-radius:8px;background:{bg};color:{fg};'
+            f'text-align:center;font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:14px;'
+            f'border:1.5px solid {"#5B24F9" if hl else "#E4E1F5"}">{html.escape(str(text))}</div>'
+        )
+
+    grid_rows = []
+    if has_col_labels:
+        header_row = [cell("", header=True)] if has_row_labels else []
+        header_row += [cell(c, header=True) for c in col_labels]
+        grid_rows.append(header_row)
+    for ri, r in enumerate(rows):
+        row_html = [cell(row_labels[ri], header=True)] if has_row_labels else []
+        row_html += [cell(v, hl=(highlight == (ri, ci))) for ci, v in enumerate(r)]
+        grid_rows.append(row_html)
+
+    grid_html = "".join(
+        "".join(c for c in row) for row in grid_rows
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:inline-grid;grid-template-columns:repeat({n_grid_cols},auto);gap:6px;'
+        f'margin:0 auto">{grid_html}</div>{cap}</figure>'
+    )
+
+
+# ---------------------------------------------------------------------------
 # Навигация / компоновка страницы
 # ---------------------------------------------------------------------------
 

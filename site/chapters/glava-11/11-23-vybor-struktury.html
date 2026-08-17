@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Как выбрать правильную структуру — Python с нуля — Cartesian School</title>
+<meta name="description" content="Таблица изменяемости и хешируемости, итоговая decision-map выбора структуры данных, truthiness коллекций, ловушка изменения во время перебора." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-23-vybor-struktury.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Как выбрать правильную структуру — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Таблица изменяемости и хешируемости, итоговая decision-map выбора структуры данных, truthiness коллекций, ловушка изменения во время перебора." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-23-vybor-struktury.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Как выбрать правильную структуру — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Таблица изменяемости и хешируемости, итоговая decision-map выбора структуры данных, truthiness коллекций, ловушка изменения во время перебора." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Как выбрать правильную структуру — Python с нуля — Cartesian School","description":"Таблица изменяемости и хешируемости, итоговая decision-map выбора структуры данных, truthiness коллекций, ловушка изменения во время перебора.","url":"https://www.cartesianschool.org/chapters/glava-11/11-23-vybor-struktury.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html" class="active">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Выбор структуры</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Как выбрать правильную структуру</h1>
+    <p class="lede">Теперь, когда все четыре коллекции знакомы по отдельности, — как решить, какую использовать в конкретной задаче.</p>
+
+
+    <h2>Таблица изменяемости</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Тип</th><th>Упорядочен?</th><th>Изменяем?</th><th>Повторы?</th><th>Доступ</th></tr></thead>
+      <tbody><tr><td><code class="inline">list</code></td><td>да</td><td>да</td><td>да</td><td>по индексу</td></tr><tr><td><code class="inline">tuple</code></td><td>да</td><td>нет</td><td>да</td><td>по индексу</td></tr><tr><td><code class="inline">set</code></td><td>нет позиций</td><td>да</td><td>нет — только уникальные</td><td>по членству (in)</td></tr><tr><td><code class="inline">frozenset</code></td><td>нет позиций</td><td>нет</td><td>нет — только уникальные</td><td>по членству (in)</td></tr><tr><td><code class="inline">dict</code></td><td>сохраняет порядок вставки</td><td>да</td><td>ключи уникальны</td><td>по ключу</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Таблица хешируемости</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Что можно класть в множество / использовать как ключ словаря</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Обычно хешируемы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">int, float, str</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">bool, bytes</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">tuple (если элементы хешируемы)</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">frozenset</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Не хешируемы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">list</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">dict</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">set</div></div></div></figure>
+
+    <h2>Итоговый ориентир выбора</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">Полный ориентир выбора структуры</div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Нужна пара «ключ → значение»?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">dict</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Иначе: нужны только уникальные значения, порядок не важен?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">set</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Иначе: нужен порядок, значения точно не изменятся?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">tuple</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Иначе: нужен порядок и придётся менять содержимое?</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">list</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Правило большого пальца — сначала думайте о задаче, потом о синтаксисе</figcaption></figure>
+
+    <h2>Истинность коллекций (truthiness)</h2>
+    <p>Из главы 9: пустая коллекция — <code class="inline">False</code> в логическом контексте,
+    непустая — <code class="inline">True</code>, независимо от значений внутри:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Пусто → False</th><th>Не пусто → True</th></tr></thead>
+      <tbody><tr><td><code class="inline">[]</code></td><td><code class="inline">[0]</code></td></tr><tr><td><code class="inline">()</code></td><td><code class="inline">("",)</code></td></tr><tr><td><code class="inline">set()</code></td><td><code class="inline">{0}</code></td></tr><tr><td><code class="inline">{}</code></td><td><code class="inline">{"x": None}</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>truthiness_kollekcij.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>items = []
+<span class="tok-kw">if</span> items:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Есть элементы&quot;</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Список пуст&quot;</span>)</code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">if items: — идиоматичнее, чем if len(items) &gt; 0:</div>
+        <div class="callout-body">Обе записи работают одинаково, но <code class="inline">if items:</code> прямо спрашивает «список непустой?», без промежуточного подсчёта длины — это стандартный стиль в Python-коде.</div>
+      </div>
+    </div>
+
+    <h2>Изменение коллекции во время перебора — ещё одна ловушка</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>mutation_during_iteration.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>items = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+<span class="tok-kw">for</span> item <span class="tok-kw">in</span> items:
+    <span class="tok-kw">if</span> item % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        items.remove(item)
+<span class="tok-fn">print</span>(items)   <span class="tok-com"># [1, 3] — а не [1, 3]... на самом деле результат неожиданный!</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не меняйте размер коллекции, пока перебираете её тем же циклом</div>
+        <div class="callout-body">Удаление элементов списка во время перебора этого же списка сдвигает индексы прямо «под ногами» у цикла — часть элементов будет пропущена. Для словаря или множества Python вообще выбросит <code class="inline">RuntimeError: dictionary changed size during iteration</code>. Безопасные способы: собирать результат в НОВУЮ коллекцию, использовать comprehension, или перебирать явную копию — <code class="inline">for item in items.copy():</code>.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: выбор структуры данных по сценарию</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-23"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-23/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-09-mini-proekt-cveta.html"><div class="dir">← Назад</div><div class="lbl">Мини-проект: бесконечные цвета</div></a><a href="11-24-debugging-kollekcij.html" class="next"><div class="dir">Далее →</div><div class="lbl">Отладка коллекций</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

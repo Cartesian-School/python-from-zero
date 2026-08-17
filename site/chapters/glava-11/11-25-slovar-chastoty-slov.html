@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мини-проект — подсчёт частоты слов — Python с нуля — Cartesian School</title>
+<meta name="description" content="Классический алгоритм подсчёта частоты слов через словарь и .get(word, 0) + 1, вариант через setdefault(), превью collections.Counter." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-25-slovar-chastoty-slov.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Мини-проект — подсчёт частоты слов — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Классический алгоритм подсчёта частоты слов через словарь и .get(word, 0) + 1, вариант через setdefault(), превью collections.Counter." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-25-slovar-chastoty-slov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Мини-проект — подсчёт частоты слов — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Классический алгоритм подсчёта частоты слов через словарь и .get(word, 0) + 1, вариант через setdefault(), превью collections.Counter." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Мини-проект — подсчёт частоты слов — Python с нуля — Cartesian School","description":"Классический алгоритм подсчёта частоты слов через словарь и .get(word, 0) + 1, вариант через setdefault(), превью collections.Counter.","url":"https://www.cartesianschool.org/chapters/glava-11/11-25-slovar-chastoty-slov.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html" class="active">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Частота слов</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Мини-проект — подсчёт частоты слов</h1>
+    <p class="lede">Строки, циклы и словарь-счётчик в одной классической задаче — с ручным алгоритмом и превью готового инструмента из стандартной библиотеки.</p>
+
+
+    <p>Классическая задача, которая объединяет почти всё из этой главы: строки (глава 8), циклы
+    (глава 10) и словарь как счётчик.</p>
+
+    <h2>Алгоритм по шагам</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>chastota_slov.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;python is great and python is fun&quot;</span>
+words = text.lower().split()
+
+counts = {}
+<span class="tok-kw">for</span> word <span class="tok-kw">in</span> words:
+    counts[word] = counts.get(word, <span class="tok-num">0</span>) + <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(counts)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 640 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="counts.get(word, 0) + 1 — если слова ещё нет, get() вернёт 0, и счётчик начнётся с 1" style="width:100%;height:auto;max-width:640px"><line x1="28" y1="44" x2="28" y2="396" stroke="#B9A0FC" stroke-width="3"/><circle cx="28" cy="44" r="9" fill="#5B24F9"/><circle cx="28" cy="44" r="4" fill="#fff"/><text x="56" y="40" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">word = &#x27;python&#x27;</text><text x="56" y="62" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">counts.get(&#x27;python&#x27;, 0) + 1 = 1 → counts = {&#x27;python&#x27;: 1}</text><circle cx="28" cy="132" r="9" fill="#5B24F9"/><circle cx="28" cy="132" r="4" fill="#fff"/><text x="56" y="128" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">word = &#x27;is&#x27;</text><text x="56" y="150" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">counts = {&#x27;python&#x27;: 1, &#x27;is&#x27;: 1}</text><circle cx="28" cy="220" r="9" fill="#5B24F9"/><circle cx="28" cy="220" r="4" fill="#fff"/><text x="56" y="216" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">word = &#x27;great&#x27;</text><text x="56" y="238" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">counts = {&#x27;python&#x27;: 1, &#x27;is&#x27;: 1, &#x27;great&#x27;: 1}</text><circle cx="28" cy="308" r="9" fill="#5B24F9"/><circle cx="28" cy="308" r="4" fill="#fff"/><text x="56" y="304" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">word = &#x27;and&#x27;</text><text x="56" y="326" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">counts = {..., &#x27;and&#x27;: 1}</text><circle cx="28" cy="396" r="9" fill="#5B24F9"/><circle cx="28" cy="396" r="4" fill="#fff"/><text x="56" y="392" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#0D0230">word = &#x27;python&#x27; снова</text><text x="56" y="414" font-family="Inter, sans-serif" font-size="13" fill="#6B6B7D">counts.get(&#x27;python&#x27;, 0) + 1 = 2 → counts[&#x27;python&#x27;] = 2</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">counts.get(word, 0) + 1 — если слова ещё нет, get() вернёт 0, и счётчик начнётся с 1</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Почему именно .get(word, 0), а не counts[word]</div>
+        <div class="callout-body">На первой встрече слова ключа <code class="inline">word</code> в <code class="inline">counts</code> ещё нет — <code class="inline">counts[word]</code> вызвал бы <code class="inline">KeyError</code>. <code class="inline">.get(word, 0)</code> возвращает 0 для нового слова, и код одинаково работает и для новых, и для уже встречавшихся слов.</div>
+      </div>
+    </div>
+
+    <h2>Тот же алгоритм через setdefault()</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>chastota_setdefault.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>counts = {}
+<span class="tok-kw">for</span> word <span class="tok-kw">in</span> words:
+    counts.setdefault(word, <span class="tok-num">0</span>)
+    counts[word] += <span class="tok-num">1</span></code></pre>
+    </div>
+
+    <h2>🚀 Чуть глубже — стандартная библиотека уже решила эту задачу</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>counter_preview.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> collections <span class="tok-kw">import</span> Counter
+
+counts = Counter(words)
+<span class="tok-fn">print</span>(counts)             <span class="tok-com"># Counter({&#x27;python&#x27;: 2, &#x27;is&#x27;: 2, &#x27;great&#x27;: 1, &#x27;and&#x27;: 1, &#x27;fun&#x27;: 1})</span>
+<span class="tok-fn">print</span>(counts.most_common(<span class="tok-num">2</span>))   <span class="tok-com"># [(&#x27;python&#x27;, 2), (&#x27;is&#x27;, 2)]</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Ручной алгоритм важнее, чем готовая функция</div>
+        <div class="callout-body"><code class="inline">Counter</code> из стандартной библиотеки делает то же самое в одну строку — и в реальном коде часто лучше использовать именно его. Но алгоритм на <code class="inline">.get(word, 0) + 1</code> стоило пройти руками: он показывает, как вообще устроен подсчёт через словарь, а не только то, что для этого есть готовый инструмент.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: подсчёт частоты слов в тексте</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-25"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-25/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-25"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-25"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-24-debugging-kollekcij.html"><div class="dir">← Назад</div><div class="lbl">Отладка коллекций</div></a><a href="11-26-mini-proekty-kollekcii.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проекты с коллекциями</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

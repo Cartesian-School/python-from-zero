@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Операции множеств и хешируемость — Python с нуля — Cartesian School</title>
+<meta name="description" content="Венн-диаграммы для union/intersection/difference/symmetric_difference, subset/superset, хешируемость, frozenset." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-19-mnozhestva-operacii.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Операции множеств и хешируемость — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Венн-диаграммы для union/intersection/difference/symmetric_difference, subset/superset, хешируемость, frozenset." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-19-mnozhestva-operacii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Операции множеств и хешируемость — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Венн-диаграммы для union/intersection/difference/symmetric_difference, subset/superset, хешируемость, frozenset." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Операции множеств и хешируемость — Python с нуля — Cartesian School","description":"Венн-диаграммы для union/intersection/difference/symmetric_difference, subset/superset, хешируемость, frozenset.","url":"https://www.cartesianschool.org/chapters/glava-11/11-19-mnozhestva-operacii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html" class="active">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Операции множеств</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Операции множеств и хешируемость</h1>
+    <p class="lede">Четыре операции алгебры множеств на Венн-диаграммах — и почему список нельзя положить внутрь множества.</p>
+
+
+    <h2>Множества как круги на диаграмме Венна</h2>
+    <p>Две группы участников курсов — удобный пример, на котором видно все четыре операции сразу:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>dve_gruppy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>python_users = [<span class="tok-str">&#x27;Anna&#x27;</span>, <span class="tok-str">&#x27;Bob&#x27;</span>, <span class="tok-str">&#x27;Maria&#x27;</span>]
+data_users = [<span class="tok-str">&#x27;Bob&#x27;</span>, <span class="tok-str">&#x27;Li&#x27;</span>]</code></pre>
+    </div>
+
+    <h3>Объединение — union, |</h3>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><div style="width:100%;max-width:520px"><svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="python_users | data_users — все, кто есть хоть в одной группе" style="width:100%;height:auto;max-width:460px">
+          <ellipse cx="180" cy="115" rx="145" ry="100" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="280" cy="115" rx="145" ry="100" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="95" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">python_users</text>
+          <text x="365" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#DB2777">data_users</text>
+        </svg><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:-38px;padding:0 6px;align-items:start"><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Anna</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Maria</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Bob</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Li</div></div></div></div><div style="text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">→ <strong>{&#x27;Anna&#x27;, &#x27;Bob&#x27;, &#x27;Maria&#x27;, &#x27;Li&#x27;}</strong></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">python_users | data_users — все, кто есть хоть в одной группе</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>union.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">set</span>(python_users) | <span class="tok-fn">set</span>(data_users))</code></pre>
+    </div>
+
+    <h3>Пересечение — intersection, &amp;</h3>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><div style="width:100%;max-width:520px"><svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="python_users &amp; data_users — кто есть в ОБЕИХ группах" style="width:100%;height:auto;max-width:460px">
+          <ellipse cx="180" cy="115" rx="145" ry="100" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="280" cy="115" rx="145" ry="100" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="95" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">python_users</text>
+          <text x="365" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#DB2777">data_users</text>
+        </svg><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:-38px;padding:0 6px;align-items:start"><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Anna</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Maria</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Bob</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Li</div></div></div></div><div style="text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">→ <strong>{&#x27;Bob&#x27;}</strong></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">python_users &amp; data_users — кто есть в ОБЕИХ группах</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>intersection.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">set</span>(python_users) &amp; <span class="tok-fn">set</span>(data_users))</code></pre>
+    </div>
+
+    <h3>Разность — difference, -</h3>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><div style="width:100%;max-width:520px"><svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="python_users - data_users — только в первой группе" style="width:100%;height:auto;max-width:460px">
+          <ellipse cx="180" cy="115" rx="145" ry="100" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="280" cy="115" rx="145" ry="100" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="95" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">python_users</text>
+          <text x="365" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#DB2777">data_users</text>
+        </svg><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:-38px;padding:0 6px;align-items:start"><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Anna</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Maria</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Bob</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Li</div></div></div></div><div style="text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">→ <strong>{&#x27;Anna&#x27;, &#x27;Maria&#x27;}</strong></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">python_users - data_users — только в первой группе</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>difference.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">set</span>(python_users) - <span class="tok-fn">set</span>(data_users))</code></pre>
+    </div>
+
+    <h3>Симметричная разность — symmetric_difference, ^</h3>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><div style="width:100%;max-width:520px"><svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="python_users ^ data_users — в одной группе, но не в обеих сразу" style="width:100%;height:auto;max-width:460px">
+          <ellipse cx="180" cy="115" rx="145" ry="100" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="280" cy="115" rx="145" ry="100" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="95" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">python_users</text>
+          <text x="365" y="26" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#DB2777">data_users</text>
+        </svg><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:-38px;padding:0 6px;align-items:start"><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Anna</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Maria</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Bob</div></div><div style="text-align:center"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">Li</div></div></div></div><div style="text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">→ <strong>{&#x27;Anna&#x27;, &#x27;Maria&#x27;, &#x27;Li&#x27;}</strong></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">python_users ^ data_users — в одной группе, но не в обеих сразу</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>symmetric_difference.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">set</span>(python_users) ^ <span class="tok-fn">set</span>(data_users))</code></pre>
+    </div>
+
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Операция</th><th>Оператор</th><th>Метод</th></tr></thead>
+      <tbody><tr><td>объединение</td><td><code class="inline">a | b</code></td><td><code class="inline">a.union(b)</code></td></tr><tr><td>пересечение</td><td><code class="inline">a &amp; b</code></td><td><code class="inline">a.intersection(b)</code></td></tr><tr><td>разность</td><td><code class="inline">a - b</code></td><td><code class="inline">a.difference(b)</code></td></tr><tr><td>симметричная разность</td><td><code class="inline">a ^ b</code></td><td><code class="inline">a.symmetric_difference(b)</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Подмножество и надмножество</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>podmnozhestvo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>required = {<span class="tok-str">&quot;python&quot;</span>, <span class="tok-str">&quot;git&quot;</span>}
+available = {<span class="tok-str">&quot;python&quot;</span>, <span class="tok-str">&quot;git&quot;</span>, <span class="tok-str">&quot;docker&quot;</span>, <span class="tok-str">&quot;linux&quot;</span>}
+
+<span class="tok-fn">print</span>(required &lt;= available)     <span class="tok-com"># True — required ЦЕЛИКОМ входит в available</span>
+<span class="tok-fn">print</span>(required.issubset(available))   <span class="tok-com"># то же самое</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><div style="width:100%;max-width:520px"><svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" role="img"
+          aria-label="required &lt;= available — required (внутренний круг) целиком лежит внутри available (внешний круг)" style="width:100%;height:auto;max-width:420px">
+          <ellipse cx="210.0" cy="156.0" rx="190" ry="120" fill="none" stroke="#5B24F9" stroke-width="2"/>
+          <ellipse cx="210.0" cy="190.0" rx="95" ry="60" fill="none" stroke="#DB2777" stroke-width="2"/>
+          <text x="210.0" y="30" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#5B24F9">available</text>
+          <text x="210.0" y="149.0" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#DB2777">required</text>
+        </svg><div style="text-align:center;margin-top:-64px;padding:0 20px"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">python</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#5B24F9;color:#fff;border:1.5px solid #5B24F9;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">git</div></div><div style="text-align:center;margin-top:74px;padding:0 12px"><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">docker</div><div style="display:inline-block;margin:3px;padding:4px 10px;border-radius:999px;background:#fff;color:#0D0230;border:1.5px solid #B9A0FC;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;white-space:nowrap">linux</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">required &lt;= available — required (внутренний круг) целиком лежит внутри available (внешний круг)</figcaption></figure>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Оператор / метод</th><th>Значение</th></tr></thead>
+      <tbody><tr><td><code class="inline">a &lt;= b</code> / <code class="inline">a.issubset(b)</code></td><td>все элементы a есть и в b</td></tr><tr><td><code class="inline">a &gt;= b</code> / <code class="inline">a.issuperset(b)</code></td><td>все элементы b есть и в a</td></tr><tr><td><code class="inline">a.isdisjoint(b)</code></td><td>у a и b нет общих элементов вообще</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Хешируемость: почему в множестве нельзя хранить список</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>hashability_error.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>bad = {[<span class="tok-num">1</span>, <span class="tok-num">2</span>], [<span class="tok-num">3</span>, <span class="tok-num">4</span>]}
+<span class="tok-com"># TypeError: unhashable type: &#x27;list&#x27;</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Элементы множества и ключи словаря должны быть достаточно «стабильными»</div>
+        <div class="callout-body">Python должен быть уверен, что значение внутри множества (или ключ словаря) не изменится незаметно, пока лежит там. Формальный термин для такой стабильности — <strong>хешируемость (hashable)</strong>. Изменяемые типы (список, словарь, множество) хешируемыми не бывают именно поэтому.</div>
+      </div>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Что можно класть в множество / использовать как ключ словаря</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Обычно хешируемы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">int, float, str</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">bool, bytes</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">tuple — если все элементы тоже хешируемы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">frozenset</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Не хешируемы</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">list</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">dict</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">set</div></div></div></figure>
+
+    <h2>frozenset — неизменяемое множество</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>frozenset_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>zamorozhennoe = frozenset({<span class="tok-str">&quot;python&quot;</span>, <span class="tok-str">&quot;git&quot;</span>})
+<span class="tok-fn">print</span>(zamorozhennoe)
+<span class="tok-com"># zamorozhennoe.add(&quot;docker&quot;)  # AttributeError — метода add() нет</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Когда пригодится frozenset</div>
+        <div class="callout-body"><code class="inline">frozenset</code> нужен, когда множество само должно быть хешируемым — например, чтобы использовать его как элемент другого множества или как ключ словаря, что с обычным <code class="inline">set</code> невозможно.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: алгебра множеств, подмножества, хешируемость</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-19"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-19/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-19"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-19"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-07-mnozhestva.html"><div class="dir">← Назад</div><div class="lbl">Множества</div></a><a href="11-08-slovari.html" class="next"><div class="dir">Далее →</div><div class="lbl">Словари</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
