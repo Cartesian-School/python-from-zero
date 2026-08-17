@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Лямбда-функции — Python с нуля — Cartesian School</title>
-<meta name="description" content="Короткие безымянные функции lambda в Python — когда их использовать, а когда предпочесть def." />
+<meta name="description" content="lambda как инструмент для конкретной ситуации (не «короткий def»): анатомия, ограничения, сравнение с def, map()/filter() против comprehensions." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Лямбда-функции — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Короткие безымянные функции lambda в Python — когда их использовать, а когда предпочесть def." />
+<meta property="og:description" content="lambda как инструмент для конкретной ситуации (не «короткий def»): анатомия, ограничения, сравнение с def, map()/filter() против comprehensions." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-06-lambda.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Лямбда-функции — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Короткие безымянные функции lambda в Python — когда их использовать, а когда предпочесть def." />
+<meta name="twitter:description" content="lambda как инструмент для конкретной ситуации (не «короткий def»): анатомия, ограничения, сравнение с def, map()/filter() против comprehensions." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Лямбда-функции — Python с нуля — Cartesian School","description":"Короткие безымянные функции lambda в Python — когда их использовать, а когда предпочесть def.","url":"https://www.cartesianschool.org/chapters/glava-13/13-06-lambda.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Лямбда-функции — Python с нуля — Cartesian School","description":"lambda как инструмент для конкретной ситуации (не «короткий def»): анатомия, ограничения, сравнение с def, map()/filter() против comprehensions.","url":"https://www.cartesianschool.org/chapters/glava-13/13-06-lambda.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,39 +40,70 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-02-zachem-funkcii.html">Зачем нужны функции?</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-04-argumenty.html">Аргументы функций</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-06-lambda.html" class="active">Лямбда-функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: автоматизированные фигуры и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html" class="active">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Лямбда-функции</div>
     <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
     <h1>Лямбда-функции</h1>
-    <p class="lede">Маленькие безымянные функции в одну строку — удобны в конкретных, узких случаях.</p>
+    <p class="lede">Маленький безымянный объект функции для одного выражения — полезен в узких случаях, а не как более современная замена def.</p>
 
 
-    <p><strong>Лямбда-функция</strong> — это способ создать маленькую безымянную функцию в одну
-    строку. Тот же результат, что и через <code class="inline">def</code>, но короче:</p>
-    
+    <p>В §13.20 мы передавали <code class="inline">len</code> как аргумент в
+    <code class="inline">sorted()</code>. А что, если нужное правило сортировки не существует
+    как готовая функция — и заводить ради него отдельный <code class="inline">def</code>
+    кажется излишним? Для этого существует <strong>lambda</strong>.</p>
+
+    <h2>lambda создаёт маленький безымянный объект функции</h2>
+
     <div class="code-block">
-      <div class="code-label"><span>lambda.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <div class="code-label"><span>lambda_sortirovka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>students = [{<span class="tok-str">&quot;name&quot;</span>: <span class="tok-str">&quot;Anna&quot;</span>, <span class="tok-str">&quot;score&quot;</span>: <span class="tok-num">82</span>}, {<span class="tok-str">&quot;name&quot;</span>: <span class="tok-str">&quot;Bob&quot;</span>, <span class="tok-str">&quot;score&quot;</span>: <span class="tok-num">95</span>}]
+students.sort(key=<span class="tok-kw">lambda</span> student: student[<span class="tok-str">&quot;score&quot;</span>])</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Не «более короткий def», а инструмент для конкретной ситуации</div>
+        <div class="callout-body">Главная задача lambda — передать маленькое правило/преобразование туда, где полноценная именованная функция была бы избыточной. Это НЕ более современная замена <code class="inline">def</code> — это отдельный инструмент для узкого случая.</div>
+      </div>
+    </div>
+
+    <h2>Анатомия lambda</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>lambda_anatomiya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">lambda</span> x: x ** <span class="tok-num">2</span></code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Часть</th><th>Значение</th></tr></thead>
+      <tbody><tr><td><code class="inline">lambda</code></td><td>ключевое слово — создать функцию-выражение</td></tr><tr><td><code class="inline">x</code></td><td>параметр (без скобок)</td></tr><tr><td><code class="inline">x ** 2</code></td><td>единственное выражение — его результат возвращается автоматически</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>lambda_vyzov.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>kvadrat = <span class="tok-kw">lambda</span> x: x ** <span class="tok-num">2</span>
 <span class="tok-fn">print</span>(kvadrat(<span class="tok-num">5</span>))   <span class="tok-com"># 25</span></code></pre>
     </div>
-    <p>Слева от двоеточия — параметры (без скобок), справа — единственное выражение, результат
-    которого автоматически возвращается (без явного <code class="inline">return</code>).</p>
+    <p>Никакого явного <code class="inline">return</code> и никаких блочных инструкций внутри —
+    только одно выражение.</p>
 
-    <h2>Где лямбда действительно полезна</h2>
-    <p>Чаще всего лямбда-функции передают <strong>как аргумент</strong> в другую функцию —
-    например, чтобы задать правило сортировки:</p>
-    
-    <div class="code-block">
-      <div class="code-label"><span>lambda_sortirovka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>slova = [<span class="tok-str">&quot;python&quot;</span>, <span class="tok-str">&quot;я&quot;</span>, <span class="tok-str">&quot;программирование&quot;</span>]
-slova.sort(key=<span class="tok-kw">lambda</span> word: <span class="tok-fn">len</span>(word))
-<span class="tok-fn">print</span>(slova)   <span class="tok-com"># [&quot;я&quot;, &quot;python&quot;, &quot;программирование&quot;] — от короткого к длинному</span></code></pre>
+    <h2>Ограничения lambda</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Когда lambda НЕ подходит — берите def</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Только выражение</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">ни одной инструкции</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">ни присваивания, ни print</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Не для сложной логики</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">ветвление с эффектами</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">длинные вычисления</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">Без имени и докстринга</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">нечего показать в traceback</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">нечего документировать</div></div></div></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Если логика заслуживает имени — используйте def</div>
+        <div class="callout-body">Как только правило становится достаточно важным, чтобы его стоило переиспользовать, протестировать отдельно или объяснить докстрингом — самое время превратить lambda в обычную функцию с <code class="inline">def</code>.</div>
+      </div>
     </div>
 
-    
+    <h2>def → lambda: сравнение стиля, а не «улучшение»</h2>
+
     <div class="cvm">
       <div class="cvm-header">Простая функция: def → lambda</div>
       <div class="cvm-grid">
@@ -90,10 +121,50 @@ slova.sort(key=<span class="tok-kw">lambda</span> word: <span class="tok-fn">len
 <span class="tok-fn">print</span>(kvadrat(<span class="tok-num">5</span>))</code></pre>
         </div>
       </div>
-      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> обычную функцию с <code class="inline">def</code> — она читается яснее, у неё есть нормальное имя для отладки, и в неё легко добавить несколько строк логики или комментарий. <code class="inline">lambda</code> удобна только для одной короткой строки без имени — например, как аргумент функции <code class="inline">sorted()</code> или <code class="inline">max()</code>. Использовать lambda ради самой lambda, когда подошла бы обычная функция, — плохой стиль, а не «более современный».</div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> обычную функцию с <code class="inline">def</code> — она читается яснее, у неё есть нормальное имя для отладки, и в неё легко добавить несколько строк логики или комментарий. <code class="inline">lambda</code> удобна только для одной короткой строки без имени — например, как аргумент функции <code class="inline">sorted()</code> или <code class="inline">max()</code>. Присваивание lambda имени (<code class="inline">kvadrat = lambda x: ...</code>) не более «современно», чем <code class="inline">def</code> — во многих реальных проектах такой стиль сочли бы менее читаемым, а не прогрессивным.</div>
     </div>
 
-    
+    <h2>🔬 Необязательно: map() и filter()</h2>
+    <p>Раз вы уже знаете comprehensions (глава 11), полезно увидеть их альтернативу:</p>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px">
+    <div class="code-block">
+      <div class="code-label"><span>map_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>numbers = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+kvadraty = <span class="tok-fn">list</span>(<span class="tok-fn">map</span>(<span class="tok-kw">lambda</span> n: n ** <span class="tok-num">2</span>, numbers))
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+    </div></div>
+      <div style="flex:1 1 260px;min-width:220px">
+    <div class="code-block">
+      <div class="code-label"><span>comprehension_ekvivalent.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>numbers = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+kvadraty = [n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers]
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+    </div></div>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px">
+    <div class="code-block">
+      <div class="code-label"><span>filter_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chetnye = <span class="tok-fn">list</span>(<span class="tok-fn">filter</span>(<span class="tok-kw">lambda</span> n: n % <span class="tok-num">2</span> == <span class="tok-num">0</span>, numbers))</code></pre>
+    </div></div>
+      <div style="flex:1 1 260px;min-width:220px">
+    <div class="code-block">
+      <div class="code-label"><span>comprehension_s_if.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chetnye = [n <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>]</code></pre>
+    </div></div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Python чаще предпочитает comprehensions</div>
+        <div class="callout-body">Для простых преобразований и фильтров comprehension обычно читается яснее, чем <code class="inline">map()</code>/<code class="inline">filter()</code> с lambda. Знать оба стиля полезно — вы встретите оба в реальном коде, — но по умолчанию тянитесь к comprehension, если задача простая.</div>
+      </div>
+    </div>
+
+
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: лямбда-функции</div>
@@ -114,9 +185,9 @@ slova.sort(key=<span class="tok-kw">lambda</span> word: <span class="tok-fn">len
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="13-05-globalnye-lokalnye.html"><div class="dir">← Назад</div><div class="lbl">Область видимости</div></a><a href="13-07-mini-proekt-domashka.html" class="next"><div class="dir">Далее →</div><div class="lbl">Домашнее задание по математике</div></a></div>
+
+    <div class="section-nav"><a href="13-20-funkcii-kak-obekty.html"><div class="dir">← Назад</div><div class="lbl">Функции как объекты</div></a><a href="13-21-funkcii-kak-konvejer.html" class="next"><div class="dir">Далее →</div><div class="lbl">Функции как конвейер</div></a></div>
   </article>
 </div>
 

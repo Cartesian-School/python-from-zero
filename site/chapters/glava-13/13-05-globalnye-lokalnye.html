@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Глобальные и локальные переменные — Python с нуля — Cartesian School</title>
-<meta name="description" content="Область видимости переменных в Python: локальные переменные функций и глобальные переменные." />
+<meta name="description" content="LEGB — как Python ищет имя (Local → Enclosing → Global → Builtins), затенение, UnboundLocalError и ключевое слово global." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Глобальные и локальные переменные — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Область видимости переменных в Python: локальные переменные функций и глобальные переменные." />
+<meta property="og:description" content="LEGB — как Python ищет имя (Local → Enclosing → Global → Builtins), затенение, UnboundLocalError и ключевое слово global." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-05-globalnye-lokalnye.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Глобальные и локальные переменные — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Область видимости переменных в Python: локальные переменные функций и глобальные переменные." />
+<meta name="twitter:description" content="LEGB — как Python ищет имя (Local → Enclosing → Global → Builtins), затенение, UnboundLocalError и ключевое слово global." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Глобальные и локальные переменные — Python с нуля — Cartesian School","description":"Область видимости переменных в Python: локальные переменные функций и глобальные переменные.","url":"https://www.cartesianschool.org/chapters/glava-13/13-05-globalnye-lokalnye.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Глобальные и локальные переменные — Python с нуля — Cartesian School","description":"LEGB — как Python ищет имя (Local → Enclosing → Global → Builtins), затенение, UnboundLocalError и ключевое слово global.","url":"https://www.cartesianschool.org/chapters/glava-13/13-05-globalnye-lokalnye.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,20 +40,20 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-02-zachem-funkcii.html">Зачем нужны функции?</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-04-argumenty.html">Аргументы функций</a></li><li><a href="13-05-globalnye-lokalnye.html" class="active">Глобальные и локальные переменные</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: автоматизированные фигуры и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html" class="active">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Область видимости</div>
     <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
     <h1>Глобальные и локальные переменные</h1>
-    <p class="lede">Где «живёт» переменная и кто может её увидеть — важное правило, которое избавит от многих загадочных ошибок.</p>
+    <p class="lede">Где «живёт» переменная и в каком порядке Python её ищет — модель LEGB избавит от многих загадочных ошибок.</p>
 
 
     <h2>Переменные внутри функций</h2>
     <p>Переменная, созданная внутри функции, называется <strong>локальной</strong> — она
     существует только пока функция выполняется и недоступна снаружи:</p>
-    
+
     <div class="code-block">
       <div class="code-label"><span>lokalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">def</span> moya_funkciya():
@@ -64,36 +64,126 @@ moya_funkciya()
 <span class="tok-fn">print</span>(message)   <span class="tok-com"># NameError: message не определена здесь</span></code></pre>
     </div>
 
-    <h2>Возвращаем локальные переменные</h2>
-    <p>Чтобы значение, вычисленное внутри функции, стало доступно снаружи, его нужно вернуть
-    через <code class="inline">return</code> — это единственный «официальный» способ передать
-    что-то из функции наружу.</p>
-
     <h2>Глобальные переменные</h2>
     <p><strong>Глобальная</strong> переменная объявлена вне всех функций — и доступна для чтения
     внутри любой из них:</p>
-    
+
     <div class="code-block">
       <div class="code-label"><span>globalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>ver = <span class="tok-str">&quot;1.0&quot;</span>   <span class="tok-com"># глобальная переменная</span>
+      <pre><code>course_name = <span class="tok-str">&quot;Python&quot;</span>
 
-<span class="tok-kw">def</span> pokazat_versiyu():
-    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Версия программы: </span>{ver}<span class="tok-str">&quot;</span>)   <span class="tok-com"># чтение глобальной переменной — работает</span>
+<span class="tok-kw">def</span> lesson():
+    topic = <span class="tok-str">&quot;Функции&quot;</span>
+    <span class="tok-fn">print</span>(course_name)   <span class="tok-com"># чтение глобальной — работает без всяких оговорок</span>
+    <span class="tok-fn">print</span>(topic)
 
-pokazat_versiyu()</code></pre>
+lesson()</code></pre>
     </div>
-    
-    <div class="callout callout-warning">
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 154" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Глобальное пространство имён" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">course_name</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">&quot;Python&quot;</tspan></text><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="109.0">lesson</tspan></text><line x1="140" y1="103.0" x2="192" y2="103.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="80" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="108.0">ФУНКЦИЯ-ОБЪЕКТ</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Глобальное пространство имён</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Локальное пространство имён lesson() во время вызова" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">topic</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">&quot;Функции&quot;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Локальное пространство имён lesson() во время вызова</figcaption></figure></div>
+    </div>
+
+    <div class="callout callout-info">
       <div>
-        <div class="callout-title">Изменить глобальную переменную изнутри функции — не так просто</div>
-        <div class="callout-body">Присваивание <code class="inline">ver = "2.0"</code> внутри функции создаст <strong>новую локальную</strong> переменную <code class="inline">ver</code>, а не изменит глобальную. Для настоящего изменения нужно ключевое слово <code class="inline">global</code> — но в реальном коде такое встречается редко: гораздо чище вернуть новое значение через <code class="inline">return</code>.</div>
+        <div class="callout-title">Функция может смотреть наружу, но не наоборот</div>
+        <div class="callout-body">Функция может ЧИТАТЬ глобальные имена, но переменные, созданные внутри неё, не становятся автоматически видны снаружи.</div>
       </div>
     </div>
 
-    
+    <h2>Затенение (shadowing)</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>shadowing.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>name = <span class="tok-str">&quot;GLOBAL&quot;</span>
+
+<span class="tok-kw">def</span> demo():
+    name = <span class="tok-str">&quot;LOCAL&quot;</span>
+    <span class="tok-fn">print</span>(name)
+
+demo()
+<span class="tok-fn">print</span>(name)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>LOCAL
+GLOBAL</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Локальное имя name существует только внутри demo() и не трогает глобальное</figcaption>
+    </figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Локальное имя затеняет глобальное с тем же именем</div>
+        <div class="callout-body">Внутри <code class="inline">demo()</code> создаётся СВОЁ, отдельное локальное имя <code class="inline">name</code> — оно временно «заслоняет» глобальное <code class="inline">name</code> для кода внутри функции, но не заменяет и не удаляет его.</div>
+      </div>
+    </div>
+
+    <h2>LEGB: как Python ищет имя</h2>
+    <p>Когда Python встречает имя, он ищет его по чёткому порядку — эту модель называют
+    <strong>LEGB</strong>:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 490 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Local → Enclosing → Global → Builtins — поиск останавливается на первом совпадении" style="width:100%;height:auto;max-width:490px"><defs><marker id='arrowel' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><polygon points="120.0,10 230.0,42.0 120.0,74 10.0,42.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="47.0">L — Local?</tspan></text><path d="M230.0,42.0 L290.0,42.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="32.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="12.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="47.0">нашли → используем</tspan></text><path d="M120.0,74 L120.0,120" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="101.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><polygon points="120.0,120 230.0,152.0 120.0,184 10.0,152.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="157.0">E — Enclosing?</tspan></text><path d="M230.0,152.0 L290.0,152.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="142.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="122.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="157.0">нашли → используем</tspan></text><path d="M120.0,184 L120.0,230" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="211.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><polygon points="120.0,230 230.0,262.0 120.0,294 10.0,262.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="267.0">G — Global?</tspan></text><path d="M230.0,262.0 L290.0,262.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="252.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="232.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="267.0">нашли → используем</tspan></text><path d="M120.0,294 L120.0,340" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="321.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><polygon points="120.0,340 230.0,372.0 120.0,404 10.0,372.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="120.0" y="377.0">B — Builtins?</tspan></text><path d="M230.0,372.0 L290.0,372.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="260.0" y="362.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text><rect x="290.0" y="342.0" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="385.0" y="377.0">нашли → используем</tspan></text><path d="M120.0,404 L120.0,450" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowel)"/><text x="134.0" y="431.0" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">False</text><rect x="25.0" y="450" width="190" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5" stroke-dasharray="5 4"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#0D0230"><tspan x="120.0" y="485.0">NameError</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Local → Enclosing → Global → Builtins — поиск останавливается на первом совпадении</figcaption></figure>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Буква</th><th>Что это</th><th>Пример</th></tr></thead>
+      <tbody><tr><td>L — Local</td><td>имена внутри текущей функции</td><td><code class="inline">topic</code> внутри <code class="inline">lesson()</code></td></tr><tr><td>E — Enclosing</td><td>имена внешней функции для вложенной (§13.13)</td><td>рассмотрим дальше</td></tr><tr><td>G — Global</td><td>имена на уровне модуля</td><td><code class="inline">course_name</code></td></tr><tr><td>B — Builtins</td><td>встроенные имена Python</td><td><code class="inline">len</code>, <code class="inline">print</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>UnboundLocalError — почему это НЕ случайность</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>unbound_local.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>count = <span class="tok-num">10</span>
+
+<span class="tok-kw">def</span> increment():
+    count += <span class="tok-num">1</span>
+
+increment()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Присваивание где-либо в теле делает имя локальным ВО ВСЁМ теле функции</div>
+        <div class="callout-body">Python видит <code class="inline">count += 1</code> (это <code class="inline">count = count + 1</code>) и заранее решает: раз <code class="inline">count</code> присваивается внутри функции, значит, это ЛОКАЛЬНОЕ имя — на протяжении ВСЕГО тела функции, а не только после присваивания. Но правая часть <code class="inline">count + 1</code> пытается ПРОЧИТАТЬ <code class="inline">count</code> ДО того, как локальное значение вообще появилось — отсюда <code class="inline">UnboundLocalError</code>. Это не случайное поведение, а прямое следствие того, как Python заранее размечает локальные имена функции.</div>
+      </div>
+    </div>
+
+    <h2>global — если действительно нужно изменить глобальную переменную</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>global_keyword.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>count = <span class="tok-num">10</span>
+
+<span class="tok-kw">def</span> increment():
+    <span class="tok-kw">global</span> count
+    count += <span class="tok-num">1</span>
+
+increment()
+<span class="tok-fn">print</span>(count)   <span class="tok-com"># 11</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">global нужен только для присваивания, не для чтения</div>
+        <div class="callout-body">Просто ПРОЧИТАТЬ глобальную переменную можно без <code class="inline">global</code> (мы это уже делали с <code class="inline">course_name</code> выше). <code class="inline">global</code> нужен, только когда функция собирается ИЗМЕНИТЬ (присвоить) глобальное имя.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">global работает, но чаще есть способ лучше</div>
+        <div class="callout-body"><code class="inline">global</code> — не запрещённая, но зачастую не лучшая практика: функции, которые читают параметры и возвращают результат через <code class="inline">return</code>, легче тестировать и переиспользовать, потому что их поведение не зависит от скрытого внешнего состояния. Это не абсолютное правило «глобальные переменные — всегда плохо» — иногда общее состояние действительно уместно, — но по умолчанию стоит предпочитать параметры и return.</div>
+      </div>
+    </div>
+
+
     <div class="notebook-card">
       <div>
-        <div class="nc-title">Практика: локальные и глобальные переменные</div>
+        <div class="nc-title">Практика: локальные, глобальные переменные и LEGB</div>
         <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
         <div class="practice-inline-status" data-lesson-id="13-05"></div>
       </div>
@@ -111,9 +201,9 @@ pokazat_versiyu()</code></pre>
       } catch (e) {}
     })();
     </script>
-    
 
-    <div class="section-nav"><a href="13-04-argumenty.html"><div class="dir">← Назад</div><div class="lbl">Аргументы функций</div></a><a href="13-06-lambda.html" class="next"><div class="dir">Далее →</div><div class="lbl">Лямбда-функции</div></a></div>
+
+    <div class="section-nav"><a href="13-15-funkcii-vhod-vyhod.html"><div class="dir">← Назад</div><div class="lbl">Вход, работа, выход: чистые функции</div></a><a href="13-16-vlozhennye-funkcii-nonlocal.html" class="next"><div class="dir">Далее →</div><div class="lbl">Вложенные функции и nonlocal</div></a></div>
   </article>
 </div>
 

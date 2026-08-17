@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Стек вызовов и traceback — Python с нуля — Cartesian School</title>
+<meta name="description" content="Кадр вызова, вложенные вызовы функций, рост и уменьшение стека вызовов (LIFO), и как traceback показывает этот же стек в момент ошибки." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-17-stek-vyzovov.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Стек вызовов и traceback — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Кадр вызова, вложенные вызовы функций, рост и уменьшение стека вызовов (LIFO), и как traceback показывает этот же стек в момент ошибки." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-17-stek-vyzovov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Стек вызовов и traceback — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Кадр вызова, вложенные вызовы функций, рост и уменьшение стека вызовов (LIFO), и как traceback показывает этот же стек в момент ошибки." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Стек вызовов и traceback — Python с нуля — Cartesian School","description":"Кадр вызова, вложенные вызовы функций, рост и уменьшение стека вызовов (LIFO), и как traceback показывает этот же стек в момент ошибки.","url":"https://www.cartesianschool.org/chapters/glava-13/13-17-stek-vyzovov.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html" class="active">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Стек вызовов</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Стек вызовов и traceback</h1>
+    <p class="lede">Функции, вызывающие функции, образуют стек ожидающих вызовов — и traceback из главы 3 на самом деле показывает именно этот стек в момент ошибки.</p>
+
+
+    <h2>Кадр вызова (call frame)</h2>
+    <p>Когда функция вызывается, Python создаёт временный «контейнер» для этого конкретного
+    вызова — с параметрами, локальными именами и отметкой, куда вернуться после завершения:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>call_frame.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> area(width, height):
+    <span class="tok-kw">return</span> width * height
+
+area(<span class="tok-num">5</span>, <span class="tok-num">3</span>)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 154" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Кадр вызова area(5, 3): параметры существуют, пока этот конкретный вызов не завершится" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">width</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">5</tspan></text><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="109.0">height</tspan></text><line x1="140" y1="103.0" x2="192" y2="103.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="80" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="108.0">3</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Кадр вызова area(5, 3): параметры существуют, пока этот конкретный вызов не завершится</figcaption></figure>
+
+    <h2>Функции могут вызывать другие функции</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>vlozhennye_vyzovy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> calculate_tax(amount):
+    <span class="tok-kw">return</span> amount * <span class="tok-num">0.2</span>
+
+<span class="tok-kw">def</span> calculate_invoice(amount):
+    tax = calculate_tax(amount)
+    <span class="tok-kw">return</span> amount + tax
+
+calculate_invoice(<span class="tok-num">100</span>)</code></pre>
+    </div>
+    <p>Пока <code class="inline">calculate_tax()</code> выполняется, вызов
+    <code class="inline">calculate_invoice()</code> не заканчивается — он «ждёт» на паузе.
+    Python отслеживает все ожидающие вызовы в структуре, которую называют
+    <strong>стеком вызовов</strong>.</p>
+
+    <h2>Стек растёт и уменьшается</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Шаг 1 — выполняется основная программа" style="width:100%;height:auto;max-width:360px"><rect x="20" y="30" width="210" height="50" rx="10" fill="#5B24F9" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#fff"><tspan x="125.0" y="60.0">main</tspan></text><text x="244" y="60.0" font-family="Sora, sans-serif" font-weight="700" font-size="12" fill="#5B24F9">← верх стека</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Шаг 1 — выполняется основная программа</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Шаг 2 — main вызвала calculate_invoice()" style="width:100%;height:auto;max-width:360px"><rect x="20" y="30" width="210" height="50" rx="10" fill="#5B24F9" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#fff"><tspan x="125.0" y="60.0">calculate_invoice()</tspan></text><text x="244" y="60.0" font-family="Sora, sans-serif" font-weight="700" font-size="12" fill="#5B24F9">← верх стека</text><rect x="20" y="80" width="210" height="50" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#0D0230"><tspan x="125.0" y="110.0">main</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Шаг 2 — main вызвала calculate_invoice()</figcaption></figure></div>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Шаг 3 — calculate_invoice вызвала calculate_tax(); стек на пике" style="width:100%;height:auto;max-width:360px"><rect x="20" y="30" width="210" height="50" rx="10" fill="#5B24F9" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#fff"><tspan x="125.0" y="60.0">calculate_tax()</tspan></text><text x="244" y="60.0" font-family="Sora, sans-serif" font-weight="700" font-size="12" fill="#5B24F9">← верх стека</text><rect x="20" y="80" width="210" height="50" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#0D0230"><tspan x="125.0" y="110.0">calculate_invoice()</tspan></text><rect x="20" y="130" width="210" height="50" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#0D0230"><tspan x="125.0" y="160.0">main</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Шаг 3 — calculate_invoice вызвала calculate_tax(); стек на пике</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Шаг 4 — calculate_tax() вернула результат и исчезла со стека" style="width:100%;height:auto;max-width:360px"><rect x="20" y="30" width="210" height="50" rx="10" fill="#5B24F9" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#fff"><tspan x="125.0" y="60.0">calculate_invoice()</tspan></text><text x="244" y="60.0" font-family="Sora, sans-serif" font-weight="700" font-size="12" fill="#5B24F9">← верх стека</text><rect x="20" y="80" width="210" height="50" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="13" fill="#0D0230"><tspan x="125.0" y="110.0">main</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Шаг 4 — calculate_tax() вернула результат и исчезла со стека</figcaption></figure></div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Последним вошёл — первым вышел</div>
+        <div class="callout-body">Стек вызовов растёт с каждым новым вызовом и уменьшается с каждым завершением — самый недавний вызов всегда наверху и завершается первым. Это называют принципом LIFO (Last In, First Out).</div>
+      </div>
+    </div>
+
+    <h2>Traceback — это и есть снимок стека вызовов</h2>
+    <p>Вспомним отладку из главы 3: когда возникает ошибка, Python печатает traceback — и это
+    буквально показывает цепочку вызовов, которая привела к ошибке:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>traceback_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> divide(a, b):
+    <span class="tok-kw">return</span> a / b
+
+<span class="tok-kw">def</span> calculate():
+    <span class="tok-kw">return</span> divide(<span class="tok-num">10</span>, <span class="tok-num">0</span>)
+
+<span class="tok-kw">def</span> main():
+    calculate()
+
+main()</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+  File "example.py", line 8, in &lt;module&gt;
+    main()
+  File "example.py", line 6, in main
+    calculate()
+  File "example.py", line 4, in calculate
+    return divide(10, 0)
+  File "example.py", line 2, in divide
+    return a / b
+ZeroDivisionError: division by zero</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Каждая строка traceback — это один кадр из стека вызовов на момент ошибки</figcaption>
+    </figure>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Читаем traceback снизу вверх</div>
+        <div class="callout-body">Самая нижняя строка — сама ошибка. Строка над ней — где именно она произошла (<code class="inline">divide</code>). Выше — кто её вызвал (<code class="inline">calculate</code>), и ещё выше — кто вызвал того (<code class="inline">main</code>). Traceback — это ровно тот стек вызовов, который мы только что визуализировали, показанный в момент, когда что-то пошло не так.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: читаем стек вызовов и traceback</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-17"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="13-16-vlozhennye-funkcii-nonlocal.html"><div class="dir">← Назад</div><div class="lbl">Вложенные функции и nonlocal</div></a><a href="13-18-proektiruem-funkciyu.html" class="next"><div class="dir">Далее →</div><div class="lbl">Проектируем хорошую функцию</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

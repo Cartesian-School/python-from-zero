@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debug Lab: типичные ошибки функций — Python с нуля — Cartesian School</title>
+<meta name="description" content="10 типичных ошибок при работе с функциями: None-баги, непокрытые пути return, return внутри цикла, return vs break, случайная мутация аргумента и другие." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-23-debug-lab-funkcii.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Lab: типичные ошибки функций — Python с нуля — Cartesian School" />
+<meta property="og:description" content="10 типичных ошибок при работе с функциями: None-баги, непокрытые пути return, return внутри цикла, return vs break, случайная мутация аргумента и другие." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-23-debug-lab-funkcii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Lab: типичные ошибки функций — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="10 типичных ошибок при работе с функциями: None-баги, непокрытые пути return, return внутри цикла, return vs break, случайная мутация аргумента и другие." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Lab: типичные ошибки функций — Python с нуля — Cartesian School","description":"10 типичных ошибок при работе с функциями: None-баги, непокрытые пути return, return внутри цикла, return vs break, случайная мутация аргумента и другие.","url":"https://www.cartesianschool.org/chapters/glava-13/13-23-debug-lab-funkcii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html" class="active">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Debug Lab: функции</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Debug Lab: типичные ошибки функций</h1>
+    <p class="lede">Забытый return, return внутри цикла на первой итерации, случайно мутированный аргумент — десять ошибок, которые встречаются в реальном коде снова и снова.</p>
+
+
+    <p>Десять типичных ошибок, связанных с функциями, — каждая с примером и объяснением.
+    Первые две уже разбирались отдельно (§13.1, §13.13) — здесь для полноты списка, компактно;
+    остальные восемь — подробно.</p>
+
+
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">1 · Случайный вызов до определения</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>greet()
+
+<span class="tok-kw">def</span> greet():
+    <span class="tok-fn">print</span>(<span class="tok-str">&#x27;Привет&#x27;</span>)</code></pre>
+    </div>
+          <p style="margin-top:10px">На момент вызова greet() ещё не определена — Python выполняет код сверху вниз, и NameError возникает раньше, чем строка def успевает выполниться.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">2 · Незаметный def внутри def</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> outer():
+    ...
+
+    <span class="tok-kw">def</span> helper():
+        ...</code></pre>
+    </div>
+          <p style="margin-top:10px">Отступ определяет вложенность. Если helper случайно оказался с отступом внутри outer, он не будет виден снаружи как самостоятельная функция — только через outer.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">3 · Функция всегда возвращает None</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> calculate(x):
+    <span class="tok-fn">print</span>(x * <span class="tok-num">2</span>)
+
+result = calculate(<span class="tok-num">5</span>) + <span class="tok-num">1</span></code></pre>
+    </div>
+          <p style="margin-top:10px">calculate печатает, но не возвращает — result станет None, и None + 1 вызовет TypeError.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">4 · Не все пути функции возвращают значение</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> sign(number):
+    <span class="tok-kw">if</span> number &gt; <span class="tok-num">0</span>:
+        <span class="tok-kw">return</span> <span class="tok-str">&#x27;positive&#x27;</span>
+    <span class="tok-com"># а если number &lt;= 0?</span></code></pre>
+    </div>
+          <p style="margin-top:10px">Для отрицательных и нулевых чисел функция доходит до конца без return — и молча возвращает None.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">5 · return внутри цикла на первой итерации</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> contains_even(numbers):
+    <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers:
+        <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+            <span class="tok-kw">return</span> <span class="tok-kw">True</span>
+        <span class="tok-kw">else</span>:
+            <span class="tok-kw">return</span> <span class="tok-kw">False</span></code></pre>
+    </div>
+          <p style="margin-top:10px">return в ветке else срабатывает уже на первом элементе — проверяются не все числа. Правильно: return True внутри if, а return False — после всего цикла, с тем же отступом, что и for.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">6 · return перепутан с break</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> find_first_even(numbers):
+    <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers:
+        <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+            <span class="tok-kw">break</span>   <span class="tok-com"># а не return n!</span></code></pre>
+    </div>
+          <p style="margin-top:10px">break просто останавливает цикл — n нужно ещё явно вернуть отдельной строкой после цикла. return сразу выходит из ВСЕЙ функции, break — только из ближайшего цикла.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">7 · Неожиданная мутация переданного списка</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> sorted_names(names):
+    names.sort()
+    <span class="tok-kw">return</span> names</code></pre>
+    </div>
+          <p style="margin-top:10px">names.sort() мутирует список вызывающего кода на месте. Если это не входит в план, безопаснее return sorted(names) — новый список, оригинал не тронут.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">8 · Забыли скопировать перед изменением</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> normalize_items(items):
+    items[<span class="tok-num">0</span>] = items[<span class="tok-num">0</span>].strip()
+    <span class="tok-kw">return</span> items</code></pre>
+    </div>
+          <p style="margin-top:10px">Если исходные данные нужно сохранить нетронутыми, начните с items = items.copy() — но помните про поверхностность копии (глава 11, §11.10) для вложенных структур.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">9 · Глобальное состояние усложняет тестирование</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>score = <span class="tok-num">0</span>
+
+<span class="tok-kw">def</span> add_point():
+    <span class="tok-kw">global</span> score
+    score += <span class="tok-num">1</span></code></pre>
+    </div>
+          <p style="margin-top:10px">Работает, но такую функцию сложнее тестировать изолированно — её результат зависит от скрытой глобальной переменной. def add_point(score): return score + 1 тестируется одной строкой, без всякой настройки.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">10 · Параметр затеняет встроенное имя</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> total(<span class="tok-fn">list</span>):
+    <span class="tok-kw">return</span> <span class="tok-fn">sum</span>(<span class="tok-fn">list</span>)</code></pre>
+    </div>
+          <p style="margin-top:10px">list — имя встроенного типа. Затенение его параметром работает, но сбивает с толку читателя и ломает доступ к настоящему list() внутри этой функции. Лучше: def total(numbers):</p>
+        </div>
+
+
+    <div class="summary-box">
+      <h3>Метод отладки функций</h3>
+      <ul><li>Печатает функция или возвращает? Проверьте на бумаге, прежде чем читать код.</li><li>Проверены ли ВСЕ пути выполнения функции, включая неявный «конец без return»?</li><li>return внутри цикла — точно ли он должен сработать именно на этой итерации?</li><li>Мутирует ли функция переданный аргумент намеренно? Если нет — скопируйте.</li><li>Не перепутано ли имя параметра со встроенным именем Python?</li></ul>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим и исправляем ошибки в функциях</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-23"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-23/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="13-22-refaktoring-glavy-12.html"><div class="dir">← Назад</div><div class="lbl">Рефакторим проекты главы 12</div></a><a href="13-24-testirovanie-funkcij.html" class="next"><div class="dir">Далее →</div><div class="lbl">Тестируем функции</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

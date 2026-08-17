@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Проектируем хорошую функцию — Python с нуля — Cartesian School</title>
+<meta name="description" content="Хорошие имена функций, единственная обязанность, контракт функции (вход/выход/побочные эффекты), предусловия, чек-лист проектирования." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-18-proektiruem-funkciyu.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Проектируем хорошую функцию — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Хорошие имена функций, единственная обязанность, контракт функции (вход/выход/побочные эффекты), предусловия, чек-лист проектирования." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-18-proektiruem-funkciyu.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Проектируем хорошую функцию — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Хорошие имена функций, единственная обязанность, контракт функции (вход/выход/побочные эффекты), предусловия, чек-лист проектирования." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Проектируем хорошую функцию — Python с нуля — Cartesian School","description":"Хорошие имена функций, единственная обязанность, контракт функции (вход/выход/побочные эффекты), предусловия, чек-лист проектирования.","url":"https://www.cartesianschool.org/chapters/glava-13/13-18-proektiruem-funkciyu.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html" class="active">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Проектируем функцию</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Проектируем хорошую функцию</h1>
+    <p class="lede">Прежде чем писать реализацию, полезно спроектировать функцию: одна ясная обязанность, понятное имя, чёткий контракт.</p>
+
+
+    <h2>Хорошие имена — глаголы-действия</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Хорошо</th><th>Плохо</th></tr></thead>
+      <tbody><tr><td><code class="inline">calculate_total()</code></td><td><code class="inline">do_it()</code></td></tr><tr><td><code class="inline">normalize_text()</code></td><td><code class="inline">func1()</code></td></tr><tr><td><code class="inline">draw_polygon()</code></td><td><code class="inline">thing()</code></td></tr><tr><td><code class="inline">find_max_score()</code></td><td><code class="inline">test2()</code></td></tr></tbody>
+    </table>
+    </div>
+    <p>Функции обычно представляют ДЕЙСТВИЕ — имя должно быть глаголом или глагольной фразой.
+    Для функций, возвращающих <code class="inline">True</code>/<code class="inline">False</code>,
+    хорошо работают префиксы <code class="inline">is_</code>, <code class="inline">has_</code>,
+    <code class="inline">can_</code>, <code class="inline">contains_</code> — они прямо
+    сообщают, что вернётся булево значение.</p>
+
+    <h2>Одна функция — одна понятная обязанность</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>plohaya_dekompoziciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> process_everything():
+    <span class="tok-com"># спрашивает ввод</span>
+    <span class="tok-com"># проверяет</span>
+    <span class="tok-com"># считает</span>
+    <span class="tok-com"># печатает</span>
+    <span class="tok-com"># рисует</span>
+    <span class="tok-com"># обновляет пять структур данных</span>
+    ...</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>horoshaya_dekompoziciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> read_answer(): ...
+<span class="tok-kw">def</span> normalize_answer(answer): ...
+<span class="tok-kw">def</span> check_answer(answer, correct): ...
+<span class="tok-kw">def</span> show_result(correct): ...</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Это ориентир, а не догма</div>
+        <div class="callout-body">Небольшие программы вполне могут разумно объединять несколько простых действий в одной функции — не нужно дробить каждую строку в отдельную функцию искусственно (пример того, ЧЕГО не стоит делать, — в §13.19). Цель — ясность, а не количество функций.</div>
+      </div>
+    </div>
+
+    <h2>Сколько строк должна занимать функция?</h2>
+    <p>Не существует правила вида «максимум 10 строк». Вместо количества строк спрашивайте:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Вопросы вместо количества строк</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">1</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Есть ли у неё одна ясная цель?</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">2</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Объясняет ли имя, что она делает?</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">3</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Легко ли её протестировать отдельно?</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">4</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Есть ли внутри сильно повторяющаяся логика?</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">5</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Понятны ли входы и выход читателю?</div></div></div></figure>
+
+    <h2>Контракт функции</h2>
+    <p>Прежде чем писать реализацию, полезно явно сформулировать контракт — что функция
+    принимает, что возвращает, и есть ли у неё побочные эффекты:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Часть контракта</th><th>calculate_discount(price, percent)</th></tr></thead>
+      <tbody><tr><td>Вход</td><td>price: число, percent: число</td></tr><tr><td>Выход</td><td>цена со скидкой</td></tr><tr><td>Побочные эффекты</td><td>нет</td></tr><tr><td>Пример</td><td><code class="inline">calculate_discount(100, 10) → 90</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Предусловия</h2>
+    <p>Некоторые функции ожидают осмысленный вход — например, <code class="inline">draw_polygon(sides,
+    length)</code> предполагает <code class="inline">sides >= 3</code> и
+    <code class="inline">length > 0</code>. Это <strong>предусловия</strong> — требования к
+    входным данным, которые стоит проверить обычными условиями:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>predusloviya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> polygon_angle(sides):
+    <span class="tok-kw">if</span> sides &lt; <span class="tok-num">3</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">None</span>
+
+    <span class="tok-kw">return</span> <span class="tok-num">360</span> / sides</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">None — не единственный вариант</div>
+        <div class="callout-body">Возврат <code class="inline">None</code> при неверном входе — простой и рабочий вариант на этом уровне курса. Более строгие способы (например, поднять исключение) рассматриваются в главах, посвящённых обработке ошибок.</div>
+      </div>
+    </div>
+
+    <h2>Чек-лист проектирования функции</h2>
+
+    <div class="summary-box">
+      <h3>Прежде чем написать def</h3>
+      <ul><li>Какую ОДНУ работу она выполняет?</li><li>Какие данные ей нужны? Это и есть параметры.</li><li>Возвращает ли она результат — и какой?</li><li>Меняет ли она что-то намеренно (побочный эффект)?</li><li>Как её назвать, чтобы имя объясняло действие?</li><li>На каких входных данных её стоит проверить?</li></ul>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: проектируем функцию по контракту</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-18"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-18/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="13-17-stek-vyzovov.html"><div class="dir">← Назад</div><div class="lbl">Стек вызовов и traceback</div></a><a href="13-19-dokumentaciya-i-tipy.html" class="next"><div class="dir">Далее →</div><div class="lbl">Докстринги и подсказки типов</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

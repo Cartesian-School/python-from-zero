@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Функции как конвейер — Python с нуля — Cartesian School</title>
+<meta name="description" content="Результат одной функции становится входом следующей — паттерн конвейера обработки данных, и граф вызовов (call graph) как способ увидеть структуру программы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-21-funkcii-kak-konvejer.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Функции как конвейер — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Результат одной функции становится входом следующей — паттерн конвейера обработки данных, и граф вызовов (call graph) как способ увидеть структуру программы." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-21-funkcii-kak-konvejer.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Функции как конвейер — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Результат одной функции становится входом следующей — паттерн конвейера обработки данных, и граф вызовов (call graph) как способ увидеть структуру программы." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Функции как конвейер — Python с нуля — Cartesian School","description":"Результат одной функции становится входом следующей — паттерн конвейера обработки данных, и граф вызовов (call graph) как способ увидеть структуру программы.","url":"https://www.cartesianschool.org/chapters/glava-13/13-21-funkcii-kak-konvejer.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html" class="active">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Функции как конвейер</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Функции как конвейер</h1>
+    <p class="lede">Несколько маленьких функций, каждая с ясным входом и выходом, могут вместе выполнить крупную задачу — не хуже одного длинного скрипта, но гораздо понятнее.</p>
+
+
+    <h2>Результат одной функции — вход для следующей</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>konvejer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>clean = normalize_text(input_text)
+words = split_words(clean)
+counts = count_words(words)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 1624 106" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Каждая функция — одна понятная стадия; результат одной становится входом следующей" style="width:100%;height:auto;max-width:1624px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">СЫРОЙ ТЕКСТ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="190" y1="43.0" x2="234" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">normalize_text</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="430" y1="43.0" x2="474" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">ЧИСТЫЙ ТЕКСТ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="670" y1="43.0" x2="714" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">split_words</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="910" y1="43.0" x2="954" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="960" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="1052.0" y="32">СЛОВА</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="1150" y1="43.0" x2="1194" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="1200" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="1292.0" y="32">count_words</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="1390" y1="43.0" x2="1434" y2="43.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="1440" y="10" width="184" height="66" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="1532.0" y="32">ЧАСТОТЫ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Каждая функция — одна понятная стадия; результат одной становится входом следующей</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Это архитектурный приём, а не просто удобство</div>
+        <div class="callout-body">Разбиение на такие стадии — мощный способ организовать программу: каждая функция решает одну понятную задачу, у каждой ясный вход и выход, и стадии можно тестировать по отдельности (§13.24).</div>
+      </div>
+    </div>
+
+    <h2>Граф вызовов (call graph)</h2>
+    <p>Когда функции вызывают другие функции, получившуюся структуру можно изобразить как
+    дерево — <strong>граф вызовов</strong>:</p>
+    <figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#5B24F9;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">MAIN</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">normalize_text</span></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#DB2777;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">analyze_text</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">count_words</span></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">count_unique</span></div></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">show_report</span></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Граф вызовов — какая функция кого вызывает; показывает структуру программы целиком</figcaption></figure>
+    <p>Мы вернёмся к этой идее в §13.22, когда будем рефакторить реальные проекты главы 12 в
+    похожую структуру.</p>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: конвейер из функций</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-21"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-21/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="13-06-lambda.html"><div class="dir">← Назад</div><div class="lbl">Лямбда-функции</div></a><a href="13-22-refaktoring-glavy-12.html" class="next"><div class="dir">Далее →</div><div class="lbl">Рефакторим проекты главы 12</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

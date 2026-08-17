@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Изменяемые и неизменяемые аргументы — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему изменения неизменяемого аргумента не видны снаружи функции, а мутация изменяемого — видна. Rebinding vs mutation." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Изменяемые и неизменяемые аргументы — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему изменения неизменяемого аргумента не видны снаружи функции, а мутация изменяемого — видна. Rebinding vs mutation." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Изменяемые и неизменяемые аргументы — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему изменения неизменяемого аргумента не видны снаружи функции, а мутация изменяемого — видна. Rebinding vs mutation." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Изменяемые и неизменяемые аргументы — Python с нуля — Cartesian School","description":"Почему изменения неизменяемого аргумента не видны снаружи функции, а мутация изменяемого — видна. Rebinding vs mutation.","url":"https://www.cartesianschool.org/chapters/glava-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html" class="active">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Изменяемые аргументы</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Изменяемые и неизменяемые аргументы</h1>
+    <p class="lede">Один из самых важных уроков главы: присваивание параметру и мутация объекта, на который он указывает, — это два совершенно разных действия.</p>
+
+
+    <h2>Неизменяемый аргумент: rebinding не выходит наружу</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>immutable_argument.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> add_one(number):
+    number += <span class="tok-num">1</span>
+    <span class="tok-fn">print</span>(number)
+
+x = <span class="tok-num">10</span>
+add_one(x)
+<span class="tok-fn">print</span>(x)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>11
+10</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">add_one(x) печатает 11, но x снаружи остался 10</figcaption>
+    </figure>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="До вызова: x → 10" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">x</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">10</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">До вызова: x → 10</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 154" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Внутри add_one: number += 1 привязывает number к НОВОМУ объекту 11 — x это не затрагивает" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">x</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">10</tspan></text><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="109.0">number</tspan></text><line x1="140" y1="103.0" x2="192" y2="103.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="80" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="108.0">11</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Внутри add_one: number += 1 привязывает number к НОВОМУ объекту 11 — x это не затрагивает</figcaption></figure></div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не «функция получает копию x»</div>
+        <div class="callout-body">Точнее: <code class="inline">number</code> сначала указывает туда же, куда и <code class="inline">x</code> (на 10). Но <code class="inline">number += 1</code> — это <code class="inline">number = number + 1</code>: создаётся НОВЫЙ объект <code class="inline">11</code>, и <code class="inline">number</code> начинает указывать на него. <code class="inline">x</code> по-прежнему указывает на старый объект <code class="inline">10</code> — они разошлись.</div>
+      </div>
+    </div>
+
+    <h2>Изменяемый аргумент: мутация видна снаружи</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>mutable_argument.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> add_item(items):
+    items.append(<span class="tok-str">&quot;Python&quot;</span>)
+
+skills = [<span class="tok-str">&quot;Git&quot;</span>]
+add_item(skills)
+<span class="tok-fn">print</span>(skills)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>['Git', 'Python']</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">skills изменился, хотя мы вызвали функцию, а не присвоили skills напрямую</figcaption>
+    </figure>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 336 259" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="skills и items — два имени ОДНОГО списка; items.append(...) меняет его для обоих" style="width:100%;height:auto;max-width:336px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">skills (снаружи)</tspan></text><path d="M78.0,70 C78.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="44.0">items (параметр)</tspan></text><path d="M258.0,70 C258.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="48.0" y="170" width="240" height="79" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="168.0" y="205.0">[&#x27;Git&#x27;,</tspan><tspan x="168.0" y="224.0">&#x27;Python&#x27;]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">skills и items — два имени ОДНОГО списка; items.append(...) меняет его для обоих</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Это не магия — это тот же aliasing из главы 11</div>
+        <div class="callout-body"><code class="inline">items</code> внутри функции указывает на ТОТ ЖЕ объект-список, что и <code class="inline">skills</code> снаружи. <code class="inline">.append(...)</code> мутирует этот общий объект — поэтому изменение видно через оба имени. Это ровно тот же принцип aliasing, что мы разбирали в §11.9, только теперь одно из «двух имён» — параметр функции.</div>
+      </div>
+    </div>
+
+    <h2>Rebinding vs mutation — сравниваем напрямую</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>rebinding_vs_mutation.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> replace(items):
+    items = [<span class="tok-str">&quot;new&quot;</span>]      <span class="tok-com"># rebinding: items теперь указывает на ДРУГОЙ список</span>
+
+<span class="tok-kw">def</span> modify(items):
+    items.append(<span class="tok-str">&quot;new&quot;</span>)  <span class="tok-com"># mutation: меняется ТОТ ЖЕ список</span></code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th></th><th>replace(items)</th><th>modify(items)</th></tr></thead>
+      <tbody><tr><td>Что происходит</td><td>переприсваивание локального имени <code class="inline">items</code></td><td>изменение объекта, на который <code class="inline">items</code> указывает</td></tr><tr><td>Видно снаружи после вызова?</td><td>нет — снаружи всё как было</td><td>да — тот же объект изменился</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Главное практическое правило</div>
+        <div class="callout-body">Присваивание параметру (<code class="inline">items = ...</code>) отвязывает локальное имя от аргумента — снаружи ничего не меняется. Вызов мутирующего метода (<code class="inline">.append()</code>, <code class="inline">.sort()</code>, <code class="inline">[i] = ...</code>) меняет сам объект — и это видно снаружи, если объект изменяемый.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: rebinding vs mutation</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-11"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-11/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-11"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-11"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="13-02-zachem-funkcii.html"><div class="dir">← Назад</div><div class="lbl">Параметр и аргумент</div></a><a href="13-12-pozicionnye-i-imennye.html" class="next"><div class="dir">Далее →</div><div class="lbl">Позиционные и именованные аргументы</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
