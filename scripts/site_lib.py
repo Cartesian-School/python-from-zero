@@ -3079,6 +3079,227 @@ def call_stack_diagram(frames: list[str], *, caption: str = "") -> str:
     )
 
 
+def class_diagram(
+    name: str,
+    attributes: list[str],
+    methods: list[str],
+    *,
+    caption: str = "",
+) -> str:
+    """Simplified UML-style class box: class NAME in a purple header band,
+    then an "атрибуты" section listing instance-attribute names, then a
+    "методы" section listing method signatures (already including the
+    trailing "()", e.g. "take_damage(amount)"). This is the TYPE-level
+    diagram — it describes every future instance, never a specific one's
+    values. Use object_diagram() for a specific instance's actual state."""
+    box_w = 260
+    row_h = 26
+    header_h = 40
+    section_gap = 10
+    pad_x = 16
+    attrs = attributes or ["—"]
+    meths = methods or ["—"]
+    attrs_h = len(attrs) * row_h + 14
+    meths_h = len(meths) * row_h + 14
+    total_h = header_h + attrs_h + meths_h + 6
+    total_w = box_w + 20
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    x = 10
+    parts.append(
+        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="14" '
+        f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+    )
+    parts.append(
+        f'<path d="M{x},14 a14,14 0 0 1 14,-14 h{box_w - 28} a14,14 0 0 1 14,14 v{header_h - 14} '
+        f'h-{box_w} z" fill="#5B24F9"/>'
+    )
+    parts.append(
+        f'<text x="{x + box_w / 2}" y="{header_h / 2 + 6}" text-anchor="middle" '
+        f'font-family="\'JetBrains Mono\', monospace" font-weight="700" font-size="16" fill="#fff">'
+        f'{html.escape(name)}</text>'
+    )
+    y = header_h
+    parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#5B24F9" stroke-width="1.5"/>')
+    ay = y + section_gap + 12
+    for attr in attrs:
+        parts.append(
+            f'<text x="{x + pad_x}" y="{ay}" font-family="\'JetBrains Mono\', monospace" '
+            f'font-size="13.5" fill="#0D0230">{html.escape(attr)}</text>'
+        )
+        ay += row_h
+    y = header_h + attrs_h
+    parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#5B24F9" stroke-width="1.5"/>')
+    my = y + section_gap + 12
+    for meth in meths:
+        parts.append(
+            f'<text x="{x + pad_x}" y="{my}" font-family="\'JetBrains Mono\', monospace" '
+            f'font-size="13.5" fill="#5B24F9" font-weight="600">{html.escape(meth)}</text>'
+        )
+        my += row_h
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def object_diagram(
+    instance_label: str,
+    class_name: str,
+    values: list[tuple[str, str]],
+    *,
+    caption: str = "",
+) -> str:
+    """Simplified object (instance) box, deliberately styled close to
+    class_diagram() but in pink instead of purple, and header reads
+    "instance_label : ClassName" — the classic UML instance notation. Body
+    rows show name = value_repr, i.e. actual current state, never types or
+    method signatures. Two objects of the same class drawn side by side
+    with different values makes "same class, own state" visible at a
+    glance; that is the primary use of this diagram."""
+    box_w = 260
+    row_h = 26
+    header_h = 40
+    pad_x = 16
+    rows = values or [("—", "—")]
+    body_h = len(rows) * row_h + 20
+    total_h = header_h + body_h
+    total_w = box_w + 20
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    x = 10
+    parts.append(
+        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="14" '
+        f'fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/>'
+    )
+    parts.append(
+        f'<path d="M{x},14 a14,14 0 0 1 14,-14 h{box_w - 28} a14,14 0 0 1 14,14 v{header_h - 14} '
+        f'h-{box_w} z" fill="#DB2777"/>'
+    )
+    header_text = f"{instance_label} : {class_name}"
+    parts.append(
+        f'<text x="{x + box_w / 2}" y="{header_h / 2 + 6}" text-anchor="middle" '
+        f'font-family="\'JetBrains Mono\', monospace" font-weight="700" font-size="14.5" fill="#fff" '
+        f'text-decoration="underline">{html.escape(header_text)}</text>'
+    )
+    y = header_h
+    parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#DB2777" stroke-width="1.5"/>')
+    ry = y + 20 + 12
+    for field, val in rows:
+        parts.append(
+            f'<text x="{x + pad_x}" y="{ry}" font-family="\'JetBrains Mono\', monospace" '
+            f'font-size="13.5" fill="#0D0230">'
+            f'<tspan fill="#6B6B7D">{html.escape(field)} = </tspan>{html.escape(val)}</text>'
+        )
+        ry += row_h
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def relationship_diagram(
+    from_label: str,
+    to_label: str,
+    relation: str,
+    *,
+    style: str = "has-a",
+    caption: str = "",
+) -> str:
+    """Two boxes connected by one relationship arrow, drawn with a
+    notation that matches the relationship's real meaning:
+
+    style="has-a" (composition): a small filled diamond sits at the
+    from_label end, a plain arrowhead points at to_label — "the object on
+    the left OWNS / holds a reference to the object on the right."
+
+    style="is-a" (inheritance): an open (unfilled) triangle arrowhead
+    points from from_label (the child) to to_label (the parent) — the
+    classic UML "is a kind of" arrow. Never use this for composition and
+    never use the filled-diamond arrow for inheritance; the two
+    relationships are not interchangeable.
+    """
+    box_w, box_h = 200, 60
+    gap = 130
+    left_x = 10
+    right_x = left_x + box_w + gap
+    total_w = right_x + box_w + 20
+    total_h = box_h + 70
+
+    is_a = style == "is-a"
+    line_color = "#5B24F9" if is_a else "#059669"
+    cy = 40
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs>"
+        "<marker id='arrowrelis' viewBox='0 0 14 12' refX='13' refY='6' markerWidth='16' markerHeight='14' "
+        "orient='auto-start-reverse'><path d='M1,1 L13,6 L1,11 z' fill='#FAFAFC' stroke='#5B24F9' "
+        "stroke-width='1.5'/></marker>"
+        "<marker id='arrowrelhas' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker>"
+        "<marker id='diamondrel' viewBox='0 0 16 10' refX='1' refY='5' markerWidth='11' markerHeight='7' "
+        "orient='auto-start-reverse'><path d='M1,5 L8,1 L15,5 L8,9 z' fill='#059669'/></marker>"
+        "</defs>"
+    ]
+    for lx, label in ((left_x, from_label), (right_x, to_label)):
+        parts.append(
+            f'<rect x="{lx}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#0D0230" stroke-width="1.5"/>'
+        )
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
+        first_y = cy - (len(lines) - 1) * 9 + 5
+        tspans = "".join(
+            f'<tspan x="{lx + box_w / 2}" y="{first_y + li * 18}">{html.escape(line)}</tspan>'
+            for li, line in enumerate(lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-weight="700" '
+            f'font-size="14" fill="#0D0230">{tspans}</text>'
+        )
+    line_x1 = left_x + box_w
+    line_x2 = right_x
+    marker_end = "url(#arrowrelis)" if is_a else "url(#arrowrelhas)"
+    marker_start = "url(#diamondrel)" if not is_a else ""
+    extra = f' marker-start="{marker_start}"' if marker_start else ""
+    parts.append(
+        f'<line x1="{line_x1 + (10 if not is_a else 0)}" y1="{cy}" x2="{line_x2 - 2}" y2="{cy}" '
+        f'stroke="{line_color}" stroke-width="2.5" marker-end="{marker_end}"{extra}/>'
+    )
+    rel_label = relation.upper()
+    parts.append(
+        f'<text x="{(line_x1 + line_x2) / 2}" y="{cy - 12}" text-anchor="middle" '
+        f'font-family="Sora, sans-serif" font-weight="700" font-size="12.5" letter-spacing="0.04em" '
+        f'fill="{line_color}">{html.escape(rel_label)}</text>'
+    )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
 # ---------------------------------------------------------------------------
 # Навигация / компоновка страницы
 # ---------------------------------------------------------------------------

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ловушка общего изменяемого атрибута — Python с нуля — Cartesian School</title>
+<meta name="description" content="Debug Lab: почему изменяемый атрибут класса (список, словарь) оказывается общим на все объекты — и как это исправить." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-14/14-08-lovushka-obshchego-atributa.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Ловушка общего изменяемого атрибута — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Debug Lab: почему изменяемый атрибут класса (список, словарь) оказывается общим на все объекты — и как это исправить." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-14/14-08-lovushka-obshchego-atributa.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ловушка общего изменяемого атрибута — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Debug Lab: почему изменяемый атрибут класса (список, словарь) оказывается общим на все объекты — и как это исправить." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Ловушка общего изменяемого атрибута — Python с нуля — Cartesian School","description":"Debug Lab: почему изменяемый атрибут класса (список, словарь) оказывается общим на все объекты — и как это исправить.","url":"https://www.cartesianschool.org/chapters/glava-14/14-08-lovushka-obshchego-atributa.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 14 · Объекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="14-01-chto-takoe-oop.html">Что такое ООП?</a></li><li><a href="14-02-klassy.html">Классы и объекты со своими значениями</a></li><li><a href="14-03-upravlyaem-obektami.html">Управляем объектами. Действия объектов</a></li><li><a href="14-04-gonka-turtle-obekty-itogi.html">Гонка Turtle с объектами</a></li><li><a href="14-05-self-i-svyazyvanie-metodov.html">self и связывание методов</a></li><li><a href="14-06-init-i-sozdanie-obekta.html">__init__ и создание объекта</a></li><li><a href="14-07-atributy-ekzemplyara-i-klassa.html">Атрибуты экземпляра и класса</a></li><li><a href="14-08-lovushka-obshchego-atributa.html" class="active">Ловушка общего изменяемого атрибута</a></li><li><a href="14-09-mini-proekt-player.html">Мини-проект: Player</a></li><li><a href="14-10-inkapsulyatsiya.html">Инкапсуляция</a></li><li><a href="14-11-property.html">property: вычисляемые атрибуты</a></li><li><a href="14-12-mini-proekt-rectangle.html">Мини-проект: Rectangle</a></li><li><a href="14-13-kompozitsiya.html">Композиция: объекты внутри объектов</a></li><li><a href="14-14-mini-proekt-korzina-v2.html">Мини-проект: Корзина покупок v2</a></li><li><a href="14-15-nasledovanie.html">Наследование</a></li><li><a href="14-16-super.html">super() и порядок разрешения методов</a></li><li><a href="14-17-pereopredelenie-metodov.html">Переопределение методов</a></li><li><a href="14-18-polimorfizm.html">Полиморфизм</a></li><li><a href="14-19-duck-typing.html">Duck typing</a></li><li><a href="14-20-mini-proekt-figury.html">Мини-проект: полиморфные фигуры</a></li><li><a href="14-21-spetsialnye-metody.html">Специальные методы</a></li><li><a href="14-22-primenyaem-dunder-metody.html">Практика: применяем __str__ и __eq__</a></li><li><a href="14-23-dataclasses.html">dataclasses</a></li><li><a href="14-24-praktika-dataclass.html">Практика: dataclass</a></li><li><a href="14-25-proektiruem-modeli.html">Класс или не класс? Проектируем модели</a></li><li><a href="14-26-mini-proekt-gonka-v2.html">Мини-проект: гонка Turtle v2</a></li><li><a href="14-27-itogi-glavy.html">Итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/14-01/index.html">🐍 14-01: Практика</a></li><li><a href="../../practice/14-02/index.html">🐍 14-02: Практика</a></li><li><a href="../../practice/14-03/index.html">🐍 14-03: Практика</a></li><li><a href="../../practice/14-04/index.html">🐍 14-04: Практика</a></li><li><a href="../../practice/14-05/index.html">🐍 14-05: Практика</a></li><li><a href="../../practice/14-06/index.html">🐍 14-06: Практика</a></li><li><a href="../../practice/14-07/index.html">🐍 14-07: Практика</a></li><li><a href="../../practice/14-08/index.html">🐍 14-08: Практика</a></li><li><a href="../../practice/14-09/index.html">🐍 14-09: Практика</a></li><li><a href="../../practice/14-10/index.html">🐍 14-10: Практика</a></li><li><a href="../../practice/14-11/index.html">🐍 14-11: Практика</a></li><li><a href="../../practice/14-12/index.html">🐍 14-12: Практика</a></li><li><a href="../../practice/14-13/index.html">🐍 14-13: Практика</a></li><li><a href="../../practice/14-14/index.html">🐍 14-14: Практика</a></li><li><a href="../../practice/14-15/index.html">🐍 14-15: Практика</a></li><li><a href="../../practice/14-16/index.html">🐍 14-16: Практика</a></li><li><a href="../../practice/14-17/index.html">🐍 14-17: Практика</a></li><li><a href="../../practice/14-18/index.html">🐍 14-18: Практика</a></li><li><a href="../../practice/14-19/index.html">🐍 14-19: Практика</a></li><li><a href="../../practice/14-20/index.html">🐍 14-20: Практика</a></li><li><a href="../../practice/14-21/index.html">🐍 14-21: Практика</a></li><li><a href="../../practice/14-22/index.html">🐍 14-22: Практика</a></li><li><a href="../../practice/14-23/index.html">🐍 14-23: Практика</a></li><li><a href="../../practice/14-24/index.html">🐍 14-24: Практика</a></li><li><a href="../../practice/14-25/index.html">🐍 14-25: Практика</a></li><li><a href="../../practice/14-26/index.html">🐍 14-26: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 14</a> / Ловушка общего атрибута</div>
+    <div class="section-kicker">Глава 14 · Создаём объекты реального мира</div>
+    <h1>Ловушка общего изменяемого атрибута</h1>
+    <p class="lede">Один список «на двоих» — классический баг ООП-новичка. Разбираем, откуда он берётся и как его избежать.</p>
+
+
+    <h2>Когда «общий атрибут» превращается в баг</h2>
+    <p>Атрибут класса с НЕИЗМЕНЯЕМЫМ значением (число, строка) безопасен — присваивание через
+    объект просто создаёт новый атрибут экземпляра (раздел 14.7). Но атрибут класса со
+    <strong>ИЗМЕНЯЕМЫМ</strong> значением — список или словарь — устроен иначе: если его не
+    ПЕРЕПРИСВОИТЬ, а ИЗМЕНИТЬ на месте (<code class="inline">.append()</code>, <code
+    class="inline">[key] = ...</code>), это затронет объект класса, который используют ВСЕ
+    экземпляры сразу.</p>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 3: общий изменяемый список как атрибут класса</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>obshchaya_korzina.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Korzina:
+    tovary = []          <span class="tok-com"># атрибут КЛАССА — один список на все корзины!</span>
+
+    <span class="tok-kw">def</span> dobavit(self, tovar):
+        self.tovary.append(tovar)   <span class="tok-com"># .append() меняет список НА МЕСТЕ</span>
+
+k1 = Korzina()
+k2 = Korzina()
+k1.dobavit(<span class="tok-str">&quot;Хлеб&quot;</span>)
+<span class="tok-fn">print</span>(k2.tovary)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>>>> print(k2.tovary)
+['Хлеб']</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">k2</code> ни разу не вызывал <code class="inline">dobavit()</code>, но «Хлеб» уже в его корзине! Причина: <code class="inline">self.tovary.append(...)</code> не создаёт новый список — он ИЗМЕНЯЕТ существующий, а этот список один-единственный, унаследован обоими объектами от класса <code class="inline">Korzina</code>.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>svoya_korzina.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Korzina:
+    <span class="tok-kw">def</span> __init__(self):
+        self.tovary = []    <span class="tok-com"># атрибут ЭКЗЕМПЛЯРА — свой список у каждой корзины</span>
+
+    <span class="tok-kw">def</span> dobavit(self, tovar):
+        self.tovary.append(tovar)
+
+k1 = Korzina()
+k2 = Korzina()
+k1.dobavit(<span class="tok-str">&quot;Хлеб&quot;</span>)
+<span class="tok-fn">print</span>(k2.tovary)   <span class="tok-com"># [] — пусто, как и должно быть</span></code></pre>
+    </div>
+      </div>
+    </div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 336 259" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Без self.tovary = [] в __init__ оба обращения ведут к ОДНОМУ И ТОМУ ЖЕ списку" style="width:100%;height:auto;max-width:336px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">k1.tovary</tspan></text><path d="M78.0,70 C78.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="44.0">k2.tovary</tspan></text><path d="M258.0,70 C258.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="48.0" y="170" width="240" height="79" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="168.0" y="205.0">[] — общий</tspan><tspan x="168.0" y="224.0">список класса…</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Без self.tovary = [] в __init__ оба обращения ведут к ОДНОМУ И ТОМУ ЖЕ списку</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Правило: изменяемые значения — только в __init__</div>
+        <div class="callout-body">Если атрибуту нужно значение <code class="inline">list</code>, <code class="inline">dict</code> или <code class="inline">set</code> — создавайте его внутри <code class="inline">__init__</code> через <code class="inline">self.имя = []</code>, а не в теле класса. Это тот же самый принцип, что и «ловушка изменяемого значения по умолчанию» у параметров функций (глава 13) — и грабли те же самые.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим общий изменяемый атрибут</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="14-08"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/14-08/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-08"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-08"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="14-07-atributy-ekzemplyara-i-klassa.html"><div class="dir">← Назад</div><div class="lbl">Атрибуты экземпляра и класса</div></a><a href="14-09-mini-proekt-player.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: Player</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
