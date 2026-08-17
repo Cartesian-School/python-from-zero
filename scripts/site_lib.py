@@ -2880,6 +2880,206 @@ def matrix_diagram(
 
 
 # ---------------------------------------------------------------------------
+# Главa 13 — функции: вызов/возврат, стек вызовов
+# ---------------------------------------------------------------------------
+
+def call_flow_diagram(
+    before_steps: list[str],
+    call_label: str,
+    function_steps: list[str],
+    after_steps: list[str],
+    *,
+    function_name: str = "",
+    caption: str = "",
+) -> str:
+    """The signature Chapter 13 visual: two columns — the CALLER's statements
+    top-to-bottom on the left (with the call itself highlighted), the
+    FUNCTION's body statements on the right — connected by two curved
+    arrows: one from the call site INTO the function (green, "вызов"), one
+    from the end of the function body back to the statement right after the
+    call (pink, "возврат"). Makes concrete that a call does not just "run
+    somewhere" — control jumps in, then jumps back to continue exactly
+    where it left off."""
+    box_w, box_h, gap_y = 230, 52, 16
+    col_gap = 150
+    left_x = 10
+    right_x = left_x + box_w + col_gap
+    total_w = right_x + box_w + 20
+
+    left_steps = list(before_steps) + [call_label] + list(after_steps)
+    call_idx = len(before_steps)
+
+    left_ys: list[float] = []
+    y = 30
+    for _ in left_steps:
+        left_ys.append(y)
+        y += box_h + gap_y
+    left_bottom = y - gap_y
+
+    call_y = left_ys[call_idx]
+    right_ys: list[float] = []
+    y2 = call_y
+    for _ in function_steps:
+        right_ys.append(y2)
+        y2 += box_h + gap_y
+    right_bottom = y2 - gap_y
+
+    total_h = max(left_bottom, right_bottom) + 30
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        "<defs>"
+        "<marker id='arrowcfg' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker>"
+        "<marker id='arrowcfp' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker>"
+        "<marker id='arrowcfv' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
+        "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker>"
+        "</defs>"
+    ]
+    parts.append(
+        f'<text x="{left_x}" y="18" font-family="Sora, sans-serif" font-weight="700" font-size="12" '
+        f'letter-spacing="0.04em" fill="#6B6B7D">ОСНОВНАЯ ПРОГРАММА</text>'
+    )
+    parts.append(
+        f'<text x="{right_x}" y="18" font-family="Sora, sans-serif" font-weight="700" font-size="12" '
+        f'letter-spacing="0.04em" fill="#6B6B7D">ФУНКЦИЯ {html.escape(function_name)}</text>'
+    )
+    left_cx = left_x + box_w / 2
+    for i, (label, ly) in enumerate(zip(left_steps, left_ys)):
+        is_call = i == call_idx
+        fill = "#5B24F9" if is_call else "#FAFAFC"
+        fg = "#fff" if is_call else "#0D0230"
+        stroke = "#5B24F9"
+        parts.append(
+            f'<rect x="{left_x}" y="{ly}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>'
+        )
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=24, max_lines=2)
+        first_y = ly + box_h / 2 - (len(lines) - 1) * 9 + 5
+        tspans = "".join(
+            f'<tspan x="{left_cx}" y="{first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-weight="700" '
+            f'font-size="13" fill="{fg}">{tspans}</text>'
+        )
+        if i > 0:
+            prev_bottom = left_ys[i - 1] + box_h
+            parts.append(
+                f'<line x1="{left_cx}" y1="{prev_bottom}" x2="{left_cx}" y2="{ly}" '
+                f'stroke="#B9A0FC" stroke-width="2" marker-end="url(#arrowcfv)"/>'
+            )
+    right_cx = right_x + box_w / 2
+    for i, (label, ry) in enumerate(zip(function_steps, right_ys)):
+        parts.append(
+            f'<rect x="{right_x}" y="{ry}" width="{box_w}" height="{box_h}" rx="12" '
+            f'fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/>'
+        )
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=24, max_lines=2)
+        first_y = ry + box_h / 2 - (len(lines) - 1) * 9 + 5
+        tspans = "".join(
+            f'<tspan x="{right_cx}" y="{first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-weight="700" '
+            f'font-size="13" fill="#0D0230">{tspans}</text>'
+        )
+        if i > 0:
+            prev_bottom = right_ys[i - 1] + box_h
+            parts.append(
+                f'<line x1="{right_cx}" y1="{prev_bottom}" x2="{right_cx}" y2="{ry}" '
+                f'stroke="#059669" stroke-width="2" marker-end="url(#arrowcfg)"/>'
+            )
+    call_right = (left_x + box_w, call_y + box_h / 2)
+    func_top = (right_x, right_ys[0] + box_h / 2) if right_ys else (right_x, call_y + box_h / 2)
+    parts.append(
+        f'<path d="M{call_right[0]},{call_right[1]} C{(call_right[0] + func_top[0]) / 2},{call_right[1]} '
+        f'{(call_right[0] + func_top[0]) / 2},{func_top[1]} {func_top[0]},{func_top[1]}" '
+        f'fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowcfg)"/>'
+    )
+    parts.append(
+        f'<text x="{(call_right[0] + func_top[0]) / 2}" y="{min(call_right[1], func_top[1]) - 10}" '
+        f'text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" '
+        f'fill="#059669">вызов</text>'
+    )
+    if right_ys and after_steps:
+        func_bottom = (right_x, right_ys[-1] + box_h)
+        after_left = (left_x, left_ys[call_idx + 1] + box_h / 2)
+        parts.append(
+            f'<path d="M{func_bottom[0]},{func_bottom[1]} C{(func_bottom[0] + after_left[0]) / 2},{func_bottom[1]} '
+            f'{(func_bottom[0] + after_left[0]) / 2},{after_left[1]} {after_left[0]},{after_left[1]}" '
+            f'fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowcfp)"/>'
+        )
+        parts.append(
+            f'<text x="{(func_bottom[0] + after_left[0]) / 2}" y="{max(func_bottom[1], after_left[1]) + 18}" '
+            f'text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" '
+            f'fill="#DB2777">возврат</text>'
+        )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+def call_stack_diagram(frames: list[str], *, caption: str = "") -> str:
+    """A snapshot of the call stack — frames stacked bottom (oldest, e.g.
+    "main") to top (the currently executing call), topmost frame
+    highlighted and labeled. Call this once per stage (before/during/after
+    a nested call) to show the stack growing and shrinking, the same way
+    Chapter 10 staged its mandala construction."""
+    box_w, box_h = 210, 50
+    total_w = box_w + 150
+    n = len(frames)
+    top_pad = 30
+    total_h = top_pad + n * box_h + 20
+
+    parts = [
+        f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+    ]
+    cx = 20 + box_w / 2
+    for i, frame in enumerate(reversed(frames)):
+        y = top_pad + i * box_h
+        is_top = i == 0
+        fill = "#5B24F9" if is_top else "#FAFAFC"
+        fg = "#fff" if is_top else "#0D0230"
+        parts.append(
+            f'<rect x="20" y="{y}" width="{box_w}" height="{box_h}" rx="10" '
+            f'fill="{fill}" stroke="#5B24F9" stroke-width="1.5"/>'
+        )
+        lines = _wrap_svg_text(" ".join(frame.split()), max_chars=22, max_lines=2)
+        first_y = y + box_h / 2 - (len(lines) - 1) * 9 + 5
+        tspans = "".join(
+            f'<tspan x="{cx}" y="{first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
+        )
+        parts.append(
+            f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-weight="700" '
+            f'font-size="13" fill="{fg}">{tspans}</text>'
+        )
+        if is_top:
+            parts.append(
+                f'<text x="{20 + box_w + 14}" y="{y + box_h / 2 + 5}" font-family="Sora, sans-serif" '
+                f'font-weight="700" font-size="12" fill="#5B24F9">← верх стека</text>'
+            )
+    parts.append("</svg>")
+    svg = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+# ---------------------------------------------------------------------------
 # Навигация / компоновка страницы
 # ---------------------------------------------------------------------------
 

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Зачем программе функции — Python с нуля — Cartesian School</title>
+<meta name="description" content="Циклы против функций, декомпозиция, абстракция — и напоминание, что встроенные функции были функциями всё это время." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-13/13-09-zachem-programme-funkcii.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Зачем программе функции — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Циклы против функций, декомпозиция, абстракция — и напоминание, что встроенные функции были функциями всё это время." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-13/13-09-zachem-programme-funkcii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Зачем программе функции — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Циклы против функций, декомпозиция, абстракция — и напоминание, что встроенные функции были функциями всё это время." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Зачем программе функции — Python с нуля — Cartesian School","description":"Циклы против функций, декомпозиция, абстракция — и напоминание, что встроенные функции были функциями всё это время.","url":"https://www.cartesianschool.org/chapters/glava-13/13-09-zachem-programme-funkcii.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 13 · Функции</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="13-09-zachem-programme-funkcii.html" class="active">Зачем программе функции</a></li><li><a href="13-01-nastoyashaya-avtomatizaciya.html">Настоящая автоматизация. Первая функция</a></li><li><a href="13-10-vyzov-i-vozvrat-upravlenie.html">Что происходит во время вызова</a></li><li><a href="13-02-zachem-funkcii.html">Параметр и аргумент</a></li><li><a href="13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Изменяемые и неизменяемые аргументы</a></li><li><a href="13-12-pozicionnye-i-imennye.html">Позиционные и именованные аргументы</a></li><li><a href="13-04-argumenty.html">Значения по умолчанию и *args</a></li><li><a href="13-13-args-kwargs-raspakovka.html">*args, **kwargs и распаковка</a></li><li><a href="13-14-positional-only-keyword-only.html">Positional-only и keyword-only</a></li><li><a href="13-03-vozvrashaem-otvet.html">Возвращаем ответ</a></li><li><a href="13-15-funkcii-vhod-vyhod.html">Вход, работа, выход: чистые функции</a></li><li><a href="13-05-globalnye-lokalnye.html">Глобальные и локальные переменные</a></li><li><a href="13-16-vlozhennye-funkcii-nonlocal.html">Вложенные функции и nonlocal</a></li><li><a href="13-17-stek-vyzovov.html">Стек вызовов и traceback</a></li><li><a href="13-18-proektiruem-funkciyu.html">Проектируем хорошую функцию</a></li><li><a href="13-19-dokumentaciya-i-tipy.html">Докстринги и подсказки типов</a></li><li><a href="13-20-funkcii-kak-obekty.html">Функции как объекты</a></li><li><a href="13-06-lambda.html">Лямбда-функции</a></li><li><a href="13-21-funkcii-kak-konvejer.html">Функции как конвейер</a></li><li><a href="13-22-refaktoring-glavy-12.html">Рефакторим проекты главы 12</a></li><li><a href="13-23-debug-lab-funkcii.html">Debug Lab: типичные ошибки функций</a></li><li><a href="13-24-testirovanie-funkcij.html">Тестируем функции</a></li><li><a href="13-07-mini-proekt-domashka.html">Мини-проект: домашнее задание по математике</a></li><li><a href="13-25-mini-proekt-analizator-v2.html">Мини-проект: анализатор текста v2</a></li><li><a href="13-26-mini-proekt-konverter-i-utility.html">Мини-проекты: конвертер и утилиты коллекций</a></li><li><a href="13-08-mini-proekt-figury-itogi.html">Мини-проект: Turtle Function Studio и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/13-09/index.html">🐍 13-09: Практика</a></li><li><a href="../../practice/13-01/index.html">🐍 13-01: Практика</a></li><li><a href="../../practice/13-10/index.html">🐍 13-10: Практика</a></li><li><a href="../../practice/13-02/index.html">🐍 13-02: Практика</a></li><li><a href="../../practice/13-11/index.html">🐍 13-11: Практика</a></li><li><a href="../../practice/13-12/index.html">🐍 13-12: Практика</a></li><li><a href="../../practice/13-04/index.html">🐍 13-04: Практика</a></li><li><a href="../../practice/13-13/index.html">🐍 13-13: Практика</a></li><li><a href="../../practice/13-14/index.html">🐍 13-14: Практика</a></li><li><a href="../../practice/13-03/index.html">🐍 13-03: Практика</a></li><li><a href="../../practice/13-15/index.html">🐍 13-15: Практика</a></li><li><a href="../../practice/13-05/index.html">🐍 13-05: Практика</a></li><li><a href="../../practice/13-16/index.html">🐍 13-16: Практика</a></li><li><a href="../../practice/13-17/index.html">🐍 13-17: Практика</a></li><li><a href="../../practice/13-18/index.html">🐍 13-18: Практика</a></li><li><a href="../../practice/13-19/index.html">🐍 13-19: Практика</a></li><li><a href="../../practice/13-20/index.html">🐍 13-20: Практика</a></li><li><a href="../../practice/13-06/index.html">🐍 13-06: Практика</a></li><li><a href="../../practice/13-21/index.html">🐍 13-21: Практика</a></li><li><a href="../../practice/13-22/index.html">🐍 13-22: Практика</a></li><li><a href="../../practice/13-23/index.html">🐍 13-23: Практика</a></li><li><a href="../../practice/13-24/index.html">🐍 13-24: Практика</a></li><li><a href="../../practice/13-07/index.html">🐍 13-07: Практика</a></li><li><a href="../../practice/13-25/index.html">🐍 13-25: Практика</a></li><li><a href="../../practice/13-26/index.html">🐍 13-26: Практика</a></li><li><a href="../../practice/13-27/index.html">🐍 13-27: Практика</a></li><li><a href="../../practice/13-08/index.html">🐍 13-08: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 13</a> / Зачем программе функции</div>
+    <div class="section-kicker">Глава 13 · Автоматизация с помощью функций</div>
+    <h1>Зачем программе функции</h1>
+    <p class="lede">Циклы автоматизируют повторение в потоке выполнения. Функции автоматизируют переиспользование поведения — и это не одно и то же.</p>
+
+
+    <h2>Проблема, которую циклы не решают</h2>
+    <p>В главе 12 наши проекты становились всё крупнее — и в них стали появляться повторяющиеся
+    логические блоки. Например, в викторине один и тот же набор действий — «спросить вопрос,
+    нормализовать ответ, сравнить, посчитать» — фактически повторяется на каждой итерации. Цикл
+    (глава 10) отлично с этим справляется, <strong>пока повторение происходит подряд, в одном
+    месте</strong>.</p>
+    <p>Но что, если тот же самый набор действий нужен:</p>
+    <ul>
+      <li>в <strong>разных местах</strong> программы — не подряд;</li>
+      <li>с <strong>разными данными</strong> каждый раз;</li>
+      <li>из <strong>разных проектов</strong> вообще;</li>
+      <li><strong>по требованию</strong>, а не по расписанию цикла?</li>
+    </ul>
+    <p>Цикл здесь не поможет — он умеет повторять только то, что стоит прямо у него в теле.
+    Нужен другой инструмент: способ <strong>дать этому действию имя</strong> и вызывать его
+    откуда угодно.</p>
+
+    <h2>Цикл vs функция</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Цикл: один поток повторяющегося выполнения" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">ПОВТОРИТЬ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">сейчас</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">ПОВТОРИТЬ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">сейчас</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">ПОВТОРИТЬ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">сейчас</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Цикл: один поток повторяющегося выполнения</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 644 286" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Функция: определена один раз, вызывается по требованию" style="width:100%;height:auto;max-width:644px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="202.0" y="10" width="240" height="96" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff"><tspan x="322.0" y="43.0">draw_square</tspan><tspan x="322.0" y="63.0">(определена один</tspan><tspan x="322.0" y="83.0">раз)</tspan></text><path d="M322.0,106 C322.0,133.0 98.0,133.0 98.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="0.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="98.0" y="186">ВЫЗОВ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="98.0" y="218">откуда угодно</tspan></text><path d="M322.0,106 C322.0,133.0 322.0,133.0 322.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="224.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="322.0" y="186">ВЫЗОВ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="322.0" y="218">откуда угодно</tspan></text><path d="M322.0,106 C322.0,133.0 546.0,133.0 546.0,160" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="448.0" y="160" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="546.0" y="186">ВЫЗОВ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="546.0" y="218">откуда угодно</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Функция: определена один раз, вызывается по требованию</figcaption></figure></div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Не альтернативы, а дополнение друг друга</div>
+        <div class="callout-body"><strong>Циклы автоматизируют повторение в потоке выполнения.</strong> <strong>Функции автоматизируют переиспользование поведения.</strong> Совсем скоро мы увидим, как функция вызывается ИЗНУТРИ цикла — они прекрасно работают вместе, а не вместо друг друга.</div>
+      </div>
+    </div>
+
+    <h2>Функции — это декомпозиция</h2>
+    <p>В главе 12 мы уже разбивали большую задачу на маленькие шаги — это называлось
+    <strong>декомпозицией</strong>. Функция — это способ не просто мысленно выделить шаг, а
+    буквально дать ему имя в коде:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 644 246" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Большая задача → части с понятными именами — это и есть декомпозиция в коде" style="width:100%;height:auto;max-width:644px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="202.0" y="10" width="240" height="56" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="16" fill="#fff"><tspan x="322.0" y="43.0">ВИКТОРИНА</tspan></text><path d="M322.0,66 C322.0,93.0 98.0,93.0 98.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="0.0" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="98.0" y="146">show_question()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="98.0" y="178">показать вопрос</tspan></text><path d="M322.0,66 C322.0,93.0 322.0,93.0 322.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="224.0" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="322.0" y="146">check_answer()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="322.0" y="178">проверить ответ</tspan></text><path d="M322.0,66 C322.0,93.0 546.0,93.0 546.0,120" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="448.0" y="120" width="196" height="116" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#0D0230"><tspan x="546.0" y="146">show_result()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B6B7D"><tspan x="546.0" y="178">показать результат</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Большая задача → части с понятными именами — это и есть декомпозиция в коде</figcaption></figure>
+    <p>Каждая функция — это осмысленное имя для одной части большего алгоритма.</p>
+
+    <h2>Абстракция: полезный уровень детализации</h2>
+    <p>Вы уже пользуетесь <code class="inline">print(...)</code>, не думая о том, как именно
+    текст оказывается на экране. Точно так же вызов <code class="inline">draw_house()</code>
+    мог бы скрыть десятки команд рисования крыши, стен и окон:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 424 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Вызов прячет детали реализации за понятным именем" style="width:100%;height:auto;max-width:424px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">draw_house()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">один вызов</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">десятки команд</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">рисования внутри</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Вызов прячет детали реализации за понятным именем</figcaption></figure>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Абстракция — не «спрятать всё», а выбрать полезный уровень детализации</div>
+        <div class="callout-body"><strong>Абстракция</strong> означает, что мы можем пользоваться осмысленной операцией, не думая каждый раз о каждой детали её реализации. Это не значит, что детали недоступны или неважны — просто для большинства задач достаточно знать ЧТО делает <code class="inline">draw_house()</code>, а не КАК именно.</div>
+      </div>
+    </div>
+
+    <h2>Вы уже вызывали функции — с самой первой главы</h2>
+    <p><code class="inline">print()</code>, <code class="inline">input()</code>,
+    <code class="inline">len()</code>, <code class="inline">type()</code>,
+    <code class="inline">int()</code>, <code class="inline">range()</code>,
+    <code class="inline">sorted()</code>, <code class="inline">min()</code>,
+    <code class="inline">max()</code> — все они функции, просто <strong>встроенные</strong> в
+    Python. Всё это время вы их ВЫЗЫВАЛИ. Теперь научимся их СОЗДАВАТЬ:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Встроенная функция</th><th>Ваша будущая функция</th></tr></thead>
+      <tbody><tr><td><code class="inline">len("Python")</code></td><td><code class="inline">calculate_area(10, 5)</code></td></tr></tbody>
+    </table>
+    </div>
+    <p>Общая модель одна и та же для обеих:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 124" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Имя функции + аргументы → вызов → результат или эффект — для встроенных функций и ваших собственных одинаково" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="84" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">ИМЯ + АРГУМЕНТЫ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="190" y1="52.0" x2="234" y2="52.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="84" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">ВЫЗОВ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text><line x1="430" y1="52.0" x2="474" y2="52.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="84" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">РЕЗУЛЬТАТ /</tspan><tspan x="572.0" y="50">ЭФФЕКТ</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Имя функции + аргументы → вызов → результат или эффект — для встроенных функций и ваших собственных одинаково</figcaption></figure>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: цикл или функция — что решает задачу</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="13-09"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/13-09/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="13-01-nastoyashaya-avtomatizaciya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Настоящая автоматизация. Первая функция</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

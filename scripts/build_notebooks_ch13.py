@@ -331,13 +331,484 @@ print("Две фигуры в разных точках экрана готов�
     print(f"Записано: 13-08 ({len(nb)} ячеек)")
 
 
+def build_09() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-09 · Цикл или функция?\n\nПрактика к разделу "
+          "[«Зачем программе функции»](../../site/chapters/glava-13/13-09-zachem-programme-funkcii.html).")
+    nb.md("## Цель\n\nОпределить и переиспользовать функцию для вычисления.")
+    nb.md("## Рабочий пример")
+    nb.code('''def summa_kvadratov(a, b):
+    return a ** 2 + b ** 2
+
+def kvadrat_summy(a, b):
+    return (a + b) ** 2
+
+print(summa_kvadratov(3, 4))
+print(kvadrat_summy(3, 4))''')
+    nb.md("## Задание ★ Базовая практика\n\nИспользуйте обе функции, чтобы найти разницу "
+          "между квадратом суммы и суммой квадратов для a=3, b=4.")
+    nb.code('''raznost = kvadrat_summy(3, 4) - summa_kvadratov(3, 4)
+print(raznost)''')
+    nb.write(OUT_DIR / "13-09-cikl-ili-funkciya.ipynb")
+    print(f"Записано: 13-09 ({len(nb)} ячеек)")
+
+
+def build_10() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-10 · Порядок вызова\n\nПрактика к разделу "
+          "[«Что происходит во время вызова»](../../site/chapters/glava-13/13-10-vyzov-i-vozvrat-upravlenie.html).")
+    nb.md("## Цель\n\nПредсказать порядок вывода при вызове функции.")
+    nb.md("## Задание ★ Базовая практика\n\nПредскажите порядок строк, прежде чем запускать.")
+    nb.code('''def b():
+    print("B")
+
+def a():
+    print("A1")
+    b()
+    print("A2")
+
+print("Старт")
+a()
+print("Конец")''')
+    nb.write(OUT_DIR / "13-10-poryadok-vyzova.ipynb")
+    print(f"Записано: 13-10 ({len(nb)} ячеек)")
+
+
+def build_11() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-11 · Rebinding vs mutation\n\nПрактика к разделу "
+          "[«Изменяемые и неизменяемые аргументы»](../../site/chapters/glava-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html).")
+    nb.md("## Цель\n\nПредсказать, что видно снаружи после rebinding и после mutation.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def add_one(number):
+    number += 1
+    return number
+
+x = 10
+y = add_one(x)
+
+def add_item(items):
+    items.append("Python")
+
+skills = ["Git"]
+add_item(skills)
+
+print(x, y, skills)''')
+    nb.write(OUT_DIR / "13-11-rebinding-vs-mutation.ipynb")
+    print(f"Записано: 13-11 ({len(nb)} ячеек)")
+
+
+def build_12() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-12 · Позиционные и именованные аргументы\n\nПрактика к разделу "
+          "[«Позиционные и именованные аргументы»](../../site/chapters/glava-13/13-12-pozicionnye-i-imennye.html).")
+    nb.md("## Цель\n\nВызвать функцию и позиционно, и с именованными аргументами.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def build_profile(name, age, city="Unknown"):
+    return f"{name}, {age}, {city}"
+
+p1 = build_profile("Anna", 25)
+p2 = build_profile(age=30, name="Bob", city="Warsaw")
+print(p1)
+print(p2)''')
+    nb.write(OUT_DIR / "13-12-pozicionnye-i-imennye.ipynb")
+    print(f"Записано: 13-12 ({len(nb)} ячеек)")
+
+
+def build_13() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-13 · *args, **kwargs и распаковка\n\nПрактика к разделу "
+          "[«*args, **kwargs и распаковка»](../../site/chapters/glava-13/13-13-args-kwargs-raspakovka.html).")
+    nb.md("## Цель\n\n*args, **kwargs и распаковка аргументов на месте вызова.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def total(*numbers):
+    return sum(numbers)
+
+def show_profile(**fields):
+    return fields
+
+def move(x, y):
+    return x + y
+
+t1 = total(1, 2, 3, 4)
+profile = show_profile(name="Anna", city="Warsaw")
+
+point = (10, 20)
+moved = move(*point)
+
+print(t1, profile, moved)''')
+    nb.write(OUT_DIR / "13-13-args-kwargs.ipynb")
+    print(f"Записано: 13-13 ({len(nb)} ячеек)")
+
+
+def build_14() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-14 · Keyword-only параметры\n\nПрактика к разделу "
+          "[«Positional-only и keyword-only»](../../site/chapters/glava-13/13-14-positional-only-keyword-only.html).")
+    nb.md("## Цель\n\nСоздать функцию с keyword-only параметром и проверить, что позиционный "
+          "вызов для него запрещён.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def draw_rectangle(width, height, *, color="blue"):
+    return f"{width}x{height} {color}"
+
+r1 = draw_rectangle(10, 20)
+r2 = draw_rectangle(10, 20, color="red")
+
+try:
+    draw_rectangle(10, 20, "red")
+    keyword_only_enforced = False
+except TypeError:
+    keyword_only_enforced = True
+
+print(r1, r2, keyword_only_enforced)''')
+    nb.write(OUT_DIR / "13-14-keyword-only.ipynb")
+    print(f"Записано: 13-14 ({len(nb)} ячеек)")
+
+
+def build_15() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-15 · Чистые функции и побочные эффекты\n\nПрактика к разделу "
+          "[«Вход, работа, выход: чистые функции»](../../site/chapters/glava-13/13-15-funkcii-vhod-vyhod.html).")
+    nb.md("## Цель\n\nОтличить чистую функцию от функции с побочным эффектом.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def rectangle_area(width, height):
+    return width * height
+
+log = []
+
+def draw_square_effect(size):
+    log.append(f"Нарисован квадрат {size}")
+
+area = rectangle_area(4, 5)
+draw_square_effect(10)
+
+print(area, log)''')
+    nb.write(OUT_DIR / "13-15-chistye-funkcii.ipynb")
+    print(f"Записано: 13-15 ({len(nb)} ячеек)")
+
+
+def build_16() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-16 · nonlocal\n\nПрактика к разделу "
+          "[«Вложенные функции и nonlocal»](../../site/chapters/glava-13/13-16-vlozhennye-funkcii-nonlocal.html).")
+    nb.md("## Цель\n\nИспользовать nonlocal, чтобы вложенная функция изменяла счётчик "
+          "объемлющей функции.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def outer():
+    count = 0
+
+    def inner():
+        nonlocal count
+        count += 1
+
+    inner()
+    inner()
+    inner()
+    return count
+
+result = outer()
+print(result)''')
+    nb.write(OUT_DIR / "13-16-nonlocal.ipynb")
+    print(f"Записано: 13-16 ({len(nb)} ячеек)")
+
+
+def build_17() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-17 · Стек вызовов\n\nПрактика к разделу "
+          "[«Стек вызовов и traceback»](../../site/chapters/glava-13/13-17-stek-vyzovov.html).")
+    nb.md("## Цель\n\nПроследить порядок вызовов и возвратов во вложенных функциях.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def c():
+    print("C")
+    return 3
+
+def b():
+    print("B")
+    return c() + 1
+
+def a():
+    print("A")
+    return b() + 1
+
+result = a()
+print("Итог:", result)''')
+    nb.write(OUT_DIR / "13-17-stek-vyzovov.ipynb")
+    print(f"Записано: 13-17 ({len(nb)} ячеек)")
+
+
+def build_18() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-18 · Контракт функции\n\nПрактика к разделу "
+          "[«Проектируем хорошую функцию»](../../site/chapters/glava-13/13-18-proektiruem-funkciyu.html).")
+    nb.md("## Цель\n\nРеализовать функцию по заданному контракту.")
+    nb.md("## Задание ★ Базовая практика\n\nКонтракт: calculate_discount(price, percent) — "
+          "цена со скидкой в процентах.")
+    nb.code('''def calculate_discount(price, percent):
+    return price - price * percent / 100
+
+d1 = calculate_discount(100, 10)
+d2 = calculate_discount(200, 50)
+print(d1, d2)''')
+    nb.write(OUT_DIR / "13-18-kontrakt-funkcii.ipynb")
+    print(f"Записано: 13-18 ({len(nb)} ячеек)")
+
+
+def build_19() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-19 · Докстринги и типы\n\nПрактика к разделу "
+          "[«Докстринги и подсказки типов»](../../site/chapters/glava-13/13-19-dokumentaciya-i-tipy.html).")
+    nb.md("## Цель\n\nНаписать функцию с докстрингом и аннотациями типов.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def rectangle_area(width: float, height: float) -> float:
+    """Возвращает площадь прямоугольника."""
+    return width * height
+
+docstring_present = rectangle_area.__doc__ is not None
+area = rectangle_area(3, 4)
+print(docstring_present, area)''')
+    nb.write(OUT_DIR / "13-19-docstring-i-tipy.ipynb")
+    print(f"Записано: 13-19 ({len(nb)} ячеек)")
+
+
+def build_20() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-20 · Функции как объекты\n\nПрактика к разделу "
+          "[«Функции как объекты»](../../site/chapters/glava-13/13-20-funkcii-kak-obekty.html).")
+    nb.md("## Цель\n\nСохранить функции в словаре и под другим именем, вызвать через обе "
+          "ссылки.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def double(x):
+    return x * 2
+
+def square(x):
+    return x ** 2
+
+operations = {"double": double, "square": square}
+result_double = operations["double"](5)
+result_square = operations["square"](5)
+
+action = double
+result_action = action(7)
+
+print(result_double, result_square, result_action)''')
+    nb.write(OUT_DIR / "13-20-funkcii-kak-obekty.ipynb")
+    print(f"Записано: 13-20 ({len(nb)} ячеек)")
+
+
+def build_21() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-21 · Конвейер функций\n\nПрактика к разделу "
+          "[«Функции как конвейер»](../../site/chapters/glava-13/13-21-funkcii-kak-konvejer.html).")
+    nb.md("## Цель\n\nПостроить конвейер: результат одной функции становится входом "
+          "следующей.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def normalize_text(text):
+    return text.lower()
+
+def split_words(text):
+    return text.split()
+
+def count_words(words):
+    return len(words)
+
+pipeline_result = count_words(split_words(normalize_text("Python IS Fun")))
+print(pipeline_result)''')
+    nb.write(OUT_DIR / "13-21-konvejer.ipynb")
+    print(f"Записано: 13-21 ({len(nb)} ячеек)")
+
+
+def build_22() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-22 · Рефакторинг викторины\n\nПрактика к разделу "
+          "[«Рефакторим проекты главы 12»](../../site/chapters/glava-13/13-22-refaktoring-glavy-12.html).")
+    nb.md("## Цель\n\nРазбить викторину из главы 12 на функции check_answer и run_quiz.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def check_answer(user_answer, correct_answer):
+    return user_answer.strip().lower() == correct_answer.lower()
+
+def run_quiz(questions, answers):
+    score = 0
+    for q, given in zip(questions, answers):
+        if check_answer(given, q["answer"]):
+            score += 1
+    return score
+
+questions = [{"answer": "paris"}, {"answer": "56"}]
+answers = ["Paris", "56"]
+final_score = run_quiz(questions, answers)
+print(final_score)''')
+    nb.write(OUT_DIR / "13-22-refaktoring-viktoriny.ipynb")
+    print(f"Записано: 13-22 ({len(nb)} ячеек)")
+
+
+def build_23() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-23 · Debug Lab — функции\n\nПрактика к разделу "
+          "[«Debug Lab: типичные ошибки функций»](../../site/chapters/glava-13/13-23-debug-lab-funkcii.html).")
+    nb.md("## Цель\n\nИсправить непокрытый путь return и return внутри цикла на первой "
+          "итерации.")
+    nb.md("## Задание ★ Базовая практика — исправленные версии")
+    nb.code('''def sign(number):
+    if number > 0:
+        return "positive"
+    elif number < 0:
+        return "negative"
+    else:
+        return "zero"
+
+def contains_even(numbers):
+    for n in numbers:
+        if n % 2 == 0:
+            return True
+    return False
+
+s1 = sign(-5)
+s2 = sign(0)
+c1 = contains_even([1, 3, 5, 6])
+c2 = contains_even([1, 3, 5])
+print(s1, s2, c1, c2)''')
+    nb.write(OUT_DIR / "13-23-debug-lab.ipynb")
+    print(f"Записано: 13-23 ({len(nb)} ячеек)")
+
+
+def build_24() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-24 · Тестируем функцию\n\nПрактика к разделу "
+          "[«Тестируем функции»](../../site/chapters/glava-13/13-24-testirovanie-funkcij.html).")
+    nb.md("## Цель\n\nПроверить функцию через assert на нескольких примерах.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def classify_score(score):
+    if score >= 90:
+        return "отлично"
+    elif score >= 70:
+        return "хорошо"
+    else:
+        return "пересдача"
+
+assert classify_score(95) == "отлично"
+assert classify_score(75) == "хорошо"
+assert classify_score(50) == "пересдача"
+tests_passed = True
+print(tests_passed)''')
+    nb.write(OUT_DIR / "13-24-testirovanie.ipynb")
+    print(f"Записано: 13-24 ({len(nb)} ячеек)")
+
+
+def build_25() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-25 · Анализатор текста v2\n\nПрактика к разделу "
+          "[«Мини-проект — анализатор текста v2»](../../site/chapters/glava-13/13-25-mini-proekt-analizator-v2.html).")
+    nb.md("## Цель\n\nСобрать анализатор текста из конвейера чистых функций.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def normalize_text(text):
+    return text.lower()
+
+def split_words(text):
+    return text.split()
+
+def word_frequency(words):
+    counts = {}
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+    return counts
+
+def build_summary(text):
+    clean = normalize_text(text)
+    words = split_words(clean)
+    counts = word_frequency(words)
+    return {
+        "total_words": len(words),
+        "unique_words": len(set(words)),
+        "counts": counts,
+    }
+
+summary = build_summary("Python is great and python is fun")
+print(summary)''')
+    nb.write(OUT_DIR / "13-25-analizator-v2.ipynb")
+    print(f"Записано: 13-25 ({len(nb)} ячеек)")
+
+
+def build_26() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-26 · Конвертер единиц измерения\n\nПрактика к разделу "
+          "[«Мини-проекты — конвертер и утилиты коллекций»](../../site/chapters/glava-13/13-26-mini-proekt-konverter-i-utility.html#konverter).")
+    nb.md("## Цель\n\nНаписать набор чистых функций-конвертеров и проверить их через assert.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def celsius_to_fahrenheit(celsius: float) -> float:
+    return celsius * 9 / 5 + 32
+
+def fahrenheit_to_celsius(fahrenheit: float) -> float:
+    return (fahrenheit - 32) * 5 / 9
+
+def km_to_miles(km: float) -> float:
+    return km * 0.621371
+
+f1 = celsius_to_fahrenheit(0)
+f2 = celsius_to_fahrenheit(100)
+c1 = fahrenheit_to_celsius(32)
+miles = round(km_to_miles(10), 2)
+
+assert f1 == 32
+assert f2 == 212
+print(f1, f2, c1, miles)''')
+    nb.write(OUT_DIR / "13-26-konverter.ipynb")
+    print(f"Записано: 13-26 ({len(nb)} ячеек)")
+
+
+def build_27() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 13-27 · Утилиты для коллекций\n\nПрактика к разделу "
+          "[«Мини-проекты — конвертер и утилиты коллекций»](../../site/chapters/glava-13/13-26-mini-proekt-konverter-i-utility.html#utility).")
+    nb.md("## Цель\n\nНебольшие сфокусированные функции поверх списков, множеств и словарей.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''def average(scores):
+    return sum(scores) / len(scores)
+
+def count_above(scores, threshold):
+    return len([s for s in scores if s > threshold])
+
+def unique_words(text):
+    return set(text.lower().split())
+
+def find_top_score(students):
+    return max(students, key=lambda s: s["score"])
+
+avg = average([70, 80, 90])
+above = count_above([70, 80, 90], 75)
+uniq = unique_words("Python python code")
+top = find_top_score([{"name": "Anna", "score": 95}, {"name": "Bob", "score": 82}])
+
+print(avg, above, uniq, top)''')
+    nb.write(OUT_DIR / "13-27-utility-kollekcij.ipynb")
+    print(f"Записано: 13-27 ({len(nb)} ячеек)")
+
+
 if __name__ == "__main__":
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    build_09()
     build_01()
+    build_10()
     build_02()
-    build_03()
+    build_11()
+    build_12()
     build_04()
+    build_13()
+    build_14()
+    build_03()
+    build_15()
     build_05()
+    build_16()
+    build_17()
+    build_18()
+    build_19()
+    build_20()
     build_06()
+    build_21()
+    build_22()
+    build_23()
+    build_24()
     build_07()
+    build_25()
+    build_26()
+    build_27()
     build_08()
