@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>dataclasses — Python с нуля — Cartesian School</title>
+<meta name="description" content="@dataclass как способ избежать шаблонного __init__/__repr__/__eq__; field(default_factory=...); Debug Lab: изменяемое значение по умолчанию." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-14/14-23-dataclasses.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="dataclasses — Python с нуля — Cartesian School" />
+<meta property="og:description" content="@dataclass как способ избежать шаблонного __init__/__repr__/__eq__; field(default_factory=...); Debug Lab: изменяемое значение по умолчанию." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-14/14-23-dataclasses.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="dataclasses — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="@dataclass как способ избежать шаблонного __init__/__repr__/__eq__; field(default_factory=...); Debug Lab: изменяемое значение по умолчанию." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"dataclasses — Python с нуля — Cartesian School","description":"@dataclass как способ избежать шаблонного __init__/__repr__/__eq__; field(default_factory=...); Debug Lab: изменяемое значение по умолчанию.","url":"https://www.cartesianschool.org/chapters/glava-14/14-23-dataclasses.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 14 · Объекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="14-01-chto-takoe-oop.html">Что такое ООП?</a></li><li><a href="14-02-klassy.html">Классы и объекты со своими значениями</a></li><li><a href="14-03-upravlyaem-obektami.html">Управляем объектами. Действия объектов</a></li><li><a href="14-04-gonka-turtle-obekty-itogi.html">Гонка Turtle с объектами</a></li><li><a href="14-05-self-i-svyazyvanie-metodov.html">self и связывание методов</a></li><li><a href="14-06-init-i-sozdanie-obekta.html">__init__ и создание объекта</a></li><li><a href="14-07-atributy-ekzemplyara-i-klassa.html">Атрибуты экземпляра и класса</a></li><li><a href="14-08-lovushka-obshchego-atributa.html">Ловушка общего изменяемого атрибута</a></li><li><a href="14-09-mini-proekt-player.html">Мини-проект: Player</a></li><li><a href="14-10-inkapsulyatsiya.html">Инкапсуляция</a></li><li><a href="14-11-property.html">property: вычисляемые атрибуты</a></li><li><a href="14-12-mini-proekt-rectangle.html">Мини-проект: Rectangle</a></li><li><a href="14-13-kompozitsiya.html">Композиция: объекты внутри объектов</a></li><li><a href="14-14-mini-proekt-korzina-v2.html">Мини-проект: Корзина покупок v2</a></li><li><a href="14-15-nasledovanie.html">Наследование</a></li><li><a href="14-16-super.html">super() и порядок разрешения методов</a></li><li><a href="14-17-pereopredelenie-metodov.html">Переопределение методов</a></li><li><a href="14-18-polimorfizm.html">Полиморфизм</a></li><li><a href="14-19-duck-typing.html">Duck typing</a></li><li><a href="14-20-mini-proekt-figury.html">Мини-проект: полиморфные фигуры</a></li><li><a href="14-21-spetsialnye-metody.html">Специальные методы</a></li><li><a href="14-22-primenyaem-dunder-metody.html">Практика: применяем __str__ и __eq__</a></li><li><a href="14-23-dataclasses.html" class="active">dataclasses</a></li><li><a href="14-24-praktika-dataclass.html">Практика: dataclass</a></li><li><a href="14-25-proektiruem-modeli.html">Класс или не класс? Проектируем модели</a></li><li><a href="14-26-mini-proekt-gonka-v2.html">Мини-проект: гонка Turtle v2</a></li><li><a href="14-27-itogi-glavy.html">Итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/14-01/index.html">🐍 14-01: Практика</a></li><li><a href="../../practice/14-02/index.html">🐍 14-02: Практика</a></li><li><a href="../../practice/14-03/index.html">🐍 14-03: Практика</a></li><li><a href="../../practice/14-04/index.html">🐍 14-04: Практика</a></li><li><a href="../../practice/14-05/index.html">🐍 14-05: Практика</a></li><li><a href="../../practice/14-06/index.html">🐍 14-06: Практика</a></li><li><a href="../../practice/14-07/index.html">🐍 14-07: Практика</a></li><li><a href="../../practice/14-08/index.html">🐍 14-08: Практика</a></li><li><a href="../../practice/14-09/index.html">🐍 14-09: Практика</a></li><li><a href="../../practice/14-10/index.html">🐍 14-10: Практика</a></li><li><a href="../../practice/14-11/index.html">🐍 14-11: Практика</a></li><li><a href="../../practice/14-12/index.html">🐍 14-12: Практика</a></li><li><a href="../../practice/14-13/index.html">🐍 14-13: Практика</a></li><li><a href="../../practice/14-14/index.html">🐍 14-14: Практика</a></li><li><a href="../../practice/14-15/index.html">🐍 14-15: Практика</a></li><li><a href="../../practice/14-16/index.html">🐍 14-16: Практика</a></li><li><a href="../../practice/14-17/index.html">🐍 14-17: Практика</a></li><li><a href="../../practice/14-18/index.html">🐍 14-18: Практика</a></li><li><a href="../../practice/14-19/index.html">🐍 14-19: Практика</a></li><li><a href="../../practice/14-20/index.html">🐍 14-20: Практика</a></li><li><a href="../../practice/14-21/index.html">🐍 14-21: Практика</a></li><li><a href="../../practice/14-22/index.html">🐍 14-22: Практика</a></li><li><a href="../../practice/14-23/index.html">🐍 14-23: Практика</a></li><li><a href="../../practice/14-24/index.html">🐍 14-24: Практика</a></li><li><a href="../../practice/14-25/index.html">🐍 14-25: Практика</a></li><li><a href="../../practice/14-26/index.html">🐍 14-26: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 14</a> / dataclasses</div>
+    <div class="section-kicker">Глава 14 · Создаём объекты реального мира</div>
+    <h1>dataclasses</h1>
+    <p class="lede">Классы, которые в основном хранят данные, не обязаны писать __init__ и __repr__ вручную.</p>
+
+
+    <h2>Меньше шаблонного кода для классов-данных</h2>
+    <p>Классы вроде <code class="inline">Tochka</code> из раздела 14.22 — в основном
+    шаблонный код: <code class="inline">__init__</code>, который просто копирует параметры в
+    <code class="inline">self</code>, плюс <code class="inline">__str__</code> и
+    <code class="inline">__eq__</code>, которые почти всегда выглядят одинаково. Модуль
+    <code class="inline">dataclasses</code> умеет сгенерировать всё это автоматически:</p>
+
+    <div class="cvm">
+      <div class="cvm-header">Класс-данные: вручную и через @dataclass</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Обычный класс</div>
+          <pre><code><span class="tok-kw">class</span> Tochka:
+    <span class="tok-kw">def</span> __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    <span class="tok-kw">def</span> __repr__(self):
+        <span class="tok-kw">return</span> <span class="tok-str">f&quot;</span><span class="tok-str">Tochka(x=</span>{self.x}<span class="tok-str">, y=</span>{self.y}<span class="tok-str">)</span><span class="tok-str">&quot;</span>
+
+    <span class="tok-kw">def</span> __eq__(self, other):
+        <span class="tok-kw">return</span> self.x == other.x <span class="tok-kw">and</span> self.y == other.y</code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">С @dataclass</div>
+          <pre><code><span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> dataclass
+
+@dataclass
+<span class="tok-kw">class</span> Tochka:
+    x: <span class="tok-fn">int</span>
+    y: <span class="tok-fn">int</span>
+<span class="tok-com"># __init__, __repr__ и __eq__ сгенерированы автоматически</span></code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> @dataclass — там, где класс в основном ХРАНИТ данные и не выигрывает от ручного контроля над __init__/__repr__/__eq__. Он всё ещё обычный класс — методы добавляются в тело точно так же, как и всегда.</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>dataclass_s_metodom.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> dataclass
+
+@dataclass
+<span class="tok-kw">class</span> Tochka:
+    x: <span class="tok-fn">int</span>
+    y: <span class="tok-fn">int</span>
+
+    <span class="tok-kw">def</span> rasstoyanie_do(self, other):
+        <span class="tok-kw">return</span> ((self.x - other.x) ** <span class="tok-num">2</span> + (self.y - other.y) ** <span class="tok-num">2</span>) ** <span class="tok-num">0.5</span>
+
+a = Tochka(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+b = Tochka(<span class="tok-num">3</span>, <span class="tok-num">4</span>)
+<span class="tok-fn">print</span>(a)                    <span class="tok-com"># Tochka(x=0, y=0) — __repr__ уже готов</span>
+<span class="tok-fn">print</span>(a.rasstoyanie_do(b))   <span class="tok-com"># 5.0</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Частое заблуждение: «dataclass — это не настоящий класс» или «в dataclass нельзя писать методы»</div>
+        <div class="callout-body">Оба неверны. <code class="inline">@dataclass</code> — это обычный декоратор класса: он лишь ДОБАВЛЯЕТ автосгенерированные <code class="inline">__init__</code>, <code class="inline">__repr__</code>, <code class="inline">__eq__</code> поверх обычного тела класса. Методы, property и вообще всё, что можно писать в обычном классе, точно так же пишется и в dataclass.</div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 13: изменяемое значение по умолчанию в dataclass</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>izmenyaemoe_polei_umolchanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> dataclass
+
+@dataclass
+<span class="tok-kw">class</span> Korzina:
+    tovary: <span class="tok-fn">list</span> = []   <span class="tok-com"># похоже на ловушку из раздела 14.8!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+ValueError: mutable default <class 'list'> for field tovary is not allowed</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Python <code class="inline">dataclasses</code> УМЫШЛЕННО запрещает изменяемое значение по умолчанию прямо в аннотации — это тот же самый риск общего списка на все объекты, что и в разделе 14.8, только для dataclass он обнаруживается сразу, ошибкой при определении класса, а не тихим багом во время выполнения.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_default_factory.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> dataclass, field
+
+@dataclass
+<span class="tok-kw">class</span> Korzina:
+    tovary: <span class="tok-fn">list</span> = field(default_factory=<span class="tok-fn">list</span>)   <span class="tok-com"># новый список для КАЖДОГО объекта</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: dataclasses</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="14-23"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/14-23/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="14-22-primenyaem-dunder-metody.html"><div class="dir">← Назад</div><div class="lbl">Практика: применяем __str__ и __eq__</div></a><a href="14-24-praktika-dataclass.html" class="next"><div class="dir">Далее →</div><div class="lbl">Практика: dataclass</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

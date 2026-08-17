@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>__init__ и создание объекта — Python с нуля — Cartesian School</title>
+<meta name="description" content="Порядок создания объекта, значения по умолчанию в __init__, вызов методов изнутри __init__; Debug Lab: потерянный атрибут." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-14/14-06-init-i-sozdanie-obekta.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="__init__ и создание объекта — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Порядок создания объекта, значения по умолчанию в __init__, вызов методов изнутри __init__; Debug Lab: потерянный атрибут." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-14/14-06-init-i-sozdanie-obekta.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="__init__ и создание объекта — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Порядок создания объекта, значения по умолчанию в __init__, вызов методов изнутри __init__; Debug Lab: потерянный атрибут." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"__init__ и создание объекта — Python с нуля — Cartesian School","description":"Порядок создания объекта, значения по умолчанию в __init__, вызов методов изнутри __init__; Debug Lab: потерянный атрибут.","url":"https://www.cartesianschool.org/chapters/glava-14/14-06-init-i-sozdanie-obekta.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 14 · Объекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="14-01-chto-takoe-oop.html">Что такое ООП?</a></li><li><a href="14-02-klassy.html">Классы и объекты со своими значениями</a></li><li><a href="14-03-upravlyaem-obektami.html">Управляем объектами. Действия объектов</a></li><li><a href="14-04-gonka-turtle-obekty-itogi.html">Гонка Turtle с объектами</a></li><li><a href="14-05-self-i-svyazyvanie-metodov.html">self и связывание методов</a></li><li><a href="14-06-init-i-sozdanie-obekta.html" class="active">__init__ и создание объекта</a></li><li><a href="14-07-atributy-ekzemplyara-i-klassa.html">Атрибуты экземпляра и класса</a></li><li><a href="14-08-lovushka-obshchego-atributa.html">Ловушка общего изменяемого атрибута</a></li><li><a href="14-09-mini-proekt-player.html">Мини-проект: Player</a></li><li><a href="14-10-inkapsulyatsiya.html">Инкапсуляция</a></li><li><a href="14-11-property.html">property: вычисляемые атрибуты</a></li><li><a href="14-12-mini-proekt-rectangle.html">Мини-проект: Rectangle</a></li><li><a href="14-13-kompozitsiya.html">Композиция: объекты внутри объектов</a></li><li><a href="14-14-mini-proekt-korzina-v2.html">Мини-проект: Корзина покупок v2</a></li><li><a href="14-15-nasledovanie.html">Наследование</a></li><li><a href="14-16-super.html">super() и порядок разрешения методов</a></li><li><a href="14-17-pereopredelenie-metodov.html">Переопределение методов</a></li><li><a href="14-18-polimorfizm.html">Полиморфизм</a></li><li><a href="14-19-duck-typing.html">Duck typing</a></li><li><a href="14-20-mini-proekt-figury.html">Мини-проект: полиморфные фигуры</a></li><li><a href="14-21-spetsialnye-metody.html">Специальные методы</a></li><li><a href="14-22-primenyaem-dunder-metody.html">Практика: применяем __str__ и __eq__</a></li><li><a href="14-23-dataclasses.html">dataclasses</a></li><li><a href="14-24-praktika-dataclass.html">Практика: dataclass</a></li><li><a href="14-25-proektiruem-modeli.html">Класс или не класс? Проектируем модели</a></li><li><a href="14-26-mini-proekt-gonka-v2.html">Мини-проект: гонка Turtle v2</a></li><li><a href="14-27-itogi-glavy.html">Итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/14-01/index.html">🐍 14-01: Практика</a></li><li><a href="../../practice/14-02/index.html">🐍 14-02: Практика</a></li><li><a href="../../practice/14-03/index.html">🐍 14-03: Практика</a></li><li><a href="../../practice/14-04/index.html">🐍 14-04: Практика</a></li><li><a href="../../practice/14-05/index.html">🐍 14-05: Практика</a></li><li><a href="../../practice/14-06/index.html">🐍 14-06: Практика</a></li><li><a href="../../practice/14-07/index.html">🐍 14-07: Практика</a></li><li><a href="../../practice/14-08/index.html">🐍 14-08: Практика</a></li><li><a href="../../practice/14-09/index.html">🐍 14-09: Практика</a></li><li><a href="../../practice/14-10/index.html">🐍 14-10: Практика</a></li><li><a href="../../practice/14-11/index.html">🐍 14-11: Практика</a></li><li><a href="../../practice/14-12/index.html">🐍 14-12: Практика</a></li><li><a href="../../practice/14-13/index.html">🐍 14-13: Практика</a></li><li><a href="../../practice/14-14/index.html">🐍 14-14: Практика</a></li><li><a href="../../practice/14-15/index.html">🐍 14-15: Практика</a></li><li><a href="../../practice/14-16/index.html">🐍 14-16: Практика</a></li><li><a href="../../practice/14-17/index.html">🐍 14-17: Практика</a></li><li><a href="../../practice/14-18/index.html">🐍 14-18: Практика</a></li><li><a href="../../practice/14-19/index.html">🐍 14-19: Практика</a></li><li><a href="../../practice/14-20/index.html">🐍 14-20: Практика</a></li><li><a href="../../practice/14-21/index.html">🐍 14-21: Практика</a></li><li><a href="../../practice/14-22/index.html">🐍 14-22: Практика</a></li><li><a href="../../practice/14-23/index.html">🐍 14-23: Практика</a></li><li><a href="../../practice/14-24/index.html">🐍 14-24: Практика</a></li><li><a href="../../practice/14-25/index.html">🐍 14-25: Практика</a></li><li><a href="../../practice/14-26/index.html">🐍 14-26: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 14</a> / __init__ и создание объекта</div>
+    <div class="section-kicker">Глава 14 · Создаём объекты реального мира</div>
+    <h1>__init__ и создание объекта</h1>
+    <p class="lede">__init__ не создаёт объект — он настраивает объект, который уже существует.</p>
+
+
+    <h2>Что на самом деле происходит при <code class="inline">Sobaka("Рекс", 3)</code></h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 1144 152" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="__init__ НЕ создаёт объект — он настраивает объект, который Python уже создал" style="width:100%;height:auto;max-width:1144px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Sobaka(&quot;Рекс&quot;,</tspan><tspan x="92.0" y="50">3)</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="78">вызов класса</tspan></text><line x1="190" y1="66.0" x2="234" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">Python создаёт</tspan><tspan x="332.0" y="50">новый пустой…</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="78">объект уже существует</tspan></text><line x1="430" y1="66.0" x2="474" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">вызывается</tspan><tspan x="572.0" y="50">__init__(self,…</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="78">self — это тот самый</tspan><tspan x="572.0" y="92">новый объект</tspan></text><line x1="670" y1="66.0" x2="714" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">__init__</tspan><tspan x="812.0" y="50">настраивает…</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="812.0" y="78">self.klichka = ...</tspan></text><line x1="910" y1="66.0" x2="954" y2="66.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="960" y="10" width="184" height="112" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="1052.0" y="32">готовый объект</tspan><tspan x="1052.0" y="50">возвращается</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="1052.0" y="78">rex = ...</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">__init__ НЕ создаёт объект — он настраивает объект, который Python уже создал</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Частое заблуждение: «__init__ создаёт объект»</div>
+        <div class="callout-body">Это не так. К моменту вызова <code class="inline">__init__</code> объект уже существует — иначе Python не смог бы передать его первым аргументом (<code class="inline">self</code>)! Роль <code class="inline">__init__</code> — не создать объект, а <strong>настроить его начальное состояние</strong>: имя честнее было бы «инициализатор», а не «конструктор» — так его и называют в документации Python.</div>
+      </div>
+    </div>
+
+    <h2>Значения по умолчанию в __init__</h2>
+    <p><code class="inline">__init__</code> — обычная функция (глава 13 применима целиком):
+    параметры могут иметь значения по умолчанию:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>init_s_umolchaniem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast=<span class="tok-num">1</span>):
+        self.klichka = klichka
+        self.vozrast = vozrast
+
+shchenok = Sobaka(<span class="tok-str">&quot;Бим&quot;</span>)             <span class="tok-com"># vozrast = 1 по умолчанию</span>
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, vozrast=<span class="tok-num">3</span>)      <span class="tok-com"># явно указан</span></code></pre>
+    </div>
+
+    <h2>__init__ может вызывать другие методы</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>init_vyzyvaet_metod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast=<span class="tok-num">1</span>):
+        self.klichka = klichka
+        self.vozrast = vozrast
+        self.privet()          <span class="tok-com"># метод можно вызвать уже внутри __init__</span>
+
+    <span class="tok-kw">def</span> privet(self):
+        <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Новый пёс на сцене: </span>{self.klichka}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)
+
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>)   <span class="tok-com"># печатает приветствие сразу при создании</span></code></pre>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 2: self.x = x записали просто как x = x</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>poteryannyj_atribut.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        klichka = klichka      <span class="tok-com"># это просто локальная переменная!</span>
+        self.vozrast = vozrast
+
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)
+<span class="tok-fn">print</span>(rex.klichka)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+  File "poteryannyj_atribut.py", line 7, in <module>
+    print(rex.klichka)
+AttributeError: 'Sobaka' object has no attribute 'klichka'</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Строка <code class="inline">klichka = klichka</code> без <code class="inline">self.</code> слева создаёт обычную ЛОКАЛЬНУЮ переменную внутри <code class="inline">__init__</code>, которая исчезает, как только <code class="inline">__init__</code> заканчивается — на объекте она никогда не сохранялась. Чтобы значение осталось частью объекта НАВСЕГДА, слева от <code class="inline">=</code> обязательно должно стоять <code class="inline">self.имя_атрибута</code>.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>atribut_ispravlen.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        self.klichka = klichka
+        self.vozrast = vozrast
+
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)
+<span class="tok-fn">print</span>(rex.klichka)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: __init__ и создание объекта</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="14-06"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/14-06/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-06"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-06"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="14-05-self-i-svyazyvanie-metodov.html"><div class="dir">← Назад</div><div class="lbl">self и связывание методов</div></a><a href="14-07-atributy-ekzemplyara-i-klassa.html" class="next"><div class="dir">Далее →</div><div class="lbl">Атрибуты экземпляра и класса</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Специальные методы — Python с нуля — Cartesian School</title>
+<meta name="description" content="__str__, __eq__, карта dunder-методов и встроенных операций; Debug Lab: __eq__ без __hash__." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-14/14-21-spetsialnye-metody.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Специальные методы — Python с нуля — Cartesian School" />
+<meta property="og:description" content="__str__, __eq__, карта dunder-методов и встроенных операций; Debug Lab: __eq__ без __hash__." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-14/14-21-spetsialnye-metody.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Специальные методы — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="__str__, __eq__, карта dunder-методов и встроенных операций; Debug Lab: __eq__ без __hash__." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Специальные методы — Python с нуля — Cartesian School","description":"__str__, __eq__, карта dunder-методов и встроенных операций; Debug Lab: __eq__ без __hash__.","url":"https://www.cartesianschool.org/chapters/glava-14/14-21-spetsialnye-metody.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 14 · Объекты</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="14-01-chto-takoe-oop.html">Что такое ООП?</a></li><li><a href="14-02-klassy.html">Классы и объекты со своими значениями</a></li><li><a href="14-03-upravlyaem-obektami.html">Управляем объектами. Действия объектов</a></li><li><a href="14-04-gonka-turtle-obekty-itogi.html">Гонка Turtle с объектами</a></li><li><a href="14-05-self-i-svyazyvanie-metodov.html">self и связывание методов</a></li><li><a href="14-06-init-i-sozdanie-obekta.html">__init__ и создание объекта</a></li><li><a href="14-07-atributy-ekzemplyara-i-klassa.html">Атрибуты экземпляра и класса</a></li><li><a href="14-08-lovushka-obshchego-atributa.html">Ловушка общего изменяемого атрибута</a></li><li><a href="14-09-mini-proekt-player.html">Мини-проект: Player</a></li><li><a href="14-10-inkapsulyatsiya.html">Инкапсуляция</a></li><li><a href="14-11-property.html">property: вычисляемые атрибуты</a></li><li><a href="14-12-mini-proekt-rectangle.html">Мини-проект: Rectangle</a></li><li><a href="14-13-kompozitsiya.html">Композиция: объекты внутри объектов</a></li><li><a href="14-14-mini-proekt-korzina-v2.html">Мини-проект: Корзина покупок v2</a></li><li><a href="14-15-nasledovanie.html">Наследование</a></li><li><a href="14-16-super.html">super() и порядок разрешения методов</a></li><li><a href="14-17-pereopredelenie-metodov.html">Переопределение методов</a></li><li><a href="14-18-polimorfizm.html">Полиморфизм</a></li><li><a href="14-19-duck-typing.html">Duck typing</a></li><li><a href="14-20-mini-proekt-figury.html">Мини-проект: полиморфные фигуры</a></li><li><a href="14-21-spetsialnye-metody.html" class="active">Специальные методы</a></li><li><a href="14-22-primenyaem-dunder-metody.html">Практика: применяем __str__ и __eq__</a></li><li><a href="14-23-dataclasses.html">dataclasses</a></li><li><a href="14-24-praktika-dataclass.html">Практика: dataclass</a></li><li><a href="14-25-proektiruem-modeli.html">Класс или не класс? Проектируем модели</a></li><li><a href="14-26-mini-proekt-gonka-v2.html">Мини-проект: гонка Turtle v2</a></li><li><a href="14-27-itogi-glavy.html">Итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/14-01/index.html">🐍 14-01: Практика</a></li><li><a href="../../practice/14-02/index.html">🐍 14-02: Практика</a></li><li><a href="../../practice/14-03/index.html">🐍 14-03: Практика</a></li><li><a href="../../practice/14-04/index.html">🐍 14-04: Практика</a></li><li><a href="../../practice/14-05/index.html">🐍 14-05: Практика</a></li><li><a href="../../practice/14-06/index.html">🐍 14-06: Практика</a></li><li><a href="../../practice/14-07/index.html">🐍 14-07: Практика</a></li><li><a href="../../practice/14-08/index.html">🐍 14-08: Практика</a></li><li><a href="../../practice/14-09/index.html">🐍 14-09: Практика</a></li><li><a href="../../practice/14-10/index.html">🐍 14-10: Практика</a></li><li><a href="../../practice/14-11/index.html">🐍 14-11: Практика</a></li><li><a href="../../practice/14-12/index.html">🐍 14-12: Практика</a></li><li><a href="../../practice/14-13/index.html">🐍 14-13: Практика</a></li><li><a href="../../practice/14-14/index.html">🐍 14-14: Практика</a></li><li><a href="../../practice/14-15/index.html">🐍 14-15: Практика</a></li><li><a href="../../practice/14-16/index.html">🐍 14-16: Практика</a></li><li><a href="../../practice/14-17/index.html">🐍 14-17: Практика</a></li><li><a href="../../practice/14-18/index.html">🐍 14-18: Практика</a></li><li><a href="../../practice/14-19/index.html">🐍 14-19: Практика</a></li><li><a href="../../practice/14-20/index.html">🐍 14-20: Практика</a></li><li><a href="../../practice/14-21/index.html">🐍 14-21: Практика</a></li><li><a href="../../practice/14-22/index.html">🐍 14-22: Практика</a></li><li><a href="../../practice/14-23/index.html">🐍 14-23: Практика</a></li><li><a href="../../practice/14-24/index.html">🐍 14-24: Практика</a></li><li><a href="../../practice/14-25/index.html">🐍 14-25: Практика</a></li><li><a href="../../practice/14-26/index.html">🐍 14-26: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 14</a> / Специальные методы</div>
+    <div class="section-kicker">Глава 14 · Создаём объекты реального мира</div>
+    <h1>Специальные методы</h1>
+    <p class="lede">__init__ — не единственный дандер-метод. __str__ и __eq__ подключают объект к print() и ==.</p>
+
+
+    <h2>Как объекты подключаются к встроенным операциям</h2>
+    <p>Когда вы пишете <code class="inline">print(rex)</code> или <code class="inline">len(text)
+    </code>, Python на самом деле вызывает специальный метод объекта с именем вида
+    <code class="inline">__имя__</code> («дандер», double underscore). Вы уже пользовались
+    одним таким методом с самого начала главы — <code class="inline">__init__</code>.</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Что вы пишете</th><th>Что Python вызывает на самом деле</th></tr></thead>
+      <tbody><tr><td><code class="inline">Sobaka("Рекс", 3)</code></td><td><code class="inline">__init__(self, ...)</code></td></tr><tr><td><code class="inline">print(rex)</code></td><td><code class="inline">__str__(self)</code></td></tr><tr><td><code class="inline">len(korzina)</code></td><td><code class="inline">__len__(self)</code></td></tr><tr><td><code class="inline">a + b</code></td><td><code class="inline">__add__(self, other)</code></td></tr><tr><td><code class="inline">a == b</code></td><td><code class="inline">__eq__(self, other)</code></td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>__str__ и __repr__</h2>
+    <p>Без специального метода <code class="inline">print(объект)</code> выводит малополезную
+    строку вроде <code class="inline">&lt;__main__.Sobaka object at 0x7f...&gt;</code>.
+    <code class="inline">__str__</code> позволяет задать понятный человеку вид:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>str_metod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        self.klichka = klichka
+        self.vozrast = vozrast
+
+    <span class="tok-kw">def</span> __str__(self):
+        <span class="tok-kw">return</span> <span class="tok-str">f&quot;</span>{self.klichka}<span class="tok-str"> (</span>{self.vozrast}<span class="tok-str"> года)</span><span class="tok-str">&quot;</span>
+
+rex = Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)
+<span class="tok-fn">print</span>(rex)   <span class="tok-com"># Рекс (3 года) — а не адрес в памяти</span></code></pre>
+    </div>
+
+    <h2>__eq__: сравнение по значению, а не по идентичности</h2>
+    <p>В разделе 14.9 <code class="inline">a1 == a2</code> у двух Player с одинаковыми
+    значениями оказалось <code class="inline">False</code> — потому что <code class="inline">==
+    </code> по умолчанию сравнивает объекты как разные ячейки памяти. <code class="inline">
+    __eq__</code> это меняет:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eq_metod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Sobaka:
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        self.klichka = klichka
+        self.vozrast = vozrast
+
+    <span class="tok-kw">def</span> __eq__(self, other):
+        <span class="tok-kw">return</span> self.klichka == other.klichka <span class="tok-kw">and</span> self.vozrast == other.vozrast
+
+Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>) == Sobaka(<span class="tok-str">&quot;Рекс&quot;</span>, <span class="tok-num">3</span>)   <span class="tok-com"># теперь True</span></code></pre>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 12: __eq__ определили, а объект стал unhashable</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>unhashable_obekt.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Tochka:
+    <span class="tok-kw">def</span> __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    <span class="tok-kw">def</span> __eq__(self, other):
+        <span class="tok-kw">return</span> self.x == other.x <span class="tok-kw">and</span> self.y == other.y
+
+tochki = {Tochka(<span class="tok-num">1</span>, <span class="tok-num">2</span>), Tochka(<span class="tok-num">3</span>, <span class="tok-num">4</span>)}   <span class="tok-com"># положили объекты в множество</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+TypeError: unhashable type: 'Tochka'</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>У объекта по умолчанию есть автоматический <code class="inline">__hash__</code>, основанный на его адресе в памяти. Как только вы определяете свой <code class="inline">__eq__</code>, Python СНИМАЕТ автоматический <code class="inline">__hash__</code> — ведь если объекты «равны» по значению, у равных объектов логично ожидать и одинаковый хеш, а старый адресный хеш этому больше не соответствует. Объект без хеша нельзя положить в <code class="inline">set</code> или использовать как ключ <code class="inline">dict</code>.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_hash.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>    <span class="tok-kw">def</span> __eq__(self, other):
+        <span class="tok-kw">return</span> self.x == other.x <span class="tok-kw">and</span> self.y == other.y
+
+    <span class="tok-kw">def</span> __hash__(self):
+        <span class="tok-kw">return</span> hash((self.x, self.y))</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: специальные методы</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="14-21"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/14-21/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="14-20-mini-proekt-figury.html"><div class="dir">← Назад</div><div class="lbl">Мини-проект: полиморфные фигуры</div></a><a href="14-22-primenyaem-dunder-metody.html" class="next"><div class="dir">Далее →</div><div class="lbl">Практика: применяем __str__ и __eq__</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
