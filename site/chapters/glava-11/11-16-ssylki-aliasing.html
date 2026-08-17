@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ссылки, aliasing, == и is — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему b = a не копирует список: aliasing (совместная ссылка), разница между == и is для коллекций." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-16-ssylki-aliasing.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Ссылки, aliasing, == и is — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему b = a не копирует список: aliasing (совместная ссылка), разница между == и is для коллекций." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-16-ssylki-aliasing.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ссылки, aliasing, == и is — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему b = a не копирует список: aliasing (совместная ссылка), разница между == и is для коллекций." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Ссылки, aliasing, == и is — Python с нуля — Cartesian School","description":"Почему b = a не копирует список: aliasing (совместная ссылка), разница между == и is для коллекций.","url":"https://www.cartesianschool.org/chapters/glava-11/11-16-ssylki-aliasing.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html" class="active">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Ссылки и aliasing</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Ссылки, aliasing, == и is</h1>
+    <p class="lede">Два имени могут указывать на один и тот же список — и это не баг, а фундаментальная особенность того, как Python работает с изменяемыми объектами.</p>
+
+
+    <h2>Aliasing: два имени — один и тот же объект</h2>
+    <p>В §11.7 мы уже видели предупреждение: <code class="inline">b = a</code> не создаёт копию
+    списка. Разберём подробно, что происходит на самом деле.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>aliasing.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+b = a
+b.append(<span class="tok-num">4</span>)
+<span class="tok-fn">print</span>(a)   <span class="tok-com"># [1, 2, 3, 4] — тоже изменился!</span>
+<span class="tok-fn">print</span>(b)   <span class="tok-com"># [1, 2, 3, 4]</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 336 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a и b — это ДВА ИМЕНИ одного и того же объекта-списка, а не два списка" style="width:100%;height:auto;max-width:336px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">a</tspan></text><path d="M78.0,70 C78.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="44.0">b</tspan></text><path d="M258.0,70 C258.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="48.0" y="170" width="240" height="60" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="168.0" y="205.0">[1, 2, 3, 4]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">a и b — это ДВА ИМЕНИ одного и того же объекта-списка, а не два списка</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Мы не создали второй список — мы создали второе имя</div>
+        <div class="callout-body"><code class="inline">b = a</code> не копирует данные. Python просто говорит: «теперь имя <code class="inline">b</code> указывает туда же, куда и <code class="inline">a</code>». Формальный термин для этого — <strong>aliasing</strong> (совместная ссылка). Изменение через любое из двух имён видно через оба, потому что список-объект на самом деле один.</div>
+      </div>
+    </div>
+
+    <h2>== сравнивает содержимое, is — сравнивает объект</h2>
+    <p>Отличная возможность закрепить материал главы 9 на новом материале:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>eq_vs_is.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+b = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+<span class="tok-fn">print</span>(a == b)   <span class="tok-com"># True — содержимое одинаковое</span>
+<span class="tok-fn">print</span>(a <span class="tok-kw">is</span> b)   <span class="tok-com"># False — это два РАЗНЫХ объекта</span>
+
+c = a
+<span class="tok-fn">print</span>(a <span class="tok-kw">is</span> c)   <span class="tok-com"># True — c это то же самое имя-alias для a</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 154" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a и b — два разных объекта с одинаковым содержимым: a == b, но не a is b" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">a</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">[1, 2, 3]</tspan></text><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="109.0">b</tspan></text><line x1="140" y1="103.0" x2="192" y2="103.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="80" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="108.0">[1, 2, 3]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">a и b — два разных объекта с одинаковым содержимым: a == b, но не a is b</figcaption></figure>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Оператор</th><th>Что проверяет</th><th>a = [1,2,3]; b = [1,2,3]</th></tr></thead>
+      <tbody><tr><td><code class="inline">==</code></td><td>одинаковое ли содержимое</td><td><code class="inline">True</code></td></tr><tr><td><code class="inline">is</code></td><td>один ли и тот же объект в памяти</td><td><code class="inline">False</code></td></tr></tbody>
+    </table>
+    </div>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Предсказать результат</div>
+      <p>Дано: <code class="inline">x = [10, 20]</code>, <code class="inline">y = x</code>, <code class="inline">y.append(30)</code>. Не запуская код, ответьте: чему равен <code class="inline">x</code>? А если бы вместо <code class="inline">y = x</code> было <code class="inline">y = x.copy()</code>?</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: aliasing, == и is</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-16"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-16/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-15-spiski-i-cikly.html"><div class="dir">← Назад</div><div class="lbl">Списки и циклы</div></a><a href="11-17-kopirovanie-spiskov.html" class="next"><div class="dir">Далее →</div><div class="lbl">Копирование списков</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

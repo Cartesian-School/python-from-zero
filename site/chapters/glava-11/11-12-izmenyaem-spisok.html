@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Изменяем список — Python с нуля — Cartesian School</title>
+<meta name="description" content="Списки изменяемы (mutable) — в отличие от строк и кортежей. Сравнение mutable vs immutable." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-12-izmenyaem-spisok.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Изменяем список — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Списки изменяемы (mutable) — в отличие от строк и кортежей. Сравнение mutable vs immutable." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-12-izmenyaem-spisok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Изменяем список — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Списки изменяемы (mutable) — в отличие от строк и кортежей. Сравнение mutable vs immutable." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Изменяем список — Python с нуля — Cartesian School","description":"Списки изменяемы (mutable) — в отличие от строк и кортежей. Сравнение mutable vs immutable.","url":"https://www.cartesianschool.org/chapters/glava-11/11-12-izmenyaem-spisok.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html" class="active">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Изменяем список</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Изменяем список</h1>
+    <p class="lede">Первый по-настоящему изменяемый тип данных: элемент списка можно заменить, не создавая новый объект.</p>
+
+
+    <h2>Список можно изменить «на месте»</h2>
+    <p>Это фундаментальное отличие списка от строки. Присвоим новое значение элементу по индексу:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>izmenenie_elementa.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>numbers = [<span class="tok-num">10</span>, <span class="tok-num">20</span>, <span class="tok-num">30</span>]
+numbers[<span class="tok-num">1</span>] = <span class="tok-num">999</span>
+<span class="tok-fn">print</span>(numbers)   <span class="tok-com"># [10, 999, 30]</span></code></pre>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 188 114" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="До: numbers[1] ещё 20" style="width:100%;height:auto;max-width:188px"><rect x="10" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="36.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">10</text><text x="36.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">0</text><text x="36.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-3</text><rect x="68" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="94.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">20</text><text x="94.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">1</text><text x="94.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-2</text><rect x="126" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="152.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">30</text><text x="152.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">2</text><text x="152.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-1</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">До: numbers[1] ещё 20</figcaption></figure></div>
+      <div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 197 114" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="После: numbers[1] = 999 — тот же объект" style="width:100%;height:auto;max-width:197px"><rect x="10" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="36.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">10</text><text x="36.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">0</text><text x="36.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-3</text><rect x="68" y="26" width="61" height="52" rx="10" fill="#E7DEFF" stroke="#5B24F9" stroke-width="2.5"/><text x="98.5" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">999</text><text x="98.5" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">1</text><text x="98.5" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-2</text><rect x="135" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="161.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">30</text><text x="161.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">2</text><text x="161.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-1</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">После: numbers[1] = 999 — тот же объект</figcaption></figure></div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Это тот же самый объект, а не новый список</div>
+        <div class="callout-body">После <code class="inline">numbers[1] = 999</code> список не пересоздаётся — изменяется содержимое того же объекта. Это станет важно в §11.9, когда у одного списка будет две ссылки-переменные сразу.</div>
+      </div>
+    </div>
+
+    <h2>Mutable vs immutable</h2>
+    <p>Мы уже встречали неизменяемые типы — числа и строки. Список — первый по-настоящему
+    <strong>изменяемый (mutable)</strong> тип, который мы изучаем:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Тип</th><th>Можно ли заменить часть значения «на месте»?</th></tr></thead>
+      <tbody><tr><td><code class="inline">str</code></td><td>Нет — <code class="inline">name[0] = "P"</code> вызывает TypeError, нужна новая строка</td></tr><tr><td><code class="inline">tuple</code></td><td>Нет — кортежи тоже неизменяемы (§11.13)</td></tr><tr><td><code class="inline">list</code></td><td>Да — <code class="inline">numbers[1] = 999</code> меняет тот же объект</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Изменяемость — свойство типа, а не конкретного значения</div>
+        <div class="callout-body">Не бывает «изменяемых строк» и «неизменяемых списков» в зависимости от содержимого — изменяемость целиком определяется <strong>типом</strong> объекта: все <code class="inline">list</code> изменяемы, все <code class="inline">tuple</code> и <code class="inline">str</code> — нет.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: изменяем элемент списка на месте</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-12"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-12/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-12"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-12"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-02-srezy-spiskov.html"><div class="dir">← Назад</div><div class="lbl">Срезы списков</div></a><a href="11-13-append-extend-insert.html" class="next"><div class="dir">Далее →</div><div class="lbl">append, extend, insert</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

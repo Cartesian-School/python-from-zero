@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Преобразования и comprehensions — Python с нуля — Cartesian School</title>
+<meta name="description" content="Преобразования между коллекциями, split()/join(), sorted() для разных коллекций, list/set/dict comprehension, генераторные выражения." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Преобразования и comprehensions — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Преобразования между коллекциями, split()/join(), sorted() для разных коллекций, list/set/dict comprehension, генераторные выражения." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Преобразования и comprehensions — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Преобразования между коллекциями, split()/join(), sorted() для разных коллекций, list/set/dict comprehension, генераторные выражения." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Преобразования и comprehensions — Python с нуля — Cartesian School","description":"Преобразования между коллекциями, split()/join(), sorted() для разных коллекций, list/set/dict comprehension, генераторные выражения.","url":"https://www.cartesianschool.org/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html" class="active">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Преобразования и comprehensions</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Преобразования и comprehensions</h1>
+    <p class="lede">От list()/tuple()/set() до компактного способа строить новые коллекции одной строкой — но только после того, как понятен обычный цикл.</p>
+
+
+    <h2>Преобразования между коллекциями</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>preobrazovaniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">list</span>(<span class="tok-str">&quot;Python&quot;</span>))            <span class="tok-com"># [&#x27;P&#x27;, &#x27;y&#x27;, &#x27;t&#x27;, &#x27;h&#x27;, &#x27;o&#x27;, &#x27;n&#x27;]</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">tuple</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]))          <span class="tok-com"># (1, 2, 3)</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">set</span>([<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]))          <span class="tok-com"># {1, 2, 3}</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">dict() требует пары «ключ, значение»</div>
+        <div class="callout-body"><code class="inline">dict(...)</code> превращает в словарь не любую коллекцию, а только такую, из которой можно собрать пары: например, <code class="inline">dict(zip(a, b))</code> из §11.14. Просто <code class="inline">dict([1, 2, 3])</code> вызовет ошибку.</div>
+      </div>
+    </div>
+
+    <h2>Строка ↔ список — самое частое преобразование</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="text.split() → список, &#x27; &#x27;.join(список) → строка обратно" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">строка</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">&quot;a,b,c&quot;</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">split()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">join()</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">&quot;a,b,c&quot;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">text.split() → список, &#x27; &#x27;.join(список) → строка обратно</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>split_join.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;python git linux&quot;</span>
+words = text.split()
+<span class="tok-fn">print</span>(words)          <span class="tok-com"># [&#x27;python&#x27;, &#x27;git&#x27;, &#x27;linux&#x27;]</span>
+<span class="tok-fn">print</span>(<span class="tok-str">&quot; &quot;</span>.join(words))   <span class="tok-com"># &quot;python git linux&quot;</span></code></pre>
+    </div>
+
+    <h2>sorted() для разных коллекций</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>sorted_raznoe.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>((<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>)))          <span class="tok-com"># [1, 2, 3] — из кортежа</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>({<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>}))           <span class="tok-com"># [1, 2, 3] — из множества</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>({<span class="tok-str">&quot;b&quot;</span>: <span class="tok-num">1</span>, <span class="tok-str">&quot;a&quot;</span>: <span class="tok-num">2</span>}))   <span class="tok-com"># [&#x27;a&#x27;, &#x27;b&#x27;] — из словаря сортируются КЛЮЧИ</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">sorted() всегда возвращает список</div>
+        <div class="callout-body">Независимо от того, что было на входе — кортеж, множество или словарь — <code class="inline">sorted()</code> всегда отдаёт обычный <code class="inline">list</code>.</div>
+      </div>
+    </div>
+
+    <h2>List comprehension — уже знакомо, теперь по шагам</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>comprehension_klassika.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>kvadraty = []
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    kvadraty.append(n ** <span class="tok-num">2</span>)
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>comprehension_novyj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>kvadraty = [n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>)]
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="[выражение for n in источник] — то же самое, что цикл, но в одну строку" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">источник</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">range(1, 6)</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">выражение</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">n ** 2</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">результат</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">[1, 4, 9, 16, 25]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">[выражение for n in источник] — то же самое, что цикл, но в одну строку</figcaption></figure>
+
+    <h2>Comprehension с условием</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>comprehension_uslovie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>chetnye = [n <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">10</span>) <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>]
+<span class="tok-fn">print</span>(chetnye)   <span class="tok-com"># [0, 2, 4, 6, 8]</span></code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Условие в конце — фильтр: элемент попадёт в результат, только если условие True" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">источник</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">range(10)</tspan></text><line x1="190" y1="50.0" x2="234" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">фильтр</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">if n % 2 == 0</tspan></text><line x1="430" y1="50.0" x2="474" y2="50.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="80" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">результат</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">[0, 2, 4, 6, 8]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Условие в конце — фильтр: элемент попадёт в результат, только если условие True</figcaption></figure>
+
+    <h2>Set и dict comprehension</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>set_comprehension.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>unikalnye_bukvy = {ch.lower() <span class="tok-kw">for</span> ch <span class="tok-kw">in</span> <span class="tok-str">&quot;Python&quot;</span>}
+<span class="tok-fn">print</span>(unikalnye_bukvy)</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>dict_comprehension.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>kvadraty_slovar = {n: n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">5</span>)}
+<span class="tok-fn">print</span>(kvadraty_slovar)   <span class="tok-com"># {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</span></code></pre>
+    </div>
+    <p>Та же идея «источник → выражение → результат», только результат оформляется в фигурных
+    скобках — с двоеточием получаем словарь, без — множество.</p>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">🚀 Чуть глубже — генераторные выражения</div>
+        <div class="callout-body"><code class="inline">(n ** 2 for n in range(5))</code> — генераторное выражение, похожее на comprehension, но не строящее список целиком в памяти сразу, а отдающее значения по одному. Пригодится позже, когда будем говорить об итераторах и работе с большими объёмами данных.</div>
+      </div>
+    </div>
+
+
+    <div class="cvm">
+      <div class="cvm-header">Сборка списка: цикл vs comprehension</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Цикл с append()</div>
+          <pre><code>kuby = []
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        kuby.append(n ** <span class="tok-num">3</span>)</code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">List comprehension</div>
+          <pre><code>kuby = [n ** <span class="tok-num">3</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>) <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>]</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> comprehension для простых преобразований и фильтров — короче и читается как одна мысль. Но comprehension — это НЕ универсальный инструмент глубокого копирования и не заменяет цикл, если внутри нужны побочные эффекты (print, запись в файл, несколько условий с разной логикой) — тогда обычный цикл с append() читается понятнее.</div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: преобразования и comprehensions</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-22"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-22/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-21-vlozhennye-struktury.html"><div class="dir">← Назад</div><div class="lbl">Вложенные структуры</div></a><a href="11-09-mini-proekt-cveta.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: бесконечные цвета</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

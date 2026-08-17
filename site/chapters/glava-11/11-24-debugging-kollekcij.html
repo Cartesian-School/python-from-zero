@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отладка коллекций: 14 типичных ошибок — Python с нуля — Cartesian School</title>
+<meta name="description" content="14 именованных типичных ошибок при работе со списками, кортежами, множествами и словарями — с примерами и объяснениями." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-11/11-24-debugging-kollekcij.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отладка коллекций: 14 типичных ошибок — Python с нуля — Cartesian School" />
+<meta property="og:description" content="14 именованных типичных ошибок при работе со списками, кортежами, множествами и словарями — с примерами и объяснениями." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-11/11-24-debugging-kollekcij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отладка коллекций: 14 типичных ошибок — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="14 именованных типичных ошибок при работе со списками, кортежами, множествами и словарями — с примерами и объяснениями." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отладка коллекций: 14 типичных ошибок — Python с нуля — Cartesian School","description":"14 именованных типичных ошибок при работе со списками, кортежами, множествами и словарями — с примерами и объяснениями.","url":"https://www.cartesianschool.org/chapters/glava-11/11-24-debugging-kollekcij.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 11 · Данные</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="11-11-zachem-hranit-mnogo.html">Зачем хранить много значений</a></li><li><a href="11-01-spiski-osnovy.html">Списки: основы</a></li><li><a href="11-02-srezy-spiskov.html">Срезы списков</a></li><li><a href="11-12-izmenyaem-spisok.html">Изменяем список</a></li><li><a href="11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="11-03-operacii-so-spiskami.html">Мощные операции со списками</a></li><li><a href="11-15-spiski-i-cikly.html">Списки и циклы</a></li><li><a href="11-16-ssylki-aliasing.html">Ссылки, aliasing, == и is</a></li><li><a href="11-17-kopirovanie-spiskov.html">Копирование списков</a></li><li><a href="11-04-eshche-o-spiskah.html">Ещё больше о списках</a></li><li><a href="11-05-mini-proekt-zvezda.html">Мини-проект: разноцветная звезда</a></li><li><a href="11-06-kortezhi.html">Кортежи</a></li><li><a href="11-18-zip-i-raspakovka.html">zip() и распаковка</a></li><li><a href="11-07-mnozhestva.html">Множества</a></li><li><a href="11-19-mnozhestva-operacii.html">Операции множеств и хешируемость</a></li><li><a href="11-08-slovari.html">Словари</a></li><li><a href="11-20-slovari-metody.html">Методы словарей</a></li><li><a href="11-21-vlozhennye-struktury.html">Вложенные структуры</a></li><li><a href="11-22-preobrazovaniya-i-comprehensions.html">Преобразования и comprehensions</a></li><li><a href="11-09-mini-proekt-cveta.html">Мини-проект: бесконечные цвета</a></li><li><a href="11-23-vybor-struktury.html">Как выбрать правильную структуру</a></li><li><a href="11-24-debugging-kollekcij.html" class="active">Отладка коллекций</a></li><li><a href="11-25-slovar-chastoty-slov.html">Мини-проект: частота слов</a></li><li><a href="11-26-mini-proekty-kollekcii.html">Мини-проекты с коллекциями</a></li><li><a href="11-10-mini-proekt-perestanovka-itogi.html">Перестановка имени и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/11-11/index.html">🐍 11-11: Практика</a></li><li><a href="../../practice/11-01/index.html">🐍 11-01: Практика</a></li><li><a href="../../practice/11-02/index.html">🐍 11-02: Практика</a></li><li><a href="../../practice/11-12/index.html">🐍 11-12: Практика</a></li><li><a href="../../practice/11-13/index.html">🐍 11-13: Практика</a></li><li><a href="../../practice/11-14/index.html">🐍 11-14: Практика</a></li><li><a href="../../practice/11-03/index.html">🐍 11-03: Практика</a></li><li><a href="../../practice/11-15/index.html">🐍 11-15: Практика</a></li><li><a href="../../practice/11-16/index.html">🐍 11-16: Практика</a></li><li><a href="../../practice/11-17/index.html">🐍 11-17: Практика</a></li><li><a href="../../practice/11-04/index.html">🐍 11-04: Практика</a></li><li><a href="../../practice/11-05/index.html">🐍 11-05: Практика</a></li><li><a href="../../practice/11-06/index.html">🐍 11-06: Практика</a></li><li><a href="../../practice/11-18/index.html">🐍 11-18: Практика</a></li><li><a href="../../practice/11-07/index.html">🐍 11-07: Практика</a></li><li><a href="../../practice/11-19/index.html">🐍 11-19: Практика</a></li><li><a href="../../practice/11-08/index.html">🐍 11-08: Практика</a></li><li><a href="../../practice/11-20/index.html">🐍 11-20: Практика</a></li><li><a href="../../practice/11-21/index.html">🐍 11-21: Практика</a></li><li><a href="../../practice/11-22/index.html">🐍 11-22: Практика</a></li><li><a href="../../practice/11-09/index.html">🐍 11-09: Практика</a></li><li><a href="../../practice/11-23/index.html">🐍 11-23: Практика</a></li><li><a href="../../practice/11-24/index.html">🐍 11-24: Практика</a></li><li><a href="../../practice/11-25/index.html">🐍 11-25: Практика</a></li><li><a href="../../practice/11-26/index.html">🐍 11-26: Практика</a></li><li><a href="../../practice/11-10/index.html">🐍 11-10: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 11</a> / Отладка коллекций</div>
+    <div class="section-kicker">Глава 11 · Очень много информации!</div>
+    <h1>Отладка коллекций: 14 типичных ошибок</h1>
+    <p class="lede">IndexError, KeyError, путаница append/extend, aliasing, поверхностная копия и другие ловушки — в одном месте, с примерами и разбором.</p>
+
+
+    <p>14 типичных ошибок при работе со списками, кортежами, множествами и словарями — каждая с
+    примером и объяснением. Первые две разберём отдельно с диаграммой, остальные — компактно.</p>
+
+    <h2>IndexError — визуально</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 188 114" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="items = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;] — допустимые индексы только 0, 1, 2 (и -1, -2, -3)" style="width:100%;height:auto;max-width:188px"><rect x="10" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="36.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">A</text><text x="36.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">0</text><text x="36.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-3</text><rect x="68" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="94.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">B</text><text x="94.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">1</text><text x="94.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-2</text><rect x="126" y="26" width="52" height="52" rx="10" fill="#fff" stroke="#0D0230" stroke-width="1.5"/><text x="152.0" y="58.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="15" fill="#0D0230">C</text><text x="152.0" y="17" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#5B24F9">2</text><text x="152.0" y="96" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#DB2777">-1</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">items = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;] — допустимые индексы только 0, 1, 2 (и -1, -2, -3)</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>indexerror.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>items = [<span class="tok-str">&#x27;A&#x27;</span>, <span class="tok-str">&#x27;B&#x27;</span>, <span class="tok-str">&#x27;C&#x27;</span>]
+<span class="tok-fn">print</span>(items[<span class="tok-num">3</span>])
+<span class="tok-com"># IndexError: list index out of range</span></code></pre>
+    </div>
+
+    <h2>KeyError — визуально</h2>
+    <figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 370 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="У student есть только ключ &#x27;name&#x27; — обращение по ключу &#x27;email&#x27; не находит ничего и вызывает KeyError" style="width:100%;height:auto;max-width:370px"><defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><text font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#0D0230"><tspan x="0" y="45.0">&#x27;name&#x27;</tspan></text><line x1="140" y1="39.0" x2="192" y2="39.0" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/><rect x="200" y="16" width="160" height="46" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#0D0230"><tspan x="280.0" y="44.0">&#x27;Anna&#x27;</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">У student есть только ключ &#x27;name&#x27; — обращение по ключу &#x27;email&#x27; не находит ничего и вызывает KeyError</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>keyerror.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>student = {<span class="tok-str">&#x27;name&#x27;</span>: <span class="tok-str">&#x27;Anna&#x27;</span>}
+<span class="tok-fn">print</span>(student[<span class="tok-str">&#x27;email&#x27;</span>])
+<span class="tok-com"># KeyError: &#x27;email&#x27;</span></code></pre>
+    </div>
+
+    <h2>Ещё 12 типичных ошибок</h2>
+
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">1 · IndexError</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>items = [<span class="tok-str">&#x27;A&#x27;</span>, <span class="tok-str">&#x27;B&#x27;</span>, <span class="tok-str">&#x27;C&#x27;</span>]
+<span class="tok-fn">print</span>(items[<span class="tok-num">3</span>])</code></pre>
+    </div>
+          <p style="margin-top:10px">Допустимые индексы — от 0 до len(items)-1 = 2. Индекс 3 не существует.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">2 · KeyError</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>student = {<span class="tok-str">&#x27;name&#x27;</span>: <span class="tok-str">&#x27;Anna&#x27;</span>}
+<span class="tok-fn">print</span>(student[<span class="tok-str">&#x27;email&#x27;</span>])</code></pre>
+    </div>
+          <p style="margin-top:10px">Такого ключа в словаре нет. Безопаснее: student.get('email').</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">3 · ValueError от index()/remove()</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>fruits = [<span class="tok-str">&#x27;яблоко&#x27;</span>, <span class="tok-str">&#x27;банан&#x27;</span>]
+fruits.remove(<span class="tok-str">&#x27;вишня&#x27;</span>)</code></pre>
+    </div>
+          <p style="margin-top:10px">'вишня' нет в списке — remove() ищет по значению и не находит его. Проверьте через in перед вызовом.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">4 · TypeError: unhashable type</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>bad = {[<span class="tok-num">1</span>, <span class="tok-num">2</span>]: <span class="tok-str">&#x27;значение&#x27;</span>}</code></pre>
+    </div>
+          <p style="margin-top:10px">Список нельзя использовать как ключ словаря (или элемент множества) — он изменяем, а значит не хешируем (§11.16).</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">5 · append() вместо extend()</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+a.append([<span class="tok-num">3</span>, <span class="tok-num">4</span>])
+<span class="tok-fn">print</span>(a)   <span class="tok-com"># [1, 2, [3, 4]], а не [1, 2, 3, 4]</span></code></pre>
+    </div>
+          <p style="margin-top:10px">append() всегда добавляет один объект. Чтобы добавить элементы ИЗ списка — нужен extend().</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">6 · x = x.sort() — потеря списка</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>numbers = [<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>]
+numbers = numbers.sort()
+<span class="tok-fn">print</span>(numbers)   <span class="tok-com"># None</span></code></pre>
+    </div>
+          <p style="margin-top:10px">sort() мутирует список на месте и возвращает None. Присваивание результата обратно стирает список.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">7 · Aliasing вместо копии</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+b = a
+b.append(<span class="tok-num">4</span>)
+<span class="tok-fn">print</span>(a)   <span class="tok-com"># тоже [1, 2, 3, 4]!</span></code></pre>
+    </div>
+          <p style="margin-top:10px">b = a не копирует список — оба имени указывают на один и тот же объект (§11.9). Нужно b = a.copy().</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">8 · Поверхностная копия и вложенный список</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>original = [[<span class="tok-num">1</span>, <span class="tok-num">2</span>]]
+copy_ = original.copy()
+copy_[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">99</span>
+<span class="tok-fn">print</span>(original)   <span class="tok-com"># [[99, 2]] — тоже изменился!</span></code></pre>
+    </div>
+          <p style="margin-top:10px">.copy() копирует только внешний список — вложенные списки остаются общими (§11.10). Нужен copy.deepcopy().</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">9 · [[0]*3]*3 — общая строка</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>grid = [[<span class="tok-num">0</span>] * <span class="tok-num">3</span>] * <span class="tok-num">3</span>
+grid[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(grid)   <span class="tok-com"># изменились ВСЕ строки</span></code></pre>
+    </div>
+          <p style="margin-top:10px">*3 копирует ссылку на один и тот же внутренний список трижды. Используйте [[0]*3 for _ in range(3)].</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">10 · Изменение списка во время перебора</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>items = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+<span class="tok-kw">for</span> x <span class="tok-kw">in</span> items:
+    <span class="tok-kw">if</span> x % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        items.remove(x)
+<span class="tok-fn">print</span>(items)   <span class="tok-com"># не то, что ожидали</span></code></pre>
+    </div>
+          <p style="margin-top:10px">Удаление элемента сдвигает индексы прямо во время перебора — часть значений пропускается. Стройте новый список или перебирайте копию.</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">11 · {} вместо set()</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>empty = {}
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(empty))   <span class="tok-com"># &lt;class &#x27;dict&#x27;&gt;, а не set!</span></code></pre>
+    </div>
+          <p style="margin-top:10px">Пустой словарь и пустое множество выглядят по-разному только в непустом виде. Пустое множество — всегда set().</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">12 · Кортеж из одного элемента без запятой</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>point = (<span class="tok-num">42</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(point))   <span class="tok-com"># &lt;class &#x27;int&#x27;&gt;</span></code></pre>
+    </div>
+          <p style="margin-top:10px">Кортеж создаёт запятая, а не скобки. Нужно (42,).</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">13 · in у словаря проверяет ключи, не значения</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>student = {<span class="tok-str">&#x27;name&#x27;</span>: <span class="tok-str">&#x27;Anna&#x27;</span>}
+<span class="tok-fn">print</span>(<span class="tok-str">&#x27;Anna&#x27;</span> <span class="tok-kw">in</span> student)   <span class="tok-com"># False!</span></code></pre>
+    </div>
+          <p style="margin-top:10px">'Anna' — значение, а не ключ. Для проверки значений: 'Anna' in student.values().</p>
+        </div>
+        <div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+          <div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">14 · Перепутан порядок вложенного индекса</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>matrix = [[<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>], [<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>]]
+<span class="tok-fn">print</span>(matrix[<span class="tok-num">2</span>][<span class="tok-num">0</span>])   <span class="tok-com"># IndexError</span></code></pre>
+    </div>
+          <p style="margin-top:10px">У matrix всего 2 строки (индексы 0 и 1) по 3 столбца — сначала строка, потом столбец, не наоборот.</p>
+        </div>
+
+
+    <div class="summary-box">
+      <h3>Метод отладки: трасса по шагам</h3>
+      <ul><li>Перед запуском предскажите, что будет в переменной — потом сравните с реальным выводом.</li><li>Для ошибок с индексами/ключами явно выпишите допустимый диапазон или список ключей.</li><li>Если результат «странный, но без ошибки» — подозревайте aliasing или поверхностную копию.</li><li>print() после каждого шага — самый надёжный способ найти момент, где ожидание разошлось с реальностью.</li></ul>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим и исправляем ошибки в коллекциях</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="11-24"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/11-24/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-24"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="11-23-vybor-struktury.html"><div class="dir">← Назад</div><div class="lbl">Как выбрать правильную структуру</div></a><a href="11-25-slovar-chastoty-slov.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: частота слов</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

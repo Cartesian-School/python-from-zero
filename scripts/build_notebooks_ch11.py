@@ -338,15 +338,399 @@ print(f"{surname} {initials}")''')
     print(f"Записано: 11-10 ({len(nb)} ячеек)")
 
 
+def build_11() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-11 · Зачем хранить много значений\n\nПрактика к разделу "
+          "[«Зачем хранить много значений»](../../site/chapters/glava-11/11-11-zachem-hranit-mnogo.html).")
+    nb.md("## Цель\n\nПревратить пять отдельных переменных в один список.")
+    nb.md("## Рабочий пример")
+    nb.code('''score_1 = 95
+score_2 = 82
+score_3 = 91
+score_4 = 77
+score_5 = 88
+print(score_1, score_2, score_3, score_4, score_5)''')
+    nb.md("## Задание ★ Базовая практика\n\nСоберите те же пять чисел в список `ocenki` и "
+          "выведите его длину.")
+    nb.code('''ocenki = [95, 82, 91, 77, 88]
+print(ocenki)
+print(len(ocenki))''')
+    nb.write(OUT_DIR / "11-11-pyat-v-odin-spisok.ipynb")
+    print(f"Записано: 11-11 ({len(nb)} ячеек)")
+
+
+def build_12() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-12 · Изменяем список\n\nПрактика к разделу "
+          "[«Изменяем список»](../../site/chapters/glava-11/11-12-izmenyaem-spisok.html).")
+    nb.md("## Цель\n\nИзменить элемент списка по индексу.")
+    nb.md("## Рабочий пример")
+    nb.code('''numbers = [10, 20, 30]
+numbers[1] = 999
+print(numbers)''')
+    nb.md("## Задание ★ Базовая практика\n\nВ списке температур на третий день (индекс 2) "
+          "закралась ошибка измерения — должно быть 23, а не 19. Исправьте его на месте.")
+    nb.code('''temperatures = [18, 21, 19, 25, 17]
+temperatures[2] = 23
+print(temperatures)''')
+    nb.write(OUT_DIR / "11-12-izmenyaem-spisok.ipynb")
+    print(f"Записано: 11-12 ({len(nb)} ячеек)")
+
+
+def build_13() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-13 · append, extend, insert\n\nПрактика к разделу "
+          "[«append, extend, insert»](../../site/chapters/glava-11/11-13-append-extend-insert.html).")
+    nb.md("## Цель\n\nПравильно выбрать между append(), extend() и insert().")
+    nb.md("## Рабочий пример — ловушка append() vs extend()")
+    nb.code('''a = [1, 2]
+a.append([3, 4])
+print(a)
+
+b = [1, 2]
+b.extend([3, 4])
+print(b)''')
+    nb.md("## Задание ★ Базовая практика\n\nСоберите список покупок: начните с "
+          "`[\"хлеб\", \"молоко\"]`, добавьте `\"яйца\"` одним элементом, добавьте элементы "
+          "из `[\"сыр\", \"масло\"]`, а затем вставьте `\"вода\"` в самое начало.")
+    nb.code('''cart = ["хлеб", "молоко"]
+cart.append("яйца")
+cart.extend(["сыр", "масло"])
+cart.insert(0, "вода")
+print(cart)''')
+    nb.write(OUT_DIR / "11-13-append-extend-insert.ipynb")
+    print(f"Записано: 11-13 ({len(nb)} ячеек)")
+
+
+def build_14() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-14 · remove, pop, clear, del\n\nПрактика к разделу "
+          "[«remove, pop, clear, del»](../../site/chapters/glava-11/11-14-remove-pop-clear.html).")
+    nb.md("## Цель\n\nПравильно выбрать между remove(), pop() и del.")
+    nb.md("## Рабочий пример")
+    nb.code('''names = ["Anna", "Oleg", "Maria"]
+names.remove("Oleg")
+print(names)''')
+    nb.md("## Задание ★ Базовая практика\n\nДано `names = [\"Anna\", \"Oleg\", \"Maria\", "
+          "\"Leo\"]`. Удалите `\"Oleg\"` по значению, затем удалите и сохраните в `last` "
+          "последний элемент через pop(), затем удалите первый элемент через `del`.")
+    nb.code('''names = ["Anna", "Oleg", "Maria", "Leo"]
+names.remove("Oleg")
+last = names.pop()
+del names[0]
+print(names, last)''')
+    nb.write(OUT_DIR / "11-14-remove-pop-clear.ipynb")
+    print(f"Записано: 11-14 ({len(nb)} ячеек)")
+
+
+def build_15() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-15 · Списки и циклы\n\nПрактика к разделу "
+          "[«Списки и циклы»](../../site/chapters/glava-11/11-15-spiski-i-cikly.html).")
+    nb.md("## Цель\n\nПеребор списка, enumerate() и фильтрация по условию.")
+    nb.md("## Рабочий пример")
+    nb.code('''scores = [95, 82, 91, 58, 77]
+for score in scores:
+    if score >= 90:
+        print(score, "— отлично!")''')
+    nb.md("## Задание ★ Базовая практика\n\nИз `scores` соберите список `otlichniki` (только "
+          "оценки ≥ 90), и список пар `otlichniki_s_indeksami` — (индекс, оценка) для тех же "
+          "значений, используя enumerate().")
+    nb.code('''scores = [95, 82, 91, 58, 77]
+
+otlichniki = []
+for score in scores:
+    if score >= 90:
+        otlichniki.append(score)
+
+otlichniki_s_indeksami = []
+for i, score in enumerate(scores):
+    if score >= 90:
+        otlichniki_s_indeksami.append((i, score))
+
+print(otlichniki)
+print(otlichniki_s_indeksami)''')
+    nb.write(OUT_DIR / "11-15-spiski-i-cikly.ipynb")
+    print(f"Записано: 11-15 ({len(nb)} ячеек)")
+
+
+def build_16() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-16 · Ссылки, aliasing, == и is\n\nПрактика к разделу "
+          "[«Ссылки, aliasing, == и is»](../../site/chapters/glava-11/11-16-ssylki-aliasing.html).")
+    nb.md("## Цель\n\nОтличить aliasing от копирования, == от is.")
+    nb.md("## Рабочий пример")
+    nb.code('''a = [1, 2, 3]
+b = a
+b.append(4)
+print(a)
+print(b)''')
+    nb.md("## Задание ★ Базовая практика\n\nДано `x = [10, 20]`. Создайте `y` как "
+          "НАСТОЯЩУЮ копию x через `.copy()`, добавьте в y значение 30. Затем создайте "
+          "`z = [10, 20, 30]` и сравните `z` с `y` через `==` и `is`.")
+    nb.code('''x = [10, 20]
+y = x.copy()
+y.append(30)
+
+z = [10, 20, 30]
+ravny = (z == y)
+odin_i_tot_zhe = (z is y)
+
+print(x, y, ravny, odin_i_tot_zhe)''')
+    nb.write(OUT_DIR / "11-16-aliasing.ipynb")
+    print(f"Записано: 11-16 ({len(nb)} ячеек)")
+
+
+def build_17() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-17 · Копирование списков\n\nПрактика к разделу "
+          "[«Копирование списков»](../../site/chapters/glava-11/11-17-kopirovanie-spiskov.html).")
+    nb.md("## Цель\n\nУвидеть разницу между поверхностной и глубокой копией на вложенном "
+          "списке.")
+    nb.md("## Задание ★ Базовая практика\n\nСравните .copy() и copy.deepcopy() на списке "
+          "списков: после изменения вложенного элемента через копию проверьте, изменился ли "
+          "оригинал в каждом случае.")
+    nb.code('''original = [["Anna", 10], ["Bob", 20]]
+melkaya_kopiya = original.copy()
+melkaya_kopiya[0][1] = 999
+posle_melkoy = original[0][1]
+
+import copy
+original2 = [["Anna", 10], ["Bob", 20]]
+glubokaya_kopiya = copy.deepcopy(original2)
+glubokaya_kopiya[0][1] = 999
+posle_glubokoy = original2[0][1]
+
+print("После поверхностной копии:", posle_melkoy)
+print("После глубокой копии:", posle_glubokoy)''')
+    nb.write(OUT_DIR / "11-17-kopirovanie.ipynb")
+    print(f"Записано: 11-17 ({len(nb)} ячеек)")
+
+
+def build_18() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-18 · zip() и распаковка\n\nПрактика к разделу "
+          "[«zip() и распаковка»](../../site/chapters/glava-11/11-18-zip-i-raspakovka.html).")
+    nb.md("## Цель\n\nСобрать словарь через zip() и распаковать пары в цикле.")
+    nb.md("## Рабочий пример")
+    nb.code('''names = ["Anna", "Bob"]
+scores = [95, 82]
+for name, score in zip(names, scores):
+    print(name, "—", score)''')
+    nb.md("## Задание ★ Базовая практика\n\nСоберите словарь `itogi` из `names` и `scores` "
+          "через `dict(zip(...))`, затем постройте список строк `stroki` вида "
+          "`\"Имя: балл\"`, перебирая `itogi.items()`.")
+    nb.code('''names = ["Anna", "Bob", "Maria"]
+scores = [95, 82, 91]
+itogi = dict(zip(names, scores))
+
+stroki = []
+for name, score in itogi.items():
+    stroki.append(f"{name}: {score}")
+
+print(itogi)
+print(stroki)''')
+    nb.write(OUT_DIR / "11-18-zip.ipynb")
+    print(f"Записано: 11-18 ({len(nb)} ячеек)")
+
+
+def build_19() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-19 · Операции множеств и хешируемость\n\nПрактика к разделу "
+          "[«Операции множеств и хешируемость»](../../site/chapters/glava-11/11-19-mnozhestva-operacii.html).")
+    nb.md("## Цель\n\nПрименить объединение, пересечение, разность и проверку подмножества.")
+    nb.md("## Задание ★ Базовая практика\n\nДано `required = {\"python\", \"git\", \"sql\"}` "
+          "и `available = {\"python\", \"git\", \"docker\"}`. Найдите, каких навыков не "
+          "хватает (`missing`), какие уже есть (`common`), объединение всех навыков (`vse`), "
+          "и проверьте, является ли `{\"python\", \"git\"}` подмножеством `available` "
+          "(`podmnozhestvo`).")
+    nb.code('''required = {"python", "git", "sql"}
+available = {"python", "git", "docker"}
+
+missing = required - available
+common = required & available
+vse = required | available
+podmnozhestvo = {"python", "git"} <= available
+
+print(missing)
+print(common)
+print(vse)
+print(podmnozhestvo)''')
+    nb.write(OUT_DIR / "11-19-mnozhestva-operacii.ipynb")
+    print(f"Записано: 11-19 ({len(nb)} ячеек)")
+
+
+def build_20() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-20 · Методы словарей\n\nПрактика к разделу "
+          "[«Методы словарей»](../../site/chapters/glava-11/11-20-slovari-metody.html).")
+    nb.md("## Цель\n\nОсвоить setdefault(), pop() и keys().")
+    nb.md("## Задание ★ Базовая практика\n\nПодсчитайте, сколько раз встречается каждое "
+          "слово в списке `words`, используя `setdefault()`. Сохраните отсортированный список "
+          "ключей ДО удаления в `vse_klyuchi`, затем удалите ключ `\"b\"` через `.pop()`, "
+          "сохранив удалённое значение в `udalyonnoe`.")
+    nb.code('''words = ["a", "b", "a", "c", "b", "a"]
+counts = {}
+for word in words:
+    counts.setdefault(word, 0)
+    counts[word] += 1
+
+vse_klyuchi = sorted(counts.keys())
+udalyonnoe = counts.pop("b")
+
+print(counts)
+print(vse_klyuchi)
+print(udalyonnoe)''')
+    nb.write(OUT_DIR / "11-20-slovari-metody.ipynb")
+    print(f"Записано: 11-20 ({len(nb)} ячеек)")
+
+
+def build_21() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-21 · Вложенные структуры\n\nПрактика к разделу "
+          "[«Вложенные структуры»](../../site/chapters/glava-11/11-21-vlozhennye-struktury.html).")
+    nb.md("## Цель\n\nЧитать данные из списка словарей с вложенными словарями.")
+    nb.md("## Задание ★ Базовая практика\n\nДостаньте оценку Anna по python, оценку Bob по "
+          "математике, и соберите список всех имён.")
+    nb.code('''students = [
+    {"name": "Anna", "scores": {"math": 95, "python": 100}},
+    {"name": "Bob", "scores": {"math": 82, "python": 78}},
+]
+
+anna_python = students[0]["scores"]["python"]
+bob_math = students[1]["scores"]["math"]
+imena = [student["name"] for student in students]
+
+print(anna_python, bob_math, imena)''')
+    nb.write(OUT_DIR / "11-21-vlozhennye.ipynb")
+    print(f"Записано: 11-21 ({len(nb)} ячеек)")
+
+
+def build_22() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-22 · Преобразования и comprehensions\n\nПрактика к разделу "
+          "[«Преобразования и comprehensions»](../../site/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html).")
+    nb.md("## Цель\n\nПостроить list/set/dict comprehension.")
+    nb.md("## Задание ★ Базовая практика\n\nПостройте: список квадратов чётных чисел от 1 до "
+          "10 (`kvadraty_chetnyh`), множество уникальных строчных букв слова `\"Programming\"` "
+          "(`bukvy`), и словарь «слово → длина» для `[\"python\", \"git\", \"sql\"]` "
+          "(`slovar_dlin`) — всё через comprehension.")
+    nb.code('''kvadraty_chetnyh = [n ** 2 for n in range(1, 11) if n % 2 == 0]
+bukvy = {ch.lower() for ch in "Programming"}
+slovar_dlin = {word: len(word) for word in ["python", "git", "sql"]}
+
+print(kvadraty_chetnyh)
+print(sorted(bukvy))
+print(slovar_dlin)''')
+    nb.write(OUT_DIR / "11-22-comprehensions.ipynb")
+    print(f"Записано: 11-22 ({len(nb)} ячеек)")
+
+
+def build_23() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-23 · Как выбрать правильную структуру\n\nПрактика к разделу "
+          "[«Как выбрать правильную структуру»](../../site/chapters/glava-11/11-23-vybor-struktury.html).")
+    nb.md("## Цель\n\nВыбрать подходящую коллекцию под сценарий.")
+    nb.md("## Задание ★ Базовая практика\n\nДля каждого сценария запишите название "
+          "подходящего типа (`\"list\"`, `\"tuple\"`, `\"set\"` или `\"dict\"`) в "
+          "соответствующую переменную:\n\n"
+          "1. `otvet_1` — хранение профиля пользователя: имя → email.\n"
+          "2. `otvet_2` — список уникальных ID посетителей, порядок не важен.\n"
+          "3. `otvet_3` — координата точки, которая не должна меняться.\n"
+          "4. `otvet_4` — список покупок, который будем пополнять и вычёркивать.")
+    nb.code('''otvet_1 = "dict"
+otvet_2 = "set"
+otvet_3 = "tuple"
+otvet_4 = "list"
+print(otvet_1, otvet_2, otvet_3, otvet_4)''')
+    nb.write(OUT_DIR / "11-23-vybor-struktury.ipynb")
+    print(f"Записано: 11-23 ({len(nb)} ячеек)")
+
+
+def build_24() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-24 · Отладка коллекций\n\nПрактика к разделу "
+          "[«Отладка коллекций: 14 типичных ошибок»](../../site/chapters/glava-11/11-24-debugging-kollekcij.html).")
+    nb.md("## Цель\n\nНайти и исправить типичные ошибки в коде с коллекциями.")
+    nb.md("## Сломанный код (не выполняем)\n\n```python\ntovary = [\"хлеб\"]\n"
+          "tovary.append([\"молоко\", \"яйца\"])   # баг: список внутри списка\n```")
+    nb.md("## Задание ★ Базовая практика — исправьте append() → extend()")
+    nb.code('''tovary = ["хлеб"]
+tovary.extend(["молоко", "яйца"])
+print(tovary)''')
+    nb.md("## Задание ★★ Самостоятельная задача — исправьте потерю списка через "
+          "`x = x.sort()`")
+    nb.code('''chisla = [5, 3, 1, 4]
+chisla.sort()
+print(chisla)''')
+    nb.write(OUT_DIR / "11-24-najdi-oshibku.ipynb")
+    print(f"Записано: 11-24 ({len(nb)} ячеек)")
+
+
+def build_25() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-25 · Мини-проект — частота слов\n\nПрактика к разделу "
+          "[«Мини-проект — подсчёт частоты слов»](../../site/chapters/glava-11/11-25-slovar-chastoty-slov.html).")
+    nb.md("## Цель\n\nПодсчитать частоту слов в тексте через словарь.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''text = "python is great and python is fun and simple"
+words = text.lower().split()
+
+counts = {}
+for word in words:
+    counts[word] = counts.get(word, 0) + 1
+
+print(counts)''')
+    nb.write(OUT_DIR / "11-25-chastota-slov.ipynb")
+    print(f"Записано: 11-25 ({len(nb)} ячеек)")
+
+
+def build_26() -> None:
+    nb = NotebookBuilder()
+    nb.md("# 11-26 · Мини-проекты с коллекциями\n\nПрактика к разделу "
+          "[«Мини-проекты с коллекциями»](../../site/chapters/glava-11/11-26-mini-proekty-kollekcii.html).")
+    nb.md("## Цель\n\nЗаписная книжка (dict) + сравнение множеств навыков в одном задании.")
+    nb.md("## Задание ★ Базовая практика")
+    nb.code('''contacts = {"Anna": "anna@example.com", "Bob": "bob@example.com"}
+contacts["Maria"] = "maria@example.com"
+contacts["Anna"] = "anna.new@example.com"
+del contacts["Bob"]
+
+required = {"python", "git", "sql"}
+available = {"python", "git"}
+missing = required - available
+
+print(contacts)
+print(missing)''')
+    nb.write(OUT_DIR / "11-26-mini-proekty.ipynb")
+    print(f"Записано: 11-26 ({len(nb)} ячеек)")
+
+
 if __name__ == "__main__":
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    build_11()
     build_01()
     build_02()
+    build_12()
+    build_13()
+    build_14()
     build_03()
+    build_15()
+    build_16()
+    build_17()
     build_04()
     build_05()
     build_06()
+    build_18()
     build_07()
+    build_19()
     build_08()
+    build_20()
+    build_21()
+    build_22()
     build_09()
+    build_23()
+    build_24()
+    build_25()
+    build_26()
     build_10()
