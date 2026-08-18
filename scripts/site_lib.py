@@ -3079,6 +3079,20 @@ def call_stack_diagram(frames: list[str], *, caption: str = "") -> str:
     )
 
 
+_UML_BOX_W = 260
+_UML_PAD_X = 16
+_UML_ROW_MAX_CHARS = 22  # safe for 13.5px 'JetBrains Mono' within box_w - 2*pad_x
+_UML_LINE_H = 18
+_UML_ROW_GAP = 10  # vertical gap between two different attribute/method rows
+
+
+def _uml_wrapped_rows(labels: list[str]) -> list[list[str]]:
+    """Wraps each label to _UML_ROW_MAX_CHARS, returning one list of lines
+    per label — used by class_diagram()/object_diagram() so a long
+    attribute/method/value never crosses the box's right edge."""
+    return [_wrap_svg_text(" ".join(label.split()), max_chars=_UML_ROW_MAX_CHARS, max_lines=4) for label in labels]
+
+
 def class_diagram(
     name: str,
     attributes: list[str],
@@ -3091,16 +3105,23 @@ def class_diagram(
     "методы" section listing method signatures (already including the
     trailing "()", e.g. "take_damage(amount)"). This is the TYPE-level
     diagram — it describes every future instance, never a specific one's
-    values. Use object_diagram() for a specific instance's actual state."""
-    box_w = 260
-    row_h = 26
+    values. Use object_diagram() for a specific instance's actual state.
+
+    Each attribute/method wraps safely instead of crossing the box edge —
+    a row with long text simply grows taller (more lines), and the whole
+    box grows with it; box width never changes."""
+    box_w = _UML_BOX_W
     header_h = 40
     section_gap = 10
-    pad_x = 16
-    attrs = attributes or ["—"]
-    meths = methods or ["—"]
-    attrs_h = len(attrs) * row_h + 14
-    meths_h = len(meths) * row_h + 14
+    pad_x = _UML_PAD_X
+    attrs_wrapped = _uml_wrapped_rows(attributes or ["—"])
+    meths_wrapped = _uml_wrapped_rows(methods or ["—"])
+
+    def section_h(wrapped_rows: list[list[str]]) -> float:
+        return sum(len(lines) * _UML_LINE_H + _UML_ROW_GAP for lines in wrapped_rows) + 4
+
+    attrs_h = section_h(attrs_wrapped)
+    meths_h = section_h(meths_wrapped)
     total_h = header_h + attrs_h + meths_h + 6
     total_w = box_w + 20
 
@@ -3125,21 +3146,26 @@ def class_diagram(
     y = header_h
     parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#5B24F9" stroke-width="1.5"/>')
     ay = y + section_gap + 12
-    for attr in attrs:
-        parts.append(
-            f'<text x="{x + pad_x}" y="{ay}" font-family="\'JetBrains Mono\', monospace" '
-            f'font-size="13.5" fill="#0D0230">{html.escape(attr)}</text>'
+    for lines in attrs_wrapped:
+        tspans = "".join(
+            f'<tspan x="{x + pad_x}" y="{ay + li * _UML_LINE_H}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
         )
-        ay += row_h
+        parts.append(
+            f'<text font-family="\'JetBrains Mono\', monospace" font-size="13.5" fill="#0D0230">{tspans}</text>'
+        )
+        ay += len(lines) * _UML_LINE_H + _UML_ROW_GAP
     y = header_h + attrs_h
     parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#5B24F9" stroke-width="1.5"/>')
     my = y + section_gap + 12
-    for meth in meths:
-        parts.append(
-            f'<text x="{x + pad_x}" y="{my}" font-family="\'JetBrains Mono\', monospace" '
-            f'font-size="13.5" fill="#5B24F9" font-weight="600">{html.escape(meth)}</text>'
+    for lines in meths_wrapped:
+        tspans = "".join(
+            f'<tspan x="{x + pad_x}" y="{my + li * _UML_LINE_H}">{html.escape(line)}</tspan>' for li, line in enumerate(lines)
         )
-        my += row_h
+        parts.append(
+            f'<text font-family="\'JetBrains Mono\', monospace" font-size="13.5" fill="#5B24F9" '
+            f'font-weight="600">{tspans}</text>'
+        )
+        my += len(lines) * _UML_LINE_H + _UML_ROW_GAP
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -3164,13 +3190,39 @@ def object_diagram(
     rows show name = value_repr, i.e. actual current state, never types or
     method signatures. Two objects of the same class drawn side by side
     with different values makes "same class, own state" visible at a
-    glance; that is the primary use of this diagram."""
-    box_w = 260
-    row_h = 26
+    glance; that is the primary use of this diagram.
+
+    Each "field = value" row wraps safely instead of crossing the box edge
+    — the field name stays on the first line in muted color, the value
+    (which is usually the longer, more variable part) wraps onto as many
+    dark-colored lines as it needs; the box grows taller to fit."""
+    box_w = _UML_BOX_W
     header_h = 40
-    pad_x = 16
+    pad_x = _UML_PAD_X
     rows = values or [("—", "—")]
-    body_h = len(rows) * row_h + 20
+
+    # First line is "field = " (muted) + as much of value (dark) as fits;
+    # remaining value text continues on its own dark line(s) below, never
+    # repeating the field prefix.
+    row_lines: list[tuple[str, str, list[str]]] = []
+    for field, val in rows:
+        prefix = f"{field} = "
+        first_budget = max(_UML_ROW_MAX_CHARS - len(prefix), 6)
+        val_words = val.split()
+        first_line = ""
+        rest = val
+        if val_words:
+            wrapped_val = _wrap_svg_text(" ".join(val_words), max_chars=first_budget, max_lines=1)
+            first_line = wrapped_val[0] if wrapped_val else ""
+            rest = val[len(first_line):].strip()
+        remaining_lines = _wrap_svg_text(rest, max_chars=_UML_ROW_MAX_CHARS, max_lines=3) if rest else []
+        row_lines.append((prefix, first_line, remaining_lines))
+
+    def row_h(entry: tuple[str, str, list[str]]) -> float:
+        _, _, remaining = entry
+        return (1 + len(remaining)) * _UML_LINE_H + _UML_ROW_GAP
+
+    body_h = sum(row_h(r) for r in row_lines) + 10
     total_h = header_h + body_h
     total_w = box_w + 20
 
@@ -3196,13 +3248,20 @@ def object_diagram(
     y = header_h
     parts.append(f'<line x1="{x}" y1="{y}" x2="{x + box_w}" y2="{y}" stroke="#DB2777" stroke-width="1.5"/>')
     ry = y + 20 + 12
-    for field, val in rows:
+    for prefix, first_value_line, remaining in row_lines:
         parts.append(
             f'<text x="{x + pad_x}" y="{ry}" font-family="\'JetBrains Mono\', monospace" '
             f'font-size="13.5" fill="#0D0230">'
-            f'<tspan fill="#6B6B7D">{html.escape(field)} = </tspan>{html.escape(val)}</text>'
+            f'<tspan fill="#6B6B7D">{html.escape(prefix)}</tspan>{html.escape(first_value_line)}</text>'
         )
-        ry += row_h
+        line_y = ry
+        for cont_line in remaining:
+            line_y += _UML_LINE_H
+            parts.append(
+                f'<text x="{x + pad_x}" y="{line_y}" font-family="\'JetBrains Mono\', monospace" '
+                f'font-size="13.5" fill="#0D0230">{html.escape(cont_line)}</text>'
+            )
+        ry += (1 + len(remaining)) * _UML_LINE_H + _UML_ROW_GAP
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -3514,6 +3573,194 @@ def file_state_diagram(
         f'{box(before_label, before_lines)}{arrow}{box(after_label, after_lines)}</div>'
         f'{cap}</figure>'
     )
+
+
+# ---------------------------------------------------------------------------
+# Главa 16 — Tkinter: витрина виджетов (реальные скриншоты, не имитация)
+# ---------------------------------------------------------------------------
+
+
+def gui_component_card(
+    name: str,
+    purpose: str,
+    screenshots: list[tuple[str, str, str]],
+    *,
+    when_to_use: str = "",
+    api: str = "",
+    trap: str = "",
+    is_schematic: bool = False,
+) -> str:
+    """One widget's "contact sheet" entry: name, one-line purpose, one or
+    more REAL screenshots (each a (src, alt, small_state_label) triple —
+    e.g. two entries for "снят"/"установлен" checkbox states), then compact
+    "когда использовать" / API / "частая ошибка" notes. Used standalone or
+    stacked into gui_component_gallery().
+
+    is_schematic=True switches the screenshot area's own small label to
+    "Схематическое изображение" instead of nothing — use ONLY when a native
+    screenshot genuinely cannot be captured (e.g. an open native dropdown
+    popup); never for anything a real Tk window can show."""
+    shots_html = "".join(
+        f'<figure style="margin:0;flex:1 1 160px;min-width:140px">'
+        f'<img src="{html.escape(src)}" alt="{html.escape(alt)}" '
+        f'style="width:100%;height:auto;border-radius:12px;border:1px solid var(--color-border-default,#E4E1F5);display:block;background:#fff" />'
+        + (f'<figcaption style="text-align:center;font-size:11.5px;color:var(--ink-soft,#6B6B7D);margin-top:4px">{html.escape(state_label)}</figcaption>' if state_label else "")
+        + '</figure>'
+        for src, alt, state_label in screenshots
+    )
+    schematic_note = (
+        '<div style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;'
+        'color:#B45309;margin-bottom:6px">Схематическое изображение</div>'
+        if is_schematic
+        else ""
+    )
+    meta_rows = "".join(
+        f'<div style="margin-top:8px;font-size:13px;line-height:1.5"><strong>{html.escape(label)}:</strong> {value}</div>'
+        for label, value in (
+            ("Когда использовать", when_to_use),
+            ("API", api),
+            ("Частая ошибка", trap),
+        )
+        if value
+    )
+    return f"""
+    <div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);
+      border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">{html.escape(name)}</div>
+      <div style="font-size:13.5px;color:#0D0230;margin-bottom:8px">{html.escape(purpose)}</div>
+      {schematic_note}
+      <div style="display:flex;gap:10px;flex-wrap:wrap">{shots_html}</div>
+      {meta_rows}
+    </div>"""
+
+
+def gui_component_gallery(cards_html: list[str], *, title: str = "", caption: str = "") -> str:
+    """Responsive CSS-grid wall of gui_component_card() entries — 3 columns
+    desktop, 2 tablet, 1 mobile, via the same auto-fit pattern as
+    capability_map(), so it never degrades into a tiny-text multi-column
+    strip on narrow screens."""
+    title_html = (
+        f'<div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;'
+        f'margin-bottom:16px;color:#0D0230">{html.escape(title)}</div>'
+        if title
+        else ""
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">'
+        f'{title_html}'
+        f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">{"".join(cards_html)}</div>'
+        f'{cap}'
+        f'</figure>'
+    )
+
+
+def color_swatch_row(swatches: list[tuple[str, str, str]]) -> str:
+    """Row of real color patches — each (hex, human_name, hex_label) — so a
+    color is always seen before its numeric value, never the numeric value
+    alone. Wraps to multiple rows on narrow screens."""
+    chips = "".join(
+        f'<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;'
+        f'background:var(--color-bg-canvas,#fff);border:1px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:12px;min-width:170px">'
+        f'<span style="width:28px;height:28px;border-radius:8px;background:{html.escape(hexval)};'
+        f'border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span>'
+        f'<span style="font-size:13px;line-height:1.3"><strong>{html.escape(name)}</strong><br>'
+        f'<span style="font-family:\'JetBrains Mono\',monospace;color:var(--ink-soft,#6B6B7D)">{html.escape(hexval)}</span></span>'
+        f'</div>'
+        for hexval, name, _label in swatches
+    )
+    return (
+        f'<div style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0">{chips}</div>'
+    )
+
+
+def _schematic_label() -> str:
+    return (
+        '<div style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;'
+        'color:#B45309;margin-bottom:8px">🔶 Схематическое изображение (не реальный скриншот)</div>'
+    )
+
+
+_MESSAGEBOX_ACCENTS = {
+    "info": ("#5B24F9", "ℹ️"),
+    "warning": ("#B45309", "⚠️"),
+    "error": ("#DB2777", "⛔"),
+}
+
+
+def messagebox_schematic(kind: str, title: str, message: str, buttons: list[str]) -> str:
+    """Clearly-labeled schematic of one native messagebox dialog — used
+    because the native dialog itself cannot be captured reliably headless
+    (see generate_chapter_16_outputs.py). NEVER pass this off as a real
+    screenshot; the schematic label is always rendered."""
+    accent, icon = _MESSAGEBOX_ACCENTS.get(kind, _MESSAGEBOX_ACCENTS["info"])
+    btns = "".join(
+        f'<div style="padding:5px 16px;border:1px solid #9a97a8;border-radius:4px;'
+        f'font-size:12.5px;background:#ececec;color:#222">{html.escape(b)}</div>'
+        for b in buttons
+    )
+    return f"""
+    <div style="max-width:280px;border-radius:8px;border:1px solid #9a97a8;overflow:hidden;
+      box-shadow:0 6px 16px rgba(0,0,0,.15);font-family:sans-serif">
+      <div style="background:#e2e2e2;padding:6px 10px;font-size:12px;color:#333;border-bottom:1px solid #b8b8b8">{html.escape(title)}</div>
+      <div style="background:#ececec;padding:16px;display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:22px;line-height:1">{icon}</span>
+        <span style="font-size:13px;color:#111;padding-top:2px">{html.escape(message)}</span>
+      </div>
+      <div style="background:#ececec;padding:8px 12px;display:flex;gap:8px;justify-content:flex-end;
+        border-top:1px solid #d5d5d5">{btns}</div>
+    </div>"""
+
+
+def messagebox_gallery(entries: list[tuple[str, str, str, list[str]]], *, caption: str = "") -> str:
+    """Row of messagebox_schematic() cards — entries are (kind, title,
+    message, buttons)."""
+    cards = "".join(messagebox_schematic(kind, title, message, buttons) for kind, title, message, buttons in entries)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">'
+        f'{_schematic_label()}'
+        f'<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">{cards}</div>'
+        f'{cap}</figure>'
+    )
+
+
+def menu_bar_schematic(menu_labels: list[str], open_index: int, open_items: list[str]) -> str:
+    """Clearly-labeled schematic of a window's menu bar with one menu open
+    — used because tk.Menu does not render visibly under a headless X
+    server without a window manager (confirmed: the menu-bar strip and its
+    popdown are simply blank in that environment), so no reliable native
+    screenshot exists to capture. NEVER pass this off as a real screenshot;
+    the schematic label is always rendered."""
+    bar_items = "".join(
+        f'<div style="padding:5px 12px;font-size:13px;'
+        + (f'background:#dcdcdc;color:#111;font-weight:600' if i == open_index else 'color:#222')
+        + f'">{html.escape(label)}</div>'
+        for i, label in enumerate(menu_labels)
+    )
+    rows = []
+    for item in open_items:
+        if item == "---":
+            rows.append('<div style="height:1px;background:#d5d5d5;margin:4px 0"></div>')
+        else:
+            rows.append(f'<div style="padding:5px 22px 5px 14px;font-size:13px;color:#111;white-space:nowrap">{html.escape(item)}</div>')
+    dropdown = "".join(rows)
+    return f"""
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+      {_schematic_label()}
+      <div style="display:flex;justify-content:center">
+        <div style="border:1px solid #9a97a8;border-radius:6px;overflow:visible;position:relative;
+          background:#ececec;min-width:260px;box-shadow:0 4px 12px rgba(0,0,0,.1)">
+          <div style="display:flex;border-bottom:1px solid #cfcfcf;background:#f4f4f4">{bar_items}</div>
+          <div style="height:90px"></div>
+          <div style="position:absolute;top:30px;left:0;background:#ececec;border:1px solid #9a97a8;
+            border-radius:0 4px 4px 4px;box-shadow:0 6px 14px rgba(0,0,0,.18);padding:4px 0;min-width:170px">
+            {dropdown}
+          </div>
+        </div>
+      </div>
+    </figure>"""
 
 
 # ---------------------------------------------------------------------------

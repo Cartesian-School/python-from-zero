@@ -34,11 +34,16 @@ from site_lib import (
     classic_vs_modern,
     code_block,
     comparison_table,
+    color_swatch_row,
     decision_map,
     exercise,
     flow_diagram,
+    gui_component_card,
+    gui_component_gallery,
     image_figure,
     local_required_card,
+    menu_bar_schematic,
+    messagebox_gallery,
     object_diagram,
     pipeline_diagram,
     practice_card,
@@ -62,7 +67,7 @@ PAGES = [
     ("16-04-peremennye-tkinter.html", "Переменные Tkinter"),
     ("16-05-mnozhestvo-variantov.html", "Множество вариантов!"),
     ("16-06-menu.html", "Меню"),
-    ("16-07-grid.html", "Идеальная компоновка — grid"),
+    ("16-07-grid.html", "Строки и столбцы — grid"),
     ("16-08-mini-proekt-chaevye-itogi.html", "Мини-проект: калькулятор чаевых"),
     ("16-09-ot-terminala-k-gui.html", "От терминала к GUI: событийная модель"),
     ("16-10-event-loop-i-mainloop.html", "Как работает событийный цикл и mainloop"),
@@ -232,7 +237,7 @@ def build_opener() -> None:
             ChapterSectionLink("16.4", "Переменные Tkinter", "16-04-peremennye-tkinter.html", "344"),
             ChapterSectionLink("16.5", "Множество вариантов!", "16-05-mnozhestvo-variantov.html", "346"),
             ChapterSectionLink("16.6", "Меню", "16-06-menu.html", "349"),
-            ChapterSectionLink("16.7", "Идеальная компоновка — grid", "16-07-grid.html", "351"),
+            ChapterSectionLink("16.7", "Строки и столбцы — grid", "16-07-grid.html", "351"),
             ChapterSectionLink("16.8", "Мини-проект: калькулятор чаевых", "16-08-mini-proekt-chaevye-itogi.html", "353"),
             ChapterSectionLink("16.9", "От терминала к GUI: событийная модель", "16-09-ot-terminala-k-gui.html", "356"),
             ChapterSectionLink("16.10", "Как работает событийный цикл и mainloop", "16-10-event-loop-i-mainloop.html", "358"),
@@ -389,6 +394,14 @@ def build_02() -> None:
         "функция <em>вернула</em> (обычно <code class=\"inline\">None</code>), а не с самой "
         "функцией. Клики по кнопке после этого ничего не вызовут.",
     )}
+    {image_figure(f"{IMG}/button-states.png", "Обычная кнопка рядом с недоступной (disabled) кнопкой", f"state=\"disabled\" делает кнопку визуально и функционально недоступной. {PLATFORM_NOTE}", width=200)}
+    {callout(
+        "info",
+        "state=\"disabled\"",
+        "Кнопку можно сделать временно недоступной — <code class=\"inline\">button.state([\"disabled\"])</code> "
+        "у ttk-виджетов или <code class=\"inline\">state=\"disabled\"</code> при создании. Полезно, "
+        "пока данные ещё не готовы для действия (раздел 16.23 — валидация).",
+    )}
 
     <h2 id="pack">Подробно о pack</h2>
     <p><code class="inline">.pack()</code> — самый простой способ разместить виджет в окне.
@@ -443,6 +456,7 @@ def build_03() -> None:
     <p><code class="inline">Entry</code> подходит для короткого текста в одну строку — имени,
     числа, пароля. Для многострочного текста используют другой виджет,
     <code class="inline">Text</code>:</p>
+    {image_figure(f"{IMG}/entry-vs-text.png", "Entry с текстом «Cartesian» рядом с Text из трёх строк", f"Entry — всегда одна строка; Text — сколько угодно строк. {PLATFORM_NOTE}", width=440)}
     {code_block(
         "mnogostrochnyj_tekst.py",
         "text_box = tk.Text(root, height=5, width=30)\n"
@@ -552,6 +566,7 @@ def build_05() -> None:
     <p>Для выбора из нескольких вариантов у Tkinter есть переключатели
     (<code class="inline">Radiobutton</code> — выбрать один из нескольких) и флажки
     (<code class="inline">Checkbutton</code> — включить/выключить каждый независимо).</p>
+    {image_figure(f"{IMG}/radiobutton-group.png", "Три переключателя: Чай, Кофе (выбран), Вода", f"Один выбранный вариант из группы — закрашенный кружок. {PLATFORM_NOTE}", width=140)}
 
     {code_block(
         "radiobutton.py",
@@ -593,6 +608,7 @@ def build_05() -> None:
     )}
 
     <h2>Checkbutton — независимый выбор</h2>
+    {image_figure(f"{IMG}/checkbutton-states.png", "Два флажка: снятый и установленный", f"Два состояния одного и того же виджета — снят/установлен. {PLATFORM_NOTE}", width=280)}
     {code_block(
         "checkbutton.py",
         'saharok = tk.BooleanVar(value=False)\n'
@@ -640,6 +656,19 @@ def build_06() -> None:
         "root.config(menu=menu_bar)\n"
         "root.mainloop()\n",
     )}
+    {menu_bar_schematic(
+        ["Файл", "Правка", "Помощь"], 0,
+        ["Новый", "Открыть...", "Сохранить", "---", "Выход"],
+    )}
+    {callout(
+        "warning",
+        "Внешний вид меню зависит от ОС",
+        "Настоящий вид строки меню и открытого меню зависит от операционной системы, версии "
+        "Tk и темы — курс не может воспроизвести headless-скриншот этого элемента стабильно "
+        "во всех средах, поэтому здесь используется схематическое изображение с точной "
+        "структурой (строка меню → пункт → открытое меню → пункты → разделитель), а не "
+        "фотографический скриншот.",
+    )}
     {callout(
         "info",
         "tearoff=0",
@@ -661,10 +690,15 @@ def build_06() -> None:
     {callout(
         "warning",
         "Это не взаимозаменяемые синонимы",
-        "Для обычного пункта меню «Выход» в этом курсе понятнее и надёжнее "
-        "<code class=\"inline\">root.destroy</code> — он завершает работу приложения "
-        "полностью. <code class=\"inline\">root.quit()</code> уместен в более специфичных "
-        "сценариях, где само окно должно пережить остановку цикла событий.",
+        "<code class=\"inline\">root.quit()</code> просит текущий <code class=\"inline\">mainloop()</code> "
+        "завершиться — сам объект <code class=\"inline\">root</code> и виджеты при этом не "
+        "уничтожаются. <code class=\"inline\">root.destroy()</code> идёт дальше: уничтожает "
+        "дерево виджетов и само окно, что тоже останавливает <code class=\"inline\">mainloop()</code>. "
+        "Ни один из них не завершает сам процесс Python напрямую — после возврата из "
+        "<code class=\"inline\">mainloop()</code> код теоретически может продолжаться "
+        "(например, что-то сохранить перед выходом); процесс завершается позже, естественным "
+        "образом, если после этого просто не осталось кода. Для обычного пункта меню «Выход» "
+        "в этом курсе понятнее и надёжнее <code class=\"inline\">root.destroy</code>.",
     )}
 
     <h2>Акселераторы — это надпись, не привязка клавиш</h2>
@@ -732,10 +766,10 @@ def build_07() -> None:
     """
     page(
         "16-07-grid.html",
-        page_title="Идеальная компоновка — grid",
+        page_title="Строки и столбцы — grid",
         description="Метод grid() в Tkinter — размещение виджетов по строкам и столбцам, и почему pack() и grid() нельзя смешивать в одном контейнере.",
         kicker_suffix="Компоновка grid",
-        h1="Идеальная компоновка — grid",
+        h1="Строки и столбцы — grid",
         lede="Для форм с несколькими колонками grid() удобнее, чем pack().",
         body_html=body,
     )
@@ -958,7 +992,17 @@ def build_11() -> None:
         {"kind": "plain", "title": "размещён", "note": ".pack() / .grid() / .place()"},
         {"kind": "plain", "title": "интерактивен"},
         {"kind": "plain", "title": "уничтожен", "note": ".destroy()"},
-    ], caption="Создание виджета — только первый шаг; интерактивным он становится после размещения.")}
+    ], caption="Создание виджета создаёт сам объект; менеджер геометрии включает его в раскладку окна.")}
+    {callout(
+        "info",
+        "Создание — это создание объекта, размещение — это раскладка",
+        "Создание виджета (<code class=\"inline\">tk.Button(...)</code>) создаёт сам "
+        "Python-объект — как и создание любого другого объекта (глава 14). Менеджер геометрии "
+        "(<code class=\"inline\">pack</code>, <code class=\"inline\">grid</code> или "
+        "<code class=\"inline\">place</code>) включает этот объект в раскладку окна, чтобы "
+        "пользователь мог его увидеть и с ним взаимодействовать. Объект существует в обоих "
+        "случаях — различается лишь то, участвует ли он в раскладке видимого окна.",
+    )}
     {callout(
         "info",
         "destroy() — не единственный способ скрыть виджет",
@@ -983,6 +1027,13 @@ def build_11() -> None:
 
 def build_12() -> None:
     body = f"""
+    <h2>Витрина виджетов Tkinter</h2>
+    <p>Прежде чем разбирать детали каждого виджета отдельно (разделы 16.13–16.22) — вот как они
+    выглядят вместе, в одном настоящем окне:</p>
+    {image_figure(f"{IMG}/widget-gallery.png", "Витрина: Label, Entry, Button, Checkbutton, Radiobutton, Combobox, Spinbox, Scale, Progressbar, Notebook в одном окне", f"Реальное окно с представительным набором виджетов главы. {PLATFORM_NOTE}", width=340)}
+    <p>Дальше в этой главе каждый из этих виджетов получит отдельный раздел с собственными
+    состояниями и примерами кода.</p>
+
     <h2>tk и ttk — два набора виджетов</h2>
     {comparison_table(
         ["", "tk", "ttk"],
@@ -993,6 +1044,7 @@ def build_12() -> None:
             ["Стилизация", "<code class=\"inline\">fg=</code>/<code class=\"inline\">bg=</code>", "через <code class=\"inline\">ttk.Style()</code>"],
         ],
     )}
+    {image_figure(f"{IMG}/tk-vs-ttk.png", "Одна и та же форма (Label, Entry, Button) собрана дважды: классическим tk и тематизированным ttk", f"На этой теме курса разница едва заметна — так и должно быть: ttk не гарантирует «более современный» вид на любой платформе/теме. {PLATFORM_NOTE}", width=440)}
     {code_block(
         "tk_vs_ttk.py",
         "import tkinter as tk\n"
@@ -1014,11 +1066,18 @@ def build_12() -> None:
     )}
     {callout(
         "warning",
+        "ttk не гарантирует «более современный» вид",
+        "Тема оформления ttk зависит от операционной системы и установленных тем Tk. На "
+        "некоторых платформах/темах разница между tk и ttk почти незаметна визуально (как на "
+        "скриншоте выше) — говорите «тематизированный», а не «современный» или «красивее».",
+    )}
+    {callout(
+        "warning",
         "Не используйте fg/bg на ttk-виджетах как на классических",
         "Классические <code class=\"inline\">tk</code>-виджеты понимают "
         "<code class=\"inline\">fg=</code>/<code class=\"inline\">bg=</code> напрямую. Виджеты "
         "<code class=\"inline\">ttk</code> стилизуются иначе — через объект "
-        "<code class=\"inline\">ttk.Style()</code> (раздел 16.25). Не переносите привычки "
+        "<code class=\"inline\">ttk.Style()</code> (следующий раздел). Не переносите привычки "
         "классического Tk на ttk буквально.",
     )}
 
@@ -1040,15 +1099,125 @@ def build_12() -> None:
         "только явные импорты.",
     )}
 
+    <h2 id="style">ttk.Style() — стилизация тематизированных виджетов</h2>
+    {image_figure(f"{IMG}/style-default-vs-custom.png", "Обычная кнопка рядом с кнопкой, стилизованной через Accent.TButton", f"Слева — стиль по умолчанию, справа — собственный именованный стиль. {PLATFORM_NOTE}", width=320)}
+    {code_block(
+        "ttk_style.py",
+        "style = ttk.Style()\n"
+        "print(style.theme_use())   # активная тема, например 'clam' или 'default'\n\n"
+        "style.configure(\n"
+        '    "Accent.TButton",\n'
+        '    font=("TkDefaultFont", 11, "bold"),\n'
+        "    padding=8,\n"
+        ")\n\n"
+        "button = ttk.Button(\n"
+        "    root,\n"
+        '    text="Сохранить",\n'
+        '    style="Accent.TButton",\n'
+        ")\n",
+    )}
+    {callout(
+        "warning",
+        "ttk.Style() — не CSS",
+        "<code class=\"inline\">style.configure(...)</code> принимает только опции, которые "
+        "поддерживает конкретный виджет и активная тема Tk — это не универсальный "
+        "CSS-подобный язык стилей, где можно менять произвольное свойство произвольного "
+        "элемента. Именованный стиль (<code class=\"inline\">\"Accent.TButton\"</code>) "
+        "применяется через параметр <code class=\"inline\">style=</code> у самого виджета.",
+    )}
+    {color_swatch_row([
+        ("#5B24F9", "Cartesian Purple", "#5B24F9"),
+        ("#DB2777", "Cartesian Pink", "#DB2777"),
+        ("#059669", "Success Green", "#059669"),
+        ("#B45309", "Warning Amber", "#B45309"),
+    ])}
+    {callout(
+        "info",
+        "Цвет — сначала увиденный, потом числовой",
+        "Прежде чем писать <code class=\"inline\">#5B24F9</code> в коде, взгляните на реальный "
+        "цветовой образец выше — так проще запомнить и различать похожие оттенки, чем по "
+        "одним шестнадцатеричным кодам.",
+    )}
+
+    <h2 id="canvas">Canvas — рисование произвольных фигур</h2>
+    {image_figure(f"{IMG}/canvas-basics.png", "Canvas с линией, прямоугольником, овалом и подписью координат", f"Результат кода ниже. {PLATFORM_NOTE}", width=280)}
+    {code_block(
+        "canvas_basics.py",
+        'canvas = tk.Canvas(root, width=260, height=170, background="white")\n'
+        "canvas.pack(padx=10, pady=10)\n\n"
+        'canvas.create_line(10, 10, 240, 10, fill="#5B24F9", width=2)\n'
+        'rect_id = canvas.create_rectangle(10, 30, 90, 90, outline="#DB2777", width=2)\n'
+        'canvas.create_oval(130, 30, 210, 90, outline="#059669", width=2)\n'
+        'canvas.create_text(130, 130, text="(0,0) — верхний левый угол")\n',
+    )}
+    {callout(
+        "warning",
+        "Ось Y растёт вниз, а не вверх",
+        "Начало координат <code class=\"inline\">(0, 0)</code> — верхний левый угол "
+        "<code class=\"inline\">Canvas</code>. <code class=\"inline\">x</code> растёт вправо, "
+        "а <code class=\"inline\">y</code> растёт <strong>вниз</strong> — это противоположно "
+        "привычной математической системе координат, где y растёт вверх. Так устроена "
+        "экранная система координат в большинстве графических библиотек, не только Tkinter.",
+    )}
+    {callout(
+        "info",
+        "create_* возвращает идентификатор элемента",
+        "<code class=\"inline\">rect_id = canvas.create_rectangle(...)</code> — "
+        "<code class=\"inline\">Canvas</code> хранит нарисованные элементы и возвращает "
+        "идентификатор, по которому потом можно изменить или удалить именно этот элемент "
+        "(<code class=\"inline\">canvas.itemconfig(rect_id, ...)</code>, "
+        "<code class=\"inline\">canvas.delete(rect_id)</code>) — пригодится для будущих "
+        "игровых интерфейсов.",
+    )}
+    {callout(
+        "tip",
+        "Canvas — не второй Turtle",
+        "<code class=\"inline\">Canvas</code> — обычный виджет Tkinter для рисования "
+        "произвольных фигур внутри окна приложения, а не отдельный модуль с собственным "
+        "миром координат, как <code class=\"inline\">turtle</code> (главы 6–7). Это "
+        "краткое знакомство, а не полноценный курс по Canvas.",
+    )}
+
+    <h2 id="photoimage">PhotoImage — изображения в виджетах</h2>
+    {image_figure(f"{IMG}/photoimage.png", "Label с маленьким сгенерированным изображением-шахматкой", f"Изображение сгенерировано прямо в Python, без внешнего файла. {PLATFORM_NOTE}", width=140)}
+    {code_block(
+        "photoimage.py",
+        'image = tk.PhotoImage(file="icon.png")\n'
+        "label = ttk.Label(root, image=image)\n"
+        "label.pack()\n",
+    )}
+    {debug_lab(
+        2,
+        "Изображение исчезает, хотя код «правильный»",
+        "photoimage_propadaet.py",
+        "def build_ui():\n"
+        '    image = tk.PhotoImage(file="icon.png")   # локальная переменная функции\n'
+        "    label = ttk.Label(root, image=image)\n"
+        "    label.pack()\n\n"
+        "build_ui()\n",
+        ["# Окно открывается, но картинка не отображается —", "# на месте изображения пусто."],
+        "После выхода из <code class=\"inline\">build_ui()</code> локальная переменная "
+        "<code class=\"inline\">image</code> уничтожается сборщиком мусора Python — "
+        "виджет хранит ссылку на неё внутри Tcl, но сам объект "
+        "<code class=\"inline\">PhotoImage</code> в Python уже никто не держит. Виджет "
+        "теряет связь с реальными данными изображения.",
+        "photoimage_fixed.py",
+        "class App:\n"
+        "    def __init__(self, root):\n"
+        '        self.logo_image = tk.PhotoImage(file="icon.png")   # хранится в self —\n'
+        "        self.logo_label = ttk.Label(root, image=self.logo_image)   # живёт, пока жив self\n"
+        "        self.logo_label.pack()\n",
+    )}
+
     {local_or_practice("16-12", "Практика: собираем форму из tk и ttk", "", "../../practice/16-12/index.html")}
     """
     page(
         "16-12-tk-i-ttk.html",
         page_title="tk и ttk: классические и тематизированные виджеты",
-        description="Различие между классическими виджетами tk и тематизированным набором ttk, стилизация через ttk.Style() вместо fg/bg, и почему from tkinter import * не подходит для продакшн-стиля.",
+        description="Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage.",
         kicker_suffix="tk и ttk",
         h1="tk и ttk: классические и тематизированные виджеты",
-        lede="Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог.",
+        lede="Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.",
         body_html=body,
     )
 
@@ -1083,6 +1252,7 @@ def build_13() -> None:
     родителя, а не всего окна (подробная схема — в разделе 16.15).</p>
 
     <h2>LabelFrame — визуально подписанная группа</h2>
+    {image_figure(f"{IMG}/frame-labelframe.png", "Верхняя панель с кнопками Открыть/Сохранить, ниже — подписанная рамка «Настройки» с двумя флажками", f"Toolbar через Frame (без рамки) и LabelFrame с видимой подписью «Настройки». {PLATFORM_NOTE}", width=260)}
     {code_block(
         "labelframe.py",
         'nastrojki = ttk.LabelFrame(root, text="Настройки")\n'
@@ -1179,6 +1349,7 @@ def build_15() -> None:
         'ttk.Label(root, text="Имя:").grid(row=0, column=0, sticky="w")\n'
         'ttk.Entry(root).grid(row=0, column=1, sticky="ew")   # растягивается по ширине ячейки\n',
     )}
+    {image_figure(f"{IMG}/grid-resize-comparison.png", "Две одинаковые по ширине формы: слева Entry узкое, справа растянуто на всю ширину", f"Одна и та же ширина окна (340px) — разница только в columnconfigure(weight=1) и sticky=\"ew\". {PLATFORM_NOTE}", width=440)}
     {code_block(
         "raspredelenie_vesa.py",
         'def raspredelit_prostranstvo(weights, extra_space):\n'
@@ -1259,12 +1430,14 @@ def build_15() -> None:
 def build_16() -> None:
     body = f"""
     <h2>Combobox — выбор из списка</h2>
+    {image_figure(f"{IMG}/combobox-closed.png", "Закрытый Combobox с выбранным значением «Маленький»", f"Закрытое состояние. {PLATFORM_NOTE}", width=220)}
     {code_block(
         "combobox.py",
         'variant = ttk.Combobox(root, values=["Маленький", "Средний", "Большой"], state="readonly")\n'
         "variant.current(0)\n"
         "variant.pack()\n",
     )}
+    {image_figure(f"{IMG}/combobox-open.png", "Открытый выпадающий список Combobox с тремя вариантами", f"Открытое состояние (выпадающий список) — реальный скриншот, не имитация. {PLATFORM_NOTE}", width=220)}
     {callout(
         "tip",
         "state=\"readonly\"",
@@ -1274,6 +1447,7 @@ def build_16() -> None:
     )}
 
     <h2>Listbox — список для выбора одного/нескольких элементов</h2>
+    {image_figure(f"{IMG}/listbox-selection.png", "Listbox с четырьмя элементами, «Хлеб» выделен", f"Один элемент выделен (виден по подсветке). {PLATFORM_NOTE}", width=220)}
     {code_block(
         "listbox.py",
         "spisok = tk.Listbox(root)\n"
@@ -1286,17 +1460,24 @@ def build_16() -> None:
         '    print([spisok.get(i) for i in indeksy])\n',
     )}
 
-    <h2>Spinbox — ограниченный числовой выбор</h2>
+    <h2>Spinbox — поле со стрелками для пошагового выбора</h2>
+    {image_figure(f"{IMG}/spinbox.png", "Spinbox со значением 3 и стрелками вверх/вниз", f"Стрелки справа увеличивают/уменьшают значение по шагу. {PLATFORM_NOTE}", width=180)}
     {code_block("spinbox.py", "kolichestvo = ttk.Spinbox(root, from_=1, to=10)\nkolichestvo.pack()\n")}
     {callout(
-        "info",
-        "Spinbox vs Entry",
-        "<code class=\"inline\">Spinbox</code> удобен, когда значение — число в известном "
-        "диапазоне (количество товара, возраст). Для произвольного текста подходит обычный "
-        "<code class=\"inline\">Entry</code>.",
+        "warning",
+        "from_/to — не строгая защита от любого текста",
+        "<code class=\"inline\">Spinbox</code> — это поле, похожее на <code "
+        "class=\"inline\">Entry</code>, с добавленными стрелками, которые пошагово "
+        "перебирают значения из заданного диапазона. Параметры "
+        "<code class=\"inline\">from_</code>/<code class=\"inline\">to</code> задают диапазон "
+        "для самих стрелок — они не являются универсальной гарантией, что пользователь не "
+        "введёт с клавиатуры произвольный текст напрямую в поле. Если нужен строгий выбор "
+        "только из диапазона — потребуется дополнительно продумать валидацию или "
+        "readonly-подобное состояние.",
     )}
 
-    <h2>Scale — значение из диапазона</h2>
+    <h2>Scale — ползунок для значения из диапазона</h2>
+    {image_figure(f"{IMG}/scale.png", "Scale — горизонтальный ползунок со значением 50 в метке рядом", f"Ползунок (track) и бегунок (thumb); значение показано в соседней метке. {PLATFORM_NOTE}", width=220)}
     {code_block("scale.py", 'gromkost = ttk.Scale(root, from_=0, to=100, orient="horizontal")\ngromkost.set(50)\ngromkost.pack()\n')}
     {callout(
         "warning",
@@ -1322,6 +1503,7 @@ def build_16() -> None:
 def build_17() -> None:
     body = f"""
     <h2>Progressbar — прогресс, а не украшение</h2>
+    {image_figure(f"{IMG}/progressbar-states.png", "Четыре Progressbar на 0%, 35%, 70% и 100%", f"Реальные состояния одного и того же виджета при разных значениях value. {PLATFORM_NOTE}", width=260)}
     {code_block(
         "progressbar.py",
         'progress = ttk.Progressbar(root, mode="determinate", maximum=100, value=0)\n'
@@ -1344,20 +1526,41 @@ def build_17() -> None:
         "произвольные числа в <code class=\"inline\">determinate</code>. Ложный прогресс хуже "
         "честного «неизвестно, сколько осталось».",
     )}
+    {code_block(
+        "progressbar_indeterminate.py",
+        'progress = ttk.Progressbar(root, mode="indeterminate")\n'
+        "progress.pack(fill=\"x\")\n\n"
+        "progress.start()    # запускает анимацию бегущей полосы\n"
+        "# ... долгая операция ...\n"
+        "progress.stop()     # останавливает анимацию\n",
+    )}
+    {callout(
+        "warning",
+        "indeterminate не анимируется сам по себе",
+        "Создание <code class=\"inline\">Progressbar(mode=\"indeterminate\")</code> не "
+        "запускает анимацию автоматически — движение бегущей полосы начинается только после "
+        "явного вызова <code class=\"inline\">.start()</code> и останавливается по "
+        "<code class=\"inline\">.stop()</code>.",
+    )}
 
     <h2>Notebook — вкладки</h2>
+    {image_figure(f"{IMG}/notebook-tabs.png", "Notebook с тремя вкладками: Общие, Внешний вид, Файлы — активна первая", f"Три вкладки, активна «Общие» с флажком «Автосохранение» внутри. {PLATFORM_NOTE}", width=280)}
     {code_block(
         "notebook.py",
         "vkladki = ttk.Notebook(root)\n"
         "vkladki.pack(fill=\"both\", expand=True)\n\n"
         "obshaya_vkladka = ttk.Frame(vkladki)\n"
-        "vneshnij_vid_vkladka = ttk.Frame(vkladki)\n\n"
+        "vneshnij_vid_vkladka = ttk.Frame(vkladki)\n"
+        "fajly_vkladka = ttk.Frame(vkladki)\n\n"
         'vkladki.add(obshaya_vkladka, text="Общие")\n'
-        'vkladki.add(vneshnij_vid_vkladka, text="Внешний вид")\n',
+        'vkladki.add(vneshnij_vid_vkladka, text="Внешний вид")\n'
+        'vkladki.add(fajly_vkladka, text="Файлы")\n',
     )}
     <p>Каждая вкладка — обычный <code class="inline">Frame</code>, внутри которого можно
     независимо использовать <code class="inline">pack()</code> или <code class="inline">grid()</code>
-    — прекрасно подходит для окна настроек (раздел 16.25).</p>
+    — прекрасно подходит для окна настроек (раздел 16.25). На скриншоте выше видно ровно то,
+    что описывает термин «вкладка» — переключаемая область содержимого внутри одного окна, а не
+    несколько отдельных окон.</p>
 
     {local_or_practice("16-17", "Практика: Progressbar и Notebook", "", "../../practice/16-17/index.html")}
     """
@@ -1382,15 +1585,25 @@ def build_18() -> None:
         'messagebox.showwarning("Внимание", "Поле пустое.")\n'
         'messagebox.showerror("Ошибка", "Не удалось прочитать файл.")\n',
     )}
+    {messagebox_gallery([
+        ("info", "Готово", "Файл сохранён.", ["OK"]),
+        ("warning", "Внимание", "Поле пустое.", ["OK"]),
+        ("error", "Ошибка", "Не удалось прочитать файл.", ["OK"]),
+    ], caption="Три типа уведомлений — разная иконка и смысл, один и тот же принцип вызова.")}
+    {callout(
+        "warning",
+        "Внешний вид диалогов зависит от ОС",
+        "Настоящий вид этих диалогов зависит от операционной системы, версии Tk и выбранной "
+        "темы — точную нативную картинку headless-среда курса не может воспроизвести "
+        "стабильно, поэтому здесь используется схематическое изображение, а не скриншот.",
+    )}
 
-    <h2>Диалоги с выбором — читайте возвращаемое значение</h2>
+    <h2>Диалоги с двумя вариантами — читайте возвращаемое значение</h2>
     {code_block(
         "messagebox_yesno.py",
-        'otvet = messagebox.askyesno("Выход", "Сохранить изменения перед выходом?")\n'
-        "if otvet:\n"
-        "    sohranit()\n"
-        "else:\n"
-        "    root.destroy()\n",
+        'soglasen = messagebox.askyesno("Подтверждение", "Удалить эту заметку?")\n'
+        "if soglasen:\n"
+        "    udalit_zametku()\n",
     )}
     {callout(
         "warning",
@@ -1399,6 +1612,41 @@ def build_18() -> None:
         "значение (<code class=\"inline\">True</code>/<code class=\"inline\">False</code> для "
         "<code class=\"inline\">askyesno</code>) и реагируйте на него, а не на предположение "
         "«пользователь наверняка нажмёт да».",
+    )}
+
+    <h2>Три исхода: Да / Нет / Отмена</h2>
+    <p>Для сценария «выход с несохранёнными изменениями» одного «да/нет» мало — пользователь
+    может передумать закрывать программу вообще:</p>
+    {code_block(
+        "messagebox_yesnocancel.py",
+        "answer = messagebox.askyesnocancel(\n"
+        '    "Несохранённые изменения",\n'
+        '    "Сохранить изменения перед выходом?",\n'
+        ")\n\n"
+        "if answer is None:\n"
+        "    pass   # Отмена — не выходим вообще, пользователь передумал\n"
+        "elif answer:\n"
+        "    save_document()\n"
+        "    root.destroy()\n"
+        "else:\n"
+        "    root.destroy()   # Нет — выходим, не сохраняя\n",
+    )}
+    {comparison_table(
+        ["Возвращённое значение", "Что нажал пользователь"],
+        [
+            ["<code class=\"inline\">True</code>", "Да"],
+            ["<code class=\"inline\">False</code>", "Нет"],
+            ["<code class=\"inline\">None</code>", "Отмена (или закрыл диалог крестиком)"],
+        ],
+    )}
+    {callout(
+        "warning",
+        "Частая ошибка — перепутать Да/Нет с сохранить/закрыть",
+        "«Да» отвечает на вопрос «сохранить?», а не «выйти?». Не пишите "
+        "<code class=\"inline\">if answer: save() else: root.destroy()</code> — тогда «Нет» "
+        "молча закроет окно, даже не спросив, а «Да» сохранит, но не закроет. Полную "
+        "рабочую версию для реального редактора — с учётом обоих действий и отмены — "
+        "смотрите в разделе 16.30.",
     )}
     {callout(
         "info",
@@ -1480,8 +1728,9 @@ def build_19() -> None:
 def build_20() -> None:
     body = f"""
     <h2>Toplevel — дополнительное окно</h2>
+    {image_figure(f"{IMG}/toplevel-windows.png", "Главное окно приложения и отдельное окно настроек рядом", f"Toplevel — это отдельное настоящее окно, а не панель внутри главного. {PLATFORM_NOTE}", width=440)}
     <p>Для второго окна (настройки, «О программе», диалог) используется
-    <code class="inline">tk.Toplevel</code>, а не второй <code class="inline">tk.Tk()</code>:</p>
+    <code class="inline">tk.Toplevel</code>:</p>
     {code_block(
         "toplevel.py",
         "def otkryt_nastrojki():\n"
@@ -1492,12 +1741,15 @@ def build_20() -> None:
     )}
     {relationship_diagram("root : Tk", "okno_nastrojek : Toplevel", "создаёт", style="has-a")}
     {callout(
-        "warning",
-        "Второй Tk() — типичная ошибка",
-        "Каждый дополнительный <code class=\"inline\">tk.Tk()</code> создаёт отдельный "
-        "интерпретатор Tcl — это не то же самое, что второе окно приложения, и приводит к "
-        "неожиданному поведению. Для любого дополнительного окна — только "
-        "<code class=\"inline\">Toplevel</code>.",
+        "info",
+        "Один root, дополнительные окна — через Toplevel",
+        "Для обычного приложения используется <strong>один</strong> корневой "
+        "<code class=\"inline\">Tk()</code>, а дополнительные окна создаются через "
+        "<code class=\"inline\">Toplevel</code>. Технически создать несколько независимых "
+        "<code class=\"inline\">Tk()</code> возможно — каждый заводит свой отдельный "
+        "интерпретатор Tcl, — но для обычного единого приложения это обычно не то, что "
+        "нужно, и не рекомендуемая структура. Практическое правило: одно приложение → один "
+        "root → <code class=\"inline\">Toplevel</code> для остальных окон.",
     )}
 
     <h2 id="modal">🔬 Чуть глубже: модальное окно</h2>
@@ -1551,9 +1803,19 @@ def build_21() -> None:
 
     <h2>Порядок перехода между полями (Tab)</h2>
     <p>Пользователь должен уметь заполнить форму, используя только клавиатуру — переходя между
-    полями клавишей <code class="inline">Tab</code> в разумном порядке. По умолчанию порядок
-    определяется порядком <strong>создания</strong> виджетов — создавайте их в том порядке, в
-    котором пользователь логично будет заполнять форму.</p>
+    полями клавишей <code class="inline">Tab</code> в разумном порядке.</p>
+    {callout(
+        "info",
+        "Порядок Tab — не просто «в порядке создания»",
+        "Клавиатурный обход следует правилам обхода фокуса Tk по дереву виджетов и их "
+        "положению, а также тому, участвует ли конкретный виджет в получении фокуса вообще "
+        "(параметр <code class=\"inline\">takefocus</code>). Порядок создания влияет на "
+        "естественную структуру простой формы, но не является полным правилом. Практический "
+        "beginner-совет: стройте элементы формы в логичном порядке, обязательно "
+        "<strong>проверяйте</strong> переход по Tab вручную, избегайте лишних "
+        "фокусируемых виджетов и используйте <code class=\"inline\">takefocus</code> "
+        "осознанно там, где нужно явно включить или исключить виджет из обхода.",
+    )}
 
     <h2>Основы доступности</h2>
     {capability_map([
@@ -1611,14 +1873,24 @@ def build_22() -> None:
         {"kind": "object", "title": "другие события продолжают обрабатываться"},
         {"kind": "plain", "title": "время подошло", "note": "callback вызывается"},
     ], caption="after() ставит callback в очередь на будущее — и не блокирует всё остальное в ожидании.")}
+    {callout(
+        "info",
+        "«Через секунду» — не хронометр с точностью до миллисекунды",
+        "<code class=\"inline\">after(1000, callback)</code> означает «сделай callback готовым "
+        "к выполнению примерно через 1000 мс, когда событийный цикл сможет его обработать» — "
+        "не гарантию исполнения ровно в указанную миллисекунду. Если в этот момент цикл занят "
+        "другим событием, вызов произойдёт чуть позже.",
+    )}
 
-    <h2>Повторяющийся таймер</h2>
+    <h2>Повторяющийся таймер (self-rescheduling)</h2>
     {code_block(
         "tik.py",
+        "after_id = None\n\n"
         "def tik():\n"
+        "    global after_id\n"
         '    label.config(text=f"Секунд: {schet.get()}")\n'
         "    schet.set(schet.get() + 1)\n"
-        "    root.after(1000, tik)   # сам себя планирует заново — вот и повторение\n",
+        "    after_id = root.after(1000, tik)   # сам себя планирует заново — вот и повторение\n",
     )}
     {callout(
         "info",
@@ -1628,24 +1900,38 @@ def build_22() -> None:
         "ещё один способ организовать повторение, устроенный на событиях, а не на "
         "последовательном блоке кода.",
     )}
+    {callout(
+        "warning",
+        "Каждый новый after() должен обновлять сохранённый id",
+        "У <code class=\"inline\">tik()</code> — новый вызов <code class=\"inline\">after()</code> "
+        "на каждом тике, и, значит, новый идентификатор. Если не переприсваивать "
+        "<code class=\"inline\">after_id</code> заново при каждом вызове (как выше), "
+        "сохранённая переменная быстро устареет — будет указывать на уже сработавший вызов, "
+        "а не на актуально ожидающий, и попытка остановить таймер по этому id ничего не "
+        "остановит.",
+    )}
 
     <h2>Остановка таймера: after_cancel</h2>
     {code_block(
         "after_cancel.py",
-        "tikayushij_id = root.after(1000, tik)\n\n"
         "def stop():\n"
-        "    root.after_cancel(tikayushij_id)\n",
+        "    global after_id\n"
+        "    if after_id is not None:\n"
+        "        root.after_cancel(after_id)\n"
+        "        after_id = None\n",
     )}
     {callout(
         "warning",
         "Не потеряйте идентификатор",
-        "Чтобы остановить запланированный вызов, нужно сохранить идентификатор, который "
-        "вернул <code class=\"inline\">after()</code>. Без него отменить именно этот "
-        "запланированный вызов не получится.",
+        "Чтобы остановить запланированный вызов, нужно сохранить <strong>актуальный</strong> "
+        "идентификатор, который вернул последний вызов <code class=\"inline\">after()</code>. "
+        "Без него отменить именно этот запланированный вызов не получится. Полную "
+        "трёхсостояньевую модель (остановлен/идёт/завершён) с корректным "
+        "<code class=\"inline\">after_id</code> смотрите в мини-проекте «Таймер» (раздел 16.28).",
     )}
 
     {debug_lab(
-        2,
+        3,
         "Повторный запуск создаёт дублирующиеся таймеры",
         "duplicate_after.py",
         'def start():\n'
@@ -1697,28 +1983,72 @@ def build_23() -> None:
         {"kind": "object", "title": "числовое значение", "note": "да — конвертация"},
         {"kind": "plain", "title": "доменная функция"},
     ], caption="Ввод не превращается в число сам — между строкой и вычислением есть проверка.")}
+    {callout(
+        "info",
+        "Превью try/except",
+        "Это минимальное практическое превью <code class=\"inline\">try/except</code>. Пока "
+        "используем его как готовый шаблон для проверки пользовательского ввода. Подробно "
+        "исключения будут изучены в главе 21.",
+    )}
     {code_block(
-        "validate_amount.py",
-        'def validate_amount(text):\n'
-        '    if not text.strip():\n'
-        '        return False, "Поле не должно быть пустым"\n'
+        "parse_number.py",
+        'def parse_number(text):\n'
+        "    text = text.strip()\n"
+        "    if not text:\n"
+        '        return False, None, "Поле не должно быть пустым"\n'
         "    try:\n"
-        "        value = float(text)\n"
+        "        return True, float(text), \"\"\n"
         "    except ValueError:\n"
-        '        return False, "Введите число"\n'
+        '        return False, None, "Введите число"\n\n'
+        'print(parse_number(""))      # (False, None, ...)\n'
+        'print(parse_number("abc"))   # (False, None, ...)\n'
+        'print(parse_number("-5"))    # (True, -5.0, \'\') — отрицательное число ЧИСЛОМ является!\n'
+        'print(parse_number("100"))   # (True, 100.0, \'\')\n',
+    )}
+    {callout(
+        "warning",
+        "Не всякое число обязано быть положительным",
+        "<code class=\"inline\">parse_number</code> проверяет только «это вообще число?» — "
+        "и намеренно принимает отрицательные значения и ноль: они тоже числа. Например, "
+        "температура в градусах Цельсия может быть отрицательной (раздел 16.27) — "
+        "требование «положительное» специфично для конкретной задачи (суммы денег, "
+        "количества людей), а не свойство чисел вообще.",
+    )}
+
+    <h2>Специализированная валидация поверх parse_number</h2>
+    {code_block(
+        "validate_positive.py",
+        'def validate_positive_amount(text):\n'
+        "    ok, value, message = parse_number(text)\n"
+        "    if not ok:\n"
+        "        return False, message\n"
         "    if value <= 0:\n"
         '        return False, "Число должно быть больше нуля"\n'
         '    return True, ""\n\n'
-        'print(validate_amount(""))      # (False, ...)\n'
-        'print(validate_amount("abc"))   # (False, ...)\n'
-        'print(validate_amount("-5"))    # (False, ...)\n'
-        'print(validate_amount("100"))   # (True, "")\n',
+        'def validate_positive_int(text):\n'
+        "    ok, value, message = parse_number(text)\n"
+        "    if not ok:\n"
+        "        return False, message\n"
+        "    if value != int(value):\n"
+        '        return False, "Введите целое число"\n'
+        "    if int(value) < 1:\n"
+        '        return False, "Число должно быть не меньше 1"\n'
+        '    return True, ""\n',
+    )}
+    {callout(
+        "tip",
+        "Разные задачи — разные функции",
+        "Сумма счёта должна быть положительным числом — <code class=\"inline\">validate_positive_amount</code>. "
+        "Количество человек должно быть положительным <strong>целым</strong> — "
+        "<code class=\"inline\">validate_positive_int</code> дополнительно отвергает "
+        "<code class=\"inline\">2.5</code>. Обе функции переиспользуют "
+        "<code class=\"inline\">parse_number</code>, а не дублируют разбор текста.",
     )}
 
     <h2>Как показать ошибку пользователю</h2>
     {code_block(
         "status_label.py",
-        "ok, message = validate_amount(schet_entry.get())\n"
+        "ok, message = validate_positive_amount(schet_entry.get())\n"
         "if not ok:\n"
         '    status_label.config(text=message, foreground="#DB2777")\n'
         "    return\n",
@@ -1738,7 +2068,7 @@ def build_23() -> None:
     <code class="inline">register(...)</code>) — синтаксис у него не самый интуитивный, поэтому
     для большинства форм в этом курсе достаточно ручной проверки перед вычислением, как выше.</p>
 
-    {practice_card("16-23", "Практика: валидация суммы", "Проверяется без tkinter — на чистой функции validate_amount", "../../practice/16-23/index.html")}
+    {practice_card("16-23", "Практика: parse_number и специализированная валидация", "Проверяется без tkinter — на чистых функциях", "../../practice/16-23/index.html")}
     """
     page(
         "16-23-validatsiya-vvoda.html",
@@ -1780,7 +2110,7 @@ def build_24() -> None:
 
     <h2 id="lambda-trap">🔬 Чуть глубже: ловушка позднего связывания в lambda</h2>
     {debug_lab(
-        3,
+        4,
         "Все кнопки в цикле «запоминают» одно и то же значение",
         "pozdnee_svyazyvanie.py",
         'for i in range(3):\n'
@@ -1910,6 +2240,7 @@ def build_26() -> None:
     body = f"""
     <p>Самый маленький настоящий проект главы: счётчик кликов. Хорошая возможность увидеть оба
     способа хранить число, связанное с виджетом.</p>
+    {image_figure(f"{IMG}/click-counter.png", "Окно счётчика кликов со значением 3 и кнопкой +1", f"Результат выполнения кода ниже, после трёх кликов. {PLATFORM_NOTE}", width=140)}
     {code_block(
         "schetchik_intvar.py",
         "import tkinter as tk\n"
@@ -1933,7 +2264,7 @@ def build_26() -> None:
     )}
 
     {debug_lab(
-        4,
+        5,
         "Забыли mainloop() — окно не работает как надо",
         "bez_mainloop.py",
         "root = tk.Tk()\n"
@@ -1972,8 +2303,17 @@ def build_27() -> None:
         "    return celsius * 9 / 5 + 32\n\n"
         'def farengejty_v_celsius(farengejty):\n'
         "    return (farengejty - 32) * 5 / 9\n\n"
-        'print(round(celsius_v_farengejty(100), 1))   # 212.0\n'
-        'print(round(farengejty_v_celsius(32), 1))    # 0.0\n',
+        'print(round(celsius_v_farengejty(100), 1))    # 212.0\n'
+        'print(round(celsius_v_farengejty(-40), 1))    # -40.0\n'
+        'print(round(celsius_v_farengejty(0), 1))      # 32.0\n',
+    )}
+    {callout(
+        "warning",
+        "Температура не обязана быть положительной",
+        "0°C, −5°C, −40°C — всё это совершенно нормальные температуры. Конвертер температур "
+        "не должен переиспользовать <code class=\"inline\">validate_positive_amount</code> "
+        "(раздел 16.23) — она отвергла бы отрицательный и нулевой ввод как «ошибку». Здесь "
+        "нужна просто общая проверка «это число?» — <code class=\"inline\">parse_number</code>.",
     )}
     {code_block(
         "konverter_gui.py",
@@ -1983,31 +2323,32 @@ def build_27() -> None:
         "celsius_var = tk.StringVar()\n"
         "result_var = tk.StringVar()\n\n"
         "def on_convert():\n"
-        "    ok, message = validate_amount(celsius_var.get())\n"
+        "    ok, value, message = parse_number(celsius_var.get())\n"
         "    if not ok:\n"
         "        result_var.set(message)\n"
         "        return\n"
-        "    farengejty = celsius_v_farengejty(float(celsius_var.get()))\n"
+        "    farengejty = celsius_v_farengejty(value)\n"
         '    result_var.set(f"{farengejty:.1f} °F")\n\n'
         'ttk.Entry(root, textvariable=celsius_var).pack()\n'
         'ttk.Button(root, text="В Фаренгейты", command=on_convert).pack()\n'
         'ttk.Label(root, textvariable=result_var).pack()\n',
     )}
+    {image_figure(f"{IMG}/temperature-converter.png", "Конвертер температур: введено -40, результат -40.0 °F", f"−40°C = −40°F — единственная точка, где шкалы Цельсия и Фаренгейта совпадают. Результат выполнения кода выше. {PLATFORM_NOTE}", width=360)}
     {callout(
         "tip",
-        "validate_amount уже знаком",
-        "Функция <code class=\"inline\">validate_amount</code> — та же самая, что мы написали в "
-        "разделе 16.23. Один раз написанная и проверенная функция валидации пригождается в "
-        "нескольких проектах.",
+        "parse_number уже знаком",
+        "Функция <code class=\"inline\">parse_number</code> — та же самая, что мы написали в "
+        "разделе 16.23. Один раз написанная и проверенная функция разбора числа пригождается "
+        "в нескольких проектах — здесь без дополнительного требования «положительное».",
     )}
     {exercise(2, "Оба направления", "Добавьте второе поле и кнопку «В Цельсии», использующую farengejty_v_celsius — по образцу существующей кнопки.")}
 
-    {practice_card("16-27", "Практика: конвертер температур", "Проверяется без tkinter — на чистых функциях преобразования", "../../practice/16-27/index.html")}
+    {practice_card("16-27", "Практика: конвертер температур", "Проверяется без tkinter — на чистых функциях преобразования, включая отрицательные значения", "../../practice/16-27/index.html")}
     """
     page(
         "16-27-mini-proekt-konverter-temperatur.html",
         page_title="Мини-проект: конвертер температур",
-        description="Классическая форма ввод → проверка → чистая функция → результат на примере конвертера температур Цельсий/Фаренгейт.",
+        description="Классическая форма ввод → проверка → чистая функция → результат на примере конвертера температур Цельсий/Фаренгейт — с корректной поддержкой отрицательных значений.",
         kicker_suffix="Конвертер температур",
         h1="Мини-проект: конвертер температур",
         lede="Простая форма — но по образцовой архитектуре: чистая функция преобразования отдельно от интерфейса.",
@@ -2027,36 +2368,63 @@ def build_28() -> None:
         'print(format_time(65))    # 01:05\n'
         'print(format_time(600))   # 10:00\n',
     )}
+    {image_figure(f"{IMG}/timer-widget.png", "Окно таймера: 00:42 и кнопки Старт, Стоп, Сброс", f"Стартовое отображение — до первого тика. {PLATFORM_NOTE}", width=300)}
+
+    <h2>Три состояния таймера</h2>
+    {pipeline_diagram([
+        {"kind": "plain", "title": "STOPPED", "rows": ["running = False", "after_id = None"]},
+        {"kind": "plain", "title": "RUNNING", "rows": ["running = True", "after_id — активен"], "note": "Старт"},
+        {"kind": "plain", "title": "FINISHED", "rows": ["running = False", "after_id = None", "remaining = 0"], "note": "remaining достиг 0"},
+    ], caption="STOPPED → RUNNING → FINISHED — и обратно в STOPPED через Сброс (не показан отдельной стрелкой).")}
     {code_block(
         "tajmer_gui.py",
         "class TimerApp:\n"
-        "    def __init__(self, root):\n"
+        "    def __init__(self, root, start_seconds=60):\n"
         "        self.root = root\n"
-        "        self.remaining = 60\n"
+        "        self.start_seconds = start_seconds\n"
+        "        self.remaining = start_seconds\n"
         "        self.running = False\n"
         "        self.after_id = None\n"
         '        self.label_var = tk.StringVar(value=format_time(self.remaining))\n'
         "        ttk.Label(root, textvariable=self.label_var).pack()\n"
         '        ttk.Button(root, text="Старт", command=self.start).pack()\n'
-        '        ttk.Button(root, text="Стоп", command=self.stop).pack()\n\n'
+        '        ttk.Button(root, text="Стоп", command=self.stop).pack()\n'
+        '        ttk.Button(root, text="Сброс", command=self.reset).pack()\n\n'
         "    def start(self):\n"
-        "        if self.running:\n"
-        "            return\n"
+        "        if self.running or self.remaining <= 0:\n"
+        "            return   # уже идёт, или уже FINISHED — сначала Сброс\n"
         "        self.running = True\n"
-        "        self.tick()\n\n"
+        "        self._schedule_tick()\n\n"
+        "    def _schedule_tick(self):\n"
+        "        self.after_id = self.root.after(1000, self.tick)\n\n"
         "    def tick(self):\n"
-        "        if not self.running or self.remaining <= 0:\n"
-        "            return\n"
         "        self.remaining -= 1\n"
         "        self.label_var.set(format_time(self.remaining))\n"
-        "        self.after_id = self.root.after(1000, self.tick)\n\n"
+        "        if self.remaining <= 0:\n"
+        "            self.running = False\n"
+        "            self.after_id = None   # FINISHED — планировать больше нечего\n"
+        "            return\n"
+        "        self._schedule_tick()\n\n"
         "    def stop(self):\n"
         "        self.running = False\n"
         "        if self.after_id is not None:\n"
-        "            self.root.after_cancel(self.after_id)\n",
+        "            self.root.after_cancel(self.after_id)\n"
+        "            self.after_id = None\n\n"
+        "    def reset(self):\n"
+        "        self.stop()\n"
+        "        self.remaining = self.start_seconds\n"
+        "        self.label_var.set(format_time(self.remaining))\n",
+    )}
+    {callout(
+        "info",
+        "after(1000, ...) — «примерно через секунду», не хронометр",
+        "<code class=\"inline\">after(1000, callback)</code> означает «сделай callback готовым "
+        "к выполнению примерно через 1000 мс, когда событийный цикл сможет его обработать» — "
+        "не гарантию исполнения ровно в указанную миллисекунду. Если цикл в этот момент занят "
+        "другим событием, вызов произойдёт чуть позже.",
     )}
     {debug_lab(
-        5,
+        6,
         "Таймер продолжает тикать после «Стоп»",
         "tajmer_bez_proverki.py",
         "def tick(self):\n"
@@ -2120,21 +2488,48 @@ def build_29() -> None:
         "def remove_task(tasks, index):\n"
         "    return tasks[:index] + tasks[index + 1:]\n",
     )}
+    {image_figure(f"{IMG}/todo-list.png", "Список задач: три задачи, вторая выделена, поле ввода и кнопки + / −", f"Результат выполнения кода ниже. {PLATFORM_NOTE}", width=340)}
+    {callout(
+        "warning",
+        "Отдельные функции-callback без класса — источник ошибки",
+        "Callback вроде <code class=\"inline\">on_add()</code>, объявленный сам по себе (не "
+        "внутри другой функции), не может использовать "
+        "<code class=\"inline\">nonlocal tasks</code> — <code class=\"inline\">nonlocal</code> "
+        "требует переменную из объемлющей функции, а не из глобальной области. Здесь "
+        "уместнее класс приложения (глава 14) — <code class=\"inline\">self.tasks</code> "
+        "решает эту проблему естественно.",
+    )}
     {code_block(
         "todo_gui.py",
-        "def on_add():\n"
-        "    nonlocal tasks\n"
-        "    tasks = add_task(tasks, novaya_var.get())\n"
-        "    obnovit_listbox()\n"
-        "    save_tasks(TODO_PATH, tasks)\n\n"
-        "def on_delete():\n"
-        "    nonlocal tasks\n"
-        "    vybrannye = listbox.curselection()\n"
-        "    if not vybrannye:\n"
-        "        return\n"
-        "    tasks = remove_task(tasks, vybrannye[0])\n"
-        "    obnovit_listbox()\n"
-        "    save_tasks(TODO_PATH, tasks)\n",
+        "class TodoApp:\n"
+        "    def __init__(self, root, path):\n"
+        "        self.root = root\n"
+        "        self.path = path\n"
+        "        self.tasks = load_tasks(path)\n"
+        '        self.new_task_var = tk.StringVar()\n'
+        "        self.listbox = tk.Listbox(root, height=6)\n"
+        "        self.listbox.pack()\n"
+        "        entry = ttk.Entry(root, textvariable=self.new_task_var)\n"
+        "        entry.pack(side=\"left\", fill=\"x\", expand=True)\n"
+        '        ttk.Button(root, text="+", command=self.on_add).pack(side="left")\n'
+        '        ttk.Button(root, text="−", command=self.on_delete).pack(side="left")\n'
+        "        self.refresh_listbox()\n\n"
+        "    def refresh_listbox(self):\n"
+        '        self.listbox.delete(0, "end")\n'
+        "        for task in self.tasks:\n"
+        '            self.listbox.insert("end", task)\n\n'
+        "    def on_add(self):\n"
+        "        self.tasks = add_task(self.tasks, self.new_task_var.get())\n"
+        '        self.new_task_var.set("")\n'
+        "        self.refresh_listbox()\n"
+        "        save_tasks(self.path, self.tasks)\n\n"
+        "    def on_delete(self):\n"
+        "        selected = self.listbox.curselection()\n"
+        "        if not selected:\n"
+        "            return\n"
+        "        self.tasks = remove_task(self.tasks, selected[0])\n"
+        "        self.refresh_listbox()\n"
+        "        save_tasks(self.path, self.tasks)\n",
     )}
     {callout(
         "tip",
@@ -2162,47 +2557,55 @@ def build_30() -> None:
     body = f"""
     <p>Прямое продолжение дневника заметок из главы 15 (15.4) — теперь с настоящим окном,
     многострочным полем и меню «Файл».</p>
+    {image_figure(f"{IMG}/notes-editor.png", "Окно редактора заметок с текстом заметки", f"Результат выполнения кода ниже. {PLATFORM_NOTE}", width=360)}
     {code_block(
         "redaktor_zametok.py",
-        "import tkinter as tk\n"
-        "from tkinter import ttk, filedialog, messagebox\n"
-        "from tkinter.scrolledtext import ScrolledText\n"
-        "from pathlib import Path\n\n"
-        "root = tk.Tk()\n"
-        'root.title("Редактор заметок")\n\n'
-        "text_widget = ScrolledText(root, wrap=\"word\")\n"
-        "text_widget.pack(fill=\"both\", expand=True)\n\n"
-        "current_path = None\n\n"
-        "def novyj_fajl():\n"
-        "    global current_path\n"
-        '    text_widget.delete("1.0", "end")\n'
-        "    current_path = None\n\n"
-        "def otkryt_fajl():\n"
-        "    global current_path\n"
-        '    filename = filedialog.askopenfilename(filetypes=[("Текстовые файлы", "*.txt")])\n'
-        "    if not filename:\n"
-        "        return\n"
-        "    current_path = Path(filename)\n"
-        '    text_widget.delete("1.0", "end")\n'
-        '    text_widget.insert("1.0", current_path.read_text(encoding="utf-8"))\n\n'
-        "def sohranit_kak():\n"
-        "    global current_path\n"
-        '    filename = filedialog.asksaveasfilename(defaultextension=".txt")\n'
-        "    if not filename:\n"
-        "        return\n"
-        "    current_path = Path(filename)\n"
-        '    current_path.write_text(text_widget.get("1.0", "end-1c"), encoding="utf-8")\n'
-        '    messagebox.showinfo("Готово", "Заметки сохранены.")\n\n'
-        "menu_bar = tk.Menu(root)\n"
-        "fajl_menu = tk.Menu(menu_bar, tearoff=0)\n"
-        'fajl_menu.add_command(label="Новый", command=novyj_fajl)\n'
-        'fajl_menu.add_command(label="Открыть...", command=otkryt_fajl)\n'
-        'fajl_menu.add_command(label="Сохранить как...", command=sohranit_kak)\n'
-        "fajl_menu.add_separator()\n"
-        'fajl_menu.add_command(label="Выход", command=root.destroy)\n'
-        'menu_bar.add_cascade(label="Файл", menu=fajl_menu)\n'
-        "root.config(menu=menu_bar)\n\n"
-        "root.mainloop()\n",
+        "class NotesEditorApp:\n"
+        "    def __init__(self, root):\n"
+        "        self.root = root\n"
+        "        self.current_path = None\n"
+        "        self.dirty = False\n"
+        '        self.text_widget = ScrolledText(root, wrap="word")\n'
+        '        self.text_widget.pack(fill="both", expand=True)\n'
+        '        self.text_widget.bind("<<Modified>>", self.on_text_modified)\n'
+        "        self.build_menu()\n"
+        '        self.root.protocol("WM_DELETE_WINDOW", self.on_exit)\n\n'
+        "    def on_text_modified(self, event):\n"
+        "        self.dirty = True\n"
+        '        self.text_widget.edit_modified(False)   # сбрасываем встроенный флаг Tk\n\n'
+        "    def confirm_discard_if_dirty(self):\n"
+        '        """True — можно продолжать (New/Open/Exit). False — пользователь передумал."""\n'
+        "        if not self.dirty:\n"
+        "            return True\n"
+        "        answer = messagebox.askyesnocancel(\n"
+        '            "Несохранённые изменения",\n'
+        '            "Сохранить изменения перед продолжением?",\n'
+        "        )\n"
+        "        if answer is None:   # Cancel — прервать текущее действие\n"
+        "            return False\n"
+        "        if answer:           # Yes — сначала сохранить\n"
+        "            self.save_as()\n"
+        "        return True          # No — продолжить, не сохраняя\n\n"
+        "    def on_exit(self):\n"
+        "        if self.confirm_discard_if_dirty():\n"
+        "            self.root.destroy()\n\n"
+        "    def save_as(self):\n"
+        '        filename = filedialog.asksaveasfilename(defaultextension=".txt")\n'
+        "        if not filename:\n"
+        "            return\n"
+        "        self.current_path = Path(filename)\n"
+        '        self.current_path.write_text(self.text_widget.get("1.0", "end-1c"), encoding="utf-8")\n'
+        "        self.dirty = False\n",
+    )}
+    {callout(
+        "info",
+        "Три исхода одного вопроса",
+        "<code class=\"inline\">messagebox.askyesnocancel(...)</code> возвращает "
+        "<code class=\"inline\">True</code> (Да — сохранить), <code class=\"inline\">False</code> "
+        "(Нет — не сохранять) или <code class=\"inline\">None</code> (Отмена/закрыт диалог — "
+        "прервать текущее действие полностью). Обычный <code class=\"inline\">askyesno</code> "
+        "умеет только два первых варианта — для «Выход с несохранёнными изменениями» нужен "
+        "именно третий: возможность передумать закрывать приложение вообще.",
     )}
     {callout(
         "info",
@@ -2212,7 +2615,7 @@ def build_30() -> None:
         "<code class=\"inline\">Text</code> + <code class=\"inline\">Scrollbar</code>) — все "
         "части уже знакомы, здесь они просто собраны в одно приложение.",
     )}
-    {exercise(3, "Отслеживание несохранённых изменений", "Добавьте булев флаг «есть несохранённые изменения» и при попытке открыть новый файл/выйти с несохранёнными изменениями — спрашивайте через messagebox.askyesno, сохранить ли их сначала.")}
+    {exercise(2, "Новый и Открыть тоже спрашивают", "Добавьте методы new_file() и open_file(), каждый из которых сначала вызывает confirm_discard_if_dirty() — и продолжает только если он вернул True.")}
 
     {local_or_practice("16-30", "Практика: редактор заметок", "", "../../practice/16-30/index.html")}
     """
@@ -2235,17 +2638,26 @@ def build_31() -> None:
         ("V1–V2 (16.8)", ["Entry + Button + grid()", "чистая формула чаевых"]),
         ("V3", ["Combobox с типовыми процентами вместо Entry"]),
         ("V4", ["поле «количество человек» — делим чаевые"]),
-        ("V5", ["validate_amount() перед вычислением (16.23)"]),
+        ("V5", ["validate_positive_amount/validate_positive_int (16.23)"]),
         ("V6", ["меню «Файл» с пунктом «Выход» (16.6)"]),
         ("V7", ["load_settings/save_settings — запоминаем последний процент (16.25)"]),
         ("V8", ["класс TipCalculatorApp — всё внутри одного объекта (16.25)"]),
     ], title="Путь от фундамента до Pro")}
 
+    {callout(
+        "info",
+        "Настройки сохраняются относительно текущей рабочей директории",
+        "<code class=\"inline\">SETTINGS_PATH = Path(\"tip_calculator_settings.json\")</code> "
+        "— относительный путь: файл появится там, откуда запущена программа (глава 15, "
+        "раздел 15.7 про CWD). Для учебного проекта это осознанный, явный выбор — не забытая "
+        "неопределённость. В реальном распространяемом приложении для этого обычно выбирают "
+        "выделенную папку данных приложения; здесь это намеренно оставлено простым.",
+    )}
     {code_block(
         "tip_calculator_pro.py",
         "import json\n"
         "import tkinter as tk\n"
-        "from tkinter import ttk, messagebox\n"
+        "from tkinter import ttk\n"
         "from pathlib import Path\n\n"
         'SETTINGS_PATH = Path("tip_calculator_settings.json")\n'
         'DEFAULT_SETTINGS = {"last_percent": "15"}\n\n'
@@ -2259,16 +2671,6 @@ def build_31() -> None:
         "        json.dump(settings, f, ensure_ascii=False, indent=2)\n\n"
         "def calculate_tip(amount, percent, people):\n"
         "    return (amount * percent / 100) / people\n\n"
-        "def validate_amount(text):\n"
-        "    if not text.strip():\n"
-        '        return False, "Поле не должно быть пустым"\n'
-        "    try:\n"
-        "        value = float(text)\n"
-        "    except ValueError:\n"
-        '        return False, "Введите число"\n'
-        "    if value <= 0:\n"
-        '        return False, "Число должно быть больше нуля"\n'
-        '    return True, ""\n\n'
         "class TipCalculatorApp:\n"
         "    def __init__(self, root):\n"
         "        self.root = root\n"
@@ -2296,18 +2698,18 @@ def build_31() -> None:
         '        ttk.Label(frame, textvariable=self.result_var).grid(row=4, column=0, columnspan=2)\n'
         '        frame.columnconfigure(1, weight=1)\n\n'
         "    def on_calculate(self):\n"
-        "        ok, message = validate_amount(self.amount_var.get())\n"
+        "        ok, message = validate_positive_amount(self.amount_var.get())\n"
         "        if not ok:\n"
         "            self.result_var.set(message)\n"
         "            return\n"
-        "        ok_people, message_people = validate_amount(self.people_var.get())\n"
+        "        ok_people, message_people = validate_positive_int(self.people_var.get())\n"
         "        if not ok_people:\n"
         '            self.result_var.set("Количество человек: " + message_people)\n'
         "            return\n"
         "        chaevye = calculate_tip(\n"
         "            float(self.amount_var.get()),\n"
         "            float(self.percent_var.get()),\n"
-        "            float(self.people_var.get()),\n"
+        "            int(self.people_var.get()),\n"
         "        )\n"
         '        self.result_var.set(f"Чаевые с человека: {chaevye:.2f}")\n'
         '        self.settings["last_percent"] = self.percent_var.get()\n\n'
@@ -2318,7 +2720,17 @@ def build_31() -> None:
         "app = TipCalculatorApp(root)\n"
         "root.mainloop()\n",
     )}
-    {image_figure(f"{IMG}/tip-calculator-pro.png", "Окно Tip Calculator Pro с суммой счёта 1000, процентом 15 и результатом 75.00", f"Результат выполнения кода выше — настоящее окно, а не иллюстрация. {PLATFORM_NOTE}", width=360)}
+    {callout(
+        "warning",
+        "Количество человек — положительное целое, не любое число",
+        "2.5 человека не бывает. <code class=\"inline\">validate_positive_int</code> "
+        "(раздел 16.23) принимает <code class=\"inline\">1</code>, <code class=\"inline\">2</code>, "
+        "<code class=\"inline\">5</code>, <code class=\"inline\">10</code> — и отвергает "
+        "<code class=\"inline\">0</code>, <code class=\"inline\">-1</code>, "
+        "<code class=\"inline\">2.5</code>, <code class=\"inline\">\"abc\"</code> и пустую "
+        "строку с понятным сообщением об ошибке.",
+    )}
+    {image_figure(f"{IMG}/tip-calculator-pro.png", "Окно Tip Calculator Pro с суммой счёта 1000, процентом 15, количеством человек 2 и результатом 75.00", f"Результат выполнения кода выше — настоящее окно, а не иллюстрация. {PLATFORM_NOTE}", width=360)}
     {object_diagram(
         "app", "TipCalculatorApp",
         [("root", "Tk"), ("settings", "dict"), ("amount_var", "StringVar"), ("percent_var", "StringVar"), ("result_var", "StringVar")],
@@ -2342,7 +2754,7 @@ def build_32() -> None:
     body = f"""
     <h2>Событийный цикл нельзя занимать надолго</h2>
     {debug_lab(
-        6,
+        7,
         "time.sleep() внутри callback замораживает интерфейс",
         "sleep_v_callback.py",
         "import time\n\n"
@@ -2362,7 +2774,7 @@ def build_32() -> None:
     )}
 
     {debug_lab(
-        7,
+        8,
         "while True вместо событийного цикла",
         "while_true_gui.py",
         "while True:\n"
@@ -2379,7 +2791,7 @@ def build_32() -> None:
     )}
 
     {debug_lab(
-        8,
+        9,
         "Долгое вычисление напрямую в callback",
         "dolgoe_vychislenie.py",
         "def on_click():\n"
@@ -2443,6 +2855,21 @@ def build_32() -> None:
 
 def build_33() -> None:
     body = f"""
+    <h2>Визуальный контакт-лист виджетов</h2>
+    <p>Прежде чем выбирать по названию — вспомните, как это выглядит:</p>
+    {gui_component_gallery([
+        gui_component_card("Label / Entry / Button", "текст, поле ввода, кнопка", [(f"{IMG}/widget-gallery.png", "витрина виджетов", "")]),
+        gui_component_card("Checkbutton", "независимый флажок", [(f"{IMG}/checkbutton-states.png", "снят/установлен", "")]),
+        gui_component_card("Radiobutton", "группа взаимоисключающих вариантов", [(f"{IMG}/radiobutton-group.png", "выбран один из трёх", "")]),
+        gui_component_card("Combobox", "выбор из выпадающего списка", [(f"{IMG}/combobox-open.png", "открытый список", "")]),
+        gui_component_card("Listbox", "список с выделением элемента", [(f"{IMG}/listbox-selection.png", "выделенный элемент", "")]),
+        gui_component_card("Spinbox / Scale", "число со стрелками / ползунок", [(f"{IMG}/spinbox.png", "Spinbox", ""), (f"{IMG}/scale.png", "Scale", "")]),
+        gui_component_card("Progressbar", "индикатор выполнения", [(f"{IMG}/progressbar-states.png", "0–100%", "")]),
+        gui_component_card("Notebook", "переключаемые вкладки", [(f"{IMG}/notebook-tabs.png", "три вкладки", "")]),
+        gui_component_card("Toplevel", "отдельное второе окно", [(f"{IMG}/toplevel-windows.png", "главное + настройки", "")]),
+    ], title="Глава 16 — контакт-лист")}
+    {menu_bar_schematic(["Файл", "Правка"], 0, ["Новый", "Открыть...", "---", "Выход"])}
+
     <h2>Инструментарий Tkinter</h2>
     {decision_map(
         [
@@ -2487,6 +2914,20 @@ def build_33() -> None:
         caption="Карта главы 16 целиком.",
     )}
 
+    <h2>Последовательное внутри событийного</h2>
+    <p>Точная формулировка важнее эффектной: инициализационный код по-прежнему выполняется
+    последовательно, строка за строкой — и каждый отдельный callback тоже выполняется
+    последовательно, когда его вызывают. Меняется не это, а <strong>общая модель управления</strong>:
+    именно событийный цикл решает, какой callback будет вызван следующим, в ответ на событие —
+    а не сам код, идущий одной сплошной линией сверху вниз.</p>
+    {pipeline_diagram([
+        {"kind": "plain", "title": "старт программы"},
+        {"kind": "object", "title": "инициализация", "rows": ["выполняется последовательно", "строка за строкой"]},
+        {"kind": "plain", "title": "mainloop()"},
+        {"kind": "object", "title": "callback A", "rows": ["тоже выполняется", "последовательно"], "note": "событие → выбрал цикл"},
+        {"kind": "object", "title": "callback B", "rows": ["тоже выполняется", "последовательно"], "note": "следующее событие → снова выбрал цикл"},
+    ], caption="Последовательность никуда не делась — она просто разбита на куски, между которыми решает событийный цикл.")}
+
     <h2>Что дальше</h2>
     <p>Мы теперь умеем: строить root и дерево виджетов, связывать callback через
     <code class="inline">command</code>, компоновать формы через <code class="inline">pack</code>
@@ -2501,7 +2942,7 @@ def build_33() -> None:
     действие вроде <code class="inline">command</code> у кнопки.</p>
 
     {summary_box("Что мы узнали в этой главе", [
-        "GUI-программа не выполняется строка за строкой — она ждёт события и реагирует на них через callback.",
+        "Инициализация и каждый callback по-прежнему выполняются последовательно — меняется общая модель управления: событийный цикл решает, какой callback вызвать следующим, в ответ на события.",
         "<code class=\"inline\">root.mainloop()</code> запускает цикл обработки событий, а не «замирает» — программа остаётся отзывчивой.",
         "<code class=\"inline\">command=функция</code> связывает callback с виджетом — без скобок после имени функции.",
         "Каждый виджет создаётся, настраивается и отдельно размещается менеджером геометрии — <code class=\"inline\">pack()</code>, <code class=\"inline\">grid()</code> или <code class=\"inline\">place()</code>, но не смешивая pack/grid в одном родителе.",

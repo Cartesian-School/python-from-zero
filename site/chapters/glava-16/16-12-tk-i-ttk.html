@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>tk и ttk: классические и тематизированные виджеты — Python с нуля — Cartesian School</title>
-<meta name="description" content="Различие между классическими виджетами tk и тематизированным набором ttk, стилизация через ttk.Style() вместо fg/bg, и почему from tkinter import * не подходит для продакшн-стиля." />
+<meta name="description" content="Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="tk и ttk: классические и тематизированные виджеты — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Различие между классическими виджетами tk и тематизированным набором ttk, стилизация через ttk.Style() вместо fg/bg, и почему from tkinter import * не подходит для продакшн-стиля." />
+<meta property="og:description" content="Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-16/16-12-tk-i-ttk.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="tk и ttk: классические и тематизированные виджеты — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Различие между классическими виджетами tk и тематизированным набором ttk, стилизация через ttk.Style() вместо fg/bg, и почему from tkinter import * не подходит для продакшн-стиля." />
+<meta name="twitter:description" content="Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"tk и ttk: классические и тематизированные виджеты — Python с нуля — Cartesian School","description":"Различие между классическими виджетами tk и тематизированным набором ttk, стилизация через ttk.Style() вместо fg/bg, и почему from tkinter import * не подходит для продакшн-стиля.","url":"https://www.cartesianschool.org/chapters/glava-16/16-12-tk-i-ttk.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"tk и ttk: классические и тематизированные виджеты — Python с нуля — Cartesian School","description":"Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage.","url":"https://www.cartesianschool.org/chapters/glava-16/16-12-tk-i-ttk.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,15 +40,27 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых</a></li><li><a href="16-09-ot-terminala-k-gui.html">От терминала к GUI: событийная модель</a></li><li><a href="16-10-event-loop-i-mainloop.html">Как работает событийный цикл и mainloop</a></li><li><a href="16-11-derevo-widgetov.html">Виджет и дерево интерфейса</a></li><li><a href="16-12-tk-i-ttk.html" class="active">tk и ttk: классические и тематизированные виджеты</a></li><li><a href="16-13-frame-i-labelframe.html">Frame и LabelFrame: организуем интерфейс</a></li><li><a href="16-14-pack-podrobno.html">pack подробно: fill, expand и вложенные фреймы</a></li><li><a href="16-15-adaptivny-grid.html">Адаптивный grid: sticky и weight</a></li><li><a href="16-16-widgety-vybora.html">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="16-17-progressbar-i-notebook.html">Progressbar и вкладки Notebook</a></li><li><a href="16-18-messagebox-i-dialogi.html">Messagebox и диалоги</a></li><li><a href="16-19-filedialog-i-pathlib.html">Открываем и сохраняем файлы: filedialog и pathlib</a></li><li><a href="16-20-toplevel.html">Toplevel: несколько окон</a></li><li><a href="16-21-focus-i-dostupnost.html">Focus, клавиатура и основы доступности</a></li><li><a href="16-22-after-tajmery.html">after(): таймеры без блокировки</a></li><li><a href="16-23-validatsiya-vvoda.html">Валидация ввода и обратная связь</a></li><li><a href="16-24-arhitektura-prilozheniya.html">Архитектура приложения: логика отдельно от виджетов</a></li><li><a href="16-25-klass-prilozheniya-i-nastrojki.html">Класс приложения и персистентные настройки</a></li><li><a href="16-26-mini-proekt-schetchik-klikov.html">Мини-проект: счётчик кликов</a></li><li><a href="16-27-mini-proekt-konverter-temperatur.html">Мини-проект: конвертер температур</a></li><li><a href="16-28-mini-proekt-tajmer.html">Мини-проект: таймер обратного отсчёта</a></li><li><a href="16-29-mini-proekt-todo.html">Мини-проект: список задач</a></li><li><a href="16-30-mini-proekt-zametki.html">Мини-проект: редактор заметок</a></li><li><a href="16-31-tip-calculator-pro.html">Tip Calculator Pro: финальная версия</a></li><li><a href="16-32-debugging-i-kachestvo.html">Отладка интерфейса и качество GUI</a></li><li><a href="16-33-itogi-glavy.html">Итоги главы: инструментарий Tkinter</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li><li><a href="../../practice/16-09/index.html">🐍 16-09: Практика</a></li><li><a href="../../practice/16-10/index.html">🐍 16-10: Практика</a></li><li><a href="../../practice/16-11/index.html">🐍 16-11: Практика</a></li><li><a href="../../practice/16-12/index.html">🐍 16-12: Практика</a></li><li><a href="../../practice/16-13/index.html">🐍 16-13: Практика</a></li><li><a href="../../practice/16-14/index.html">🐍 16-14: Практика</a></li><li><a href="../../practice/16-15/index.html">🐍 16-15: Практика</a></li><li><a href="../../practice/16-16/index.html">🐍 16-16: Практика</a></li><li><a href="../../practice/16-17/index.html">🐍 16-17: Практика</a></li><li><a href="../../practice/16-18/index.html">🐍 16-18: Практика</a></li><li><a href="../../practice/16-19/index.html">🐍 16-19: Практика</a></li><li><a href="../../practice/16-20/index.html">🐍 16-20: Практика</a></li><li><a href="../../practice/16-21/index.html">🐍 16-21: Практика</a></li><li><a href="../../practice/16-22/index.html">🐍 16-22: Практика</a></li><li><a href="../../practice/16-23/index.html">🐍 16-23: Практика</a></li><li><a href="../../practice/16-24/index.html">🐍 16-24: Практика</a></li><li><a href="../../practice/16-25/index.html">🐍 16-25: Практика</a></li><li><a href="../../practice/16-26/index.html">🐍 16-26: Практика</a></li><li><a href="../../practice/16-27/index.html">🐍 16-27: Практика</a></li><li><a href="../../practice/16-28/index.html">🐍 16-28: Практика</a></li><li><a href="../../practice/16-29/index.html">🐍 16-29: Практика</a></li><li><a href="../../practice/16-30/index.html">🐍 16-30: Практика</a></li><li><a href="../../practice/16-31/index.html">🐍 16-31: Практика</a></li><li><a href="../../practice/16-32/index.html">🐍 16-32: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Строки и столбцы — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых</a></li><li><a href="16-09-ot-terminala-k-gui.html">От терминала к GUI: событийная модель</a></li><li><a href="16-10-event-loop-i-mainloop.html">Как работает событийный цикл и mainloop</a></li><li><a href="16-11-derevo-widgetov.html">Виджет и дерево интерфейса</a></li><li><a href="16-12-tk-i-ttk.html" class="active">tk и ttk: классические и тематизированные виджеты</a></li><li><a href="16-13-frame-i-labelframe.html">Frame и LabelFrame: организуем интерфейс</a></li><li><a href="16-14-pack-podrobno.html">pack подробно: fill, expand и вложенные фреймы</a></li><li><a href="16-15-adaptivny-grid.html">Адаптивный grid: sticky и weight</a></li><li><a href="16-16-widgety-vybora.html">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="16-17-progressbar-i-notebook.html">Progressbar и вкладки Notebook</a></li><li><a href="16-18-messagebox-i-dialogi.html">Messagebox и диалоги</a></li><li><a href="16-19-filedialog-i-pathlib.html">Открываем и сохраняем файлы: filedialog и pathlib</a></li><li><a href="16-20-toplevel.html">Toplevel: несколько окон</a></li><li><a href="16-21-focus-i-dostupnost.html">Focus, клавиатура и основы доступности</a></li><li><a href="16-22-after-tajmery.html">after(): таймеры без блокировки</a></li><li><a href="16-23-validatsiya-vvoda.html">Валидация ввода и обратная связь</a></li><li><a href="16-24-arhitektura-prilozheniya.html">Архитектура приложения: логика отдельно от виджетов</a></li><li><a href="16-25-klass-prilozheniya-i-nastrojki.html">Класс приложения и персистентные настройки</a></li><li><a href="16-26-mini-proekt-schetchik-klikov.html">Мини-проект: счётчик кликов</a></li><li><a href="16-27-mini-proekt-konverter-temperatur.html">Мини-проект: конвертер температур</a></li><li><a href="16-28-mini-proekt-tajmer.html">Мини-проект: таймер обратного отсчёта</a></li><li><a href="16-29-mini-proekt-todo.html">Мини-проект: список задач</a></li><li><a href="16-30-mini-proekt-zametki.html">Мини-проект: редактор заметок</a></li><li><a href="16-31-tip-calculator-pro.html">Tip Calculator Pro: финальная версия</a></li><li><a href="16-32-debugging-i-kachestvo.html">Отладка интерфейса и качество GUI</a></li><li><a href="16-33-itogi-glavy.html">Итоги главы: инструментарий Tkinter</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li><li><a href="../../practice/16-09/index.html">🐍 16-09: Практика</a></li><li><a href="../../practice/16-10/index.html">🐍 16-10: Практика</a></li><li><a href="../../practice/16-11/index.html">🐍 16-11: Практика</a></li><li><a href="../../practice/16-12/index.html">🐍 16-12: Практика</a></li><li><a href="../../practice/16-13/index.html">🐍 16-13: Практика</a></li><li><a href="../../practice/16-14/index.html">🐍 16-14: Практика</a></li><li><a href="../../practice/16-15/index.html">🐍 16-15: Практика</a></li><li><a href="../../practice/16-16/index.html">🐍 16-16: Практика</a></li><li><a href="../../practice/16-17/index.html">🐍 16-17: Практика</a></li><li><a href="../../practice/16-18/index.html">🐍 16-18: Практика</a></li><li><a href="../../practice/16-19/index.html">🐍 16-19: Практика</a></li><li><a href="../../practice/16-20/index.html">🐍 16-20: Практика</a></li><li><a href="../../practice/16-21/index.html">🐍 16-21: Практика</a></li><li><a href="../../practice/16-22/index.html">🐍 16-22: Практика</a></li><li><a href="../../practice/16-23/index.html">🐍 16-23: Практика</a></li><li><a href="../../practice/16-24/index.html">🐍 16-24: Практика</a></li><li><a href="../../practice/16-25/index.html">🐍 16-25: Практика</a></li><li><a href="../../practice/16-26/index.html">🐍 16-26: Практика</a></li><li><a href="../../practice/16-27/index.html">🐍 16-27: Практика</a></li><li><a href="../../practice/16-28/index.html">🐍 16-28: Практика</a></li><li><a href="../../practice/16-29/index.html">🐍 16-29: Практика</a></li><li><a href="../../practice/16-30/index.html">🐍 16-30: Практика</a></li><li><a href="../../practice/16-31/index.html">🐍 16-31: Практика</a></li><li><a href="../../practice/16-32/index.html">🐍 16-32: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / tk и ttk</div>
     <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
     <h1>tk и ttk: классические и тематизированные виджеты</h1>
-    <p class="lede">Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог.</p>
+    <p class="lede">Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.</p>
 
+
+    <h2>Витрина виджетов Tkinter</h2>
+    <p>Прежде чем разбирать детали каждого виджета отдельно (разделы 16.13–16.22) — вот как они
+    выглядят вместе, в одном настоящем окне:</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-16/output/widget-gallery.png" alt="Витрина: Label, Entry, Button, Checkbutton, Radiobutton, Combobox, Spinbox, Scale, Progressbar, Notebook в одном окне" width="340"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно с представительным набором виджетов главы. Пример внешнего вида на среде курса. На вашей ОС шрифты, размеры и тема могут немного отличаться.</figcaption>
+    </figure>
+    <p>Дальше в этой главе каждый из этих виджетов получит отдельный раздел с собственными
+    состояниями и примерами кода.</p>
 
     <h2>tk и ttk — два набора виджетов</h2>
 
@@ -58,6 +70,12 @@
       <tbody><tr><td>Что это</td><td>классические виджеты Tkinter</td><td>тематизированный (themed) набор поверх Tk</td></tr><tr><td>Импорт</td><td><code class="inline">import tkinter as tk</code></td><td><code class="inline">from tkinter import ttk</code></td></tr><tr><td>Внешний вид</td><td>фиксированный классический стиль</td><td>может адаптироваться под тему/платформу</td></tr><tr><td>Стилизация</td><td><code class="inline">fg=</code>/<code class="inline">bg=</code></td><td>через <code class="inline">ttk.Style()</code></td></tr></tbody>
     </table>
     </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-16/output/tk-vs-ttk.png" alt="Одна и та же форма (Label, Entry, Button) собрана дважды: классическим tk и тематизированным ttk" width="440"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">На этой теме курса разница едва заметна — так и должно быть: ttk не гарантирует «более современный» вид на любой платформе/теме. Пример внешнего вида на среде курса. На вашей ОС шрифты, размеры и тема могут немного отличаться.</figcaption>
+    </figure>
 
     <div class="code-block">
       <div class="code-label"><span>tk_vs_ttk.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
@@ -80,8 +98,15 @@ ttk.Entry(root).pack()</code></pre>
 
     <div class="callout callout-warning">
       <div>
+        <div class="callout-title">ttk не гарантирует «более современный» вид</div>
+        <div class="callout-body">Тема оформления ttk зависит от операционной системы и установленных тем Tk. На некоторых платформах/темах разница между tk и ttk почти незаметна визуально (как на скриншоте выше) — говорите «тематизированный», а не «современный» или «красивее».</div>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
         <div class="callout-title">Не используйте fg/bg на ttk-виджетах как на классических</div>
-        <div class="callout-body">Классические <code class="inline">tk</code>-виджеты понимают <code class="inline">fg=</code>/<code class="inline">bg=</code> напрямую. Виджеты <code class="inline">ttk</code> стилизуются иначе — через объект <code class="inline">ttk.Style()</code> (раздел 16.25). Не переносите привычки классического Tk на ttk буквально.</div>
+        <div class="callout-body">Классические <code class="inline">tk</code>-виджеты понимают <code class="inline">fg=</code>/<code class="inline">bg=</code> напрямую. Виджеты <code class="inline">ttk</code> стилизуются иначе — через объект <code class="inline">ttk.Style()</code> (следующий раздел). Не переносите привычки классического Tk на ttk буквально.</div>
       </div>
     </div>
 
@@ -107,6 +132,139 @@ ttk.Button(root, text=<span class="tok-str">&quot;Кнопка&quot;</span>)   <
         </div>
       </div>
       <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> <code class="inline">from tkinter import *</code> работает, но затрудняет чтение кода: непонятно, какому модулю принадлежит каждое имя, и легко случайно перекрыть встроенные имена Python. В примерах курса, начиная с этой главы, — только явные импорты.</div>
+    </div>
+
+    <h2 id="style">ttk.Style() — стилизация тематизированных виджетов</h2>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-16/output/style-default-vs-custom.png" alt="Обычная кнопка рядом с кнопкой, стилизованной через Accent.TButton" width="320"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Слева — стиль по умолчанию, справа — собственный именованный стиль. Пример внешнего вида на среде курса. На вашей ОС шрифты, размеры и тема могут немного отличаться.</figcaption>
+    </figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>ttk_style.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>style = ttk.Style()
+<span class="tok-fn">print</span>(style.theme_use())   <span class="tok-com"># активная тема, например &#x27;clam&#x27; или &#x27;default&#x27;</span>
+
+style.configure(
+    <span class="tok-str">&quot;Accent.TButton&quot;</span>,
+    font=(<span class="tok-str">&quot;TkDefaultFont&quot;</span>, <span class="tok-num">11</span>, <span class="tok-str">&quot;bold&quot;</span>),
+    padding=<span class="tok-num">8</span>,
+)
+
+button = ttk.Button(
+    root,
+    text=<span class="tok-str">&quot;Сохранить&quot;</span>,
+    style=<span class="tok-str">&quot;Accent.TButton&quot;</span>,
+)</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">ttk.Style() — не CSS</div>
+        <div class="callout-body"><code class="inline">style.configure(...)</code> принимает только опции, которые поддерживает конкретный виджет и активная тема Tk — это не универсальный CSS-подобный язык стилей, где можно менять произвольное свойство произвольного элемента. Именованный стиль (<code class="inline">"Accent.TButton"</code>) применяется через параметр <code class="inline">style=</code> у самого виджета.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0"><div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--color-bg-canvas,#fff);border:1px solid var(--color-border-default,#E4E1F5);border-radius:12px;min-width:170px"><span style="width:28px;height:28px;border-radius:8px;background:#5B24F9;border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span><span style="font-size:13px;line-height:1.3"><strong>Cartesian Purple</strong><br><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-soft,#6B6B7D)">#5B24F9</span></span></div><div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--color-bg-canvas,#fff);border:1px solid var(--color-border-default,#E4E1F5);border-radius:12px;min-width:170px"><span style="width:28px;height:28px;border-radius:8px;background:#DB2777;border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span><span style="font-size:13px;line-height:1.3"><strong>Cartesian Pink</strong><br><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-soft,#6B6B7D)">#DB2777</span></span></div><div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--color-bg-canvas,#fff);border:1px solid var(--color-border-default,#E4E1F5);border-radius:12px;min-width:170px"><span style="width:28px;height:28px;border-radius:8px;background:#059669;border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span><span style="font-size:13px;line-height:1.3"><strong>Success Green</strong><br><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-soft,#6B6B7D)">#059669</span></span></div><div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--color-bg-canvas,#fff);border:1px solid var(--color-border-default,#E4E1F5);border-radius:12px;min-width:170px"><span style="width:28px;height:28px;border-radius:8px;background:#B45309;border:1px solid rgba(0,0,0,.15);flex-shrink:0"></span><span style="font-size:13px;line-height:1.3"><strong>Warning Amber</strong><br><span style="font-family:'JetBrains Mono',monospace;color:var(--ink-soft,#6B6B7D)">#B45309</span></span></div></div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Цвет — сначала увиденный, потом числовой</div>
+        <div class="callout-body">Прежде чем писать <code class="inline">#5B24F9</code> в коде, взгляните на реальный цветовой образец выше — так проще запомнить и различать похожие оттенки, чем по одним шестнадцатеричным кодам.</div>
+      </div>
+    </div>
+
+    <h2 id="canvas">Canvas — рисование произвольных фигур</h2>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-16/output/canvas-basics.png" alt="Canvas с линией, прямоугольником, овалом и подписью координат" width="280"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Результат кода ниже. Пример внешнего вида на среде курса. На вашей ОС шрифты, размеры и тема могут немного отличаться.</figcaption>
+    </figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>canvas_basics.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>canvas = tk.Canvas(root, width=<span class="tok-num">260</span>, height=<span class="tok-num">170</span>, background=<span class="tok-str">&quot;white&quot;</span>)
+canvas.pack(padx=<span class="tok-num">10</span>, pady=<span class="tok-num">10</span>)
+
+canvas.create_line(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">240</span>, <span class="tok-num">10</span>, fill=<span class="tok-str">&quot;#5B24F9&quot;</span>, width=<span class="tok-num">2</span>)
+rect_id = canvas.create_rectangle(<span class="tok-num">10</span>, <span class="tok-num">30</span>, <span class="tok-num">90</span>, <span class="tok-num">90</span>, outline=<span class="tok-str">&quot;#DB2777&quot;</span>, width=<span class="tok-num">2</span>)
+canvas.create_oval(<span class="tok-num">130</span>, <span class="tok-num">30</span>, <span class="tok-num">210</span>, <span class="tok-num">90</span>, outline=<span class="tok-str">&quot;#059669&quot;</span>, width=<span class="tok-num">2</span>)
+canvas.create_text(<span class="tok-num">130</span>, <span class="tok-num">130</span>, text=<span class="tok-str">&quot;(0,0) — верхний левый угол&quot;</span>)</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Ось Y растёт вниз, а не вверх</div>
+        <div class="callout-body">Начало координат <code class="inline">(0, 0)</code> — верхний левый угол <code class="inline">Canvas</code>. <code class="inline">x</code> растёт вправо, а <code class="inline">y</code> растёт <strong>вниз</strong> — это противоположно привычной математической системе координат, где y растёт вверх. Так устроена экранная система координат в большинстве графических библиотек, не только Tkinter.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">create_* возвращает идентификатор элемента</div>
+        <div class="callout-body"><code class="inline">rect_id = canvas.create_rectangle(...)</code> — <code class="inline">Canvas</code> хранит нарисованные элементы и возвращает идентификатор, по которому потом можно изменить или удалить именно этот элемент (<code class="inline">canvas.itemconfig(rect_id, ...)</code>, <code class="inline">canvas.delete(rect_id)</code>) — пригодится для будущих игровых интерфейсов.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Canvas — не второй Turtle</div>
+        <div class="callout-body"><code class="inline">Canvas</code> — обычный виджет Tkinter для рисования произвольных фигур внутри окна приложения, а не отдельный модуль с собственным миром координат, как <code class="inline">turtle</code> (главы 6–7). Это краткое знакомство, а не полноценный курс по Canvas.</div>
+      </div>
+    </div>
+
+    <h2 id="photoimage">PhotoImage — изображения в виджетах</h2>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-16/output/photoimage.png" alt="Label с маленьким сгенерированным изображением-шахматкой" width="140"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Изображение сгенерировано прямо в Python, без внешнего файла. Пример внешнего вида на среде курса. На вашей ОС шрифты, размеры и тема могут немного отличаться.</figcaption>
+    </figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>photoimage.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>image = tk.PhotoImage(file=<span class="tok-str">&quot;icon.png&quot;</span>)
+label = ttk.Label(root, image=image)
+label.pack()</code></pre>
+    </div>
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 2: Изображение исчезает, хотя код «правильный»</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>photoimage_propadaet.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> build_ui():
+    image = tk.PhotoImage(file=<span class="tok-str">&quot;icon.png&quot;</span>)   <span class="tok-com"># локальная переменная функции</span>
+    label = ttk.Label(root, image=image)
+    label.pack()
+
+build_ui()</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Окно открывается, но картинка не отображается —
+# на месте изображения пусто.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>После выхода из <code class="inline">build_ui()</code> локальная переменная <code class="inline">image</code> уничтожается сборщиком мусора Python — виджет хранит ссылку на неё внутри Tcl, но сам объект <code class="inline">PhotoImage</code> в Python уже никто не держит. Виджет теряет связь с реальными данными изображения.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>photoimage_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> App:
+    <span class="tok-kw">def</span> __init__(self, root):
+        self.logo_image = tk.PhotoImage(file=<span class="tok-str">&quot;icon.png&quot;</span>)   <span class="tok-com"># хранится в self —</span>
+        self.logo_label = ttk.Label(root, image=self.logo_image)   <span class="tok-com"># живёт, пока жив self</span>
+        self.logo_label.pack()</code></pre>
+    </div>
+      </div>
     </div>
 
 
