@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Текущая рабочая директория (CWD) — Python с нуля — Cartesian School</title>
+<meta name="description" content="Что такое текущая рабочая директория, почему это не папка со скриптом, и как надёжно находить файлы рядом с исходным кодом через __file__." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-15/15-07-tekushaya-rabochaya-directoriya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Текущая рабочая директория (CWD) — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Что такое текущая рабочая директория, почему это не папка со скриптом, и как надёжно находить файлы рядом с исходным кодом через __file__." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-07-tekushaya-rabochaya-directoriya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Текущая рабочая директория (CWD) — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Что такое текущая рабочая директория, почему это не папка со скриптом, и как надёжно находить файлы рядом с исходным кодом через __file__." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Текущая рабочая директория (CWD) — Python с нуля — Cartesian School","description":"Что такое текущая рабочая директория, почему это не папка со скриптом, и как надёжно находить файлы рядом с исходным кодом через __file__.","url":"https://www.cartesianschool.org/chapters/glava-15/15-07-tekushaya-rabochaya-directoriya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 15 · Файлы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="15-01-zachem-fajly.html">Зачем нужны файлы? Открытие и чтение</a></li><li><a href="15-02-stroka-za-strokoj.html">Строка за строкой</a></li><li><a href="15-03-sozdanie-fajlov.html">Создание новых файлов</a></li><li><a href="15-04-mini-proekt-itogi.html">Мини-проект: дневник заметок</a></li><li><a href="15-05-fajl-i-papka.html">Файл, папка и файловая система</a></li><li><a href="15-06-puti-absolyutnye-i-otnositelnye.html">Пути: абсолютные и относительные</a></li><li><a href="15-07-tekushaya-rabochaya-directoriya.html" class="active">Текущая рабочая директория (CWD)</a></li><li><a href="15-08-pochemu-pathlib.html">pathlib.Path: пути как объекты</a></li><li><a href="15-09-razbiraem-put.html">Разбираем путь: name, stem, suffix, parent</a></li><li><a href="15-10-praktika-puti-i-cwd.html">Практика: пути и CWD</a></li><li><a href="15-11-file-object.html">open() возвращает объект файла</a></li><li><a href="15-12-zhiznenny-cikl-i-with.html">Жизненный цикл файла и with</a></li><li><a href="15-13-kursor-fajla.html">Курсор файла: tell() и seek()</a></li><li><a href="15-14-chitaem-fajly.html">Читаем файлы: read(), readline(), readlines()</a></li><li><a href="15-15-pishem-i-rezhimy.html">Пишем в файлы: write() и режимы r/w/a/x</a></li><li><a href="15-16-text-bytes-encoding.html">Текст, bytes и кодировка UTF-8</a></li><li><a href="15-17-binarnye-fajly-i-perevody-strok.html">Бинарные файлы и переносы строк</a></li><li><a href="15-18-pathlib-udobnye-metody.html">pathlib: read_text, write_text, read_bytes, write_bytes</a></li><li><a href="15-19-papki-exists-mkdir.html">Папки: exists(), is_file(), mkdir()</a></li><li><a href="15-20-poisk-fajlov-glob.html">Поиск файлов: iterdir() и glob()</a></li><li><a href="15-21-pereimenovanie-kopirovanie-udalenie.html">Переименование, копирование, удаление</a></li><li><a href="15-22-oshibki-fajlovoj-sistemy.html">Ошибки файловой системы</a></li><li><a href="15-23-bolshie-fajly-i-potoki.html">Большие файлы и потоковая обработка</a></li><li><a href="15-24-kak-vybrat-format.html">Как выбрать формат хранения данных</a></li><li><a href="15-25-json-serializatsiya.html">JSON: сохраняем структуры данных</a></li><li><a href="15-26-mini-proekt-save-player.html">Мини-проект: сохраняем Player</a></li><li><a href="15-27-csv-tablitsy.html">CSV: таблицы в текстовом виде</a></li><li><a href="15-28-bezopasnaya-rabota-s-fajlami.html">Безопасная работа с файлами</a></li><li><a href="15-29-mini-proekt-rekordy-i-nastrojki.html">Мини-проект: таблица рекордов</a></li><li><a href="15-30-brauzer-vs-lokalny-disk.html">Браузер и локальный диск: две файловые системы</a></li><li><a href="15-31-itogi-glavy.html">Итоги главы: инструментарий работы с файлами</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/15-01/index.html">🐍 15-01: Практика</a></li><li><a href="../../practice/15-02/index.html">🐍 15-02: Практика</a></li><li><a href="../../practice/15-03/index.html">🐍 15-03: Практика</a></li><li><a href="../../practice/15-04/index.html">🐍 15-04: Практика</a></li><li><a href="../../practice/15-05/index.html">🐍 15-05: Практика</a></li><li><a href="../../practice/15-06/index.html">🐍 15-06: Практика</a></li><li><a href="../../practice/15-07/index.html">🐍 15-07: Практика</a></li><li><a href="../../practice/15-08/index.html">🐍 15-08: Практика</a></li><li><a href="../../practice/15-09/index.html">🐍 15-09: Практика</a></li><li><a href="../../practice/15-10/index.html">🐍 15-10: Практика</a></li><li><a href="../../practice/15-11/index.html">🐍 15-11: Практика</a></li><li><a href="../../practice/15-12/index.html">🐍 15-12: Практика</a></li><li><a href="../../practice/15-13/index.html">🐍 15-13: Практика</a></li><li><a href="../../practice/15-14/index.html">🐍 15-14: Практика</a></li><li><a href="../../practice/15-15/index.html">🐍 15-15: Практика</a></li><li><a href="../../practice/15-16/index.html">🐍 15-16: Практика</a></li><li><a href="../../practice/15-17/index.html">🐍 15-17: Практика</a></li><li><a href="../../practice/15-18/index.html">🐍 15-18: Практика</a></li><li><a href="../../practice/15-19/index.html">🐍 15-19: Практика</a></li><li><a href="../../practice/15-20/index.html">🐍 15-20: Практика</a></li><li><a href="../../practice/15-21/index.html">🐍 15-21: Практика</a></li><li><a href="../../practice/15-22/index.html">🐍 15-22: Практика</a></li><li><a href="../../practice/15-23/index.html">🐍 15-23: Практика</a></li><li><a href="../../practice/15-24/index.html">🐍 15-24: Практика</a></li><li><a href="../../practice/15-25/index.html">🐍 15-25: Практика</a></li><li><a href="../../practice/15-26/index.html">🐍 15-26: Практика</a></li><li><a href="../../practice/15-27/index.html">🐍 15-27: Практика</a></li><li><a href="../../practice/15-28/index.html">🐍 15-28: Практика</a></li><li><a href="../../practice/15-29/index.html">🐍 15-29: Практика</a></li><li><a href="../../practice/15-30/index.html">🐍 15-30: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 15</a> / CWD</div>
+    <div class="section-kicker">Глава 15 · Python и файлы</div>
+    <h1>Текущая рабочая директория — CWD</h1>
+    <p class="lede">Один из самых частых источников файловых ошибок: относительный путь ведёт не туда, куда вы думали.</p>
+
+
+    <h2>Текущая рабочая директория (CWD)</h2>
+    <p>Узнать текущую рабочую директорию программы:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>cwd.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+<span class="tok-fn">print</span>(Path.cwd())</code></pre>
+    </div>
+    <p><strong>Текущая рабочая директория (CWD)</strong> — это папка, относительно которой
+    интерпретируются обычные относительные пути в программе.</p>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">CWD — это НЕ «папка со скриптом»</div>
+        <div class="callout-body">Это одна из самых частых ошибок с путями в реальном коде. CWD и папка, где лежит файл <code class="inline">.py</code>, могут совпадать — а могут и не совпадать. CWD определяется тем, <strong>откуда была запущена программа</strong>, а не тем, где физически лежит её исходный файл.</div>
+      </div>
+    </div>
+
+    <figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#5B24F9;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">📁 project/  ← CWD (запуск python src/app.py отсюда)</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#DB2777;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">📁 src/</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">📄 app.py</span></div></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#DB2777;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">📁 data/</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">📄 config.json</span></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Скрипт лежит в src/app.py, но CWD — это project/, если запустить программу отсюда.</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>app_py_fragment.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># внутри src/app.py, если программа запущена из project/:</span>
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+путь = Path(<span class="tok-str">&quot;data/config.json&quot;</span>)
+<span class="tok-com"># указывает на project/data/config.json — НЕ на project/src/data/config.json</span></code></pre>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 2: CWD — это не папка со скриптом</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>app_wrong.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># файл лежит в project/src/app.py</span>
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+config = Path(<span class="tok-str">&quot;config.json&quot;</span>)   <span class="tok-com"># предполагаем: &quot;рядом со скриптом&quot;</span>
+<span class="tok-fn">print</span>(config.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>$ cd project
+$ python src/app.py
+Traceback (most recent call last):
+FileNotFoundError: [Errno 2] No such file or directory: 'config.json'</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Файл <code class="inline">config.json</code> лежит в <code class="inline">project/src/</code>, рядом со скриптом. Но программа запущена из <code class="inline">project/</code> — значит, CWD равен <code class="inline">project/</code>, и относительный путь <code class="inline">"config.json"</code> ищется в <code class="inline">project/config.json</code>, которого нет.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>app_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># надёжный способ — путь относительно самого файла, а не относительно CWD</span>
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+BASE_DIR = Path(__file__).resolve().parent
+config = BASE_DIR / <span class="tok-str">&quot;config.json&quot;</span>
+<span class="tok-fn">print</span>(config.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))</code></pre>
+    </div>
+      </div>
+    </div>
+
+    <h2>Папка скрипта: <code class="inline">__file__</code></h2>
+    <p>Для обычных <code class="inline">.py</code>-файлов узнать папку, где лежит сам исходный
+    файл, можно так:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>script_dir.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+BASE_DIR = Path(__file__).resolve().parent</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">__file__ не гарантирован всегда</div>
+        <div class="callout-body"><code class="inline">__file__</code> обычно определён в обычных скриптах и модулях, но интерактивная оболочка Python и некоторые окружения ноутбуков могут не задавать эту переменную. Не считайте её универсально доступной в любом контексте выполнения кода.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: CWD и папка скрипта на вашем компьютере</div>
+        <div class="nc-sub">Локальная практика — запустите настоящий .py-файл из разных папок и понаблюдайте, что меняется</div>
+        <div class="practice-inline-status" data-lesson-id="15-07">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/15-07/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["15-07"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="15-07"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="15-06-puti-absolyutnye-i-otnositelnye.html"><div class="dir">← Назад</div><div class="lbl">Пути: абсолютные и относительные</div></a><a href="15-08-pochemu-pathlib.html" class="next"><div class="dir">Далее →</div><div class="lbl">pathlib.Path: пути как объекты</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

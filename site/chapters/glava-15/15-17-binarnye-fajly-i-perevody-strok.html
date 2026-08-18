@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Бинарные файлы и переносы строк — Python с нуля — Cartesian School</title>
+<meta name="description" content="Бинарный режим (rb/wb), почему нельзя декодировать произвольные бинарные данные как текст, универсальные переносы строк и разница между длиной текста и размером файла в байтах." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-15/15-17-binarnye-fajly-i-perevody-strok.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Бинарные файлы и переносы строк — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Бинарный режим (rb/wb), почему нельзя декодировать произвольные бинарные данные как текст, универсальные переносы строк и разница между длиной текста и размером файла в байтах." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-17-binarnye-fajly-i-perevody-strok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Бинарные файлы и переносы строк — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Бинарный режим (rb/wb), почему нельзя декодировать произвольные бинарные данные как текст, универсальные переносы строк и разница между длиной текста и размером файла в байтах." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Бинарные файлы и переносы строк — Python с нуля — Cartesian School","description":"Бинарный режим (rb/wb), почему нельзя декодировать произвольные бинарные данные как текст, универсальные переносы строк и разница между длиной текста и размером файла в байтах.","url":"https://www.cartesianschool.org/chapters/glava-15/15-17-binarnye-fajly-i-perevody-strok.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 15 · Файлы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="15-01-zachem-fajly.html">Зачем нужны файлы? Открытие и чтение</a></li><li><a href="15-02-stroka-za-strokoj.html">Строка за строкой</a></li><li><a href="15-03-sozdanie-fajlov.html">Создание новых файлов</a></li><li><a href="15-04-mini-proekt-itogi.html">Мини-проект: дневник заметок</a></li><li><a href="15-05-fajl-i-papka.html">Файл, папка и файловая система</a></li><li><a href="15-06-puti-absolyutnye-i-otnositelnye.html">Пути: абсолютные и относительные</a></li><li><a href="15-07-tekushaya-rabochaya-directoriya.html">Текущая рабочая директория (CWD)</a></li><li><a href="15-08-pochemu-pathlib.html">pathlib.Path: пути как объекты</a></li><li><a href="15-09-razbiraem-put.html">Разбираем путь: name, stem, suffix, parent</a></li><li><a href="15-10-praktika-puti-i-cwd.html">Практика: пути и CWD</a></li><li><a href="15-11-file-object.html">open() возвращает объект файла</a></li><li><a href="15-12-zhiznenny-cikl-i-with.html">Жизненный цикл файла и with</a></li><li><a href="15-13-kursor-fajla.html">Курсор файла: tell() и seek()</a></li><li><a href="15-14-chitaem-fajly.html">Читаем файлы: read(), readline(), readlines()</a></li><li><a href="15-15-pishem-i-rezhimy.html">Пишем в файлы: write() и режимы r/w/a/x</a></li><li><a href="15-16-text-bytes-encoding.html">Текст, bytes и кодировка UTF-8</a></li><li><a href="15-17-binarnye-fajly-i-perevody-strok.html" class="active">Бинарные файлы и переносы строк</a></li><li><a href="15-18-pathlib-udobnye-metody.html">pathlib: read_text, write_text, read_bytes, write_bytes</a></li><li><a href="15-19-papki-exists-mkdir.html">Папки: exists(), is_file(), mkdir()</a></li><li><a href="15-20-poisk-fajlov-glob.html">Поиск файлов: iterdir() и glob()</a></li><li><a href="15-21-pereimenovanie-kopirovanie-udalenie.html">Переименование, копирование, удаление</a></li><li><a href="15-22-oshibki-fajlovoj-sistemy.html">Ошибки файловой системы</a></li><li><a href="15-23-bolshie-fajly-i-potoki.html">Большие файлы и потоковая обработка</a></li><li><a href="15-24-kak-vybrat-format.html">Как выбрать формат хранения данных</a></li><li><a href="15-25-json-serializatsiya.html">JSON: сохраняем структуры данных</a></li><li><a href="15-26-mini-proekt-save-player.html">Мини-проект: сохраняем Player</a></li><li><a href="15-27-csv-tablitsy.html">CSV: таблицы в текстовом виде</a></li><li><a href="15-28-bezopasnaya-rabota-s-fajlami.html">Безопасная работа с файлами</a></li><li><a href="15-29-mini-proekt-rekordy-i-nastrojki.html">Мини-проект: таблица рекордов</a></li><li><a href="15-30-brauzer-vs-lokalny-disk.html">Браузер и локальный диск: две файловые системы</a></li><li><a href="15-31-itogi-glavy.html">Итоги главы: инструментарий работы с файлами</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/15-01/index.html">🐍 15-01: Практика</a></li><li><a href="../../practice/15-02/index.html">🐍 15-02: Практика</a></li><li><a href="../../practice/15-03/index.html">🐍 15-03: Практика</a></li><li><a href="../../practice/15-04/index.html">🐍 15-04: Практика</a></li><li><a href="../../practice/15-05/index.html">🐍 15-05: Практика</a></li><li><a href="../../practice/15-06/index.html">🐍 15-06: Практика</a></li><li><a href="../../practice/15-07/index.html">🐍 15-07: Практика</a></li><li><a href="../../practice/15-08/index.html">🐍 15-08: Практика</a></li><li><a href="../../practice/15-09/index.html">🐍 15-09: Практика</a></li><li><a href="../../practice/15-10/index.html">🐍 15-10: Практика</a></li><li><a href="../../practice/15-11/index.html">🐍 15-11: Практика</a></li><li><a href="../../practice/15-12/index.html">🐍 15-12: Практика</a></li><li><a href="../../practice/15-13/index.html">🐍 15-13: Практика</a></li><li><a href="../../practice/15-14/index.html">🐍 15-14: Практика</a></li><li><a href="../../practice/15-15/index.html">🐍 15-15: Практика</a></li><li><a href="../../practice/15-16/index.html">🐍 15-16: Практика</a></li><li><a href="../../practice/15-17/index.html">🐍 15-17: Практика</a></li><li><a href="../../practice/15-18/index.html">🐍 15-18: Практика</a></li><li><a href="../../practice/15-19/index.html">🐍 15-19: Практика</a></li><li><a href="../../practice/15-20/index.html">🐍 15-20: Практика</a></li><li><a href="../../practice/15-21/index.html">🐍 15-21: Практика</a></li><li><a href="../../practice/15-22/index.html">🐍 15-22: Практика</a></li><li><a href="../../practice/15-23/index.html">🐍 15-23: Практика</a></li><li><a href="../../practice/15-24/index.html">🐍 15-24: Практика</a></li><li><a href="../../practice/15-25/index.html">🐍 15-25: Практика</a></li><li><a href="../../practice/15-26/index.html">🐍 15-26: Практика</a></li><li><a href="../../practice/15-27/index.html">🐍 15-27: Практика</a></li><li><a href="../../practice/15-28/index.html">🐍 15-28: Практика</a></li><li><a href="../../practice/15-29/index.html">🐍 15-29: Практика</a></li><li><a href="../../practice/15-30/index.html">🐍 15-30: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 15</a> / Бинарные файлы</div>
+    <div class="section-kicker">Глава 15 · Python и файлы</div>
+    <h1>Бинарные файлы и переносы строк</h1>
+    <p class="lede">Не всё, что лежит в файле, — текст. И даже текст занимает на диске больше, чем кажется.</p>
+
+
+    <h2>Бинарный режим</h2>
+    <p>Добавьте <code class="inline">b</code> к режиму, чтобы работать с файлом как с чистыми
+    байтами, без какой-либо текстовой кодировки:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>binarny_fajl.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>data = bytes([<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">255</span>])
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;signal.bin&quot;</span>, <span class="tok-str">&quot;wb&quot;</span>) <span class="tok-kw">as</span> f:
+    f.write(data)
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;signal.bin&quot;</span>, <span class="tok-str">&quot;rb&quot;</span>) <span class="tok-kw">as</span> f:
+    <span class="tok-fn">print</span>(f.read())   <span class="tok-com"># b&#x27;\\x00\\x01\\x02\\x03\\xff&#x27;</span></code></pre>
+    </div>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Режим</th><th>Что получаем в Python</th><th>Пример</th></tr></thead>
+      <tbody><tr><td><code class="inline">"rt" / "r"</code></td><td>str (текст)</td><td>"Python"</td></tr><tr><td><code class="inline">"rb"</code></td><td>bytes (двоичные данные)</td><td>b'Python'</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не декодируйте произвольные бинарные данные как текст</div>
+        <div class="callout-body">PNG, JPEG или PDF не станут читаемыми от <code class="inline">open(..., encoding="utf-8")</code> — это не текстовые данные, и попытка прочитать их как текст приведёт к ошибке или мусору. Для таких форматов используйте бинарный режим (<code class="inline">"rb"</code>) или специализированную библиотеку для этого формата.</div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 9: Бинарные данные, прочитанные как текст</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>bin_kak_text.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>data = bytes([<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">255</span>])
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;signal.bin&quot;</span>, <span class="tok-str">&quot;wb&quot;</span>) <span class="tok-kw">as</span> f:
+    f.write(data)
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;signal.bin&quot;</span>, <span class="tok-str">&quot;r&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    <span class="tok-fn">print</span>(f.read())</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 4: invalid start byte</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Байт <code class="inline">0xff</code> не образует корректный символ в UTF-8 — эти данные никогда и не были текстом. Файл нужно открывать в бинарном режиме (<code class="inline">"rb"</code>), а не текстовом.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bin_pravilno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;signal.bin&quot;</span>, <span class="tok-str">&quot;rb&quot;</span>) <span class="tok-kw">as</span> f:
+    <span class="tok-fn">print</span>(f.read())   <span class="tok-com"># b&#x27;\\x00\\x01\\x02\\x03\\xff&#x27;</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+    <h2>Переносы строк и текстовый режим</h2>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">\n внутри Python — универсальный перевод строки</div>
+        <div class="callout-body">На разных операционных системах исторически применяются разные последовательности для перевода строки на диске (например, <code class="inline">\r\n</code> в файлах, созданных на Windows). Текстовый режим Python читает такие файлы в режиме универсальных переносов строк и отдаёт вам во всех случаях <code class="inline">\n</code> — вам не нужно обрабатывать оба варианта вручную в обычном текстовом коде.</div>
+      </div>
+    </div>
+
+    <h2>Символы против байтов — реальный пример</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>simvoly_vs_bajty.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>text = <span class="tok-str">&quot;Питон🐍&quot;</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(text))                  <span class="tok-com"># 6 — количество символов</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(text.encode(<span class="tok-str">&quot;utf-8&quot;</span>)))  <span class="tok-com"># 14 — количество байт в UTF-8</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Длина текста ≠ размер файла в байтах</div>
+        <div class="callout-body">Кириллица и эмодзи занимают в UTF-8 несколько байт на один символ. <code class="inline">len(text)</code> считает символы, а не байты — размер файла на диске может быть заметно больше, чем количество символов в строке.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: бинарные файлы и переносы строк</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="15-17"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/15-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["15-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="15-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="15-16-text-bytes-encoding.html"><div class="dir">← Назад</div><div class="lbl">Текст, bytes и кодировка UTF-8</div></a><a href="15-18-pathlib-udobnye-metody.html" class="next"><div class="dir">Далее →</div><div class="lbl">pathlib: read_text, write_text, read_bytes, write_bytes</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
