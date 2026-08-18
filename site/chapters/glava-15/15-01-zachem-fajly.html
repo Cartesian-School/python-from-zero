@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-15/15-01-zachem-fajly.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Зачем нужны файлы? Открытие и чтение — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Почему переменные не переживают завершение программы, что такое файл на самом деле, и как открыть и прочитать файл через with." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-01-zachem-fajly.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Зачем нужны файлы? Открытие и чтение — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Почему переменные не переживают завершение программы, что такое файл на самом деле, и как открыть и прочитать файл через with." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Зачем нужны файлы? Открытие и чтение — Python с нуля — Cartesian School","description":"Почему переменные не переживают завершение программы, что такое файл на самом деле, и как открыть и прочитать файл через with.","url":"https://www.cartesianschool.org/chapters/glava-15/15-01-zachem-fajly.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -76,13 +61,29 @@ player = <span class="tok-str">&quot;Anna&quot;</span>
     постоянном хранилище) и прочитать обратно при следующем запуске.</p>
 
     <h2>Что такое файл?</h2>
-    <p>Файл — это именованная последовательность данных, которую хранит файловая система и к
-    которой программа обращается по <strong>пути</strong>. «Текстовый файл» — не какие-то особые
-    буквы на диске: в конечном счёте любое хранилище содержит <strong>байты</strong>, а то, как
-    именно байты превращаются в читаемые символы, определяет <strong>кодировка</strong> (об этом
-    подробно — в разделе 15.16). Пока достаточно знать: файл хранит байты, а Python по указанному
-    пути открывает файл и превращает его содержимое в привычные строки или сохраняет строки
-    обратно в байты.</p>
+    <p>Файл — это <strong>именованный набор данных</strong>, который хранится в файловой системе.</p>
+    <p>Чтобы программа могла открыть нужный файл, ей нужно указать, где этот файл находится. Для
+    этого используется <strong>путь к файлу</strong> — запись, которая показывает его
+    расположение среди папок и файлов. Например:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>primer_puti.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code># data/results.txt
+</code></pre>
+    </div>
+    <p>Здесь <code class="inline">data</code> — это папка, а <code class="inline">results.txt</code>
+    — файл внутри неё.</p>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Путь — это адрес файла</div>
+        <div class="callout-body">Для первого знакомства путь можно представить как адрес файла в файловой системе — так же, как адрес дома помогает найти его среди улиц и номеров. Это лишь сравнение для интуиции: путь — это текстовая запись, а не физический адрес в памяти компьютера. Абсолютные и относительные пути подробно разберём в разделе 15.6.</div>
+      </div>
+    </div>
+    <p>В конечном счёте содержимое файла представлено байтами. Если файл содержит текст, Python
+    должен знать, как преобразовать эти байты в символы и обратно. Правило такого преобразования
+    называется <strong>кодировкой</strong> — подробно поговорим об этом в разделе 15.16, вместе
+    с различием <code class="inline">str</code> и <code class="inline">bytes</code>.</p>
 
     <h2 id="otkrytie">Открытие и чтение существующих файлов</h2>
 
