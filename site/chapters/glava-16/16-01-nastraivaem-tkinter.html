@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tkinter — правильно всё настраиваем! — Python с нуля — Cartesian School</title>
-<meta name="description" content="Первое окно Tkinter: tk.Tk(), title(), geometry() и mainloop()." />
+<meta name="description" content="Что такое tkinter, проверка доступности Tk, первое окно, root как объект и mainloop() как цикл обработки событий, а не «замирание» программы." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Tkinter — правильно всё настраиваем! — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Первое окно Tkinter: tk.Tk(), title(), geometry() и mainloop()." />
+<meta property="og:description" content="Что такое tkinter, проверка доступности Tk, первое окно, root как объект и mainloop() как цикл обработки событий, а не «замирание» программы." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-16/16-01-nastraivaem-tkinter.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Tkinter — правильно всё настраиваем! — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Первое окно Tkinter: tk.Tk(), title(), geometry() и mainloop()." />
+<meta name="twitter:description" content="Что такое tkinter, проверка доступности Tk, первое окно, root как объект и mainloop() как цикл обработки событий, а не «замирание» программы." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Tkinter — правильно всё настраиваем! — Python с нуля — Cartesian School","description":"Первое окно Tkinter: tk.Tk(), title(), geometry() и mainloop().","url":"https://www.cartesianschool.org/chapters/glava-16/16-01-nastraivaem-tkinter.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Tkinter — правильно всё настраиваем! — Python с нуля — Cartesian School","description":"Что такое tkinter, проверка доступности Tk, первое окно, root как объект и mainloop() как цикл обработки событий, а не «замирание» программы.","url":"https://www.cartesianschool.org/chapters/glava-16/16-01-nastraivaem-tkinter.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,40 +40,60 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html" class="active">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых и итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li></ul>
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html" class="active">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых</a></li><li><a href="16-09-ot-terminala-k-gui.html">От терминала к GUI: событийная модель</a></li><li><a href="16-10-event-loop-i-mainloop.html">Как работает событийный цикл и mainloop</a></li><li><a href="16-11-derevo-widgetov.html">Виджет и дерево интерфейса</a></li><li><a href="16-12-tk-i-ttk.html">tk и ttk: классические и тематизированные виджеты</a></li><li><a href="16-13-frame-i-labelframe.html">Frame и LabelFrame: организуем интерфейс</a></li><li><a href="16-14-pack-podrobno.html">pack подробно: fill, expand и вложенные фреймы</a></li><li><a href="16-15-adaptivny-grid.html">Адаптивный grid: sticky и weight</a></li><li><a href="16-16-widgety-vybora.html">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="16-17-progressbar-i-notebook.html">Progressbar и вкладки Notebook</a></li><li><a href="16-18-messagebox-i-dialogi.html">Messagebox и диалоги</a></li><li><a href="16-19-filedialog-i-pathlib.html">Открываем и сохраняем файлы: filedialog и pathlib</a></li><li><a href="16-20-toplevel.html">Toplevel: несколько окон</a></li><li><a href="16-21-focus-i-dostupnost.html">Focus, клавиатура и основы доступности</a></li><li><a href="16-22-after-tajmery.html">after(): таймеры без блокировки</a></li><li><a href="16-23-validatsiya-vvoda.html">Валидация ввода и обратная связь</a></li><li><a href="16-24-arhitektura-prilozheniya.html">Архитектура приложения: логика отдельно от виджетов</a></li><li><a href="16-25-klass-prilozheniya-i-nastrojki.html">Класс приложения и персистентные настройки</a></li><li><a href="16-26-mini-proekt-schetchik-klikov.html">Мини-проект: счётчик кликов</a></li><li><a href="16-27-mini-proekt-konverter-temperatur.html">Мини-проект: конвертер температур</a></li><li><a href="16-28-mini-proekt-tajmer.html">Мини-проект: таймер обратного отсчёта</a></li><li><a href="16-29-mini-proekt-todo.html">Мини-проект: список задач</a></li><li><a href="16-30-mini-proekt-zametki.html">Мини-проект: редактор заметок</a></li><li><a href="16-31-tip-calculator-pro.html">Tip Calculator Pro: финальная версия</a></li><li><a href="16-32-debugging-i-kachestvo.html">Отладка интерфейса и качество GUI</a></li><li><a href="16-33-itogi-glavy.html">Итоги главы: инструментарий Tkinter</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li><li><a href="../../practice/16-09/index.html">🐍 16-09: Практика</a></li><li><a href="../../practice/16-10/index.html">🐍 16-10: Практика</a></li><li><a href="../../practice/16-11/index.html">🐍 16-11: Практика</a></li><li><a href="../../practice/16-12/index.html">🐍 16-12: Практика</a></li><li><a href="../../practice/16-13/index.html">🐍 16-13: Практика</a></li><li><a href="../../practice/16-14/index.html">🐍 16-14: Практика</a></li><li><a href="../../practice/16-15/index.html">🐍 16-15: Практика</a></li><li><a href="../../practice/16-16/index.html">🐍 16-16: Практика</a></li><li><a href="../../practice/16-17/index.html">🐍 16-17: Практика</a></li><li><a href="../../practice/16-18/index.html">🐍 16-18: Практика</a></li><li><a href="../../practice/16-19/index.html">🐍 16-19: Практика</a></li><li><a href="../../practice/16-20/index.html">🐍 16-20: Практика</a></li><li><a href="../../practice/16-21/index.html">🐍 16-21: Практика</a></li><li><a href="../../practice/16-22/index.html">🐍 16-22: Практика</a></li><li><a href="../../practice/16-23/index.html">🐍 16-23: Практика</a></li><li><a href="../../practice/16-24/index.html">🐍 16-24: Практика</a></li><li><a href="../../practice/16-25/index.html">🐍 16-25: Практика</a></li><li><a href="../../practice/16-26/index.html">🐍 16-26: Практика</a></li><li><a href="../../practice/16-27/index.html">🐍 16-27: Практика</a></li><li><a href="../../practice/16-28/index.html">🐍 16-28: Практика</a></li><li><a href="../../practice/16-29/index.html">🐍 16-29: Практика</a></li><li><a href="../../practice/16-30/index.html">🐍 16-30: Практика</a></li><li><a href="../../practice/16-31/index.html">🐍 16-31: Практика</a></li><li><a href="../../practice/16-32/index.html">🐍 16-32: Практика</a></li></ul>
   </nav>
 
   <article>
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / Настройка Tkinter</div>
     <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
     <h1>Tkinter — правильно всё настраиваем!</h1>
-    <p class="lede">Первое настоящее оконное приложение — с заголовком, размером и циклом событий.</p>
+    <p class="lede">Первое настоящее оконное приложение — и переход от последовательного выполнения к событийной модели.</p>
 
 
     <p>До сих пор все программы либо выводили текст в терминал (главы 1–5, 8–15), либо рисовали
-    на холсте Turtle (главы 6–7, 12). Пришло время настоящих <strong>оконных приложений</strong>
-    с кнопками, полями ввода и меню — таких, как большинство привычных вам программ. Модуль для
-    этого называется <code class="inline">Tkinter</code> и, как и <code class="inline">turtle</code>,
-    входит в стандартную поставку Python.</p>
+    на холсте Turtle (главы 6–7, 12). Терминальная программа выполняется <strong>строка за
+    строкой</strong>: она делает шаг, ждёт ввода через <code class="inline">input()</code>, делает
+    следующий шаг — управление всегда у программы. Оконное приложение устроено иначе: оно строит
+    интерфейс один раз, а дальше <strong>ждёт действий пользователя</strong> и реагирует на них в
+    произвольном порядке — пользователь может нажать любую кнопку, ввести текст в любое поле,
+    изменить размер окна. Это называется <strong>событийно-ориентированным программированием</strong>
+    (event-driven programming), и подробно мы разберём эту модель в разделах 16.9–16.10.</p>
 
-    
+    <p>Модуль для оконных приложений называется <code class="inline">tkinter</code> — это интерфейс
+    Python к графической библиотеке Tcl/Tk, и, как и <code class="inline">turtle</code>, он входит в
+    стандартную поставку Python:</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 904 134" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tkinter — мост между Python и системным окружением окон, а не переизобретённый GUI с нуля." style="width:100%;height:auto;max-width:904px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="94" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Ваш код</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">объекты и методы</tspan><tspan x="92.0" y="74">Python</tspan></text><line x1="190" y1="57.0" x2="234" y2="57.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="94" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">tkinter</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">модуль стандартной</tspan><tspan x="332.0" y="74">библиотеки</tspan></text><line x1="430" y1="57.0" x2="474" y2="57.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="94" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Tcl/Tk</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">GUI-инструментарий</tspan></text><line x1="670" y1="57.0" x2="714" y2="57.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="94" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">Окно ОС</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="812.0" y="60">нативный интерфейс</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">tkinter — мост между Python и системным окружением окон, а не переизобретённый GUI с нуля.</figcaption></figure>
+
+    <h2>Проверка: доступен ли Tkinter?</h2>
+    <p>Не каждая установка Python обязательно имеет рабочее окружение Tk. Быстрая диагностика:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_tkinter.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>python -m tkinter
+</code></pre>
+    </div>
+    <p>Если Tkinter и Tk доступны — появится маленькое тестовое окно. Если появляется ошибка
+    импорта или окно не открывается — с локальной установкой Python/Tk нужно разобраться отдельно
+    (в проверенных инструкциях для вашей ОС), прежде чем продолжать эту главу.</p>
+
+    <h2>Первое окно</h2>
+
     <div class="code-block">
       <div class="code-label"><span>pervoe_okno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
 
 root = tk.Tk()
 root.title(<span class="tok-str">&quot;Моё первое приложение&quot;</span>)
-root.geometry(<span class="tok-str">&quot;400x300&quot;</span>)   <span class="tok-com"># ширина x высота в пикселях</span>
 
-root.mainloop()   <span class="tok-com"># запускает приложение и ждёт действий пользователя</span></code></pre>
+root.mainloop()   <span class="tok-com"># запускает цикл обработки событий</span></code></pre>
     </div>
-    <p><code class="inline">tk.Tk()</code> создаёt главное окно приложения — примерно как
-    <code class="inline">turtle.Screen()</code> создавал холст для рисования.
-    <code class="inline">root.mainloop()</code> запускает <strong>цикл событий</strong>:
-    программа «замирает» в ожидании действий пользователя (клика, ввода текста) и реагирует на
-    них — и продолжает работать, пока окно не будет закрыто.</p>
+    <p><code class="inline">tk.Tk()</code> создаёт главное окно приложения — примерно как
+    <code class="inline">turtle.Screen()</code> создавал холст для рисования. Это прямая связь с
+    главой 14: результат <code class="inline">tk.Tk()</code> — обычный Python-объект со своими
+    методами.</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 308" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="root — экземпляр Tk с собственными методами; это ООП главы 14 в реальной библиотеке." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="308" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#5B24F9"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="16" fill="#fff">Tk (root)</text><line x1="10" y1="40" x2="270" y2="40" stroke="#5B24F9" stroke-width="1.5"/><text x="26" y="62" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">— (состояние окна хранится внутри)</text><line x1="10" y1="80" x2="270" y2="80" stroke="#5B24F9" stroke-width="1.5"/><text x="26" y="102" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">title(текст)</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">geometry(&quot;ШxВ&quot;)</text><text x="26" y="154" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">minsize(w, h)</text><text x="26" y="180" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">configure(...)</text><text x="26" y="206" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">protocol(...)</text><text x="26" y="232" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">after(...)</text><text x="26" y="258" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">destroy()</text><text x="26" y="284" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">mainloop()</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">root — экземпляр Tk с собственными методами; это ООП главы 14 в реальной библиотеке.</figcaption></figure>
 
-    
+
     <div class="callout callout-info">
       <div>
         <div class="callout-title">root — распространённое соглашение об имени</div>
@@ -81,7 +101,20 @@ root.mainloop()   <span class="tok-com"># запускает приложени�
       </div>
     </div>
 
-    
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Обычно — один root на приложение</div>
+        <div class="callout-body">В обычном приложении создаётся <strong>один</strong> объект <code class="inline">Tk()</code> на весь процесс. Для дополнительных окон (настройки, диалоги) используется <code class="inline">tk.Toplevel(...)</code> (раздел 16.20), а не второй <code class="inline">Tk()</code>.</div>
+      </div>
+    </div>
+
+    <h2 id="mainloop">mainloop() — не «замирание», а цикл обработки событий</h2>
+    <p><code class="inline">root.mainloop()</code> запускает цикл, который активно обрабатывает
+    события: клики, ввод текста, изменение размера окна. Программа не «зависает» и не «засыпает» —
+    она ждёт и реагирует, оставаясь отзывчивой, пока не будет закрыта. Подробно разберём это
+    в разделе 16.10.</p>
+
+
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: создаём первое окно</div>
@@ -102,7 +135,7 @@ root.mainloop()   <span class="tok-com"># запускает приложени�
       } catch (e) {}
     })();
     </script>
-    
+
 
     <div class="section-nav"><a href="index.html"><div class="dir">← Назад</div><div class="lbl">Обзор главы</div></a><a href="16-02-metki-knopki-pack.html" class="next"><div class="dir">Далее →</div><div class="lbl">Метки, кнопки и pack</div></a></div>
   </article>
