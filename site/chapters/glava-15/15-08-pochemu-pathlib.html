@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pathlib.Path: пути как объекты — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему путь как объект удобнее пути как строки: сборка пути через /, связь с ООП главы 14, Path.home()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-15/15-08-pochemu-pathlib.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="pathlib.Path: пути как объекты — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему путь как объект удобнее пути как строки: сборка пути через /, связь с ООП главы 14, Path.home()." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-08-pochemu-pathlib.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="pathlib.Path: пути как объекты — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему путь как объект удобнее пути как строки: сборка пути через /, связь с ООП главы 14, Path.home()." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"pathlib.Path: пути как объекты — Python с нуля — Cartesian School","description":"Почему путь как объект удобнее пути как строки: сборка пути через /, связь с ООП главы 14, Path.home().","url":"https://www.cartesianschool.org/chapters/glava-15/15-08-pochemu-pathlib.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 15 · Файлы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="15-01-zachem-fajly.html">Зачем нужны файлы? Открытие и чтение</a></li><li><a href="15-02-stroka-za-strokoj.html">Строка за строкой</a></li><li><a href="15-03-sozdanie-fajlov.html">Создание новых файлов</a></li><li><a href="15-04-mini-proekt-itogi.html">Мини-проект: дневник заметок</a></li><li><a href="15-05-fajl-i-papka.html">Файл, папка и файловая система</a></li><li><a href="15-06-puti-absolyutnye-i-otnositelnye.html">Пути: абсолютные и относительные</a></li><li><a href="15-07-tekushaya-rabochaya-directoriya.html">Текущая рабочая директория (CWD)</a></li><li><a href="15-08-pochemu-pathlib.html" class="active">pathlib.Path: пути как объекты</a></li><li><a href="15-09-razbiraem-put.html">Разбираем путь: name, stem, suffix, parent</a></li><li><a href="15-10-praktika-puti-i-cwd.html">Практика: пути и CWD</a></li><li><a href="15-11-file-object.html">open() возвращает объект файла</a></li><li><a href="15-12-zhiznenny-cikl-i-with.html">Жизненный цикл файла и with</a></li><li><a href="15-13-kursor-fajla.html">Курсор файла: tell() и seek()</a></li><li><a href="15-14-chitaem-fajly.html">Читаем файлы: read(), readline(), readlines()</a></li><li><a href="15-15-pishem-i-rezhimy.html">Пишем в файлы: write() и режимы r/w/a/x</a></li><li><a href="15-16-text-bytes-encoding.html">Текст, bytes и кодировка UTF-8</a></li><li><a href="15-17-binarnye-fajly-i-perevody-strok.html">Бинарные файлы и переносы строк</a></li><li><a href="15-18-pathlib-udobnye-metody.html">pathlib: read_text, write_text, read_bytes, write_bytes</a></li><li><a href="15-19-papki-exists-mkdir.html">Папки: exists(), is_file(), mkdir()</a></li><li><a href="15-20-poisk-fajlov-glob.html">Поиск файлов: iterdir() и glob()</a></li><li><a href="15-21-pereimenovanie-kopirovanie-udalenie.html">Переименование, копирование, удаление</a></li><li><a href="15-22-oshibki-fajlovoj-sistemy.html">Ошибки файловой системы</a></li><li><a href="15-23-bolshie-fajly-i-potoki.html">Большие файлы и потоковая обработка</a></li><li><a href="15-24-kak-vybrat-format.html">Как выбрать формат хранения данных</a></li><li><a href="15-25-json-serializatsiya.html">JSON: сохраняем структуры данных</a></li><li><a href="15-26-mini-proekt-save-player.html">Мини-проект: сохраняем Player</a></li><li><a href="15-27-csv-tablitsy.html">CSV: таблицы в текстовом виде</a></li><li><a href="15-28-bezopasnaya-rabota-s-fajlami.html">Безопасная работа с файлами</a></li><li><a href="15-29-mini-proekt-rekordy-i-nastrojki.html">Мини-проект: таблица рекордов</a></li><li><a href="15-30-brauzer-vs-lokalny-disk.html">Браузер и локальный диск: две файловые системы</a></li><li><a href="15-31-itogi-glavy.html">Итоги главы: инструментарий работы с файлами</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/15-01/index.html">🐍 15-01: Практика</a></li><li><a href="../../practice/15-02/index.html">🐍 15-02: Практика</a></li><li><a href="../../practice/15-03/index.html">🐍 15-03: Практика</a></li><li><a href="../../practice/15-04/index.html">🐍 15-04: Практика</a></li><li><a href="../../practice/15-05/index.html">🐍 15-05: Практика</a></li><li><a href="../../practice/15-06/index.html">🐍 15-06: Практика</a></li><li><a href="../../practice/15-07/index.html">🐍 15-07: Практика</a></li><li><a href="../../practice/15-08/index.html">🐍 15-08: Практика</a></li><li><a href="../../practice/15-09/index.html">🐍 15-09: Практика</a></li><li><a href="../../practice/15-10/index.html">🐍 15-10: Практика</a></li><li><a href="../../practice/15-11/index.html">🐍 15-11: Практика</a></li><li><a href="../../practice/15-12/index.html">🐍 15-12: Практика</a></li><li><a href="../../practice/15-13/index.html">🐍 15-13: Практика</a></li><li><a href="../../practice/15-14/index.html">🐍 15-14: Практика</a></li><li><a href="../../practice/15-15/index.html">🐍 15-15: Практика</a></li><li><a href="../../practice/15-16/index.html">🐍 15-16: Практика</a></li><li><a href="../../practice/15-17/index.html">🐍 15-17: Практика</a></li><li><a href="../../practice/15-18/index.html">🐍 15-18: Практика</a></li><li><a href="../../practice/15-19/index.html">🐍 15-19: Практика</a></li><li><a href="../../practice/15-20/index.html">🐍 15-20: Практика</a></li><li><a href="../../practice/15-21/index.html">🐍 15-21: Практика</a></li><li><a href="../../practice/15-22/index.html">🐍 15-22: Практика</a></li><li><a href="../../practice/15-23/index.html">🐍 15-23: Практика</a></li><li><a href="../../practice/15-24/index.html">🐍 15-24: Практика</a></li><li><a href="../../practice/15-25/index.html">🐍 15-25: Практика</a></li><li><a href="../../practice/15-26/index.html">🐍 15-26: Практика</a></li><li><a href="../../practice/15-27/index.html">🐍 15-27: Практика</a></li><li><a href="../../practice/15-28/index.html">🐍 15-28: Практика</a></li><li><a href="../../practice/15-29/index.html">🐍 15-29: Практика</a></li><li><a href="../../practice/15-30/index.html">🐍 15-30: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 15</a> / pathlib.Path</div>
+    <div class="section-kicker">Глава 15 · Python и файлы</div>
+    <h1>pathlib.Path: пути как объекты</h1>
+    <p class="lede">Путь — не просто текст. Это объект со своими атрибутами и методами.</p>
+
+
+    <h2>Почему pathlib</h2>
+    <p>Путь — это не просто строка, это <strong>предметная область со своими правилами</strong>:
+    у него есть родитель, имя, расширение, он может существовать или не существовать. Вместо
+    ручной сборки строки через <code class="inline">+</code>:</p>
+
+    <div class="cvm">
+      <div class="cvm-header">Путь как строка → путь как объект</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Классический подход</div>
+          <pre><code>file_path = <span class="tok-str">&quot;data&quot;</span> + <span class="tok-str">&quot;/&quot;</span> + <span class="tok-str">&quot;players&quot;</span> + <span class="tok-str">&quot;/&quot;</span> + <span class="tok-str">&quot;anna.json&quot;</span>
+<span class="tok-com"># на Windows придётся использовать &quot;\\&quot;, легко ошибиться</span></code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Современный Python (pathlib)</div>
+          <pre><code><span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+file_path = Path(<span class="tok-str">&quot;data&quot;</span>) / <span class="tok-str">&quot;players&quot;</span> / <span class="tok-str">&quot;anna.json&quot;</span>
+<span class="tok-com"># сам подставит правильный разделитель для текущей ОС</span></code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> <code class="inline">pathlib</code> появился в Python 3.4 и с тех пор считается предпочтительным способом работы с путями: он избавляет от ручной сборки строк, ошибок с разделителями и добавляет удобные методы прямо у самого пути.</div>
+    </div>
+
+    <h2>Путь — не содержимое файла</h2>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Path(...) не читает файл</div>
+        <div class="callout-body"><code class="inline">Path("notes.txt")</code> создаёт объект-путь — ссылку на место в файловой системе. Он ничего не читает и не открывает сам по себе, пока вы не вызовете у него метод вроде <code class="inline">.open()</code> или <code class="inline">.read_text()</code>.</div>
+      </div>
+    </div>
+
+    <h2>Path как объект: атрибуты и методы</h2>
+    <p>Это прямая связь с главой 14: <code class="inline">Path</code> — обычный Python-объект со
+    своими атрибутами и методами.</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pathlib.Path — объект с методами, а не просто текст пути (полный разбор атрибутов — в 15.9)." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="360" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#5B24F9"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="16" fill="#fff">Path</text><line x1="10" y1="40" x2="270" y2="40" stroke="#5B24F9" stroke-width="1.5"/><text x="26" y="62" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">name</text><text x="26" y="88" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">stem</text><text x="26" y="114" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">suffix</text><text x="26" y="140" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">parent</text><text x="26" y="166" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">parts</text><line x1="10" y1="184" x2="270" y2="184" stroke="#5B24F9" stroke-width="1.5"/><text x="26" y="206" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">exists()</text><text x="26" y="232" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">is_file()</text><text x="26" y="258" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">is_dir()</text><text x="26" y="284" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">open()</text><text x="26" y="310" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">read_text()</text><text x="26" y="336" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600">write_text()</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">pathlib.Path — объект с методами, а не просто текст пути (полный разбор атрибутов — в 15.9).</figcaption></figure>
+
+    <h2>Path.home()</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>path_home.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+<span class="tok-fn">print</span>(Path.home())   <span class="tok-com"># только для справки</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Не пишите практические файлы в домашнюю папку</div>
+        <div class="callout-body"><code class="inline">Path.home()</code> полезен для справки, но все практики этого курса записывают файлы только в собственную рабочую директорию — никогда напрямую в домашнюю папку пользователя.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: собираем пути через pathlib</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="15-08"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/15-08/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["15-08"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="15-08"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="15-07-tekushaya-rabochaya-directoriya.html"><div class="dir">← Назад</div><div class="lbl">Текущая рабочая директория (CWD)</div></a><a href="15-09-razbiraem-put.html" class="next"><div class="dir">Далее →</div><div class="lbl">Разбираем путь: name, stem, suffix, parent</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

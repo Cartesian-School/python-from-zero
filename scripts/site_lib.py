@@ -3301,6 +3301,222 @@ def relationship_diagram(
 
 
 # ---------------------------------------------------------------------------
+# Главa 15 — файлы: путь, курсор файла, конвейер память↔диск, до/после записи
+# ---------------------------------------------------------------------------
+
+
+def path_anatomy_diagram(
+    path_str: str,
+    parts: list[tuple[str, str]],
+    *,
+    caption: str = "",
+) -> str:
+    """HTML/CSS breakdown of one path string into labeled parts, e.g.
+    path_str="/home/anna/project/data/scores.txt" with
+    parts=[("parent", "/home/anna/project/data"), ("name", "scores.txt"),
+    ("stem", "scores"), ("suffix", ".txt")]. Renders the whole path as one
+    monospace line, then each (label, value) pair as its own labeled chip
+    below — reflows on mobile instead of trying to draw brackets under
+    sub-spans of the path string, which breaks as soon as the path wraps."""
+    chips = "".join(
+        f'<div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);'
+        f'border-radius:12px;padding:10px 16px;min-width:120px">'
+        f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:11px;letter-spacing:.05em;'
+        f'text-transform:uppercase;color:#5B24F9;margin-bottom:4px">{html.escape(label)}</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:#0D0230;word-break:break-all">'
+        f'{html.escape(value) if value else "&mdash;"}</div>'
+        f'</div>'
+        for label, value in parts
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="text-align:center;font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:16px;'
+        f'color:#0D0230;background:var(--color-bg-canvas,#fff);border-radius:12px;padding:12px 16px;'
+        f'margin-bottom:16px;word-break:break-all">{html.escape(path_str)}</div>'
+        f'<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">{chips}</div>'
+        f'{cap}</figure>'
+    )
+
+
+def file_cursor_diagram(
+    data: str,
+    position: int,
+    *,
+    label_consumed: str = "прочитано",
+    label_remaining: str = "осталось",
+    caption: str = "",
+) -> str:
+    """Cursor/boundary diagram for the file-position mental model: `data`
+    rendered as one box per character (spaces as a centered dot), boundary
+    numbers 0..len(data) drawn in the gaps between/around them exactly like
+    string_slice_diagram(), and ONE pointer (▼) at the `position` boundary —
+    everything left of it shaded as label_consumed, everything right of it
+    as label_remaining. position must already be a valid boundary
+    (0 <= position <= len(data)), resolved by the caller."""
+    n = len(data)
+    box = 44
+
+    boundary_row = "".join(
+        f'<div style="width:{box}px;text-align:center;position:relative">'
+        + (
+            f'<span style="position:absolute;left:50%;transform:translateX(-50%);top:-20px;'
+            f'font-size:16px;color:#DB2777">▼</span>'
+            if j == position
+            else ""
+        )
+        + f'<span style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:12px;'
+        f'color:{"#DB2777" if j == position else "#B9A0FC"}">{j}</span></div>'
+        for j in range(n + 1)
+    )
+    char_row = "".join(
+        f'<div style="width:{box}px;height:{box}px;border:1.5px solid #0D0230;border-radius:8px;'
+        f'display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;'
+        f'font-weight:700;font-size:18px;color:#0D0230;'
+        f'background:{"#E7DEFF" if i < position else "#fff"}">'
+        f'{"·" if ch == " " else html.escape(ch)}</div>'
+        for i, ch in enumerate(data)
+    )
+    legend = (
+        f'<div style="display:flex;justify-content:center;gap:22px;margin-top:10px;font-size:13px;'
+        f'font-family:Inter,sans-serif;color:#6B6B7D">'
+        f'<span><span style="display:inline-block;width:12px;height:12px;background:#E7DEFF;'
+        f'border-radius:3px;margin-right:6px;vertical-align:middle"></span>{html.escape(label_consumed)}</span>'
+        f'<span><span style="display:inline-block;width:12px;height:12px;background:#fff;'
+        f'border:1.5px solid #0D0230;border-radius:3px;margin-right:6px;vertical-align:middle"></span>'
+        f'{html.escape(label_remaining)}</span></div>'
+    )
+    inner = (
+        f'<div style="display:flex;margin-left:-{box // 2}px;margin-top:20px">{boundary_row}</div>'
+        f'<div style="display:flex;margin:4px 0">{char_row}</div>'
+        f'{legend}'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{inner}</div></div>'
+        f'{cap}</figure>'
+    )
+
+
+_PIPELINE_STYLES = {
+    "memory": ("#DB2777", "dashed", "#6B6B7D"),
+    "file": ("#B45309", "solid", "#92603A"),
+    "object": ("#5B24F9", "solid", "#6B6B7D"),
+    "plain": ("#0D0230", "solid", "#6B6B7D"),
+}
+
+
+def pipeline_diagram(nodes: list[dict], *, caption: str = "") -> str:
+    """Vertical HTML/CSS pipeline of labeled boxes connected by arrows —
+    the reusable picture for "program memory ↔ file" and "Python objects →
+    serialized text/bytes → file" (and back). Reflows safely on mobile
+    because it is a flex column, not an SVG with fixed width math.
+
+    Each item of `nodes` is a dict:
+      kind: "memory" (pink dashed box — ephemeral process state),
+            "file" (amber solid box — persistent bytes on disk/storage),
+            "object" (purple solid box — a Python object/value),
+            "plain" (neutral box — anything else, e.g. "программа
+            завершается")
+      title: header text of the box
+      rows: optional list of strings shown stacked inside the box
+            (e.g. "score = 1200"); omit or [] for a title-only box
+      note: optional short label drawn on the arrow ABOVE this node
+            (e.g. "программа завершается", "следующий запуск") — ignored
+            on the first node, which has no incoming arrow
+    """
+    parts = []
+    for i, node in enumerate(nodes):
+        kind = node.get("kind", "plain")
+        title = node.get("title", "")
+        rows = node.get("rows") or []
+        note = node.get("note", "")
+        color, border_style, row_color = _PIPELINE_STYLES.get(kind, _PIPELINE_STYLES["plain"])
+        if i > 0:
+            note_html = (
+                f'<div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;'
+                f'margin:2px 0">{html.escape(note)}</div>'
+                if note
+                else ""
+            )
+            parts.append(
+                f'<div style="display:flex;flex-direction:column;align-items:center;margin:2px 0">'
+                f'{note_html}<span style="font-size:20px;color:#B9A0FC">↓</span></div>'
+            )
+        rows_html = "".join(
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:13.5px;color:{row_color};'
+            f'text-align:center">{html.escape(row)}</div>'
+            for row in rows
+        )
+        parts.append(
+            f'<div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;'
+            f'background:var(--color-bg-canvas,#fff);border:2px {border_style} {color};text-align:center">'
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:15px;'
+            f'color:{color}">{html.escape(title)}</div>'
+            + (f'<div style="margin-top:8px;display:flex;flex-direction:column;gap:3px">{rows_html}</div>' if rows_html else "")
+            + '</div>'
+        )
+    body = "".join(parts)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;flex-direction:column;align-items:center">{body}</div>'
+        f'{cap}</figure>'
+    )
+
+
+def file_state_diagram(
+    before_label: str,
+    before_lines: list[str],
+    after_label: str,
+    after_lines: list[str],
+    *,
+    action_label: str = "",
+    caption: str = "",
+) -> str:
+    """BEFORE/AFTER file-content comparison: two amber "file" boxes (same
+    visual language as pipeline_diagram's kind="file") side by side —
+    wraps to a column on narrow screens — with an arrow and optional
+    action_label (the code/mode that ran) between them. before_lines/
+    after_lines are shown one per line inside each box; pass [] to show an
+    empty-file box, which is exactly the picture "w" truncation needs."""
+
+    def box(label: str, lines: list[str]) -> str:
+        content = "".join(
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:13.5px;color:#92603A;'
+            f'white-space:pre-wrap">{html.escape(line)}</div>'
+            for line in lines
+        ) or '<div style="font-family:\'JetBrains Mono\',monospace;font-size:13.5px;color:#B9A0FC;font-style:italic">(пустой файл)</div>'
+        return (
+            f'<div style="flex:1 1 200px;min-width:180px;padding:14px 18px;border-radius:14px;'
+            f'background:var(--color-bg-canvas,#fff);border:2px solid #B45309">'
+            f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;'
+            f'text-transform:uppercase;color:#B45309;margin-bottom:8px">{html.escape(label)}</div>'
+            f'{content}</div>'
+        )
+
+    arrow = (
+        f'<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;'
+        f'padding:0 10px;flex:0 0 auto">'
+        + (f'<div style="font-size:12px;font-family:\'JetBrains Mono\',monospace;color:#6B6B7D;'
+           f'margin-bottom:4px;white-space:nowrap">{html.escape(action_label)}</div>' if action_label else "")
+        + '<span style="font-size:22px;color:#B9A0FC">→</span></div>'
+    )
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
+        f'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px">'
+        f'{box(before_label, before_lines)}{arrow}{box(after_label, after_lines)}</div>'
+        f'{cap}</figure>'
+    )
+
+
+# ---------------------------------------------------------------------------
 # Навигация / компоновка страницы
 # ---------------------------------------------------------------------------
 

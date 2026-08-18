@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JSON: сохраняем структуры данных — Python с нуля — Cartesian School</title>
+<meta name="description" content="json.dump/load и dumps/loads, соответствие типов JSON и Python, ограничения JSON, и мини-проект: менеджер настроек со значениями по умолчанию." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-15/15-25-json-serializatsiya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="JSON: сохраняем структуры данных — Python с нуля — Cartesian School" />
+<meta property="og:description" content="json.dump/load и dumps/loads, соответствие типов JSON и Python, ограничения JSON, и мини-проект: менеджер настроек со значениями по умолчанию." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-25-json-serializatsiya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="JSON: сохраняем структуры данных — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="json.dump/load и dumps/loads, соответствие типов JSON и Python, ограничения JSON, и мини-проект: менеджер настроек со значениями по умолчанию." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"JSON: сохраняем структуры данных — Python с нуля — Cartesian School","description":"json.dump/load и dumps/loads, соответствие типов JSON и Python, ограничения JSON, и мини-проект: менеджер настроек со значениями по умолчанию.","url":"https://www.cartesianschool.org/chapters/glava-15/15-25-json-serializatsiya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 15 · Файлы</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="15-01-zachem-fajly.html">Зачем нужны файлы? Открытие и чтение</a></li><li><a href="15-02-stroka-za-strokoj.html">Строка за строкой</a></li><li><a href="15-03-sozdanie-fajlov.html">Создание новых файлов</a></li><li><a href="15-04-mini-proekt-itogi.html">Мини-проект: дневник заметок</a></li><li><a href="15-05-fajl-i-papka.html">Файл, папка и файловая система</a></li><li><a href="15-06-puti-absolyutnye-i-otnositelnye.html">Пути: абсолютные и относительные</a></li><li><a href="15-07-tekushaya-rabochaya-directoriya.html">Текущая рабочая директория (CWD)</a></li><li><a href="15-08-pochemu-pathlib.html">pathlib.Path: пути как объекты</a></li><li><a href="15-09-razbiraem-put.html">Разбираем путь: name, stem, suffix, parent</a></li><li><a href="15-10-praktika-puti-i-cwd.html">Практика: пути и CWD</a></li><li><a href="15-11-file-object.html">open() возвращает объект файла</a></li><li><a href="15-12-zhiznenny-cikl-i-with.html">Жизненный цикл файла и with</a></li><li><a href="15-13-kursor-fajla.html">Курсор файла: tell() и seek()</a></li><li><a href="15-14-chitaem-fajly.html">Читаем файлы: read(), readline(), readlines()</a></li><li><a href="15-15-pishem-i-rezhimy.html">Пишем в файлы: write() и режимы r/w/a/x</a></li><li><a href="15-16-text-bytes-encoding.html">Текст, bytes и кодировка UTF-8</a></li><li><a href="15-17-binarnye-fajly-i-perevody-strok.html">Бинарные файлы и переносы строк</a></li><li><a href="15-18-pathlib-udobnye-metody.html">pathlib: read_text, write_text, read_bytes, write_bytes</a></li><li><a href="15-19-papki-exists-mkdir.html">Папки: exists(), is_file(), mkdir()</a></li><li><a href="15-20-poisk-fajlov-glob.html">Поиск файлов: iterdir() и glob()</a></li><li><a href="15-21-pereimenovanie-kopirovanie-udalenie.html">Переименование, копирование, удаление</a></li><li><a href="15-22-oshibki-fajlovoj-sistemy.html">Ошибки файловой системы</a></li><li><a href="15-23-bolshie-fajly-i-potoki.html">Большие файлы и потоковая обработка</a></li><li><a href="15-24-kak-vybrat-format.html">Как выбрать формат хранения данных</a></li><li><a href="15-25-json-serializatsiya.html" class="active">JSON: сохраняем структуры данных</a></li><li><a href="15-26-mini-proekt-save-player.html">Мини-проект: сохраняем Player</a></li><li><a href="15-27-csv-tablitsy.html">CSV: таблицы в текстовом виде</a></li><li><a href="15-28-bezopasnaya-rabota-s-fajlami.html">Безопасная работа с файлами</a></li><li><a href="15-29-mini-proekt-rekordy-i-nastrojki.html">Мини-проект: таблица рекордов</a></li><li><a href="15-30-brauzer-vs-lokalny-disk.html">Браузер и локальный диск: две файловые системы</a></li><li><a href="15-31-itogi-glavy.html">Итоги главы: инструментарий работы с файлами</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/15-01/index.html">🐍 15-01: Практика</a></li><li><a href="../../practice/15-02/index.html">🐍 15-02: Практика</a></li><li><a href="../../practice/15-03/index.html">🐍 15-03: Практика</a></li><li><a href="../../practice/15-04/index.html">🐍 15-04: Практика</a></li><li><a href="../../practice/15-05/index.html">🐍 15-05: Практика</a></li><li><a href="../../practice/15-06/index.html">🐍 15-06: Практика</a></li><li><a href="../../practice/15-07/index.html">🐍 15-07: Практика</a></li><li><a href="../../practice/15-08/index.html">🐍 15-08: Практика</a></li><li><a href="../../practice/15-09/index.html">🐍 15-09: Практика</a></li><li><a href="../../practice/15-10/index.html">🐍 15-10: Практика</a></li><li><a href="../../practice/15-11/index.html">🐍 15-11: Практика</a></li><li><a href="../../practice/15-12/index.html">🐍 15-12: Практика</a></li><li><a href="../../practice/15-13/index.html">🐍 15-13: Практика</a></li><li><a href="../../practice/15-14/index.html">🐍 15-14: Практика</a></li><li><a href="../../practice/15-15/index.html">🐍 15-15: Практика</a></li><li><a href="../../practice/15-16/index.html">🐍 15-16: Практика</a></li><li><a href="../../practice/15-17/index.html">🐍 15-17: Практика</a></li><li><a href="../../practice/15-18/index.html">🐍 15-18: Практика</a></li><li><a href="../../practice/15-19/index.html">🐍 15-19: Практика</a></li><li><a href="../../practice/15-20/index.html">🐍 15-20: Практика</a></li><li><a href="../../practice/15-21/index.html">🐍 15-21: Практика</a></li><li><a href="../../practice/15-22/index.html">🐍 15-22: Практика</a></li><li><a href="../../practice/15-23/index.html">🐍 15-23: Практика</a></li><li><a href="../../practice/15-24/index.html">🐍 15-24: Практика</a></li><li><a href="../../practice/15-25/index.html">🐍 15-25: Практика</a></li><li><a href="../../practice/15-26/index.html">🐍 15-26: Практика</a></li><li><a href="../../practice/15-27/index.html">🐍 15-27: Практика</a></li><li><a href="../../practice/15-28/index.html">🐍 15-28: Практика</a></li><li><a href="../../practice/15-29/index.html">🐍 15-29: Практика</a></li><li><a href="../../practice/15-30/index.html">🐍 15-30: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 15</a> / JSON</div>
+    <div class="section-kicker">Глава 15 · Python и файлы</div>
+    <h1>JSON: сохраняем структуры данных</h1>
+    <p class="lede">Словари и списки из главы 11 наконец получают надёжный способ пережить перезапуск программы.</p>
+
+
+    <h2>Модуль json</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>json_dump.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> json
+
+data = {<span class="tok-str">&quot;name&quot;</span>: <span class="tok-str">&quot;Anna&quot;</span>, <span class="tok-str">&quot;score&quot;</span>: <span class="tok-num">1200</span>}
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;igrok.json&quot;</span>, <span class="tok-str">&quot;w&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    json.dump(data, f, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>$ cat igrok.json
+{
+  "name": "Anna",
+  "score": 1200
+}</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Реально сохранённый файл — самый обычный текст, его можно открыть в любом редакторе.</figcaption>
+    </figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>json_load.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> json
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;igrok.json&quot;</span>, <span class="tok-str">&quot;r&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    data = json.load(f)
+
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(data))   <span class="tok-com"># &lt;class &#x27;dict&#x27;&gt;</span>
+<span class="tok-fn">print</span>(data[<span class="tok-str">&quot;name&quot;</span>])   <span class="tok-com"># Anna</span></code></pre>
+    </div>
+
+    <h2>dump/load vs dumps/loads</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Функция</th><th>Что делает</th></tr></thead>
+      <tbody><tr><td><code class="inline">json.dump(data, file)</code></td><td>пишет JSON прямо в открытый файловый объект</td></tr><tr><td><code class="inline">json.dumps(data)</code></td><td>возвращает JSON как обычную строку str</td></tr><tr><td><code class="inline">json.load(file)</code></td><td>читает JSON из открытого файлового объекта</td></tr><tr><td><code class="inline">json.loads(text)</code></td><td>разбирает JSON из готовой строки str</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Соответствие типов JSON ↔ Python</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>JSON</th><th>Python</th></tr></thead>
+      <tbody><tr><td>object</td><td>dict</td></tr><tr><td>array</td><td>list</td></tr><tr><td>string</td><td>str</td></tr><tr><td>number</td><td>int / float</td></tr><tr><td>true / false</td><td>True / False</td></tr><tr><td>null</td><td>None</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Что JSON не умеет напрямую</h2>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">JSON не сохраняет произвольный объект Python сам</div>
+        <div class="callout-body"><code class="inline">set</code>, экземпляр собственного класса, <code class="inline">bytes</code>, <code class="inline">complex</code> — все они не имеют прямого представления в JSON. <code class="inline">json.dump()</code> не умеет «магически» сохранить произвольный объект Python — сначала нужно самостоятельно привести данные к словарям/спискам/строкам/числам.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Кортеж при чтении вернётся списком</div>
+        <div class="callout-body">Если сохранить <code class="inline">tuple</code> как JSON-массив, при загрузке обратно вы получите обычный <code class="inline">list</code>, а не <code class="inline">tuple</code> — JSON не различает эти два типа Python, у него есть только один вид «массив».</div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 12: Некорректный JSON в файле</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>slomanny_json.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;nastroyki.json&quot;</span>, <span class="tok-str">&quot;w&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    f.write(<span class="tok-str">&#x27;{&quot;theme&quot;: &quot;dark&quot;,}&#x27;</span>)   <span class="tok-com"># лишняя запятая перед }</span>
+
+<span class="tok-kw">import</span> json
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;nastroyki.json&quot;</span>, <span class="tok-str">&quot;r&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    data = json.load(f)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Traceback (most recent call last):
+json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Наличие файла не означает, что его содержимое — корректный JSON: файл мог быть повреждён, отредактирован вручную или записан с ошибкой в другом месте программы. <code class="inline">json.JSONDecodeError</code> — сигнал именно об этом, а не о проблеме с путём или правами доступа.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>json_bez_zapyatoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;nastroyki.json&quot;</span>, <span class="tok-str">&quot;w&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+    f.write(<span class="tok-str">&#x27;{&quot;theme&quot;: &quot;dark&quot;}&#x27;</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+    <h2>Мини-проект: менеджер настроек</h2>
+    <p>Настройки приложения, которые нужно будет использовать в графическом приложении главы
+    16 — с понятными значениями по умолчанию, если файла ещё нет:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>nastroyki_menedzher.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+DEFAULT_SETTINGS = {<span class="tok-str">&quot;theme&quot;</span>: <span class="tok-str">&quot;light&quot;</span>, <span class="tok-str">&quot;language&quot;</span>: <span class="tok-str">&quot;ru&quot;</span>, <span class="tok-str">&quot;window_width&quot;</span>: <span class="tok-num">900</span>}
+
+<span class="tok-kw">def</span> load_settings(path: Path) -&gt; <span class="tok-fn">dict</span>:
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> path.exists():
+        <span class="tok-kw">return</span> <span class="tok-fn">dict</span>(DEFAULT_SETTINGS)
+    <span class="tok-kw">with</span> path.<span class="tok-fn">open</span>(<span class="tok-str">&quot;r&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+        <span class="tok-kw">return</span> json.load(f)
+
+<span class="tok-kw">def</span> save_settings(path: Path, settings: <span class="tok-fn">dict</span>) -&gt; <span class="tok-kw">None</span>:
+    <span class="tok-kw">with</span> path.<span class="tok-fn">open</span>(<span class="tok-str">&quot;w&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> f:
+        json.dump(settings, f, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)
+
+settings_path = Path(<span class="tok-str">&quot;nastroyki.json&quot;</span>)
+settings = load_settings(settings_path)
+settings[<span class="tok-str">&quot;theme&quot;</span>] = <span class="tok-str">&quot;dark&quot;</span>
+save_settings(settings_path, settings)</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Готовим почву для главы 16</div>
+        <div class="callout-body">Именно так графическое приложение на Tkinter (глава 16) сможет запоминать настройки пользователя между запусками — загружать их при старте и сохранять при изменении, без единой строчки кода интерфейса в этой функции.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: JSON и менеджер настроек</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="15-25"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/15-25/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["15-25"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="15-25"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="15-24-kak-vybrat-format.html"><div class="dir">← Назад</div><div class="lbl">Как выбрать формат хранения данных</div></a><a href="15-26-mini-proekt-save-player.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мини-проект: сохраняем Player</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
