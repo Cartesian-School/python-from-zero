@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Адаптивный grid: sticky и weight — Python с нуля — Cartesian School</title>
+<meta name="description" content="rowconfigure/columnconfigure с weight, sticky, правило одного родителя для pack/grid и итоговая карта решений pack/grid/place." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-16/16-15-adaptivny-grid.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Адаптивный grid: sticky и weight — Python с нуля — Cartesian School" />
+<meta property="og:description" content="rowconfigure/columnconfigure с weight, sticky, правило одного родителя для pack/grid и итоговая карта решений pack/grid/place." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-16/16-15-adaptivny-grid.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Адаптивный grid: sticky и weight — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="rowconfigure/columnconfigure с weight, sticky, правило одного родителя для pack/grid и итоговая карта решений pack/grid/place." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Адаптивный grid: sticky и weight — Python с нуля — Cartesian School","description":"rowconfigure/columnconfigure с weight, sticky, правило одного родителя для pack/grid и итоговая карта решений pack/grid/place.","url":"https://www.cartesianschool.org/chapters/glava-16/16-15-adaptivny-grid.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых</a></li><li><a href="16-09-ot-terminala-k-gui.html">От терминала к GUI: событийная модель</a></li><li><a href="16-10-event-loop-i-mainloop.html">Как работает событийный цикл и mainloop</a></li><li><a href="16-11-derevo-widgetov.html">Виджет и дерево интерфейса</a></li><li><a href="16-12-tk-i-ttk.html">tk и ttk: классические и тематизированные виджеты</a></li><li><a href="16-13-frame-i-labelframe.html">Frame и LabelFrame: организуем интерфейс</a></li><li><a href="16-14-pack-podrobno.html">pack подробно: fill, expand и вложенные фреймы</a></li><li><a href="16-15-adaptivny-grid.html" class="active">Адаптивный grid: sticky и weight</a></li><li><a href="16-16-widgety-vybora.html">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="16-17-progressbar-i-notebook.html">Progressbar и вкладки Notebook</a></li><li><a href="16-18-messagebox-i-dialogi.html">Messagebox и диалоги</a></li><li><a href="16-19-filedialog-i-pathlib.html">Открываем и сохраняем файлы: filedialog и pathlib</a></li><li><a href="16-20-toplevel.html">Toplevel: несколько окон</a></li><li><a href="16-21-focus-i-dostupnost.html">Focus, клавиатура и основы доступности</a></li><li><a href="16-22-after-tajmery.html">after(): таймеры без блокировки</a></li><li><a href="16-23-validatsiya-vvoda.html">Валидация ввода и обратная связь</a></li><li><a href="16-24-arhitektura-prilozheniya.html">Архитектура приложения: логика отдельно от виджетов</a></li><li><a href="16-25-klass-prilozheniya-i-nastrojki.html">Класс приложения и персистентные настройки</a></li><li><a href="16-26-mini-proekt-schetchik-klikov.html">Мини-проект: счётчик кликов</a></li><li><a href="16-27-mini-proekt-konverter-temperatur.html">Мини-проект: конвертер температур</a></li><li><a href="16-28-mini-proekt-tajmer.html">Мини-проект: таймер обратного отсчёта</a></li><li><a href="16-29-mini-proekt-todo.html">Мини-проект: список задач</a></li><li><a href="16-30-mini-proekt-zametki.html">Мини-проект: редактор заметок</a></li><li><a href="16-31-tip-calculator-pro.html">Tip Calculator Pro: финальная версия</a></li><li><a href="16-32-debugging-i-kachestvo.html">Отладка интерфейса и качество GUI</a></li><li><a href="16-33-itogi-glavy.html">Итоги главы: инструментарий Tkinter</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li><li><a href="../../practice/16-09/index.html">🐍 16-09: Практика</a></li><li><a href="../../practice/16-10/index.html">🐍 16-10: Практика</a></li><li><a href="../../practice/16-11/index.html">🐍 16-11: Практика</a></li><li><a href="../../practice/16-12/index.html">🐍 16-12: Практика</a></li><li><a href="../../practice/16-13/index.html">🐍 16-13: Практика</a></li><li><a href="../../practice/16-14/index.html">🐍 16-14: Практика</a></li><li><a href="../../practice/16-15/index.html">🐍 16-15: Практика</a></li><li><a href="../../practice/16-16/index.html">🐍 16-16: Практика</a></li><li><a href="../../practice/16-17/index.html">🐍 16-17: Практика</a></li><li><a href="../../practice/16-18/index.html">🐍 16-18: Практика</a></li><li><a href="../../practice/16-19/index.html">🐍 16-19: Практика</a></li><li><a href="../../practice/16-20/index.html">🐍 16-20: Практика</a></li><li><a href="../../practice/16-21/index.html">🐍 16-21: Практика</a></li><li><a href="../../practice/16-22/index.html">🐍 16-22: Практика</a></li><li><a href="../../practice/16-23/index.html">🐍 16-23: Практика</a></li><li><a href="../../practice/16-24/index.html">🐍 16-24: Практика</a></li><li><a href="../../practice/16-25/index.html">🐍 16-25: Практика</a></li><li><a href="../../practice/16-26/index.html">🐍 16-26: Практика</a></li><li><a href="../../practice/16-27/index.html">🐍 16-27: Практика</a></li><li><a href="../../practice/16-28/index.html">🐍 16-28: Практика</a></li><li><a href="../../practice/16-29/index.html">🐍 16-29: Практика</a></li><li><a href="../../practice/16-30/index.html">🐍 16-30: Практика</a></li><li><a href="../../practice/16-31/index.html">🐍 16-31: Практика</a></li><li><a href="../../practice/16-32/index.html">🐍 16-32: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / Адаптивный grid</div>
+    <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
+    <h1>Адаптивный grid: sticky и weight</h1>
+    <p class="lede">Форма не обязана оставаться одного размера навсегда — grid умеет подстраиваться.</p>
+
+
+    <h2>Адаптивный grid: кто получает лишнее место</h2>
+    <p>По умолчанию строки и столбцы <code class="inline">grid()</code> не растут при увеличении
+    окна. Чтобы форма подстраивалась под размер окна, столбцам/строкам нужно явно назначить
+    <strong>вес</strong>:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>adaptivny_grid.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>root.columnconfigure(<span class="tok-num">1</span>, weight=<span class="tok-num">1</span>)   <span class="tok-com"># растягивается именно колонка 1 (с полями ввода)</span>
+root.rowconfigure(<span class="tok-num">0</span>, weight=<span class="tok-num">1</span>)
+
+ttk.Label(root, text=<span class="tok-str">&quot;Имя:&quot;</span>).grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">&quot;w&quot;</span>)
+ttk.Entry(root).grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">1</span>, sticky=<span class="tok-str">&quot;ew&quot;</span>)   <span class="tok-com"># растягивается по ширине ячейки</span></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>raspredelenie_vesa.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> raspredelit_prostranstvo(weights, extra_space):
+    total = <span class="tok-fn">sum</span>(weights)
+    <span class="tok-kw">if</span> total == <span class="tok-num">0</span>:
+        <span class="tok-kw">return</span> [<span class="tok-num">0</span>] * <span class="tok-fn">len</span>(weights)
+    <span class="tok-kw">return</span> [extra_space * w / total <span class="tok-kw">for</span> w <span class="tok-kw">in</span> weights]
+
+<span class="tok-fn">print</span>(raspredelit_prostranstvo([<span class="tok-num">1</span>, <span class="tok-num">2</span>], <span class="tok-num">300</span>))   <span class="tok-com"># [100.0, 200.0]</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">weight — это пропорция, не пиксели</div>
+        <div class="callout-body">Вес определяет <strong>долю</strong> дополнительного пространства, а не абсолютный размер. Колонка с весом 2 получит вдвое больше лишнего места, чем колонка с весом 1 — но обе продолжат вмещать свой обычный минимальный контент.</div>
+      </div>
+    </div>
+
+    <h2>sticky — к какому краю ячейки прилипает виджет</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>sticky</th><th>Эффект</th></tr></thead>
+      <tbody><tr><td>"w" / "e" / "n" / "s"</td><td>прилипает к одному краю ячейки (запад/восток/север/юг)</td></tr><tr><td>"ew"</td><td>растягивается по ширине ячейки</td></tr><tr><td>"nsew"</td><td>растягивается по всей ячейке — и по ширине, и по высоте</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Правило одного родителя</h2>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+      <div style="flex:1 1 260px;min-width:220px"><div style="padding:16px;border:2px solid #059669;border-radius:14px"><div style="font-weight:700;color:#059669;margin-bottom:8px">✓ Верно</div><figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#5B24F9;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">root (pack)</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#DB2777;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">frame (grid внутри)</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">label</span></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">entry</span></div></div></div></figure></div></div>
+      <div style="flex:1 1 260px;min-width:220px"><div style="padding:16px;border:2px solid #DB2777;border-radius:14px"><div style="font-weight:700;color:#DB2777;margin-bottom:8px">✗ Ошибка</div><figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#5B24F9;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">root</span></div><div style="margin-left:22px;padding-left:14px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">widget_a (.pack())</span></div><div style="display:flex;align-items:center;gap:10px;padding:5px 0"><span style="width:9px;height:9px;border-radius:50%;background:#059669;flex-shrink:0"></span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">widget_b (.grid())</span></div></div></figure></div></div>
+    </div>
+    <p>Смешивать <code class="inline">pack()</code> и <code class="inline">grid()</code> нельзя
+    у виджетов с <strong>одним и тем же</strong> родителем — но разные контейнеры (root
+    использует <code class="inline">pack()</code>, а вложенный <code class="inline">Frame</code>
+    внутри — <code class="inline">grid()</code>) полностью независимы друг от друга.</p>
+
+    <h2>place() — точное позиционирование</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>place.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>label.place(x=<span class="tok-num">20</span>, y=<span class="tok-num">10</span>)
+label2.place(relx=<span class="tok-num">0.5</span>, rely=<span class="tok-num">0.5</span>, anchor=<span class="tok-str">&quot;center&quot;</span>)   <span class="tok-com"># центр контейнера</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">place() — не первый выбор для обычных форм</div>
+        <div class="callout-body"><code class="inline">place()</code> удобен для точных наложений и особых случаев, но не подстраивается под размер окна автоматически, как <code class="inline">grid()</code> с весами. Для обычных адаптивных форм — <code class="inline">grid()</code>.</div>
+      </div>
+    </div>
+
+    <h2>Как выбрать менеджер геометрии</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">pack vs grid vs place</div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Простое вертикальное расположение / регионы</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">pack()</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Форма/таблица/адаптивные колонки</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">grid()</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Точное или особое позиционирование, наложения</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">place() — осознанно</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Сложный экран</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">Frame + разные менеджеры в разных родителях</div></div></figure>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: распределение веса в адаптивном grid</div>
+        <div class="nc-sub">Проверяется без tkinter — чистая арифметика распределения пространства</div>
+        <div class="practice-inline-status" data-lesson-id="16-15"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/16-15/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-15"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-15"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="16-14-pack-podrobno.html"><div class="dir">← Назад</div><div class="lbl">pack подробно: fill, expand и вложенные фреймы</div></a><a href="16-16-widgety-vybora.html" class="next"><div class="dir">Далее →</div><div class="lbl">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

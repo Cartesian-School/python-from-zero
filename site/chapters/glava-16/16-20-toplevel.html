@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Toplevel: несколько окон — Python с нуля — Cartesian School</title>
+<meta name="description" content="tk.Toplevel для дополнительных окон вместо второго Tk(), и модальное окно как продвинутая техника (transient, grab_set, wait_window)." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-16/16-20-toplevel.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Toplevel: несколько окон — Python с нуля — Cartesian School" />
+<meta property="og:description" content="tk.Toplevel для дополнительных окон вместо второго Tk(), и модальное окно как продвинутая техника (transient, grab_set, wait_window)." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-16/16-20-toplevel.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Toplevel: несколько окон — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="tk.Toplevel для дополнительных окон вместо второго Tk(), и модальное окно как продвинутая техника (transient, grab_set, wait_window)." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Toplevel: несколько окон — Python с нуля — Cartesian School","description":"tk.Toplevel для дополнительных окон вместо второго Tk(), и модальное окно как продвинутая техника (transient, grab_set, wait_window).","url":"https://www.cartesianschool.org/chapters/glava-16/16-20-toplevel.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 16 · Tkinter</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="16-01-nastraivaem-tkinter.html">Tkinter — правильно всё настраиваем!</a></li><li><a href="16-02-metki-knopki-pack.html">Метки, кнопки и pack</a></li><li><a href="16-03-polya-vvoda.html">Поля ввода</a></li><li><a href="16-04-peremennye-tkinter.html">Переменные Tkinter</a></li><li><a href="16-05-mnozhestvo-variantov.html">Множество вариантов!</a></li><li><a href="16-06-menu.html">Меню</a></li><li><a href="16-07-grid.html">Идеальная компоновка — grid</a></li><li><a href="16-08-mini-proekt-chaevye-itogi.html">Мини-проект: калькулятор чаевых</a></li><li><a href="16-09-ot-terminala-k-gui.html">От терминала к GUI: событийная модель</a></li><li><a href="16-10-event-loop-i-mainloop.html">Как работает событийный цикл и mainloop</a></li><li><a href="16-11-derevo-widgetov.html">Виджет и дерево интерфейса</a></li><li><a href="16-12-tk-i-ttk.html">tk и ttk: классические и тематизированные виджеты</a></li><li><a href="16-13-frame-i-labelframe.html">Frame и LabelFrame: организуем интерфейс</a></li><li><a href="16-14-pack-podrobno.html">pack подробно: fill, expand и вложенные фреймы</a></li><li><a href="16-15-adaptivny-grid.html">Адаптивный grid: sticky и weight</a></li><li><a href="16-16-widgety-vybora.html">Виджеты выбора: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="16-17-progressbar-i-notebook.html">Progressbar и вкладки Notebook</a></li><li><a href="16-18-messagebox-i-dialogi.html">Messagebox и диалоги</a></li><li><a href="16-19-filedialog-i-pathlib.html">Открываем и сохраняем файлы: filedialog и pathlib</a></li><li><a href="16-20-toplevel.html" class="active">Toplevel: несколько окон</a></li><li><a href="16-21-focus-i-dostupnost.html">Focus, клавиатура и основы доступности</a></li><li><a href="16-22-after-tajmery.html">after(): таймеры без блокировки</a></li><li><a href="16-23-validatsiya-vvoda.html">Валидация ввода и обратная связь</a></li><li><a href="16-24-arhitektura-prilozheniya.html">Архитектура приложения: логика отдельно от виджетов</a></li><li><a href="16-25-klass-prilozheniya-i-nastrojki.html">Класс приложения и персистентные настройки</a></li><li><a href="16-26-mini-proekt-schetchik-klikov.html">Мини-проект: счётчик кликов</a></li><li><a href="16-27-mini-proekt-konverter-temperatur.html">Мини-проект: конвертер температур</a></li><li><a href="16-28-mini-proekt-tajmer.html">Мини-проект: таймер обратного отсчёта</a></li><li><a href="16-29-mini-proekt-todo.html">Мини-проект: список задач</a></li><li><a href="16-30-mini-proekt-zametki.html">Мини-проект: редактор заметок</a></li><li><a href="16-31-tip-calculator-pro.html">Tip Calculator Pro: финальная версия</a></li><li><a href="16-32-debugging-i-kachestvo.html">Отладка интерфейса и качество GUI</a></li><li><a href="16-33-itogi-glavy.html">Итоги главы: инструментарий Tkinter</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/16-01/index.html">🐍 16-01: Практика</a></li><li><a href="../../practice/16-02/index.html">🐍 16-02: Практика</a></li><li><a href="../../practice/16-03/index.html">🐍 16-03: Практика</a></li><li><a href="../../practice/16-04/index.html">🐍 16-04: Практика</a></li><li><a href="../../practice/16-05/index.html">🐍 16-05: Практика</a></li><li><a href="../../practice/16-06/index.html">🐍 16-06: Практика</a></li><li><a href="../../practice/16-07/index.html">🐍 16-07: Практика</a></li><li><a href="../../practice/16-08/index.html">🐍 16-08: Практика</a></li><li><a href="../../practice/16-09/index.html">🐍 16-09: Практика</a></li><li><a href="../../practice/16-10/index.html">🐍 16-10: Практика</a></li><li><a href="../../practice/16-11/index.html">🐍 16-11: Практика</a></li><li><a href="../../practice/16-12/index.html">🐍 16-12: Практика</a></li><li><a href="../../practice/16-13/index.html">🐍 16-13: Практика</a></li><li><a href="../../practice/16-14/index.html">🐍 16-14: Практика</a></li><li><a href="../../practice/16-15/index.html">🐍 16-15: Практика</a></li><li><a href="../../practice/16-16/index.html">🐍 16-16: Практика</a></li><li><a href="../../practice/16-17/index.html">🐍 16-17: Практика</a></li><li><a href="../../practice/16-18/index.html">🐍 16-18: Практика</a></li><li><a href="../../practice/16-19/index.html">🐍 16-19: Практика</a></li><li><a href="../../practice/16-20/index.html">🐍 16-20: Практика</a></li><li><a href="../../practice/16-21/index.html">🐍 16-21: Практика</a></li><li><a href="../../practice/16-22/index.html">🐍 16-22: Практика</a></li><li><a href="../../practice/16-23/index.html">🐍 16-23: Практика</a></li><li><a href="../../practice/16-24/index.html">🐍 16-24: Практика</a></li><li><a href="../../practice/16-25/index.html">🐍 16-25: Практика</a></li><li><a href="../../practice/16-26/index.html">🐍 16-26: Практика</a></li><li><a href="../../practice/16-27/index.html">🐍 16-27: Практика</a></li><li><a href="../../practice/16-28/index.html">🐍 16-28: Практика</a></li><li><a href="../../practice/16-29/index.html">🐍 16-29: Практика</a></li><li><a href="../../practice/16-30/index.html">🐍 16-30: Практика</a></li><li><a href="../../practice/16-31/index.html">🐍 16-31: Практика</a></li><li><a href="../../practice/16-32/index.html">🐍 16-32: Практика</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / Toplevel</div>
+    <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
+    <h1>Toplevel: несколько окон</h1>
+    <p class="lede">Настоящему приложению почти всегда нужно больше одного окна — но не больше одного root.</p>
+
+
+    <h2>Toplevel — дополнительное окно</h2>
+    <p>Для второго окна (настройки, «О программе», диалог) используется
+    <code class="inline">tk.Toplevel</code>, а не второй <code class="inline">tk.Tk()</code>:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>toplevel.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> otkryt_nastrojki():
+    okno_nastrojek = tk.Toplevel(root)
+    okno_nastrojek.title(<span class="tok-str">&quot;Настройки&quot;</span>)
+    ttk.Label(okno_nastrojek, text=<span class="tok-str">&quot;Здесь будут настройки&quot;</span>).pack(padx=<span class="tok-num">20</span>, pady=<span class="tok-num">20</span>)
+
+ttk.Button(root, text=<span class="tok-str">&quot;Настройки&quot;</span>, command=otkryt_nastrojki).pack()</code></pre>
+    </div>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="" style="width:100%;height:auto;max-width:560px"><defs><marker id='arrowrelis' viewBox='0 0 14 12' refX='13' refY='6' markerWidth='16' markerHeight='14' orient='auto-start-reverse'><path d='M1,1 L13,6 L1,11 z' fill='#FAFAFC' stroke='#5B24F9' stroke-width='1.5'/></marker><marker id='arrowrelhas' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='diamondrel' viewBox='0 0 16 10' refX='1' refY='5' markerWidth='11' markerHeight='7' orient='auto-start-reverse'><path d='M1,5 L8,1 L15,5 L8,9 z' fill='#059669'/></marker></defs><rect x="10" y="10.0" width="200" height="60" rx="12" fill="#FAFAFC" stroke="#0D0230" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14" fill="#0D0230"><tspan x="110.0" y="45">root : Tk</tspan></text><rect x="340" y="10.0" width="200" height="60" rx="12" fill="#FAFAFC" stroke="#0D0230" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14" fill="#0D0230"><tspan x="440.0" y="36">okno_nastrojek :</tspan><tspan x="440.0" y="54">Toplevel</tspan></text><line x1="220" y1="40" x2="338" y2="40" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowrelhas)" marker-start="url(#diamondrel)"/><text x="275.0" y="28" text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="12.5" letter-spacing="0.04em" fill="#059669">СОЗДАЁТ</text></svg></div></div></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Второй Tk() — типичная ошибка</div>
+        <div class="callout-body">Каждый дополнительный <code class="inline">tk.Tk()</code> создаёт отдельный интерпретатор Tcl — это не то же самое, что второе окно приложения, и приводит к неожиданному поведению. Для любого дополнительного окна — только <code class="inline">Toplevel</code>.</div>
+      </div>
+    </div>
+
+    <h2 id="modal">🔬 Чуть глубже: модальное окно</h2>
+    <p>Некоторые диалоги должны блокировать взаимодействие с родительским окном, пока не будут
+    закрыты:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>modalnoe_okno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>okno = tk.Toplevel(root)
+okno.transient(root)     <span class="tok-com"># окно принадлежит родителю визуально</span>
+okno.grab_set()          <span class="tok-com"># забирает весь ввод, пока не закрыто</span>
+root.wait_window(okno)   <span class="tok-com"># родитель ждёт закрытия этого окна</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Не обязательно на старте</div>
+        <div class="callout-body">Собственные модальные окна — продвинутая техника. Для большинства учебных и небольших приложений обычного <code class="inline">Toplevel</code> без <code class="inline">grab_set()</code> вполне достаточно.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: окно настроек через Toplevel</div>
+        <div class="nc-sub">Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="16-20">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/16-20/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-20"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="16-19-filedialog-i-pathlib.html"><div class="dir">← Назад</div><div class="lbl">Открываем и сохраняем файлы: filedialog и pathlib</div></a><a href="16-21-focus-i-dostupnost.html" class="next"><div class="dir">Далее →</div><div class="lbl">Focus, клавиатура и основы доступности</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

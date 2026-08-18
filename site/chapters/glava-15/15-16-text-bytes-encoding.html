@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Текст, bytes и кодировка UTF-8 — Python с нуля — Cartesian School</title>
-<meta name="description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; обязателен, и что происходит при несовпадении кодировок." />
+<meta name="description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; делает поведение программы предсказуемым, и что происходит при несовпадении кодировок." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Текст, bytes и кодировка UTF-8 — Python с нуля — Cartesian School" />
-<meta property="og:description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; обязателен, и что происходит при несовпадении кодировок." />
+<meta property="og:description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; делает поведение программы предсказуемым, и что происходит при несовпадении кодировок." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-15/15-16-text-bytes-encoding.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Текст, bytes и кодировка UTF-8 — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; обязателен, и что происходит при несовпадении кодировок." />
+<meta name="twitter:description" content="str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=&quot;utf-8&quot; делает поведение программы предсказуемым, и что происходит при несовпадении кодировок." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Текст, bytes и кодировка UTF-8 — Python с нуля — Cartesian School","description":"str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=\"utf-8\" обязателен, и что происходит при несовпадении кодировок.","url":"https://www.cartesianschool.org/chapters/glava-15/15-16-text-bytes-encoding.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Текст, bytes и кодировка UTF-8 — Python с нуля — Cartesian School","description":"str и bytes — разные типы; encode/decode превращают одно в другое; почему явный encoding=\"utf-8\" делает поведение программы предсказуемым, и что происходит при несовпадении кодировок.","url":"https://www.cartesianschool.org/chapters/glava-15/15-16-text-bytes-encoding.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -89,6 +89,10 @@ obratno = b.decode(<span class="tok-str">&quot;utf-8&quot;</span>)
         <div class="callout-body">Unicode — это система, сопоставляющая символам числовые коды (какой символ значит какое число). UTF-8 — лишь один из способов записать эти числа байтами; есть и другие кодировки. В этом курсе мы всегда явно выбираем UTF-8 как стандарт для текстовых файлов — но это выбор, а не единственно возможный вариант.</div>
       </div>
     </div>
+    <p>Когда формат текста заранее известен как UTF-8 (а в этом курсе это так почти всегда),
+    явное указание <code class="inline">encoding="utf-8"</code> делает поведение программы
+    предсказуемым и переносимым — вместо того, чтобы зависеть от кодировки по умолчанию,
+    которая определяется платформой и настройками окружения выполнения.</p>
 
     <h2>Почему кодировка важна</h2>
 
