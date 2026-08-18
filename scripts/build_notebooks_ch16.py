@@ -829,23 +829,46 @@ def build_23() -> None:
     nb = NotebookBuilder()
     nb.md("# 16-23 · Валидация ввода\n\nПрактика к разделу "
           "[«Валидация ввода и обратная связь»](../../site/chapters/glava-16/16-23-validatsiya-vvoda.html).")
-    nb.md("## Цель\n\nПроверить пустой, нечисловой и отрицательный ввод перед вычислением.")
-    nb.code('''def validate_amount(text):
-    if not text.strip():
-        return False, "Поле не должно быть пустым"
+    nb.md("## Цель\n\nПроверить общий разбор числа и специализированную валидацию поверх него.")
+    nb.code('''def parse_number(text):
+    text = text.strip()
+    if not text:
+        return False, None, "Поле не должно быть пустым"
     try:
-        value = float(text)
+        return True, float(text), ""
     except ValueError:
-        return False, "Введите число"
+        return False, None, "Введите число"
+
+ok1, val1, msg1 = parse_number("")
+ok2, val2, msg2 = parse_number("abc")
+ok3, val3, msg3 = parse_number("-5")
+ok4, val4, msg4 = parse_number("100")
+print(ok1, ok2, ok3, ok4)
+print(val3, val4, repr(msg4))''')
+    nb.md("## Задание ★★ Самостоятельная задача — специализированная валидация")
+    nb.code('''def validate_positive_amount(text):
+    ok, value, message = parse_number(text)
+    if not ok:
+        return False, message
     if value <= 0:
         return False, "Число должно быть больше нуля"
     return True, ""
 
-ok1, msg1 = validate_amount("")
-ok2, msg2 = validate_amount("abc")
-ok3, msg3 = validate_amount("-5")
-ok4, msg4 = validate_amount("100")
-print(ok1, ok2, ok3, ok4, repr(msg4))''')
+def validate_positive_int(text):
+    ok, value, message = parse_number(text)
+    if not ok:
+        return False, message
+    if value != int(value):
+        return False, "Введите целое число"
+    if int(value) < 1:
+        return False, "Число должно быть не меньше 1"
+    return True, ""
+
+amount_negative_ok, _ = validate_positive_amount("-5")
+amount_valid_ok, _ = validate_positive_amount("100")
+people_float_ok, _ = validate_positive_int("2.5")
+people_valid_ok, _ = validate_positive_int("5")
+print(amount_negative_ok, amount_valid_ok, people_float_ok, people_valid_ok)''')
     nb.write(OUT_DIR / "16-23-validatsiya-vvoda.ipynb")
     print(f"Записано: 16-23 ({len(nb)} ячеек)")
 
@@ -1090,15 +1113,31 @@ def save_settings(settings):
 def calculate_tip(amount, percent, people):
     return (amount * percent / 100) / people
 
-def validate_amount(text):
-    if not text.strip():
-        return False, "Поле не должно быть пустым"
+def parse_number(text):
+    text = text.strip()
+    if not text:
+        return False, None, "Поле не должно быть пустым"
     try:
-        value = float(text)
+        return True, float(text), ""
     except ValueError:
-        return False, "Введите число"
+        return False, None, "Введите число"
+
+def validate_positive_amount(text):
+    ok, value, message = parse_number(text)
+    if not ok:
+        return False, message
     if value <= 0:
         return False, "Число должно быть больше нуля"
+    return True, ""
+
+def validate_positive_int(text):
+    ok, value, message = parse_number(text)
+    if not ok:
+        return False, message
+    if value != int(value):
+        return False, "Введите целое число"
+    if int(value) < 1:
+        return False, "Число должно быть не меньше 1"
     return True, ""
 
 class TipCalculatorApp:
@@ -1114,14 +1153,18 @@ class TipCalculatorApp:
         ttk.Button(root, text="Считать", command=self.on_calculate).pack()
 
     def on_calculate(self):
-        ok, message = validate_amount(self.amount_var.get())
+        ok, message = validate_positive_amount(self.amount_var.get())
         if not ok:
             self.result_var.set(message)
+            return
+        ok_people, message_people = validate_positive_int(self.people_var.get())
+        if not ok_people:
+            self.result_var.set(message_people)
             return
         chaevye = calculate_tip(
             float(self.amount_var.get()),
             float(self.percent_var.get()),
-            float(self.people_var.get()),
+            int(self.people_var.get()),
         )
         self.result_var.set(f"{chaevye:.2f}")
         self.settings["last_percent"] = self.percent_var.get()
@@ -1131,9 +1174,16 @@ app = TipCalculatorApp(root)
 app.amount_var.set("1000")
 app.people_var.set("2")
 app.on_calculate()
+result_with_valid_people = app.result_var.get()
+
+app.people_var.set("2.5")
+app.on_calculate()
+result_with_invalid_people = app.result_var.get()
+
 save_settings(app.settings)
 root.update()
-print(app.result_var.get())
+print(result_with_valid_people)
+print(result_with_invalid_people)
 root.destroy()''')
     nb.write(OUT_DIR / "16-31-tip-calculator-pro.ipynb")
     print(f"Записано: 16-31 ({len(nb)} ячеек)")
