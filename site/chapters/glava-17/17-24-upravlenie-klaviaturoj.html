@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Управление клавиатурой — Python с нуля — Cartesian School</title>
+<meta name="description" content="Клавиши 1-9 ведут в тот же attempt_move(), что и клик мышью — мышь и клавиатура сходятся в одном пути, не дублируя правила." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-24-upravlenie-klaviaturoj.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Управление клавиатурой — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Клавиши 1-9 ведут в тот же attempt_move(), что и клик мышью — мышь и клавиатура сходятся в одном пути, не дублируя правила." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-24-upravlenie-klaviaturoj.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Управление клавиатурой — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Клавиши 1-9 ведут в тот же attempt_move(), что и клик мышью — мышь и клавиатура сходятся в одном пути, не дублируя правила." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Управление клавиатурой — Python с нуля — Cartesian School","description":"Клавиши 1-9 ведут в тот же attempt_move(), что и клик мышью — мышь и клавиатура сходятся в одном пути, не дублируя правила.","url":"https://www.cartesianschool.org/chapters/glava-17/17-24-upravlenie-klaviaturoj.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html" class="active">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Управление клавиатурой</div>
+    <div class="section-kicker">Глава 17 · Интерфейс игры</div>
+    <h1>Управление клавиатурой</h1>
+    <p class="lede">1-9 — те же ходы, что и клик мышью, через тот же самый код.</p>
+
+
+    <h2>Мышь и клавиатура сходятся в одной точке</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 336 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Оба пути ведут в ОДНУ И ТУ ЖЕ функцию — правила не дублируются." style="width:100%;height:auto;max-width:336px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="36.0">Button command</tspan><tspan x="78.0" y="52.0">(клик)</tspan></text><path d="M78.0,70 C78.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="36.0">клавиатурная</tspan><tspan x="258.0" y="52.0">привязка (1-9)</tspan></text><path d="M258.0,70 C258.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="48.0" y="170" width="240" height="60" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="168.0" y="205.0">attempt_move(index)</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Оба пути ведут в ОДНУ И ТУ ЖЕ функцию — правила не дублируются.</figcaption></figure>
+
+    <div class="code-block">
+      <div class="code-label"><span>keyboard_control.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_key(self, event):
+    <span class="tok-kw">if</span> event.keysym <span class="tok-kw">in</span> (<span class="tok-str">&quot;r&quot;</span>, <span class="tok-str">&quot;R&quot;</span>):
+        self.new_round()
+        <span class="tok-kw">return</span>
+    <span class="tok-kw">if</span> event.char <span class="tok-kw">and</span> event.char.isdigit():
+        n = <span class="tok-fn">int</span>(event.char)
+        <span class="tok-kw">if</span> <span class="tok-num">1</span> &lt;= n &lt;= <span class="tok-num">9</span>:
+            self.attempt_move(n - <span class="tok-num">1</span>)   <span class="tok-com"># клавиша 1 -&gt; индекс 0, ... 9 -&gt; индекс 8</span></code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Клавиатура не получает свою копию правил</div>
+        <div class="callout-body">Обработчик клавиатуры ТОЛЬКО переводит нажатую клавишу в номер клетки и зовёт <code class="inline">attempt_move()</code> — ту же функцию, что вызывает клик мышью. Если бы клавиатурный путь копировал проверку победителя отдельно, два набора правил рано или поздно разошлись бы (Debug Lab 12, раздел 17.29 — похожая ошибка с опечаткой в линии).</div>
+      </div>
+    </div>
+    <table class="compare-table">
+      <thead><tr><th>Клавиша</th><th>Индекс клетки</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>0</td></tr><tr><td>2</td><td>1</td></tr><tr><td>3</td><td>2</td></tr><tr><td>4</td><td>3</td></tr><tr><td>5</td><td>4</td></tr><tr><td>6</td><td>5</td></tr><tr><td>7</td><td>6</td></tr><tr><td>8</td><td>7</td></tr><tr><td>9</td><td>8</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">keysym против char — здесь выбран char</div>
+        <div class="callout-body">Раздел 17.8 показал разницу: <code class="inline">event.char</code> — фактический введённый символ. Для цифровых клавиш он совпадает и с верхним рядом, и с дополнительной цифровой клавиатурой (NumPad) на большинстве систем — поэтому здесь он удобнее, чем сравнение по <code class="inline">event.keysym</code>.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: клавиши 1-9 и R</div>
+        <div class="nc-sub">Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="17-24">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-24/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-24"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-23-hover-preview.html"><div class="dir">← Назад</div><div class="lbl">Hover preview</div></a><a href="17-25-podsvetka-linii.html" class="next"><div class="dir">Далее →</div><div class="lbl">Подсветка выигрышной линии</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

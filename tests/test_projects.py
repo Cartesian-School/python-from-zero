@@ -97,15 +97,73 @@ print("OK")
     assert "OK" in r.stdout
 
 
-def test_tic_tac_toe():
+def test_tic_tac_toe_basic():
     r = run_with_display(
         """
-import tic_tac_toe as t
+import tic_tac_toe_basic as t
 t.novaya_igra()
 for i in (0, 3, 1, 4, 2):  # X wins the top row
     t.na_knopku_nazhali(i)
 assert t.proverit_pobedu() == "X"
 assert t.igra_okonchena is True
+print("OK")
+""",
+        ROOT / "projects" / "tkinter" / "tic-tac-toe",
+    )
+    assert r.returncode == 0, r.stderr
+    assert "OK" in r.stdout
+
+
+def test_tic_tac_toe_pro():
+    r = run_with_display(
+        """
+import tkinter as tk
+import tic_tac_toe as t
+
+root = tk.Tk()
+app = t.TicTacToeApp(root)
+root.update()
+
+# occupied cell: rejected, does not switch player
+app.attempt_move(0)
+app.attempt_move(0)
+assert app.state.board[0] == "X"
+assert app.state.current_player == "O"
+
+# hover preview never mutates the model, and is cleared on leave
+app.on_cell_enter(4)
+root.update()
+assert app.state.board[4] == ""
+assert app.buttons[4]["text"] == "O"
+app.on_cell_leave(4)
+root.update()
+assert app.buttons[4]["text"] == ""
+
+# full game: win detection, winning-line highlight, score, board lock
+app.new_round()
+for i in (0, 3, 1, 4, 2):  # X takes the top row
+    app.attempt_move(i)
+assert app.state.game_over is True
+assert app.state.winner == "X"
+assert app.state.winning_line == (0, 1, 2)
+assert app.state.score_x == 1
+app.attempt_move(5)  # move after game_over must be rejected
+assert app.state.board[5] == ""
+
+# keyboard path reuses attempt_move (same pipeline as mouse)
+app.new_round()
+class FakeEvent:
+    def __init__(self, char, keysym):
+        self.char, self.keysym = char, keysym
+app.on_key(FakeEvent("1", "1"))
+assert app.state.board[0] == "X"
+
+# New Round keeps match score, New Match resets it
+app.new_round()
+assert app.state.score_x == 1
+app.new_match()
+assert app.state.score_x == 0 and app.state.score_o == 0 and app.state.draws == 0
+root.destroy()
 print("OK")
 """,
         ROOT / "projects" / "tkinter" / "tic-tac-toe",

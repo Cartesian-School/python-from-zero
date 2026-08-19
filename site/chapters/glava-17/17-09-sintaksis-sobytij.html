@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Синтаксис событий Tk — Python с нуля — Cartesian School</title>
+<meta name="description" content="Анатомия строки-последовательности события Tk: &lt;модификатор-тип-деталь&gt; — на конкретных примерах." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-09-sintaksis-sobytij.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Синтаксис событий Tk — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Анатомия строки-последовательности события Tk: &lt;модификатор-тип-деталь&gt; — на конкретных примерах." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-09-sintaksis-sobytij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Синтаксис событий Tk — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Анатомия строки-последовательности события Tk: &lt;модификатор-тип-деталь&gt; — на конкретных примерах." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Синтаксис событий Tk — Python с нуля — Cartesian School","description":"Анатомия строки-последовательности события Tk: \u003cмодификатор-тип-деталь> — на конкретных примерах.","url":"https://www.cartesianschool.org/chapters/glava-17/17-09-sintaksis-sobytij.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html" class="active">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Синтаксис событий</div>
+    <div class="section-kicker">Глава 17 · События глубже</div>
+    <h1>Синтаксис событий Tk</h1>
+    <p class="lede"><модификатор-тип-деталь> — не всегда нужны все три части сразу.</p>
+
+
+    <h2>Анатомия последовательности событий</h2>
+    <p>Строка вроде <code class="inline">"&lt;Control-Button-1&gt;"</code> — это не магическое
+    заклинание, а структура <code class="inline">&lt;модификатор-тип-деталь&gt;</code>, где
+    часть элементов может отсутствовать:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Запись</th><th>Что означает</th></tr></thead>
+      <tbody><tr><td><code class="inline">&lt;KeyPress&gt;</code></td><td>любая клавиша нажата (то же, что <code class="inline">&lt;Key&gt;</code>)</td></tr><tr><td><code class="inline">&lt;Return&gt;</code></td><td>конкретная клавиша Enter</td></tr><tr><td><code class="inline">&lt;Escape&gt;</code></td><td>конкретная клавиша Escape</td></tr><tr><td><code class="inline">&lt;Button-1&gt;</code></td><td>нажатие левой кнопки мыши</td></tr><tr><td><code class="inline">&lt;Enter&gt;</code></td><td>курсор вошёл в границы виджета</td></tr><tr><td><code class="inline">&lt;Leave&gt;</code></td><td>курсор покинул границы виджета</td></tr><tr><td><code class="inline">&lt;Control-r&gt;</code></td><td>модификатор Control + клавиша r</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Не нужно запоминать всю грамматику Tk целиком</div>
+        <div class="callout-body">У Tk десятки поддерживаемых последовательностей событий. Для главы 17 достаточно этого небольшого набора — при необходимости остальные ищутся в официальной документации Tcl/Tk по мере надобности, а не заучиваются заранее.</div>
+      </div>
+    </div>
+
+    <h2>Button-1 — левая кнопка мыши</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>button_1_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_raw_click(event):
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Клик мышью в координатах&quot;</span>, event.x, event.y)
+
+label.bind(<span class="tok-str">&quot;&lt;Button-1&gt;&quot;</span>, on_raw_click)</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Не главный способ активировать клетки игры</div>
+        <div class="callout-body"><code class="inline">&lt;Button-1&gt;</code> полезен для демонстрации низкоуровневого события мыши — но для клеток игрового поля мы всё равно будем использовать <code class="inline">command=</code> у Button (раздел 17.10). Здесь это просто иллюстрация синтаксиса.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: синтаксис событий</div>
+        <div class="nc-sub">Автоматическая проверка — сопоставляем описание действия с правильной строкой последовательности события</div>
+        <div class="practice-inline-status" data-lesson-id="17-09"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-09/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-08-obyekt-event.html"><div class="dir">← Назад</div><div class="lbl">Объект Event</div></a><a href="17-10-command-vs-bind.html" class="next"><div class="dir">Далее →</div><div class="lbl">command vs bind</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

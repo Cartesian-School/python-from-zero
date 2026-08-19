@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Архитектура TicTacToeApp — Python с нуля — Cartesian School</title>
+<meta name="description" content="Композиция вместо наследования от Tk, объектный граф приложения и разделение доменной логики и UI-логики." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-20-arhitektura-app.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Архитектура TicTacToeApp — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Композиция вместо наследования от Tk, объектный граф приложения и разделение доменной логики и UI-логики." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-20-arhitektura-app.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Архитектура TicTacToeApp — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Композиция вместо наследования от Tk, объектный граф приложения и разделение доменной логики и UI-логики." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Архитектура TicTacToeApp — Python с нуля — Cartesian School","description":"Композиция вместо наследования от Tk, объектный граф приложения и разделение доменной логики и UI-логики.","url":"https://www.cartesianschool.org/chapters/glava-17/17-20-arhitektura-app.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html" class="active">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Архитектура TicTacToeApp</div>
+    <div class="section-kicker">Глава 17 · Архитектура</div>
+    <h1>Архитектура TicTacToeApp</h1>
+    <p class="lede">app.root, а не class TicTacToeApp(tk.Tk) — та же композиция, что и в главе 16.</p>
+
+
+    <h2>app HAS-A root — не наследование от Tk</h2>
+
+    <div class="cvm">
+      <div class="cvm-header">Композиция против наследования</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Возможно, но не нужно</div>
+          <pre><code><span class="tok-kw">class</span> TicTacToeApp(tk.Tk):
+    <span class="tok-kw">def</span> __init__(self):
+        super().__init__()
+        ...</code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Как в главе 16</div>
+          <pre><code><span class="tok-kw">class</span> TicTacToeApp:
+    <span class="tok-kw">def</span> __init__(self, root):
+        self.root = root
+        ...</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> Наследование от <code class="inline">tk.Tk</code> технически работает, но не нужно и не согласуется с тем, как строились приложения в главе 16. <code class="inline">app.root</code> (композиция, «HAS-A») — тот же паттерн, что и у Tip Calculator Pro и редактора заметок.</div>
+    </div>
+
+    <h2>Объектный граф приложения</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="app хранит виджеты и ССЫЛКУ на состояние — не наоборот." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="190" rx="14" fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">app : TicTacToeApp</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">root = </tspan>Tk</text><text x="26" y="100" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">state = </tspan>GameState</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">buttons = </tspan>list[Button]</text><text x="26" y="156" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">status_var = </tspan>StringVar</text><text x="26" y="184" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">score_var = </tspan>StringVar</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">app хранит виджеты и ССЫЛКУ на состояние — не наоборот.</figcaption></figure>
+
+    <h2>Домен против UI — разделение ответственности</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Чистая доменная логика (без Tkinter)</th><th>UI-логика (внутри TicTacToeApp)</th></tr></thead>
+      <tbody><tr><td>find_winner(board)</td><td>on_cell_click / attempt_move — вызывает домен, потом render</td></tr><tr><td>is_draw(board)</td><td>on_cell_enter / on_cell_leave — превью</td></tr><tr><td>index → row/column</td><td>render() — единственное место, красящее виджеты</td></tr><tr><td></td><td>new_round() / new_match() — жизненный цикл</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Проверка «можно ли протестировать без окна?»</div>
+        <div class="callout-body">Хороший тест архитектуры: если для проверки функции обязательно открывать окно Tkinter — это, вероятно, UI-логика. Если можно вызвать её с обычными списком/строкой и получить результат — это доменная логика, и её МОЖНО было бы вынести в отдельный модуль.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: собираем объектный граф TicTacToeApp</div>
+        <div class="nc-sub">Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="17-20">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-20/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-20"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-19-gamestate-dataclass.html"><div class="dir">← Назад</div><div class="lbl">GameState dataclass</div></a><a href="17-21-adaptivnoe-pole.html" class="next"><div class="dir">Далее →</div><div class="lbl">Адаптивное игровое поле</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
