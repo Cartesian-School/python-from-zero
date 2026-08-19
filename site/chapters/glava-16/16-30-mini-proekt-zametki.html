@@ -86,8 +86,8 @@
         )
         <span class="tok-kw">if</span> answer <span class="tok-kw">is</span> <span class="tok-kw">None</span>:   <span class="tok-com"># Cancel — прервать текущее действие</span>
             <span class="tok-kw">return</span> <span class="tok-kw">False</span>
-        <span class="tok-kw">if</span> answer:           <span class="tok-com"># Yes — сначала сохранить</span>
-            self.save_as()
+        <span class="tok-kw">if</span> answer:           <span class="tok-com"># Yes — продолжить, только если сохранение реально удалось</span>
+            <span class="tok-kw">return</span> self.save_as()
         <span class="tok-kw">return</span> <span class="tok-kw">True</span>          <span class="tok-com"># No — продолжить, не сохраняя</span>
 
     <span class="tok-kw">def</span> on_exit(self):
@@ -95,18 +95,27 @@
             self.root.destroy()
 
     <span class="tok-kw">def</span> save_as(self):
+        <span class="tok-str">&quot;&quot;&quot;True — файл сохранён. False — пользователь отменил диалог &quot;Сохранить как&quot;.&quot;&quot;&quot;</span>
         filename = filedialog.asksaveasfilename(defaultextension=<span class="tok-str">&quot;.txt&quot;</span>)
         <span class="tok-kw">if</span> <span class="tok-kw">not</span> filename:
-            <span class="tok-kw">return</span>
+            <span class="tok-kw">return</span> <span class="tok-kw">False</span>
         self.current_path = Path(filename)
         self.current_path.write_text(self.text_widget.get(<span class="tok-str">&quot;1.0&quot;</span>, <span class="tok-str">&quot;end-1c&quot;</span>), encoding=<span class="tok-str">&quot;utf-8&quot;</span>)
-        self.dirty = <span class="tok-kw">False</span></code></pre>
+        self.dirty = <span class="tok-kw">False</span>
+        <span class="tok-kw">return</span> <span class="tok-kw">True</span></code></pre>
     </div>
 
     <div class="callout callout-info">
       <div>
         <div class="callout-title">Три исхода одного вопроса</div>
         <div class="callout-body"><code class="inline">messagebox.askyesnocancel(...)</code> возвращает <code class="inline">True</code> (Да — сохранить), <code class="inline">False</code> (Нет — не сохранять) или <code class="inline">None</code> (Отмена/закрыт диалог — прервать текущее действие полностью). Обычный <code class="inline">askyesno</code> умеет только два первых варианта — для «Выход с несохранёнными изменениями» нужен именно третий: возможность передумать закрывать приложение вообще.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Yes — это ещё не сохранено</div>
+        <div class="callout-body">Если пользователь выбрал «Да», но затем нажал «Отмена» в диалоге <code class="inline">asksaveasfilename</code>, файл не сохранён — и продолжать действие (закрывать окно, открывать другой файл) нельзя, иначе несохранённый текст будет потерян. Поэтому <code class="inline">confirm_discard_if_dirty()</code> возвращает результат самого <code class="inline">save_as()</code>, а не <code class="inline">True</code> сразу после вызова «Да».</div>
       </div>
     </div>
 

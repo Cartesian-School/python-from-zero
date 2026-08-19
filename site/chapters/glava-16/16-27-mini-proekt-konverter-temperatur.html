@@ -77,6 +77,18 @@
       <pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
 <span class="tok-kw">from</span> tkinter <span class="tok-kw">import</span> ttk
 
+<span class="tok-kw">def</span> celsius_v_farengejty(celsius):
+    <span class="tok-kw">return</span> celsius * <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>
+
+<span class="tok-kw">def</span> parse_number(text):
+    text = text.strip()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> text:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">&quot;Поле не должно быть пустым&quot;</span>
+    <span class="tok-kw">try</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-fn">float</span>(text), <span class="tok-str">&quot;&quot;</span>
+    <span class="tok-kw">except</span> ValueError:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">&quot;Введите число&quot;</span>
+
 root = tk.Tk()
 celsius_var = tk.StringVar()
 result_var = tk.StringVar()

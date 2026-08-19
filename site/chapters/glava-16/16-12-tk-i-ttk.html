@@ -47,7 +47,7 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 16</a> / tk и ttk</div>
     <div class="section-kicker">Глава 16 · Создаём классные приложения с Tkinter</div>
     <h1>tk и ttk: классические и тематизированные виджеты</h1>
-    <p class="lede">Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.</p>
+    <p class="lede">Начиная с этого раздела в новых примерах мы предпочитаем ttk там, где существует тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.</p>
 
 
     <h2>Витрина виджетов Tkinter</h2>
@@ -92,7 +92,7 @@ ttk.Entry(root).pack()</code></pre>
     <div class="callout callout-tip">
       <div>
         <div class="callout-title">Для нового кода — ttk, где есть аналог</div>
-        <div class="callout-body">Начиная с этой главы курс использует <code class="inline">ttk.Label</code>, <code class="inline">ttk.Button</code>, <code class="inline">ttk.Entry</code> и другие тематизированные виджеты, где они существуют. Но ttk <strong>не заменяет</strong> весь Tk целиком — виджеты вроде <code class="inline">tk.Text</code>, <code class="inline">tk.Canvas</code> и <code class="inline">tk.Menu</code> остаются классическими, потому что у них нет тематизированного аналога.</div>
+        <div class="callout-body">Начиная с этого раздела в новых примерах мы предпочитаем <code class="inline">ttk.Label</code>, <code class="inline">ttk.Button</code>, <code class="inline">ttk.Entry</code> и другие тематизированные виджеты там, где существует тематизированный аналог. Но ttk <strong>не заменяет</strong> весь Tk целиком — виджеты вроде <code class="inline">tk.Text</code>, <code class="inline">tk.Canvas</code> и <code class="inline">tk.Menu</code> остаются классическими, потому что у них нет тематизированного аналога.</div>
       </div>
     </div>
 
@@ -252,7 +252,7 @@ build_ui()</code></pre>
 # на месте изображения пусто.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>После выхода из <code class="inline">build_ui()</code> локальная переменная <code class="inline">image</code> уничтожается сборщиком мусора Python — виджет хранит ссылку на неё внутри Tcl, но сам объект <code class="inline">PhotoImage</code> в Python уже никто не держит. Виджет теряет связь с реальными данными изображения.</p>
+        <p>После завершения <code class="inline">build_ui()</code> локальное имя <code class="inline">image</code> исчезает. Если на объект <code class="inline">PhotoImage</code> больше не остаётся Python-ссылок, объект может быть освобождён — виджет хранит ссылку на него только внутри Tcl, а не в самом Python. Поэтому приложение должно хранить ссылку на <code class="inline">PhotoImage</code> столько времени, сколько изображение должно отображаться.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 

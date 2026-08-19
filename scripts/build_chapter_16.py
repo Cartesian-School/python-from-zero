@@ -1057,9 +1057,10 @@ def build_12() -> None:
     {callout(
         "tip",
         "Для нового кода — ttk, где есть аналог",
-        "Начиная с этой главы курс использует <code class=\"inline\">ttk.Label</code>, "
-        "<code class=\"inline\">ttk.Button</code>, <code class=\"inline\">ttk.Entry</code> и "
-        "другие тематизированные виджеты, где они существуют. Но ttk <strong>не заменяет</strong> "
+        "Начиная с этого раздела в новых примерах мы предпочитаем "
+        "<code class=\"inline\">ttk.Label</code>, <code class=\"inline\">ttk.Button</code>, "
+        "<code class=\"inline\">ttk.Entry</code> и другие тематизированные виджеты там, где "
+        "существует тематизированный аналог. Но ttk <strong>не заменяет</strong> "
         "весь Tk целиком — виджеты вроде <code class=\"inline\">tk.Text</code>, "
         "<code class=\"inline\">tk.Canvas</code> и <code class=\"inline\">tk.Menu</code> "
         "остаются классическими, потому что у них нет тематизированного аналога.",
@@ -1196,11 +1197,13 @@ def build_12() -> None:
         "    label.pack()\n\n"
         "build_ui()\n",
         ["# Окно открывается, но картинка не отображается —", "# на месте изображения пусто."],
-        "После выхода из <code class=\"inline\">build_ui()</code> локальная переменная "
-        "<code class=\"inline\">image</code> уничтожается сборщиком мусора Python — "
-        "виджет хранит ссылку на неё внутри Tcl, но сам объект "
-        "<code class=\"inline\">PhotoImage</code> в Python уже никто не держит. Виджет "
-        "теряет связь с реальными данными изображения.",
+        "После завершения <code class=\"inline\">build_ui()</code> локальное имя "
+        "<code class=\"inline\">image</code> исчезает. Если на объект "
+        "<code class=\"inline\">PhotoImage</code> больше не остаётся Python-ссылок, объект "
+        "может быть освобождён — виджет хранит ссылку на него только внутри Tcl, а не в "
+        "самом Python. Поэтому приложение должно хранить ссылку на "
+        "<code class=\"inline\">PhotoImage</code> столько времени, сколько изображение "
+        "должно отображаться.",
         "photoimage_fixed.py",
         "class App:\n"
         "    def __init__(self, root):\n"
@@ -1217,7 +1220,7 @@ def build_12() -> None:
         description="Витрина виджетов Tkinter, различие между tk и ttk с реальным сравнением, стилизация через ttk.Style(), краткое знакомство с Canvas и PhotoImage.",
         kicker_suffix="tk и ttk",
         h1="tk и ttk: классические и тематизированные виджеты",
-        lede="Начиная с этой главы курс переходит на ttk там, где у виджета есть тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.",
+        lede="Начиная с этого раздела в новых примерах мы предпочитаем ttk там, где существует тематизированный аналог — но сначала посмотрим, как выглядят виджеты вместе.",
         body_html=body,
     )
 
@@ -1940,15 +1943,32 @@ def build_22() -> None:
         ["# После нескольких нажатий «Старт» счётчик начинает прыгать сразу на 2, 3, 4 за секунду —", "# работает уже несколько параллельных цепочек after()."],
         "Каждый клик запускает новую независимую цепочку самопланирующихся вызовов "
         "<code class=\"inline\">tik()</code>, и они не заменяют друг друга, а работают "
-        "одновременно. Нужно либо блокировать повторный старт, либо явно отменять предыдущую "
-        "цепочку перед новым запуском.",
+        "одновременно. Нужно блокировать повторный старт через общий флаг "
+        "<code class=\"inline\">running</code> — и этот же флаг должна проверять сама "
+        "<code class=\"inline\">tik()</code>, иначе цепочка не остановится даже после "
+        "<code class=\"inline\">stop()</code>.",
         "duplicate_after_fixed.py",
-        'tikayushij_id = None\n\n'
+        'running = False\n'
+        'after_id = None\n\n'
+        'def tik():\n'
+        "    global after_id, running\n"
+        "    if not running:\n"
+        "        return   # stop() уже сбросил флаг — новую цепочку не планируем\n"
+        '    label.config(text=f"Секунд: {schet.get()}")\n'
+        "    schet.set(schet.get() + 1)\n"
+        "    after_id = root.after(1000, tik)\n\n"
         'def start():\n'
-        "    global tikayushij_id\n"
-        "    if tikayushij_id is not None:\n"
+        "    global running\n"
+        "    if running:\n"
         "        return   # уже запущено — повторный клик игнорируем\n"
-        "    tik()\n",
+        "    running = True\n"
+        "    tik()\n\n"
+        'def stop():\n'
+        "    global running, after_id\n"
+        "    running = False\n"
+        "    if after_id is not None:\n"
+        "        root.after_cancel(after_id)\n"
+        "        after_id = None\n",
     )}
 
     {callout(
@@ -1956,7 +1976,7 @@ def build_22() -> None:
         "Никогда time.sleep() внутри callback",
         "<code class=\"inline\">time.sleep(...)</code> в обработчике останавливает событийный "
         "цикл целиком на всё время сна — интерфейс перестаёт отвечать. Подробный разбор — в "
-        "разделе 16.24.",
+        "разделе 16.32.",
     )}
 
     {local_or_practice("16-22", "Практика: таймер обратного отсчёта через after()", "", "../../practice/16-22/index.html")}
@@ -2319,6 +2339,16 @@ def build_27() -> None:
         "konverter_gui.py",
         "import tkinter as tk\n"
         "from tkinter import ttk\n\n"
+        "def celsius_v_farengejty(celsius):\n"
+        "    return celsius * 9 / 5 + 32\n\n"
+        "def parse_number(text):\n"
+        "    text = text.strip()\n"
+        "    if not text:\n"
+        '        return False, None, "Поле не должно быть пустым"\n'
+        "    try:\n"
+        "        return True, float(text), \"\"\n"
+        "    except ValueError:\n"
+        '        return False, None, "Введите число"\n\n'
         "root = tk.Tk()\n"
         "celsius_var = tk.StringVar()\n"
         "result_var = tk.StringVar()\n\n"
@@ -2583,19 +2613,21 @@ def build_30() -> None:
         "        )\n"
         "        if answer is None:   # Cancel — прервать текущее действие\n"
         "            return False\n"
-        "        if answer:           # Yes — сначала сохранить\n"
-        "            self.save_as()\n"
+        "        if answer:           # Yes — продолжить, только если сохранение реально удалось\n"
+        "            return self.save_as()\n"
         "        return True          # No — продолжить, не сохраняя\n\n"
         "    def on_exit(self):\n"
         "        if self.confirm_discard_if_dirty():\n"
         "            self.root.destroy()\n\n"
         "    def save_as(self):\n"
+        '        """True — файл сохранён. False — пользователь отменил диалог "Сохранить как"."""\n'
         '        filename = filedialog.asksaveasfilename(defaultextension=".txt")\n'
         "        if not filename:\n"
-        "            return\n"
+        "            return False\n"
         "        self.current_path = Path(filename)\n"
         '        self.current_path.write_text(self.text_widget.get("1.0", "end-1c"), encoding="utf-8")\n'
-        "        self.dirty = False\n",
+        "        self.dirty = False\n"
+        "        return True\n",
     )}
     {callout(
         "info",
@@ -2606,6 +2638,16 @@ def build_30() -> None:
         "прервать текущее действие полностью). Обычный <code class=\"inline\">askyesno</code> "
         "умеет только два первых варианта — для «Выход с несохранёнными изменениями» нужен "
         "именно третий: возможность передумать закрывать приложение вообще.",
+    )}
+    {callout(
+        "warning",
+        "Yes — это ещё не сохранено",
+        "Если пользователь выбрал «Да», но затем нажал «Отмена» в диалоге "
+        "<code class=\"inline\">asksaveasfilename</code>, файл не сохранён — и продолжать "
+        "действие (закрывать окно, открывать другой файл) нельзя, иначе несохранённый текст "
+        "будет потерян. Поэтому <code class=\"inline\">confirm_discard_if_dirty()</code> "
+        "возвращает результат самого <code class=\"inline\">save_as()</code>, а не "
+        "<code class=\"inline\">True</code> сразу после вызова «Да».",
     )}
     {callout(
         "info",
@@ -2669,6 +2711,30 @@ def build_31() -> None:
         "def save_settings(settings):\n"
         '    with SETTINGS_PATH.open("w", encoding="utf-8") as f:\n'
         "        json.dump(settings, f, ensure_ascii=False, indent=2)\n\n"
+        "def parse_number(text):\n"
+        "    text = text.strip()\n"
+        "    if not text:\n"
+        '        return False, None, "Поле не должно быть пустым"\n'
+        "    try:\n"
+        "        return True, float(text), \"\"\n"
+        "    except ValueError:\n"
+        '        return False, None, "Введите число"\n\n'
+        "def validate_positive_amount(text):\n"
+        "    ok, value, message = parse_number(text)\n"
+        "    if not ok:\n"
+        "        return False, message\n"
+        "    if value <= 0:\n"
+        '        return False, "Число должно быть больше нуля"\n'
+        '    return True, ""\n\n'
+        "def validate_positive_int(text):\n"
+        "    ok, value, message = parse_number(text)\n"
+        "    if not ok:\n"
+        "        return False, message\n"
+        "    if value != int(value):\n"
+        '        return False, "Введите целое число"\n'
+        "    if int(value) < 1:\n"
+        '        return False, "Число должно быть не меньше 1"\n'
+        '    return True, ""\n\n'
         "def calculate_tip(amount, percent, people):\n"
         "    return (amount * percent / 100) / people\n\n"
         "class TipCalculatorApp:\n"
@@ -2733,7 +2799,7 @@ def build_31() -> None:
     {image_figure(f"{IMG}/tip-calculator-pro.png", "Окно Tip Calculator Pro с суммой счёта 1000, процентом 15, количеством человек 2 и результатом 75.00", f"Результат выполнения кода выше — настоящее окно, а не иллюстрация. {PLATFORM_NOTE}", width=360)}
     {object_diagram(
         "app", "TipCalculatorApp",
-        [("root", "Tk"), ("settings", "dict"), ("amount_var", "StringVar"), ("percent_var", "StringVar"), ("result_var", "StringVar")],
+        [("root", "Tk"), ("settings", "dict"), ("amount_var", "StringVar"), ("percent_var", "StringVar"), ("people_var", "StringVar"), ("result_var", "StringVar")],
         caption="Финальный объектный граф: одно приложение, явные зависимости, ни одной глобальной переменной.",
     )}
 
