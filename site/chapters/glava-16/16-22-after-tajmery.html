@@ -132,19 +132,36 @@ ttk.Button(root, text=<span class="tok-str">&quot;Старт&quot;</span>, comma
 # работает уже несколько параллельных цепочек after().</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Каждый клик запускает новую независимую цепочку самопланирующихся вызовов <code class="inline">tik()</code>, и они не заменяют друг друга, а работают одновременно. Нужно либо блокировать повторный старт, либо явно отменять предыдущую цепочку перед новым запуском.</p>
+        <p>Каждый клик запускает новую независимую цепочку самопланирующихся вызовов <code class="inline">tik()</code>, и они не заменяют друг друга, а работают одновременно. Нужно блокировать повторный старт через общий флаг <code class="inline">running</code> — и этот же флаг должна проверять сама <code class="inline">tik()</code>, иначе цепочка не остановится даже после <code class="inline">stop()</code>.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
     <div class="code-block">
       <div class="code-label"><span>duplicate_after_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>tikayushij_id = <span class="tok-kw">None</span>
+      <pre><code>running = <span class="tok-kw">False</span>
+after_id = <span class="tok-kw">None</span>
+
+<span class="tok-kw">def</span> tik():
+    <span class="tok-kw">global</span> after_id, running
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> running:
+        <span class="tok-kw">return</span>   <span class="tok-com"># stop() уже сбросил флаг — новую цепочку не планируем</span>
+    label.config(text=<span class="tok-str">f&quot;</span><span class="tok-str">Секунд: </span>{schet.get()}<span class="tok-str">&quot;</span>)
+    schet.<span class="tok-fn">set</span>(schet.get() + <span class="tok-num">1</span>)
+    after_id = root.after(<span class="tok-num">1000</span>, tik)
 
 <span class="tok-kw">def</span> start():
-    <span class="tok-kw">global</span> tikayushij_id
-    <span class="tok-kw">if</span> tikayushij_id <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>:
+    <span class="tok-kw">global</span> running
+    <span class="tok-kw">if</span> running:
         <span class="tok-kw">return</span>   <span class="tok-com"># уже запущено — повторный клик игнорируем</span>
-    tik()</code></pre>
+    running = <span class="tok-kw">True</span>
+    tik()
+
+<span class="tok-kw">def</span> stop():
+    <span class="tok-kw">global</span> running, after_id
+    running = <span class="tok-kw">False</span>
+    <span class="tok-kw">if</span> after_id <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>:
+        root.after_cancel(after_id)
+        after_id = <span class="tok-kw">None</span></code></pre>
     </div>
       </div>
     </div>
@@ -153,7 +170,7 @@ ttk.Button(root, text=<span class="tok-str">&quot;Старт&quot;</span>, comma
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Никогда time.sleep() внутри callback</div>
-        <div class="callout-body"><code class="inline">time.sleep(...)</code> в обработчике останавливает событийный цикл целиком на всё время сна — интерфейс перестаёт отвечать. Подробный разбор — в разделе 16.24.</div>
+        <div class="callout-body"><code class="inline">time.sleep(...)</code> в обработчике останавливает событийный цикл целиком на всё время сна — интерфейс перестаёт отвечать. Подробный разбор — в разделе 16.32.</div>
       </div>
     </div>
 
