@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>От widgets-as-state к board model — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему хранить игровое состояние в тексте кнопки — плохая архитектура, и как отделить модель от отображения." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-18-model-a-ne-widgets.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="От widgets-as-state к board model — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему хранить игровое состояние в тексте кнопки — плохая архитектура, и как отделить модель от отображения." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-18-model-a-ne-widgets.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="От widgets-as-state к board model — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему хранить игровое состояние в тексте кнопки — плохая архитектура, и как отделить модель от отображения." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"От widgets-as-state к board model — Python с нуля — Cartesian School","description":"Почему хранить игровое состояние в тексте кнопки — плохая архитектура, и как отделить модель от отображения.","url":"https://www.cartesianschool.org/chapters/glava-17/17-18-model-a-ne-widgets.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html" class="active">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Модель, а не виджеты</div>
+    <div class="section-kicker">Глава 17 · Архитектура</div>
+    <h1>От widgets-as-state к board model</h1>
+    <p class="lede">Наведение мыши временно рисует X на пустой кнопке. Если это и есть «состояние» — игра сломана.</p>
+
+
+    <h2>Раздел 17.3 хранил состояние В ТЕКСТЕ кнопки</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>widget_kak_istochnik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># text кнопки — единственное место, где хранится &quot;занята клетка или нет&quot;</span>
+<span class="tok-kw">if</span> polya[indeks][<span class="tok-str">&quot;text&quot;</span>] != <span class="tok-str">&quot;&quot;</span>:
+    <span class="tok-kw">return</span></code></pre>
+    </div>
+    <p>Это работало для маленького прототипа. Но представьте эффект наведения (раздел 17.23):
+    он временно показывает «X» на пустой кнопке, ещё не сделав хода. Если состояние ЖИВЁТ в
+    тексте кнопки — программа больше не может отличить «наведение» от «настоящего хода».</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="0 0 336 259" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Если у обоих один и тот же сигнал — как отличить один от другого?" style="width:100%;height:auto;max-width:336px"><defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs><rect x="0.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="78.0" y="44.0">наведение (превью)</tspan></text><path d="M78.0,70 C78.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="180.0" y="10" width="156" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#0D0230"><tspan x="258.0" y="36.0">настоящий клик</tspan><tspan x="258.0" y="52.0">(ход)</tspan></text><path d="M258.0,70 C258.0,120.0 168.0,120.0 168.0,170" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/><rect x="48.0" y="170" width="240" height="79" rx="14" fill="#5B24F9"/><text text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#fff"><tspan x="168.0" y="205.0">button[&#x27;text&#x27;]</tspan><tspan x="168.0" y="224.0">изменился</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Если у обоих один и тот же сигнал — как отличить один от другого?</figcaption></figure>
+
+    <h2>Модель отдельно, кнопка — только отображение</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">MODEL</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">board[4] = &#x27;X&#x27;</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">render()</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">VIEW</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">buttons[4] показывает &#x27;X&#x27;</div></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Данные текут в одну сторону: модель → render() → виджет. Никогда наоборот.</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Кнопка может ВРЕМЕННО показывать не то, что в модели</div>
+        <div class="callout-body">Во время наведения <code class="inline">buttons[4]["text"] == "X"</code>, а <code class="inline">board[4] == ""</code> — и это НОРМАЛЬНО, если модель остаётся источником истины. Проблема начинается только тогда, когда код (например, проверка победителя) читает состояние из текста кнопки вместо модели — см. Debug Lab 6, раздел 17.29.</div>
+      </div>
+    </div>
+
+    <h2>board = список строк — окончательная модель</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>board_model.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>board = [<span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>, <span class="tok-str">&quot;&quot;</span>]
+<span class="tok-com"># board[4] = &quot;X&quot;  — это НАСТОЯЩИЙ ход, кнопка лишь отображает это значение</span></code></pre>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: модель против виджета-как-состояния</div>
+        <div class="nc-sub">Автоматическая проверка — на игрушечной модели виджета без Tkinter показываем, почему widget-as-state ломается</div>
+        <div class="practice-inline-status" data-lesson-id="17-18"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-18/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-17-pobeda-nichya-terminal.html"><div class="dir">← Назад</div><div class="lbl">Победа, ничья, terminal state</div></a><a href="17-19-gamestate-dataclass.html" class="next"><div class="dir">Далее →</div><div class="lbl">GameState с dataclass</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

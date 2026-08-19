@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Правильный алгоритм хода — Python с нуля — Cartesian School</title>
+<meta name="description" content="Что делает валидный ход, почему невалидный ход не переключает игрока, и три эквивалентных способа сменить текущего игрока." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-15-algoritm-hoda.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Правильный алгоритм хода — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Что делает валидный ход, почему невалидный ход не переключает игрока, и три эквивалентных способа сменить текущего игрока." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-15-algoritm-hoda.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Правильный алгоритм хода — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Что делает валидный ход, почему невалидный ход не переключает игрока, и три эквивалентных способа сменить текущего игрока." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Правильный алгоритм хода — Python с нуля — Cartesian School","description":"Что делает валидный ход, почему невалидный ход не переключает игрока, и три эквивалентных способа сменить текущего игрока.","url":"https://www.cartesianschool.org/chapters/glava-17/17-15-algoritm-hoda.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html" class="active">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Алгоритм хода</div>
+    <div class="section-kicker">Глава 17 · Модель и правила</div>
+    <h1>Правильный алгоритм хода</h1>
+    <p class="lede">Один путь для любого способа сделать ход — проверка, ход, правила, смена игрока.</p>
+
+
+    <h2>Валидный ход — что это?</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="-350.0 0 895.0 724.0" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="attempt_move(index) — единый путь для мыши и клавиатуры." style="width:100%;height:auto;max-width:895px"><defs><marker id='arrowfc0' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker><marker id='arrowfc0-g' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='arrowfc0-p' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker><marker id='arrowfc0-v' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="-95.0" y="10.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="32.0">клик / клавиша на</tspan><tspan x="0.0" y="50.0">клетке index</tspan></text><line x1="0.0" y1="62.0" x2="0.0" y2="88.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><polygon points="0.0,88.0 115.0,138.0 0.0,188.0 -115.0,138.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="0.0" y="143.0">игра окончена?</tspan></text><path d="M-115.0,138.0 C-115.0,179.0 -200.0,179.0 -200.0,220.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc0-g)"/><text x="-161.5" y="171.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><polygon points="-288.0,220.0 -90.0,220.0 -112.0,276.0 -310.0,276.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="-200.0" y="253.0">ход игнорируется</tspan></text><path d="M115.0,138.0 C115.0,179.0 200.0,179.0 200.0,220.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc0-p)"/><text x="161.5" y="171.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><polygon points="200.0,220.0 315.0,270.0 200.0,320.0 85.0,270.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="200.0" y="275.0">клетка занята?</tspan></text><path d="M85.0,270.0 C85.0,311.0 0.0,311.0 0.0,352.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc0-g)"/><text x="38.5" y="303.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><polygon points="-88.0,352.0 110.0,352.0 88.0,408.0 -110.0,408.0" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="385.0">ход игнорируется</tspan></text><path d="M315.0,270.0 C315.0,311.0 400.0,311.0 400.0,352.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc0-p)"/><text x="361.5" y="303.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><rect x="295.0" y="352.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="400.0" y="381.0">board[index] =</tspan><tspan x="400.0" y="399.0">current_player</tspan></text><line x1="400.0" y1="418.0" x2="400.0" y2="444.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><rect x="295.0" y="444.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="400.0" y="473.0">найти победителя /</tspan><tspan x="400.0" y="491.0">ничью</tspan></text><line x1="400.0" y1="510.0" x2="400.0" y2="536.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><rect x="295.0" y="536.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="400.0" y="565.0">если игра продолжается</tspan><tspan x="400.0" y="583.0">— сменить игрока</tspan></text><line x1="400.0" y1="602.0" x2="400.0" y2="628.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><rect x="295.0" y="628.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="400.0" y="661.0">render()</tspan></text><path d="M0.0,408.0 C0.0,562.0 200.0,562.0 200.0,716.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><path d="M400.0,684.0 C400.0,700.0 200.0,700.0 200.0,716.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><path d="M-200.0,276.0 C-200.0,512.0 0.0,512.0 0.0,748.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/><path d="M200.0,716.0 C200.0,732.0 0.0,732.0 0.0,748.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc0)"/></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">attempt_move(index) — единый путь для мыши и клавиатуры.</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Невалидный ход НЕ переключает игрока</div>
+        <div class="callout-body">Это частая ошибка (Debug Lab 10, раздел 17.29): если клик проигнорирован — очередь хода должна остаться прежней. Переключение игрока происходит только ПОСЛЕ успешного хода.</div>
+      </div>
+    </div>
+
+    <h2>Переключение игрока — три эквивалентных способа</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_igroka_razvernuto.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">if</span> current_player == <span class="tok-str">&quot;X&quot;</span>:
+    current_player = <span class="tok-str">&quot;O&quot;</span>
+<span class="tok-kw">else</span>:
+    current_player = <span class="tok-str">&quot;X&quot;</span></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_igroka_kratko.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>current_player = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> current_player == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Читаемость важнее лаконичности — сначала</div>
+        <div class="callout-body">Обе версии делают одно и то же. Развёрнутая явно читается как «если/иначе» — с ней проще начинать. Короткая версия (тернарный оператор, глава 9) — не «умнее», просто компактнее, когда вы уже уверенно её читаете.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: логика одного хода</div>
+        <div class="nc-sub">Автоматическая проверка — валидация хода и переключение игрока на чистых функциях</div>
+        <div class="practice-inline-status" data-lesson-id="17-15"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-15/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-15"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-15"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-14-indeksy-stroki-stolbcy.html"><div class="dir">← Назад</div><div class="lbl">Индексы, строки, столбцы</div></a><a href="17-16-vosem-linij-pobedy.html" class="next"><div class="dir">Далее →</div><div class="lbl">Восемь выигрышных линий</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

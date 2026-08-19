@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debug Labs — типичные ошибки событийной игры — Python с нуля — Cartesian School</title>
+<meta name="description" content="Семнадцать разобранных багов событийно-управляемой игры: фокус, поздняя привязка lambda, порядок проверок, hover-как-ход, дублирующиеся привязки и другие." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-29-debug-labs.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Labs — типичные ошибки событийной игры — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Семнадцать разобранных багов событийно-управляемой игры: фокус, поздняя привязка lambda, порядок проверок, hover-как-ход, дублирующиеся привязки и другие." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-29-debug-labs.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Labs — типичные ошибки событийной игры — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Семнадцать разобранных багов событийно-управляемой игры: фокус, поздняя привязка lambda, порядок проверок, hover-как-ход, дублирующиеся привязки и другие." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки событийной игры — Python с нуля — Cartesian School","description":"Семнадцать разобранных багов событийно-управляемой игры: фокус, поздняя привязка lambda, порядок проверок, hover-как-ход, дублирующиеся привязки и другие.","url":"https://www.cartesianschool.org/chapters/glava-17/17-29-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 17 · Крестики-нолики</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="17-01-privyazka-sobytij.html">Привязка событий</a></li><li><a href="17-02-obyasnenie-nastrojka.html">Объяснение игры и настройка Tkinter</a></li><li><a href="17-03-peremennye-knopki.html">Глобальные переменные и кнопки</a></li><li><a href="17-04-risuem-na-knopke.html">При нажатии рисуем на кнопке</a></li><li><a href="17-05-proverka-pobedy.html">Проверяем победу</a></li><li><a href="17-06-novaya-igra-itogi.html">Новая игра и первая полная версия</a></li><li><a href="17-07-event-callback-command-binding.html">Event, callback, command и binding</a></li><li><a href="17-08-obyekt-event.html">Объект Event</a></li><li><a href="17-09-sintaksis-sobytij.html">Синтаксис событий Tk</a></li><li><a href="17-10-command-vs-bind.html">command vs bind — что выбирать</a></li><li><a href="17-11-focus-i-klaviatura.html">Focus и клавиатура</a></li><li><a href="17-12-enter-leave-hover.html">Mouse Enter/Leave и hover</a></li><li><a href="17-13-model-sostoyaniya.html">Модель игрового состояния</a></li><li><a href="17-14-indeksy-stroki-stolbcy.html">Индексы, строки и столбцы</a></li><li><a href="17-15-algoritm-hoda.html">Правильный алгоритм хода</a></li><li><a href="17-16-vosem-linij-pobedy.html">Восемь выигрышных линий</a></li><li><a href="17-17-pobeda-nichya-terminal.html">Победа, ничья и terminal state</a></li><li><a href="17-18-model-a-ne-widgets.html">От widgets-as-state к board model</a></li><li><a href="17-19-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="17-20-arhitektura-app.html">Архитектура TicTacToeApp</a></li><li><a href="17-21-adaptivnoe-pole.html">Адаптивное игровое поле</a></li><li><a href="17-22-vizualnyj-stil.html">Визуальный стиль X/O</a></li><li><a href="17-23-hover-preview.html">Hover preview через bind()</a></li><li><a href="17-24-upravlenie-klaviaturoj.html">Управление клавиатурой</a></li><li><a href="17-25-podsvetka-linii.html">Подсветка выигрышной линии</a></li><li><a href="17-26-schyot-matchej.html">Счёт матчей</a></li><li><a href="17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="17-28-testiruem-bez-tkinter.html">Тестируем игру без Tkinter</a></li><li><a href="17-29-debug-labs.html" class="active">Debug Labs</a></li><li><a href="17-30-visual-effects-after.html">Visual effects и after()</a></li><li><a href="17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/17-01/index.html">🐍 17-01: Практика</a></li><li><a href="../../practice/17-03/index.html">🐍 17-03: Практика</a></li><li><a href="../../practice/17-04/index.html">🐍 17-04: Практика</a></li><li><a href="../../practice/17-05/index.html">🐍 17-05: Практика</a></li><li><a href="../../practice/17-06/index.html">🐍 17-06: Практика</a></li><li><a href="../../practice/17-07/index.html">🐍 17-07: Практика</a></li><li><a href="../../practice/17-08/index.html">🐍 17-08: Практика</a></li><li><a href="../../practice/17-09/index.html">🐍 17-09: Практика</a></li><li><a href="../../practice/17-10/index.html">🐍 17-10: Практика</a></li><li><a href="../../practice/17-11/index.html">🐍 17-11: Практика</a></li><li><a href="../../practice/17-12/index.html">🐍 17-12: Практика</a></li><li><a href="../../practice/17-13/index.html">🐍 17-13: Практика</a></li><li><a href="../../practice/17-14/index.html">🐍 17-14: Практика</a></li><li><a href="../../practice/17-15/index.html">🐍 17-15: Практика</a></li><li><a href="../../practice/17-16/index.html">🐍 17-16: Практика</a></li><li><a href="../../practice/17-17/index.html">🐍 17-17: Практика</a></li><li><a href="../../practice/17-18/index.html">🐍 17-18: Практика</a></li><li><a href="../../practice/17-19/index.html">🐍 17-19: Практика</a></li><li><a href="../../practice/17-20/index.html">🐍 17-20: Практика</a></li><li><a href="../../practice/17-21/index.html">🐍 17-21: Практика</a></li><li><a href="../../practice/17-22/index.html">🐍 17-22: Практика</a></li><li><a href="../../practice/17-23/index.html">🐍 17-23: Практика</a></li><li><a href="../../practice/17-24/index.html">🐍 17-24: Практика</a></li><li><a href="../../practice/17-25/index.html">🐍 17-25: Практика</a></li><li><a href="../../practice/17-26/index.html">🐍 17-26: Практика</a></li><li><a href="../../practice/17-27/index.html">🐍 17-27: Практика</a></li><li><a href="../../practice/17-28/index.html">🐍 17-28: Практика</a></li><li><a href="../../practice/17-29/index.html">🐍 17-29: Практика</a></li><li><a href="../../practice/17-30/index.html">🐍 17-30: Практика</a></li><li><a href="../../practice/17-31/index.html">🐍 17-31: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">🐍 tic_tac_toe_basic.py — первый прототип (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">🐍 tic_tac_toe.py — финальная версия Pro (17.31)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 17</a> / Debug Labs</div>
+    <div class="section-kicker">Глава 17 · Тестирование</div>
+    <h1>Debug Labs — типичные ошибки событийной игры</h1>
+    <p class="lede">Каждая ошибка здесь встречается в реальных студенческих проектах — научитесь узнавать симптом раньше, чем откроете отладчик.</p>
+
+
+    <p>Небольшая коллекция типичных ошибок событийно-управляемых игр — каждая с симптомом и
+    исправлением. Часть из них вы уже видели раньше в главе; здесь они собраны как справочник.</p>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 4: Клавиатурное событие не приходит — фокус не там</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>focus_problem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>root.bind(<span class="tok-str">&quot;&lt;Key&gt;&quot;</span>, on_key)
+entry = tk.Entry(root)
+entry.pack()
+entry.focus_set()   <span class="tok-com"># фокус ушёл в поле ввода</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Нажатия цифр ничего не делают в игре —
+# они уходят в Entry, у которого сейчас фокус.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Клавиатурные события идут строго туда, где сейчас фокус ввода (раздел 17.11). Если в приложении есть виджет, способный забрать фокус (поле ввода, кнопка после клика), привязка на <code class="inline">root</code> не получит событие, пока фокус не вернётся на подходящий виджет.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>focus_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>root.bind(<span class="tok-str">&quot;&lt;Key&gt;&quot;</span>, on_key)
+root.focus_set()   <span class="tok-com"># явно вернуть фокус на главное окно</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 5: lambda без i=indeks — поздняя привязка</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>lambda_pozdnyaya_privyazka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">9</span>):
+    btn = tk.Button(frame, command=<span class="tok-kw">lambda</span>: attempt_move(indeks))
+    btn.grid(row=indeks // <span class="tok-num">3</span>, column=indeks % <span class="tok-num">3</span>)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Клик по ЛЮБОЙ из девяти кнопок ставит отметку в клетку 8 —
+# потому что все lambda читают ОДНУ И ТУ ЖЕ переменную indeks.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>К моменту клика цикл давно закончился, и <code class="inline">indeks</code> равен 8 для всех девяти замыканий разом — они не «запомнили» значение на момент создания, они ссылаются на переменную. Раздел 17.4 разбирал именно эту ошибку.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>lambda_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">9</span>):
+    btn = tk.Button(frame, command=<span class="tok-kw">lambda</span> i=indeks: attempt_move(i))
+    btn.grid(row=indeks // <span class="tok-num">3</span>, column=indeks % <span class="tok-num">3</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 6: Наведение путает превью с настоящим ходом</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>hover_kak_hod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_cell_enter(self, index):
+    self.buttons[index].config(text=self.state.current_player)
+
+<span class="tok-kw">def</span> find_winner_from_widgets(self):
+    board = [b[<span class="tok-str">&quot;text&quot;</span>] <span class="tok-kw">for</span> b <span class="tok-kw">in</span> self.buttons]   <span class="tok-com"># читает ТЕКСТ КНОПОК</span>
+    <span class="tok-kw">return</span> find_winner(board)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Просто наведя курсор на три пустые клетки одной линии подряд,
+# можно получить объявление победы без единого клика.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Если проверка победителя читает состояние из <code class="inline">button["text"]</code>, а наведение временно пишет туда текст — превью становится неотличимо от настоящего хода. Раздел 17.18 объясняет, почему модель обязана быть источником истины.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>hover_ne_hod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_cell_enter(self, index):
+    <span class="tok-kw">if</span> self.state.game_over <span class="tok-kw">or</span> self.state.board[index]:
+        <span class="tok-kw">return</span>
+    self.buttons[index].config(text=self.state.current_player, fg=HOVER_COLOR)
+
+<span class="tok-kw">def</span> find_winner_call(self):
+    <span class="tok-kw">return</span> find_winner(self.state.board)   <span class="tok-com"># читает МОДЕЛЬ, не кнопки</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 7: Игрок переключается ДО проверки победителя</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_do_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>state.board[index] = state.current_player
+state.current_player = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> state.current_player == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span>
+
+winner, line = find_winner(state.board)
+<span class="tok-kw">if</span> winner:
+    status_var.<span class="tok-fn">set</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Победил игрок {</span>{<span class="tok-str">winner}</span>}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)   <span class="tok-com"># но current_player уже сменился</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Статус верный ('Победил X'), но если где-то дальше по коду
+# используется state.current_player как 'кто только что выиграл' — там уже 'O'.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Порядок операций важен: смена игрока должна произойти ПОСЛЕ проверки победителя и ТОЛЬКО если игра продолжается. Иначе любой код, который смотрит на <code class="inline">current_player</code> сразу после хода, увидит уже следующего игрока, а не автора выигрышного хода.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_posle_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>state.board[index] = state.current_player
+winner, line = find_winner(state.board)
+<span class="tok-kw">if</span> winner:
+    state.winner = winner   <span class="tok-com"># &#x27;кто выиграл&#x27; зафиксировано ДО смены игрока</span>
+    state.game_over = <span class="tok-kw">True</span>
+<span class="tok-kw">elif</span> <span class="tok-kw">not</span> is_draw(state.board):
+    state.current_player = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> state.current_player == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 8: Ничья проверяется раньше победы</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>nichya_do_pobedy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">if</span> all(state.board):
+    status_var.<span class="tok-fn">set</span>(<span class="tok-str">&quot;Ничья!&quot;</span>)
+<span class="tok-kw">elif</span> find_winner(state.board)[<span class="tok-num">0</span>]:
+    status_var.<span class="tok-fn">set</span>(<span class="tok-str">&quot;Победа!&quot;</span>)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Девятый ход одновременно заполняет поле и выигрывает диагональ —
+# программа объявляет 'Ничья!', хотя есть явный победитель.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 17.17 показывал именно этот сценарий. Проверка «заполнено ли поле» должна идти ПОСЛЕ проверки победителя, иначе выигрышный последний ход теряется за ложной ничьей.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>pobeda_do_nichyej.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>winner, line = find_winner(state.board)
+<span class="tok-kw">if</span> winner:
+    status_var.<span class="tok-fn">set</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Победил игрок {</span>{<span class="tok-str">winner}</span>}<span class="tok-str">!</span><span class="tok-str">&quot;</span>)
+<span class="tok-kw">elif</span> all(state.board):
+    status_var.<span class="tok-fn">set</span>(<span class="tok-str">&quot;Ничья!&quot;</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 9: Ход в занятую клетку разрешён</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>zanyataya_kletka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    state.board[index] = state.current_player   <span class="tok-com"># нет проверки!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Повторный клик по уже занятой клетке перезаписывает X на O
+# (или наоборот) — чужой ход стирается.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Валидация должна идти ПЕРВОЙ строкой, до любого изменения состояния — раздел 17.15 формулирует это как обязательный первый шаг алгоритма хода.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>zanyataya_kletka_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    <span class="tok-kw">if</span> state.game_over <span class="tok-kw">or</span> state.board[index]:
+        <span class="tok-kw">return</span>
+    state.board[index] = state.current_player</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 10: Игрок переключается даже при невалидном клике</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_pri_nevalidnom_klike.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> state.board[index]:
+        state.board[index] = state.current_player
+    state.current_player = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> state.current_player == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span>   <span class="tok-com"># снаружи if!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Клик по занятой клетке ничего не рисует —
+# но ход всё равно передаётся сопернику. Игрок теряет очередь ни за что.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Строка смены игрока оказалась ВНЕ блока <code class="inline">if</code> — она выполняется независимо от того, был ли ход валидным. Раздел 17.15: невалидный ход не должен переключать игрока.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>smena_pri_nevalidnom_klike_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    <span class="tok-kw">if</span> state.board[index]:
+        <span class="tok-kw">return</span>
+    state.board[index] = state.current_player
+    state.current_player = <span class="tok-str">&quot;O&quot;</span> <span class="tok-kw">if</span> state.current_player == <span class="tok-str">&quot;X&quot;</span> <span class="tok-kw">else</span> <span class="tok-str">&quot;X&quot;</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 11: Нет проверки game_over — игра продолжается после победы</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>net_game_over.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    <span class="tok-kw">if</span> state.board[index]:
+        <span class="tok-kw">return</span>
+    state.board[index] = state.current_player
+    <span class="tok-com"># ... проверка победителя, но НЕТ return/guard в начале функции</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После объявления победы X можно продолжать кликать по пустым клеткам —
+# и даже 'перезаписать' исход партии дополнительными ходами O.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Без явной проверки <code class="inline">state.game_over</code> в начале <code class="inline">attempt_move()</code> ничего не мешает продолжать партию после того, как она уже закончилась.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>game_over_guard.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> attempt_move(index):
+    <span class="tok-kw">if</span> state.game_over <span class="tok-kw">or</span> state.board[index]:
+        <span class="tok-kw">return</span>
+    ...</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 12: Опечатка в WINNING_LINES</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>opechatka_v_linii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>WINNING_LINES = (
+    (<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>), (<span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>), (<span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>),
+    (<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">6</span>), (<span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">7</span>), (<span class="tok-num">2</span>, <span class="tok-num">5</span>, <span class="tok-num">8</span>),
+    (<span class="tok-num">0</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>), (<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>),   <span class="tok-com"># первая диагональ должна быть (0, 4, 8)!</span>
+)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># X ставит 0, 4 и 8 — три подряд по настоящей диагонали —
+# но игра не объявляет победителя, потому что такой кортеж не в списке.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Опечатка тихая: код синтаксически верный и даже проходит поверхностный тест на «какая-то» диагональ. Только регрессионный тест, проверяющий ВСЕ восемь линий (раздел 17.28), поймал бы конкретно эту ошибку.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>linii_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>WINNING_LINES = (
+    (<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>), (<span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>), (<span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>),
+    (<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">6</span>), (<span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">7</span>), (<span class="tok-num">2</span>, <span class="tok-num">5</span>, <span class="tok-num">8</span>),
+    (<span class="tok-num">0</span>, <span class="tok-num">4</span>, <span class="tok-num">8</span>), (<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>),
+)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 13: Сбросили интерфейс, но не модель</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>reset_tolko_ui.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    <span class="tok-kw">for</span> btn <span class="tok-kw">in</span> self.buttons:
+        btn.config(text=<span class="tok-str">&quot;&quot;</span>)   <span class="tok-com"># кнопки очищены...</span>
+    <span class="tok-com"># ...но self.state.board по-прежнему хранит старые X/O!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Поле выглядит пустым, но следующий attempt_move()
+# натыкается на 'клетка уже занята' там, где на экране пусто.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Визуальный сброс — не то же самое, что сброс модели. Раздел 17.18: кнопки лишь отображают состояние; если очистить только их, модель продолжает врать об истинном состоянии партии.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>reset_model_i_ui.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    self.state.board = [<span class="tok-str">&quot;&quot;</span>] * <span class="tok-num">9</span>
+    self.state.current_player = <span class="tok-str">&quot;X&quot;</span>
+    self.state.game_over = <span class="tok-kw">False</span>
+    self.render()   <span class="tok-com"># UI обновляется ИЗ модели, а не отдельно</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 14: Сбросили модель, но не вызвали render()</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>reset_tolko_model.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    self.state.board = [<span class="tok-str">&quot;&quot;</span>] * <span class="tok-num">9</span>
+    self.state.current_player = <span class="tok-str">&quot;X&quot;</span>
+    self.state.game_over = <span class="tok-kw">False</span>
+    <span class="tok-com"># забыли self.render() в конце!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Модель для нового раунда готова правильно —
+# но на экране всё ещё видны старые X и O из прошлой партии.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Обратная сторона той же ошибки: без вызова <code class="inline">render()</code> изменения модели никогда не попадают на экран. Раздел 17.49 (глава-16-подобный принцип): render() — ЕДИНСТВЕННОЕ место, которое красит виджеты, и его нужно вызывать явно после каждого изменения модели.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>reset_s_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    self.state.board = [<span class="tok-str">&quot;&quot;</span>] * <span class="tok-num">9</span>
+    self.state.current_player = <span class="tok-str">&quot;X&quot;</span>
+    self.state.game_over = <span class="tok-kw">False</span>
+    self.render()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 15: «Новая игра» случайно обнуляет счёт матча</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>novaya_igra_obnulyaet_schet.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    self.state.score_x = <span class="tok-num">0</span>   <span class="tok-com"># это должно быть только в new_match()!</span>
+    self.state.score_o = <span class="tok-num">0</span>
+    self.state.board = [<span class="tok-str">&quot;&quot;</span>] * <span class="tok-num">9</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После каждой победы счёт тут же обнуляется —
+# турнирный счёт невозможно накопить.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 17.27: New Round и New Match — разные операции. Обнуление счёта принадлежит ИСКЛЮЧИТЕЛЬНО <code class="inline">new_match()</code>.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>new_round_bez_scheta.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> new_round(self):
+    self.state.board = [<span class="tok-str">&quot;&quot;</span>] * <span class="tok-num">9</span>
+    <span class="tok-com"># счёт (score_x/score_o/draws) здесь не трогаем</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 16: on_cell_leave стирает уже сделанный ход</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>leave_stiraet_hod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_cell_leave(self, index):
+    self.buttons[index].config(text=<span class="tok-str">&quot;&quot;</span>)   <span class="tok-com"># наивно &quot;убрать превью&quot;</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После того как игрок делает настоящий ход и потом уводит курсор,
+# отметка на клетке пропадает с экрана — хотя в модели ход остался.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">on_cell_leave</code> не знает, было ли на клетке превью или настоящий ход — он просто стирает текст безусловно. Правильный подход: не гадать, а перерисовать из модели, которая точно знает истину.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>leave_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_cell_leave(self, index):
+    self.render()   <span class="tok-com"># модель решает, что должно быть на клетке</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 17: event.widget используется как игровое состояние</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>widget_kak_state.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_click(self, event):
+    event.widget.config(text=self.state.current_player)
+    <span class="tok-com"># где здесь запись в board? Её нет — состояние живёт ТОЛЬКО в виджете</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># find_winner(self.state.board) никогда не видит эти ходы —
+# победа не определяется, потому что модель не менялась.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">event.widget</code> — источник UI-события (раздел 17.8), а не домен игры. Запись хода обязана попасть в <code class="inline">state.board</code>, иначе вся доменная логика (поиск победителя, ничьей) работает вслепую.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>widget_i_model.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_click(self, event, index):
+    self.attempt_move(index)   <span class="tok-com"># меняет state.board, потом render()</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 18: Голый &lt;Button-1&gt; вместо command= ломает клавиатурную активацию</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>goloj_button1.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>btn.bind(<span class="tok-str">&quot;&lt;Button-1&gt;&quot;</span>, <span class="tok-kw">lambda</span> e, i=index: attempt_move(i))
+<span class="tok-com"># command= не задан вообще</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Мышь работает нормально.
+# Но Tab + Enter/пробел на сфокусированной кнопке — ничего не делает.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 17.10: <code class="inline">command=</code> — семантическая активация, которая срабатывает и по клику, и по клавиатуре у сфокусированного виджета. Голая привязка мыши реагирует ТОЛЬКО на клик — доступность с клавиатуры молча теряется.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>command_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>btn.config(command=<span class="tok-kw">lambda</span> i=index: attempt_move(i))</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 19: time.sleep() в анимации победы замораживает окно</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>sleep_v_animacii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> time
+
+<span class="tok-kw">def</span> pulse_winning_line(self):
+    <span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">6</span>):
+        self.buttons[<span class="tok-num">0</span>].config(bg=<span class="tok-str">&quot;green&quot;</span>)
+        time.sleep(<span class="tok-num">0.15</span>)
+        self.buttons[<span class="tok-num">0</span>].config(bg=<span class="tok-str">&quot;white&quot;</span>)
+        time.sleep(<span class="tok-num">0.15</span>)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Окно перестаёт отвечать на весь почти секунду анимации —
+# та же ошибка, что и в главе 16 (раздел 16.32).</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">time.sleep()</code> блокирует событийный цикл целиком. Для анимации без блокировки нужен self-rescheduling через <code class="inline">after()</code> — раздел 17.30.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>after_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> pulse_winning_line(self, tick=<span class="tok-num">0</span>):
+    color = PULSE_BG <span class="tok-kw">if</span> tick % <span class="tok-num">2</span> == <span class="tok-num">0</span> <span class="tok-kw">else</span> WIN_BG
+    <span class="tok-kw">for</span> i <span class="tok-kw">in</span> self.state.winning_line:
+        self.buttons[i].config(bg=color)
+    <span class="tok-kw">if</span> tick &lt; <span class="tok-num">5</span>:
+        self.root.after(<span class="tok-num">150</span>, self.pulse_winning_line, tick + <span class="tok-num">1</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 20: Повторная привязка кнопки New Round без add=&quot;+&quot; вызывает reset дважды</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>dublirovannaya_privyazka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>btn = ttk.Button(controls, text=<span class="tok-str">&quot;Новый раунд&quot;</span>, command=self.new_round)
+btn.bind(<span class="tok-str">&quot;&lt;Button-1&gt;&quot;</span>, <span class="tok-kw">lambda</span> e: self.new_round(), add=<span class="tok-str">&quot;+&quot;</span>)
+<span class="tok-com"># теперь один клик запускает new_round() ЧЕРЕЗ command И через bind — дважды подряд</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Само по себе new_round() дважды подряд не ломает игру —
+# но если бы это была, например, функция увеличения счёта, счёт скакнул бы на 2.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">add="+"</code> добавляет ЕЩЁ ОДИН обработчик, не заменяя существующий (раздел 17.12 упоминал это как «чуть глубже»). Если один и тот же клик уже обрабатывается через <code class="inline">command=</code>, дублирующая привязка через <code class="inline">bind(..., add="+")</code> на том же событии запускает логику повторно — используйте <code class="inline">add="+"</code> осознанно, только когда действительно нужно НЕСКОЛЬКО независимых обработчиков одного события.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_dublirovaniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>btn = ttk.Button(controls, text=<span class="tok-str">&quot;Новый раунд&quot;</span>, command=self.new_round)
+<span class="tok-com"># и всё — одной привязки достаточно</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим баг по симптому</div>
+        <div class="nc-sub">Автоматическая проверка — для набора описанных симптомов выбираем правильную причину/исправление</div>
+        <div class="practice-inline-status" data-lesson-id="17-29"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/17-29/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-29"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-29"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="17-28-testiruem-bez-tkinter.html"><div class="dir">← Назад</div><div class="lbl">Тестируем без Tkinter</div></a><a href="17-30-visual-effects-after.html" class="next"><div class="dir">Далее →</div><div class="lbl">Visual effects и after()</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
