@@ -14,6 +14,11 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "site" / "assets" / "img" / "chapter-17" / "output"
 
 REQUIRED_NAMES = [
+    "basic-empty-board",
+    "basic-first-move",
+    "basic-win",
+    "basic-draw",
+    "basic-new-game-reset",
     "empty-board",
     "x-first-move",
     "x-turn",
