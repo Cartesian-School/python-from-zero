@@ -1088,6 +1088,12 @@ def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "Н
     branch list means "nothing happens on this path": drawn as a single
     direct, labeled bypass arrow from the diamond straight to the merge
     point, showing that the block is skipped, not that the program halts.
+
+    A branch whose LAST step has kind "end" is terminal: it is drawn with
+    no outgoing arrow and is excluded from the merge below the decision —
+    it truly stops there, it does not rejoin the continuing flow. If both
+    branches of a decision terminate this way, the decision has no
+    continuation at all (nothing merges, nothing is drawn below it).
     """
     parts: list[str] = []
     mid = _fc_new_marker_id()
@@ -1105,9 +1111,11 @@ def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "Н
         _fc_draw_node(parts, kind, label, cx, top)
         return h
 
-    def render(steps_list: list[dict], cx: float, y: float) -> float:
+    def render(steps_list: list[dict], cx: float, y: float) -> float | None:
         prev_bottom: float | None = None
+        entered = False
         for step in steps_list:
+            entered = True
             kind = step["kind"]
             label = step.get("label", "")
             if kind == "decision":
@@ -1138,27 +1146,45 @@ def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "Н
                 else:
                     no_bottom = dia_cy
 
-                merge_y = max(yes_bottom, no_bottom, dia_bottom) + _FC_MERGE_GAP
-                if yes_steps:
-                    _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=True)
+                # A branch ending in an "end" node is terminal — render() returns
+                # None for it, so it draws no outgoing arrow and never rejoins
+                # the merge below. Only non-terminal branches contribute.
+                continuing = [b for b in (yes_bottom, no_bottom) if b is not None]
+                if not continuing:
+                    prev_bottom = None
+                    y = dia_bottom
+                elif len(continuing) == 1:
+                    # Only one branch continues — nothing to merge it WITH, so pass
+                    # its endpoint straight through instead of drawing a stub arrow
+                    # to an empty merge point that nothing else ever reaches.
+                    prev_bottom = continuing[0]
+                    y = prev_bottom
                 else:
-                    _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=True, color="#059669")
-                    _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
-                if no_steps:
-                    _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=True)
-                else:
-                    _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=True, color="#DB2777")
-                    _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
-
-                y = merge_y
-                prev_bottom = merge_y
+                    merge_y = max(continuing + [dia_bottom]) + _FC_MERGE_GAP
+                    if yes_bottom is not None:
+                        if yes_steps:
+                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=True)
+                        else:
+                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=True, color="#059669")
+                            _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
+                    if no_bottom is not None:
+                        if no_steps:
+                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=True)
+                        else:
+                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=True, color="#DB2777")
+                            _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
+                    y = merge_y
+                    prev_bottom = merge_y
             else:
                 if prev_bottom is not None:
                     _fc_arrow(parts, mid, cx, prev_bottom, cx, y)
                 h = draw(kind, label, cx, y)
-                prev_bottom = y + h
-                y = prev_bottom + _FC_GAP_Y
-        return prev_bottom if prev_bottom is not None else y
+                this_bottom = y + h
+                # An "end" node is terminal: no outgoing arrow, and it must not
+                # be mistaken for "nothing was drawn" by the caller.
+                prev_bottom = None if kind == "end" else this_bottom
+                y = this_bottom + _FC_GAP_Y
+        return prev_bottom if entered else y
 
     render(steps, 0.0, 10.0)
     pad = 40
@@ -3182,6 +3208,7 @@ def object_diagram(
     class_name: str,
     values: list[tuple[str, str]],
     *,
+    width: int | None = None,
     caption: str = "",
 ) -> str:
     """Simplified object (instance) box, deliberately styled close to
@@ -3195,8 +3222,14 @@ def object_diagram(
     Each "field = value" row wraps safely instead of crossing the box edge
     — the field name stays on the first line in muted color, the value
     (which is usually the longer, more variable part) wraps onto as many
-    dark-colored lines as it needs; the box grows taller to fit."""
-    box_w = _UML_BOX_W
+    dark-colored lines as it needs; the box grows taller to fit.
+
+    `width` overrides the default box width (in px) for diagrams whose
+    values are naturally long (e.g. a 9-element list literal) — the
+    per-line character budget scales with it, so a wider box actually
+    lets more text fit on one line instead of just adding empty margin."""
+    box_w = width if width else _UML_BOX_W
+    row_max_chars = max(_UML_ROW_MAX_CHARS, round(_UML_ROW_MAX_CHARS * box_w / _UML_BOX_W))
     header_h = 40
     pad_x = _UML_PAD_X
     rows = values or [("—", "—")]
@@ -3207,7 +3240,7 @@ def object_diagram(
     row_lines: list[tuple[str, str, list[str]]] = []
     for field, val in rows:
         prefix = f"{field} = "
-        first_budget = max(_UML_ROW_MAX_CHARS - len(prefix), 6)
+        first_budget = max(row_max_chars - len(prefix), 6)
         val_words = val.split()
         first_line = ""
         rest = val
@@ -3215,7 +3248,7 @@ def object_diagram(
             wrapped_val = _wrap_svg_text(" ".join(val_words), max_chars=first_budget, max_lines=1)
             first_line = wrapped_val[0] if wrapped_val else ""
             rest = val[len(first_line):].strip()
-        remaining_lines = _wrap_svg_text(rest, max_chars=_UML_ROW_MAX_CHARS, max_lines=3) if rest else []
+        remaining_lines = _wrap_svg_text(rest, max_chars=row_max_chars, max_lines=3) if rest else []
         row_lines.append((prefix, first_line, remaining_lines))
 
     def row_h(entry: tuple[str, str, list[str]]) -> float:

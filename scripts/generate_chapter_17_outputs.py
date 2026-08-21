@@ -185,6 +185,63 @@ def basic_new_game_reset() -> None:
     capture("basic-new-game-reset", m.root)
 
 
+def adaptive_board_small() -> None:
+    """Same representative game state as mid_game(), captured at a normal
+    window size — paired with adaptive_board_large() to visually prove
+    the board grows with the window, not just describe it in prose."""
+    root, app = new_app()
+    for i in (0, 4, 1, 3, 8):
+        app.attempt_move(i)
+    root.geometry("340x420+0+0")
+    capture("adaptive-board-small", root, grab_w=420, grab_h=480)
+
+
+def adaptive_board_large() -> None:
+    """Identical game state to adaptive_board_small(), same app, only the
+    window geometry differs — the board frame's own real Tk layout does
+    the resizing, nothing is scaled or faked."""
+    root, app = new_app()
+    for i in (0, 4, 1, 3, 8):
+        app.attempt_move(i)
+    root.geometry("700x820+0+0")
+    capture("adaptive-board-large", root, grab_w=760, grab_h=880)
+
+
+def win_pulse_step_0() -> None:
+    """Captured immediately after the winning move, before the after()
+    -scheduled next tick has had a chance to run — real tick=0 colors
+    (PULSE_BG accent), not a synthetic freeze."""
+    root, app = new_app()
+    for i in (0, 3, 1, 4, 2):  # X wins the top row
+        app.attempt_move(i)
+    capture("win-pulse-step-0", root)
+
+
+def win_pulse_step_1() -> None:
+    """Stops the real after() chain and calls pulse_winning_line(tick=1)
+    directly so the alternate (WIN_BG) tick is captured deterministically
+    instead of racing a 150ms timer."""
+    root, app = new_app()
+    for i in (0, 3, 1, 4, 2):
+        app.attempt_move(i)
+    app.cancel_pulse()
+    app.pulse_winning_line(tick=1)
+    capture("win-pulse-step-1", root)
+
+
+def win_pulse_final() -> None:
+    """The settled state once the pulse finishes — same call pattern as
+    x_win()/winning_highlight(): cancel the pending job, then render()
+    from the model, which is exactly what the natural end of the pulse
+    loop leaves on screen."""
+    root, app = new_app()
+    for i in (0, 3, 1, 4, 2):
+        app.attempt_move(i)
+    app.cancel_pulse()
+    app.render()
+    capture("win-pulse-final", root)
+
+
 def tic_tac_toe_pro() -> None:
     root, app = new_app()
     for i in (0, 4, 1, 3, 8):  # a representative mid-game with score already on the board
@@ -213,4 +270,9 @@ if __name__ == "__main__":
     hover_preview_o()
     scoreboard()
     new_round_reset()
+    adaptive_board_small()
+    adaptive_board_large()
+    win_pulse_step_0()
+    win_pulse_step_1()
+    win_pulse_final()
     tic_tac_toe_pro()

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Проверяет, что все скриншоты, ожидаемые главой 17, существуют в
 site/assets/img/chapter-17/output/, не пустые и не случайный снимок 1×1.
+Также проверяет несколько точечных регрессий финального visual-polish прохода
+(терминальная семантика flowchart(), ширина object_diagram(), 3+3+2-раскладка
+мини-досок в 17-16, сгенерированный HTML главы 17).
 
 Использование: python3 scripts/validate_chapter_17_outputs.py
 """
@@ -12,6 +15,13 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "site" / "assets" / "img" / "chapter-17" / "output"
+CHAPTER_DIR = ROOT / "site" / "chapters" / "glava-17"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+
+def _load_site_lib():
+    import site_lib
+    return site_lib
 
 REQUIRED_NAMES = [
     "basic-empty-board",
@@ -32,6 +42,11 @@ REQUIRED_NAMES = [
     "hover-preview-o",
     "scoreboard",
     "new-round",
+    "adaptive-board-small",
+    "adaptive-board-large",
+    "win-pulse-step-0",
+    "win-pulse-step-1",
+    "win-pulse-final",
     "tic-tac-toe-pro",
 ]
 
@@ -53,7 +68,103 @@ def validate() -> list[str]:
             continue
         if width < MIN_DIMENSION or height < MIN_DIMENSION:
             errors.append(f"{path.relative_to(ROOT)}: подозрительно маленький снимок {width}x{height}")
+    errors.extend(_validate_adaptive_pair())
+    errors.extend(_validate_flowchart_terminal_semantics())
+    errors.extend(_validate_object_diagram_width())
+    errors.extend(_validate_winning_lines_layout())
     return errors
+
+
+def _validate_flowchart_terminal_semantics() -> list[str]:
+    """17-17's terminal-state diagram (and any other flowchart() caller using
+    kind="end" inside a decision branch) must never draw an arrow OUT of a
+    terminal node — that was exactly the "false merge" bug in Fix 2/11.
+    Exercises the shared helper directly with synthetic cases, independent of
+    any particular chapter's wording."""
+    site_lib = _load_site_lib()
+    errors = []
+
+    both_terminal = site_lib.flowchart([
+        {"kind": "decision", "label": "q?",
+         "yes": [{"kind": "end", "label": "A"}],
+         "no": [{"kind": "end", "label": "B"}]},
+    ])
+    arrows = both_terminal.count("marker-end")
+    if arrows != 2:
+        errors.append(
+            f"flowchart(): decision with BOTH branches terminal should draw exactly 2 arrows "
+            f"(one into each branch, no merge) — got {arrows}."
+        )
+
+    one_terminal = site_lib.flowchart([
+        {"kind": "decision", "label": "q?",
+         "yes": [{"kind": "end", "label": "A"}],
+         "no": [{"kind": "process", "label": "B"}, {"kind": "process", "label": "C"}]},
+    ])
+    arrows2 = one_terminal.count("marker-end")
+    # into yes-branch (1) + into no-branch (1) + B->C straight arrow (1) = 3;
+    # no extra merge/stub arrow past C, since only one branch continues.
+    if arrows2 != 3:
+        errors.append(
+            f"flowchart(): decision with ONE terminal branch should draw exactly 3 arrows "
+            f"(into each branch + the continuing chain, no dangling merge stub) — got {arrows2}."
+        )
+    return errors
+
+
+def _validate_object_diagram_width() -> list[str]:
+    """17-08/17-13 rely on object_diagram(width=...) actually widening the
+    box — otherwise long rows (the Event field list, the 9-element board)
+    wrap or get clipped again."""
+    site_lib = _load_site_lib()
+    errors = []
+    narrow = site_lib.object_diagram("s", "S", [("a", "x")])
+    wide = site_lib.object_diagram("s", "S", [("a", "x")], width=560)
+
+    def _viewbox_width(svg: str) -> float:
+        marker = 'viewBox="0 0 '
+        start = svg.index(marker) + len(marker)
+        end = svg.index(" ", start)
+        return float(svg[start:end])
+
+    if not _viewbox_width(wide) > _viewbox_width(narrow):
+        errors.append("object_diagram(width=...) does not widen the SVG viewBox as expected.")
+    return errors
+
+
+def _validate_winning_lines_layout() -> list[str]:
+    """17-16 must render all 8 mini-boards as 8 separate board_diagram()
+    cards grouped 3+3+2 (rows/columns/diagonals), not one flat 8-item grid
+    that can overlap at in-between viewport widths."""
+    path = CHAPTER_DIR / "17-16-vosem-linij-pobedy.html"
+    if not path.exists():
+        return []  # covered by the wider site build; nothing to check yet
+    html_text = path.read_text(encoding="utf-8")
+    errors = []
+    board_card_count = html_text.count('grid-template-columns:repeat(3,56px)')
+    if board_card_count != 8:
+        errors.append(f"17-16: expected 8 board_diagram() mini-boards, found {board_card_count}.")
+    for label in ("Строки", "Столбцы", "Диагонали"):
+        if f">{label}<" not in html_text:
+            errors.append(f"17-16: missing group heading {label!r} — 3+3+2 grouping not rendered.")
+    return errors
+
+
+def _validate_adaptive_pair() -> list[str]:
+    """17-21 claims the board genuinely grows with the window — the two
+    screenshots must actually differ in size, not just in filename."""
+    small_path, large_path = OUT_DIR / "adaptive-board-small.png", OUT_DIR / "adaptive-board-large.png"
+    if not small_path.exists() or not large_path.exists():
+        return []  # already reported as missing above
+    with Image.open(small_path) as small_img, Image.open(large_path) as large_img:
+        sw, sh = small_img.size
+        lw, lh = large_img.size
+    if not (lw > sw and lh > sh):
+        return [
+            f"adaptive-board-large.png ({lw}x{lh}) должен быть крупнее adaptive-board-small.png "
+            f"({sw}x{sh}) по обеим осям — иначе скриншоты не доказывают, что поле адаптивно."
+        ]
+    return []
 
 
 def main() -> None:
