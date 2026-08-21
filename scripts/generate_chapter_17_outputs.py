@@ -14,7 +14,9 @@ import sys
 import tkinter as tk
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageGrab
+from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageGrab
+
+_FONT_DIR = Path("/usr/share/fonts/truetype/dejavu")
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "site" / "assets" / "img" / "chapter-17" / "output"
@@ -193,6 +195,9 @@ def adaptive_board_small() -> None:
     for i in (0, 4, 1, 3, 8):
         app.attempt_move(i)
     root.geometry("340x420+0+0")
+    root.update_idletasks()
+    root.update()
+    app.render()  # re-asserts fg/bg after the geometry change settles
     capture("adaptive-board-small", root, grab_w=420, grab_h=480)
 
 
@@ -204,7 +209,53 @@ def adaptive_board_large() -> None:
     for i in (0, 4, 1, 3, 8):
         app.attempt_move(i)
     root.geometry("700x820+0+0")
+    root.update_idletasks()
+    root.update()
+    app.render()  # re-asserts fg/bg after the geometry change settles
     capture("adaptive-board-large", root, grab_w=760, grab_h=880)
+
+
+def adaptive_board_comparison() -> None:
+    """Composes the two REAL captures onto one canvas at their TRUE
+    relative pixel scale — neither image is resized, so the size
+    difference is visible without reading the caption. Requires
+    adaptive_board_small()/adaptive_board_large() to have already run."""
+    small = Image.open(OUT_DIR / "adaptive-board-small.png").convert("RGB")
+    large = Image.open(OUT_DIR / "adaptive-board-large.png").convert("RGB")
+
+    label_h = 56
+    gap = 40
+    pad = 24
+    max_img_h = max(small.height, large.height)
+    canvas_w = pad * 2 + small.width + gap + large.width
+    canvas_h = pad * 2 + label_h + max_img_h
+
+    canvas = Image.new("RGB", (canvas_w, canvas_h), "#FAFAFC")
+    draw = ImageDraw.Draw(canvas)
+    font_title = ImageFont.truetype(str(_FONT_DIR / "DejaVuSans-Bold.ttf"), 20)
+    font_dims = ImageFont.truetype(str(_FONT_DIR / "DejaVuSans.ttf"), 15)
+
+    def draw_label(center_x: int, title: str, dims: str) -> None:
+        title_w = draw.textlength(title, font=font_title)
+        draw.text((center_x - title_w / 2, pad), title, font=font_title, fill="#0D0230")
+        dims_w = draw.textlength(dims, font=font_dims)
+        draw.text((center_x - dims_w / 2, pad + 27), dims, font=font_dims, fill="#6B6B7D")
+
+    x_small, x_large = pad, pad + small.width + gap
+    img_top = pad + label_h
+
+    draw_label(x_small + small.width // 2, "Обычный размер", f"{small.width} × {small.height} px")
+    draw_label(x_large + large.width // 2, "После увеличения окна", f"{large.width} × {large.height} px")
+
+    # Bottom-aligned, as if both windows sat on the same table — makes the
+    # height difference read as naturally as the width difference.
+    canvas.paste(small, (x_small, img_top + (max_img_h - small.height)))
+    canvas.paste(large, (x_large, img_top + (max_img_h - large.height)))
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = OUT_DIR / "adaptive-board-comparison.png"
+    canvas.save(out_path)
+    print(f"Сохранено: {out_path.relative_to(ROOT)} ({canvas.size[0]}x{canvas.size[1]})")
 
 
 def win_pulse_step_0() -> None:
@@ -272,6 +323,7 @@ if __name__ == "__main__":
     new_round_reset()
     adaptive_board_small()
     adaptive_board_large()
+    adaptive_board_comparison()
     win_pulse_step_0()
     win_pulse_step_1()
     win_pulse_final()

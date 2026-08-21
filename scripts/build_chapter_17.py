@@ -689,7 +689,7 @@ def build_08() -> None:
         "event", "Event",
         [("widget", "виджет-источник"), ("type", "тип события"), ("keysym", "'Return', 'a', ..."),
          ("char", "текстовый символ"), ("keycode", "числовой код"), ("x", "координата X внутри виджета"), ("y", "координата Y внутри виджета")],
-        width=480,
+        width=640,
         caption="Не каждое поле имеет смысл для каждого события — подробнее ниже.",
     )}
     {callout(
@@ -992,7 +992,7 @@ def build_13() -> None:
         "state", "GameState",
         [("board", "['', '', '', '', '', '', '', '', '']"), ("current_player", "'X'"), ("game_over", "False"),
          ("winner", "None"), ("winning_line", "None"), ("score_x", "0"), ("score_o", "0")],
-        width=560,
+        width=720,
         caption="Это данные — ни одной кнопки Tkinter здесь нет.",
     )}
     {callout(
@@ -1581,14 +1581,14 @@ def build_21() -> None:
     )}
 
     <h2>Видно на реальном окне, а не только в коде</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start">
-      {image_figure(f"{IMG}/adaptive-board-small.png", "Обычный размер окна: поле умещается компактно", "Обычный размер окна", width=300)}
-      {image_figure(f"{IMG}/adaptive-board-large.png", "Окно увеличено: то же самое состояние партии, но клетки крупнее", "Окно увеличено вручную", width=460)}
-    </div>
-    <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
-    Одно и то же приложение, одно и то же состояние партии: <code class="inline">board_frame</code>
-    растёт вместе с окном, потому что вес и <code class="inline">sticky</code> настроены на
-    каждом уровне <code class="inline">grid()</code>.</p>
+    {image_figure(
+        f"{IMG}/adaptive-board-comparison.png",
+        "Слева — обычный размер окна, справа — то же окно после увеличения: то же состояние партии, но клетки заметно крупнее",
+        "Одно и то же приложение и одно и то же состояние партии. Слева — исходный размер окна, "
+        "справа — то же окно после увеличения. Клетки получают дополнительное пространство "
+        "благодаря weight и sticky=\"nsew\".",
+        width=900,
+    )}
 
     {local_required_card(
         "17-21",
