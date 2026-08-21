@@ -3261,7 +3261,7 @@ def object_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" aria-label="{html.escape(caption)}" style="display:block;width:100%;height:auto">'
     ]
     x = 10
     parts.append(
@@ -3298,10 +3298,14 @@ def object_diagram(
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    # width:min(100%, Npx) gives the wrapper a DEFINITE width for the SVG's
+    # width:100% to resolve against — a shrink-to-fit inline-block parent has
+    # no such definite width, so the SVG collapsed toward its own intrinsic
+    # size instead of actually rendering at up to total_w CSS pixels.
     return (
         f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
         f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
-        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'<div style="width:min(100%, {total_w}px);margin:0 auto">{svg}</div>'
         f'{cap}</figure>'
     )
 
