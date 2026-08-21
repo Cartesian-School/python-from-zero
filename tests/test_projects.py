@@ -172,10 +172,10 @@ print("OK")
     assert "OK" in r.stdout
 
 
-def test_paint_app():
+def test_paint_app_basic():
     r = run_with_display(
         """
-import paint_app as p
+import paint_app_basic as p
 
 class FakeEvent:
     def __init__(self, x, y):
@@ -189,6 +189,65 @@ p.konec_risovaniya(FakeEvent(50, 50))
 assert len(p.canvas.find_all()) == 1
 p.ochistit_holst()
 assert len(p.canvas.find_all()) == 0
+print("OK")
+""",
+        ROOT / "projects" / "tkinter" / "paint-app",
+    )
+    assert r.returncode == 0, r.stderr
+    assert "OK" in r.stdout
+
+
+def test_paint_app_pro():
+    r = run_with_display(
+        """
+import tkinter as tk
+import paint_app as p
+
+root = tk.Tk()
+app = p.PaintApp(root)
+root.update()
+
+class FakeEvent:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+# rectangle: press -> drag -> release commits exactly one Shape
+app.set_tool(p.Tool.RECTANGLE)
+app.on_press(FakeEvent(10, 10))
+app.on_drag(FakeEvent(100, 80))
+app.on_release(FakeEvent(100, 80))
+assert len(app.document) == 1
+assert app.document[0].kind == "rectangle"
+
+# pencil stroke: several drag segments are ONE undo-able action
+app.set_tool(p.Tool.PENCIL)
+app.on_press(FakeEvent(200, 200))
+app.on_drag(FakeEvent(210, 205))
+app.on_drag(FakeEvent(220, 210))
+app.on_release(FakeEvent(220, 210))
+assert len(app.document) == 3  # 1 rectangle + 2 line segments
+
+app.undo()
+assert len(app.document) == 1  # whole stroke removed, not just one segment
+app.redo()
+assert len(app.document) == 3
+
+# a fresh action clears the redo stack (Debug Lab: stale redo)
+app.undo()
+app.set_tool(p.Tool.OVAL)
+app.on_press(FakeEvent(5, 5))
+app.on_drag(FakeEvent(40, 40))
+app.on_release(FakeEvent(40, 40))
+assert app.redo_stack == []
+
+# clicking without dragging past MIN_DRAG does not commit a degenerate shape
+before = len(app.document)
+app.set_tool(p.Tool.LINE)
+app.on_press(FakeEvent(300, 300))
+app.on_release(FakeEvent(300, 300))
+assert len(app.document) == before
+
+root.destroy()
 print("OK")
 """,
         ROOT / "projects" / "tkinter" / "paint-app",

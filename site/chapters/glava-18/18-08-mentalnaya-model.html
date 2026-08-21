@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Canvas хранит объекты, а не пиксели — Python с нуля — Cartesian School</title>
+<meta name="description" content="Ментальная модель Canvas: create_* добавляет элемент в список, который хранит сам виджет, а не закрашивает пиксели напрямую." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-18/18-08-mentalnaya-model.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Canvas хранит объекты, а не пиксели — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Ментальная модель Canvas: create_* добавляет элемент в список, который хранит сам виджет, а не закрашивает пиксели напрямую." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-08-mentalnaya-model.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Canvas хранит объекты, а не пиксели — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Ментальная модель Canvas: create_* добавляет элемент в список, который хранит сам виджет, а не закрашивает пиксели напрямую." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Canvas хранит объекты, а не пиксели — Python с нуля — Cartesian School","description":"Ментальная модель Canvas: create_* добавляет элемент в список, который хранит сам виджет, а не закрашивает пиксели напрямую.","url":"https://www.cartesianschool.org/chapters/glava-18/18-08-mentalnaya-model.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 18 · Рисовалка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="18-01-obyasnenie-nachalo.html">Что мы строим? Начало работы</a></li><li><a href="18-02-ekran-holst.html">Экран и холст (Canvas)</a></li><li><a href="18-03-menu-parametry.html">Панель инструментов и параметры</a></li><li><a href="18-04-mysh-linii.html">Позиция мыши и рисуем линии</a></li><li><a href="18-05-figury.html">Квадраты, прямоугольники, круги и овалы</a></li><li><a href="18-06-razmer-cveta.html">Выбираем размер и цвет</a></li><li><a href="18-07-polnaya-programma-itogi.html">Первая полная программа</a></li><li><a href="18-08-mentalnaya-model.html" class="active">Canvas хранит объекты, а не пиксели</a></li><li><a href="18-09-sistema-koordinat.html">Система координат Canvas</a></li><li><a href="18-10-item-id.html">Item ID: что возвращает create_*</a></li><li><a href="18-11-tegi.html">Теги: группируем и выбираем элементы</a></li><li><a href="18-12-zhest-myshi.html">Жизненный цикл жеста мыши</a></li><li><a href="18-13-sostoyanie-risovaniya.html">Состояние рисования</a></li><li><a href="18-14-karandash.html">Карандаш: непрерывный штрих</a></li><li><a href="18-15-instrument-liniya.html">Инструмент «Линия»</a></li><li><a href="18-16-geometriya-pryamougolnika.html">Геометрия прямоугольника</a></li><li><a href="18-17-geometriya-ovala.html">Геометрия овала</a></li><li><a href="18-18-zhivoe-prevyu.html">Живое превью: coords()</a></li><li><a href="18-19-redaktirovanie-elementov.html">itemconfig, move, delete</a></li><li><a href="18-20-poryadok-sloev.html">Порядок наложения</a></li><li><a href="18-21-sistema-cveta.html">Система цвета</a></li><li><a href="18-22-tolschina-kisti.html">Толщина кисти</a></li><li><a href="18-23-lastik.html">Ластик</a></li><li><a href="18-24-otmena-deystviy.html">Отмена действий (Undo)</a></li><li><a href="18-25-povtor-deystviy.html">Повтор действий (Redo)</a></li><li><a href="18-26-ochistka-holsta.html">Очистка холста</a></li><li><a href="18-27-goryachie-klavishi.html">Горячие клавиши</a></li><li><a href="18-28-stroka-sostoyaniya.html">Строка состояния</a></li><li><a href="18-29-arhitektura-paintapp.html">Архитектура PaintApp</a></li><li><a href="18-30-sohranenie-json.html">Сохранение и загрузка JSON</a></li><li><a href="18-31-debug-labs.html">Debug Labs</a></li><li><a href="18-32-paint-pro-itogi.html">Paint Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/18-02/index.html">🐍 18-02: Практика</a></li><li><a href="../../practice/18-03/index.html">🐍 18-03: Практика</a></li><li><a href="../../practice/18-04/index.html">🐍 18-04: Практика</a></li><li><a href="../../practice/18-05/index.html">🐍 18-05: Практика</a></li><li><a href="../../practice/18-06/index.html">🐍 18-06: Практика</a></li><li><a href="../../practice/18-07/index.html">🐍 18-07: Практика</a></li><li><a href="../../practice/18-09/index.html">🐍 18-09: Практика</a></li><li><a href="../../practice/18-10/index.html">🐍 18-10: Практика</a></li><li><a href="../../practice/18-11/index.html">🐍 18-11: Практика</a></li><li><a href="../../practice/18-12/index.html">🐍 18-12: Практика</a></li><li><a href="../../practice/18-13/index.html">🐍 18-13: Практика</a></li><li><a href="../../practice/18-14/index.html">🐍 18-14: Практика</a></li><li><a href="../../practice/18-15/index.html">🐍 18-15: Практика</a></li><li><a href="../../practice/18-16/index.html">🐍 18-16: Практика</a></li><li><a href="../../practice/18-17/index.html">🐍 18-17: Практика</a></li><li><a href="../../practice/18-18/index.html">🐍 18-18: Практика</a></li><li><a href="../../practice/18-19/index.html">🐍 18-19: Практика</a></li><li><a href="../../practice/18-20/index.html">🐍 18-20: Практика</a></li><li><a href="../../practice/18-21/index.html">🐍 18-21: Практика</a></li><li><a href="../../practice/18-22/index.html">🐍 18-22: Практика</a></li><li><a href="../../practice/18-23/index.html">🐍 18-23: Практика</a></li><li><a href="../../practice/18-24/index.html">🐍 18-24: Практика</a></li><li><a href="../../practice/18-25/index.html">🐍 18-25: Практика</a></li><li><a href="../../practice/18-26/index.html">🐍 18-26: Практика</a></li><li><a href="../../practice/18-27/index.html">🐍 18-27: Практика</a></li><li><a href="../../practice/18-28/index.html">🐍 18-28: Практика</a></li><li><a href="../../practice/18-29/index.html">🐍 18-29: Практика</a></li><li><a href="../../practice/18-30/index.html">🐍 18-30: Практика</a></li><li><a href="../../practice/18-31/index.html">🐍 18-31: Практика</a></li><li><a href="../../practice/18-32/index.html">🐍 18-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app_basic.py">🐍 paint_app_basic.py — первый прототип (18.7)</a></li><li><a href="../../../projects/tkinter/paint-app/paint_app.py">🐍 paint_app.py — финальная версия Pro (18.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 18</a> / Ментальная модель Canvas</div>
+    <div class="section-kicker">Глава 18 · Canvas по-настоящему</div>
+    <h1>Canvas хранит объекты, а не пиксели</h1>
+    <p class="lede">create_line() не просто рисует — он добавляет элемент в список, который Canvas помнит сам.</p>
+
+
+    <h2>Canvas не «красит пиксели» — он хранит объекты</h2>
+    <p>Первый прототип уже рисует, но легко представить его неправильно: будто
+    <code class="inline">create_line()</code> просто закрашивает пиксели на картинке, как кисть
+    в графическом редакторе. На самом деле Canvas устроен иначе — и от этого зависит почти всё
+    остальное в этой главе: отмена действий, редактирование фигур, порядок наложения.</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">canvas.create_rectangle(...)</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">Canvas</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">сохраняет фигуру как элемент</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">item_id = 3</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">экран</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">create_* не просто рисует — он добавляет ЭЛЕМЕНТ в список, который Canvas хранит сам.</figcaption></figure>
+    <p>Возвращённое число — <strong>item ID</strong>, идентификатор именно этого элемента внутри
+    Canvas (раздел 18.10). Пока фигура не удалена явно, Canvas помнит о ней и может её
+    перерисовать, переместить или изменить — даже если ваш код давно закончил с ней работать.</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg viewBox="0 0 280 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Canvas хранит СПИСОК элементов — примерно так, если бы у него были свои внутренние «объекты»." style="display:block;width:100%;height:auto"><rect x="10" y="0" width="260" height="188" rx="14" fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">canvas : Canvas</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">item #1 = </tspan>line (0, 0,…</text><text x="26" y="90" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">100, 60)</text><text x="26" y="118" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">item #2 = </tspan>rectangle…</text><text x="26" y="136" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">(10, 80, 120, 140)</text><text x="26" y="164" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">item #3 = </tspan>oval (30,…</text><text x="26" y="182" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">20, 90, 70)</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Canvas хранит СПИСОК элементов — примерно так, если бы у него были свои внутренние «объекты».</figcaption></figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-18/output/multiple-shapes.png" alt="Реальное окно: холст с тремя нарисованными фигурами — линией, прямоугольником и овалом" width="420"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">То же самое реальное окно из раздела 18.7: три видимых фигуры — три хранимых элемента.</figcaption>
+    </figure>
+
+    <h2>Три разных слоя — не путайте их</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Слой</th><th>Что это</th></tr></thead>
+      <tbody><tr><td>Модель приложения (Python)</td><td>Ваши переменные и структуры данных — то, что вы сами придумали</td></tr><tr><td>Элемент Canvas (item)</td><td>Запись внутри Canvas с типом, координатами и параметрами — создаётся через create_*</td></tr><tr><td>Пиксели на экране</td><td>Итоговая картинка, которую видит пользователь — результат отрисовки элемента</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">item ID — это НЕ идентификатор Python-объекта</div>
+        <div class="callout-body"><code class="inline">item_id = canvas.create_rectangle(...)</code> возвращает обычное целое число — внутренний номер записи внутри Canvas, а не <code class="inline">id()</code> какого-то Python-объекта и не индекс в списке, который ведёте вы сами. Canvas выдаёт номера по своим правилам (обычно по возрастанию) — полагаться на конкретные значения не стоит, только на то, что каждый <code class="inline">item_id</code> уникален для одного элемента.</div>
+      </div>
+    </div>
+
+
+    <div class="section-nav"><a href="18-07-polnaya-programma-itogi.html"><div class="dir">← Назад</div><div class="lbl">Первая полная программа</div></a><a href="18-09-sistema-koordinat.html" class="next"><div class="dir">Далее →</div><div class="lbl">Система координат Canvas</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
