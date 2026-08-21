@@ -687,8 +687,9 @@ def build_08() -> None:
     <h2>Объект Event — что внутри</h2>
     {object_diagram(
         "event", "Event",
-        [("widget", "виджет-источник"), ("type", "тип события"), ("keysym", "'Return' | 'a' | ..."),
-         ("char", "текстовый символ"), ("keycode", "числовой код"), ("x", "координата в виджете"), ("y", "координата в виджете")],
+        [("widget", "виджет-источник"), ("type", "тип события"), ("keysym", "'Return', 'a', ..."),
+         ("char", "текстовый символ"), ("keycode", "числовой код"), ("x", "координата X внутри виджета"), ("y", "координата Y внутри виджета")],
+        width=480,
         caption="Не каждое поле имеет смысл для каждого события — подробнее ниже.",
     )}
     {callout(
@@ -878,9 +879,13 @@ def build_11() -> None:
         "поле ввода, И одновременно уйдёт в игровую логику — редко то, чего вы хотели. Смотрите "
         "Debug Lab 4 (раздел 17.29).",
     )}
-    <p>Для главы 17 клавиатурные привязки повешены на <code class="inline">root</code> —
-    поэтому важно, чтобы фокус в целом оставался на главном окне, а не «утекал» в поле ввода
-    (у нашей игры таких полей нет — все клетки это кнопки).</p>
+    <p>Для главы 17 клавиатурные привязки повешены на <code class="inline">root</code> — но, как
+    только что было показано, фокус на Entry или Text сам по себе НЕ отключает привязку на root
+    (у нашей игры таких полей нет — все клетки это кнопки). В приложении с текстовыми полями
+    важно не «удерживать фокус на root», а осознанно решить: должны ли игровые горячие клавиши
+    работать, пока пользователь печатает текст? Если нет — обработчик может проверить
+    <code class="inline">focus_get()</code> и сам проигнорировать нажатие, когда фокус находится
+    на текстовом поле.</p>
 
     {local_required_card(
         "17-11",
@@ -985,8 +990,9 @@ def build_13() -> None:
     <h2>Что вообще должна помнить программа?</h2>
     {object_diagram(
         "state", "GameState",
-        [("board", "['', '', ..., '']"), ("current_player", "'X'"), ("game_over", "False"),
+        [("board", "['', '', '', '', '', '', '', '', '']"), ("current_player", "'X'"), ("game_over", "False"),
          ("winner", "None"), ("winning_line", "None"), ("score_x", "0"), ("score_o", "0")],
+        width=560,
         caption="Это данные — ни одной кнопки Tkinter здесь нет.",
     )}
     {callout(
@@ -1105,17 +1111,19 @@ def build_14() -> None:
 def build_15() -> None:
     body = f"""
     <h2>Валидный ход — что это?</h2>
+    <p><code class="inline">attempt_move(index)</code> — единый путь для мыши и клавиатуры
+    (раздел 17.24). Разберём его в двух шагах: сначала фильтр валидности, потом — что происходит
+    после того, как ход уже принят.</p>
+
+    <h3>Диаграмма 1 — фильтр валидности хода</h3>
     {flowchart([
         {"kind": "start", "label": "клик / клавиша на клетке index"},
-        {"kind": "decision", "label": "игра окончена?", "yes": [{"kind": "output", "label": "ход игнорируется"}], "no": [
-            {"kind": "decision", "label": "клетка занята?", "yes": [{"kind": "output", "label": "ход игнорируется"}], "no": [
-                {"kind": "process", "label": "board[index] = current_player"},
-                {"kind": "process", "label": "найти победителя / ничью"},
-                {"kind": "process", "label": "если игра продолжается — сменить игрока"},
-                {"kind": "process", "label": "render()"},
-            ]},
-        ]},
-    ], caption="attempt_move(index) — единый путь для мыши и клавиатуры.")}
+        {"kind": "decision", "label": "игра окончена?",
+         "yes": [{"kind": "end", "label": "ход игнорируется"}],
+         "no": [{"kind": "decision", "label": "клетка занята?",
+                 "yes": [{"kind": "end", "label": "ход игнорируется"}],
+                 "no": [{"kind": "end", "label": "ВАЛИДНЫЙ ХОД"}]}]},
+    ], caption="Оба «нет» должны выполниться, чтобы ход дошёл до диаграммы 2.")}
     {callout(
         "warning",
         "Невалидный ход НЕ переключает игрока",
@@ -1123,6 +1131,18 @@ def build_15() -> None:
         "хода должна остаться прежней. Переключение игрока происходит только ПОСЛЕ успешного "
         "хода.",
     )}
+
+    <h3>Диаграмма 2 — что происходит после валидного хода</h3>
+    {flowchart([
+        {"kind": "start", "label": "ВАЛИДНЫЙ ХОД (из диаграммы 1)"},
+        {"kind": "process", "label": "board[index] = current_player"},
+        {"kind": "decision", "label": "find_winner(board) есть победитель?",
+         "yes": [{"kind": "end", "label": "TERMINAL: победа — render()"}],
+         "no": [{"kind": "decision", "label": "all(board) заполнено?",
+                 "yes": [{"kind": "end", "label": "TERMINAL: ничья — render()"}],
+                 "no": [{"kind": "process", "label": "сменить игрока"},
+                        {"kind": "process", "label": "render()"}]}]},
+    ], caption="Коммит в модель, проверка правил (раздел 17.17), и только потом — смена игрока.")}
 
     <h2>Переключение игрока — три эквивалентных способа</h2>
     {code_block(
@@ -1177,8 +1197,17 @@ def build_16() -> None:
     diag1 = board_diagram(["", "", "X", "", "X", "", "X", "", ""], highlighted=(2, 4, 6), caption="Диагональ 2-4-6")
     body = f"""
     <h2>Все восемь выигрышных линий</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:4px">
-      {row0}{row1}{row2}{col0}{col1}{col2}{diag0}{diag1}
+    <h3 style="text-align:center;font-size:15px;color:var(--color-text-muted,#6B6B7D);margin-bottom:8px">Строки</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:28px">
+      {row0}{row1}{row2}
+    </div>
+    <h3 style="text-align:center;font-size:15px;color:var(--color-text-muted,#6B6B7D);margin-bottom:8px">Столбцы</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:28px">
+      {col0}{col1}{col2}
+    </div>
+    <h3 style="text-align:center;font-size:15px;color:var(--color-text-muted,#6B6B7D);margin-bottom:8px">Диагонали</h3>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px">
+      {diag0}{diag1}
     </div>
 
     <h2>Константа WINNING_LINES</h2>
@@ -1282,13 +1311,18 @@ def build_17() -> None:
     )}
 
     <h2>Terminal state</h2>
+    <p>ПОБЕДА и НИЧЬЯ — истинные тупики: как только партия туда попала, обратного пути в
+    «игра продолжается» нет. Ниже это показано буквально — у терминальных узлов нет исходящих
+    стрелок.</p>
     {flowchart([
+        {"kind": "start", "label": "После валидного хода"},
         {"kind": "decision", "label": "find_winner(board) есть победитель?",
-         "yes": [{"kind": "end", "label": "TERMINAL: X_WON / O_WON"}],
+         "yes": [{"kind": "end", "label": "TERMINAL: ПОБЕДА X/O"}],
          "no": [{"kind": "decision", "label": "all(board) заполнено?",
-                 "yes": [{"kind": "end", "label": "TERMINAL: DRAW"}],
-                 "no": [{"kind": "process", "label": "игра продолжается"}]}]},
-    ], caption="Terminal state — партия закончилась (победой или ничьей) и больше не принимает ходов.")}
+                 "yes": [{"kind": "end", "label": "TERMINAL: НИЧЬЯ"}],
+                 "no": [{"kind": "process", "label": "игра продолжается"},
+                        {"kind": "process", "label": "сменить игрока"}]}]},
+    ], caption="ПОБЕДА и НИЧЬЯ — терминальные состояния: партия закончилась и больше не принимает ходов.")}
 
     {practice_card(
         "17-17",
@@ -1545,6 +1579,16 @@ def build_21() -> None:
         "адаптивным и опрятным — не гарантируем математически точный квадрат на всех "
         "платформах одновременно.",
     )}
+
+    <h2>Видно на реальном окне, а не только в коде</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start">
+      {image_figure(f"{IMG}/adaptive-board-small.png", "Обычный размер окна: поле умещается компактно", "Обычный размер окна", width=300)}
+      {image_figure(f"{IMG}/adaptive-board-large.png", "Окно увеличено: то же самое состояние партии, но клетки крупнее", "Окно увеличено вручную", width=460)}
+    </div>
+    <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
+    Одно и то же приложение, одно и то же состояние партии: <code class="inline">board_frame</code>
+    растёт вместе с окном, потому что вес и <code class="inline">sticky</code> настроены на
+    каждом уровне <code class="inline">grid()</code>.</p>
 
     {local_required_card(
         "17-21",
@@ -1883,8 +1927,12 @@ def build_27() -> None:
     {image_figure(f"{IMG}/new-round.png", "Поле пустое, статус Ход игрока X, но счёт X:1 O:0 сохранён", f"Реальное окно полной версии игры: раунд сброшен после победы X, но счёт матча остался. Фрагмент выше показывает функции new_round()/new_match(), которые за это отвечают.", width=320)}
 
     <h2>Необязательное расширение: сохраняем счёт матча в JSON</h2>
+    <p>Ниже показан только фрагмент — тело функции <code class="inline">save_scores()</code> из
+    <code class="inline">tic_tac_toe.py</code>. Полный файл уже содержит нужные
+    <code class="inline">import json</code>, <code class="inline">from pathlib import Path</code>
+    и определение <code class="inline">GameState</code> — здесь они не повторяются.</p>
     {code_block(
-        "tic_tac_toe_scores.py",
+        "фрагмент save_scores() из tic_tac_toe.py",
         'SCORES_PATH = Path("tic_tac_toe_scores.json")   # относительно текущей рабочей директории\n\n'
         "def save_scores(state):\n"
         '    with SCORES_PATH.open("w", encoding="utf-8") as f:\n'
@@ -2305,7 +2353,7 @@ def build_29() -> None:
 
     {debug_lab(
         20,
-        "Повторная привязка кнопки New Round без add=\"+\" вызывает reset дважды",
+        "Дополнительный bind(..., add=\"+\") поверх command= вызывает reset дважды",
         "dublirovannaya_privyazka.py",
         'btn = ttk.Button(controls, text="Новый раунд", command=self.new_round)\n'
         "btn.bind(\"<Button-1>\", lambda e: self.new_round(), add=\"+\")\n"
@@ -2349,7 +2397,17 @@ def build_30() -> None:
     body = f"""
     <h2>Один ненавязчивый эффект — не фреймворк анимации</h2>
     <p>После победы клетки выигрышной линии мягко мигают несколько раз — коротко и по делу,
-    не превращая книгу в курс по анимации.</p>
+    не превращая книгу в курс по анимации. На реальном окне это выглядит как краткий переход
+    между базовой подсветкой победы и мягким accent-состоянием; сайт не может показать
+    видео-анимацию, поэтому ниже — три реальных кадра, а локальное приложение переключает их
+    через <code class="inline">after()</code>.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:start">
+      {image_figure(f"{IMG}/win-pulse-step-0.png", "Тик 0: выигрышная линия в мягком accent-цвете (PULSE_BG)", "Тик 0 — PULSE_BG", width=260)}
+      {image_figure(f"{IMG}/win-pulse-step-1.png", "Тик 1: выигрышная линия в базовом цвете подсветки (WIN_BG)", "Тик 1 — WIN_BG", width=260)}
+      {image_figure(f"{IMG}/win-pulse-final.png", "После завершения пульса: линия остаётся в базовом цвете подсветки", "После пульса — settled", width=260)}
+    </div>
+    <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
+    Эффект намеренно сдержанный — никакого резкого высококонтрастного мигания.</p>
     {code_block(
         "pulse_winning_line.py",
         "def pulse_winning_line(self, tick=0):\n"
