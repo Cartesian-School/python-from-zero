@@ -52,7 +52,32 @@
 
     <h2>Один ненавязчивый эффект — не фреймворк анимации</h2>
     <p>После победы клетки выигрышной линии мягко мигают несколько раз — коротко и по делу,
-    не превращая книгу в курс по анимации.</p>
+    не превращая книгу в курс по анимации. На реальном окне это выглядит как краткий переход
+    между базовой подсветкой победы и мягким accent-состоянием; сайт не может показать
+    видео-анимацию, поэтому ниже — три реальных кадра, а локальное приложение переключает их
+    через <code class="inline">after()</code>.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:start">
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/win-pulse-step-0.png" alt="Тик 0: выигрышная линия в мягком accent-цвете (PULSE_BG)" width="260"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Тик 0 — PULSE_BG</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/win-pulse-step-1.png" alt="Тик 1: выигрышная линия в базовом цвете подсветки (WIN_BG)" width="260"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Тик 1 — WIN_BG</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/win-pulse-final.png" alt="После завершения пульса: линия остаётся в базовом цвете подсветки" width="260"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">После пульса — settled</figcaption>
+    </figure>
+    </div>
+    <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
+    Эффект намеренно сдержанный — никакого резкого высококонтрастного мигания.</p>
 
     <div class="code-block">
       <div class="code-label"><span>pulse_winning_line.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
