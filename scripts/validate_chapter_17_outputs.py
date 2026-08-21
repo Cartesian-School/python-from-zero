@@ -44,6 +44,7 @@ REQUIRED_NAMES = [
     "new-round",
     "adaptive-board-small",
     "adaptive-board-large",
+    "adaptive-board-comparison",
     "win-pulse-step-0",
     "win-pulse-step-1",
     "win-pulse-final",
@@ -152,19 +153,43 @@ def _validate_winning_lines_layout() -> list[str]:
 
 def _validate_adaptive_pair() -> list[str]:
     """17-21 claims the board genuinely grows with the window — the two
-    screenshots must actually differ in size, not just in filename."""
-    small_path, large_path = OUT_DIR / "adaptive-board-small.png", OUT_DIR / "adaptive-board-large.png"
+    source screenshots must actually differ in size, not just in filename,
+    and the composed comparison image must actually contain both of them
+    at their true, unscaled relative size (not independently normalized to
+    equal widths, which was the bug this composite was built to fix)."""
+    small_path = OUT_DIR / "adaptive-board-small.png"
+    large_path = OUT_DIR / "adaptive-board-large.png"
+    comparison_path = OUT_DIR / "adaptive-board-comparison.png"
     if not small_path.exists() or not large_path.exists():
         return []  # already reported as missing above
     with Image.open(small_path) as small_img, Image.open(large_path) as large_img:
         sw, sh = small_img.size
         lw, lh = large_img.size
+    errors = []
     if not (lw > sw and lh > sh):
-        return [
+        errors.append(
             f"adaptive-board-large.png ({lw}x{lh}) должен быть крупнее adaptive-board-small.png "
             f"({sw}x{sh}) по обеим осям — иначе скриншоты не доказывают, что поле адаптивно."
-        ]
-    return []
+        )
+    if not comparison_path.exists():
+        return errors  # already reported as missing above
+    with Image.open(comparison_path) as comp_img:
+        cw, ch = comp_img.size
+    # The composite places both source images unscaled side by side with
+    # padding/gaps — its canvas must be at least as wide as both images
+    # combined and at least as tall as the taller one, or one of them was
+    # cropped/rescaled instead of placed at true size.
+    if cw < sw + lw:
+        errors.append(
+            f"adaptive-board-comparison.png ({cw}x{ch}) уже, чем сумма ширин двух исходных "
+            f"скриншотов ({sw}+{lw}={sw + lw}) — похоже, один из них был обрезан или уменьшен."
+        )
+    if ch < max(sh, lh):
+        errors.append(
+            f"adaptive-board-comparison.png ({cw}x{ch}) ниже, чем более высокий исходный "
+            f"скриншот ({max(sh, lh)}) — похоже, один из них был обрезан или уменьшен."
+        )
+    return errors
 
 
 def main() -> None:
