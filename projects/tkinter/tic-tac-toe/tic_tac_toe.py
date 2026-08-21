@@ -116,13 +116,14 @@ class TicTacToeApp:
 
         for i in range(3):
             outer.columnconfigure(i, weight=1)
+        outer.rowconfigure(1, weight=1)  # строка поля растягивается вместе с окном
 
         # Клавиатура и мышь ведут к одной и той же игровой логике (раздел 17.24).
         self.root.bind("<Key>", self.on_key)
 
     def build_board(self, outer):
         board_frame = ttk.Frame(outer)
-        board_frame.grid(row=1, column=0, columnspan=3)
+        board_frame.grid(row=1, column=0, columnspan=3, sticky="nsew")
         for i in range(3):
             board_frame.rowconfigure(i, weight=1)
             board_frame.columnconfigure(i, weight=1)
@@ -193,7 +194,9 @@ class TicTacToeApp:
             if 1 <= n <= 9:
                 self.attempt_move(n - 1)  # клавиши 1-9 вызывают ТОТ ЖЕ attempt_move(), что и клик
 
-    # ---------- render(): единственное место, что красит виджеты ----------
+    # ---------- render(): рисует виджеты ИЗ модели (state) ----------
+    # on_cell_enter/on_cell_leave и pulse_winning_line — сознательные исключения:
+    # они красят кнопки напрямую для временных эффектов (превью, пульс), не трогая state.
     def render(self):
         state = self.state
         for index, btn in enumerate(self.buttons):

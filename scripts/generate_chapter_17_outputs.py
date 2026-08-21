@@ -9,6 +9,7 @@
 Использование: xvfb-run -a python3 scripts/generate_chapter_17_outputs.py
 """
 
+import importlib
 import sys
 import tkinter as tk
 from pathlib import Path
@@ -20,6 +21,7 @@ OUT_DIR = ROOT / "site" / "assets" / "img" / "chapter-17" / "output"
 sys.path.insert(0, str(ROOT / "projects" / "tkinter" / "tic-tac-toe"))
 
 import tic_tac_toe as t  # noqa: E402
+import tic_tac_toe_basic as tb  # noqa: E402
 
 
 def _autocrop(img: Image.Image) -> Image.Image:
@@ -140,6 +142,49 @@ def new_round_reset() -> None:
     capture("new-round", root)
 
 
+def new_basic_app():
+    """tic_tac_toe_basic.py строит окно и виджеты на уровне модуля (раздел 17.6) —
+    в отличие от TicTacToeApp, здесь нет конструктора, который можно вызвать заново.
+    importlib.reload() заново выполняет код модуля и создаёт свежее окно."""
+    importlib.reload(tb)
+    tb.root.geometry("+0+0")
+    return tb
+
+
+def basic_empty_board() -> None:
+    m = new_basic_app()
+    capture("basic-empty-board", m.root)
+
+
+def basic_first_move() -> None:
+    m = new_basic_app()
+    m.na_knopku_nazhali(0)  # X ставит первую отметку в клетку 0
+    capture("basic-first-move", m.root)
+
+
+def basic_win() -> None:
+    m = new_basic_app()
+    for i in (0, 3, 1, 4, 2):  # X собирает верхнюю строку
+        m.na_knopku_nazhali(i)
+    capture("basic-win", m.root)
+
+
+def basic_draw() -> None:
+    m = new_basic_app()
+    # X O X / X O O / O X X — поле заполнено, победителя нет
+    for i in (0, 1, 2, 4, 3, 5, 7, 6, 8):
+        m.na_knopku_nazhali(i)
+    capture("basic-draw", m.root)
+
+
+def basic_new_game_reset() -> None:
+    m = new_basic_app()
+    for i in (0, 3, 1, 4, 2):  # сначала X выигрывает партию
+        m.na_knopku_nazhali(i)
+    m.novaya_igra()  # кнопка "Новая игра" — поле и статус сброшены
+    capture("basic-new-game-reset", m.root)
+
+
 def tic_tac_toe_pro() -> None:
     root, app = new_app()
     for i in (0, 4, 1, 3, 8):  # a representative mid-game with score already on the board
@@ -150,6 +195,11 @@ def tic_tac_toe_pro() -> None:
 
 
 if __name__ == "__main__":
+    basic_empty_board()
+    basic_first_move()
+    basic_win()
+    basic_draw()
+    basic_new_game_reset()
     empty_board()
     x_first_move()
     x_turn()

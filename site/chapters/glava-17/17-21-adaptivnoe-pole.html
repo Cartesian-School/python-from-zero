@@ -54,8 +54,11 @@
 
     <div class="code-block">
       <div class="code-label"><span>adaptivnoe_pole.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>board_frame = ttk.Frame(outer)
-board_frame.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">3</span>)
+      <pre><code><span class="tok-com"># outer — родительский контейнер (build_ui); строка 1 — это строка поля</span>
+outer.rowconfigure(<span class="tok-num">1</span>, weight=<span class="tok-num">1</span>)
+
+board_frame = ttk.Frame(outer)
+board_frame.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">3</span>, sticky=<span class="tok-str">&quot;nsew&quot;</span>)
 <span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">3</span>):
     board_frame.rowconfigure(i, weight=<span class="tok-num">1</span>)
     board_frame.columnconfigure(i, weight=<span class="tok-num">1</span>)
@@ -67,8 +70,8 @@ board_frame.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num
 
     <div class="callout callout-info">
       <div>
-        <div class="callout-title">sticky=&#x27;nsew&#x27; + weight — из главы 16</div>
-        <div class="callout-body">Те же приёмы адаптивного <code class="inline">grid()</code>, что и в разделе 16.15: <code class="inline">sticky="nsew"</code> заставляет клетку заполнить всю ячейку сетки, а <code class="inline">rowconfigure/columnconfigure(weight=1)</code> распределяет свободное пространство при изменении размера окна.</div>
+        <div class="callout-title">sticky=&#x27;nsew&#x27; + weight — на КАЖДОМ уровне вложенности</div>
+        <div class="callout-body">Те же приёмы адаптивного <code class="inline">grid()</code>, что и в разделе 16.15 — но их нужно применить на обоих уровнях сразу. Внутри <code class="inline">board_frame</code> уже недостаточно дать вес строкам/столбцам, если сам <code class="inline">board_frame</code> не растягивается в своей ячейке <code class="inline">outer</code>: нужны И <code class="inline">outer.rowconfigure(1, weight=1)</code> на родителе, И <code class="inline">sticky="nsew"</code> на самом <code class="inline">board_frame.grid()</code>. Пропустить любое из двух — и поле перестанет расти вместе с окном по вертикали.</div>
       </div>
     </div>
 

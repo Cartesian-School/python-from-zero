@@ -72,7 +72,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">НЕ board: list[str] = [&quot;&quot;] * 9</div>
-        <div class="callout-body">Глава 14 уже объясняла эту ловушку: изменяемое значение по умолчанию (<code class="inline">list</code>) в обычном присваивании расшарилось бы между ВСЕМИ экземплярами <code class="inline">GameState</code> — испортив вторую игру остатками первой. <code class="inline">field(default_factory=lambda: [""] * 9)</code> создаёт новый список для каждого экземпляра.</div>
+        <div class="callout-body">Для <code class="inline">@dataclass</code> это даже не тихий баг: Python замечает изменяемое значение по умолчанию (<code class="inline">list</code>, <code class="inline">dict</code>, <code class="inline">set</code>) прямо при определении класса и сразу отказывает — <code class="inline">ValueError: mutable default &lt;class 'list'&gt; for field board is not allowed: use default_factory</code>. Класс с такой строкой вообще не создастся, значит до «расшаривания между экземплярами» (глава 14 разбирала эту ловушку для обычных изменяемых аргументов по умолчанию) дело не дойдёт. <code class="inline">field(default_factory=lambda: [""] * 9)</code> — единственный способ, которым dataclass разрешит дать полю новый список при каждом создании экземпляра.</div>
       </div>
     </div>
 
