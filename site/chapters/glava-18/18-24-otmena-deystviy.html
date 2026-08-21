@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Отмена действий (Undo) — Python с нуля — Cartesian School</title>
+<meta name="description" content="Undo по логическим действиям, а не по отдельным элементам Canvas — один карандашный штрих отменяется целиком." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-18/18-24-otmena-deystviy.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Отмена действий (Undo) — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Undo по логическим действиям, а не по отдельным элементам Canvas — один карандашный штрих отменяется целиком." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-24-otmena-deystviy.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Отмена действий (Undo) — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Undo по логическим действиям, а не по отдельным элементам Canvas — один карандашный штрих отменяется целиком." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Отмена действий (Undo) — Python с нуля — Cartesian School","description":"Undo по логическим действиям, а не по отдельным элементам Canvas — один карандашный штрих отменяется целиком.","url":"https://www.cartesianschool.org/chapters/glava-18/18-24-otmena-deystviy.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 18 · Рисовалка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="18-01-obyasnenie-nachalo.html">Что мы строим? Начало работы</a></li><li><a href="18-02-ekran-holst.html">Экран и холст (Canvas)</a></li><li><a href="18-03-menu-parametry.html">Панель инструментов и параметры</a></li><li><a href="18-04-mysh-linii.html">Позиция мыши и рисуем линии</a></li><li><a href="18-05-figury.html">Квадраты, прямоугольники, круги и овалы</a></li><li><a href="18-06-razmer-cveta.html">Выбираем размер и цвет</a></li><li><a href="18-07-polnaya-programma-itogi.html">Первая полная программа</a></li><li><a href="18-08-mentalnaya-model.html">Canvas хранит объекты, а не пиксели</a></li><li><a href="18-09-sistema-koordinat.html">Система координат Canvas</a></li><li><a href="18-10-item-id.html">Item ID: что возвращает create_*</a></li><li><a href="18-11-tegi.html">Теги: группируем и выбираем элементы</a></li><li><a href="18-12-zhest-myshi.html">Жизненный цикл жеста мыши</a></li><li><a href="18-13-sostoyanie-risovaniya.html">Состояние рисования</a></li><li><a href="18-14-karandash.html">Карандаш: непрерывный штрих</a></li><li><a href="18-15-instrument-liniya.html">Инструмент «Линия»</a></li><li><a href="18-16-geometriya-pryamougolnika.html">Геометрия прямоугольника</a></li><li><a href="18-17-geometriya-ovala.html">Геометрия овала</a></li><li><a href="18-18-zhivoe-prevyu.html">Живое превью: coords()</a></li><li><a href="18-19-redaktirovanie-elementov.html">itemconfig, move, delete</a></li><li><a href="18-20-poryadok-sloev.html">Порядок наложения</a></li><li><a href="18-21-sistema-cveta.html">Система цвета</a></li><li><a href="18-22-tolschina-kisti.html">Толщина кисти</a></li><li><a href="18-23-lastik.html">Ластик</a></li><li><a href="18-24-otmena-deystviy.html" class="active">Отмена действий (Undo)</a></li><li><a href="18-25-povtor-deystviy.html">Повтор действий (Redo)</a></li><li><a href="18-26-ochistka-holsta.html">Очистка холста</a></li><li><a href="18-27-goryachie-klavishi.html">Горячие клавиши</a></li><li><a href="18-28-stroka-sostoyaniya.html">Строка состояния</a></li><li><a href="18-29-arhitektura-paintapp.html">Архитектура PaintApp</a></li><li><a href="18-30-sohranenie-json.html">Сохранение и загрузка JSON</a></li><li><a href="18-31-debug-labs.html">Debug Labs</a></li><li><a href="18-32-paint-pro-itogi.html">Paint Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/18-02/index.html">🐍 18-02: Практика</a></li><li><a href="../../practice/18-03/index.html">🐍 18-03: Практика</a></li><li><a href="../../practice/18-04/index.html">🐍 18-04: Практика</a></li><li><a href="../../practice/18-05/index.html">🐍 18-05: Практика</a></li><li><a href="../../practice/18-06/index.html">🐍 18-06: Практика</a></li><li><a href="../../practice/18-07/index.html">🐍 18-07: Практика</a></li><li><a href="../../practice/18-09/index.html">🐍 18-09: Практика</a></li><li><a href="../../practice/18-10/index.html">🐍 18-10: Практика</a></li><li><a href="../../practice/18-11/index.html">🐍 18-11: Практика</a></li><li><a href="../../practice/18-12/index.html">🐍 18-12: Практика</a></li><li><a href="../../practice/18-13/index.html">🐍 18-13: Практика</a></li><li><a href="../../practice/18-14/index.html">🐍 18-14: Практика</a></li><li><a href="../../practice/18-15/index.html">🐍 18-15: Практика</a></li><li><a href="../../practice/18-16/index.html">🐍 18-16: Практика</a></li><li><a href="../../practice/18-17/index.html">🐍 18-17: Практика</a></li><li><a href="../../practice/18-18/index.html">🐍 18-18: Практика</a></li><li><a href="../../practice/18-19/index.html">🐍 18-19: Практика</a></li><li><a href="../../practice/18-20/index.html">🐍 18-20: Практика</a></li><li><a href="../../practice/18-21/index.html">🐍 18-21: Практика</a></li><li><a href="../../practice/18-22/index.html">🐍 18-22: Практика</a></li><li><a href="../../practice/18-23/index.html">🐍 18-23: Практика</a></li><li><a href="../../practice/18-24/index.html">🐍 18-24: Практика</a></li><li><a href="../../practice/18-25/index.html">🐍 18-25: Практика</a></li><li><a href="../../practice/18-26/index.html">🐍 18-26: Практика</a></li><li><a href="../../practice/18-27/index.html">🐍 18-27: Практика</a></li><li><a href="../../practice/18-28/index.html">🐍 18-28: Практика</a></li><li><a href="../../practice/18-29/index.html">🐍 18-29: Практика</a></li><li><a href="../../practice/18-30/index.html">🐍 18-30: Практика</a></li><li><a href="../../practice/18-31/index.html">🐍 18-31: Практика</a></li><li><a href="../../practice/18-32/index.html">🐍 18-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app_basic.py">🐍 paint_app_basic.py — первый прототип (18.7)</a></li><li><a href="../../../projects/tkinter/paint-app/paint_app.py">🐍 paint_app.py — финальная версия Pro (18.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 18</a> / Отмена действий</div>
+    <div class="section-kicker">Глава 18 · История и документ</div>
+    <h1>Отмена действий (Undo)</h1>
+    <p class="lede">Один пользовательский жест может состоять из многих элементов Canvas — отменяться он должен целиком.</p>
+
+
+    <h2>Отмена по действиям, а не по элементам Canvas</h2>
+    <p>Наивная реализация Undo — просто удалить последний созданный элемент Canvas. Проблема:
+    один карандашный штрих состоит из МНОГИХ отдельных отрезков (раздел 18.14) — «отменить»
+    удалит только последний крошечный кусочек штриха, а не весь его целиком, чего пользователь
+    точно не ожидает.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>istoriya_deystviy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>undo_stack = [
+    [item_id_1, item_id_2, item_id_3],  <span class="tok-com"># один карандашный штрих — три отрезка</span>
+    [item_id_4],                         <span class="tok-com"># один прямоугольник — один элемент</span>
+]</code></pre>
+    </div>
+    <p>Финальное приложение решает это через документ (раздел 18.13, 18.29): каждое пользовательское
+    действие — один или несколько объектов <code class="inline">Shape</code> — целиком добавляется в
+    документ и целиком же может быть отменено:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>undo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> _commit_action(self, shapes):
+    self.document.extend(shapes)
+    self.undo_stack.append(shapes)   <span class="tok-com"># ОДНО действие — даже если shapes из многих отрезков</span>
+    self.redo_stack.clear()
+    self.render_document()
+
+<span class="tok-kw">def</span> undo(self):
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> self.undo_stack:
+        <span class="tok-kw">return</span>
+    shapes = self.undo_stack.pop()
+    <span class="tok-kw">del</span> self.document[<span class="tok-fn">len</span>(self.document) - <span class="tok-fn">len</span>(shapes):]
+    self.redo_stack.append(shapes)
+    self.render_document()</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-18/output/undo-before.png" alt="Реальное окно: холст с несколькими фигурами, включая последний нарисованный прямоугольник" width="420"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: до Ctrl+Z — виден весь рисунок, включая последнее действие.</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-18/output/undo-after.png" alt="Реальное окно: тот же холст без последнего прямоугольника, остальные фигуры на месте" width="420"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: после Ctrl+Z — последнее ДЕЙСТВИЕ убрано целиком, предыдущие фигуры не тронуты.</figcaption>
+    </figure>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">render_document() — то же render(), что и в главе 17</div>
+        <div class="callout-body">После отмены документ меняется, а холст просто ПЕРЕРИСОВЫВАЕТСЯ из него заново — не точечное удаление конкретных элементов Canvas. Тот же принцип «модель меняют действия, Canvas только отображает текущее состояние», что и <code class="inline">render()</code> в игре «Крестики-нолики».</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: стек отмены по действиям</div>
+        <div class="nc-sub">Автоматическая проверка — undo убирает ВСЕ элементы одного действия, а не один</div>
+        <div class="practice-inline-status" data-lesson-id="18-24"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/18-24/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["18-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="18-24"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="18-23-lastik.html"><div class="dir">← Назад</div><div class="lbl">Ластик</div></a><a href="18-25-povtor-deystviy.html" class="next"><div class="dir">Далее →</div><div class="lbl">Повтор действий</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School","description":"Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON.","url":"https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 18 · Рисовалка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="18-01-obyasnenie-nachalo.html">Что мы строим? Начало работы</a></li><li><a href="18-02-ekran-holst.html">Экран и холст (Canvas)</a></li><li><a href="18-03-menu-parametry.html">Панель инструментов и параметры</a></li><li><a href="18-04-mysh-linii.html">Позиция мыши и рисуем линии</a></li><li><a href="18-05-figury.html">Квадраты, прямоугольники, круги и овалы</a></li><li><a href="18-06-razmer-cveta.html">Выбираем размер и цвет</a></li><li><a href="18-07-polnaya-programma-itogi.html">Первая полная программа</a></li><li><a href="18-08-mentalnaya-model.html">Canvas хранит объекты, а не пиксели</a></li><li><a href="18-09-sistema-koordinat.html">Система координат Canvas</a></li><li><a href="18-10-item-id.html">Item ID: что возвращает create_*</a></li><li><a href="18-11-tegi.html">Теги: группируем и выбираем элементы</a></li><li><a href="18-12-zhest-myshi.html">Жизненный цикл жеста мыши</a></li><li><a href="18-13-sostoyanie-risovaniya.html">Состояние рисования</a></li><li><a href="18-14-karandash.html">Карандаш: непрерывный штрих</a></li><li><a href="18-15-instrument-liniya.html">Инструмент «Линия»</a></li><li><a href="18-16-geometriya-pryamougolnika.html">Геометрия прямоугольника</a></li><li><a href="18-17-geometriya-ovala.html">Геометрия овала</a></li><li><a href="18-18-zhivoe-prevyu.html">Живое превью: coords()</a></li><li><a href="18-19-redaktirovanie-elementov.html">itemconfig, move, delete</a></li><li><a href="18-20-poryadok-sloev.html">Порядок наложения</a></li><li><a href="18-21-sistema-cveta.html">Система цвета</a></li><li><a href="18-22-tolschina-kisti.html">Толщина кисти</a></li><li><a href="18-23-lastik.html">Ластик</a></li><li><a href="18-24-otmena-deystviy.html">Отмена действий (Undo)</a></li><li><a href="18-25-povtor-deystviy.html">Повтор действий (Redo)</a></li><li><a href="18-26-ochistka-holsta.html">Очистка холста</a></li><li><a href="18-27-goryachie-klavishi.html">Горячие клавиши</a></li><li><a href="18-28-stroka-sostoyaniya.html">Строка состояния</a></li><li><a href="18-29-arhitektura-paintapp.html">Архитектура PaintApp</a></li><li><a href="18-30-sohranenie-json.html">Сохранение и загрузка JSON</a></li><li><a href="18-31-debug-labs.html" class="active">Debug Labs</a></li><li><a href="18-32-paint-pro-itogi.html">Paint Pro — итоги главы</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/18-02/index.html">🐍 18-02: Практика</a></li><li><a href="../../practice/18-03/index.html">🐍 18-03: Практика</a></li><li><a href="../../practice/18-04/index.html">🐍 18-04: Практика</a></li><li><a href="../../practice/18-05/index.html">🐍 18-05: Практика</a></li><li><a href="../../practice/18-06/index.html">🐍 18-06: Практика</a></li><li><a href="../../practice/18-07/index.html">🐍 18-07: Практика</a></li><li><a href="../../practice/18-09/index.html">🐍 18-09: Практика</a></li><li><a href="../../practice/18-10/index.html">🐍 18-10: Практика</a></li><li><a href="../../practice/18-11/index.html">🐍 18-11: Практика</a></li><li><a href="../../practice/18-12/index.html">🐍 18-12: Практика</a></li><li><a href="../../practice/18-13/index.html">🐍 18-13: Практика</a></li><li><a href="../../practice/18-14/index.html">🐍 18-14: Практика</a></li><li><a href="../../practice/18-15/index.html">🐍 18-15: Практика</a></li><li><a href="../../practice/18-16/index.html">🐍 18-16: Практика</a></li><li><a href="../../practice/18-17/index.html">🐍 18-17: Практика</a></li><li><a href="../../practice/18-18/index.html">🐍 18-18: Практика</a></li><li><a href="../../practice/18-19/index.html">🐍 18-19: Практика</a></li><li><a href="../../practice/18-20/index.html">🐍 18-20: Практика</a></li><li><a href="../../practice/18-21/index.html">🐍 18-21: Практика</a></li><li><a href="../../practice/18-22/index.html">🐍 18-22: Практика</a></li><li><a href="../../practice/18-23/index.html">🐍 18-23: Практика</a></li><li><a href="../../practice/18-24/index.html">🐍 18-24: Практика</a></li><li><a href="../../practice/18-25/index.html">🐍 18-25: Практика</a></li><li><a href="../../practice/18-26/index.html">🐍 18-26: Практика</a></li><li><a href="../../practice/18-27/index.html">🐍 18-27: Практика</a></li><li><a href="../../practice/18-28/index.html">🐍 18-28: Практика</a></li><li><a href="../../practice/18-29/index.html">🐍 18-29: Практика</a></li><li><a href="../../practice/18-30/index.html">🐍 18-30: Практика</a></li><li><a href="../../practice/18-31/index.html">🐍 18-31: Практика</a></li><li><a href="../../practice/18-32/index.html">🐍 18-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app_basic.py">🐍 paint_app_basic.py — первый прототип (18.7)</a></li><li><a href="../../../projects/tkinter/paint-app/paint_app.py">🐍 paint_app.py — финальная версия Pro (18.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 18</a> / Debug Labs</div>
+    <div class="section-kicker">Глава 18 · Тестирование</div>
+    <h1>Debug Labs — типичные ошибки рисовалки</h1>
+    <p class="lede">Каждая ошибка здесь встречается в реальных студенческих проектах — научитесь узнавать симптом раньше, чем откроете отладчик.</p>
+
+
+    <p>Небольшая коллекция типичных ошибок рисовалок на Canvas — каждая с симптомом и
+    исправлением. Часть из них вы уже видели раньше в главе; здесь они собраны как справочник.</p>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 1: Y растёт вверх, как у Turtle</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>turtle_privychka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    <span class="tok-com"># &#x27;привычная&#x27; логика: чем выше на экране, тем БОЛЬШЕ Y</span>
+    <span class="tok-kw">if</span> event.y &gt; start_y:
+        status.config(text=<span class="tok-str">&quot;Двигаемся ВВЕРХ&quot;</span>)  <span class="tok-com"># неверно для Canvas!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Курсор двигается вниз по экрану, а статус говорит 'ВВЕРХ' —
+# логика была написана в терминах Turtle, а не Canvas.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>У Canvas Y растёт ВНИЗ (раздел 18.9) — <code class="inline">event.y &gt; start_y</code> означает «курсор ниже, чем был», а не выше. Перенос интуиции с Turtle без пересчёта знака — частая ошибка именно у тех, кто уже уверенно рисовал Turtle в главах 6–7.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>canvas_napravlenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    <span class="tok-kw">if</span> event.y &gt; start_y:
+        status.config(text=<span class="tok-str">&quot;Двигаемся ВНИЗ&quot;</span>)  <span class="tok-com"># верно: Y растёт вниз</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 2: Не запомнили точку начала жеста</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>zabyli_start.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">pass</span>  <span class="tok-com"># забыли сохранить event.x, event.y</span>
+
+<span class="tok-kw">def</span> on_drag(event):
+    canvas.create_line(start_x, start_y, event.x, event.y)  <span class="tok-com"># start_x не определена</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># NameError: name 'start_x' is not defined —
+# программа падает на первом же движении мыши после нажатия.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">on_press()</code> обязан сохранить точку начала (раздел 18.12) — без неё <code class="inline">on_drag()</code> просто не может знать, откуда рисовать линию или превью фигуры.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>sohranili_start.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">global</span> start_x, start_y
+    start_x, start_y = event.x, event.y</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 3: &amp;lt;Motion&amp;gt; вместо &amp;lt;B1-Motion&amp;gt;</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>lyuboe_dvizhenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>canvas.bind(<span class="tok-str">&quot;&lt;Motion&gt;&quot;</span>, on_drag)   <span class="tok-com"># сработает при ЛЮБОМ движении мыши</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Линия рисуется, даже если кнопка мыши вообще не нажата —
+# достаточно просто провести курсором над холстом.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">&lt;Motion&gt;</code> реагирует на любое движение мыши над виджетом. Для рисования только во время перетаскивания нужен именно <code class="inline">&lt;B1-Motion&gt;</code> — раздел 18.12 объясняет разницу.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>b1_motion.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>canvas.bind(<span class="tok-str">&quot;&lt;B1-Motion&gt;&quot;</span>, on_drag)   <span class="tok-com"># только при зажатой левой кнопке</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 4: Тысячи несвязанных точек вместо линии</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>tochki_vmesto_linii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.create_oval(
+        event.x - <span class="tok-num">2</span>, event.y - <span class="tok-num">2</span>, event.x + <span class="tok-num">2</span>, event.y + <span class="tok-num">2</span>,
+        fill=<span class="tok-str">&quot;black&quot;</span>,
+    )</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Быстрое движение мыши оставляет заметные разрывы между кружками —
+# штрих выглядит рваным, а не гладким.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Кружок на каждое отдельное событие не учитывает путь МЕЖДУ двумя последовательными точками. Раздел 18.14 показывает решение — соединять новую точку с предыдущей через <code class="inline">create_line()</code>.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>linii_mezhdu_tochkami.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.create_line(last_x, last_y, event.x, event.y, width=<span class="tok-num">3</span>, capstyle=tk.ROUND)
+    <span class="tok-com"># last_x, last_y обновляются после каждого отрезка</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 5: Превью пересоздаётся на каждый Motion без необходимости</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>peresozdanie_prevyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.delete(preview_id)
+    preview_id = canvas.create_rectangle(start_x, start_y, event.x, event.y)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Работает, но на каждое из десятков событий Motion в секунду
+# Canvas выбрасывает и заново строит один и тот же элемент.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Удалить и создать заново — не ошибка в смысле «сломано», но лишняя работа: у Canvas уже есть <code class="inline">coords()</code> именно для обновления существующего элемента (раздел 18.18) — без пересоздания.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>coords_vmesto_peresozdaniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.coords(preview_id, start_x, start_y, event.x, event.y)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 6: Потеряли id превью-фигуры</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>poteryan_id.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_press(event):
+    canvas.create_rectangle(event.x, event.y, event.x, event.y, dash=(<span class="tok-num">4</span>, <span class="tok-num">2</span>))
+    <span class="tok-com"># id не сохранён — preview_id нигде не появился</span>
+
+<span class="tok-kw">def</span> on_drag(event):
+    canvas.coords(preview_id, ...)  <span class="tok-com"># NameError: preview_id не определена</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># NameError на первом же движении мыши —
+# ссылаться не на что, id черновой фигуры потерян.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">create_*()</code> возвращает <code class="inline">item_id</code> (раздел 18.10), но только если его СОХРАНИТЬ — иначе фигура нарисуется, но обратиться к ней позже будет нечем.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>sohranili_id.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">global</span> preview_id
+    preview_id = canvas.create_rectangle(event.x, event.y, event.x, event.y, dash=(<span class="tok-num">4</span>, <span class="tok-num">2</span>))</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 7: Прямоугольник «переворачивается» при перетаскивании вверх-влево</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>ne_normalizovano.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> get_bounds():
+    <span class="tok-kw">return</span> start_x, start_y, current_x, current_y  <span class="tok-com"># без учёта направления</span>
+
+left, top, right, bottom = get_bounds()
+<span class="tok-kw">if</span> left &gt; right:
+    <span class="tok-kw">raise</span> ValueError(<span class="tok-str">&quot;это невозможно&quot;</span>)  <span class="tok-com"># но перетаскивание вверх-влево именно это и даёт!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Приложение падает с ValueError, если пользователь начал
+# перетаскивание из правого нижнего угла будущей фигуры.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Мышь можно тянуть в любую из четырёх сторон (раздел 18.16) — код, ожидающий <code class="inline">left &lt;= right</code> без предварительной нормализации, работает только для одного из четырёх направлений.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>normalizovano.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>left, top, right, bottom = normalize_bounds(start_x, start_y, current_x, current_y)
+<span class="tok-com"># теперь left &lt;= right и top &lt;= bottom гарантированно, независимо от направления</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 8: item_id использован как индекс списка</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>id_kak_indeks.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>shapes = []
+item_id = canvas.create_rectangle(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">50</span>, <span class="tok-num">50</span>)
+shapes.append(<span class="tok-str">&quot;rectangle&quot;</span>)
+<span class="tok-fn">print</span>(shapes[item_id])   <span class="tok-com"># IndexError, если item_id больше len(shapes) - 1</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># IndexError: list index out of range —
+# item_id не совпадает с порядковым номером в собственном списке кода.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">item_id</code> — внутренний номер Canvas (раздел 18.10), а не позиция в вашем собственном списке фигур. Использовать его как индекс <code class="inline">shapes[item_id]</code> совпадёт только случайно.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>id_kak_klyuch_slovarya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>shapes_by_id = {}
+item_id = canvas.create_rectangle(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">50</span>, <span class="tok-num">50</span>)
+shapes_by_id[item_id] = <span class="tok-str">&quot;rectangle&quot;</span>   <span class="tok-com"># словарь — id как КЛЮЧ, а не индекс</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 9: Ластик стирает половину штриха, а не весь</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>chastichnaya_otmena.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> undo(self):
+    item_id = self.undo_stack.pop()   <span class="tok-com"># предполагает ОДИН id на действие</span>
+    self.canvas.delete(item_id)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После Ctrl+Z длинный карандашный штрих теряет только
+# последний маленький отрезок, а не исчезает целиком.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Один карандашный штрих — это МНОГО отрезков <code class="inline">create_line()</code> (раздел 18.14), а не один элемент. Undo обязан хранить список id (или фигур) на КАЖДОЕ действие целиком, а не один id (раздел 18.24).</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>otmena_celym_deystviem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> undo(self):
+    shapes = self.undo_stack.pop()   <span class="tok-com"># список фигур ОДНОГО действия</span>
+    <span class="tok-kw">del</span> self.document[<span class="tok-fn">len</span>(self.document) - <span class="tok-fn">len</span>(shapes):]
+    self.render_document()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 10: Redo воскрешает несвязанное действие</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>redo_bez_ochistki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> _commit_action(self, shapes):
+    self.document.extend(shapes)
+    self.undo_stack.append(shapes)
+    <span class="tok-com"># забыли self.redo_stack.clear()</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Undo, затем новый рисунок, затем Redo —
+# и на холсте внезапно появляется фигура, никак не связанная с текущим рисунком.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Если после Undo нарисовать что-то новое, старая ветка redo больше не соответствует текущему документу. Раздел 18.25 требует явно очищать <code class="inline">redo_stack</code> при любом новом действии.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>redo_s_ochistkoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> _commit_action(self, shapes):
+    self.document.extend(shapes)
+    self.undo_stack.append(shapes)
+    self.redo_stack.clear()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 11: Очистили холст, но не историю</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>ochistka_bez_istorii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> clear_canvas(self):
+    self.canvas.delete(<span class="tok-str">&quot;all&quot;</span>)
+    self.document.clear()
+    <span class="tok-com"># undo_stack и redo_stack не тронуты!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После 'Очистить' нажатие Ctrl+Z пытается убрать фигуры
+# из уже пустого документа — список становится отрицательной длины.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>История описывает документ, которого больше нет — как только <code class="inline">document</code> очищается, <code class="inline">undo_stack</code> и <code class="inline">redo_stack</code> обязаны очиститься вместе с ним (раздел 18.26).</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>ochistka_s_istoriej.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> clear_canvas(self):
+    self.document.clear()
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 12: Отмена colorchooser записывает None как цвет</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>otmena_colorchooser.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_custom_color(self):
+    _rgb, hex_color = colorchooser.askcolor()
+    self.set_color(hex_color)   <span class="tok-com"># не проверили hex_color на None!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Пользователь нажал 'Отмена' в диалоге —
+# следующая же попытка нарисовать линию падает: fill=None недопустим.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">askcolor()</code> возвращает <code class="inline">(None, None)</code> при отмене (раздел 18.21) — присвоить это как текущий цвет без проверки значит сломать рисование при следующей же попытке.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_otmeny.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_custom_color(self):
+    _rgb, hex_color = colorchooser.askcolor()
+    <span class="tok-kw">if</span> hex_color <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>:
+        self.set_color(hex_color)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 13: Отмена диалога сохранения — Path(&#x27;&#x27;) вместо выхода</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>otmena_sohraneniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> save_document(self):
+    path_str = filedialog.asksaveasfilename()
+    Path(path_str).write_text(...)   <span class="tok-com"># не проверили пустую строку!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Пользователь нажал 'Отмена' в диалоге сохранения —
+# программа пытается записать файл по пути текущей директории.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">asksaveasfilename()</code>/<code class="inline">askopenfilename()</code> возвращают пустую строку при отмене, а не <code class="inline">None</code> и не исключение (раздел 18.30) — код обязан проверить это перед использованием пути.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_otmeny_faila.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> save_document(self):
+    path_str = filedialog.asksaveasfilename()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> path_str:
+        <span class="tok-kw">return</span>
+    Path(path_str).write_text(...)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 14: JSON загружен, но Canvas не перерисован</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>zagruzka_bez_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
+    self.document = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+    <span class="tok-com"># забыли self.render_document()!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># self.document правильно заполнен новыми фигурами,
+# но на экране всё ещё виден старый рисунок — или пустой холст.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Как и в главе 17: изменение модели без вызова отрисовки не долетает до экрана. <code class="inline">load_from_path()</code> обязан заканчиваться <code class="inline">render_document()</code> (раздел 18.30).</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>zagruzka_s_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
+    self.document = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-18/output/resized-window.png" alt="Реальное окно: то же приложение в увеличенном виде — холст занимает больше места, но ранее нарисованные фигуры остались того же размера в тех же абсолютных координатах" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно после увеличения: холст стал больше, но нарисованные фигуры не выросли вместе с ним — именно то, что показывает Debug Lab 15 ниже.</figcaption>
+    </figure>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 15: Изменение размера окна не масштабирует рисунок</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>resize_kak_masshtab.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># ожидание: если растянуть окно, старые фигуры увеличатся вместе с ним</span>
+canvas.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">&quot;nsew&quot;</span>)
+<span class="tok-com"># ...но существующие create_line/rectangle/oval координаты никто не пересчитывает</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Сам виджет Canvas становится больше вместе с окном —
+# но уже нарисованные фигуры остаются в прежних абсолютных координатах, не растут.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">sticky="nsew"</code> и веса строк/столбцов (глава 17) заставляют РАСТИ сам виджет Canvas — это не то же самое, что автоматическое масштабирование координат уже нарисованных фигур. Раздел 18.29 явно разбирает это различие: увеличенный холст не означает автоматически увеличенный рисунок.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>resize_kak_bolshe_mesta.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># Честная модель: увеличенное окно даёт БОЛЬШЕ МЕСТА для новых фигур,</span>
+<span class="tok-com"># а не растягивает уже существующие — если нужно последнее, координаты</span>
+<span class="tok-com"># пришлось бы пересчитывать вручную при изменении размера.</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим баг рисовалки по симптому</div>
+        <div class="nc-sub">Автоматическая проверка — для набора описанных симптомов выбираем правильную причину/исправление</div>
+        <div class="practice-inline-status" data-lesson-id="18-31"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/18-31/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["18-31"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="18-31"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="18-30-sohranenie-json.html"><div class="dir">← Назад</div><div class="lbl">Сохранение и загрузка</div></a><a href="18-32-paint-pro-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Paint Pro — итоги главы</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
