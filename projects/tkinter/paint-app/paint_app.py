@@ -142,8 +142,13 @@ class PaintApp:
         tools_frame = ttk.Frame(toolbar)
         tools_frame.pack(side="left")
         for tool in Tool:
+            # Без фиксированного width=N в текстовых единицах — Tk оценивает
+            # его по среднему символу шрифта, а не по реальной ширине
+            # кириллического текста, и на "Прямоугольник" это расходится
+            # достаточно, чтобы подпись выходила за границы кнопки. Кнопка
+            # сама подбирает ширину под свой текст — как у первого прототипа.
             btn = tk.Button(
-                tools_frame, text=TOOL_LABELS[tool], relief="raised", width=13,
+                tools_frame, text=TOOL_LABELS[tool], relief="raised", padx=10, pady=3,
                 command=lambda t=tool: self.set_tool(t),
             )
             btn.pack(side="left", padx=2)
