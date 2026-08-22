@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Render: модель → Turtle — Python с нуля — Cartesian School</title>
+<meta name="description" content="render() переиспользует пул Turtle-сегментов вместо создания новых на каждом тике — прячет лишние через hideturtle()." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-29-render-model.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Render: модель → Turtle — Python с нуля — Cartesian School" />
+<meta property="og:description" content="render() переиспользует пул Turtle-сегментов вместо создания новых на каждом тике — прячет лишние через hideturtle()." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-29-render-model.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Render: модель → Turtle — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="render() переиспользует пул Turtle-сегментов вместо создания новых на каждом тике — прячет лишние через hideturtle()." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Render: модель → Turtle — Python с нуля — Cartesian School","description":"render() переиспользует пул Turtle-сегментов вместо создания новых на каждом тике — прячет лишние через hideturtle().","url":"https://www.cartesianschool.org/chapters/glava-19/19-29-render-model.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li><li><a href="19-09-mir-kak-setka.html">Мир игры как сетка</a></li><li><a href="19-10-koordinaty-kletki.html">Координаты клетки и пиксели Turtle</a></li><li><a href="19-11-napravlenie-kak-vektor.html">Направление как вектор</a></li><li><a href="19-12-odin-igrovoj-tik.html">Один игровой тик</a></li><li><a href="19-13-nastoyaschij-cikl.html">Настоящий игровой цикл</a></li><li><a href="19-14-vremya-skorost.html">Время, скорость и задержка</a></li><li><a href="19-15-sostoyanie-igry.html">Состояние игры</a></li><li><a href="19-16-model-snake.html">Голова, тело и модель Snake</a></li><li><a href="19-17-pochemu-s-hvosta.html">Почему тело движется с хвоста</a></li><li><a href="19-18-eda-svobodnaya-kletka.html">Еда и свободная клетка</a></li><li><a href="19-19-stolknovenie-so-stenoj.html">Столкновение со стеной</a></li><li><a href="19-20-stolknovenie-s-soboj.html">Столкновение с собой</a></li><li><a href="19-21-game-over.html">Game Over как состояние</a></li><li><a href="19-22-pauza.html">Pause / Resume</a></li><li><a href="19-23-restart.html">Restart / New Game</a></li><li><a href="19-24-skorost-slozhnost.html">Скорость и рост сложности</a></li><li><a href="19-25-high-score.html">High Score</a></li><li><a href="19-26-chistaya-logika.html">Чистая игровая логика без Turtle</a></li><li><a href="19-27-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="19-28-snakeapp-arhitektura.html">SnakeApp: отделяем модель от визуализации</a></li><li><a href="19-29-render-model.html" class="active">Render: модель → Turtle</a></li><li><a href="19-30-testiruem-pravila.html">Тестируем правила игры</a></li><li><a href="19-31-debug-labs.html">Debug Labs</a></li><li><a href="19-32-snake-pro-itogi.html">Snake Pro — финальная игра</a></li><li><a href="19-33-itogi-glavy.html">Итоги и переход дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/19-02/index.html">🐍 19-02: Практика</a></li><li><a href="../../practice/19-03/index.html">🐍 19-03: Практика</a></li><li><a href="../../practice/19-04/index.html">🐍 19-04: Практика</a></li><li><a href="../../practice/19-06/index.html">🐍 19-06: Практика</a></li><li><a href="../../practice/19-07/index.html">🐍 19-07: Практика</a></li><li><a href="../../practice/19-08/index.html">🐍 19-08: Практика</a></li><li><a href="../../practice/19-09/index.html">🐍 19-09: Практика</a></li><li><a href="../../practice/19-10/index.html">🐍 19-10: Практика</a></li><li><a href="../../practice/19-11/index.html">🐍 19-11: Практика</a></li><li><a href="../../practice/19-12/index.html">🐍 19-12: Практика</a></li><li><a href="../../practice/19-13/index.html">🐍 19-13: Практика</a></li><li><a href="../../practice/19-14/index.html">🐍 19-14: Практика</a></li><li><a href="../../practice/19-15/index.html">🐍 19-15: Практика</a></li><li><a href="../../practice/19-16/index.html">🐍 19-16: Практика</a></li><li><a href="../../practice/19-17/index.html">🐍 19-17: Практика</a></li><li><a href="../../practice/19-18/index.html">🐍 19-18: Практика</a></li><li><a href="../../practice/19-19/index.html">🐍 19-19: Практика</a></li><li><a href="../../practice/19-20/index.html">🐍 19-20: Практика</a></li><li><a href="../../practice/19-21/index.html">🐍 19-21: Практика</a></li><li><a href="../../practice/19-22/index.html">🐍 19-22: Практика</a></li><li><a href="../../practice/19-23/index.html">🐍 19-23: Практика</a></li><li><a href="../../practice/19-24/index.html">🐍 19-24: Практика</a></li><li><a href="../../practice/19-25/index.html">🐍 19-25: Практика</a></li><li><a href="../../practice/19-26/index.html">🐍 19-26: Практика</a></li><li><a href="../../practice/19-27/index.html">🐍 19-27: Практика</a></li><li><a href="../../practice/19-28/index.html">🐍 19-28: Практика</a></li><li><a href="../../practice/19-29/index.html">🐍 19-29: Практика</a></li><li><a href="../../practice/19-30/index.html">🐍 19-30: Практика</a></li><li><a href="../../practice/19-31/index.html">🐍 19-31: Практика</a></li><li><a href="../../practice/19-32/index.html">🐍 19-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py">🐍 snake_basic.py — первый прототип (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py — финальная версия Pro (19.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Render</div>
+    <div class="section-kicker">Глава 19 · Архитектура</div>
+    <h1>Render: модель → Turtle</h1>
+    <p class="lede">Один и тот же пул Turtle-сегментов переиспользуется на каждом тике — новые создаются, только когда змейка выросла.</p>
+
+
+    <h2>render() не создаёт новые сегменты на каждом тике</h2>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-19/output/snake-grid-demo.png" alt="Реальное окно: тонкая фиолетовая сетка на поле, подписанные клетки head cell и food cell" width="420"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: та же сетка из раздела 19.9, но теперь видно, как голова и еда — просто клетки, которые render() превращает в конкретные Turtle-объекты.</figcaption>
+    </figure>
+    <p>Раздел 18.35 главы 18 уже вводил идею пула сегментов для рисовалки — здесь та же техника
+    решает похожую проблему: змейка растёт, но создавать новый <code class="inline">turtle.Turtle()</code>
+    на каждое яблоко было бы расточительно, если тело потом может понадобиться отрисовать снова
+    в следующем кадре.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> render(self):
+    self.head.goto(*self.state.snake[<span class="tok-num">0</span>])
+
+    body = self.state.snake[<span class="tok-num">1</span>:]
+    self._ensure_segment_pool(<span class="tok-fn">len</span>(body))
+    <span class="tok-kw">for</span> i, segment <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(self._segment_pool):
+        <span class="tok-kw">if</span> i &lt; <span class="tok-fn">len</span>(body):
+            segment.showturtle()
+            segment.goto(*body[i])
+        <span class="tok-kw">else</span>:
+            segment.hideturtle()
+
+    self.food_turtle.goto(*self.state.food)
+    self._render_scoreboard()
+    self.screen.update()</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Пул растёт, но никогда не уменьшается сам по себе</div>
+        <div class="callout-body"><code class="inline">_ensure_segment_pool()</code> добавляет новые Turtle-сегменты, только если их не хватает — уже существующие переиспользуются. Когда змейка становится короче (после <code class="inline">restart()</code>), лишние сегменты не удаляются, а просто прячутся через <code class="inline">hideturtle()</code> — на следующей долгой игре они снова понадобятся, и пересоздавать их не придётся.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: render() и пул сегментов</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="19-29">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/19-29/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-29"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-29"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="19-28-snakeapp-arhitektura.html"><div class="dir">← Назад</div><div class="lbl">Архитектура SnakeApp</div></a><a href="19-30-testiruem-pravila.html" class="next"><div class="dir">Далее →</div><div class="lbl">Тестируем правила игры</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

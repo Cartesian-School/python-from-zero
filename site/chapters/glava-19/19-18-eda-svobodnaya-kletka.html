@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Еда и свободная клетка — Python с нуля — Cartesian School</title>
+<meta name="description" content="move_snake() как новая голова плюс старое тело, и choose_food() — еда только на свободной клетке." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-18-eda-svobodnaya-kletka.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Еда и свободная клетка — Python с нуля — Cartesian School" />
+<meta property="og:description" content="move_snake() как новая голова плюс старое тело, и choose_food() — еда только на свободной клетке." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-18-eda-svobodnaya-kletka.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Еда и свободная клетка — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="move_snake() как новая голова плюс старое тело, и choose_food() — еда только на свободной клетке." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Еда и свободная клетка — Python с нуля — Cartesian School","description":"move_snake() как новая голова плюс старое тело, и choose_food() — еда только на свободной клетке.","url":"https://www.cartesianschool.org/chapters/glava-19/19-18-eda-svobodnaya-kletka.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li><li><a href="19-09-mir-kak-setka.html">Мир игры как сетка</a></li><li><a href="19-10-koordinaty-kletki.html">Координаты клетки и пиксели Turtle</a></li><li><a href="19-11-napravlenie-kak-vektor.html">Направление как вектор</a></li><li><a href="19-12-odin-igrovoj-tik.html">Один игровой тик</a></li><li><a href="19-13-nastoyaschij-cikl.html">Настоящий игровой цикл</a></li><li><a href="19-14-vremya-skorost.html">Время, скорость и задержка</a></li><li><a href="19-15-sostoyanie-igry.html">Состояние игры</a></li><li><a href="19-16-model-snake.html">Голова, тело и модель Snake</a></li><li><a href="19-17-pochemu-s-hvosta.html">Почему тело движется с хвоста</a></li><li><a href="19-18-eda-svobodnaya-kletka.html" class="active">Еда и свободная клетка</a></li><li><a href="19-19-stolknovenie-so-stenoj.html">Столкновение со стеной</a></li><li><a href="19-20-stolknovenie-s-soboj.html">Столкновение с собой</a></li><li><a href="19-21-game-over.html">Game Over как состояние</a></li><li><a href="19-22-pauza.html">Pause / Resume</a></li><li><a href="19-23-restart.html">Restart / New Game</a></li><li><a href="19-24-skorost-slozhnost.html">Скорость и рост сложности</a></li><li><a href="19-25-high-score.html">High Score</a></li><li><a href="19-26-chistaya-logika.html">Чистая игровая логика без Turtle</a></li><li><a href="19-27-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="19-28-snakeapp-arhitektura.html">SnakeApp: отделяем модель от визуализации</a></li><li><a href="19-29-render-model.html">Render: модель → Turtle</a></li><li><a href="19-30-testiruem-pravila.html">Тестируем правила игры</a></li><li><a href="19-31-debug-labs.html">Debug Labs</a></li><li><a href="19-32-snake-pro-itogi.html">Snake Pro — финальная игра</a></li><li><a href="19-33-itogi-glavy.html">Итоги и переход дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/19-02/index.html">🐍 19-02: Практика</a></li><li><a href="../../practice/19-03/index.html">🐍 19-03: Практика</a></li><li><a href="../../practice/19-04/index.html">🐍 19-04: Практика</a></li><li><a href="../../practice/19-06/index.html">🐍 19-06: Практика</a></li><li><a href="../../practice/19-07/index.html">🐍 19-07: Практика</a></li><li><a href="../../practice/19-08/index.html">🐍 19-08: Практика</a></li><li><a href="../../practice/19-09/index.html">🐍 19-09: Практика</a></li><li><a href="../../practice/19-10/index.html">🐍 19-10: Практика</a></li><li><a href="../../practice/19-11/index.html">🐍 19-11: Практика</a></li><li><a href="../../practice/19-12/index.html">🐍 19-12: Практика</a></li><li><a href="../../practice/19-13/index.html">🐍 19-13: Практика</a></li><li><a href="../../practice/19-14/index.html">🐍 19-14: Практика</a></li><li><a href="../../practice/19-15/index.html">🐍 19-15: Практика</a></li><li><a href="../../practice/19-16/index.html">🐍 19-16: Практика</a></li><li><a href="../../practice/19-17/index.html">🐍 19-17: Практика</a></li><li><a href="../../practice/19-18/index.html">🐍 19-18: Практика</a></li><li><a href="../../practice/19-19/index.html">🐍 19-19: Практика</a></li><li><a href="../../practice/19-20/index.html">🐍 19-20: Практика</a></li><li><a href="../../practice/19-21/index.html">🐍 19-21: Практика</a></li><li><a href="../../practice/19-22/index.html">🐍 19-22: Практика</a></li><li><a href="../../practice/19-23/index.html">🐍 19-23: Практика</a></li><li><a href="../../practice/19-24/index.html">🐍 19-24: Практика</a></li><li><a href="../../practice/19-25/index.html">🐍 19-25: Практика</a></li><li><a href="../../practice/19-26/index.html">🐍 19-26: Практика</a></li><li><a href="../../practice/19-27/index.html">🐍 19-27: Практика</a></li><li><a href="../../practice/19-28/index.html">🐍 19-28: Практика</a></li><li><a href="../../practice/19-29/index.html">🐍 19-29: Практика</a></li><li><a href="../../practice/19-30/index.html">🐍 19-30: Практика</a></li><li><a href="../../practice/19-31/index.html">🐍 19-31: Практика</a></li><li><a href="../../practice/19-32/index.html">🐍 19-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py">🐍 snake_basic.py — первый прототип (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py — финальная версия Pro (19.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Еда и свободная клетка</div>
+    <div class="section-kicker">Глава 19 · Правила игры</div>
+    <h1>Еда и свободная клетка</h1>
+    <p class="lede">Новая голова плюс старое тело строит движение за один проход — и та же идея множества свободных клеток решает, куда честно поставить еду.</p>
+
+
+    <h2>Элегантная альтернатива циклу по сегментам</h2>
+    <p>Вместо того чтобы двигать каждый существующий сегмент по отдельности (раздел 19.17),
+    можно построить новый список целиком — новая голова спереди, старое тело позади, без
+    последнего элемента (если змейка не растёт):</p>
+    <div style="display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px 0"><div><div style="display:grid;grid-template-columns:repeat(5,32px);border:2px solid #5B24F9;border-radius:8px;overflow:hidden"><div style="width:32px;height:32px;background:#4ECDC4;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">2</div><div style="width:32px;height:32px;background:#4ECDC4;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">1</div><div style="width:32px;height:32px;background:#5B24F9;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">H</div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div></div><div style="text-align:center;font-size:12px;color:var(--ink-soft,#6B6B7D);margin-top:6px">snake до</div></div><div style="font-size:24px;color:#B9A0FC">→</div><div><div style="display:grid;grid-template-columns:repeat(5,32px);border:2px solid #5B24F9;border-radius:8px;overflow:hidden"><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:#4ECDC4;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">2</div><div style="width:32px;height:32px;background:#4ECDC4;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">1</div><div style="width:32px;height:32px;background:#5B24F9;border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff">H</div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div><div style="width:32px;height:32px;background:var(--color-bg-canvas,#fff);border:1px solid #3A2E63;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent"></div></div><div style="text-align:center;font-size:12px;color:var(--ink-soft,#6B6B7D);margin-top:6px">[новая_голова] + snake[:-1]</div></div></div>
+
+    <div class="code-block">
+      <div class="code-label"><span>move_snake.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> move_snake(snake, new_head, *, grow):
+    <span class="tok-kw">if</span> grow:
+        <span class="tok-kw">return</span> [new_head, *snake]
+    <span class="tok-kw">return</span> [new_head, *snake[:-<span class="tok-num">1</span>]]</code></pre>
+    </div>
+    <p>Хвост при этом естественным образом «отваливается» — <code class="inline">snake[:-1]</code>
+    отбрасывает последний элемент. Никакого цикла, никакого риска перепутать порядок обновления:
+    результат строится за один проход, а не мутирует существующие позиции одну за другой.</p>
+
+    <h2>Еда — случайная свободная клетка</h2>
+    <p>Раздел 19.3 выбирала случайную клетку без проверки — при достаточно длинной змейке яблоко
+    иногда оказывалось бы прямо внутри тела. Честная версия выбирает только среди по-настоящему
+    свободных клеток:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>choose_food.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_food(snake, rng, *, half=<span class="tok-num">280</span>, step=<span class="tok-num">20</span>):
+    occupied = <span class="tok-fn">set</span>(snake)
+    free = <span class="tok-fn">tuple</span>(
+        cell <span class="tok-kw">for</span> cell <span class="tok-kw">in</span> all_cells(half=half, step=step) <span class="tok-kw">if</span> cell <span class="tok-kw">not</span> <span class="tok-kw">in</span> occupied
+    )
+    <span class="tok-kw">return</span> rng.choice(free)</code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">rng как параметр — та же идея пригодится в разделе 19.30</div>
+        <div class="callout-body"><code class="inline">choose_food()</code> принимает готовый <code class="inline">random.Random</code>, а не читает глобальный <code class="inline">random</code> модуль напрямую. В реальной игре передают <code class="inline">random.Random()</code> — настоящую случайность; в тестах —  <code class="inline">random.Random(seed)</code> с фиксированным зерном, чтобы результат был предсказуем и его можно было проверить <code class="inline">assert</code>-ом.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: еда только на свободной клетке</div>
+        <div class="nc-sub">Автоматическая проверка — choose_food() никогда не совпадает с телом змейки</div>
+        <div class="practice-inline-status" data-lesson-id="19-18"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/19-18/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="19-17-pochemu-s-hvosta.html"><div class="dir">← Назад</div><div class="lbl">Почему с хвоста</div></a><a href="19-19-stolknovenie-so-stenoj.html" class="next"><div class="dir">Далее →</div><div class="lbl">Столкновение со стеной</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

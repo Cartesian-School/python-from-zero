@@ -256,14 +256,81 @@ print("OK")
     assert "OK" in r.stdout
 
 
-def test_snake():
+def test_snake_basic():
     r = run_with_display(
         """
-import snake as s
+import snake_basic as s
 s.napravlenie = "right"
 x0 = s.golova.xcor()
 s.igrovoj_shag()
 assert s.golova.xcor() == x0 + s.RAZMER_SHAGA
+print("OK")
+""",
+        ROOT / "projects" / "turtle" / "snake",
+    )
+    assert r.returncode == 0, r.stderr
+    assert "OK" in r.stdout
+
+
+def test_snake_pro():
+    r = run_with_display(
+        """
+import random
+import snake as s
+
+app = s.SnakeApp(rng=random.Random(11))
+assert app.state.status is s.GameStatus.READY
+
+# READY -> RUNNING happens on the first requested direction
+app.request_direction(s.Direction.RIGHT)
+assert app.state.status is s.GameStatus.RUNNING
+
+# rapid Up-then-Left before the tick consumes Up must not sneak a reversal
+app.request_direction(s.Direction.UP)
+app.request_direction(s.Direction.LEFT)
+assert app.state.next_direction is s.Direction.UP
+
+# a normal tick moves the head and keeps the snake's length
+before = app.state.snake[0]
+app.game_tick()
+assert app.state.snake[0] == s.next_head(before, s.Direction.UP)
+assert len(app.state.snake) == 1
+
+# eating food grows the snake by exactly one segment and scores
+app.state.food = s.next_head(app.state.snake[0], s.Direction.UP)
+app.game_tick()
+assert app.state.score == 10
+assert len(app.state.snake) == 2
+assert app.state.high_score == 10
+
+# pause freezes the model: a tick during PAUSED must not move anything
+app.toggle_pause()
+assert app.state.status is s.GameStatus.PAUSED
+frozen_snake = list(app.state.snake)
+app.game_tick()
+assert app.state.snake == frozen_snake
+app.toggle_pause()
+assert app.state.status is s.GameStatus.RUNNING
+
+# wall collision ends the game
+app.state.snake = [(280, 0)]
+app.state.direction = s.Direction.RIGHT
+app.state.next_direction = s.Direction.RIGHT
+app.game_tick()
+assert app.state.status is s.GameStatus.GAME_OVER
+
+# restart resets the model but keeps the high score, and bumps the
+# generation so a timer callback scheduled before restart() is dropped
+stale_generation = app._generation
+app.restart()
+assert app.state.status is s.GameStatus.READY
+assert app.state.snake == [(0, 0)]
+assert app.state.score == 0
+assert app.state.high_score == 10
+assert app._generation != stale_generation
+app._on_timer(stale_generation)
+assert app.state.snake == [(0, 0)]
+
 print("OK")
 """,
         ROOT / "projects" / "turtle" / "snake",

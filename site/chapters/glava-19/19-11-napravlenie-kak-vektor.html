@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Направление как вектор — Python с нуля — Cartesian School</title>
+<meta name="description" content="DIRECTION_VECTORS — словарь направление → смещение (dx, dy) вместо цепочки if/elif." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-11-napravlenie-kak-vektor.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Направление как вектор — Python с нуля — Cartesian School" />
+<meta property="og:description" content="DIRECTION_VECTORS — словарь направление → смещение (dx, dy) вместо цепочки if/elif." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-11-napravlenie-kak-vektor.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Направление как вектор — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="DIRECTION_VECTORS — словарь направление → смещение (dx, dy) вместо цепочки if/elif." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Направление как вектор — Python с нуля — Cartesian School","description":"DIRECTION_VECTORS — словарь направление → смещение (dx, dy) вместо цепочки if/elif.","url":"https://www.cartesianschool.org/chapters/glava-19/19-11-napravlenie-kak-vektor.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li><li><a href="19-09-mir-kak-setka.html">Мир игры как сетка</a></li><li><a href="19-10-koordinaty-kletki.html">Координаты клетки и пиксели Turtle</a></li><li><a href="19-11-napravlenie-kak-vektor.html" class="active">Направление как вектор</a></li><li><a href="19-12-odin-igrovoj-tik.html">Один игровой тик</a></li><li><a href="19-13-nastoyaschij-cikl.html">Настоящий игровой цикл</a></li><li><a href="19-14-vremya-skorost.html">Время, скорость и задержка</a></li><li><a href="19-15-sostoyanie-igry.html">Состояние игры</a></li><li><a href="19-16-model-snake.html">Голова, тело и модель Snake</a></li><li><a href="19-17-pochemu-s-hvosta.html">Почему тело движется с хвоста</a></li><li><a href="19-18-eda-svobodnaya-kletka.html">Еда и свободная клетка</a></li><li><a href="19-19-stolknovenie-so-stenoj.html">Столкновение со стеной</a></li><li><a href="19-20-stolknovenie-s-soboj.html">Столкновение с собой</a></li><li><a href="19-21-game-over.html">Game Over как состояние</a></li><li><a href="19-22-pauza.html">Pause / Resume</a></li><li><a href="19-23-restart.html">Restart / New Game</a></li><li><a href="19-24-skorost-slozhnost.html">Скорость и рост сложности</a></li><li><a href="19-25-high-score.html">High Score</a></li><li><a href="19-26-chistaya-logika.html">Чистая игровая логика без Turtle</a></li><li><a href="19-27-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="19-28-snakeapp-arhitektura.html">SnakeApp: отделяем модель от визуализации</a></li><li><a href="19-29-render-model.html">Render: модель → Turtle</a></li><li><a href="19-30-testiruem-pravila.html">Тестируем правила игры</a></li><li><a href="19-31-debug-labs.html">Debug Labs</a></li><li><a href="19-32-snake-pro-itogi.html">Snake Pro — финальная игра</a></li><li><a href="19-33-itogi-glavy.html">Итоги и переход дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/19-02/index.html">🐍 19-02: Практика</a></li><li><a href="../../practice/19-03/index.html">🐍 19-03: Практика</a></li><li><a href="../../practice/19-04/index.html">🐍 19-04: Практика</a></li><li><a href="../../practice/19-06/index.html">🐍 19-06: Практика</a></li><li><a href="../../practice/19-07/index.html">🐍 19-07: Практика</a></li><li><a href="../../practice/19-08/index.html">🐍 19-08: Практика</a></li><li><a href="../../practice/19-09/index.html">🐍 19-09: Практика</a></li><li><a href="../../practice/19-10/index.html">🐍 19-10: Практика</a></li><li><a href="../../practice/19-11/index.html">🐍 19-11: Практика</a></li><li><a href="../../practice/19-12/index.html">🐍 19-12: Практика</a></li><li><a href="../../practice/19-13/index.html">🐍 19-13: Практика</a></li><li><a href="../../practice/19-14/index.html">🐍 19-14: Практика</a></li><li><a href="../../practice/19-15/index.html">🐍 19-15: Практика</a></li><li><a href="../../practice/19-16/index.html">🐍 19-16: Практика</a></li><li><a href="../../practice/19-17/index.html">🐍 19-17: Практика</a></li><li><a href="../../practice/19-18/index.html">🐍 19-18: Практика</a></li><li><a href="../../practice/19-19/index.html">🐍 19-19: Практика</a></li><li><a href="../../practice/19-20/index.html">🐍 19-20: Практика</a></li><li><a href="../../practice/19-21/index.html">🐍 19-21: Практика</a></li><li><a href="../../practice/19-22/index.html">🐍 19-22: Практика</a></li><li><a href="../../practice/19-23/index.html">🐍 19-23: Практика</a></li><li><a href="../../practice/19-24/index.html">🐍 19-24: Практика</a></li><li><a href="../../practice/19-25/index.html">🐍 19-25: Практика</a></li><li><a href="../../practice/19-26/index.html">🐍 19-26: Практика</a></li><li><a href="../../practice/19-27/index.html">🐍 19-27: Практика</a></li><li><a href="../../practice/19-28/index.html">🐍 19-28: Практика</a></li><li><a href="../../practice/19-29/index.html">🐍 19-29: Практика</a></li><li><a href="../../practice/19-30/index.html">🐍 19-30: Практика</a></li><li><a href="../../practice/19-31/index.html">🐍 19-31: Практика</a></li><li><a href="../../practice/19-32/index.html">🐍 19-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py">🐍 snake_basic.py — первый прототип (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py — финальная версия Pro (19.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Направление как вектор</div>
+    <div class="section-kicker">Глава 19 · Модель игры</div>
+    <h1>Направление как вектор</h1>
+    <p class="lede">Направление — это не строка, которую сравнивают в if/elif, а данные: пара чисел (dx, dy).</p>
+
+
+    <h2>От четырёх if/elif к одному словарю</h2>
+    <p>Первый прототип определял движение головы четырьмя ветками <code class="inline">if/elif</code>
+    (раздел 19.4) — читаемо, но при добавлении новой логики (например, диагонального движения в
+    другой игре) пришлось бы дублировать структуру снова. Направление можно представить иначе —
+    как <strong>вектор смещения</strong>:</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin:20px 0"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid #5B24F9;
+          border-radius:14px;padding:14px 10px;text-align:center">
+          <div style="font-size:28px;color:#5B24F9;line-height:1">↑</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;margin-top:4px">UP</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">(0, +STEP)</div>
+        </div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid #5B24F9;
+          border-radius:14px;padding:14px 10px;text-align:center">
+          <div style="font-size:28px;color:#5B24F9;line-height:1">↓</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;margin-top:4px">DOWN</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">(0, −STEP)</div>
+        </div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid #DB2777;
+          border-radius:14px;padding:14px 10px;text-align:center">
+          <div style="font-size:28px;color:#DB2777;line-height:1">←</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;margin-top:4px">LEFT</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">(−STEP, 0)</div>
+        </div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid #DB2777;
+          border-radius:14px;padding:14px 10px;text-align:center">
+          <div style="font-size:28px;color:#DB2777;line-height:1">→</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;margin-top:4px">RIGHT</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft,#6B6B7D)">(+STEP, 0)</div>
+        </div></div>
+
+    <div class="code-block">
+      <div class="code-label"><span>direction_vectors.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>DIRECTION_VECTORS = {
+    Direction.UP: (<span class="tok-num">0</span>, STEP),
+    Direction.DOWN: (<span class="tok-num">0</span>, -STEP),
+    Direction.LEFT: (-STEP, <span class="tok-num">0</span>),
+    Direction.RIGHT: (STEP, <span class="tok-num">0</span>),
+}
+
+<span class="tok-kw">def</span> next_head(head, direction):
+    dx, dy = DIRECTION_VECTORS[direction]
+    <span class="tok-kw">return</span> (head[<span class="tok-num">0</span>] + dx, head[<span class="tok-num">1</span>] + dy)</code></pre>
+    </div>
+
+    <div class="cvm">
+      <div class="cvm-header">if/elif против словаря векторов</div>
+      <div class="cvm-grid">
+        <div class="cvm-col classic">
+          <div class="cvm-label">Явно, но растёт с числом направлений</div>
+          <pre><code><span class="tok-kw">if</span> napravlenie == <span class="tok-str">&quot;up&quot;</span>:
+    golova.sety(golova.ycor() + RAZMER_SHAGA)
+<span class="tok-kw">elif</span> napravlenie == <span class="tok-str">&quot;down&quot;</span>:
+    golova.sety(golova.ycor() - RAZMER_SHAGA)
+<span class="tok-com"># ...и так для left, right</span></code></pre>
+        </div>
+        <div class="cvm-col modern">
+          <div class="cvm-label">Один словарь, одна формула</div>
+          <pre><code>dx, dy = DIRECTION_VECTORS[direction]
+new_x, new_y = x + dx, y + dy</code></pre>
+        </div>
+      </div>
+      <div class="cvm-verdict"><strong>Что использовать сегодня:</strong> Оба варианта дают одинаковый результат для четырёх направлений. Разница появляется в том, как код растёт: словарь — это данные, а не ветвление, поэтому тестировать и расширять его проще, не трогая саму формулу движения.</div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: направление как вектор</div>
+        <div class="nc-sub">Автоматическая проверка — next_head() для всех четырёх направлений</div>
+        <div class="practice-inline-status" data-lesson-id="19-11"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/19-11/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-11"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-11"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="19-10-koordinaty-kletki.html"><div class="dir">← Назад</div><div class="lbl">Координаты клетки</div></a><a href="19-12-odin-igrovoj-tik.html" class="next"><div class="dir">Далее →</div><div class="lbl">Один игровой тик</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
