@@ -86,14 +86,15 @@ replaces — audited across `scripts/build_chapter_*.py` and
 `scripts/build_site_index.py` before any icon was drawn. None are
 speculative or unused.
 
-| Icon | Replaces | Used for | CSS color |
+| Icon | Replaces | Used for | Color |
 |---|---|---|---|
-| `idea` | 💡 | Insight / "why this works" callouts | violet (brand) |
-| `launch` | 🚀 | Project / "let's build" markers | violet (brand) |
-| `warning` | ⚠️ ⛔ | Warning callouts, gotchas | amber |
+| `idea` | 💡 | Insight / "why this works" callouts | **multicolor** — yellow bulb, gold rays, violet accent spark |
+| `launch` | 🚀 | Project / "let's build" markers | **multicolor** — white/red rocket body, blue window, orange flame |
+| `warning` | ⚠️ ⛔ | Warning callouts, gotchas | **multicolor** — amber triangle, dark exclamation |
+| `debug` | 🐞 | Debug Lab headings | **multicolor** — coral bug body, dark head/legs |
+| `note` | 📚 📖 📇 🔶 🌐 🧭 | "Further reading" / reference callouts | **multicolor** — blue cover, cream pages, gold bookmark |
 | `success` | ✅ | Correct-answer / pass markers | green |
 | `error` | ❌ | Incorrect-answer / fail markers | red |
-| `debug` | 🐞 | Debug Lab headings | red |
 | `experiment` | 🔬 🧪 | "Deeper theory" / experiment sections | brand blue |
 | `timer` | ⏱ | Chapter metadata: estimated time | inherits text |
 | `practice` | 📓, decorative 🐍 | Practice/exercise headings, practice sidebar links, "N практик" badges | inherits text |
@@ -105,18 +106,25 @@ speculative or unused.
 | `palette` | 🎨 🖌, 🖼 | Visual/design topics, "real visual output" badges | inherits text |
 | `tools` | 🔧 | Tooling notes | inherits text |
 | `loop` | 🔁 | Loop/iteration notes | inherits text |
-| `note` | 📚 📖 📇 🔶 🌐 🧭 | "Further reading" / reference callouts | inherits text |
 | `compare` | ⚖️ | "Classic vs modern" framing (homepage) | inherits text |
 | `profile` | 👤 | Author bio link (homepage) | inherits text |
 | `search` | 🔍 | Reviewer / "look closer" link (homepage) | inherits text |
 | `device` | 📱 | Mobile-format download link (homepage) | inherits text |
 
-Five icons carry a fixed semantic color (violet/amber/green/red/blue) because
-that color *is* the meaning — a warning is always amber regardless of where
-it appears, matching the existing callout border colors. Everything else
-inherits the surrounding text color, because these are wayfinding markers
-sitting inline in metadata rows, sidebar links and headings of varying color
-contexts, not standalone illustrations.
+**`idea`, `launch`, `warning`, `debug` and `note` are the exception to the
+`currentColor` rule** in the SVG contract above: their `<symbol>` shapes use
+fixed, literal fills (lightbulb yellow, rocket red/white/blue, hazard amber,
+bug coral, book blue) baked into `icons.svg` itself, not `currentColor`. This
+is deliberate — a lightbulb reads as "idea" faster in real bulb-yellow than
+in any single inherited hue, and the same is true for a rocket, a hazard
+triangle, a bug, and a book. Forcing these five into the site's violet/blue
+palette made them blend into the page instead of standing out; a single
+`color:` CSS rule has no effect on them (there isn't one). Every other icon
+still follows the plain `currentColor` contract — `.cs-icon--NAME` rules
+(and, for Level A, `.cs-icon-emblem--NAME` tile backgrounds) still apply.
+The five multicolor icons still get an `.cs-icon-emblem--NAME` tile at Level
+A — a light tint picked to complement their fixed colors, not to recolor
+them.
 
 ## What was deliberately left alone
 
@@ -169,14 +177,31 @@ heuristic — a hand-verified exact-substring list), for example:
 1. Confirm real usage first — grep `scripts/build_chapter_*.py` for the
    emoji you'd replace. Don't add a speculative icon nobody uses yet.
 2. Add a `<symbol id="icon-NAME" viewBox="0 0 24 24">` to
-   `site/assets/icons/cartesian/icons.svg`, matching the existing family:
-   `stroke="currentColor"`, `stroke-width="1.75"`, `stroke-linecap="round"`,
-   `stroke-linejoin="round"`, occasional small `fill="currentColor"` accent
-   dots, no baked-in color.
+   `site/assets/icons/cartesian/icons.svg`. Default to the bold
+   solid/duotone family the rest of the set uses: full-opacity primary
+   `fill="currentColor"` shapes for the main silhouette, `fill-opacity`
+   accents for depth, and — where a punched-through detail reads best
+   (see `warning`/`error`/`success`/`game`/`palette` for examples) — a
+   single path with `fill-rule="evenodd"` cutting real holes through the
+   fill. Avoid thin stroke-only outlines; they were the first version of
+   this system and read as weak/decorative.
+   - **Exception:** if the icon is one of the small set of real-world
+     archetypes where a single inherited hue would hurt recognition (a
+     lightbulb, a rocket, a bug, a hazard triangle, a book — see `idea`/
+     `launch`/`debug`/`warning`/`note` above), use fixed literal color
+     fills instead of `currentColor`. Reserve this for icons where the
+     *color itself* is part of what makes the shape instantly readable —
+     don't reach for it just because a brighter icon seems nicer.
 3. Add the name to `CS_ICON_NAMES` in `scripts/site_lib.py`.
-4. If the icon needs a fixed semantic color (not `currentColor` inherited),
-   add a `.cs-icon--name { color: var(--token); }` rule next to the existing
-   ones in `theory.css`, reusing an existing design token — never a new hex
-   color.
-5. Run `python3 scripts/validate_no_decorative_emoji.py` before and after —
+4. If the icon uses `currentColor` and needs a fixed semantic color, add a
+   `.cs-icon--name { color: var(--token); }` rule next to the existing ones
+   in `theory.css`, reusing an existing design token — never a new hex
+   color. Skip this for a multicolor (fixed-fill) icon — there's no
+   `color:` rule to write, and adding one would be dead CSS.
+5. If the icon will appear at Level A, add a
+   `.cs-icon-emblem--name { background: ...; }` tile tint — for a
+   `currentColor` icon this normally matches its `.cs-icon--name` color at
+   low alpha; for a multicolor icon pick a light tint that complements its
+   fixed colors rather than recoloring them.
+6. Run `python3 scripts/validate_no_decorative_emoji.py` before and after —
    it should stay `PASS`.
