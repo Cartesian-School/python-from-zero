@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from site_lib import NAV_SCRIPT_TAG, mobile_nav_links, project_card, site_header
+from site_lib import NAV_SCRIPT_TAG, _render_icon_markers, mobile_nav_links, project_card, site_header
 
 ROOT = Path(__file__).resolve().parent.parent
 COVERAGE = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
@@ -167,7 +167,7 @@ ROADMAP_HTML = build_roadmap()
 PRACTICE_CATALOG_HTML = build_practice_catalog()
 PROJECTS_GRID_HTML = build_projects_grid()
 
-HTML = f"""<!DOCTYPE html>
+HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
@@ -226,10 +226,10 @@ HTML = f"""<!DOCTYPE html>
   <h2>Как устроен курс</h2>
   <p class="sub">Каждый раздел — это связка из трёх частей.</p>
   <div class="feature-grid">
-    <div class="feature"><div class="fi">📖</div><h3>Теория на сайте</h3><p>Понятное объяснение с примерами, диаграммами и разбором типичных ошибок.</p></div>
-    <div class="feature"><div class="fi">🐍</div><h3>Практика в браузере</h3><p>Интерактивный ноутбук к каждому разделу прямо на странице — эксперименты, задания, самостоятельная практика.</p></div>
-    <div class="feature"><div class="fi">⚖️</div><h3>Классика и современность</h3><p>Где это важно — классический приём и современный Python 3.14 рядом, с честным сравнением.</p></div>
-    <div class="feature"><div class="fi">🎮</div><h3>Настоящие проекты</h3><p>Крестики-нолики, Змейка, космический шутер, веб-сайт на Flask — с полным рабочим кодом.</p></div>
+    <div class="feature"><div class="fi">[[icon:note]]</div><h3>Теория на сайте</h3><p>Понятное объяснение с примерами, диаграммами и разбором типичных ошибок.</p></div>
+    <div class="feature"><div class="fi">[[icon:practice]]</div><h3>Практика в браузере</h3><p>Интерактивный ноутбук к каждому разделу прямо на странице — эксперименты, задания, самостоятельная практика.</p></div>
+    <div class="feature"><div class="fi">[[icon:compare]]</div><h3>Классика и современность</h3><p>Где это важно — классический приём и современный Python 3.14 рядом, с честным сравнением.</p></div>
+    <div class="feature"><div class="fi">[[icon:game]]</div><h3>Настоящие проекты</h3><p>Крестики-нолики, Змейка, космический шутер, веб-сайт на Flask — с полным рабочим кодом.</p></div>
   </div>
 </div>
 
@@ -291,27 +291,27 @@ HTML = f"""<!DOCTYPE html>
   <p class="sub">Материалы книги и техническая информация о курсе.</p>
   <div class="reference-board">
     <a class="reference-card" href="/predmetnyj-ukazatel.html">
-      <span class="ri">📇</span>
+      <span class="ri">[[icon:note]]</span>
       <div><div class="rt">Предметный указатель</div><div class="rs">Алфавитный список терминов книги с номерами страниц</div></div>
     </a>
     <a class="reference-card" href="/front-matter/vvedenie.html">
-      <span class="ri">📖</span>
+      <span class="ri">[[icon:note]]</span>
       <div><div class="rt">Введение</div><div class="rs">Как получить максимум от этой книги</div></div>
     </a>
     <a class="reference-card" href="/front-matter/ob-avtore.html">
-      <span class="ri">👤</span>
+      <span class="ri">[[icon:profile]]</span>
       <div><div class="rt">Об авторе</div><div class="rs">Siergej Sobolewski — Cartesian School</div></div>
     </a>
     <a class="reference-card" href="/front-matter/o-tehnicheskom-recenzente.html">
-      <span class="ri">🔍</span>
+      <span class="ri">[[icon:search]]</span>
       <div><div class="rt">О техническом рецензенте</div><div class="rs">Кто проверял код и объяснения книги</div></div>
     </a>
     <a class="reference-card" href="{PDF_HREF}">
-      <span class="ri">📄</span>
+      <span class="ri">[[icon:file]]</span>
       <div><div class="rt">Скачать PDF</div><div class="rs">Вся книга целиком</div></div>
     </a>
     <a class="reference-card" href="/book/epub/python-s-nulya.epub">
-      <span class="ri">📱</span>
+      <span class="ri">[[icon:device]]</span>
       <div><div class="rt">Скачать EPUB</div><div class="rs">Для читалок и мобильных устройств</div></div>
     </a>
   </div>
@@ -325,7 +325,7 @@ HTML = f"""<!DOCTYPE html>
 <script src="/assets/js/progress.js" defer></script>
 </body>
 </html>
-"""
+""")
 
 OUT = ROOT / "site" / "index.html"
 OUT.write_text(HTML, encoding="utf-8")

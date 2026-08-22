@@ -47,7 +47,7 @@ def build_opener() -> None:
         baseline_page=539,
         title="Что дальше?",
         description="Книга заканчивается — но путешествие в программирование только начинается. Куда двигаться дальше.",
-        meta_items=["⏱ ~1 час", "💡 идеи проектов", "🧭 карта дальнейшего пути"],
+        meta_items=["[[icon:timer]] ~1 час", "[[icon:idea]] идеи проектов", "[[icon:note]] карта дальнейшего пути"],
         sections=[
             ChapterSectionLink("24.1", "Идеи мини-проектов, которые можно попробовать", "24-01-idei-mini-proektov.html", "539"),
             ChapterSectionLink("24.2", "Идеи итоговых проектов, которые можно попробовать", "24-02-idei-itogovyh-proektov.html", "540"),

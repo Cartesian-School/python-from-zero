@@ -99,11 +99,11 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 19 · Змейка", items),
         SidebarGroup(
             "Практика",
-            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+            [NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
         ),
         SidebarGroup("Исходный код", [
-            NavItem("🐍 snake_basic.py — первый прототип (19.8)", "../../../projects/turtle/snake/snake_basic.py"),
-            NavItem("🐍 snake.py — финальная версия Pro (19.32)", "../../../projects/turtle/snake/snake.py"),
+            NavItem("[[icon:code]] snake_basic.py — первый прототип (19.8)", "../../../projects/turtle/snake/snake_basic.py"),
+            NavItem("[[icon:code]] snake.py — финальная версия Pro (19.32)", "../../../projects/turtle/snake/snake.py"),
         ]),
     ]
 
@@ -274,7 +274,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {html.escape(title)}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {html.escape(title)}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -294,7 +294,7 @@ def build_opener() -> None:
         description="От первого работающего прототипа до модели игры с игровым тиком, "
         "паузой, рестартом, счётом и проверяемыми правилами — классическая «Змейка» на Turtle "
         "как введение в программирование игр реального времени.",
-        meta_items=["⏱ ~8 часов", "🐍 Turtle + игровой цикл", "🎮 Snake Pro", "📓 30 практик"],
+        meta_items=["[[icon:timer]] ~8 часов", "[[icon:code]] Turtle + игровой цикл", "[[icon:game]] Snake Pro", "[[icon:practice]] 30 практик"],
         sections=[
             ChapterSectionLink("19.1", "Игра «Змейка»", "19-01-igra-import.html", "413"),
             ChapterSectionLink("19.2", "Настраиваем экран Turtle", "19-02-ekran-peremennye.html", "415"),
@@ -776,7 +776,7 @@ def build_08() -> None:
     )}
     {image_figure(f"{IMG}/snake-basic-full-game.png", "Реальное окно: собранная игра — счёт 30, змейка из трёх сегментов, яблоко на поле", "Реальное окно первого прототипа: всё вместе — движение, еда, счёт.", width=380)}
     <p>Полная, уже собранная и проверенная программа первого прототипа доступна отдельным файлом:</p>
-    <p>📄 <a href="../../../projects/turtle/snake/snake_basic.py">projects/turtle/snake/snake_basic.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/turtle/snake/snake_basic.py">projects/turtle/snake/snake_basic.py</a></p>
     {callout(
         "tip",
         "Запустите игру у себя",
@@ -2463,7 +2463,7 @@ def build_32() -> None:
     <h2>Итоговая программа</h2>
     {image_figure(f"{IMG}/snake-final-pro.png", "Финальное окно Snake Pro: несколько сегментов тела, яблоко, счёт и рекорд на тёмном поле", "Реальное окно финальной версии — та же самая идея, что открывала главу в разделе 19.1, но теперь мы знаем, из чего она построена.", width=560)}
     <p>Файл целиком, самодостаточный и без невидимых зависимостей от других уроков:</p>
-    <p>📄 <a href="../../../projects/turtle/snake/snake.py">projects/turtle/snake/snake.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/turtle/snake/snake.py">projects/turtle/snake/snake.py</a></p>
     {code_block(
         "snake.py — структура",
         "class Direction(Enum): ...\n"

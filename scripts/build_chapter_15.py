@@ -103,7 +103,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 15 · Файлы", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -134,7 +134,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {title}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {title}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -185,7 +185,7 @@ def build_opener() -> None:
         "система, переносимые пути через pathlib, безопасное чтение и запись текста и байтов в "
         "UTF-8, JSON и CSV — и как сохранить состояние программы между запусками, а не только на "
         "время одного сеанса.",
-        meta_items=["⏱ ~9 часов", "📁 pathlib, JSON, CSV", "📓 30 практик"],
+        meta_items=["[[icon:timer]] ~9 часов", "[[icon:folder]] pathlib, JSON, CSV", "[[icon:practice]] 30 практик"],
         sections=[
             ChapterSectionLink("15.1", "Зачем нужны файлы? Открытие и чтение", "15-01-zachem-fajly.html", "323"),
             ChapterSectionLink("15.2", "Строка за строкой", "15-02-stroka-za-strokoj.html", "326"),
@@ -537,16 +537,16 @@ def build_05() -> None:
     элемент — подробно про пути поговорим в следующем разделе.</p>
 
     {tree_diagram(
-        ("📁 project/", [
-            ("📄 main.py", []),
-            ("📄 README.md", []),
-            ("📁 data/", [
-                ("📄 players.json", []),
-                ("📄 scores.csv", []),
-                ("📄 notes.txt", []),
+        ("[[icon:folder]] project/", [
+            ("[[icon:file]] main.py", []),
+            ("[[icon:file]] README.md", []),
+            ("[[icon:folder]] data/", [
+                ("[[icon:file]] players.json", []),
+                ("[[icon:file]] scores.csv", []),
+                ("[[icon:file]] notes.txt", []),
             ]),
-            ("📁 assets/", [
-                ("📄 logo.png", []),
+            ("[[icon:folder]] assets/", [
+                ("[[icon:file]] logo.png", []),
             ]),
         ]),
         caption="Файлы и папки образуют иерархию — файловое дерево.",
@@ -678,12 +678,12 @@ def build_07() -> None:
     )}
 
     {tree_diagram(
-        ("📁 project/  ← CWD (запуск python src/app.py отсюда)", [
-            ("📁 src/", [
-                ("📄 app.py", []),
+        ("[[icon:folder]] project/  ← CWD (запуск python src/app.py отсюда)", [
+            ("[[icon:folder]] src/", [
+                ("[[icon:file]] app.py", []),
             ]),
-            ("📁 data/", [
-                ("📄 config.json", []),
+            ("[[icon:folder]] data/", [
+                ("[[icon:file]] config.json", []),
             ]),
         ]),
         caption="Скрипт лежит в src/app.py, но CWD — это project/, если запустить программу отсюда.",
@@ -1297,7 +1297,7 @@ def build_15() -> None:
         '    f.writelines(s + "\\n" for s in stroki)\n',
     )}
 
-    <h2 id="plus">🔬 Чуть глубже: модификаторы +</h2>
+    <h2 id="plus">[[icon:experiment]] Чуть глубже: модификаторы +</h2>
     <p><code class="inline">r+</code>, <code class="inline">w+</code>, <code
     class="inline">a+</code> открывают файл сразу для чтения и записи — но базовая семантика
     усечения/дозаписи каждого режима (<code class="inline">w</code> стирает, <code
@@ -1414,7 +1414,7 @@ def build_16() -> None:
         "    print(f.read())   # Привет\n",
     )}
 
-    <h2 id="errors">🔬 Чуть глубже: параметр errors=</h2>
+    <h2 id="errors">[[icon:experiment]] Чуть глубже: параметр errors=</h2>
     <p>У <code class="inline">open()</code> есть параметр <code class="inline">errors</code>
     (<code class="inline">"strict"</code> по умолчанию, также <code class="inline">"replace"</code>,
     <code class="inline">"ignore"</code>) для случаев несовпадения кодировки.</p>
@@ -1639,13 +1639,13 @@ def build_19() -> None:
         '# exist_ok=True — не считать ошибкой, если папка уже существует\n',
     )}
     {tree_diagram(
-        ("📁 project/  (до)", []),
+        ("[[icon:folder]] project/  (до)", []),
         caption="До: project/ — пустой проект.",
     )}
     {tree_diagram(
-        ("📁 project/  (после)", [
-            ("📁 data/", [
-                ("📁 users/", []),
+        ("[[icon:folder]] project/  (после)", [
+            ("[[icon:folder]] data/", [
+                ("[[icon:folder]] users/", []),
             ]),
         ]),
         caption='После Path("data/users").mkdir(parents=True, exist_ok=True): обе папки созданы за один вызов.',
@@ -1817,7 +1817,7 @@ def build_21() -> None:
     <h2 id="udalenie">Удаление — с максимальной осторожностью</h2>
     {callout(
         "warning",
-        "⚠️ Удаление — разрушительная операция",
+        "[[icon:warning]] Удаление — разрушительная операция",
         "<code class=\"inline\">path.unlink()</code> удаляет файл <strong>без возможности "
         "отмены</strong> средствами самой программы. <code class=\"inline\">path.rmdir()</code> "
         "удаляет только <strong>пустую</strong> папку. В этом курсе мы никогда не используем "
@@ -1931,7 +1931,7 @@ def build_22() -> None:
         "выше — а не всё подряд.",
     )}
 
-    <h2 id="eafp">🔬 Чуть глубже: EAFP и LBYL</h2>
+    <h2 id="eafp">[[icon:experiment]] Чуть глубже: EAFP и LBYL</h2>
     <p>Два стиля: <strong>проверить заранее</strong> (<code class="inline">if path.exists():</code>)
     или <strong>попробовать и обработать ошибку</strong> (<code class="inline">try/except</code>).
     В Python операции с файлами часто пишут вторым способом — именно потому, что состояние
@@ -1990,7 +1990,7 @@ def build_23() -> None:
         "накапливая их все сразу.",
     )}
 
-    <h2 id="chunked">🔬 Чуть глубже: чтение бинарных данных порциями</h2>
+    <h2 id="chunked">[[icon:experiment]] Чуть глубже: чтение бинарных данных порциями</h2>
     <p>Для очень больших бинарных файлов иногда читают не всё сразу, а порциями (<em>chunks</em>)
     фиксированного размера:</p>
     {code_block(
@@ -2465,7 +2465,7 @@ def build_28() -> None:
     <h2>Практики этого курса — только в песочнице</h2>
     {callout(
         "warning",
-        "⚠️ Обязательное правило безопасности практик",
+        "[[icon:warning]] Обязательное правило безопасности практик",
         "Все файловые практики этого курса читают, создают, изменяют и удаляют файлы "
         "<strong>только внутри собственной рабочей папки практики</strong>. Никогда — файлы "
         "репозитория курса, документы, которые вы уже сохранили, домашнюю папку пользователя "
@@ -2491,7 +2491,7 @@ def build_28() -> None:
         "безопасному само по себе.",
     )}
 
-    <h2 id="safe-save">🚀 Профессиональнее: безопасное сохранение</h2>
+    <h2 id="safe-save">[[icon:launch]] Профессиональнее: безопасное сохранение</h2>
     <p>Идея, снижающая риск оставить основной файл в повреждённом промежуточном состоянии:
     сначала записать во <strong>временный</strong> файл в той же папке, а затем заменить
     основной файл целиком:</p>
@@ -2611,7 +2611,7 @@ def build_30() -> None:
     работающий внутри веб-страницы, а не как обычная программа на вашем компьютере.</p>
     {callout(
         "warning",
-        "⚠️ Файлы в браузерной практике — не файлы на вашем компьютере",
+        "[[icon:warning]] Файлы в браузерной практике — не файлы на вашем компьютере",
         "Когда практика этого курса выполняет <code class=\"inline\">Path(\"hello.txt\")."
         "write_text(...)</code>, поведение <code class=\"inline\">open</code>/<code "
         "class=\"inline\">pathlib</code> настоящее — запись, чтение и дозапись работают по "

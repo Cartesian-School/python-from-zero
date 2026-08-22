@@ -89,11 +89,11 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 18 · Рисовалка", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
         ]),
         SidebarGroup("Исходный код", [
-            NavItem("🐍 paint_app_basic.py — первый прототип (18.7)", "../../../projects/tkinter/paint-app/paint_app_basic.py"),
-            NavItem("🐍 paint_app.py — финальная версия Pro (18.32)", "../../../projects/tkinter/paint-app/paint_app.py"),
+            NavItem("[[icon:code]] paint_app_basic.py — первый прототип (18.7)", "../../../projects/tkinter/paint-app/paint_app_basic.py"),
+            NavItem("[[icon:code]] paint_app.py — финальная версия Pro (18.32)", "../../../projects/tkinter/paint-app/paint_app.py"),
         ]),
     ]
 
@@ -127,7 +127,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {html.escape(title)}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {html.escape(title)}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -209,7 +209,7 @@ def color_dialog_schematic(current_hex: str, caption: str = "") -> str:
     return f"""
     <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
       <div style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-        color:#B45309;margin-bottom:8px;text-align:center">🔶 Схема диалога (не настоящий скриншот)</div>
+        color:#B45309;margin-bottom:8px;text-align:center">[[icon:note]] Схема диалога (не настоящий скриншот)</div>
       <div style="max-width:280px;margin:0 auto;border-radius:8px;border:1px solid #9a97a8;overflow:hidden;
         box-shadow:0 6px 16px rgba(0,0,0,.15);font-family:sans-serif">
         <div style="background:#e2e2e2;padding:6px 10px;font-size:12px;color:#333;border-bottom:1px solid #b8b8b8">Выберите цвет</div>
@@ -350,7 +350,7 @@ def build_opener() -> None:
         title="Проект: приложение для рисования с Tkinter",
         description="Полноценный редактор рисования на Canvas: карандаш, фигуры, цвет, отмена действий, "
         "сохранение и загрузка — от первого прототипа до архитектуры уровня приложения.",
-        meta_items=["⏱ ~7 часов", "🎨 Canvas + интерактивное рисование", "📓 ~30 практик", "🖌 полноценный Paint-проект"],
+        meta_items=["[[icon:timer]] ~7 часов", "[[icon:palette]] Canvas + интерактивное рисование", "[[icon:practice]] ~30 практик", "[[icon:palette]] полноценный Paint-проект"],
         sections=[
             ChapterSectionLink("18.1", "Что мы строим? Начало работы", "18-01-obyasnenie-nachalo.html", "391"),
             ChapterSectionLink("18.2", "Экран и холст (Canvas)", "18-02-ekran-holst.html", "393"),
@@ -776,7 +776,7 @@ def build_07() -> None:
     <h2 id="polnaya-programma">Первая полная программа</h2>
     <p>Полная версия первого прототипа, включая исправленную отрисовку «черновых» фигур во время
     перетаскивания мыши, доступна отдельным файлом:</p>
-    <p>📄 <a href="../../../projects/tkinter/paint-app/paint_app_basic.py">projects/tkinter/paint-app/paint_app_basic.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/tkinter/paint-app/paint_app_basic.py">projects/tkinter/paint-app/paint_app_basic.py</a></p>
     {image_figure(f"{IMG}/multiple-shapes.png", "Реальное окно: холст с несколькими линиями, прямоугольником и овалом разных цветов — первый прототип рисовалки", "Реальное окно первого прототипа: несколько фигур разных цветов на одном холсте.", width=460)}
     {callout(
         "info",
@@ -2593,7 +2593,7 @@ def build_32() -> None:
     <h2>Итоговая программа</h2>
     {image_figure(f"{IMG}/paint-pro-final.png", "Финальное окно Paint Pro с несколькими нарисованными фигурами, панелью инструментов, палитрой, ползунком толщины и строкой состояния", "Реальное окно финальной версии — та же картинка, что открывала главу в разделе 18.1, но теперь мы знаем, из чего она построена.", width=760)}
     <p>Файл целиком, самодостаточный и без невидимых зависимостей от других уроков:</p>
-    <p>📄 <a href="../../../projects/tkinter/paint-app/paint_app.py">projects/tkinter/paint-app/paint_app.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/tkinter/paint-app/paint_app.py">projects/tkinter/paint-app/paint_app.py</a></p>
     {code_block(
         "paint_app.py — структура",
         "class Tool(Enum): ...\n\n"

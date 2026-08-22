@@ -51,9 +51,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 22 · Веб-разработка", items),
         SidebarGroup(
             "Практика",
-            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+            [NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
         ),
-        SidebarGroup("Исходный код", [NavItem("🐍 projects/flask/todo-app/", "../../../projects/flask/todo-app/app.py")]),
+        SidebarGroup("Исходный код", [NavItem("[[icon:code]] projects/flask/todo-app/", "../../../projects/flask/todo-app/app.py")]),
     ]
 
 
@@ -69,7 +69,7 @@ def build_opener() -> None:
         baseline_page=497,
         title="Веб-разработка с Python",
         description="Как устроен веб, из чего состоит сайт и как Python с помощью Flask превращается в сервер.",
-        meta_items=["⏱ ~2 часа", "🌐 HTML, CSS, JS и Flask", "📓 2 ноутбука практики"],
+        meta_items=["[[icon:timer]] ~2 часа", "[[icon:note]] HTML, CSS, JS и Flask", "[[icon:practice]] 2 ноутбука практики"],
         sections=[
             ChapterSectionLink("22.1", "Python и веб-разработка", "22-01-python-i-veb.html", "497"),
             ChapterSectionLink("22.2", "Строительные блоки — HTML", "22-02-html.html", "499"),
@@ -391,7 +391,7 @@ def build_05() -> None:
     <h2>Полный проект</h2>
     <p>Всё вместе — маршруты, шаблоны, форма и статический CSS-файл — собрано в готовый
     мини-сайт «Список задач»:</p>
-    <p>📄 <a href="../../../projects/flask/todo-app/app.py">projects/flask/todo-app/app.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/flask/todo-app/app.py">projects/flask/todo-app/app.py</a></p>
     {callout(
         "tip",
         "Запустите сайт у себя",

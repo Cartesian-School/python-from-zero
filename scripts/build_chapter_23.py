@@ -54,7 +54,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 23 · Ещё мини-проекты", items),
         SidebarGroup(
             "Практика",
-            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+            [NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
         ),
     ]
 
@@ -71,7 +71,7 @@ def build_opener() -> None:
         baseline_page=511,
         title="Ещё больше мини-проектов",
         description="Шесть небольших, но полноценных проектов — от калькулятора до собственного файла с заметками.",
-        meta_items=["⏱ ~4 часа", "🧩 6 мини-проектов", "📓 6 ноутбуков практики"],
+        meta_items=["[[icon:timer]] ~4 часа", "[[icon:architecture]] 6 мини-проектов", "[[icon:practice]] 6 ноутбуков практики"],
         sections=[
             ChapterSectionLink("23.1", "Проект 23-1: Калькулятор с Tkinter", "23-01-kalkulyator.html", "511"),
             ChapterSectionLink("23.2", "Проект 23-2: Генератор случайных историй", "23-02-generator-istorij.html", "518"),
@@ -137,7 +137,7 @@ def build_01() -> None:
         "не дают выражению сделать ничего, кроме простой арифметики.",
     )}
 
-    <p>Полный код: 📄 <a href="../../../projects/tkinter/calculator/calculator.py">projects/tkinter/calculator/calculator.py</a></p>
+    <p>Полный код: [[icon:file]] <a href="../../../projects/tkinter/calculator/calculator.py">projects/tkinter/calculator/calculator.py</a></p>
 
     {local_required_card(
         "23-01",
@@ -196,7 +196,7 @@ def build_02() -> None:
         "комбинаций — вот почему такой простой приём кажется таким разнообразным.",
     )}
 
-    <p>Полный код: 📄 <a href="../../../projects/console/story-generator/story_generator.py">projects/console/story-generator/story_generator.py</a></p>
+    <p>Полный код: [[icon:file]] <a href="../../../projects/console/story-generator/story_generator.py">projects/console/story-generator/story_generator.py</a></p>
 
     {exercise(2, "Ещё один список", "Добавьте список НАРЕЧИЯ (например, \"внезапно\", \"случайно\", \"незаметно\") и вставьте {narechie} в шаблон.")}
 
@@ -260,7 +260,7 @@ def build_03() -> None:
         "    return hod_pk, pobeditel\n",
     )}
 
-    <p>Полный код (с меню и счётом): 📄 <a href="../../../projects/console/rock-paper-scissors/rps.py">projects/console/rock-paper-scissors/rps.py</a></p>
+    <p>Полный код (с меню и счётом): [[icon:file]] <a href="../../../projects/console/rock-paper-scissors/rps.py">projects/console/rock-paper-scissors/rps.py</a></p>
 
     {exercise(3, "Добавляем ящерицу и Спока", "Реализуйте расширенную версию игры «Камень, ножницы, бумага, ящерица, Спок» — понадобится словарь POBEZHDAET с пятью ключами, каждый побеждает по два варианта.")}
 
@@ -324,7 +324,7 @@ def build_04() -> None:
         "разом.",
     )}
 
-    <p>Полный код: 📄 <a href="../../../projects/pygame/bouncing-balls-oop/bouncing_balls.py">projects/pygame/bouncing-balls-oop/bouncing_balls.py</a></p>
+    <p>Полный код: [[icon:file]] <a href="../../../projects/pygame/bouncing-balls-oop/bouncing_balls.py">projects/pygame/bouncing-balls-oop/bouncing_balls.py</a></p>
 
     {exercise(2, "Столкновение мячей друг с другом", "Добавьте проверку расстояния между каждой парой мячей — если они соприкоснулись, поменяйте местами их dx и dy.")}
 
@@ -399,7 +399,7 @@ def build_05() -> None:
         "<code class=\"inline\">edinica.get()</code> всегда возвращает значение выбранного.",
     )}
 
-    <p>Полный код: 📄 <a href="../../../projects/tkinter/temperature-converter/temperature_converter.py">projects/tkinter/temperature-converter/temperature_converter.py</a></p>
+    <p>Полный код: [[icon:file]] <a href="../../../projects/tkinter/temperature-converter/temperature_converter.py">projects/tkinter/temperature-converter/temperature_converter.py</a></p>
 
     {local_required_card(
         "23-05",
@@ -463,7 +463,7 @@ def build_06() -> None:
         "падение программы в понятное сообщение для пользователя.",
     )}
 
-    <p>Полный код: 📄 <a href="../../../projects/tkinter/notes-app/notes_app.py">projects/tkinter/notes-app/notes_app.py</a></p>
+    <p>Полный код: [[icon:file]] <a href="../../../projects/tkinter/notes-app/notes_app.py">projects/tkinter/notes-app/notes_app.py</a></p>
 
     {exercise(2, "Предупреждение о несохранённых изменениях", "Заведите переменную byli_izmeneniya = False, ставьте её в True при любом изменении текста и показывайте предупреждение при попытке «Очистить поле», если она True.")}
 

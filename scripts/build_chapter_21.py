@@ -55,9 +55,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 21 · Космический шутер", items),
         SidebarGroup(
             "Практика",
-            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+            [NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
         ),
-        SidebarGroup("Исходный код", [NavItem("🐍 space_shooter.py", "../../../projects/pygame/space-shooter/space_shooter.py")]),
+        SidebarGroup("Исходный код", [NavItem("[[icon:code]] space_shooter.py", "../../../projects/pygame/space-shooter/space_shooter.py")]),
     ]
 
 
@@ -73,7 +73,7 @@ def build_opener() -> None:
         baseline_page=467,
         title="Проект: космический шутер с Pygame",
         description="Самая крупная игра книги — корабль, враги, стрельба, счёт и конец игры, собранные шаг за шагом.",
-        meta_items=["⏱ ~5 часов", "🚀 полноценная игра", "📓 6 ноутбуков практики"],
+        meta_items=["[[icon:timer]] ~5 часов", "[[icon:launch]] полноценная игра", "[[icon:practice]] 6 ноутбуков практики"],
         sections=[
             ChapterSectionLink("21.1", "Игра «Космический шутер»", "21-01-igra-import-init.html", "467"),
             ChapterSectionLink("", "Импортируем модули. Инициализируем", "21-01-igra-import-init.html#init", "469"),
@@ -506,7 +506,7 @@ def build_07() -> None:
 def build_08() -> None:
     body = f"""
     <p>Полная, уже собранная и проверенная игра — отдельным файлом:</p>
-    <p>📄 <a href="../../../projects/pygame/space-shooter/space_shooter.py">projects/pygame/space-shooter/space_shooter.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/pygame/space-shooter/space_shooter.py">projects/pygame/space-shooter/space_shooter.py</a></p>
     {callout(
         "tip",
         "Запустите игру у себя",

@@ -87,11 +87,11 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 17 · Крестики-нолики", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS
         ]),
         SidebarGroup("Исходный код", [
-            NavItem("🐍 tic_tac_toe_basic.py — первый прототип (17.6)", "../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py"),
-            NavItem("🐍 tic_tac_toe.py — финальная версия Pro (17.31)", "../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py"),
+            NavItem("[[icon:code]] tic_tac_toe_basic.py — первый прототип (17.6)", "../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py"),
+            NavItem("[[icon:code]] tic_tac_toe.py — финальная версия Pro (17.31)", "../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py"),
         ]),
     ]
 
@@ -125,7 +125,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {html.escape(title)}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {html.escape(title)}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -194,7 +194,7 @@ def build_opener() -> None:
             "правила и тесты, добавим управление мышью и клавиатурой, визуальную обратную связь, "
             "счёт матчей и финальную архитектуру приложения."
         ),
-        meta_items=["⏱ ~6–7 часов", "🎮 события · состояние · правила · архитектура", "📓 30 практик"],
+        meta_items=["[[icon:timer]] ~6–7 часов", "[[icon:game]] события · состояние · правила · архитектура", "[[icon:practice]] 30 практик"],
         sections=[
             ChapterSectionLink("17.1", "Привязка событий — делаем приложения динамическими!", "17-01-privyazka-sobytij.html", "369"),
             ChapterSectionLink("17.2", "Игра «Крестики-нолики» — объяснение", "17-02-obyasnenie-nastrojka.html", "372"),
@@ -527,7 +527,7 @@ def build_06() -> None:
     <h2 id="polnaya-programma">Полная программа</h2>
     <p>Соберём все части в одну программу — она уже полностью проверена и доступна отдельным
     файлом в этой книге:</p>
-    <p>📄 <a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py">projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py</a></p>
     {callout(
         "tip",
         "Запустите игру у себя",
@@ -944,7 +944,7 @@ def build_12() -> None:
     )}
     {callout(
         "info",
-        "🔬 ЧУТЬ ГЛУБЖЕ — bind_class / bind_all",
+        "[[icon:experiment]] ЧУТЬ ГЛУБЖЕ — bind_class / bind_all",
         "Tk также поддерживает <code class=\"inline\">bind_class(...)</code> (все виджеты "
         "одного класса) и <code class=\"inline\">bind_all(...)</code> (буквально всё "
         "приложение). Для главы 17 они не нужны — упомянуты, чтобы вы знали, что они "
@@ -952,7 +952,7 @@ def build_12() -> None:
     )}
     {callout(
         "info",
-        "🔬 ЧУТЬ ГЛУБЖЕ — add=\"+\" и unbind()",
+        "[[icon:experiment]] ЧУТЬ ГЛУБЖЕ — add=\"+\" и unbind()",
         "По умолчанию <code class=\"inline\">bind(sequence, callback)</code> ЗАМЕНЯЕТ предыдущий "
         "обработчик этой же последовательности на этом виджете. Необязательный третий аргумент "
         "<code class=\"inline\">add=\"+\"</code> вместо замены добавляет ЕЩЁ ОДИН обработчик — "
@@ -2504,7 +2504,7 @@ def build_31() -> None:
     <h2>Итоговая программа</h2>
     {image_figure(f"{IMG}/tic-tac-toe-pro.png", "Финальное окно Tic-Tac-Toe Pro с игрой в процессе и счётом X:1 O:2 Ничьи:1", f"Реальное окно финальной версии — модель, правила, счёт, подсветка и клавиатура вместе. Ниже — структура всего файла целиком, а не одного фрагмента.", width=340)}
     <p>Файл целиком, самодостаточный и без невидимых зависимостей от других уроков:</p>
-    <p>📄 <a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">projects/tkinter/tic-tac-toe/tic_tac_toe.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py">projects/tkinter/tic-tac-toe/tic_tac_toe.py</a></p>
     {code_block(
         "tic_tac_toe.py — структура",
         "WINNING_LINES = (...)\n\n"

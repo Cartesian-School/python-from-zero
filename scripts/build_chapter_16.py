@@ -117,7 +117,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 16 · Tkinter", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -147,7 +147,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {title}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {title}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -229,7 +229,7 @@ def build_opener() -> None:
         description="Научимся строить настоящие оконные приложения: разберём событийную модель, "
         "дерево виджетов, адаптивную компоновку, формы, меню, диалоги, таймеры и архитектуру "
         "приложения — и свяжем интерфейс с функциями, объектами и файлами из предыдущих глав.",
-        meta_items=["⏱ ~10 часов", "🖼️ tkinter, ttk, mainloop", "📓 32 практики"],
+        meta_items=["[[icon:timer]] ~10 часов", "[[icon:palette]] tkinter, ttk, mainloop", "[[icon:practice]] 32 практики"],
         sections=[
             ChapterSectionLink("16.1", "Tkinter — правильно всё настраиваем!", "16-01-nastraivaem-tkinter.html", "335"),
             ChapterSectionLink("16.2", "Метки, кнопки и pack", "16-02-metki-knopki-pack.html", "338"),
@@ -537,7 +537,7 @@ def build_04() -> None:
         "данных приложения, которые не отображаются напрямую в виджете.",
     )}
 
-    <h2 id="trace">🔬 Чуть глубже: trace_add</h2>
+    <h2 id="trace">[[icon:experiment]] Чуть глубже: trace_add</h2>
     <p>Можно реагировать на каждое изменение Tk-переменной:</p>
     {code_block(
         "trace_add.py",
@@ -1690,7 +1690,7 @@ def build_19() -> None:
     )}
     {callout(
         "warning",
-        "⚠️ Не забывайте про отмену",
+        "[[icon:warning]] Не забывайте про отмену",
         "Если пользователь закрыл диалог без выбора файла, "
         "<code class=\"inline\">askopenfilename()</code> вернёт <strong>пустую строку</strong>, "
         "а не <code class=\"inline\">None</code> и не путь. Попытка сразу открыть "
@@ -1755,7 +1755,7 @@ def build_20() -> None:
         "root → <code class=\"inline\">Toplevel</code> для остальных окон.",
     )}
 
-    <h2 id="modal">🔬 Чуть глубже: модальное окно</h2>
+    <h2 id="modal">[[icon:experiment]] Чуть глубже: модальное окно</h2>
     <p>Некоторые диалоги должны блокировать взаимодействие с родительским окном, пока не будут
     закрыты:</p>
     {code_block(
@@ -2082,7 +2082,7 @@ def build_23() -> None:
         "обратной связью пользователю в оконном приложении.",
     )}
 
-    <h2 id="validatecommand">🔬 Чуть глубже: validatecommand</h2>
+    <h2 id="validatecommand">[[icon:experiment]] Чуть глубже: validatecommand</h2>
     <p>У Tkinter есть встроенный механизм валидации прямо на уровне виджета
     (<code class="inline">validate=</code>, <code class="inline">validatecommand=</code>,
     <code class="inline">register(...)</code>) — синтаксис у него не самый интуитивный, поэтому
@@ -2128,7 +2128,7 @@ def build_24() -> None:
         "проверить без запуска окна.",
     )}
 
-    <h2 id="lambda-trap">🔬 Чуть глубже: ловушка позднего связывания в lambda</h2>
+    <h2 id="lambda-trap">[[icon:experiment]] Чуть глубже: ловушка позднего связывания в lambda</h2>
     {debug_lab(
         4,
         "Все кнопки в цикле «запоминают» одно и то же значение",

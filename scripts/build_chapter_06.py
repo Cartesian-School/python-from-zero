@@ -79,7 +79,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 6 · Turtle", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -124,7 +124,7 @@ def build_opener() -> None:
         "многоугольники, перо и заливка, круги и цвета, случайная графика — и мандала в финале. "
         "Каждый пример показывает по-настоящему выполненный рисунок, а не описание того, что "
         "должно получиться.",
-        meta_items=["⏱ ~4–5 часов", "💻 модуль turtle", "📓 18 практик", "🖼 реальные результаты у каждого примера"],
+        meta_items=["[[icon:timer]] ~4–5 часов", "[[icon:code]] модуль turtle", "[[icon:practice]] 18 практик", "[[icon:palette]] реальные результаты у каждого примера"],
         sections=[
             ChapterSectionLink("6.1", "Приступаем", "06-01-pristupaem.html", "83"),
             ChapterSectionLink("6.2", "Координаты: центр (0, 0)", "06-09-koordinaty.html", "85"),
@@ -1124,7 +1124,7 @@ def build_15_sluchaynoe_dvizhenie() -> None:
 {output}
 {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Код ниже использует цикл <code class=\"inline\">for</code> — мы разберём его подробно "
         "позже. Пока не нужно понимать синтаксис цикла целиком: важна сама идея — маленький шаг и "
         "случайный поворот, повторённые много раз.",
@@ -1364,7 +1364,7 @@ def build_18_mini_proekty() -> None:
     )}
 {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Здесь использован цикл <code class=\"inline\">for</code> по списку пар (радиус, цвет) — "
         "мы разберём списки и циклы подробно позже. Пока достаточно увидеть идею: одна и та же "
         "последовательность действий повторяется для каждой пары значений.",
@@ -1464,7 +1464,7 @@ def build_08_mandala() -> None:
     )}
 {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Цикл <code class=\"inline\">while</code> подробно разберём позже — здесь достаточно "
         "увидеть, что <code class=\"inline\">setheading()</code> позволяет нарисовать сложный "
         "узор всего в нескольких строках, перебирая углы по кругу.",

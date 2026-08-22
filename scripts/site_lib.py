@@ -11,8 +11,77 @@ import html
 import io
 import itertools
 import keyword
+import re
 import tokenize
 from dataclasses import dataclass, field
+
+
+# ---------------------------------------------------------------------------
+# Cartesian School icon system
+# ---------------------------------------------------------------------------
+# Original local SVG sprite at site/assets/icons/cartesian/icons.svg replaces
+# decorative Unicode emoji (💡🚀⚠️ etc.) across chapter content — see
+# docs/ICON-SYSTEM.md for the full semantic mapping and rationale.
+#
+# Call sites never write raw <svg> markup: they embed a plain-text marker via
+# icon_label("idea", "Заголовок") -> "[[icon:idea]] Заголовок". The marker
+# survives html.escape() unchanged (none of its characters are HTML-special),
+# so it can sit inside a title string that later gets escaped by callout(),
+# exercise(), render_sidebar() etc. exactly like the emoji it replaced. The
+# *only* place the marker is ever resolved into real <svg> markup is
+# _render_icon_markers(), called once on the fully-assembled page HTML in
+# render_page() / render_chapter_opener() — so every chapter script gets the
+# icon system "for free" and never has to think about the escaping order.
+CS_ICON_NAMES = frozenset({
+    "idea", "launch", "warning", "success", "error", "debug", "experiment",
+    "timer", "practice", "code", "file", "folder", "game", "architecture",
+    "palette", "tools", "loop", "note", "compare", "profile", "search",
+    "device",
+})
+
+_ICON_MARKER_RE = re.compile(r"\[\[icon:([a-z-]+)\]\]")
+
+
+def cs_icon(name: str) -> str:
+    """Inline <svg><use> reference into the shared Cartesian icon sprite.
+
+    Uses `currentColor` so the icon inherits its color from CSS (see
+    .cs-icon / .cs-icon--<name> in theory.css) — never call this to produce
+    a permanently-colored icon.
+    """
+    if name not in CS_ICON_NAMES:
+        raise ValueError(f"unknown cs_icon name: {name!r} (see CS_ICON_NAMES)")
+    return (
+        f'<svg class="cs-icon cs-icon--{name}" aria-hidden="true">'
+        f'<use href="/assets/icons/cartesian/icons.svg#icon-{name}"></use></svg>'
+    )
+
+
+def icon_label(name: str, text: str) -> str:
+    """Prefix `text` with a semantic Cartesian icon marker.
+
+    This is the one API future chapter scripts should use instead of typing
+    a decorative emoji: icon_label("idea", "Почему это работает") instead of
+    "💡 Почему это работает". Works anywhere a plain title/label string is
+    accepted (callout(), exercise(), NavItem(), meta_items=[...], raw
+    <h2> text, ...) — the marker is resolved to real markup later by
+    _render_icon_markers().
+    """
+    if name not in CS_ICON_NAMES:
+        raise ValueError(f"unknown cs_icon name: {name!r} (see CS_ICON_NAMES)")
+    return f"[[icon:{name}]] {text}"
+
+
+def _render_icon_markers(page_html: str) -> str:
+    """Resolves every [[icon:name]] marker in fully-assembled page HTML into
+    real <svg> markup. Called once per page, at the end of render_page() /
+    render_chapter_opener() — see module docstring above."""
+    def _sub(m: re.Match[str]) -> str:
+        name = m.group(1)
+        if name not in CS_ICON_NAMES:
+            raise ValueError(f"unknown cs_icon marker: [[icon:{name}]] (see CS_ICON_NAMES)")
+        return cs_icon(name)
+    return _ICON_MARKER_RE.sub(_sub, page_html)
 
 
 # ---------------------------------------------------------------------------
@@ -3942,7 +4011,7 @@ def render_page(
         nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">Далее →</div><div class="lbl">{html.escape(nav.next_label or "")}</div></a>'
     nav_html += "</div>"
 
-    return f"""<!DOCTYPE html>
+    return _render_icon_markers(f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
@@ -3980,7 +4049,7 @@ def render_page(
 {NAV_SCRIPT_TAG}
 </body>
 </html>
-"""
+""")
 
 
 @dataclass
@@ -4009,7 +4078,7 @@ def render_chapter_opener(
         f'<span class="si-page">{html.escape(s.page)}</span></a>'
         for s in sections
     )
-    return f"""<!DOCTYPE html>
+    return _render_icon_markers(f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
@@ -4065,7 +4134,7 @@ def render_chapter_opener(
 {NAV_SCRIPT_TAG}
 </body>
 </html>
-"""
+""")
 
 
 # ---------------------------------------------------------------------------
