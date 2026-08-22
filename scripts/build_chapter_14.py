@@ -162,8 +162,11 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     debug-лабораториях главы, чтобы у них была одна узнаваемая форма."""
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
-      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {title}</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+        <div class="cs-icon-emblem cs-icon-emblem--debug">[[icon:debug]]</div>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab {n}: {title}</div>
+      </div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
