@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SnakeApp: отделяем модель от визуализации — Python с нуля — Cartesian School</title>
+<meta name="description" content="SnakeApp хранит state (GameState) и Turtle-виджеты отдельно, композицией, а не наследованием от Screen." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-28-snakeapp-arhitektura.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="SnakeApp: отделяем модель от визуализации — Python с нуля — Cartesian School" />
+<meta property="og:description" content="SnakeApp хранит state (GameState) и Turtle-виджеты отдельно, композицией, а не наследованием от Screen." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-28-snakeapp-arhitektura.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SnakeApp: отделяем модель от визуализации — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="SnakeApp хранит state (GameState) и Turtle-виджеты отдельно, композицией, а не наследованием от Screen." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"SnakeApp: отделяем модель от визуализации — Python с нуля — Cartesian School","description":"SnakeApp хранит state (GameState) и Turtle-виджеты отдельно, композицией, а не наследованием от Screen.","url":"https://www.cartesianschool.org/chapters/glava-19/19-28-snakeapp-arhitektura.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li><li><a href="19-09-mir-kak-setka.html">Мир игры как сетка</a></li><li><a href="19-10-koordinaty-kletki.html">Координаты клетки и пиксели Turtle</a></li><li><a href="19-11-napravlenie-kak-vektor.html">Направление как вектор</a></li><li><a href="19-12-odin-igrovoj-tik.html">Один игровой тик</a></li><li><a href="19-13-nastoyaschij-cikl.html">Настоящий игровой цикл</a></li><li><a href="19-14-vremya-skorost.html">Время, скорость и задержка</a></li><li><a href="19-15-sostoyanie-igry.html">Состояние игры</a></li><li><a href="19-16-model-snake.html">Голова, тело и модель Snake</a></li><li><a href="19-17-pochemu-s-hvosta.html">Почему тело движется с хвоста</a></li><li><a href="19-18-eda-svobodnaya-kletka.html">Еда и свободная клетка</a></li><li><a href="19-19-stolknovenie-so-stenoj.html">Столкновение со стеной</a></li><li><a href="19-20-stolknovenie-s-soboj.html">Столкновение с собой</a></li><li><a href="19-21-game-over.html">Game Over как состояние</a></li><li><a href="19-22-pauza.html">Pause / Resume</a></li><li><a href="19-23-restart.html">Restart / New Game</a></li><li><a href="19-24-skorost-slozhnost.html">Скорость и рост сложности</a></li><li><a href="19-25-high-score.html">High Score</a></li><li><a href="19-26-chistaya-logika.html">Чистая игровая логика без Turtle</a></li><li><a href="19-27-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="19-28-snakeapp-arhitektura.html" class="active">SnakeApp: отделяем модель от визуализации</a></li><li><a href="19-29-render-model.html">Render: модель → Turtle</a></li><li><a href="19-30-testiruem-pravila.html">Тестируем правила игры</a></li><li><a href="19-31-debug-labs.html">Debug Labs</a></li><li><a href="19-32-snake-pro-itogi.html">Snake Pro — финальная игра</a></li><li><a href="19-33-itogi-glavy.html">Итоги и переход дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/19-02/index.html">🐍 19-02: Практика</a></li><li><a href="../../practice/19-03/index.html">🐍 19-03: Практика</a></li><li><a href="../../practice/19-04/index.html">🐍 19-04: Практика</a></li><li><a href="../../practice/19-06/index.html">🐍 19-06: Практика</a></li><li><a href="../../practice/19-07/index.html">🐍 19-07: Практика</a></li><li><a href="../../practice/19-08/index.html">🐍 19-08: Практика</a></li><li><a href="../../practice/19-09/index.html">🐍 19-09: Практика</a></li><li><a href="../../practice/19-10/index.html">🐍 19-10: Практика</a></li><li><a href="../../practice/19-11/index.html">🐍 19-11: Практика</a></li><li><a href="../../practice/19-12/index.html">🐍 19-12: Практика</a></li><li><a href="../../practice/19-13/index.html">🐍 19-13: Практика</a></li><li><a href="../../practice/19-14/index.html">🐍 19-14: Практика</a></li><li><a href="../../practice/19-15/index.html">🐍 19-15: Практика</a></li><li><a href="../../practice/19-16/index.html">🐍 19-16: Практика</a></li><li><a href="../../practice/19-17/index.html">🐍 19-17: Практика</a></li><li><a href="../../practice/19-18/index.html">🐍 19-18: Практика</a></li><li><a href="../../practice/19-19/index.html">🐍 19-19: Практика</a></li><li><a href="../../practice/19-20/index.html">🐍 19-20: Практика</a></li><li><a href="../../practice/19-21/index.html">🐍 19-21: Практика</a></li><li><a href="../../practice/19-22/index.html">🐍 19-22: Практика</a></li><li><a href="../../practice/19-23/index.html">🐍 19-23: Практика</a></li><li><a href="../../practice/19-24/index.html">🐍 19-24: Практика</a></li><li><a href="../../practice/19-25/index.html">🐍 19-25: Практика</a></li><li><a href="../../practice/19-26/index.html">🐍 19-26: Практика</a></li><li><a href="../../practice/19-27/index.html">🐍 19-27: Практика</a></li><li><a href="../../practice/19-28/index.html">🐍 19-28: Практика</a></li><li><a href="../../practice/19-29/index.html">🐍 19-29: Практика</a></li><li><a href="../../practice/19-30/index.html">🐍 19-30: Практика</a></li><li><a href="../../practice/19-31/index.html">🐍 19-31: Практика</a></li><li><a href="../../practice/19-32/index.html">🐍 19-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py">🐍 snake_basic.py — первый прототип (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py — финальная версия Pro (19.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Архитектура SnakeApp</div>
+    <div class="section-kicker">Глава 19 · Архитектура</div>
+    <h1>SnakeApp: отделяем модель от визуализации</h1>
+    <p class="lede">app.state — модель игры; app.screen и Turtle-объекты — только то, что видно на экране.</p>
+
+
+    <h2>app HAS-A screen — тот же паттерн, что и в главах 16–18</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg viewBox="0 0 280 218" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="app хранит и виджеты Turtle, и модель (state) — но не путает их друг с другом." style="display:block;width:100%;height:auto"><rect x="10" y="0" width="260" height="218" rx="14" fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">app : SnakeApp</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">screen = </tspan>Screen</text><text x="26" y="100" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">state = </tspan>GameState</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">rng = </tspan>random.Random</text><text x="26" y="156" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">head = </tspan>Turtle</text><text x="26" y="184" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">food_turtle = </tspan>Turtle</text><text x="26" y="212" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">_segment_pool = </tspan>list[Turtle]</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">app хранит и виджеты Turtle, и модель (state) — но не путает их друг с другом.</figcaption></figure>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Группа методов</th><th>За что отвечает</th></tr></thead>
+      <tbody><tr><td><code class="inline">bind_keys</code></td><td>построение обработчиков клавиатуры — один раз, при запуске</td></tr><tr><td><code class="inline">request_direction</code></td><td>клавиша → запрос направления, без движения прямо сейчас</td></tr><tr><td><code class="inline">game_tick</code></td><td>события мыши... то есть тика → изменения state</td></tr><tr><td><code class="inline">render</code></td><td>state → Turtle (единственное место, которое рисует по-настоящему)</td></tr><tr><td><code class="inline">toggle_pause / restart</code></td><td>управление жизненным циклом игры</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">SnakeApp не наследуется от turtle.Screen</div>
+        <div class="callout-body">Как и <code class="inline">PaintApp(tk.Tk)</code> в главе 18, наследование здесь технически возможно, но не выбрано: <code class="inline">self.screen</code> — отдельный атрибут, а не сам объект <code class="inline">SnakeApp</code>. Композиция делает границу между «моей логикой» и «внутренностями Turtle» явной.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: собираем объектный граф SnakeApp</div>
+        <div class="nc-sub">Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="19-28">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/19-28/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-28"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-28"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="19-27-gamestate-dataclass.html"><div class="dir">← Назад</div><div class="lbl">GameState</div></a><a href="19-29-render-model.html" class="next"><div class="dir">Далее →</div><div class="lbl">Render: модель → Turtle</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

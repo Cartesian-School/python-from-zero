@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School</title>
+<meta name="description" content="Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School","description":"Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние.","url":"https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 19 · Змейка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="19-01-igra-import.html">Игра «Змейка» и импорт модулей</a></li><li><a href="19-02-ekran-peremennye.html">Настраиваем экран и переменные</a></li><li><a href="19-03-golova-yabloko.html">Рисуем голову и яблоко</a></li><li><a href="19-04-klavishi-dvizhenie.html">Клавиши и движение головы</a></li><li><a href="19-05-tablo-scheta.html">Табло счёта</a></li><li><a href="19-06-eda-telo.html">Змейка ест! Движение тела</a></li><li><a href="19-07-stolknoveniya.html">Проверка столкновений</a></li><li><a href="19-08-polnyj-kod-itogi.html">Полный код и итоги</a></li><li><a href="19-09-mir-kak-setka.html">Мир игры как сетка</a></li><li><a href="19-10-koordinaty-kletki.html">Координаты клетки и пиксели Turtle</a></li><li><a href="19-11-napravlenie-kak-vektor.html">Направление как вектор</a></li><li><a href="19-12-odin-igrovoj-tik.html">Один игровой тик</a></li><li><a href="19-13-nastoyaschij-cikl.html">Настоящий игровой цикл</a></li><li><a href="19-14-vremya-skorost.html">Время, скорость и задержка</a></li><li><a href="19-15-sostoyanie-igry.html">Состояние игры</a></li><li><a href="19-16-model-snake.html">Голова, тело и модель Snake</a></li><li><a href="19-17-pochemu-s-hvosta.html">Почему тело движется с хвоста</a></li><li><a href="19-18-eda-svobodnaya-kletka.html">Еда и свободная клетка</a></li><li><a href="19-19-stolknovenie-so-stenoj.html">Столкновение со стеной</a></li><li><a href="19-20-stolknovenie-s-soboj.html">Столкновение с собой</a></li><li><a href="19-21-game-over.html">Game Over как состояние</a></li><li><a href="19-22-pauza.html">Pause / Resume</a></li><li><a href="19-23-restart.html">Restart / New Game</a></li><li><a href="19-24-skorost-slozhnost.html">Скорость и рост сложности</a></li><li><a href="19-25-high-score.html">High Score</a></li><li><a href="19-26-chistaya-logika.html">Чистая игровая логика без Turtle</a></li><li><a href="19-27-gamestate-dataclass.html">GameState с dataclass</a></li><li><a href="19-28-snakeapp-arhitektura.html">SnakeApp: отделяем модель от визуализации</a></li><li><a href="19-29-render-model.html">Render: модель → Turtle</a></li><li><a href="19-30-testiruem-pravila.html">Тестируем правила игры</a></li><li><a href="19-31-debug-labs.html" class="active">Debug Labs</a></li><li><a href="19-32-snake-pro-itogi.html">Snake Pro — финальная игра</a></li><li><a href="19-33-itogi-glavy.html">Итоги и переход дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/19-02/index.html">🐍 19-02: Практика</a></li><li><a href="../../practice/19-03/index.html">🐍 19-03: Практика</a></li><li><a href="../../practice/19-04/index.html">🐍 19-04: Практика</a></li><li><a href="../../practice/19-06/index.html">🐍 19-06: Практика</a></li><li><a href="../../practice/19-07/index.html">🐍 19-07: Практика</a></li><li><a href="../../practice/19-08/index.html">🐍 19-08: Практика</a></li><li><a href="../../practice/19-09/index.html">🐍 19-09: Практика</a></li><li><a href="../../practice/19-10/index.html">🐍 19-10: Практика</a></li><li><a href="../../practice/19-11/index.html">🐍 19-11: Практика</a></li><li><a href="../../practice/19-12/index.html">🐍 19-12: Практика</a></li><li><a href="../../practice/19-13/index.html">🐍 19-13: Практика</a></li><li><a href="../../practice/19-14/index.html">🐍 19-14: Практика</a></li><li><a href="../../practice/19-15/index.html">🐍 19-15: Практика</a></li><li><a href="../../practice/19-16/index.html">🐍 19-16: Практика</a></li><li><a href="../../practice/19-17/index.html">🐍 19-17: Практика</a></li><li><a href="../../practice/19-18/index.html">🐍 19-18: Практика</a></li><li><a href="../../practice/19-19/index.html">🐍 19-19: Практика</a></li><li><a href="../../practice/19-20/index.html">🐍 19-20: Практика</a></li><li><a href="../../practice/19-21/index.html">🐍 19-21: Практика</a></li><li><a href="../../practice/19-22/index.html">🐍 19-22: Практика</a></li><li><a href="../../practice/19-23/index.html">🐍 19-23: Практика</a></li><li><a href="../../practice/19-24/index.html">🐍 19-24: Практика</a></li><li><a href="../../practice/19-25/index.html">🐍 19-25: Практика</a></li><li><a href="../../practice/19-26/index.html">🐍 19-26: Практика</a></li><li><a href="../../practice/19-27/index.html">🐍 19-27: Практика</a></li><li><a href="../../practice/19-28/index.html">🐍 19-28: Практика</a></li><li><a href="../../practice/19-29/index.html">🐍 19-29: Практика</a></li><li><a href="../../practice/19-30/index.html">🐍 19-30: Практика</a></li><li><a href="../../practice/19-31/index.html">🐍 19-31: Практика</a></li><li><a href="../../practice/19-32/index.html">🐍 19-32: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py">🐍 snake_basic.py — первый прототип (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py">🐍 snake.py — финальная версия Pro (19.32)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Debug Labs</div>
+    <div class="section-kicker">Глава 19 · Тестирование</div>
+    <h1>Debug Labs — типичные ошибки «Змейки»</h1>
+    <p class="lede">Каждая ошибка здесь встречается в реальных студенческих проектах — научитесь узнавать симптом раньше, чем откроете отладчик.</p>
+
+
+    <p>Небольшая коллекция типичных ошибок «Змейки» — каждая с симптомом и исправлением. Часть
+    из них вы уже видели раньше в главе; здесь они собраны как справочник.</p>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 1: Забыли screen.tracer(0)</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_tracer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>screen = turtle.Screen()
+screen.title(<span class="tok-str">&quot;Змейка&quot;</span>)
+<span class="tok-com"># tracer(0) не вызван</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Игра работает, но каждое движение головы и КАЖДОГО сегмента
+# перерисовывается отдельно — заметное мерцание и заметная задержка.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Без <code class="inline">tracer(0)</code> Turtle обновляет экран после каждого отдельного вызова <code class="inline">goto()</code> — раздел 19.2 уже объяснял, зачем нужно отключить автообновление и делать это вручную, ровно раз за тик.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_tracer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>screen = turtle.Screen()
+screen.title(<span class="tok-str">&quot;Змейка&quot;</span>)
+screen.tracer(<span class="tok-num">0</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 2: Забыли screen.update() в конце render()</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_update.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> render(self):
+    self.head.goto(*self.state.snake[<span class="tok-num">0</span>])
+    <span class="tok-com"># ...остальная отрисовка...</span>
+    <span class="tok-com"># self.screen.update() не вызван</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Модель меняется на каждом тике (можно проверить print()),
+# но на экране змейка стоит неподвижно.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>С <code class="inline">tracer(0)</code> ручной <code class="inline">screen.update()</code> — единственный момент, когда изменения долетают до экрана. Тот же принцип, что и в главе 17: изменение модели без вызова отрисовки невидимо пользователю.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_update.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> render(self):
+    self.head.goto(*self.state.snake[<span class="tok-num">0</span>])
+    <span class="tok-com"># ...остальная отрисовка...</span>
+    self.screen.update()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 3: Busy-цикл не даёт добавить паузу</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>busy_loop.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">while</span> igrovoj_shag():
+    screen.update()
+<span class="tok-com"># пока цикл не закончится, программа не может сделать ничего другого</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Нажатие Space во время игры никак не влияет на неё —
+# обработчик паузы просто не успевает выполниться, пока while не закончится.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.13 разбирал это подробно: <code class="inline">while</code> занимает программу целиком. <code class="inline">screen.ontimer()</code> возвращает управление между тиками — только тогда события клавиатуры успевают обработаться.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>ontimer_vmesto_busy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> game_tick(self):
+    <span class="tok-kw">if</span> self.state.status <span class="tok-kw">is</span> <span class="tok-kw">not</span> GameStatus.RUNNING:
+        <span class="tok-kw">return</span>
+    <span class="tok-com"># ...</span>
+    self.screen.ontimer(self.game_tick, self.state.delay_ms)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 4: time.sleep() внутри игрового цикла</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>s_sleep.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> game_tick(self):
+    <span class="tok-com"># ...</span>
+    time.sleep(self.state.delay_ms / <span class="tok-num">1000</span>)
+    self.game_tick()</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Во время сна окно полностью перестаёт реагировать:
+# ни клавиатура, ни закрытие окна не работают заданное число миллисекунд.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">time.sleep()</code> блокирует ВЕСЬ процесс, включая цикл событий Tkinter, на котором держится Turtle. <code class="inline">screen.ontimer()</code> не блокирует ничего — раздел 19.13 объясняет разницу подробно.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_sleep.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> game_tick(self):
+    <span class="tok-com"># ...</span>
+    self.screen.ontimer(self.game_tick, self.state.delay_ms)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 5: Разворот на 180° разрешён</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>bez_is_reverse.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> request_direction(self, direction):
+    self.state.next_direction = direction   <span class="tok-com"># без проверки!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Змейка едет вправо, игрок нажимает Left —
+# голова немедленно врезается в первый сегмент собственного тела.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Без <code class="inline">is_reverse()</code> ничто не мешает развернуть змейку прямо в её же тело за один тик — раздел 19.4 (и 19.11) объясняли, почему разворот на 180° должен быть запрещён на уровне ввода, а не только совпадением по случайности.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_is_reverse.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> request_direction(self, direction):
+    <span class="tok-kw">if</span> is_reverse(self.state.direction, direction):
+        <span class="tok-kw">return</span>
+    self.state.next_direction = direction</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 6: Быстрая пара клавиш проносит разворот мимо проверки</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_ne_protiv_togo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> request_direction(self, direction):
+    <span class="tok-kw">if</span> is_reverse(self.state.next_direction, direction):   <span class="tok-com"># против next_direction!</span>
+        <span class="tok-kw">return</span>
+    self.state.next_direction = direction</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Змейка едет вправо. Игрок быстро нажимает Up, потом Left —
+# Left проходит проверку, потому что next_direction уже стало Up, а не Right.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.49 разбирал эту ловушку: проверка обязана идти против <code class="inline">state.direction</code> — направления, которое СЕЙЧАС применяется на тике — а не против уже изменённого <code class="inline">next_direction</code>, иначе вторая клавиша между тиками может протащить нелегальный разворот.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>proverka_protiv_direction.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> request_direction(self, direction):
+    <span class="tok-kw">if</span> is_reverse(self.state.direction, direction):
+        <span class="tok-kw">return</span>
+    self.state.next_direction = direction</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 7: Еда не выровнена по сетке</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>neverno_vyrovnennaya_eda.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_food(snake, rng, *, half=<span class="tok-num">280</span>):
+    x = rng.randint(-half, half)   <span class="tok-com"># любое целое, не кратное STEP!</span>
+    y = rng.randint(-half, half)
+    <span class="tok-kw">return</span> (x, y)</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Яблоко появляется в точке вроде (137, -52) —
+# голова змейки никогда не попадёт туда ровно, съесть его невозможно.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.9 объяснял: легальные позиции — узлы решётки с шагом <code class="inline">STEP</code>. <code class="inline">choose_food()</code> обязана выбирать из того же множества клеток, что и <code class="inline">next_head()</code> — иначе математически невозможно попасть точно в клетку еды.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>vyrovnennaya_eda.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_food(snake, rng, *, half=<span class="tok-num">280</span>, step=<span class="tok-num">20</span>):
+    free = <span class="tok-fn">tuple</span>(c <span class="tok-kw">for</span> c <span class="tok-kw">in</span> all_cells(half=half, step=step) <span class="tok-kw">if</span> c <span class="tok-kw">not</span> <span class="tok-kw">in</span> <span class="tok-fn">set</span>(snake))
+    <span class="tok-kw">return</span> rng.choice(free)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 8: Еда появляется внутри тела змейки</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>eda_bez_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_food(snake, rng, *, half=<span class="tok-num">280</span>, step=<span class="tok-num">20</span>):
+    coords = <span class="tok-fn">range</span>(-half, half + <span class="tok-num">1</span>, step)
+    <span class="tok-kw">return</span> (rng.choice(coords), rng.choice(coords))   <span class="tok-com"># не проверяет snake!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># При достаточно длинной змейке яблоко иногда появляется
+# прямо внутри собственного тела — заведомо несъедобное.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.18 разбирал именно эту проблему: без исключения занятых клеток <code class="inline">choose_food()</code> честно выбирает случайно среди ВСЕХ клеток, включая занятые телом — что технически случайно, но нечестно по отношению к игроку.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>eda_s_proverkoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> choose_food(snake, rng, *, half=<span class="tok-num">280</span>, step=<span class="tok-num">20</span>):
+    occupied = <span class="tok-fn">set</span>(snake)
+    free = <span class="tok-fn">tuple</span>(c <span class="tok-kw">for</span> c <span class="tok-kw">in</span> all_cells(half=half, step=step) <span class="tok-kw">if</span> c <span class="tok-kw">not</span> <span class="tok-kw">in</span> occupied)
+    <span class="tok-kw">return</span> rng.choice(free)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 9: Тело обновляется от головы к хвосту</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>ot_golovy_k_hvostu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> dvigat_telo():
+    <span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(segmenty) - <span class="tok-num">1</span>):   <span class="tok-com"># неверное направление цикла!</span>
+        segmenty[indeks].goto(segmenty[indeks + <span class="tok-num">1</span>].xcor(), segmenty[indeks + <span class="tok-num">1</span>].ycor())</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Через несколько шагов все сегменты тела
+# визуально схлопываются в одну точку.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.17 разбирал это подробно: обновление обязано идти с хвоста к голове, иначе каждый следующий сегмент читает уже перезаписанную, а не старую позицию соседа.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>s_hvosta_k_golove.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> dvigat_telo():
+    <span class="tok-kw">for</span> indeks <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(segmenty) - <span class="tok-num">1</span>, <span class="tok-num">0</span>, -<span class="tok-num">1</span>):
+        segmenty[indeks].goto(segmenty[indeks - <span class="tok-num">1</span>].xcor(), segmenty[indeks - <span class="tok-num">1</span>].ycor())</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 10: Табло счёта без clear()</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>tablo_bez_clear.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> obnovit_tablo():
+    tablo.write(<span class="tok-str">f&quot;</span><span class="tok-str">Счёт: {</span>{<span class="tok-str">schet}</span>}<span class="tok-str">&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">16</span>, <span class="tok-str">&quot;normal&quot;</span>))
+    <span class="tok-com"># tablo.clear() не вызван</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После нескольких съеденных яблок надпись на табло
+# превращается в нечитаемую кашу из наложенных друг на друга цифр.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.5 объяснял: <code class="inline">write()</code> не заменяет предыдущий текст, а рисует поверх него. <code class="inline">clear()</code> обязателен перед каждой новой надписью той же черепашки.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>tablo_s_clear.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> obnovit_tablo():
+    tablo.clear()
+    tablo.write(<span class="tok-str">f&quot;</span><span class="tok-str">Счёт: {</span>{<span class="tok-str">schet}</span>}<span class="tok-str">&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">16</span>, <span class="tok-str">&quot;normal&quot;</span>))</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 11: Граница проверена нестрого — голова не доезжает до края</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>granica_s_ravno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> is_wall_collision(head, *, half=<span class="tok-num">280</span>):
+    x, y = head
+    <span class="tok-kw">return</span> <span class="tok-fn">abs</span>(x) &gt;= half <span class="tok-kw">or</span> <span class="tok-fn">abs</span>(y) &gt;= half   <span class="tok-com"># &gt;=, не &gt;</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Игра заканчивается на одну клетку раньше настоящей границы —
+# змейка никогда не может доехать до последнего легального ряда клеток.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.19 объяснял: <code class="inline">GRANICA</code> — координата центра СЕГМЕНТА, который на ней всё ещё целиком помещается на поле. <code class="inline">&gt;=</code> ошибочно исключает саму границу из легальной области.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>granica_strogo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> is_wall_collision(head, *, half=<span class="tok-num">280</span>):
+    x, y = head
+    <span class="tok-kw">return</span> <span class="tok-fn">abs</span>(x) &gt; half <span class="tok-kw">or</span> <span class="tok-fn">abs</span>(y) &gt; half</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 12: Самостолкновение проверено по СТАРОМУ телу</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>stolknovenie_po_staromu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>grow = head == state.food
+<span class="tok-kw">if</span> is_self_collision(head, state.snake[<span class="tok-num">1</span>:]):   <span class="tok-com"># ещё ДО move_snake()!</span>
+    state.status = GameStatus.GAME_OVER</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Змейка не растёт, а игрок пытается заехать в клетку, которую
+# хвост как раз освобождает в этом же тике — игра ошибочно завершается.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.20 разбирал именно это: клетка старого хвоста всё ещё в <code class="inline">state.snake</code> ДО <code class="inline">move_snake()</code>. Проверять нужно тело ПОСЛЕ хода — <code class="inline">new_snake[1:]</code> — где хвост уже честно отброшен, если змейка не растёт.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>stolknovenie_po_novomu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>new_snake = move_snake(state.snake, head, grow=grow)
+<span class="tok-kw">if</span> is_self_collision(head, new_snake[<span class="tok-num">1</span>:]):
+    state.status = GameStatus.GAME_OVER</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 13: Restart оставляет старую цепочку тиков живой</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_bez_generation.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self.state = new_game_state(self.rng)
+    self.render()
+    <span class="tok-com"># generation не увеличен — старый _on_timer() всё ещё запланирован!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Через мгновение после Restart на экране внезапно появляется
+# фигура/движение от уже несуществующей прошлой игры.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.23 разбирал этот случай — классический баг «двух параллельных таймерных цепочек», знакомый ещё по главе 16. Без счётчика поколений старый <code class="inline">_on_timer()</code> ничем не отличим от нового — оба тикают одновременно.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_s_generation.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self._generation += <span class="tok-num">1</span>
+    self.state = new_game_state(self.rng, high_score=self.state.high_score)
+    self.render()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 14: Пауза меняет экран, но игра продолжает двигаться</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>pauza_tolko_vizualno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> toggle_pause(self):
+    self._show_overlay(<span class="tok-str">&quot;ПАУЗА&quot;</span>, <span class="tok-str">&quot;Space — продолжить&quot;</span>)
+    <span class="tok-com"># state.status не изменён — game_tick() ничего не знает о паузе!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Оверлей «ПАУЗА» показан, но змейка под ним
+# продолжает двигаться и может врезаться в стену.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.22 объяснял: оверлей — это только то, что ВИДНО. Реальная остановка происходит из-за проверки <code class="inline">status is not RUNNING</code> в самом начале <code class="inline">game_tick()</code> — без смены <code class="inline">state.status</code> эта проверка никогда не сработает.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>pauza_po_statusu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> toggle_pause(self):
+    <span class="tok-kw">if</span> self.state.status <span class="tok-kw">is</span> GameStatus.RUNNING:
+        self.state.status = GameStatus.PAUSED
+        self._show_overlay(<span class="tok-str">&quot;ПАУЗА&quot;</span>, <span class="tok-str">&quot;Space — продолжить&quot;</span>)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 15: Новая игра не сбрасывает направление</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_bez_napravleniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self._generation += <span class="tok-num">1</span>
+    self.state.snake = [(<span class="tok-num">0</span>, <span class="tok-num">0</span>)]   <span class="tok-com"># правит поле точечно, а не создаёт state заново</span>
+    self.state.score = <span class="tok-num">0</span>
+    <span class="tok-com"># direction/next_direction остались от прошлой игры!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Новая змейка стоит в центре, но при первом же движении
+# уезжает в направлении, в котором закончилась ПРОШЛАЯ игра.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Точечные правки существующего <code class="inline">state</code> легко забывают одно из полей. <code class="inline">new_game_state()</code> (раздел 19.25) создаёт структуру целиком заново — забыть отдельное поле в новом объекте невозможно, оно либо есть в конструкторе, либо код не запустится.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_novym_state.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self._generation += <span class="tok-num">1</span>
+    self.state = new_game_state(self.rng, high_score=self.state.high_score)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 16: Рекорд обнуляется вместе со счётом</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_teryaet_rekord.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self._generation += <span class="tok-num">1</span>
+    self.state = new_game_state(self.rng)   <span class="tok-com"># high_score не передан — снова 0!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Игрок набрал 90 очков, проиграл, нажал R —
+# табло снова показывает «Рекорд: 0», как будто игра только что установлена.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.25 объяснял: <code class="inline">high_score</code> обязан быть явно передан из старого <code class="inline">state</code> в новый. <code class="inline">new_game_state()</code> без аргумента <code class="inline">high_score</code> использует значение по умолчанию — ноль.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>restart_s_rekordom.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> restart(self):
+    self._generation += <span class="tok-num">1</span>
+    self.state = new_game_state(self.rng, high_score=self.state.high_score)</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 17: GameState хранит объект Turtle</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>gamestate_s_turtle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>@dataclass
+<span class="tok-kw">class</span> GameState:
+    snake: <span class="tok-fn">list</span>[Position]
+    head_turtle: turtle.Turtle   <span class="tok-com"># объект Turtle внутри модели!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Тесты из раздела 19.30 падают с ошибкой создания Turtle,
+# хотя проверяют только математику координат — окно им не нужно.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Раздел 19.27 предупреждал об этом явно: <code class="inline">GameState</code> — домен данных, а не контейнер для виджетов. Как только внутри появляется <code class="inline">turtle.Turtle</code>, создать состояние без реального окна становится невозможно — вся польза чистой логики (раздел 19.26) исчезает.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>gamestate_bez_turtle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>@dataclass
+<span class="tok-kw">class</span> GameState:
+    snake: <span class="tok-fn">list</span>[Position]
+    <span class="tok-com"># объекты Turtle живут в SnakeApp, не в GameState</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab 18: Тик планирует сам себя, даже когда игра уже не RUNNING</div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>tik_planiruet_vsegda.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> _on_timer(self, generation):
+    <span class="tok-kw">if</span> generation != self._generation:
+        <span class="tok-kw">return</span>
+    self.game_tick()
+    self._schedule_next_tick()   <span class="tok-com"># без проверки статуса!</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После Game Over или паузы змейка выглядит остановленной,
+# но цепочка ontimer() продолжает тикать вхолостую в фоне.</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p><code class="inline">game_tick()</code> сама по себе безопасна — она просто ничего не делает при <code class="inline">status != RUNNING</code>. Но если следующий тик планируется БЕЗУСЛОВНО, цепочка никогда не остановится сама, продолжая впустую расходовать таймер даже после конца игры.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>tik_planiruet_esli_running.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> _on_timer(self, generation):
+    <span class="tok-kw">if</span> generation != self._generation:
+        <span class="tok-kw">return</span>
+    self.game_tick()
+    <span class="tok-kw">if</span> self.state.status <span class="tok-kw">is</span> GameStatus.RUNNING:
+        self._schedule_next_tick()</code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: находим баг «Змейки» по симптому</div>
+        <div class="nc-sub">Автоматическая проверка — для набора описанных симптомов выбираем правильную причину/исправление</div>
+        <div class="practice-inline-status" data-lesson-id="19-31"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/19-31/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-31"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-31"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="19-30-testiruem-pravila.html"><div class="dir">← Назад</div><div class="lbl">Тестируем правила</div></a><a href="19-32-snake-pro-itogi.html" class="next"><div class="dir">Далее →</div><div class="lbl">Snake Pro — итоги</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
