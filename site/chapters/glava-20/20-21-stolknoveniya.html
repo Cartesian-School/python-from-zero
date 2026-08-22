@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Столкновения и хитбоксы — Python с нуля — Cartesian School</title>
+<meta name="description" content="pygame.Rect.colliderect(), как устроена AABB-проверка пересечения прямоугольников и почему хитбокс не всегда совпадает с рисунком." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-21-stolknoveniya.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Столкновения и хитбоксы — Python с нуля — Cartesian School" />
+<meta property="og:description" content="pygame.Rect.colliderect(), как устроена AABB-проверка пересечения прямоугольников и почему хитбокс не всегда совпадает с рисунком." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-21-stolknoveniya.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Столкновения и хитбоксы — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="pygame.Rect.colliderect(), как устроена AABB-проверка пересечения прямоугольников и почему хитбокс не всегда совпадает с рисунком." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Столкновения и хитбоксы — Python с нуля — Cartesian School","description":"pygame.Rect.colliderect(), как устроена AABB-проверка пересечения прямоугольников и почему хитбокс не всегда совпадает с рисунком.","url":"https://www.cartesianschool.org/chapters/glava-20/20-21-stolknoveniya.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html" class="active">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Столкновения</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Столкновения и хитбоксы</h1>
+    <p class="lede">colliderect() под капотом — четыре сравнения чисел, а хитбокс не обязан совпадать с видимой картинкой пиксель в пиксель.</p>
+
+
+    <p>Столкновение — момент, когда два игровых объекта пересекаются в пространстве, и игра
+    должна на это отреагировать: мяч отскакивает от стены, персонаж подбирает монету, снаряд
+    поражает врага. У <code class="inline">pygame.Rect</code> для этого есть готовый метод:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>colliderect.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">if</span> igrok_rect.colliderect(vrag_rect):
+    <span class="tok-fn">print</span>(<span class="tok-str">&quot;Столкновение!&quot;</span>)</code></pre>
+    </div>
+
+    <h2>Как это устроено на самом деле</h2>
+    <p><code class="inline">colliderect()</code> проверяет пересечение двух прямоугольников,
+    выровненных по осям (AABB, axis-aligned bounding box) — метод, который под капотом сводится
+    к четырём простым сравнениям чисел:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>aabb_vruchnuyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> pryamougolniki_peresekayutsya(a, b):
+    ax1, ay1, aw, ah = a
+    bx1, by1, bw, bh = b
+    ax2, ay2 = ax1 + aw, ay1 + ah
+    bx2, by2 = bx1 + bw, by1 + bh
+    <span class="tok-kw">return</span> ax1 &lt; bx2 <span class="tok-kw">and</span> ax2 &gt; bx1 <span class="tok-kw">and</span> ay1 &lt; by2 <span class="tok-kw">and</span> ay2 &gt; by1</code></pre>
+    </div>
+    <p>Два прямоугольника <strong>не</strong> пересекаются, если один полностью левее, правее,
+    выше или ниже другого — проверка выше как раз убеждается, что ни одно из этих четырёх
+    условий не выполняется.</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/collision-overlap.png" alt="Реальное окно: голубой и жёлтый квадраты частично перекрываются — colliderect() возвращает True" width="380"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: перекрывающиеся прямоугольники — второй закрашен жёлтым, потому что colliderect() вернула True.</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/collision-no-overlap.png" alt="Реальное окно: голубой и красный квадраты далеко друг от друга — colliderect() возвращает False" width="380"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: прямоугольники не пересекаются — второй остался красным.</figcaption>
+    </figure>
+
+    <h2>Хитбокс — не всегда то же самое, что рисунок</h2>
+    <p>«Хитбокс» — прямоугольник (или другая фигура), который используется именно для проверки
+    столкновений, и он не обязан по размеру совпадать с видимым рисунком персонажа один в
+    один. У круглого мяча с прозрачными краями изображение обычно квадратное — если считать
+    столкновение по полному квадрату изображения, игрок будет видеть несправедливые «попадания
+    мимо» там, где на глаз ничего не коснулось.</p>
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Хитбокс не совпадает с картинкой — столкновения ощущаются &quot;нечестными&quot;</div>
+        <div class="callout-body">Частая причина: <code class="inline">Rect</code> берут напрямую из размера всего загруженного изображения, включая прозрачные поля вокруг самого персонажа. Решение — уменьшить хитбокс относительно видимой картинки, например через <code class="inline">rect.inflate(-10, -10)</code> (сжимает прямоугольник на 10 пикселей с каждой стороны), подобрав отступ на глаз под конкретный спрайт.</div>
+      </div>
+    </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/hitbox-vs-art.png" alt="Реальное окно: красный мяч с двумя рамками поверх — большой красной по границе изображения и меньшей зелёной внутри неё" width="380"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: красная рамка — полный размер изображения, зелёная — уменьшенный хитбокс, ближе к реальным видимым краям мяча.</figcaption>
+    </figure>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: проверка пересечения прямоугольников</div>
+        <div class="nc-sub">Проверяется прямо в браузере — установка Pygame не требуется</div>
+        <div class="practice-inline-status" data-lesson-id="20-21"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-21/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="20-20-vvod-sobytiya-sostoyanie.html"><div class="dir">← Назад</div><div class="lbl">Ввод: события и состояние</div></a><a href="20-22-prostaya-fizika.html" class="next"><div class="dir">Далее →</div><div class="lbl">Простая физика</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

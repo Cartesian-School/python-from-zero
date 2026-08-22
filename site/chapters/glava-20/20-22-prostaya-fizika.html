@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Простая физика — Python с нуля — Cartesian School</title>
+<meta name="description" content="Гравитация как накопление скорости, отскок с потерей энергии и трение — упрощённая, но рабочая аркадная физика." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-22-prostaya-fizika.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Простая физика — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Гравитация как накопление скорости, отскок с потерей энергии и трение — упрощённая, но рабочая аркадная физика." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-22-prostaya-fizika.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Простая физика — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Гравитация как накопление скорости, отскок с потерей энергии и трение — упрощённая, но рабочая аркадная физика." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Простая физика — Python с нуля — Cartesian School","description":"Гравитация как накопление скорости, отскок с потерей энергии и трение — упрощённая, но рабочая аркадная физика.","url":"https://www.cartesianschool.org/chapters/glava-20/20-22-prostaya-fizika.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html" class="active">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Простая физика</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Простая физика</h1>
+    <p class="lede">Гравитация — это накапливающаяся скорость, а не мгновенный прыжок координаты; отскок и трение добавляются той же логикой.</p>
+
+
+    <p>Мяч из раздела 20.5 меняет направление на противоположное при ударе о стену — это уже
+    простейшая физика. Добавим к ней ещё две идеи, которые чаще всего нужны в аркадных играх:
+    гравитацию и трение.</p>
+
+    <h2>Гравитация как накопление скорости</h2>
+    <p>Гравитация — это не «прибавить к Y большое число один раз», а постоянное, маленькое
+    ускорение, которое на каждом кадре немного увеличивает вертикальную скорость. Сама позиция
+    меняется уже за счёт этой скорости — с использованием delta time из раздела 20.16:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>gravitaciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>GRAVITACIYA = <span class="tok-num">900</span>     <span class="tok-com"># пикселей в секунду за секунду (ускорение)</span>
+
+skorost_y += GRAVITACIYA * dt   <span class="tok-com"># скорость растёт с каждым кадром</span>
+y += skorost_y * dt             <span class="tok-com"># позиция меняется за счёт накопленной скорости</span></code></pre>
+    </div>
+    <p>Именно поэтому в реальной жизни (и в играх с честной гравитацией) падение начинается
+    медленно и разгоняется — это прямое следствие постоянного накопления скорости, а не
+    настройки «скорость падения» одним числом.</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/gravity-fall-strip.png" alt="Три реальных окна рядом: оранжевый шарик падает всё быстрее сверху вниз" width="680"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: три момента одного и того же падения — расстояние между положениями растёт, потому что скорость накапливается.</figcaption>
+    </figure>
+
+    <h2>Отскок с потерей энергии</h2>
+    <p>Реальный мяч не отскакивает вечно с одной и той же высоты — часть энергии теряется при
+    ударе. В коде это одна дополнительная строка после разворота скорости:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>otskok_s_zatuhaniem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>POTERYA_PRI_UDARE = <span class="tok-num">0.8</span>   <span class="tok-com"># мяч сохраняет 80% скорости после отскока</span>
+
+<span class="tok-kw">if</span> y + radius &gt; VYSOTA:
+    y = VYSOTA - radius
+    skorost_y = -skorost_y * POTERYA_PRI_UDARE</code></pre>
+    </div>
+    <p>Без множителя затухания мяч отскакивал бы на одну и ту же высоту бесконечно — с ним же
+    высота отскоков естественно уменьшается с каждым ударом, пока мяч почти не остановится.</p>
+
+    <h2>Трение</h2>
+    <p>Трение работает похожим образом для горизонтального движения — на каждом кадре скорость
+    немного уменьшается по модулю (но не меняет знак), пока не станет равна нулю:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>trenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>TRENIE = <span class="tok-num">0.98</span>   <span class="tok-com"># скорость сохраняет 98% на каждом кадре</span>
+
+skorost_x *= TRENIE
+<span class="tok-kw">if</span> <span class="tok-fn">abs</span>(skorost_x) &lt; <span class="tok-num">0.5</span>:   <span class="tok-com"># слишком маленькая скорость — считаем, что объект остановился</span>
+    skorost_x = <span class="tok-num">0</span></code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Это не симулятор физики целиком</div>
+        <div class="callout-body">Настоящие физические движки (Box2D и похожие) решают гораздо более общую задачу — вращение, массу, трение между произвольными формами, столкновения многих тел сразу. Формулы этого раздела — упрощённая, но абсолютно рабочая модель именно для аркадных игр вроде тех, что вы пишете в этой главе, и понимание их — хорошая основа для перехода к настоящему физическому движку позже, если он понадобится.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: гравитация и отскок с затуханием</div>
+        <div class="nc-sub">Проверяется прямо в браузере — установка Pygame не требуется</div>
+        <div class="practice-inline-status" data-lesson-id="20-22"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-22/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="20-21-stolknoveniya.html"><div class="dir">← Назад</div><div class="lbl">Столкновения и хитбоксы</div></a><a href="20-23-animatsiya.html" class="next"><div class="dir">Далее →</div><div class="lbl">Анимация спрайт-листов</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

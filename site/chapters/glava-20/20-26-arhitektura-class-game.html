@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Архитектура: класс Game — Python с нуля — Cartesian School</title>
+<meta name="description" content="Каркас класса Game с методами handle_events, update(dt), render и run — профессиональная организация игрового цикла." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-26-arhitektura-class-game.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Архитектура: класс Game — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Каркас класса Game с методами handle_events, update(dt), render и run — профессиональная организация игрового цикла." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-26-arhitektura-class-game.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Архитектура: класс Game — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Каркас класса Game с методами handle_events, update(dt), render и run — профессиональная организация игрового цикла." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Архитектура: класс Game — Python с нуля — Cartesian School","description":"Каркас класса Game с методами handle_events, update(dt), render и run — профессиональная организация игрового цикла.","url":"https://www.cartesianschool.org/chapters/glava-20/20-26-arhitektura-class-game.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html" class="active">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Архитектура: класс Game</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Архитектура: класс Game</h1>
+    <p class="lede">Три фазы игрового цикла становятся тремя методами одного класса — тем же каркасом, что и у финального проекта этой главы и у следующей.</p>
+
+
+    <p>До сих пор весь код жил в глобальных переменных и одном плоском цикле — нормально для
+    учебного мини-проекта, но неудобно, как только игра обрастает состояниями (раздел 20.25),
+    несколькими объектами и хоть какой-то паузой. Соберём всё, что вы узнали в этой главе, в
+    один класс — тот самый архитектурный каркас, на котором построен финальный проект раздела
+    20.33 и космический шутер главы 21.</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 278" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Каждый метод отвечает ровно за одну фазу игрового цикла из раздела 20.14 — и не более того." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="278" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#5B24F9"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="16" fill="#fff">Game</text><line x1="10" y1="40" x2="270" y2="40" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="62">screen</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="90">clock</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="118">state</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="146">running</tspan></text><line x1="10" y1="156" x2="270" y2="156" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="178">handle_events()</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="206">update(dt)</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="234">render()</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="262">run()</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Каждый метод отвечает ровно за одну фазу игрового цикла из раздела 20.14 — и не более того.</figcaption></figure>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>class_game.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> Game:
+    <span class="tok-kw">def</span> __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((SHIRINA, VYSOTA))
+        self.clock = pygame.time.Clock()
+        self.state = SostoyanieIgry.MENU
+        self.running = <span class="tok-kw">True</span>
+
+    <span class="tok-kw">def</span> handle_events(self):
+        <span class="tok-kw">for</span> event <span class="tok-kw">in</span> pygame.event.get():
+            <span class="tok-kw">if</span> event.<span class="tok-kw">type</span> == pygame.QUIT:
+                self.running = <span class="tok-kw">False</span>
+            <span class="tok-kw">elif</span> event.<span class="tok-kw">type</span> == pygame.KEYDOWN <span class="tok-kw">and</span> event.key == pygame.K_p:
+                self.toggle_pause()
+
+    <span class="tok-kw">def</span> update(self, dt):
+        <span class="tok-kw">if</span> self.state <span class="tok-kw">is</span> <span class="tok-kw">not</span> SostoyanieIgry.IGRA:
+            <span class="tok-kw">return</span>   <span class="tok-com"># на паузе или в меню ничего не двигаем</span>
+        <span class="tok-com"># здесь — обновление позиций, столкновений, счёта</span>
+
+    <span class="tok-kw">def</span> render(self):
+        self.screen.fill((<span class="tok-num">20</span>, <span class="tok-num">20</span>, <span class="tok-num">40</span>))
+        <span class="tok-com"># здесь — отрисовка всех объектов текущего состояния</span>
+        pygame.display.flip()
+
+    <span class="tok-kw">def</span> run(self):
+        <span class="tok-kw">while</span> self.running:
+            dt = self.clock.tick(<span class="tok-num">60</span>) / <span class="tok-num">1000</span>
+            self.handle_events()
+            self.update(dt)
+            self.render()
+        pygame.quit()</code></pre>
+    </div>
+
+    <p><code class="inline">run()</code> — единственное место, где виден весь цикл целиком, и
+    он дословно повторяет три фазы из раздела 20.14: <code class="inline">handle_events()</code>
+    это Input, <code class="inline">update(dt)</code> это Update, <code class="inline">render()
+    </code> это Render. Именно так организован финальный <code class="inline">bouncing_ball.py
+    </code> (раздел 20.33) — и в этом же стиле в главе 21 написан космический шутер.</p>
+
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Пауза не останавливает управление</div>
+        <div class="callout-body">Если проверку <code class="inline">self.state is not SostoyanieIgry.IGRA</code> поставить только в <code class="inline">render()</code>, а не в <code class="inline">update()</code>, экран во время паузы визуально замрёт правильно — но объекты продолжат двигаться в памяти, и после снятия паузы игра "телепортируется" туда, куда они успели дойти незаметно для игрока. Проверка состояния должна стоять именно в <code class="inline">update()</code>, а не только в отрисовке.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: собираем класс Game</div>
+        <div class="nc-sub">Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="20-26">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-26/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-26"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-26"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="20-25-sostoyaniya-igry.html"><div class="dir">← Назад</div><div class="lbl">Состояния игры</div></a><a href="20-27-proizvoditelnost.html" class="next"><div class="dir">Далее →</div><div class="lbl">Производительность и бюджет кадра</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
