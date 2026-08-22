@@ -42,6 +42,7 @@ REQUIRED_NAMES = [
     "hover-preview-o",
     "scoreboard",
     "new-round",
+    "new-match",
     "adaptive-board-small",
     "adaptive-board-large",
     "adaptive-board-comparison",
@@ -73,6 +74,7 @@ def validate() -> list[str]:
     errors.extend(_validate_flowchart_terminal_semantics())
     errors.extend(_validate_object_diagram_width())
     errors.extend(_validate_winning_lines_layout())
+    errors.extend(_validate_visual_coverage())
     return errors
 
 
@@ -189,6 +191,30 @@ def _validate_adaptive_pair() -> list[str]:
             f"adaptive-board-comparison.png ({cw}x{ch}) ниже, чем более высокий исходный "
             f"скриншот ({max(sh, lh)}) — похоже, один из них был обрезан или уменьшен."
         )
+    return errors
+
+
+def _validate_visual_coverage() -> list[str]:
+    """Required game states must be visible on the lessons that teach them,
+    not merely generated and left unused in the asset directory."""
+    required_by_page = {
+        "17-13-model-sostoyaniya.html": ("x-turn.png", "o-turn.png", "mid-game.png"),
+        "17-15-algoritm-hoda.html": ("empty-board.png", "x-first-move.png"),
+        "17-17-pobeda-nichya-terminal.html": ("x-win.png", "o-win.png", "draw.png"),
+        "17-23-hover-preview.html": ("hover-preview-x.png", "hover-preview-o.png"),
+        "17-27-new-round-vs-new-match.html": ("new-round.png", "new-match.png"),
+        "17-21-adaptivnoe-pole.html": ("adaptive-board-comparison.png",),
+    }
+    errors = []
+    for page_name, image_names in required_by_page.items():
+        page_path = CHAPTER_DIR / page_name
+        if not page_path.exists():
+            errors.append(f"Отсутствует страница для проверки визуального покрытия: {page_name}")
+            continue
+        html_text = page_path.read_text(encoding="utf-8")
+        for image_name in image_names:
+            if image_name not in html_text:
+                errors.append(f"{page_name}: обязательный визуальный checkpoint {image_name} не показан.")
     return errors
 
 

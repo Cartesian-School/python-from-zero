@@ -82,12 +82,20 @@
         <div class="callout-body">Если кнопка «Новая игра» вызывает то, что обнуляет счёт — игроки теряют турнирный счёт после каждой партии. Если кнопка «Новый матч» не обнуляет счёт — старый счёт тянется в новый турнир. Названия функций должны отражать это различие однозначно.</div>
       </div>
     </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;align-items:start">
 
     <figure style="margin:24px 0">
-      <img src="../../assets/img/chapter-17/output/new-round.png" alt="Поле пустое, статус Ход игрока X, но счёт X:1 O:0 сохранён" width="320"
+      <img src="../../assets/img/chapter-17/output/new-round.png" alt="После New Round поле пустое, а счёт X:1 сохранён" width="320"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно полной версии игры: раунд сброшен после победы X, но счёт матча остался. Фрагмент выше показывает функции new_round()/new_match(), которые за это отвечают.</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно полной версии после new_round(): состояние раунда сброшено, счёт матча сохранён. Код выше — фрагмент методов полного приложения.</figcaption>
     </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/new-match.png" alt="После New Match поле пустое и весь счёт равен нулю" width="320"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно полной версии после new_match(): сброшены и раунд, и счёт X/O/ничьих. Код выше — фрагмент методов полного приложения.</figcaption>
+    </figure>
+    </div>
 
     <h2>Необязательное расширение: сохраняем счёт матча в JSON</h2>
     <p>Ниже показан только фрагмент — тело функции <code class="inline">save_scores()</code> из

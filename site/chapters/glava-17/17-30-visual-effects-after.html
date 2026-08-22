@@ -51,29 +51,29 @@
 
 
     <h2>Один ненавязчивый эффект — не фреймворк анимации</h2>
-    <p>После победы клетки выигрышной линии мягко мигают несколько раз — коротко и по делу,
-    не превращая книгу в курс по анимации. На реальном окне это выглядит как краткий переход
-    между базовой подсветкой победы и мягким accent-состоянием; сайт не может показать
+    <p>После победы клетки выигрышной линии один раз получают мягкий акцент и спокойно
+    возвращаются к постоянной подсветке. На реальном окне это выглядит как краткий переход
+    между accent-состоянием и базовой подсветкой победы; сайт не может показать
     видео-анимацию, поэтому ниже — три реальных кадра, а локальное приложение переключает их
     через <code class="inline">after()</code>.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:start">
 
     <figure style="margin:24px 0">
-      <img src="../../assets/img/chapter-17/output/win-pulse-step-0.png" alt="Тик 0: выигрышная линия в мягком accent-цвете (PULSE_BG)" width="260"
+      <img src="../../assets/img/chapter-17/output/win-pulse-step-0.png" alt="Начало эффекта: выигрышная линия в мягком accent-цвете PULSE_BG" width="260"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Тик 0 — PULSE_BG</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальный первый кадр: мягкий акцент PULSE_BG.</figcaption>
     </figure>
 
     <figure style="margin:24px 0">
-      <img src="../../assets/img/chapter-17/output/win-pulse-step-1.png" alt="Тик 1: выигрышная линия в базовом цвете подсветки (WIN_BG)" width="260"
+      <img src="../../assets/img/chapter-17/output/win-pulse-step-1.png" alt="Через 400 мс линия возвращается к постоянной подсветке WIN_BG" width="260"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Тик 1 — WIN_BG</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальный второй кадр: постоянная подсветка WIN_BG.</figcaption>
     </figure>
 
     <figure style="margin:24px 0">
-      <img src="../../assets/img/chapter-17/output/win-pulse-final.png" alt="После завершения пульса: линия остаётся в базовом цвете подсветки" width="260"
+      <img src="../../assets/img/chapter-17/output/win-pulse-final.png" alt="После эффекта линия остаётся в постоянном цвете подсветки" width="260"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">После пульса — settled</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Установившееся состояние полного приложения.</figcaption>
     </figure>
     </div>
     <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
@@ -84,11 +84,11 @@
       <pre><code><span class="tok-kw">def</span> pulse_winning_line(self, tick=<span class="tok-num">0</span>):
     <span class="tok-kw">if</span> <span class="tok-kw">not</span> self.state.winning_line:
         <span class="tok-kw">return</span>
-    color = PULSE_BG <span class="tok-kw">if</span> tick % <span class="tok-num">2</span> == <span class="tok-num">0</span> <span class="tok-kw">else</span> WIN_BG
+    color = PULSE_BG <span class="tok-kw">if</span> tick == <span class="tok-num">0</span> <span class="tok-kw">else</span> WIN_BG
     <span class="tok-kw">for</span> index <span class="tok-kw">in</span> self.state.winning_line:
         self.buttons[index].config(bg=color)
-    <span class="tok-kw">if</span> tick &lt; <span class="tok-num">5</span>:
-        self._pulse_job = self.root.after(<span class="tok-num">150</span>, self.pulse_winning_line, tick + <span class="tok-num">1</span>)
+    <span class="tok-kw">if</span> tick == <span class="tok-num">0</span>:
+        self._pulse_job = self.root.after(<span class="tok-num">400</span>, self.pulse_winning_line, <span class="tok-num">1</span>)
     <span class="tok-kw">else</span>:
         self._pulse_job = <span class="tok-kw">None</span></code></pre>
     </div>
@@ -117,8 +117,8 @@
 
     <div class="callout callout-tip">
       <div>
-        <div class="callout-title">Никакого time.sleep(), и эффект сознательно короткий</div>
-        <div class="callout-body">Пауза между тиками — 150 мс, всего 6 тиков (меньше секунды) — достаточно, чтобы победа была замечена, не превращая её в бесконечную анимацию. Это не проверенная гарантия комфорта для всех пользователей: частое мигание — тема стандартов доступности (например, WCAG), и если ваш проект должен им соответствовать, частоту и длительность стоит проверять и настраивать целенаправленно, а не полагаться на цифры из примера.</div>
+        <div class="callout-title">Никакого time.sleep(): один спокойный переход</div>
+        <div class="callout-body">Эффект не мигает серией: линия получает мягкий accent-цвет и через 400 мс остаётся в постоянной подсветке победы. Даже короткие эффекты должны быть ненавязчивыми и не отвлекать от статуса «Победил игрок X/O». Для продукта с формальными требованиями доступности параметры и возможность отключения эффектов проверяют отдельно.</div>
       </div>
     </div>
 

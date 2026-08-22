@@ -599,7 +599,7 @@ winner, line = find_winner(state.board)
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
         <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 18: Голый &lt;Button-1&gt; вместо command= ломает клавиатурную активацию</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 18: Голый &lt;Button-1&gt; подменяет семантическое действие Button</div>
       </div>
       <div style="padding:0 20px">
 
@@ -612,11 +612,11 @@ winner, line = find_winner(state.board)
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code># Мышь работает нормально.
-# Но Tab + Enter/пробел на сфокусированной кнопке — ничего не делает.</code></pre>
+        line-height:1.7"><code># Обработчик связан только с конкретным событием мыши.
+# Основное действие Button больше не описано через command=.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Раздел 17.10: <code class="inline">command=</code> — семантическая активация, которая срабатывает и по клику, и по клавиатуре у сфокусированного виджета. Голая привязка мыши реагирует ТОЛЬКО на клик — доступность с клавиатуры молча теряется.</p>
+        <p>Раздел 17.10: <code class="inline">command=</code> описывает основное действие Button, а встроенное поведение класса виджета решает, какие способы активации его вызывают. Конкретные клавиши зависят от вида Button, темы и платформы. Голая привязка <code class="inline">&lt;Button-1&gt;</code> знает только о клике мышью и обходит эту семантику — поэтому не используйте её вместо command по умолчанию.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
@@ -662,11 +662,11 @@ winner, line = find_winner(state.board)
     <div class="code-block">
       <div class="code-label"><span>after_fixed.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">def</span> pulse_winning_line(self, tick=<span class="tok-num">0</span>):
-    color = PULSE_BG <span class="tok-kw">if</span> tick % <span class="tok-num">2</span> == <span class="tok-num">0</span> <span class="tok-kw">else</span> WIN_BG
+    color = PULSE_BG <span class="tok-kw">if</span> tick == <span class="tok-num">0</span> <span class="tok-kw">else</span> WIN_BG
     <span class="tok-kw">for</span> i <span class="tok-kw">in</span> self.state.winning_line:
         self.buttons[i].config(bg=color)
-    <span class="tok-kw">if</span> tick &lt; <span class="tok-num">5</span>:
-        self.root.after(<span class="tok-num">150</span>, self.pulse_winning_line, tick + <span class="tok-num">1</span>)</code></pre>
+    <span class="tok-kw">if</span> tick == <span class="tok-num">0</span>:
+        self.root.after(<span class="tok-num">400</span>, self.pulse_winning_line, <span class="tok-num">1</span>)</code></pre>
     </div>
       </div>
     </div>

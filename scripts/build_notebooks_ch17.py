@@ -1129,7 +1129,7 @@ print("status_fixed() находит победителя там, где status_
 def build_30() -> None:
     nb = NotebookBuilder()
     nb.md(_lesson_link("17-30", "Visual effects и after()", "17-30-visual-effects-after.html"))
-    nb.md("## Цель\n\nСобрать короткую неблокирующую анимацию победной линии через self-rescheduling after().")
+    nb.md("## Цель\n\nСобрать один спокойный неблокирующий переход победной линии через after().")
     nb.md(MAINLOOP_NOTE_MD)
     nb.md("## Рабочий пример")
     nb.code('''import tkinter as tk
@@ -1143,15 +1143,15 @@ ticks_seen = []
 
 def pulse(tick=0):
     ticks_seen.append(tick)
-    color = "#6EE7B7" if tick % 2 == 0 else "#D1FAE5"
+    color = "#6EE7B7" if tick == 0 else "#D1FAE5"
     for b in buttons:
         b.config(bg=color)
-    if tick < 3:
-        root.after(10, pulse, tick + 1)
+    if tick == 0:
+        root.after(400, pulse, 1)
 
 pulse()
 root.update()
-root.after(80, root.quit)
+root.after(500, root.quit)
 root.mainloop()
 
 print("Тиков анимации:", ticks_seen)
