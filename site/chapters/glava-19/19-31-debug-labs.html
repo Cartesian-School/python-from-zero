@@ -132,7 +132,7 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
         <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 3: Busy-цикл не даёт добавить паузу</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 3: Busy-цикл усложняет паузу и скорость</div>
       </div>
       <div style="padding:0 20px">
 
@@ -140,17 +140,19 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
       <div class="code-label"><span>busy_loop.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">while</span> igrovoj_shag():
     screen.update()
-<span class="tok-com"># пока цикл не закончится, программа не может сделать ничего другого</span></code></pre>
+<span class="tok-com"># цикл сам решает, когда именно проверять события — паузу, скорость</span>
+<span class="tok-com"># и перезапуск приходится вручную вплетать в его тело</span></code></pre>
     </div>
 
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code># Нажатие Space во время игры никак не влияет на неё —
-# обработчик паузы просто не успевает выполниться, пока while не закончится.</code></pre>
+        line-height:1.7"><code># Игра не умеет ставиться на паузу: событие обрабатывается,
+# но цикл ничего не проверяет и продолжает крутиться дальше.
+# Заметна и постоянная нагрузка на процессор — цикл не отдыхает между тиками.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Раздел 19.13 разбирал это подробно: <code class="inline">while</code> занимает программу целиком. <code class="inline">screen.ontimer()</code> возвращает управление между тиками — только тогда события клавиатуры успевают обработаться.</p>
+        <p>Раздел 19.13 разбирал это подробно: <code class="inline">screen.update()</code> внутри <code class="inline">while</code> ДЕЙСТВИТЕЛЬНО обрабатывает события Tkinter, включая нажатия клавиш, — обработчик паузы технически может сработать. Но сам цикл не спрашивает, нужно ли ему остановиться: паузу, скорость и перезапуск пришлось бы вручную проверять на каждой итерации. <code class="inline">screen.ontimer()</code> устроен иначе: каждый тик — это отдельный запланированный вызов, а не итерация одного бесконечного цикла, и решение «делать следующий тик или нет» принимается один раз, явно, а не проверяется заново внутри while.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 

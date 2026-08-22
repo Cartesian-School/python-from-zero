@@ -105,15 +105,15 @@
     <div class="capability-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:24px 0">
       <div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:16px 18px">
         <div style="font-family:Sora,sans-serif;font-weight:700;color:#5B24F9;margin-bottom:8px">МОДЕЛЬ</div>
-        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>GameState — snake, direction, food, score, status, delay_ms, без Turtle внутри</li><li>чистые функции правил — next_head, move_snake, is_wall_collision, is_self_collision, choose_food, calculate_delay</li><li>новая голова + старое тело вместо цикла по сегментам</li></ul>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>GameState — snake, direction, food: Position | None, score, status, delay_ms, без Turtle внутри</li><li>чистые функции правил — next_head, move_snake, is_wall_collision, is_self_collision, choose_food, calculate_delay</li><li>новая голова + старое тело вместо цикла по сегментам</li></ul>
       </div>
       <div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:16px 18px">
         <div style="font-family:Sora,sans-serif;font-weight:700;color:#5B24F9;margin-bottom:8px">ЦИКЛ</div>
-        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>тик через screen.ontimer(), без busy-цикла и time.sleep()</li><li>клавиатура запрашивает направление, тик его применяет</li><li>поколение (generation) защищает от параллельных цепочек тиков</li></ul>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>тик через screen.ontimer(), без busy-цикла и time.sleep()</li><li>клавиатура запрашивает направление, тик его применяет</li><li>поколение (generation) инвалидируется сразу и при паузе, и при возобновлении — не только при restart()</li><li>ровно одна активная цепочка тиков в любой момент времени</li></ul>
       </div>
       <div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:16px 18px">
         <div style="font-family:Sora,sans-serif;font-weight:700;color:#5B24F9;margin-bottom:8px">ФУНКЦИИ ИГРЫ</div>
-        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>pause/resume без пересоздания змейки</li><li>restart с сохранением рекорда</li><li>скорость растёт вместе со счётом, не опускаясь ниже минимума</li></ul>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6"><li>pause/resume без пересоздания змейки</li><li>restart с сохранением рекорда</li><li>скорость растёт вместе со счётом, не опускаясь ниже минимума</li><li>заполненное поле — явный GameStatus.WON, а не еда внутри змейки</li><li>HUD — отдельная полоса над полем, а не поверх легальных клеток</li></ul>
       </div>
       <div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:16px 18px">
         <div style="font-family:Sora,sans-serif;font-weight:700;color:#5B24F9;margin-bottom:8px">ТЕСТИРОВАНИЕ</div>
