@@ -133,10 +133,6 @@ def build_opener() -> None:
         "координаты, несколько черепашек и clone(), отладка графики — и четыре мини-проекта, "
         "включая часы и координатную мишень.",
         meta_items=["⏱ ~5–6 часов", "💻 модуль turtle", "📓 22 практики", "🖼 реальные результаты у каждого примера"],
-        brand_html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
-        f'<img src="{IMG}/brand/python-logo-mark.svg" alt="Python" width="30" height="30" style="display:block" />'
-        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--blue-300);'
-        'letter-spacing:.03em">Официальный логотип Python — использован для идентификации языка</span></div>',
         sections=[
             ChapterSectionLink("7.1", "Экран как графическая система", "07-01-nastraivaem-ekran.html", "107"),
             ChapterSectionLink("7.2", "colormode и цвет", "07-10-colormode-i-cvet.html", "109"),

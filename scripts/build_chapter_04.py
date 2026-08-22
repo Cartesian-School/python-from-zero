@@ -109,10 +109,6 @@ def build_opener() -> None:
         "почему 0.1 + 0.2 не равно 0.3, округление, Decimal, Fraction, complex, math, "
         "random/secrets, statistics — и несколько мини-проектов.",
         meta_items=["⏱ ~4 часа", "🔢 int, float, complex, Decimal, Fraction", "📓 22 практики"],
-        brand_html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
-        f'<img src="{IMG}/brand/python-logo-mark.svg" alt="Python" width="30" height="30" style="display:block" />'
-        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--blue-300);'
-        'letter-spacing:.03em">Официальный логотип Python — использован для идентификации языка</span></div>',
         sections=[
             ChapterSectionLink("4.1", "Что такое число для компьютера", "04-01-chisla-i-peremennye.html", "39"),
             ChapterSectionLink("4.2", "int — целые числа без страха", "04-06-int-glubzhe.html", ""),
