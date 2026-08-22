@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Финальный проект — Мяч Pro. Итоги — Python с нуля — Cartesian School</title>
+<meta name="description" content="Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Финальный проект — Мяч Pro. Итоги — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Финальный проект — Мяч Pro. Итоги — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Финальный проект — Мяч Pro. Итоги — Python с нуля — Cartesian School","description":"Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы.","url":"https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html" class="active">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Финальный проект</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Финальный проект — прыгающий мяч Pro</h1>
+    <p class="lede">Тот же мяч, что и в разделе 20.5 — но теперь с архитектурой, которая переживёт рост проекта в нечто большее, чем один файл.</p>
+
+
+    <p>Вернёмся к прыгающему мячу из раздела 20.5 в последний раз — но теперь пересоберём его
+    заново, применив всё, что глава добавила по пути: архитектуру класса
+    <code class="inline">Game</code> (раздел 20.26), движение через delta time (раздел 20.16) и
+    явные состояния игры (раздел 20.25).</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg viewBox="0 0 280 208" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами." style="display:block;width:100%;height:auto"><rect x="10" y="0" width="260" height="208" rx="14" fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/><path d="M10,14 a14,14 0 0 1 14,-14 h232 a14,14 0 0 1 14,14 v26 h-260 z" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">myach : BouncingBallGame</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">state = </tspan>SostoyanieIgry.IGRA</text><text x="26" y="100" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">x, y = </tspan>312.4, 188.9</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">vx, vy = </tspan>180.0, -95.0…</text><text x="26" y="146" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"># пикселей в секунду</text><text x="26" y="174" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">otskokov = </tspan>7</text><text x="26" y="202" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">schet = </tspan>140</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами.</figcaption></figure>
+
+    <h2>Что изменилось по сравнению с версией 20.5</h2>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th></th><th>bouncing_ball_basic.py (20.5)</th><th>bouncing_ball.py (эта версия, Pro)</th></tr></thead>
+      <tbody><tr><td>Организация кода</td><td>Глобальные переменные, плоские функции</td><td>Класс Game с методами handle_events/update/render/run</td></tr><tr><td>Движение</td><td>x += dx за кадр — зависит от FPS</td><td>x += vx * dt — не зависит от FPS (раздел 20.16)</td></tr><tr><td>Пауза</td><td>Нет</td><td>Есть, останавливает update(), не только отрисовку</td></tr><tr><td>Рестарт</td><td>Нет — нужно перезапускать программу</td><td>Клавишей, без перезапуска процесса</td></tr><tr><td>Счёт</td><td>Нет</td><td>Счёт очков и счётчик отскоков</td></tr><tr><td>Взаимодействие мышью</td><td>Нет</td><td>Клик мышью — необязательный лёгкий толчок мячу</td></tr></tbody>
+    </table>
+    </div>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>bouncing_ball_pro_fragment.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">class</span> BouncingBallGame:
+    <span class="tok-kw">def</span> __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((SHIRINA, VYSOTA))
+        self.clock = pygame.time.Clock()
+        self.state = SostoyanieIgry.IGRA
+        self.running = <span class="tok-kw">True</span>
+        self._reset_myach()
+
+    <span class="tok-kw">def</span> update(self, dt):
+        <span class="tok-kw">if</span> self.state <span class="tok-kw">is</span> <span class="tok-kw">not</span> SostoyanieIgry.IGRA:
+            <span class="tok-kw">return</span>
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+        <span class="tok-kw">if</span> self.x - RADIUS &lt; <span class="tok-num">0</span> <span class="tok-kw">or</span> self.x + RADIUS &gt; SHIRINA:
+            self.vx = -self.vx
+            self.otskokov += <span class="tok-num">1</span>
+        <span class="tok-kw">if</span> self.y - RADIUS &lt; <span class="tok-num">0</span> <span class="tok-kw">or</span> self.y + RADIUS &gt; VYSOTA:
+            self.vy = -self.vy
+            self.otskokov += <span class="tok-num">1</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/bouncing-ball-pro-hud.png" alt="Реальное окно: красный мяч на тёмно-синем поле, вверху слева текст «Счёт: 90 Отскоков: 9»" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: финальная Pro-версия во время игры — счёт и число отскоков растут вместе, как и должны по правилу из счёта очков.</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/bouncing-ball-pro-paused.png" alt="Реальное окно: тот же мяч и счёт, поверх — жёлтая надпись «ПАУЗА — P, чтобы продолжить» по центру экрана" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: состояние ПАУЗА — оверлей поверх замершего кадра, ровно то же положение мяча, что и до нажатия паузы.</figcaption>
+    </figure>
+    <p>Полный, уже проверенный файл — отдельно:</p>
+    <p><svg class="cs-icon cs-icon--file" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-file"></use></svg> <a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">projects/pygame/bouncing-ball/bouncing_ball.py</a></p>
+
+
+    <div class="exercise">
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Столкновение мяча с мячом</div>
+      <p>Добавьте второй мяч и столкновение между двумя мячами через colliderect() (раздел 20.21), а не только со стенами.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-stars">★★★ Задача повышенной сложности</div>
+      <div class="exercise-title">Меню и Game Over</div>
+      <p>Добавьте состояния MENU и GAME_OVER (раздел 20.25): игра стартует в MENU по нажатию клавиши, а после определённого числа отскоков переходит в GAME_OVER с финальным счётом на экране.</p>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: собираем финальную Pro-версию</div>
+        <div class="nc-sub">Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="20-33">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-33/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-33"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-33"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+    <h2 id="itogi">Итоги главы</h2>
+
+    <div class="summary-box">
+      <h3>Что мы узнали в этой главе</h3>
+      <ul><li>Pygame — библиотека, а не движок: она даёт окно, отрисовку, ввод и звук, а структуру игры вы строите сами (раздел 20.8).</li><li>Разработка игр — целый мир ролей, жанров и платформ, и Pygame уверенно закрывает прежде всего десктоп, а веб и мобильные — через отдельные инструменты сообщества (разделы 20.6–20.13, 20.29–20.31).</li><li>Игровой цикл — это Input → Update → Render, повторяемые десятки раз в секунду (раздел 20.14).</li><li>Движение в «пикселях за кадр» зависит от чужого железа; движение через delta time — нет (раздел 20.16).</li><li>pygame.Rect и colliderect() — основа столкновений, а хитбокс не обязан совпадать с рисунком (раздел 20.21).</li><li>Явные состояния игры (enum) и класс Game с методами handle_events/update/render/run — архитектура, на которой строится любая игра крупнее одного мини-проекта (разделы 20.25–20.26).</li></ul>
+    </div>
+
+
+    <div class="section-nav"><a href="20-32-karyera-v-gejmdeve.html"><div class="dir">← Назад</div><div class="lbl">Карьера в геймдеве</div></a><a href="../glava-21/index.html" class="next"><div class="dir">Далее →</div><div class="lbl">Глава 21: Проект: космический шутер с Pygame</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

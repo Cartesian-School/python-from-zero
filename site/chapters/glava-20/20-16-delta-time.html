@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Delta time — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему движение, привязанное к кадрам, ломается на разных устройствах, и как delta time решает эту проблему." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-16-delta-time.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Delta time — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему движение, привязанное к кадрам, ломается на разных устройствах, и как delta time решает эту проблему." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-16-delta-time.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Delta time — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему движение, привязанное к кадрам, ломается на разных устройствах, и как delta time решает эту проблему." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Delta time — Python с нуля — Cartesian School","description":"Почему движение, привязанное к кадрам, ломается на разных устройствах, и как delta time решает эту проблему.","url":"https://www.cartesianschool.org/chapters/glava-20/20-16-delta-time.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html" class="active">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Delta time</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Delta time</h1>
+    <p class="lede">Скорость в «пикселях за кадр» зависит от чужого железа. Скорость в «пикселях за секунду», умноженная на delta time, — нет.</p>
+
+
+    <p>В мини-проекте раздела 20.5 мяч двигался так: <code class="inline">x += dx</code> на
+    каждом кадре. Это работает — но только пока FPS постоянен. У этого подхода есть скрытая
+    проблема, которая рано или поздно проявляется на реальных устройствах.</p>
+
+    <h2>Проблема: движение, привязанное к кадрам</h2>
+    <p>Если <code class="inline">dx</code> — это «пикселей за кадр», то итоговая скорость мяча
+    в пикселях за <em>секунду</em> напрямую зависит от того, сколько кадров успевает пройти за
+    секунду на конкретном устройстве. На мощном компьютере с 120 FPS мяч пролетит экран вдвое
+    быстрее, чем на слабом устройстве с 60 FPS — при абсолютно одинаковом коде. Игра, которая
+    ощущается правильно на компьютере разработчика, может оказаться невыносимо быстрой или
+    медленной у игрока с другим железом.</p>
+
+    <h2>Решение: delta time</h2>
+    <p><strong>Delta time</strong> (сокращённо <code class="inline">dt</code>) — время, реально
+    прошедшее с предыдущего кадра, в секундах. <code class="inline">clock.tick(FPS)</code> не
+    только ограничивает частоту кадров, но и <em>возвращает</em> число миллисекунд, которые он
+    прождал:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>delta_time.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>clock = pygame.time.Clock()
+
+<span class="tok-kw">while</span> rabotaet:
+    dt_ms = clock.tick(FPS)     <span class="tok-com"># сколько миллисекунд прошло с прошлого кадра</span>
+    dt = dt_ms / <span class="tok-num">1000</span>           <span class="tok-com"># переводим в секунды</span>
+
+    x += skorost_x * dt         <span class="tok-com"># skorost_x теперь в пикселях за СЕКУНДУ, не за кадр</span></code></pre>
+    </div>
+    <p>Теперь <code class="inline">skorost_x</code> означает «пикселей в секунду» — величину,
+    не зависящую от FPS вообще. На 30, 60 или 120 кадрах в секунду мяч за одну и ту же реальную
+    секунду пройдёт одно и то же расстояние: на медленном устройстве шаг каждого кадра будет
+    крупнее, на быстром — мельче, но их сумма за секунду останется одинаковой.</p>
+
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Спутали миллисекунды и секунды</div>
+        <div class="callout-body"><code class="inline">clock.tick(FPS)</code> возвращает время в <strong>миллисекундах</strong>, а не в секундах. Если забыть разделить на 1000, скорость в коде окажется завышена ровно в тысячу раз — персонаж улетает за пределы экрана за один кадр. Это одна из самых частых ошибок при первом переходе на delta time, и симптом у неё всегда один и тот же: движение внезапно становится "телепортацией".</div>
+      </div>
+    </div>
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Диагональное движение быстрее осевого</div>
+        <div class="callout-body">Если персонаж одновременно двигается и по X, и по Y на полную скорость (<code class="inline">x += v * dt</code> и <code class="inline">y += v * dt</code> одновременно), то по диагонали он на самом деле перемещается в √2 ≈ 1.41 раза быстрее, чем строго по одной оси — обе составляющие складываются геометрически. Правильное решение — нормализовать вектор направления (привести его длину к 1) перед умножением на скорость, чтобы общая скорость оставалась одинаковой в любом направлении.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: движение, независимое от FPS</div>
+        <div class="nc-sub">Проверяется прямо в браузере — установка Pygame не требуется</div>
+        <div class="practice-inline-status" data-lesson-id="20-16"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-16/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="20-15-fps-i-vremya-kadra.html"><div class="dir">← Назад</div><div class="lbl">Кадры в секунду и время кадра</div></a><a href="20-17-surface.html" class="next"><div class="dir">Далее →</div><div class="lbl">Surface</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

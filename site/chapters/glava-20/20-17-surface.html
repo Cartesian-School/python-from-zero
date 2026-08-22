@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Surface: во что мы рисуем — Python с нуля — Cartesian School</title>
+<meta name="description" content="pygame.Surface, blit() как основная операция композиции, colorkey и per-pixel alpha прозрачность." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-17-surface.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Surface: во что мы рисуем — Python с нуля — Cartesian School" />
+<meta property="og:description" content="pygame.Surface, blit() как основная операция композиции, colorkey и per-pixel alpha прозрачность." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-17-surface.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Surface: во что мы рисуем — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="pygame.Surface, blit() как основная операция композиции, colorkey и per-pixel alpha прозрачность." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Surface: во что мы рисуем — Python с нуля — Cartesian School","description":"pygame.Surface, blit() как основная операция композиции, colorkey и per-pixel alpha прозрачность.","url":"https://www.cartesianschool.org/chapters/glava-20/20-17-surface.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html" class="active">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Surface</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Surface: во что мы рисуем</h1>
+    <p class="lede">Экран — это Surface, и можно создавать другие Surface в памяти, а потом наносить их друг на друга через blit().</p>
+
+
+    <p><code class="inline">screen</code>, который вы получаете из
+    <code class="inline">pygame.display.set_mode()</code>, — это объект типа
+    <code class="inline">pygame.Surface</code>: прямоугольная область пикселей, на которой можно
+    рисовать. Экран — не единственная Surface в игре: можно создавать дополнительные
+    поверхности в памяти и работать с ними точно так же.</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>sozdanie_surface.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># Дополнительная поверхность 100x100, отдельная от экрана</span>
+sprajt = pygame.Surface((<span class="tok-num">100</span>, <span class="tok-num">100</span>))
+sprajt.fill((<span class="tok-num">255</span>, <span class="tok-num">100</span>, <span class="tok-num">100</span>))
+
+<span class="tok-com"># Наносим (blit) содержимое sprajt поверх экрана в точке (50, 50)</span>
+screen.blit(sprajt, (<span class="tok-num">50</span>, <span class="tok-num">50</span>))</code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/surface-blit-demo.png" alt="Реальное окно: розовый квадрат 100×100 нанесён поверх тёмно-синего фона в точке (50, 50)" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: результат screen.blit(sprajt, (50, 50)) — вторая Surface нанесена ровно в указанную точку.</figcaption>
+    </figure>
+    <p><code class="inline">blit()</code> — основная операция композиции в Pygame: «нарисовать
+    содержимое одной Surface поверх другой в заданной точке». Загруженное изображение
+    (<code class="inline">pygame.image.load()</code>, раздел 20.19) — это тоже Surface, и на
+    экран оно попадает тем же самым вызовом <code class="inline">blit()</code>.</p>
+
+    <h2>Прозрачность</h2>
+    <p>У Surface есть два разных способа задать прозрачность. Первый — <strong>colorkey</strong>:
+    один конкретный цвет объявляется «прозрачным» и не рисуется вовсе (полезно для простой
+    спрайтовой графики без сглаженных краёв). Второй — <strong>per-pixel alpha</strong>: у
+    каждого пикселя своя степень прозрачности, что даёт мягкие полупрозрачные края, но требует
+    изображения в формате с альфа-каналом (обычно PNG) и поверхности, созданной с флагом
+    <code class="inline">pygame.SRCALPHA</code>.</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/surface-alpha-demo.png" alt="Реальное окно: полупрозрачный красный слой поверх чёрного фона выглядит тёмно-бордовым, а не чистым красным" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: per-pixel alpha в действии — итоговый цвет это смесь фона и полупрозрачного слоя, а не чистый цвет слоя.</figcaption>
+    </figure>
+
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Экран не залит — остаются &quot;следы&quot; от предыдущего кадра</div>
+        <div class="callout-body">Если пропустить <code class="inline">screen.fill(...)</code> в начале кадра, новая отрисовка просто накладывается на предыдущую — движущийся объект оставляет за собой шлейф из старых позиций вместо чистого кадра. Обратная ошибка — вызвать <code class="inline">fill()</code>, но забыть <code class="inline">pygame.display.flip()</code>: тогда нарисованный кадр так и останется невидимым, а окно будет показывать сплошной чёрный (или ранее залитый) цвет.</div>
+      </div>
+    </div>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/debug-missing-fill-trail.png" alt="Реальное окно: цепочка красных кругов остаётся на экране, потому что фон между кадрами ни разу не был перезалит" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: намеренно воспроизведённый баг «забыли screen.fill()» — каждый новый круг остаётся поверх предыдущих.</figcaption>
+    </figure>
+
+    <div class="callout callout-debug">
+      <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+      <div>
+        <div class="callout-title">Прозрачность &quot;потерялась&quot; после загрузки изображения</div>
+        <div class="callout-body">Изображение с альфа-каналом теряет прозрачность, если загрузить его <code class="inline">pygame.image.load()</code> без последующего <code class="inline">.convert_alpha()</code> — без этого вызова Pygame может трактовать картинку как непрозрачную поверхность, и её края отрисуются со случайным фоновым цветом вместо мягкого перехода.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: Surface, blit и прозрачность</div>
+        <div class="nc-sub">Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="20-17">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/20-17/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["20-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="20-17"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="20-16-delta-time.html"><div class="dir">← Назад</div><div class="lbl">Delta time</div></a><a href="20-18-rect-i-koordinaty.html" class="next"><div class="dir">Далее →</div><div class="lbl">Rect и система координат</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

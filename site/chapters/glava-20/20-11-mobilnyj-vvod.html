@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Мобильный геймдев: экран и ввод — Python с нуля — Cartesian School</title>
+<meta name="description" content="Тачскрин, мультитач, виртуальные элементы управления и абстракция игрового действия для мобильной разработки." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-11-mobilnyj-vvod.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Мобильный геймдев: экран и ввод — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Тачскрин, мультитач, виртуальные элементы управления и абстракция игрового действия для мобильной разработки." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-11-mobilnyj-vvod.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Мобильный геймдев: экран и ввод — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Тачскрин, мультитач, виртуальные элементы управления и абстракция игрового действия для мобильной разработки." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Мобильный геймдев: экран и ввод — Python с нуля — Cartesian School","description":"Тачскрин, мультитач, виртуальные элементы управления и абстракция игрового действия для мобильной разработки.","url":"https://www.cartesianschool.org/chapters/glava-20/20-11-mobilnyj-vvod.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 20 · Pygame</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="20-01-chto-takoe-pygame.html">Что такое Pygame? Установка</a></li><li><a href="20-02-igrovoj-ekran.html">Игровой экран</a></li><li><a href="20-03-personazhi.html">Создаём персонажей</a></li><li><a href="20-04-peremeshenie-klavishi.html">Перемещаем персонажей. Клавиши</a></li><li><a href="20-05-mini-proekt-myach-itogi.html">Мини-проект: прыгающий мяч</a></li><li><a href="20-06-mir-gejmdeva.html">Мир разработки игр</a></li><li><a href="20-07-zhanry-igr.html">Жанры игр</a></li><li><a href="20-08-dvizhok-ili-biblioteka.html">Движок, фреймворк, библиотека</a></li><li><a href="20-09-platformy-desktop-konsoli.html">Платформы: десктоп и консоли</a></li><li><a href="20-10-platformy-veb-oblako.html">Платформы: веб, XR, облако</a></li><li><a href="20-11-mobilnyj-vvod.html" class="active">Мобильный геймдев: экран и ввод</a></li><li><a href="20-12-mobilnyj-ekran.html">Мобильный геймдев: ориентация и DPI</a></li><li><a href="20-13-mobilnyj-realnost.html">Мобильный геймдев: суровая реальность</a></li><li><a href="20-14-igrovoj-cikl.html">Игровой цикл: Input → Update → Render</a></li><li><a href="20-15-fps-i-vremya-kadra.html">Кадры в секунду и время кадра</a></li><li><a href="20-16-delta-time.html">Delta time</a></li><li><a href="20-17-surface.html">Surface: во что мы рисуем</a></li><li><a href="20-18-rect-i-koordinaty.html">Rect и система координат</a></li><li><a href="20-19-sprajty-i-assety.html">Спрайты и ассеты</a></li><li><a href="20-20-vvod-sobytiya-sostoyanie.html">Ввод: события и состояние</a></li><li><a href="20-21-stolknoveniya.html">Столкновения и хитбоксы</a></li><li><a href="20-22-prostaya-fizika.html">Простая физика</a></li><li><a href="20-23-animatsiya.html">Анимация спрайт-листов</a></li><li><a href="20-24-zvuk.html">Звук и музыка</a></li><li><a href="20-25-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="20-26-arhitektura-class-game.html">Архитектура: класс Game</a></li><li><a href="20-27-proizvoditelnost.html">Производительность и бюджет кадра</a></li><li><a href="20-28-otladka-igr.html">Отладка игр</a></li><li><a href="20-29-upakovka-desktop.html">Упаковка для рабочего стола</a></li><li><a href="20-30-publikatsiya-veb.html">Публикация в браузере</a></li><li><a href="20-31-mobilnye-konsolnye-sborki.html">Мобильные и консольные сборки</a></li><li><a href="20-32-karyera-v-gejmdeve.html">Карьера в геймдеве</a></li><li><a href="20-33-finalnyj-proekt-myach-pro.html">Финальный проект: Мяч Pro. Итоги</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/20-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-02: Практика</a></li><li><a href="../../practice/20-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-03: Практика</a></li><li><a href="../../practice/20-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-04: Практика</a></li><li><a href="../../practice/20-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-05: Практика</a></li><li><a href="../../practice/20-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-14: Практика</a></li><li><a href="../../practice/20-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-15: Практика</a></li><li><a href="../../practice/20-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-16: Практика</a></li><li><a href="../../practice/20-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-17: Практика</a></li><li><a href="../../practice/20-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-18: Практика</a></li><li><a href="../../practice/20-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-19: Практика</a></li><li><a href="../../practice/20-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-20: Практика</a></li><li><a href="../../practice/20-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-21: Практика</a></li><li><a href="../../practice/20-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-22: Практика</a></li><li><a href="../../practice/20-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-23: Практика</a></li><li><a href="../../practice/20-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-24: Практика</a></li><li><a href="../../practice/20-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-25: Практика</a></li><li><a href="../../practice/20-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-26: Практика</a></li><li><a href="../../practice/20-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-27: Практика</a></li><li><a href="../../practice/20-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-28: Практика</a></li><li><a href="../../practice/20-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 20-33: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball_basic.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball_basic.py — первый прототип (20.5)</a></li><li><a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> bouncing_ball.py — финальная версия Pro (20.33)</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 20</a> / Мобильный геймдев: ввод</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 20 · Станьте разработчиком игр с Pygame</div>
+    <h1>Мобильный геймдев: экран и ввод</h1>
+    <p class="lede">На мобильном устройстве нет клавиатуры и мыши — есть палец на стекле, и это меняет правила ввода целиком.</p>
+
+
+    <p>Мобильные устройства — крупнейшая по числу игроков платформа в мире, и у неё принципиально
+    другой способ ввода: нет клавиатуры, нет мыши, вместо этого — палец на стекле. Начнём с
+    того, как устроен тачскрин.</p>
+
+    <h2>Тачскрин и мультитач</h2>
+    <p>Прикосновение к экрану устройство сообщает игре примерно так же, как Pygame сообщает о
+    клавише — событием с координатами. Ключевая разница в том, что у экрана может быть сразу
+    <strong>несколько</strong> одновременных точек касания (мультитач) — например, один палец
+    двигает персонажа, а другой в это же время нажимает кнопку стрельбы. В настольном Pygame
+    у события мыши всегда одна точка и одна кнопка; в мобильной разработке приходится с самого
+    начала проектировать под несколько независимых точек касания сразу.</p>
+
+    <h2>Виртуальные элементы управления</h2>
+    <p>Без физической клавиатуры кнопки движения, прыжка и стрельбы приходится рисовать прямо на
+    экране — виртуальный джойстик, виртуальные кнопки. Это не мелочь, а отдельная часть
+    гейм-дизайна: виртуальные элементы управления должны быть достаточно крупными для пальца
+    (палец гораздо неточнее указателя мыши), не перекрывать важную часть экрана и оставаться
+    отзывчивыми даже при быстрых движениях.</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-20/output/virtual-controls-mockup.png" alt="Реальное окно: круглый виртуальный джойстик слева и две круглые виртуальные кнопки справа на тёмном фоне" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: мокап виртуальных элементов управления, нарисованный обычными pygame.draw.circle() — крупные зоны под палец, а не под курсор мыши.</figcaption>
+    </figure>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th></th><th>Клавиатура + мышь (десктоп)</th><th>Тачскрин (мобильные)</th></tr></thead>
+      <tbody><tr><td>Точность указания</td><td>Высокая — пиксель под курсором</td><td>Ниже — палец шире курсора</td></tr><tr><td>Число одновременных вводов</td><td>Ограничено количеством клавиш</td><td>Несколько независимых касаний (мультитач)</td></tr><tr><td>Тактильная обратная связь</td><td>Физическое нажатие клавиши</td><td>Только визуальная — экран плоский</td></tr><tr><td>Место на экране</td><td>Не занимает игровое поле</td><td>Виртуальные кнопки перекрывают часть экрана</td></tr></tbody>
+    </table>
+    </div>
+
+    <h2>Игровое действие как абстракция</h2>
+    <p>Чтобы одна и та же игровая логика работала и с клавиатурой, и с геймпадом, и с тачскрином,
+    полезно отделить <em>игровое действие</em> («двигаться вправо», «прыгнуть») от конкретного
+    физического ввода, который его вызывает. Тогда «прыгнуть» может означать нажатие пробела на
+    десктопе, кнопку A на геймпаде или тап по виртуальной кнопке на телефоне — а код игры,
+    который реагирует на «прыгнуть», не меняется вообще:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>input_action.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-com"># Схематично: один и тот же вызов independent от источника ввода</span>
+<span class="tok-kw">def</span> obrabotat_dejstviya(igra):
+    <span class="tok-kw">if</span> igra.dejstvie_nazhato(<span class="tok-str">&quot;prygok&quot;</span>):
+        igrok.prygnut()
+
+<span class="tok-com"># dejstvie_nazhato() внутри проверяет либо клавишу, либо геймпад,</span>
+<span class="tok-com"># либо попадание тапа в область виртуальной кнопки — игрок этого не видит</span></code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Абстракция ввода — не только для мобильных</div>
+        <div class="callout-body">Такое разделение полезно даже для чисто десктопной игры: оно позволяет позже добавить поддержку геймпада или перенастраиваемые клавиши, не переписывая игровую логику. Архитектура класса <code class="inline">Game</code> в разделе 20.26 закладывает именно это разделение с самого начала.</div>
+      </div>
+    </div>
+
+
+    <div class="section-nav"><a href="20-10-platformy-veb-oblako.html"><div class="dir">← Назад</div><div class="lbl">Платформы: веб, XR, облако</div></a><a href="20-12-mobilnyj-ekran.html" class="next"><div class="dir">Далее →</div><div class="lbl">Мобильный геймдев: ориентация и DPI</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
