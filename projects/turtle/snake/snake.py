@@ -4,9 +4,18 @@
 is_self_collision/choose_food/calculate_delay) не знает о Turtle вообще —
 её можно импортировать и тестировать без окна. SnakeApp отвечает за экран,
 клавиатуру и один игровой тик через screen.ontimer() — без busy-цикла и
-без time.sleep(). Каждый restart() получает собственное поколение (generation),
-поэтому просроченная цепочка ontimer() от игры до перезапуска сама себя
-останавливает вместо того, чтобы тикать параллельно с новой игрой.
+без time.sleep().
+
+Каждая запланированная через screen.ontimer() задача принадлежит ровно
+одному "поколению" (generation). restart() — и, что важно, обе стороны
+toggle_pause() тоже — увеличивают self._generation; просроченный callback,
+захвативший старое поколение, видит несовпадение и немедленно завершается,
+ничего не планируя дальше (раздел 19.22 разбирает это подробно, включая
+конкретный баг, который это предотвращает: если возобновление случается
+раньше, чем успевает сработать callback, запланированный до паузы, одного
+только "тик проверяет status" недостаточно — нужно инвалидировать поколение
+сразу в момент паузы, а не полагаться на то, что просроченный тик сам себя
+узнает).
 
 Запуск: python snake.py
 """
@@ -20,6 +29,16 @@ from enum import Enum
 
 STEP = 20
 FIELD_HALF = 280  # легальные координаты центра сегмента: -280..280 с шагом STEP
+
+# HUD — отдельная полоса НАД игровым полем, а не поверх него (раздел 19.32).
+# Табло рисуется на HUD_Y > FIELD_HALF, то есть строго за пределами легальных
+# координат змейки/еды: is_wall_collision() уже гарантирует |y| <= FIELD_HALF
+# для любой игровой позиции, так что HUD физически не может перекрыть клетку,
+# в которой окажется змейка или еда.
+HUD_HEIGHT = 80
+HUD_Y = FIELD_HALF + HUD_HEIGHT // 2
+WINDOW_WIDTH = 2 * (FIELD_HALF + STEP)
+WINDOW_HEIGHT = WINDOW_WIDTH + HUD_HEIGHT
 
 BASE_DELAY_MS = 140
 MIN_DELAY_MS = 60
@@ -63,16 +82,21 @@ class GameStatus(Enum):
     RUNNING = "running"
     PAUSED = "paused"
     GAME_OVER = "game_over"
+    WON = "won"  # змейка заняла все легальные клетки поля — свободных клеток для еды не осталось
 
 
 @dataclass
 class GameState:
-    """Чистые данные игры — ни одного объекта Turtle внутри (раздел 19.27)."""
+    """Чистые данные игры — ни одного объекта Turtle внутри (раздел 19.27).
+
+    food может быть None: это не баг и не временное состояние, а честное
+    представление того, что свободных клеток для новой еды не осталось
+    (раздел 19.18) — единственный случай, когда это происходит, это WON."""
 
     snake: list[Position] = field(default_factory=lambda: [(0, 0)])
     direction: Direction = Direction.RIGHT
     next_direction: Direction = Direction.RIGHT
-    food: Position = (0, 0)
+    food: Position | None = (0, 0)
     score: int = 0
     high_score: int = 0
     status: GameStatus = GameStatus.READY
@@ -118,12 +142,18 @@ def all_cells(*, half: int = FIELD_HALF, step: int = STEP) -> tuple[Position, ..
     return tuple((x, y) for x in coords for y in coords)
 
 
-def choose_food(snake: list[Position], rng: random.Random, *, half: int = FIELD_HALF, step: int = STEP) -> Position:
-    """Случайная свободная клетка сетки — никогда не внутри змейки (раздел 19.18)."""
+def choose_food(snake: list[Position], rng: random.Random, *, half: int = FIELD_HALF, step: int = STEP) -> Position | None:
+    """Случайная свободная клетка сетки — никогда не внутри змейки (раздел 19.18).
+
+    Возвращает None, если свободных клеток не осталось (змейка заняла всё
+    поле). Это не крайний случай, о котором можно забыть, — вызывающий код
+    обязан явно обработать None, а не подставлять первую попавшуюся клетку
+    змейки: еда никогда не может совпадать со змейкой, даже на до предела
+    заполненном поле."""
     occupied = set(snake)
     free = tuple(cell for cell in all_cells(half=half, step=step) if cell not in occupied)
     if not free:
-        return snake[0]  # поле заполнено целиком — новую еду ставить некуда (раздел 19.54)
+        return None
     return rng.choice(free)
 
 
@@ -167,7 +197,12 @@ class SnakeApp:
         self.screen = turtle.Screen()
         self.screen.title("Змейка")
         self.screen.bgcolor(BG_COLOR)
-        self.screen.setup(width=600, height=600, startx=0, starty=0)
+        self.screen.setup(width=WINDOW_WIDTH, height=WINDOW_HEIGHT, startx=0, starty=0)
+        # Мир игры шире, чем окно: HUD-полоса добавлена ТОЛЬКО сверху, а не
+        # поровну с обеих сторон, поэтому игровое поле остаётся у нижнего
+        # края ровно там же, где было без HUD (раздел 19.32).
+        half = WINDOW_WIDTH / 2
+        self.screen.setworldcoordinates(-half, -half, half, half + HUD_HEIGHT)
         self.screen.tracer(0)
 
         self.head = self._make_turtle("square", HEAD_COLOR)
@@ -257,7 +292,17 @@ class SnakeApp:
         if grow:
             state.score += FOOD_SCORE
             state.high_score = max(state.high_score, state.score)
-            state.food = choose_food(state.snake, self.rng)
+            next_food = choose_food(state.snake, self.rng)
+            if next_food is None:
+                # поле заполнено целиком — свободной клетки для новой еды не
+                # осталось. Это победа, а не ошибка: явный терминальный статус,
+                # а не еда, тайком поставленная внутрь змейки (раздел 19.18).
+                state.food = None
+                state.status = GameStatus.WON
+                self.render()
+                self._show_overlay("ПОБЕДА", f"Поле заполнено — счёт: {state.score}")
+                return
+            state.food = next_food
             state.delay_ms = calculate_delay(state.score)
 
         self.render()
@@ -276,9 +321,11 @@ class SnakeApp:
     # ---------- pause / restart ----------
     def toggle_pause(self) -> None:
         if self.state.status is GameStatus.RUNNING:
+            self._generation += 1  # обрывает уже запланированный тик немедленно, а не когда он сработает
             self.state.status = GameStatus.PAUSED
             self._show_overlay("ПАУЗА", "Space — продолжить")
         elif self.state.status is GameStatus.PAUSED:
+            self._generation += 1  # новое поколение — ровно одна свежая цепочка тиков
             self.state.status = GameStatus.RUNNING
             self._clear_overlay()
             self._schedule_next_tick()
@@ -303,13 +350,17 @@ class SnakeApp:
             else:
                 segment.hideturtle()
 
-        self.food_turtle.goto(*self.state.food)
+        if self.state.food is not None:
+            self.food_turtle.showturtle()
+            self.food_turtle.goto(*self.state.food)
+        else:
+            self.food_turtle.hideturtle()  # WON — свободных клеток для еды не осталось
         self._render_scoreboard()
         self.screen.update()
 
     def _render_scoreboard(self) -> None:
         self.scoreboard.clear()
-        self.scoreboard.goto(0, FIELD_HALF - 20)
+        self.scoreboard.goto(0, HUD_Y)  # HUD, а не игровое поле — раздел 19.32
         self.scoreboard.write(
             f"Счёт: {self.state.score}   Рекорд: {self.state.high_score}",
             align="center", font=("Arial", 16, "normal"),
@@ -317,11 +368,27 @@ class SnakeApp:
 
     def _show_overlay(self, title: str, subtitle: str) -> None:
         self.overlay.clear()
+        # screen.update() re-raises every VISIBLE turtle's own shape to the
+        # front of the canvas stacking order (so a moving turtle icon always
+        # stays above the trail it leaves) — head/food/each body segment all
+        # get this treatment. write() text does not, so on a crowded board
+        # (at the extreme: GameStatus.WON, where the snake covers the whole
+        # field) the overlay could end up stacked BEHIND the game pieces
+        # instead of on top of them. Let update() do its usual re-raising
+        # first, then explicitly raise exactly the items this call just
+        # created — so the overlay is guaranteed visible on top regardless
+        # of how many pieces are on screen.
+        canvas = self.screen.getcanvas()
+        before = set(canvas.find_all())
         self.overlay.goto(0, 10)
         self.overlay.write(title, align="center", font=("Arial", 24, "bold"))
         self.overlay.goto(0, -20)
         self.overlay.write(subtitle, align="center", font=("Arial", 14, "normal"))
+        new_items = [item for item in canvas.find_all() if item not in before]
         self.screen.update()
+        for item in new_items:
+            canvas.tag_raise(item)
+        canvas.update_idletasks()  # flush the corrected stacking order to the screen
 
     def _clear_overlay(self) -> None:
         self.overlay.clear()

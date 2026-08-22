@@ -79,6 +79,8 @@
     free = <span class="tok-fn">tuple</span>(
         cell <span class="tok-kw">for</span> cell <span class="tok-kw">in</span> all_cells(half=half, step=step) <span class="tok-kw">if</span> cell <span class="tok-kw">not</span> <span class="tok-kw">in</span> occupied
     )
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> free:
+        <span class="tok-kw">return</span> <span class="tok-kw">None</span>
     <span class="tok-kw">return</span> rng.choice(free)</code></pre>
     </div>
 
@@ -88,6 +90,36 @@
         <div class="callout-body"><code class="inline">choose_food()</code> принимает готовый <code class="inline">random.Random</code>, а не читает глобальный <code class="inline">random</code> модуль напрямую. В реальной игре передают <code class="inline">random.Random()</code> — настоящую случайность; в тестах —  <code class="inline">random.Random(seed)</code> с фиксированным зерном, чтобы результат был предсказуем и его можно было проверить <code class="inline">assert</code>-ом.</div>
       </div>
     </div>
+
+    <h2>Инвариант: еда — только из свободных клеток</h2>
+    <p>Контракт <code class="inline">choose_food()</code> можно записать формулой:
+    <code class="inline">food ∈ FREE_CELLS</code>, где
+    <code class="inline">FREE_CELLS = ALL_CELLS − SNAKE_CELLS</code>. Это должно оставаться
+    верным ВСЕГДА, включая крайний случай, до которого редко доходят на практике, но который
+    обязан быть предусмотрен: змейка выросла настолько, что заняла буквально каждую клетку
+    поля. Тогда <code class="inline">FREE_CELLS</code> пусто, и честного ответа, где поставить
+    еду, не существует.</p>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">ALL_CELLS</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">все клетки поля</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">вычитание</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">минус SNAKE_CELLS</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">клетки, занятые змейкой</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">=</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">FREE_CELLS</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">food ∈ FREE_CELLS</div></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Если FREE_CELLS пусто — свободной клетки для еды физически не существует.</figcaption></figure>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Нельзя тайком подставить клетку змейки вместо None</div>
+        <div class="callout-body">Соблазнительное, но неверное решение — вернуть, например, <code class="inline">snake[0]</code>, когда свободных клеток не осталось: тогда <code class="inline">food == snake[0]</code>, и инвариант «еда никогда не внутри змейки» нарушается прямо в самом же коде, который эту еду выбирает. Честный ответ — <code class="inline">None</code>: свободной клетки для еды в самом деле нет, и вызывающий код (раздел 19.32) обязан явно это обработать, а не притворяться, что еда по-прежнему существует.</div>
+      </div>
+    </div>
+    <p>В <code class="inline">SnakeApp.game_tick()</code> это выглядит так: если змейка съела
+    еду и <code class="inline">choose_food()</code> вернула <code class="inline">None</code>,
+    игра переходит в терминальное состояние <code class="inline">GameStatus.WON</code> —
+    поле заполнено целиком, дальше двигаться некуда, и это победа, а не ошибка.
+    <code class="inline">state.food</code> в этом состоянии тоже становится
+    <code class="inline">None</code>, и отрисовка (раздел 19.32) обязана явно проверить это
+    перед тем, как рисовать еду на экране.</p>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-19/output/snake-won.png" alt="Реальное окно: игровое поле целиком заполнено телом змейки, сверху табло со счётом, по центру надпись ПОБЕДА и итоговый счёт" width="460"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно после того, как змейка честно заняла каждую легальную клетку поля — GameStatus.WON, а не еда внутри тела.</figcaption>
+    </figure>
 
 
     <div class="notebook-card">

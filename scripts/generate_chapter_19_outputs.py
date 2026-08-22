@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT / "projects" / "turtle" / "snake"))
 
 import snake as s  # noqa: E402
 
-WIN_W, WIN_H = 600, 600
+WIN_W, WIN_H = s.WINDOW_WIDTH, s.WINDOW_HEIGHT
 
 
 def _autocrop(img: Image.Image) -> Image.Image:
@@ -40,6 +40,19 @@ def _autocrop(img: Image.Image) -> Image.Image:
 
 def capture(name: str, app: "s.SnakeApp") -> Image.Image:
     app.screen.update()
+    # screen.update() re-raises every visible turtle's own shape above
+    # whatever was drawn before it — including above overlay/scoreboard
+    # text, which SnakeApp._show_overlay() already corrects for internally,
+    # but THIS extra update() call (needed here because the generator never
+    # runs a real mainloop()) can undo that correction again. Re-raise any
+    # text items one more time, right before grabbing, so a screenshot never
+    # captures overlay text stuck behind a crowded board (see snake.py's
+    # _show_overlay() for the same fix in real interactive gameplay).
+    canvas = app.screen.getcanvas()
+    for item in canvas.find_all():
+        if canvas.type(item) == "text":
+            canvas.tag_raise(item)
+    canvas.update_idletasks()  # flush the corrected stacking order to the screen before grabbing
     img = ImageGrab.grab(bbox=(0, 0, WIN_W, WIN_H))
     img = _autocrop(img)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -145,10 +158,11 @@ def moving_right_and_growing() -> None:
     app.state.food = s.next_head(app.state.snake[0], s.Direction.RIGHT)
     capture("snake-food-eaten-before", app)
     run(app, s.Direction.RIGHT, 1)
-    # choose_food() честно выбрала следующую еду случайно — для этого кадра
-    # переставим её подальше от табло счёта, чтобы не перекрывать текст.
-    app.state.food = (100, -100)
-    app.render()
+    # choose_food() честно выбрала следующую еду случайно — раньше здесь
+    # приходилось вручную переставлять её подальше от табло счёта, чтобы не
+    # перекрывать текст (HUD сидел внутри легального поля). Теперь HUD —
+    # отдельная полоса над полем (раздел 19.32), и такой workaround больше
+    # не нужен: кадр показывает настоящий выбор choose_food() как есть.
     capture("snake-food-eaten-after", app)
     capture("snake-one-segment", app)
 
@@ -334,6 +348,30 @@ def final_overview() -> None:
     close(app)
 
 
+def won_full_board() -> None:
+    """Настоящий переход в GameStatus.WON — не имитация: змейка на самом деле
+    занимает каждую легальную клетку поля, кроме одной, ест эту последнюю
+    клетку через настоящий game_tick(), и choose_food() честно возвращает
+    None, потому что свободных клеток больше нет (раздел 19.18)."""
+    app = reset_app(seed=13)
+    all_cells = list(s.all_cells())
+    last_free = all_cells[-1]
+    head_cell = s.next_head(last_free, s.OPPOSITE[s.Direction.RIGHT])
+    body_cells = [c for c in all_cells if c not in (last_free, head_cell)]
+    app.state.snake = [head_cell, *body_cells]
+    app.state.direction = s.Direction.RIGHT
+    app.state.next_direction = s.Direction.RIGHT
+    app.state.score = (len(app.state.snake) - 1) * s.FOOD_SCORE
+    app.state.high_score = app.state.score
+    app.state.status = s.GameStatus.RUNNING
+    app.state.food = last_free
+    app.game_tick()
+    assert app.state.status is s.GameStatus.WON
+    assert app.state.food is None
+    capture("snake-won", app)
+    close(app)
+
+
 def build_composites() -> None:
     compose_strip(
         ["snake-body-follow-1", "snake-body-follow-2", "snake-body-follow-3"],
@@ -365,5 +403,6 @@ if __name__ == "__main__":
     grid_demo()
     final_pro()
     final_overview()
+    won_full_board()
     build_composites()
     get_app().screen.bye()

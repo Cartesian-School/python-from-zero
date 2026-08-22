@@ -11,10 +11,14 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "projects" / "turtle" / "snake"))
 
 from snake import (  # noqa: E402
+    FIELD_HALF,
+    HUD_HEIGHT,
+    HUD_Y,
     STEP,
     Direction,
     GameState,
     GameStatus,
+    all_cells,
     calculate_delay,
     choose_food,
     is_reverse,
@@ -121,6 +125,33 @@ def test_choose_food_deterministic_with_same_seed():
     a = choose_food([(0, 0)], random.Random(42))
     b = choose_food([(0, 0)], random.Random(42))
     assert a == b
+
+
+def test_choose_food_full_board_returns_none():
+    """Змейка занимает буквально каждую легальную клетку поля — choose_food()
+    обязана вернуть None, а не тайком подставить клетку самой змейки
+    (раздел 19.18: food ∈ FREE_CELLS, а не food = snake[0])."""
+    full_snake = list(all_cells())
+    assert choose_food(full_snake, random.Random(0)) is None
+
+
+def test_choose_food_exactly_one_free_cell():
+    """Ровно одна свободная клетка — choose_food() обязана вернуть именно её,
+    без вариативности (единственный кандидат, а не случайный выбор из пустого)."""
+    everything = list(all_cells())
+    last_free = everything[-1]
+    almost_full_snake = [cell for cell in everything if cell != last_free]
+    assert choose_food(almost_full_snake, random.Random(5)) == last_free
+
+
+def test_hud_band_is_outside_the_legal_playfield():
+    """Табло стоит строго над легальным полем, а не поверх геймплея: любая
+    легальная клетка змейки/еды имеет |y| <= FIELD_HALF, а HUD_Y — нет
+    (раздел 19.32 — HUD не должен перекрывать игровые клетки)."""
+    assert HUD_Y > FIELD_HALF
+    legal_ys = {y for _, y in all_cells()}
+    assert HUD_Y not in legal_ys
+    assert HUD_HEIGHT > 0
 
 
 # ---------- скорость ----------

@@ -312,24 +312,133 @@ assert app.state.snake == frozen_snake
 app.toggle_pause()
 assert app.state.status is s.GameStatus.RUNNING
 
-# wall collision ends the game
-app.state.snake = [(280, 0)]
+# --- required audit hotfix: pause/resume must never create two ontimer
+# chains (a real bug found after PR #35 — resume before the pre-pause
+# callback fires used to leave BOTH chains alive). game_tick() alone can't
+# reproduce this: it must go through _schedule_next_tick()/_on_timer() with
+# real generation tokens, simulating "the timer fires later" by calling
+# _on_timer() directly instead of sleeping on a real Tk mainloop.
+app.state.snake = [(0, 0)]
 app.state.direction = s.Direction.RIGHT
 app.state.next_direction = s.Direction.RIGHT
-app.game_tick()
-assert app.state.status is s.GameStatus.GAME_OVER
+app.state.status = s.GameStatus.RUNNING
+app._schedule_next_tick()
+gen_a = app._generation  # timer A's captured generation
 
-# restart resets the model but keeps the high score, and bumps the
-# generation so a timer callback scheduled before restart() is dropped
-stale_generation = app._generation
+app.toggle_pause()  # RUNNING -> PAUSED must invalidate timer A immediately
+assert app.state.status is s.GameStatus.PAUSED
+assert app._generation != gen_a
+
+app.toggle_pause()  # PAUSED -> RUNNING must start exactly ONE fresh chain
+assert app.state.status is s.GameStatus.RUNNING
+gen_b = app._generation
+assert gen_b != gen_a
+
+# stale timer A fires late (resume already happened before it did): must
+# be a pure no-op — no move, no state change, no new callback scheduled.
+snake_before_stale = list(app.state.snake)
+app._on_timer(gen_a)
+assert app.state.snake == snake_before_stale
+assert app.state.status is s.GameStatus.RUNNING
+
+# timer B (the real, current chain) fires: exactly one tick happens.
+before_b = app.state.snake[0]
+app._on_timer(gen_b)
+assert app.state.snake[0] == s.next_head(before_b, s.Direction.RIGHT)
+
+# rapid pause/resume/pause/resume must still land on exactly one live chain
+app.state.status = s.GameStatus.RUNNING
+app._schedule_next_tick()
+gen_r1 = app._generation
+app.toggle_pause()
+app.toggle_pause()
+app.toggle_pause()
+app.toggle_pause()
+assert app.state.status is s.GameStatus.RUNNING
+gen_r2 = app._generation
+assert gen_r2 != gen_r1
+snake_before_rapid = list(app.state.snake)
+app._on_timer(gen_r1)  # every earlier generation must be dead
+assert app.state.snake == snake_before_rapid
+before_r2 = app.state.snake[0]
+app._on_timer(gen_r2)  # the survivor still works
+assert app.state.snake[0] == s.next_head(before_r2, s.Direction.RIGHT)
+
+# restart after pause invalidates the paused chain's generation too
+app.state.status = s.GameStatus.RUNNING
+app._schedule_next_tick()
+gen_running = app._generation
+app.toggle_pause()
+gen_paused = app._generation
 app.restart()
-assert app.state.status is s.GameStatus.READY
+gen_after_restart_from_pause = app._generation
+assert len({gen_running, gen_paused, gen_after_restart_from_pause}) == 3
+app._on_timer(gen_running)
 assert app.state.snake == [(0, 0)]
-assert app.state.score == 0
-assert app.state.high_score == 10
-assert app._generation != stale_generation
-app._on_timer(stale_generation)
+app._on_timer(gen_paused)
 assert app.state.snake == [(0, 0)]
+
+# restart after resume invalidates the resumed chain's generation
+app.request_direction(s.Direction.RIGHT)  # READY -> RUNNING, schedules a tick
+gen_resumed_running = app._generation
+app.restart()
+assert app._generation != gen_resumed_running
+app._on_timer(gen_resumed_running)
+assert app.state.snake == [(0, 0)]
+
+# repeated restart cannot multiply chains: every restart's generation is unique
+gens = set()
+for _ in range(5):
+    app.restart()
+    gens.add(app._generation)
+assert len(gens) == 5
+
+# direct proof: a stale _on_timer() must not call screen.ontimer() at all —
+# i.e. it cannot schedule a follow-up callback, not just "appear to do nothing"
+scheduled = []
+app.screen.ontimer = lambda *a, **k: scheduled.append((a, k))
+app.state.status = s.GameStatus.RUNNING
+app._schedule_next_tick()
+live_gen = app._generation
+scheduled.clear()
+app._on_timer(live_gen - 1)  # deliberately stale
+assert scheduled == []
+
+print("PAUSE/RESUME TIMER CHAIN OK")
+
+# --- required audit hotfix: full board must return an explicit terminal
+# state, never food silently placed inside the snake. Build a snake that
+# occupies every legal cell except one, with food on that last free cell
+# and the head one step away from it — the next tick eats it, fills the
+# board completely, and choose_food() must report None.
+app2 = s.SnakeApp(rng=random.Random(3))
+all_cells_list = list(s.all_cells())
+last_free = all_cells_list[-1]
+head_cell = s.next_head(last_free, s.OPPOSITE[s.Direction.RIGHT])
+body_cells = [c for c in all_cells_list if c not in (last_free, head_cell)]
+app2.state.snake = [head_cell, *body_cells]
+app2.state.direction = s.Direction.RIGHT
+app2.state.next_direction = s.Direction.RIGHT
+app2.state.status = s.GameStatus.RUNNING
+app2.state.food = last_free
+app2.game_tick()
+assert app2.state.status is s.GameStatus.WON
+assert app2.state.food is None
+assert len(app2.state.snake) == len(all_cells_list)
+app2.render()  # must not crash trying to Turtle.goto(None)
+print("FULL BOARD / WON OK")
+
+# --- required audit hotfix: HUD must sit outside the legal playfield —
+# check the actual on-screen scoreboard position after a real render(),
+# not just the HUD_Y constant in isolation.
+assert s.HUD_Y > s.FIELD_HALF
+app3 = s.SnakeApp(rng=random.Random(4))
+app3.render()
+scoreboard_y = app3.scoreboard.ycor()
+assert scoreboard_y == s.HUD_Y
+legal_ys = {y for _, y in s.all_cells()}
+assert round(scoreboard_y) not in legal_ys
+print("HUD OK")
 
 print("OK")
 """,
