@@ -144,6 +144,17 @@ def new_round_reset() -> None:
     capture("new-round", root)
 
 
+def new_match_reset() -> None:
+    """A real New Match transition: both board and accumulated score reset."""
+    root, app = new_app()
+    app.state.score_x, app.state.score_o, app.state.draws = 2, 1, 1
+    app.state.board = ["X", "", "", "", "O", "", "", "", "X"]
+    app.state.current_player = "O"
+    app.render()
+    app.new_match()
+    capture("new-match", root)
+
+
 def new_basic_app():
     """tic_tac_toe_basic.py строит окно и виджеты на уровне модуля (раздел 17.6) —
     в отличие от TicTacToeApp, здесь нет конструктора, который можно вызвать заново.
@@ -269,9 +280,7 @@ def win_pulse_step_0() -> None:
 
 
 def win_pulse_step_1() -> None:
-    """Stops the real after() chain and calls pulse_winning_line(tick=1)
-    directly so the alternate (WIN_BG) tick is captured deterministically
-    instead of racing a 150ms timer."""
+    """Capture the single settled tick after the calm 400ms accent."""
     root, app = new_app()
     for i in (0, 3, 1, 4, 2):
         app.attempt_move(i)
@@ -321,6 +330,7 @@ if __name__ == "__main__":
     hover_preview_o()
     scoreboard()
     new_round_reset()
+    new_match_reset()
     adaptive_board_small()
     adaptive_board_large()
     adaptive_board_comparison()

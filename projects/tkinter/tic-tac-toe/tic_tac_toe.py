@@ -243,13 +243,17 @@ class TicTacToeApp:
 
     # ---------- ненавязчивая анимация победы через after(), без time.sleep() ----------
     def pulse_winning_line(self, tick=0):
+        """Короткий спокойный акцент: один переход PULSE_BG -> WIN_BG.
+
+        Это временный слой представления; игровая модель не меняется.
+        """
         if not self.state.winning_line:
             return
-        color = PULSE_BG if tick % 2 == 0 else WIN_BG
+        color = PULSE_BG if tick == 0 else WIN_BG
         for index in self.state.winning_line:
             self.buttons[index].config(bg=color)
-        if tick < 5:
-            self._pulse_job = self.root.after(150, self.pulse_winning_line, tick + 1)
+        if tick == 0:
+            self._pulse_job = self.root.after(400, self.pulse_winning_line, 1)
         else:
             self._pulse_job = None
 

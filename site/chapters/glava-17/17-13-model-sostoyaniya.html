@@ -80,6 +80,28 @@ igra_okonchena = <span class="tok-kw">False</span></code></pre>
     <h2>Путь этой главы</h2>
     <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">От глобальных переменных к GameState</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V1 — глобальные (17.3)</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">3 отдельные переменные</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">просто, но растёт бесконтрольно</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V2 — словарь</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">{'board': [...], ...}</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">один объект вместо трёх переменных</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V3 — GameState (17.19)</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">@dataclass</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">типизировано, читаемо, тестируемо</div></div></div></figure>
 
+    <h2>Одно состояние — разные видимые моменты партии</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;align-items:start">
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/x-turn.png" alt="Пустое поле и статус Ход игрока: X" width="280"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное состояние канонического приложения: начало раунда, ход X.</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/o-turn.png" alt="После первого хода X статус сменился на Ход игрока: O" width="280"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное состояние того же приложения после валидного хода X: модель переключила current_player на O.</figcaption>
+    </figure>
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-17/output/mid-game.png" alt="Пять отметок X и O на поле, партия продолжается" width="280"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное промежуточное состояние канонического приложения: board хранит отметки, status_var показывает текущего игрока.</figcaption>
+    </figure>
+    </div>
+
 
     <div class="notebook-card">
       <div>

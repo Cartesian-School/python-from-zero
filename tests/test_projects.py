@@ -124,6 +124,18 @@ root = tk.Tk()
 app = t.TicTacToeApp(root)
 root.update()
 
+# adaptive chain: the real center cell grows with the window in both axes
+root.geometry("340x420")
+root.update_idletasks()
+root.update()
+small_size = (app.buttons[4].winfo_width(), app.buttons[4].winfo_height())
+root.geometry("700x820")
+root.update_idletasks()
+root.update()
+large_size = (app.buttons[4].winfo_width(), app.buttons[4].winfo_height())
+assert large_size[0] > small_size[0]
+assert large_size[1] > small_size[1]
+
 # occupied cell: rejected, does not switch player
 app.attempt_move(0)
 app.attempt_move(0)
@@ -149,6 +161,15 @@ assert app.state.winning_line == (0, 1, 2)
 assert app.state.score_x == 1
 app.attempt_move(5)  # move after game_over must be rejected
 assert app.state.board[5] == ""
+
+# calm win effect: one accent frame, then one settled frame
+app.cancel_pulse()
+app.pulse_winning_line(0)
+assert app.buttons[0]["bg"] == t.PULSE_BG
+app.cancel_pulse()
+app.pulse_winning_line(1)
+assert app.buttons[0]["bg"] == t.WIN_BG
+assert app._pulse_job is None
 
 # keyboard path reuses attempt_move (same pipeline as mouse)
 app.new_round()
