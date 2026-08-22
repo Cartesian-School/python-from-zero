@@ -53,7 +53,73 @@
     <h2>Один жест, три события</h2>
     <p>Рисование одной фигуры мышью — это не одно событие, а последовательность из трёх разных
     типов, которые вместе образуют жест «нарисовать»:</p>
-    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg viewBox="-345.0 0 500.0 512.0" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="press → drag (может повториться много раз) → release — один и тот же жест для карандаша, линии, прямоугольника и овала." style="width:100%;height:auto;max-width:500px"><defs><marker id='arrowfc1' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker><marker id='arrowfc1-g' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker><marker id='arrowfc1-p' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#DB2777'/></marker><marker id='arrowfc1-v' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="-95.0" y="10.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="32.0">&lt;Button-1&gt;: нажали</tspan><tspan x="0.0" y="50.0">кнопку мыши</tspan></text><line x1="0.0" y1="62.0" x2="0.0" y2="88.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc1)"/><rect x="-105.0" y="88.0" width="210" height="56" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="0.0" y="121.0">запомнить точку начала</tspan></text><line x1="0.0" y1="144.0" x2="0.0" y2="170.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc1)"/><polygon points="0.0,170.0 115.0,230.0 0.0,290.0 -115.0,230.0" fill="#5B24F9"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="13" fill="#fff"><tspan x="0.0" y="217.0">мышь движется с</tspan><tspan x="0.0" y="235.0">зажатой</tspan><tspan x="0.0" y="253.0">кнопкой?</tspan></text><path d="M-115.0,230.0 C-115.0,276.0 -200.0,276.0 -200.0,322.0" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowfc1-g)"/><text x="-161.5" y="268.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">ДА</text><rect x="-305.0" y="322.0" width="210" height="66" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" fill="#0D0230"><tspan x="-200.0" y="351.0">&lt;B1-Motion&gt;: обновить</tspan><tspan x="-200.0" y="369.0">превью/штрих</tspan></text><path d="M-200.0,388.0 C-200.0,404.0 0.0,404.0 0.0,420.0" fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc1)"/><path d="M115.0,230.0 C115.0,325.0 0.0,325.0 0.0,420.0" fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowfc1-p)"/><text x="46.0" y="325.0" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#DB2777">НЕТ</text><line x1="0.0" y1="420.0" x2="0.0" y2="420.0" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowfc1)"/><rect x="-95.0" y="420.0" width="190" height="52" rx="26.0" fill="#0D0230"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="14" fill="#fff"><tspan x="0.0" y="442.0">&lt;ButtonRelease-1&gt;:</tspan><tspan x="0.0" y="460.0">зафиксировать…</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">press → drag (может повториться много раз) → release — один и тот же жест для карандаша, линии, прямоугольника и овала.</figcaption></figure>
+
+    <figure style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);
+      border-radius:var(--radius-lg,20px);display:flex;flex-direction:column;align-items:center">
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #5B24F9;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#5B24F9">&lt;Button-1&gt;</div>
+          <div style="font-size:14px;margin-top:2px">Нажали левую кнопку мыши</div>
+        </div>
+      <div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #5B24F9;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#5B24F9">start_x, start_y</div>
+          <div style="font-size:14px;margin-top:2px">Запоминаем точку начала</div>
+        </div>
+      <div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>
+
+    <div style="box-sizing:border-box;width:min(340px,100%);border:2px dashed #DB2777;
+      border-radius:18px;padding:16px 16px 12px;display:flex;flex-direction:column;
+      align-items:center;gap:6px;position:relative;margin:6px 0">
+      <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+        background:#DB2777;color:#fff;font-family:Sora,sans-serif;font-weight:700;font-size:11px;
+        letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:3px 12px;
+        white-space:nowrap">↻ 0, 1 или много раз</div>
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #5B24F9;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#5B24F9">&lt;B1-Motion&gt;</div>
+          <div style="font-size:14px;margin-top:2px">Мышь движется с зажатой кнопкой</div>
+        </div>
+      <div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #5B24F9;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#5B24F9">coords() / create_line()</div>
+          <div style="font-size:14px;margin-top:2px">Обновляем превью или штрих</div>
+        </div>
+    </div>
+      <div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #DB2777;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#DB2777">&lt;ButtonRelease-1&gt;</div>
+          <div style="font-size:14px;margin-top:2px">Кнопку отпустили</div>
+        </div>
+      <div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>
+
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid #059669;
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:#059669">render_document()</div>
+          <div style="font-size:14px;margin-top:2px">Фиксируем фигуру или действие</div>
+        </div>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px;max-width:420px">press → drag (0, 1 или много раз) → release — один и тот же жест для карандаша, линии, прямоугольника и овала.</figcaption>
+    </figure>
 
     <div style="overflow-x:auto;margin:20px 0">
     <table class="compare-table">
