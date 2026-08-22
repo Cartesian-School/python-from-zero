@@ -68,7 +68,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 8 · Строки", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -89,7 +89,7 @@ def build_opener() -> None:
         "многострочные и raw-строки, индексы и срезы с наглядными диаграммами, неизменяемость, "
         "десятки методов, форматирование f-строками, ввод от пользователя, юникод, отладка — и "
         "восемь мини-проектов.",
-        meta_items=["⏱ ~6–7 часов", "🔤 str и его методы", "📓 18 практик", "🖼 диаграммы для индексов и срезов"],
+        meta_items=["[[icon:timer]] ~6–7 часов", "[[icon:code]] str и его методы", "[[icon:practice]] 18 практик", "[[icon:palette]] диаграммы для индексов и срезов"],
         sections=[
             ChapterSectionLink("8.1", "Что такое строки?", "08-01-chto-takoe-stroki.html", "137"),
             ChapterSectionLink("8.2", "Экранирование: \\n, \\t и другие", "08-11-ekranirovanie.html", "139"),
@@ -960,7 +960,7 @@ def build_18() -> None:
     body = f"""
     {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Мы ещё не проходили циклы подробно — это тема главы 9. Здесь достаточно понимать "
         "<code class=\"inline\">for ch in text:</code> буквально: «повтори блок кода для "
         "каждого символа text по очереди, каждый раз кладя очередной символ в переменную "
@@ -1365,7 +1365,7 @@ def build_21() -> None:
     )}
     {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Здесь мы уже используем словарь <code class=\"inline\">{...}</code> — структуру "
         "«ключ → значение», которую подробно разберём в главе 11. Сейчас достаточно понимать "
         "<code class=\"inline\">.get(ключ, значение_по_умолчанию)</code>: «найди ключ, а если "
@@ -1488,7 +1488,7 @@ def build_22() -> None:
     )}
     {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "<code class=\"inline\">any(...)</code> с выражением внутри — это компактная форма "
         "цикла из раздела 8.13: «есть ли хотя бы один символ, для которого условие верно». "
         "Подробно операторы <code class=\"inline\">and</code>/<code class=\"inline\">or</code> "
@@ -1563,7 +1563,7 @@ def build_23() -> None:
     )}
     {callout(
         "info",
-        "🚀 Забегаем вперёд",
+        "[[icon:launch]] Забегаем вперёд",
         "Словарь <code class=\"inline\">schetchik</code> — структура «слово → сколько раз "
         "встретилось», подробно разберём в главе 11. Сейчас достаточно понимать: "
         "<code class=\"inline\">.get(word, 0)</code> возвращает текущий счётчик слова (или 0, "

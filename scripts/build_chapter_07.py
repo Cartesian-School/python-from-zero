@@ -88,7 +88,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 7 · Turtle подробно", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -132,7 +132,7 @@ def build_opener() -> None:
         "colormode, перо и заливка раздельно, глубокая геометрия окружности, штампы, текст и "
         "координаты, несколько черепашек и clone(), отладка графики — и четыре мини-проекта, "
         "включая часы и координатную мишень.",
-        meta_items=["⏱ ~5–6 часов", "💻 модуль turtle", "📓 22 практики", "🖼 реальные результаты у каждого примера"],
+        meta_items=["[[icon:timer]] ~5–6 часов", "[[icon:code]] модуль turtle", "[[icon:practice]] 22 практики", "[[icon:palette]] реальные результаты у каждого примера"],
         sections=[
             ChapterSectionLink("7.1", "Экран как графическая система", "07-01-nastraivaem-ekran.html", "107"),
             ChapterSectionLink("7.2", "colormode и цвет", "07-10-colormode-i-cvet.html", "109"),

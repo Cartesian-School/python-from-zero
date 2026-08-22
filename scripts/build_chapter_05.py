@@ -88,7 +88,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 5 · Числа играют", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {pid}: Практика", f"../../practice/{pid}/index.html") for pid in practice_ids
+            NavItem(f"[[icon:practice]] {pid}: Практика", f"../../practice/{pid}/index.html") for pid in practice_ids
         ]),
     ]
 
@@ -108,7 +108,7 @@ def build_opener() -> None:
         "операторы и их приоритет, перевод формул из математики в код, модуль math "
         "(корни, геометрия, тригонометрия, логарифмы), модуль random "
         "(псевдослучайность, seed, воспроизводимость) и отладка вычислений.",
-        meta_items=["⏱ ~4 часа", "🧮 math и random в деталях", "📓 21 практика"],
+        meta_items=["[[icon:timer]] ~4 часа", "[[icon:code]] math и random в деталях", "[[icon:practice]] 21 практика"],
         sections=[
             ChapterSectionLink("5.1", "Выражения и основные операции", "05-01-osnovnye-operacii.html", "60"),
             ChapterSectionLink("5.2", "Деление с остатком", "05-07-delenie-s-ostatkom.html", "62"),

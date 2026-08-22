@@ -75,7 +75,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 9 · Условия", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -110,7 +110,7 @@ def build_opener() -> None:
         "Теперь мы научим их выбирать, какую команду выполнить дальше. Разберём алгоритмы и "
         "поток управления, как условия создают развилки и как Python принимает решения с "
         "помощью True, False и if/elif/else — и соберём первую настоящую игру.",
-        meta_items=["⏱ ~6–7 часов", "🔀 алгоритмы · условия · if/elif/else", "📓 24 практики", "🎮 5 мини-проектов"],
+        meta_items=["[[icon:timer]] ~6–7 часов", "[[icon:code]] алгоритмы · условия · if/elif/else", "[[icon:practice]] 24 практики", "[[icon:game]] 5 мини-проектов"],
         sections=[
             ChapterSectionLink("9.1", "Алгоритмы и команды", "09-07-algoritmy-i-komandy.html", "175"),
             ChapterSectionLink("9.2", "Три структуры алгоритма и ветвление", "09-08-tri-struktury-i-vetvlenie.html", "177"),
@@ -613,7 +613,7 @@ def build_09() -> None:
 
     {callout(
         "tip",
-        "🔬 ЧУТЬ ГЛУБЖЕ — код символа",
+        "[[icon:experiment]] ЧУТЬ ГЛУБЖЕ — код символа",
         "Каждому символу соответствует число — его код. Функция <code class=\"inline\">ord()</code> "
         "показывает его: <code class=\"inline\">ord(\"A\")</code> → 65, "
         "<code class=\"inline\">ord(\"a\")</code> → 97. Именно эти числа Python на самом деле "
@@ -1860,7 +1860,7 @@ def build_22() -> None:
 
     {callout(
         "tip",
-        "🚀 ЧУТЬ ГЛУБЖЕ — условное выражение",
+        "[[icon:launch]] ЧУТЬ ГЛУБЖЕ — условное выражение",
         "После того как if/else хорошо усвоен, полезно знать компактную форму для ПРОСТОГО "
         "выбора значения: <code class=\"inline\">status = \"adult\" if age &gt;= 18 else \"minor\""
         "</code>. Это не замена обычному if/else — только удобство для одной строки.",
@@ -2006,7 +2006,7 @@ def build_05() -> None:
         "интересной.",
     )}
 
-    <h2>🐞 Debug-лаборатория: пять багов</h2>
+    <h2>[[icon:debug]] Debug-лаборатория: пять багов</h2>
 
     <p><strong>Баг 1 — забыт int()</strong></p>
     {code_block("bug_1.py", 'guess = input("Ваш вариант: ")\nif guess < secret:\n    ...\n# TypeError: \'<\' not supported between instances of \'str\' and \'int\'\n', lang="text")}
@@ -2177,7 +2177,7 @@ def build_24() -> None:
     )}
     {callout(
         "info",
-        "🚀 В следующей главе",
+        "[[icon:launch]] В следующей главе",
         "Сейчас программа реагирует на ОДНУ команду и завершается. С циклом "
         "<code class=\"inline\">while</code> (глава 10) она сможет ждать команду за командой, "
         "как настоящая мини-консоль — до тех пор, пока пользователь не введёт «exit».",

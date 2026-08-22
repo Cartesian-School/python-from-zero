@@ -88,7 +88,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 4 · Числа", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {pid}: Практика", f"../../practice/{pid}/index.html") for pid in practice_ids
+            NavItem(f"[[icon:practice]] {pid}: Практика", f"../../practice/{pid}/index.html") for pid in practice_ids
         ]),
     ]
 
@@ -108,7 +108,7 @@ def build_opener() -> None:
         "int и системы счисления, операторы и их порядок, деление и остаток, float и "
         "почему 0.1 + 0.2 не равно 0.3, округление, Decimal, Fraction, complex, math, "
         "random/secrets, statistics — и несколько мини-проектов.",
-        meta_items=["⏱ ~4 часа", "🔢 int, float, complex, Decimal, Fraction", "📓 22 практики"],
+        meta_items=["[[icon:timer]] ~4 часа", "[[icon:code]] int, float, complex, Decimal, Fraction", "[[icon:practice]] 22 практики"],
         sections=[
             ChapterSectionLink("4.1", "Что такое число для компьютера", "04-01-chisla-i-peremennye.html", "39"),
             ChapterSectionLink("4.2", "int — целые числа без страха", "04-06-int-glubzhe.html", ""),
@@ -196,7 +196,7 @@ def build_01_what_is_a_number() -> None:
 
 {callout(
         "warning",
-        "⚠️ Точная формулировка важна",
+        "[[icon:warning]] Точная формулировка важна",
         "Python не «изменил число 10 на 11». Целые числа <strong>неизменяемы</strong>: Python "
         "вычислил результат <code class=\"inline\">10 + 1</code>, получил новый объект "
         "<code class=\"inline\">11</code> и переприсвоил имя <code class=\"inline\">age</code> "
@@ -210,7 +210,7 @@ def build_01_what_is_a_number() -> None:
 
 {callout(
         "tip",
-        "🐍 Попробуем",
+        "[[icon:practice]] Попробуем",
         "Наберите этот пример в браузерной практике или в REPL (глава 3) — и после каждой "
         "строки проверяйте <code class=\"inline\">id(age)</code>. Число (адрес объекта в памяти "
         "для CPython) изменится после переприсваивания — наглядное подтверждение того, что "
@@ -257,7 +257,7 @@ def build_06_int_deeper() -> None:
 
 {callout(
         "info",
-        "💡 Точная формулировка",
+        "[[icon:idea]] Точная формулировка",
         "Правильно говорить «произвольная точность, ограниченная доступными ресурсами», а не "
         "«неограниченный размер». Формально предел есть — но на практике вы почти никогда его "
         "не достигнете в обычных программах.",
@@ -274,7 +274,7 @@ def build_06_int_deeper() -> None:
 
 {callout(
         "warning",
-        "⚠️ Не используйте id() как учебный трюк для «кеша целых чисел»",
+        "[[icon:warning]] Не используйте id() как учебный трюк для «кеша целых чисел»",
         "Вы можете где-то встретить сравнение <code class=\"inline\">id(256)</code> и "
         "<code class=\"inline\">id(257)</code> как «доказательство» особого поведения маленьких "
         "чисел. Это деталь реализации CPython (оптимизация кеширования маленьких целых чисел), "
@@ -291,7 +291,7 @@ def build_06_int_deeper() -> None:
 {code_block("bool_int.py", "print(int(True))   # 1\nprint(int(False))  # 0\nprint(True + True) # 2\n")}
 {callout(
         "tip",
-        "💡 Но в обычном коде — это логические значения",
+        "[[icon:idea]] Но в обычном коде — это логические значения",
         "То, что <code class=\"inline\">bool</code> технически «числовой» — деталь языка, а не "
         "приглашение складывать <code class=\"inline\">True + True</code> в реальном коде. "
         "Полноценно об условиях и логике — в главе про условия; здесь достаточно знать связь с "
@@ -388,7 +388,7 @@ def build_07_number_systems() -> None:
 
 {callout(
         "tip",
-        "🐍 Попробуем",
+        "[[icon:practice]] Попробуем",
         "Переведите свой год рождения в двоичную и шестнадцатеричную запись через "
         "<code class=\"inline\">bin()</code> и <code class=\"inline\">hex()</code> — а затем "
         "переведите результат обратно через <code class=\"inline\">int(..., 2)</code> и "
@@ -445,7 +445,7 @@ def build_02_comments() -> None:
 
 {callout(
         "tip",
-        "💡 Хороший комментарий объясняет то, чего не видно из кода",
+        "[[icon:idea]] Хороший комментарий объясняет то, чего не видно из кода",
         "<code class=\"inline\">vat_rate = 0.23</code> — само число не объясняет, откуда оно "
         "взялось и что означает. Комментарий <code class=\"inline\"># НДС в учебном примере: 23 "
         "%</code> отвечает именно на этот вопрос — «почему именно это число», а не «что делает "
@@ -553,7 +553,7 @@ def build_09_precedence() -> None:
 
 {callout(
         "info",
-        "📚 Это не полная таблица",
+        "[[icon:note]] Это не полная таблица",
         "Официальная таблица приоритетов Python включает намного больше операторов — сравнения, "
         "логические, битовые и другие, до которых мы ещё не дошли. Здесь — только то, что "
         "относится к арифметике этой главы. Полную таблицу можно найти в разделе «Operator "
@@ -562,7 +562,7 @@ def build_09_precedence() -> None:
 
 {callout(
         "tip",
-        "🚀 Правило хорошего тона",
+        "[[icon:launch]] Правило хорошего тона",
         "Даже когда вы точно помните приоритет операторов, скобки почти ничего не стоят, а "
         "читаемость улучшают ощутимо. Если есть сомнение, как прочитает выражение другой "
         "человек (или вы сами через полгода) — добавьте скобки.",
@@ -609,7 +609,7 @@ def build_10_division() -> None:
     получить оба числа сразу:</p>
 {code_block("divmod_demo.py", "print(divmod(17, 5))  # (3, 2)\n")}
 
-    <h2 id="otricatelnoe">🚀 Чуть глубже: отрицательное floor-деление</h2>
+    <h2 id="otricatelnoe">[[icon:launch]] Чуть глубже: отрицательное floor-деление</h2>
     <p>С отрицательными числами <code class="inline">//</code> ведёт себя не так, как «просто
     отбросить дробную часть» — а округляет результат <strong>в сторону минус
     бесконечности</strong> (floor):</p>
@@ -623,7 +623,7 @@ def build_10_division() -> None:
 
 {callout(
         "info",
-        "💡 Почему так, а не иначе",
+        "[[icon:idea]] Почему так, а не иначе",
         "<code class=\"inline\">//</code> в Python определён как «floor division» — округление "
         "результата деления вниз, к ближайшему целому В СТОРОНУ минус бесконечности. Для "
         "положительных чисел это выглядит как обычное отбрасывание дробной части, но для "
@@ -661,7 +661,7 @@ def build_11_powers() -> None:
     <code class="inline">pow()</code>:</p>
 {code_block("stepeni.py", "print(2 ** 10)     # 1024\nprint(pow(2, 10))  # 1024 — то же самое\n")}
 
-    <h2 id="pow-modulus">🚀 Необязательный третий аргумент pow()</h2>
+    <h2 id="pow-modulus">[[icon:launch]] Необязательный третий аргумент pow()</h2>
     <p><code class="inline">pow()</code> умеет ещё и третий, необязательный аргумент —
     модуль:</p>
 {code_block("pow_mod.py", "print(pow(2, 10, 1000))  # 24 — то же, что (2 ** 10) % 1000, но эффективнее для больших чисел\n")}
@@ -731,7 +731,7 @@ def build_03_numeric_map() -> None:
 
 {callout(
         "warning",
-        "⚠️ Важное различие",
+        "[[icon:warning]] Важное различие",
         "<code class=\"inline\">int</code>, <code class=\"inline\">float</code> и "
         "<code class=\"inline\">complex</code> — часть самого языка: их литералы "
         "(<code class=\"inline\">42</code>, <code class=\"inline\">3.14</code>, "
@@ -773,7 +773,7 @@ def build_12_float_basics() -> None:
 
 {callout(
         "info",
-        "💡 Точка делает число float",
+        "[[icon:idea]] Точка делает число float",
         "Даже <code class=\"inline\">2.0</code> — <code class=\"inline\">float</code>, а не "
         "<code class=\"inline\">int</code>, хотя математически это целое число. Тип определяет "
         "запись в коде, а не математический смысл значения.",
@@ -841,7 +841,7 @@ def build_13_float_precision() -> None:
 
 {callout(
         "warning",
-        "⚠️ Это не баг Python",
+        "[[icon:warning]] Это не баг Python",
         "Точно такое же поведение вы увидите в JavaScript, Java, C, C++ и почти любом другом "
         "распространённом языке. Причина — не ошибка Python, а то, как ЛЮБОЙ компьютер хранит "
         "дробные числа в двоичном виде.",
@@ -860,7 +860,7 @@ def build_13_float_precision() -> None:
 
 {approx_flow}
 
-    <h2 id="glubzhe">🔬 Что происходит глубже</h2>
+    <h2 id="glubzhe">[[icon:experiment]] Что происходит глубже</h2>
     <p>На большинстве современных компьютеров и в стандартном CPython
     <code class="inline">float</code> соответствует аппаратному формату двойной точности,
     известному как <strong>binary64</strong> (часть стандарта IEEE 754). Концептуально число
@@ -870,7 +870,7 @@ def build_13_float_precision() -> None:
 
 {callout(
         "info",
-        "📚 Не нужно запоминать наизусть",
+        "[[icon:note]] Не нужно запоминать наизусть",
         "Точное число битов на каждую часть (1/11/52 в стандарте binary64) — деталь, которую не "
         "нужно заучивать прямо сейчас. Важно понимать сам принцип: значение хранится "
         "приближённо, а не то, что Python «плохо считает». Это распространённое, хорошо "
@@ -885,7 +885,7 @@ def build_13_float_precision() -> None:
 
 {callout(
         "tip",
-        "💡 Главный вывод раздела",
+        "[[icon:idea]] Главный вывод раздела",
         "0.1 хранится не «примерно как получится», а как совершенно точное, предсказуемое и "
         "объяснимое приближение — просто не то десятичное число 0.1, которое вы написали. Это "
         "приближение, а не случайность.",
@@ -929,7 +929,7 @@ def build_14_float_comparison() -> None:
 
 {callout(
         "warning",
-        "⚠️ Не изобретайте свой допуск на глаз",
+        "[[icon:warning]] Не изобретайте свой допуск на глаз",
         "Часто встречается самодельная проверка вроде <code class=\"inline\">abs(a - b) < "
         "0.000001</code>. Она работает не всегда — для очень больших или очень маленьких чисел "
         "фиксированный порог может оказаться слишком строгим или слишком мягким. "
@@ -984,7 +984,7 @@ def build_15_rounding() -> None:
 {code_block("granica.py", "print(round(2.5))  # 2, а не 3!\nprint(round(3.5))  # 4\n")}
 {callout(
         "info",
-        "💡 Округление до ближайшего чётного",
+        "[[icon:idea]] Округление до ближайшего чётного",
         "Это не ошибка и не случайность: <code class=\"inline\">round()</code> в Python "
         "округляет значение ровно между двумя целыми к БЛИЖАЙШЕМУ ЧЁТНОМУ — стандартный "
         "статистический приём («банковское округление»), который снижает систематический "
@@ -999,7 +999,7 @@ def build_15_rounding() -> None:
 
 {callout(
         "warning",
-        "⚠️ Для отрицательных чисел это три разных ответа",
+        "[[icon:warning]] Для отрицательных чисел это три разных ответа",
         "Для положительных чисел <code class=\"inline\">floor()</code> и "
         "<code class=\"inline\">trunc()</code> часто совпадают, поэтому разница легко ускользает "
         "от внимания. Для отрицательных — не совпадают почти никогда, как видно на числовой "
@@ -1045,7 +1045,7 @@ def build_16_decimal() -> None:
 
 {callout(
         "warning",
-        "⚠️ Почему так происходит",
+        "[[icon:warning]] Почему так происходит",
         "<code class=\"inline\">Decimal(19.99)</code> сначала создаёт обычный "
         "<code class=\"inline\">float</code> <code class=\"inline\">19.99</code> — уже с тем "
         "самым приближением из раздела 4.11 — а потом заворачивает это приближённое значение в "
@@ -1069,7 +1069,7 @@ def build_16_decimal() -> None:
 
 {callout(
         "tip",
-        "💡 Не заменяйте каждый float на Decimal",
+        "[[icon:idea]] Не заменяйте каждый float на Decimal",
         "Decimal — правильный выбор для денег и учёта, где важна десятичная точность и "
         "предсказуемое округление. Для большинства научных и повседневных вычислений обычный "
         "<code class=\"inline\">float</code> быстрее и абсолютно достаточен.",
@@ -1249,7 +1249,7 @@ def build_04_conversions() -> None:
 
 {callout(
         "warning",
-        "⚠️ int() отбрасывает дробную часть, а не округляет",
+        "[[icon:warning]] int() отбрасывает дробную часть, а не округляет",
         "<code class=\"inline\">int(3.99)</code> равно <code class=\"inline\">3</code>, а не "
         "<code class=\"inline\">4</code> — это <strong>усечение</strong> (truncation) в сторону "
         "нуля, а не округление. Для настоящего округления нужна отдельная функция "
@@ -1265,7 +1265,7 @@ def build_04_conversions() -> None:
 
 {callout(
         "warning",
-        "⚠️ Не любой текст получится преобразовать",
+        "[[icon:warning]] Не любой текст получится преобразовать",
         "<code class=\"inline\">int(\"десять\")</code> вызовет <code class=\"inline\">ValueError</code> "
         "— Python не умеет читать числа словами. Преобразовать можно только текст, который "
         "выглядит как число.",
@@ -1335,7 +1335,7 @@ def build_19_math_module() -> None:
     <h2 id="geometriya">Геометрия</h2>
 {code_block("geometriya.py", "import math\n\nprint(math.hypot(3, 4))       # 5.0 — гипотенуза (длина вектора)\nprint(math.dist((0, 0), (3, 4)))  # 5.0 — расстояние между точками\n")}
 
-    <h2 id="trigonometriya">🚀 Тригонометрия — краткий обзор</h2>
+    <h2 id="trigonometriya">[[icon:launch]] Тригонометрия — краткий обзор</h2>
     <p>Тригонометрические функции работают в <strong>радианах</strong>, а не градусах:</p>
 {code_block("trig.py", "import math\n\nangle_deg = 90\nangle_rad = math.radians(angle_deg)\nprint(math.sin(angle_rad))  # 1.0\n")}
     <p>Если сейчас тригонометрия не входит в ваши задачи — вполне нормально вернуться к этому
@@ -1389,10 +1389,10 @@ def build_20_random_secrets() -> None:
 
 {decision}
 
-    <h2 id="bezopasnost">⚠️ БЕЗОПАСНОСТЬ: random — не для паролей и токенов</h2>
+    <h2 id="bezopasnost">[[icon:warning]] БЕЗОПАСНОСТЬ: random — не для паролей и токенов</h2>
 {callout(
         "warning",
-        "⚠️ Не генерируйте пароли и токены модулем random",
+        "[[icon:warning]] Не генерируйте пароли и токены модулем random",
         "<code class=\"inline\">random</code> оптимизирован для скорости и статистического "
         "качества, а не для непредсказуемости против злоумышленника — его результат в принципе "
         "можно предсказать, зная внутреннее состояние генератора. Для всего "
@@ -1442,7 +1442,7 @@ def build_21_statistics_inf_nan() -> None:
     вручную:</p>
 {code_block("statistics_demo.py", "import statistics\n\nscores = [85, 90, 78, 92, 88]\n\nprint(statistics.mean(scores))    # 86.6 — среднее\nprint(statistics.median(scores))  # 88   — медиана (среднее значение по порядку)\n")}
 
-    <h2 id="mode-stdev">🚀 Мода и стандартное отклонение</h2>
+    <h2 id="mode-stdev">[[icon:launch]] Мода и стандартное отклонение</h2>
 {code_block("mode_stdev.py", "import statistics\n\nscores = [85, 90, 78, 92, 88]\n\nprint(statistics.mode(scores))    # самое частое значение\nprint(statistics.pstdev(scores))  # стандартное отклонение генеральной совокупности\n")}
     <p>Это лишь маленькая часть модуля <code class="inline">statistics</code> — задача этого
     раздела не превратить курс в курс статистики, а показать: типовые статистические расчёты
@@ -1457,7 +1457,7 @@ def build_21_statistics_inf_nan() -> None:
 
 {callout(
         "warning",
-        "⚠️ nan не равен даже самому себе",
+        "[[icon:warning]] nan не равен даже самому себе",
         "Одно из самых неожиданных свойств <code class=\"inline\">nan</code>: сравнение "
         "<code class=\"inline\">nan == nan</code> возвращает <code class=\"inline\">False</code>. "
         "Это не ошибка Python, а часть стандарта IEEE 754 (тот же стандарт, что мы упоминали в "
@@ -1535,7 +1535,7 @@ def build_22_debugging() -> None:
         return f"""
         <div class="callout callout-debug">
           <div>
-            <div class="callout-title">🐞 Лаборатория {num}. {title}</div>
+            <div class="callout-title">[[icon:debug]] Лаборатория {num}. {title}</div>
             <div class="callout-body">
 {code_block("предскажите и запустите", code, lang="python")}
               <p><strong>Наблюдение:</strong> {symptom}</p>
@@ -1700,7 +1700,7 @@ def build_05_mini_projects() -> None:
 
 {callout(
         "tip",
-        "🚀 Что дальше",
+        "[[icon:launch]] Что дальше",
         "В главе 5 мы продолжим работать с числами — сравнения, логические операции и первые "
         "условные конструкции.",
     )}"""

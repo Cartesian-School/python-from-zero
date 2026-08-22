@@ -101,7 +101,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 14 · Объекты", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -163,7 +163,7 @@ def debug_lab(n: int, title: str, broken_code_filename: str, broken_code: str, s
     return f"""
     <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
       <div style="padding:14px 20px 4px;font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">🐞 Debug Lab {n}: {title}</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">[[icon:debug]] Debug Lab {n}: {title}</div>
       <div style="padding:0 20px">
 {code_block(broken_code_filename, broken_code)}
 {terminal_transcript(symptom_lines, caption="Что видно на экране")}
@@ -236,7 +236,7 @@ def build_opener() -> None:
         "наследование, super(), полиморфизм и duck typing, специальные методы, dataclasses — и "
         "к вопросу, который важнее любого синтаксиса: когда классу вообще стоит появляться в "
         "программе.",
-        meta_items=["⏱ ~11 часов", "🧱 class, self, super()", "📓 26 практик"],
+        meta_items=["[[icon:timer]] ~11 часов", "[[icon:architecture]] class, self, super()", "[[icon:practice]] 26 практик"],
         sections=[
             ChapterSectionLink("14.1", "Что такое ООП?", "14-01-chto-takoe-oop.html", "312"),
             ChapterSectionLink("", "Давайте это докажем!", "14-01-chto-takoe-oop.html#dokazhem", "313"),

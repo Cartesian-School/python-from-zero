@@ -104,7 +104,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 11 · Данные", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -162,7 +162,7 @@ def build_opener() -> None:
         description="Списки, кортежи, множества и словари — четыре основных способа хранить сразу "
         "много данных. Не список методов, а разбор того, зачем нужна каждая структура, как они "
         "устроены внутри (ссылки, изменяемость, копирование) и как выбирать между ними.",
-        meta_items=["⏱ ~6 часов", "📦 list, tuple, set, dict", "📓 26 практик"],
+        meta_items=["[[icon:timer]] ~6 часов", "[[icon:architecture]] list, tuple, set, dict", "[[icon:practice]] 26 практик"],
         sections=[
             ChapterSectionLink("11.1", "Зачем хранить много значений. Карта коллекций", "11-11-zachem-hranit-mnogo.html", "223"),
             ChapterSectionLink("11.2", "Списки: основы", "11-01-spiski-osnovy.html", "227"),
@@ -1757,7 +1757,7 @@ def build_22() -> None:
 
     {callout(
         "info",
-        "🚀 Чуть глубже — генераторные выражения",
+        "[[icon:launch]] Чуть глубже — генераторные выражения",
         "<code class=\"inline\">(n ** 2 for n in range(5))</code> — генераторное выражение, "
         "похожее на comprehension, но не строящее список целиком в памяти сразу, а отдающее "
         "значения по одному. Пригодится позже, когда будем говорить об итераторах и работе с "
@@ -2043,7 +2043,7 @@ def build_25() -> None:
         "    counts[word] += 1\n",
     )}
 
-    <h2>🚀 Чуть глубже — стандартная библиотека уже решила эту задачу</h2>
+    <h2>[[icon:launch]] Чуть глубже — стандартная библиотека уже решила эту задачу</h2>
     {code_block(
         "counter_preview.py",
         "from collections import Counter\n\n"

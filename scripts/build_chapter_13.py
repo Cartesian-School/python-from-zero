@@ -111,7 +111,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 13 · Функции", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -229,7 +229,7 @@ def build_opener() -> None:
         "превращать большие программы в понятные части: давать алгоритмам имена, передавать им "
         "данные, получать результаты, управлять областью видимости и переиспользовать код без "
         "копирования — идея, которая переносится на любой другой язык программирования.",
-        meta_items=["⏱ ~9 часов", "🧩 def, return, scope", "📓 27 практик"],
+        meta_items=["[[icon:timer]] ~9 часов", "[[icon:architecture]] def, return, scope", "[[icon:practice]] 27 практик"],
         sections=[
             ChapterSectionLink("13.1", "Зачем программе функции", "13-09-zachem-programme-funkcii.html", "283"),
             ChapterSectionLink("13.2", "Настоящая автоматизация. Первая функция", "13-01-nastoyashaya-avtomatizaciya.html", "287"),
@@ -979,7 +979,7 @@ def build_14() -> None:
     <p>Второй вариант читается и понимается значительно быстрее — именно ради этого существуют
     keyword-only параметры.</p>
 
-    <h2>🔬 Чуть глубже — positional-only параметры</h2>
+    <h2>[[icon:experiment]] Чуть глубже — positional-only параметры</h2>
     <p>Реже, но тоже встречается обратная ситуация: параметр, который МОЖНО передавать только
     позиционно, без имени.</p>
     {code_block("positional_only.py", "def function(x, /):\n    ...\n")}
@@ -1443,7 +1443,7 @@ def build_16() -> None:
         "<code class=\"inline\">inner</code>.",
     )}
 
-    <h2>🚀 Чуть глубже — замыкание (closure)</h2>
+    <h2>[[icon:launch]] Чуть глубже — замыкание (closure)</h2>
     <p>Вложенная функция способна «запомнить» значения из объемлющей функции даже после того,
     как внешний вызов уже завершился:</p>
     {code_block(
@@ -1856,7 +1856,7 @@ def build_20() -> None:
         "приведёт к ошибке.",
     )}
 
-    <h2>🔬 Термин: функция высшего порядка</h2>
+    <h2>[[icon:experiment]] Термин: функция высшего порядка</h2>
     <p>Функция, которая принимает другую функцию как аргумент (как <code class="inline">sorted()</code>)
     или возвращает функцию (как <code class="inline">make_greeter()</code> из §13.13), называется
     <strong>функцией высшего порядка</strong>. Специальная теория функционального
@@ -1950,7 +1950,7 @@ def build_06() -> None:
         "менее читаемым, а не прогрессивным.",
     )}
 
-    <h2>🔬 Необязательно: map() и filter()</h2>
+    <h2>[[icon:experiment]] Необязательно: map() и filter()</h2>
     <p>Раз вы уже знаете comprehensions (глава 11), полезно увидеть их альтернативу:</p>
     {two_up(
         code_block("map_primer.py", "numbers = [1, 2, 3, 4]\nkvadraty = list(map(lambda n: n ** 2, numbers))\nprint(kvadraty)\n"),
@@ -2234,9 +2234,9 @@ def build_24() -> None:
     {comparison_table(
         ["Вход", "Ожидание", "Факт", "Пройден?"],
         [
-            ["<code class=\"inline\">classify_score(95)</code>", "«отлично»", "«отлично»", "✅"],
-            ["<code class=\"inline\">classify_score(60)</code>", "«хорошо»", "«хорошо»", "✅"],
-            ["<code class=\"inline\">classify_score(0)</code>", "«пересдача»", "«пересдача»", "✅"],
+            ["<code class=\"inline\">classify_score(95)</code>", "«отлично»", "«отлично»", "[[icon:success]]"],
+            ["<code class=\"inline\">classify_score(60)</code>", "«хорошо»", "«хорошо»", "[[icon:success]]"],
+            ["<code class=\"inline\">classify_score(0)</code>", "«пересдача»", "«пересдача»", "[[icon:success]]"],
             ["<code class=\"inline\">classify_score(100)</code>", "граница сверху", "?", "проверить"],
         ],
     )}

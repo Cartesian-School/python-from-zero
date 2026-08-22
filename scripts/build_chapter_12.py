@@ -90,7 +90,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 12 · Проекты", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -235,7 +235,7 @@ def build_opener() -> None:
         "random, списки/кортежи/множества/словари и Turtle. Не новая теория, а то, как строить "
         "программу из идеи: декомпозиция, алгоритм до кода, разработка маленькими шагами, тесты "
         "и отладка.",
-        meta_items=["⏱ ~8 часов", "🧩 проектная лаборатория", "📓 22 практики"],
+        meta_items=["[[icon:timer]] ~8 часов", "[[icon:architecture]] проектная лаборатория", "[[icon:practice]] 22 практики"],
         sections=[
             ChapterSectionLink("12.1", "Что такое проект", "12-07-chto-takoe-proekt.html", "259"),
             ChapterSectionLink("12.2", "Строим проект по шагам", "12-08-stroim-proekt-po-shagam.html", "263"),
@@ -484,7 +484,7 @@ def build_08() -> None:
         "баг найден и исправлен — иначе они засоряют настоящий вывод программы.",
     )}
 
-    <h2>🐞 Debug Lab: найдите ошибку</h2>
+    <h2>[[icon:debug]] Debug Lab: найдите ошибку</h2>
     <p>В программе ниже счёт должен расти на каждом правильном ответе, но почему-то всегда
     остаётся <code class="inline">1</code>. Прежде чем читать дальше — попробуйте найти причину
     сами.</p>
@@ -748,7 +748,7 @@ def build_09() -> None:
         "была бы недетерминированной.",
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Что произойдёт, если строку <code class="inline">attempts = 0</code> случайно перенести
     внутрь цикла <code class="inline">while</code>? Проверьте предположение, прежде чем читать
     дальше.</p>
@@ -907,7 +907,7 @@ def build_11() -> None:
         'print(f"Самое частое слово: {samoe_chastoe!r} — {counts[samoe_chastoe]} раз(а)")\n',
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Если посчитать <code class="inline">len(unikalnye)</code> из слов БЕЗ
     <code class="inline">.lower()</code>, а частоту слов — уже ПОСЛЕ приведения к нижнему
     регистру, эти два числа могут не biться друг с другом. Почему?</p>
@@ -1025,7 +1025,7 @@ def build_13() -> None:
         "понадобятся файлы — тема одной из следующих глав.",
     )}
 
-    <h2>🚀 Чуть глубже — контакт с несколькими полями</h2>
+    <h2>[[icon:launch]] Чуть глубже — контакт с несколькими полями</h2>
     <p>Если контакту нужно больше одного значения (телефон И email), внешний словарь может
     хранить вложенные словари (глава 11, §11.19):</p>
     {code_block(
@@ -1036,7 +1036,7 @@ def build_13() -> None:
         'print(contacts["Anna"]["email"])\n',
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     {code_block(
         "debug_lab_contacts.py",
         'contacts = {"Anna": "+48 111 111 111"}\n'
@@ -1150,7 +1150,7 @@ def build_14() -> None:
         "фокус на структуре программы, а не на денежной точности.",
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Почему в этом коде <code class="inline">total</code> в конце равен сумме только
     ПОСЛЕДНЕГО товара?</p>
     {code_block(
@@ -1206,10 +1206,10 @@ def build_16() -> None:
     {terminal_transcript([
         "Вопрос 1: Столица Франции?",
         "Ваш ответ: paris",
-        "✅ Верно!",
+        "[[icon:success]] Верно!",
         "Вопрос 2: 7 * 8?",
         "Ваш ответ: 54",
-        "❌ Неверно. Правильный ответ: 56",
+        "[[icon:error]] Неверно. Правильный ответ: 56",
         "Счёт: 1 из 2",
     ], caption="Детерминированный пример выполнения")}
 
@@ -1298,7 +1298,7 @@ def build_16() -> None:
         'print(f"Результат: {procent:.0f}%")\n',
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Что произойдёт, если убрать <code class="inline">.strip().lower()</code> при нормализации
     ответа?</p>
     {callout(
@@ -1451,7 +1451,7 @@ def build_18() -> None:
         "и он остаётся <code class=\"inline\">True</code> до конца перебора.",
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Если использовать <code class="inline">elif</code> вместо трёх отдельных
     <code class="inline">if</code> при проверке символа — некоторые символы могут обрабатываться
     неправильно. Например, что если правило было бы «есть спецсимвол»?</p>
@@ -1545,7 +1545,7 @@ def build_20() -> None:
         caption="Один и тот же код, разное значение storony — реально сгенерированные результаты",
     )}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Что произойдёт, если ввести <code class="inline">storony = 1</code> или
     <code class="inline">storony = 2</code>?</p>
     {callout(
@@ -1806,7 +1806,7 @@ def build_22() -> None:
 
     {exercise(3, "Измените ОДНО: своя картинка", "Замените picture на свою собственную матрицу 5×5 (или другого размера) из нулей и единиц — буква, смайлик, любой узор. Алгоритм менять не нужно.")}
 
-    <h2>🐞 Debug Lab</h2>
+    <h2>[[icon:debug]] Debug Lab</h2>
     <p>Что произойдёт, если в формуле координат перепутать местами
     <code class="inline">row_index</code> и <code class="inline">col_index</code>?</p>
     {code_block("debug_lab_grid.py", "x = -100 + row_index * razmer   # было col_index\ny = 100 - col_index * razmer    # было row_index\n")}
@@ -1950,7 +1950,7 @@ def build_06() -> None:
     ёлке, и в мандале, и в студии многоугольников.</p>
     {callout(
         "info",
-        "🚀 Скоро мы это упростим",
+        "[[icon:launch]] Скоро мы это упростим",
         "Сейчас, если один и тот же блок кода нужен в нескольких местах, его приходится "
         "копировать. В следующей главе — <strong>«Автоматизация с помощью функций»</strong> — "
         "мы научимся давать группе команд имя и использовать её многократно, не копируя код "

@@ -50,9 +50,9 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup("Глава 20 · Pygame", items),
         SidebarGroup(
             "Практика",
-            [NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
+            [NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in LESSON_IDS],
         ),
-        SidebarGroup("Исходный код", [NavItem("🐍 bouncing_ball.py", "../../../projects/pygame/bouncing-ball/bouncing_ball.py")]),
+        SidebarGroup("Исходный код", [NavItem("[[icon:code]] bouncing_ball.py", "../../../projects/pygame/bouncing-ball/bouncing_ball.py")]),
     ]
 
 
@@ -68,7 +68,7 @@ def build_opener() -> None:
         baseline_page=445,
         title="Станьте разработчиком игр с Pygame",
         description="Новый инструмент для игр — быстрее и гибче Turtle, с настоящим игровым циклом и обработкой кадров.",
-        meta_items=["⏱ ~2–3 часа", "🕹️ модуль pygame", "📓 4 ноутбука практики"],
+        meta_items=["[[icon:timer]] ~2–3 часа", "[[icon:game]] модуль pygame", "[[icon:practice]] 4 ноутбука практики"],
         sections=[
             ChapterSectionLink("20.1", "Что такое Pygame?", "20-01-chto-takoe-pygame.html", "445"),
             ChapterSectionLink("", "Устанавливаем и импортируем Pygame", "20-01-chto-takoe-pygame.html#ustanovka", "446"),
@@ -347,7 +347,7 @@ def build_05() -> None:
         "дополнительных проверок направления.",
     )}
     <p>Полный, уже проверенный файл — отдельно:</p>
-    <p>📄 <a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">projects/pygame/bouncing-ball/bouncing_ball.py</a></p>
+    <p>[[icon:file]] <a href="../../../projects/pygame/bouncing-ball/bouncing_ball.py">projects/pygame/bouncing-ball/bouncing_ball.py</a></p>
 
     {exercise(2, "Меняем цвет при отскоке", "При каждом отскоке от стены выбирайте новый случайный цвет мяча (random.choice() из главы 5/11).")}
     {exercise(3, "Два мяча", "Добавьте второй мяч с собственными x, y, dx, dy — оба должны двигаться и отскакивать независимо.")}

@@ -97,7 +97,7 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
     return [
         SidebarGroup("Глава 10 · Циклы", items),
         SidebarGroup("Практика", [
-            NavItem(f"🐍 {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
+            NavItem(f"[[icon:practice]] {lid}: Практика", f"../../practice/{lid}/index.html") for lid in PRACTICE_IDS
         ]),
     ]
 
@@ -149,7 +149,7 @@ def build_opener() -> None:
         description="Циклы for и while как третья структура алгоритма после ветвления из главы 9, "
         "range() и enumerate() без мифов, break/continue/loop-else, вложенные циклы, отладка "
         "типичных ошибок циклов — и наконец-то настоящая автоматизация всех фигур из глав 6-7.",
-        meta_items=["⏱ ~5 часов", "🔁 for / while", "📓 24 практики"],
+        meta_items=["[[icon:timer]] ~5 часов", "[[icon:loop]] for / while", "[[icon:practice]] 24 практики"],
         sections=[
             ChapterSectionLink("10.1", "Повторение и первый цикл for", "10-01-cikly-for.html", "195"),
             ChapterSectionLink("", "Три структуры алгоритма: вспоминаем", "10-01-cikly-for.html#tri-struktury", "196"),
