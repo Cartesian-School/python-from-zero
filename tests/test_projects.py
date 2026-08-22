@@ -404,6 +404,48 @@ scheduled.clear()
 app._on_timer(live_gen - 1)  # deliberately stale
 assert scheduled == []
 
+# --- required micro-hotfix: game_tick() -> render() -> screen.update() can
+# process pending Tk events, so a Pause/Resume (or Restart) may happen
+# REENTRANTLY while _on_timer() is still inside game_tick() and change the
+# generation before _on_timer() gets back control. A callback that went
+# stale during its own tick must not ALSO schedule a continuation on top
+# of whatever fresh chain that reentrant event already started.
+scheduled.clear()
+app.state.status = s.GameStatus.RUNNING
+reentrant_start_gen = app._generation
+real_game_tick = app.game_tick
+
+
+def fake_reentrant_tick():
+    # Simulate Pause -> Resume happening reentrantly inside
+    # game_tick() -> render() -> screen.update().
+    app._generation += 2
+    app.state.status = s.GameStatus.RUNNING
+    app._schedule_next_tick()  # Resume starts exactly one fresh chain
+
+
+app.game_tick = fake_reentrant_tick
+app._on_timer(reentrant_start_gen)
+assert len(scheduled) == 1  # only Resume's own timer — the stale callback must not add a second
+app.game_tick = real_game_tick
+
+# same shape, but generation does NOT change during the tick — the fix must
+# not accidentally suppress the ordinary, unchanged-generation continuation
+scheduled.clear()
+app.state.status = s.GameStatus.RUNNING
+unchanged_gen = app._generation
+
+
+def fake_normal_tick():
+    pass
+
+
+app.game_tick = fake_normal_tick
+app._on_timer(unchanged_gen)
+assert len(scheduled) == 1
+app.game_tick = real_game_tick
+
+print("REENTRANT GENERATION GUARD OK")
 print("PAUSE/RESUME TIMER CHAIN OK")
 
 # --- required audit hotfix: full board must return an explicit terminal
