@@ -490,12 +490,67 @@ print("OK")
     assert "OK" in r.stdout
 
 
-def test_bouncing_ball():
+def test_bouncing_ball_basic():
     r = run_with_display(
         """
-import bouncing_ball as b
+import bouncing_ball_basic as b
 x, y, dx, dy = b.shag_fiziki(b.RADIUS - 1, 200, -5, 3)
 assert dx == 5
+print("OK")
+""",
+        ROOT / "projects" / "pygame" / "bouncing-ball",
+    )
+    assert r.returncode == 0, r.stderr
+    assert "OK" in r.stdout
+
+
+def test_bouncing_ball_pro():
+    r = run_with_display(
+        """
+import math
+import bouncing_ball as b
+
+game = b.BouncingBallGame()
+assert game.state is b.SostoyanieIgry.IGRA
+
+# Много тиков физики -- мяч обязан хотя бы раз отскочить от стены поля
+# 600x400, и счёт должен расти ровно на OCHKOV_ZA_OTSKOK за каждый отскок
+# (раздел 20.33 -- отдельная проверка соответствия схема schet <-> otskokov).
+for _ in range(240):
+    game.update(1 / 60)
+assert game.otskokov > 0
+assert game.schet == game.otskokov * b.OCHKOV_ZA_OTSKOK
+assert b.RADIUS <= game.x <= b.SHIRINA - b.RADIUS
+assert b.RADIUS <= game.y <= b.VYSOTA - b.RADIUS
+
+# Пауза обязана останавливать именно update(), а не только отрисовку --
+# раздел 20.26, тот самый Debug Lab про "пауза не останавливает управление".
+game.toggle_pause()
+assert game.state is b.SostoyanieIgry.PAUZA
+frozen = (game.x, game.y, game.vx, game.vy)
+for _ in range(60):
+    game.update(1 / 60)
+assert (game.x, game.y, game.vx, game.vy) == frozen
+game.toggle_pause()
+assert game.state is b.SostoyanieIgry.IGRA
+
+# Рестарт без перезапуска процесса -- отскоки и счёт обнуляются.
+game._reset_myach()
+assert game.otskokov == 0 and game.schet == 0
+assert (game.x, game.y) == (b.SHIRINA / 2, b.VYSOTA / 2)
+
+# Клик мышью разворачивает мяч к точке клика, сохраняя величину скорости
+# (нормализация вектора -- раздел 20.16 про диагональное движение).
+skorost_do = math.hypot(game.vx, game.vy)
+game.tolknut_k_tochke(game.x + 100, game.y)
+assert game.vx > 0
+assert math.isclose(math.hypot(game.vx, game.vy), skorost_do, rel_tol=1e-9)
+
+# render() не должен падать -- в том числе состояние ПАУЗА с оверлеем текста.
+game.render()
+game.toggle_pause()
+game.render()
+
 print("OK")
 """,
         ROOT / "projects" / "pygame" / "bouncing-ball",
