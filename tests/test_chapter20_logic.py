@@ -201,6 +201,64 @@ def test_repeated_damped_bounces_eventually_settle_below_threshold():
     assert otskokov < 200   # действительно затухает, а не зацикливается вечно
 
 
+# ---------- 20.22 — trenie: ОБЯЗАТЕЛЬНЫЙ регрессионный тест на dt ----------
+
+def _primenit_trenie_dt(skorost, trenie, dt):
+    """Тот же dt-based алгоритм торможения, что показан на странице 20.22:
+    ускорение торможения в px/s^2, умноженное на dt, а не постоянный
+    коэффициент, умножаемый на скорость каждый кадр."""
+    if skorost > 0:
+        return max(0.0, skorost - trenie * dt)
+    elif skorost < 0:
+        return min(0.0, skorost + trenie * dt)
+    return skorost
+
+
+def test_dt_based_friction_is_fps_independent():
+    """Обязательный регрессионный тест раздела 20.22: одна и та же реальная
+    секунда торможения, нарезанная на 30, 60 или 120 шагов, обязана дать
+    приблизительно одинаковую итоговую скорость -- иначе трение, как и
+    нескорректированное движение из раздела 20.16, зависело бы от FPS."""
+    TRENIE = 300.0
+    NACHALNAYA_SKOROST = 250.0
+
+    itogi = {}
+    for fps in (30, 60, 120):
+        skorost = NACHALNAYA_SKOROST
+        dt = 1 / fps
+        for _ in range(fps):   # ровно 1.0 секунда реального времени
+            skorost = _primenit_trenie_dt(skorost, TRENIE, dt)
+        itogi[fps] = skorost
+
+    assert math.isclose(itogi[30], itogi[60], abs_tol=1e-6)
+    assert math.isclose(itogi[60], itogi[120], abs_tol=1e-6)
+    # За 1 секунду скорость обязана снизиться ровно на TRENIE (250 - 300 -> упёрлась в 0)
+    assert itogi[60] == 0.0
+
+
+def test_naive_per_frame_friction_is_not_fps_independent():
+    """Контрольный, "отрицательный" тест: наивное торможение "умножить
+    скорость на константу каждый кадр" (без dt) НЕ обладает свойством из
+    теста выше -- на более высоком FPS такое умножение срабатывает чаще за
+    ту же реальную секунду, и объект останавливается быстрее."""
+    KOEFFICIENT = 0.98
+
+    def naivnoe_tormozhenie(fps):
+        skorost = 250.0
+        for _ in range(fps):   # 1.0 секунда, нарезанная на fps кадров
+            skorost *= KOEFFICIENT
+        return skorost
+
+    skorost_30 = naivnoe_tormozhenie(30)
+    skorost_60 = naivnoe_tormozhenie(60)
+    skorost_120 = naivnoe_tormozhenie(120)
+
+    assert skorost_30 != skorost_60
+    assert skorost_60 != skorost_120
+    # Больше кадров за ту же секунду -> сильнее суммарное торможение
+    assert skorost_120 < skorost_60 < skorost_30
+
+
 # ---------- 20.25 — состояния игры: разрешённые переходы ----------
 
 class _SostoyanieDlyaTesta(Enum):
