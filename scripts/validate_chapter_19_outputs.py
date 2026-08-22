@@ -37,6 +37,7 @@ REQUIRED_NAMES = [
     "snake-fast-speed",
     "snake-grid-demo",
     "snake-final-pro",
+    "snake-won",
     # первый прототип (snake_basic.py) — используется на страницах 19-02..19-08
     "snake-basic-empty-field",
     "snake-basic-head-food",
