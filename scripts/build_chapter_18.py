@@ -275,6 +275,70 @@ def turtle_vs_canvas_diagram() -> str:
     </div>"""
 
 
+def mouse_gesture_diagram(*, caption: str = "") -> str:
+    """Вертикальная последовательность press → drag* → release для раздела
+    18.12 — сознательно НЕ диаграмма принятия решений: жест мыши линеен,
+    а <B1-Motion> может произойти ноль, один или много раз подряд. Вместо
+    диаграммы с веткой ДА/НЕТ и кривой стрелкой назад это показано рамкой
+    вокруг повторяющегося шага с явной подписью — без пересекающихся
+    стрелок и без отдельного SVG viewBox, который на узком экране сжимал
+    бы текст вместе с диаграммой (HTML/CSS верстка вместо этого просто
+    переносит строки на мобильном экране)."""
+
+    def node(top: str, bottom: str, *, accent: str) -> str:
+        return f"""
+        <div style="box-sizing:border-box;width:min(320px,100%);border:1.5px solid {accent};
+          border-radius:14px;background:var(--color-bg-canvas,#fff);padding:10px 18px;
+          text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+            color:{accent}">{html.escape(top)}</div>
+          <div style="font-size:14px;margin-top:2px">{html.escape(bottom)}</div>
+        </div>"""
+
+    def arrow() -> str:
+        return '<div style="font-size:20px;line-height:1;color:#9a97a8;margin:2px 0" aria-hidden="true">↓</div>'
+
+    press = node("<Button-1>", "Нажали левую кнопку мыши", accent="#5B24F9")
+    remember = node("start_x, start_y", "Запоминаем точку начала", accent="#5B24F9")
+    drag_event = node("<B1-Motion>", "Мышь движется с зажатой кнопкой", accent="#5B24F9")
+    drag_update = node("coords() / create_line()", "Обновляем превью или штрих", accent="#5B24F9")
+    release = node("<ButtonRelease-1>", "Кнопку отпустили", accent="#DB2777")
+    finalize = node("render_document()", "Фиксируем фигуру или действие", accent="#059669")
+
+    repeat_group = f"""
+    <div style="box-sizing:border-box;width:min(340px,100%);border:2px dashed #DB2777;
+      border-radius:18px;padding:16px 16px 12px;display:flex;flex-direction:column;
+      align-items:center;gap:6px;position:relative;margin:6px 0">
+      <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+        background:#DB2777;color:#fff;font-family:Sora,sans-serif;font-weight:700;font-size:11px;
+        letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:3px 12px;
+        white-space:nowrap">↻ 0, 1 или много раз</div>
+      {drag_event}
+      {arrow()}
+      {drag_update}
+    </div>"""
+
+    cap = (
+        f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);'
+        f'margin-top:12px;max-width:420px">{html.escape(caption)}</figcaption>'
+        if caption else ""
+    )
+    return f"""
+    <figure style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);
+      border-radius:var(--radius-lg,20px);display:flex;flex-direction:column;align-items:center">
+      {press}
+      {arrow()}
+      {remember}
+      {arrow()}
+      {repeat_group}
+      {arrow()}
+      {release}
+      {arrow()}
+      {finalize}
+      {cap}
+    </figure>"""
+
+
 # ---------------------------------------------------------------------------
 # Опener
 # ---------------------------------------------------------------------------
@@ -1004,14 +1068,10 @@ def build_11() -> None:
 
 
 def build_12() -> None:
-    lifecycle = flowchart([
-        {"kind": "start", "label": "<Button-1>: нажали кнопку мыши"},
-        {"kind": "process", "label": "запомнить точку начала"},
-        {"kind": "decision", "label": "мышь движется с зажатой кнопкой?",
-         "yes": [{"kind": "process", "label": "<B1-Motion>: обновить превью/штрих"}],
-         "no": []},
-        {"kind": "end", "label": "<ButtonRelease-1>: зафиксировать результат"},
-    ], caption="press → drag (может повториться много раз) → release — один и тот же жест для карандаша, линии, прямоугольника и овала.")
+    lifecycle = mouse_gesture_diagram(
+        caption="press → drag (0, 1 или много раз) → release — один и тот же жест для карандаша, "
+        "линии, прямоугольника и овала.",
+    )
     body = f"""
     <h2>Один жест, три события</h2>
     <p>Рисование одной фигуры мышью — это не одно событие, а последовательность из трёх разных

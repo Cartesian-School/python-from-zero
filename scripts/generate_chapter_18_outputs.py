@@ -100,7 +100,7 @@ def paint_pro_final() -> None:
     app.on_release(FakeEvent(355, 200))
     app.width_scale.set(6)
     app.set_tool(p.Tool.LINE)
-    capture("paint-pro-final", root, grab_w=760, grab_h=560)
+    capture("paint-pro-final", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ def canvas_coordinate_demo() -> None:
     app.canvas.create_oval(p2[0] - 4, p2[1] - 4, p2[0] + 4, p2[1] + 4, fill="#DB2777", outline="")
     app.canvas.create_text(p2[0] + 12, p2[1] - 10, text="P2", fill="#DB2777", font=("Arial", 12, "bold"), anchor="w")
     app.canvas.create_line(p1[0], p1[1], p2[0], p2[1], fill="#0D0230", width=2, dash=(4, 2))
-    capture("canvas-coordinate-demo", root, grab_w=760, grab_h=560)
+    capture("canvas-coordinate-demo", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -192,13 +192,13 @@ def canvas_coordinate_demo() -> None:
 def tool_pencil_selected() -> None:
     root, app = new_app()
     app.set_tool(p.Tool.PENCIL)
-    capture("tool-pencil-selected", root, grab_w=760, grab_h=560)
+    capture("tool-pencil-selected", root, grab_w=1175, grab_h=560)
 
 
 def tool_line_selected() -> None:
     root, app = new_app()
     app.set_tool(p.Tool.LINE)
-    capture("tool-line-selected", root, grab_w=760, grab_h=560)
+    capture("tool-line-selected", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -209,7 +209,7 @@ def mouse_press_start() -> None:
     root, app = new_app()
     app.set_tool(p.Tool.LINE)
     app.on_press(FakeEvent(80, 80))
-    capture("mouse-press-start", root, grab_w=760, grab_h=560)
+    capture("mouse-press-start", root, grab_w=1175, grab_h=560)
 
 
 def mouse_drag_preview_line() -> None:
@@ -217,7 +217,7 @@ def mouse_drag_preview_line() -> None:
     app.set_tool(p.Tool.LINE)
     app.on_press(FakeEvent(80, 80))
     app.on_drag(FakeEvent(260, 160))
-    capture("mouse-drag-preview-line", root, grab_w=760, grab_h=560)
+    capture("mouse-drag-preview-line", root, grab_w=1175, grab_h=560)
 
 
 def line_final() -> None:
@@ -226,7 +226,7 @@ def line_final() -> None:
     app.on_press(FakeEvent(80, 80))
     app.on_drag(FakeEvent(260, 160))
     app.on_release(FakeEvent(260, 160))
-    capture("line-final", root, grab_w=760, grab_h=560)
+    capture("line-final", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -238,7 +238,7 @@ def rectangle_preview() -> None:
     app.set_tool(p.Tool.RECTANGLE)
     app.on_press(FakeEvent(60, 60))
     app.on_drag(FakeEvent(220, 150))
-    capture("rectangle-preview", root, grab_w=760, grab_h=560)
+    capture("rectangle-preview", root, grab_w=1175, grab_h=560)
 
 
 def oval_preview() -> None:
@@ -246,7 +246,7 @@ def oval_preview() -> None:
     app.set_tool(p.Tool.OVAL)
     app.on_press(FakeEvent(60, 60))
     app.on_drag(FakeEvent(220, 150))
-    capture("oval-preview", root, grab_w=760, grab_h=560)
+    capture("oval-preview", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -261,7 +261,7 @@ def freehand_connected_stroke() -> None:
     for x, y in points:
         app.on_drag(FakeEvent(x, y))
     app.on_release(FakeEvent(*points[-1]))
-    capture("freehand-connected-stroke", root, grab_w=760, grab_h=560)
+    capture("freehand-connected-stroke", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -275,7 +275,7 @@ def width_comparison() -> None:
         app.canvas.create_line(40, y, 240, y, fill="#111827", width=width, capstyle=tk.ROUND)
         app.canvas.create_text(260, y, text=f"width={width}", anchor="w", font=("Arial", 11))
         y += 40
-    capture("width-comparison", root, grab_w=760, grab_h=560)
+    capture("width-comparison", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -289,7 +289,7 @@ def custom_color_result() -> None:
     app.on_press(FakeEvent(60, 80))
     app.on_drag(FakeEvent(220, 80))
     app.on_release(FakeEvent(220, 80))
-    capture("custom-color-result", root, grab_w=760, grab_h=560)
+    capture("custom-color-result", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -306,14 +306,14 @@ def _three_overlapping_shapes(app: "p.PaintApp"):
 def stacking_order_before() -> None:
     root, app = new_app()
     _three_overlapping_shapes(app)
-    capture("stacking-order-before", root, grab_w=760, grab_h=560)
+    capture("stacking-order-before", root, grab_w=1175, grab_h=560)
 
 
 def stacking_order_after() -> None:
     root, app = new_app()
     rect_id, _oval_id, _line_id = _three_overlapping_shapes(app)
     app.canvas.tag_raise(rect_id)
-    capture("stacking-order-after", root, grab_w=760, grab_h=560)
+    capture("stacking-order-after", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -334,7 +334,7 @@ def _drawing_for_eraser(app: "p.PaintApp") -> None:
 def eraser_before() -> None:
     root, app = new_app()
     _drawing_for_eraser(app)
-    capture("eraser-before", root, grab_w=760, grab_h=560)
+    capture("eraser-before", root, grab_w=1175, grab_h=560)
 
 
 def eraser_after() -> None:
@@ -345,7 +345,7 @@ def eraser_after() -> None:
     for x in range(80, 200, 10):
         app.on_drag(FakeEvent(x, 100))
     app.on_release(FakeEvent(200, 100))
-    capture("eraser-after", root, grab_w=760, grab_h=560)
+    capture("eraser-after", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -368,14 +368,14 @@ def _drawing_for_undo(app: "p.PaintApp") -> None:
 def undo_before() -> None:
     root, app = new_app()
     _drawing_for_undo(app)
-    capture("undo-before", root, grab_w=760, grab_h=560)
+    capture("undo-before", root, grab_w=1175, grab_h=560)
 
 
 def undo_after() -> None:
     root, app = new_app()
     _drawing_for_undo(app)
     app.undo()
-    capture("undo-after", root, grab_w=760, grab_h=560)
+    capture("undo-after", root, grab_w=1175, grab_h=560)
 
 
 def redo_after() -> None:
@@ -383,7 +383,7 @@ def redo_after() -> None:
     _drawing_for_undo(app)
     app.undo()
     app.redo()
-    capture("redo-after", root, grab_w=760, grab_h=560)
+    capture("redo-after", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -396,7 +396,7 @@ def status_bar() -> None:
     app.set_color("#2563eb")
     app.width_scale.set(5)
     app._update_status(314, 208)
-    capture("status-bar", root, grab_w=760, grab_h=560)
+    capture("status-bar", root, grab_w=1175, grab_h=560)
 
 
 # ---------------------------------------------------------------------------
@@ -408,7 +408,7 @@ def saved_document() -> None:
     _drawing_for_undo(app)
     tmp_path = OUT_DIR.parent / "_tmp_saved_document.json"
     app._write_document(tmp_path)
-    capture("saved-document", root, grab_w=760, grab_h=560)
+    capture("saved-document", root, grab_w=1175, grab_h=560)
     tmp_path.unlink(missing_ok=True)
 
 
@@ -421,7 +421,7 @@ def loaded_document() -> None:
 
     root2, app2 = new_app()
     app2.load_from_path(tmp_path)
-    capture("loaded-document", root2, grab_w=760, grab_h=560)
+    capture("loaded-document", root2, grab_w=1175, grab_h=560)
     tmp_path.unlink(missing_ok=True)
 
 
@@ -435,11 +435,11 @@ def resized_window() -> None:
     app.on_press(FakeEvent(40, 40))
     app.on_drag(FakeEvent(140, 110))
     app.on_release(FakeEvent(140, 110))
-    root.geometry("900x650+0+0")
+    root.geometry("1200x650+0+0")
     root.update_idletasks()
     root.update()
     app.render_document()  # переасинхронное обновление цвета после resize (см. главу 17)
-    capture("resized-window", root, grab_w=950, grab_h=700)
+    capture("resized-window", root, grab_w=1230, grab_h=700)
 
 
 if __name__ == "__main__":
