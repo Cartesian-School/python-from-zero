@@ -315,6 +315,13 @@ class SnakeApp:
         if generation != self._generation:
             return  # просроченная цепочка от игры до restart() — само гасится
         self.game_tick()
+        # game_tick() -> render() -> screen.update() может успеть обработать
+        # событие Pause/Resume/Restart прямо ВНУТРИ этого вызова и изменить
+        # поколение реентерабельно — колбэк, устаревший во время тика, не
+        # должен планировать продолжение (иначе новая цепочка, запущенная
+        # тем событием, окажется не единственной).
+        if generation != self._generation:
+            return
         if self.state.status is GameStatus.RUNNING:
             self._schedule_next_tick()
 
