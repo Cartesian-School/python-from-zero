@@ -4096,7 +4096,7 @@ class ChapterSectionLink:
     num: str
     title: str
     href: str
-    page: str
+    page: str = ""
 
 
 def render_chapter_opener(
@@ -4114,7 +4114,8 @@ def render_chapter_opener(
     rows = "".join(
         f'<a class="section-item" href="{html.escape(s.href)}">'
         f'<span><span class="si-num">{html.escape(s.num)}</span>{html.escape(s.title)}</span>'
-        f'<span class="si-page">{html.escape(s.page)}</span></a>'
+        + (f'<span class="si-page">{html.escape(s.page)}</span>' if s.page else "")
+        + '</a>'
         for s in sections
     )
     return _render_icon_markers(f"""<!DOCTYPE html>
