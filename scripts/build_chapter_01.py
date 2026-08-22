@@ -64,7 +64,6 @@ def write(name: str, html_out: str) -> None:
     print(f"Записано: {path.relative_to(ROOT)}")
 
 
-PY_LOGO = '../../assets/img/brand/python-logo-mark.svg'
 PY_WORDMARK = '../../assets/img/brand/python-logo.svg'
 
 
@@ -76,10 +75,6 @@ def build_opener() -> None:
         description="Первая глава книги «Python с нуля» — что такое программирование, откуда взялся "
         "Python, как устроена его экосистема и почему он отлично подходит для первого языка.",
         meta_items=["⏱ ~70 минут", "💻 без установки Python", "📓 1 ноутбук практики"],
-        brand_html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
-        f'<img src="{PY_LOGO}" alt="Python" width="34" height="34" style="display:block" />'
-        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:13px;color:var(--blue-300);'
-        'letter-spacing:.04em">Официальный логотип Python — использован с разрешения python.org/community/logos/</span></div>',
         sections=[
             ChapterSectionLink("1.1", "Что такое программирование?", "01-01-chto-takoe-programmirovanie.html", "1"),
             ChapterSectionLink("", "Алгоритм, инструкция, выражение", "01-01-chto-takoe-programmirovanie.html#algoritm-i-instrukcii", ""),

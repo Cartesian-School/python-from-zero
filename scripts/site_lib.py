@@ -3967,7 +3967,7 @@ def render_page(
 
   <article>
     <div class="breadcrumb">{breadcrumb_html}</div>
-    <div class="section-kicker">{html.escape(kicker)}</div>
+    <div class="section-kicker">{f'<img src="{root}assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />' if kicker.startswith("Глава ") else ""}{html.escape(kicker)}</div>
     <h1>{html.escape(h1)}</h1>
     <p class="lede">{lede}</p>
 
@@ -4028,7 +4028,8 @@ def render_chapter_opener(
     padding: var(--spacing-4xl) var(--spacing-2xl);
   }}
   .chapter-hero-inner {{ max-width: 900px; margin: 0 auto; }}
-  .chapter-num {{ font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }}
+  .chapter-num {{ display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }}
+  .chapter-num img {{ width: 22px; height: 22px; display: block; flex-shrink: 0; }}
   .chapter-hero h1 {{ color: white; font-size: 44px; max-width: 640px; }}
   .chapter-hero p {{ color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }}
   .chapter-meta {{ display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }}
@@ -4050,7 +4051,7 @@ def render_chapter_opener(
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
 {brand_html}
-    <div class="chapter-num">ГЛАВА {chapter_num} · СТР. {baseline_page}</div>
+    <div class="chapter-num"><img src="{root}assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />ГЛАВА {chapter_num} · СТР. {baseline_page}</div>
     <h1>{html.escape(title)}</h1>
     <p>{description}</p>
     <div class="chapter-meta">{meta_html}</div>

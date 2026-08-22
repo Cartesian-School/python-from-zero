@@ -125,10 +125,6 @@ def build_opener() -> None:
         "Каждый пример показывает по-настоящему выполненный рисунок, а не описание того, что "
         "должно получиться.",
         meta_items=["⏱ ~4–5 часов", "💻 модуль turtle", "📓 18 практик", "🖼 реальные результаты у каждого примера"],
-        brand_html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
-        f'<img src="{IMG}/brand/python-logo-mark.svg" alt="Python" width="30" height="30" style="display:block" />'
-        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--blue-300);'
-        'letter-spacing:.03em">Официальный логотип Python — использован для идентификации языка</span></div>',
         sections=[
             ChapterSectionLink("6.1", "Приступаем", "06-01-pristupaem.html", "83"),
             ChapterSectionLink("6.2", "Координаты: центр (0, 0)", "06-09-koordinaty.html", "85"),

@@ -109,10 +109,6 @@ def build_opener() -> None:
         "(корни, геометрия, тригонометрия, логарифмы), модуль random "
         "(псевдослучайность, seed, воспроизводимость) и отладка вычислений.",
         meta_items=["⏱ ~4 часа", "🧮 math и random в деталях", "📓 21 практика"],
-        brand_html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
-        f'<img src="{IMG}/brand/python-logo-mark.svg" alt="Python" width="30" height="30" style="display:block" />'
-        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--blue-300);'
-        'letter-spacing:.03em">Официальный логотип Python — использован для идентификации языка</span></div>',
         sections=[
             ChapterSectionLink("5.1", "Выражения и основные операции", "05-01-osnovnye-operacii.html", "60"),
             ChapterSectionLink("5.2", "Деление с остатком", "05-07-delenie-s-ostatkom.html", "62"),
