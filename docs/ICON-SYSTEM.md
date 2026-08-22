@@ -21,6 +21,34 @@ assets.
 - **Validator:** `scripts/validate_no_decorative_emoji.py` — run it to catch
   a decorative emoji reintroduced into chapter source.
 
+## Signal levels
+
+A semantic icon exists to be noticed — an emoji worked as an attention
+signal precisely because it was bold and colorful. The icon system has
+three presentation levels so a symbol's visual weight matches how much
+attention it's supposed to demand:
+
+- **Level A — signal.** Important semantic blocks: `callout()`/`exercise()`
+  titles, Debug Lab headings. Rendered via `cs_icon_emblem()`: a ~40px tile
+  (34px under 480px) tinted with the icon's own semantic color, holding a
+  ~26px (22px mobile) fully-opaque symbol. This is deliberately the
+  strongest presentation in the system — the reader should recognize
+  "warning" or "idea" before reading the title next to it. `callout()` and
+  `exercise()` apply this automatically whenever their title starts with an
+  `icon_label()` marker; nothing else to do at the call site.
+- **Level B — support.** Secondary semantic markers: chapter-hero metadata
+  badges (`.chapter-meta .cs-icon`, ~22px). Clearly visible, not shouting.
+- **Level C — utility.** Minor inline glyphs: sidebar practice/source-file
+  links, directory-tree illustrations, the homepage feature grid and
+  reference board (`.cs-icon`'s plain `1.15em` default, ~16–20px in
+  context). `cs_icon()`/`icon_label()` without going through `callout()`/
+  `exercise()` always render at this level.
+
+Reserve Level A for the categories it exists for — idea, warning, debug/
+lab, error, success, experiment, project/launch, official source. Giving
+every paragraph a Level A icon defeats the point: if everything shouts,
+nothing is important.
+
 ## Using it in a chapter script
 
 Never type a decorative emoji in chapter content. Use `icon_label()`

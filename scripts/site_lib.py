@@ -57,6 +57,35 @@ def cs_icon(name: str) -> str:
     )
 
 
+_LEADING_ICON_RE = re.compile(r"^\[\[icon:([a-z-]+)\]\]\s*")
+
+
+def _extract_leading_icon(title: str) -> tuple[str, str]:
+    """If `title` starts with an icon_label() marker, returns (icon_name,
+    rest-of-title); otherwise ("", title). Used by callout()/exercise() to
+    pull the icon out of the (escaped) title text and render it as its own
+    Level A emblem tile instead — see cs_icon_emblem()."""
+    m = _LEADING_ICON_RE.match(title)
+    if not m:
+        return "", title
+    return m.group(1), title[m.end():]
+
+
+def cs_icon_emblem(name: str) -> str:
+    """A Level A "signal" tile: the icon at ~26px on a ~40px rounded tile
+    tinted with its own semantic color (see .cs-icon-emblem in theory.css).
+
+    This is the strong, attention-grabbing presentation — reserved for
+    important semantic blocks (callout()/exercise() titles, Debug Lab
+    headings). Everyday inline use (sidebar links, chapter metadata badges,
+    directory-tree illustrations) should keep using the plain cs_icon()/
+    icon_label() — see docs/ICON-SYSTEM.md's "signal levels" section.
+    """
+    if name not in CS_ICON_NAMES:
+        raise ValueError(f"unknown cs_icon name: {name!r} (see CS_ICON_NAMES)")
+    return f'<div class="cs-icon-emblem cs-icon-emblem--{name}">{cs_icon(name)}</div>'
+
+
 def icon_label(name: str, text: str) -> str:
     """Prefix `text` with a semantic Cartesian icon marker.
 
@@ -178,9 +207,11 @@ def code_block(filename: str, code: str, *, lang: str = "python") -> str:
 
 
 def callout(kind: str, title: str, body_html: str) -> str:
+    icon_name, title = _extract_leading_icon(title)
+    emblem_html = cs_icon_emblem(icon_name) + "\n      " if icon_name else ""
     return f"""
     <div class="callout callout-{kind}">
-      <div>
+      {emblem_html}<div>
         <div class="callout-title">{html.escape(title)}</div>
         <div class="callout-body">{body_html}</div>
       </div>
@@ -216,11 +247,19 @@ _STARS = {1: "★ Базовая практика", 2: "★★ Самостоя�
 
 
 def exercise(stars: int, title: str, body_html: str) -> str:
-    return f"""
-    <div class="exercise">
-      <div class="exercise-stars">{_STARS[stars]}</div>
+    icon_name, title = _extract_leading_icon(title)
+    emblem_html = cs_icon_emblem(icon_name) if icon_name else ""
+    inner = f"""<div class="exercise-stars">{_STARS[stars]}</div>
       <div class="exercise-title">{html.escape(title)}</div>
-      <p>{body_html}</p>
+      <p>{body_html}</p>"""
+    if not emblem_html:
+        return f'\n    <div class="exercise">\n      {inner}\n    </div>'
+    return f"""
+    <div class="exercise exercise-signal">
+      {emblem_html}
+      <div>
+      {inner}
+      </div>
     </div>"""
 
 
