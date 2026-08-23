@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("220c8a0a", {})  # "Проверка результата" -- while сохраняет overshoot
-_zadanie = _cells.get("83ba529f", {})   # "Задание ★★" -- координата появления врага
+_proverka = _cells.get("da834de9", {})  # "Проверка результата" -- while сохраняет overshoot
+_zadanie = _cells.get("77622dc9", {})   # "Задание ★★" -- координата появления врага
 
 checks = [
     {
