@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("fd696b8d", {})  # "Проверка результата" -- clean_title() отклоняет пустой и слишком длинный ввод
+_proverka = _cells.get("07244abe", {})  # "Проверка результата" -- clean_title() отклоняет пустой и слишком длинный ввод
 
 checks = [
     {

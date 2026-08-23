@@ -69,7 +69,7 @@ def test_privet_podstavlyaet_imya(client):
 
 def test_dobavit_redirect(client):
     otvet = client.post("/dobavit", data={"zadacha": "Купить хлеб"})
-    assert otvet.status_code in (302, 303)
+    assert otvet.status_code == 303
     assert otvet.headers["Location"].endswith("/")
 
 
@@ -145,6 +145,28 @@ def test_persistence_posle_novogo_ekzemplyara_prilozheniya(temp_db_path, monkeyp
 
     assert len(zadachi) == 1
     assert zadachi[0]["title"] == "Переживает перезапуск"
+
+
+def test_init_db_na_sushchestvuyushchem_pustom_fajle(tmp_path):
+    """init_db() должна быть безопасна и на уже существующем файле базы
+    данных, в котором ещё нет таблицы tasks (например, файл создан
+    заранее пустым) — GET / не должен падать с "no such table: tasks"."""
+    put = str(tmp_path / "pustoj_fajl.db")
+    conn = sqlite3.connect(put)
+    conn.close()
+    assert Path(put).exists()
+
+    del sys.modules["app"]
+    import app as todoapp3  # noqa: E402
+
+    todoapp3.app.config["DATABASE"] = put
+    with todoapp3.app.app_context():
+        todoapp3.init_db()
+
+    client = todoapp3.app.test_client()
+    otvet = client.get("/")
+    assert otvet.status_code == 200
+    assert "Задач пока нет" in otvet.get_data(as_text=True)
 
 
 # ---------- валидация ----------

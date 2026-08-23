@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("8931c83a", {})  # "Проверка результата" -- sqlite3.Row доступен по имени столбца и по индексу
+_proverka = _cells.get("7f91400c", {})  # "Проверка результата" -- sqlite3.Row доступен по имени столбца и по индексу
 
 checks = [
     {
