@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("35cceed1", {})  # "Проверка результата" -- json.dumps()/loads() дают валидный JSON и восстанавливают словарь
-_zadanie = _cells.get("8ab08d37", {})  # "Задание ★" -- список словарей превращается в JSON-массив объектов
+_proverka = _cells.get("83790b2f", {})  # "Проверка результата" -- json.dumps()/loads() дают валидный JSON и восстанавливают словарь
+_zadanie = _cells.get("334cf569", {})  # "Задание ★" -- список словарей превращается в JSON-массив объектов
 
 checks = [
     {

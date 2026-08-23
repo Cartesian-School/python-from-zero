@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("d068fb71", {})  # "Проверка результата" -- фреймворки и серверы верно отнесены к WSGI или ASGI
+_proverka = _cells.get("107f1b4b", {})  # "Проверка результата" -- фреймворки и серверы верно отнесены к WSGI или ASGI
 
 checks = [
     {

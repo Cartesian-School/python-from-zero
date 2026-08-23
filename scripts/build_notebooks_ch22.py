@@ -176,7 +176,7 @@ print("Верно: пустая (только пробелы) задача не 
 def build_08() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-08 · Разбор URL\n\nПрактика к разделу "
-          "[«Адрес сайта: URL, домен, путь и параметры»](../../site/chapters/glava-22/22-08-url-anatomiya.html).")
+          "[«URL: домен, путь, параметры и фрагмент»](../../site/chapters/glava-22/22-08-url-anatomiya.html).")
     nb.md("## Цель\n\nРазобрать URL на части модулем urllib.parse из стандартной "
           "библиотеки Python и убедиться, что фрагмент не попадает в путь и в query.")
     nb.md("## Рабочий пример")
@@ -217,7 +217,7 @@ print("Верно: путь и параметр разобраны правил�
 def build_09() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-09 · Коды состояния HTTP\n\nПрактика к разделу "
-          "[«HTTP: запрос, ответ, методы и коды состояния»](../../site/chapters/glava-22/22-09-http.html).")
+          "[«HTTP: запросы, ответы, методы и коды состояния»](../../site/chapters/glava-22/22-09-http.html).")
     nb.md("## Цель\n\nНаписать функцию, которая классифицирует код состояния HTTP по "
           "диапазону — 2xx, 3xx, 4xx, 5xx.")
     nb.md("## Рабочий пример")
@@ -260,7 +260,7 @@ print("Верно: eto_uspeh() отличает 2xx от остальных ди
 def build_11() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-11 · Маршруты и параметры пути\n\nПрактика к разделу "
-          "[«Как Flask выбирает функцию для запроса»](../../site/chapters/glava-22/22-11-flask-marshrutizaciya.html).")
+          "[«Маршрутизация во Flask: как запрос попадает в обработчик»](../../site/chapters/glava-22/22-11-flask-marshrutizaciya.html).")
     nb.md("## Цель\n\nУбедиться, что типизированный параметр пути `<int:...>` принимает "
           "число и отклоняет нечисловой адрес кодом 404.")
     nb.md("## Рабочий пример")
@@ -293,7 +293,7 @@ print("Верно: <int:task_id> принимает число и отклоня
 def build_12() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-12 · Автоэкранирование Jinja\n\nПрактика к разделу "
-          "[«Шаблоны Jinja: HTML с данными из Python»](../../site/chapters/glava-22/22-12-jinja-shablony.html).")
+          "[«Шаблоны Jinja: HTML и данные из Python»](../../site/chapters/glava-22/22-12-jinja-shablony.html).")
     nb.md("## Цель\n\nУбедиться, что Jinja экранирует потенциально опасный текст по "
           "умолчанию, и увидеть, что делает фильтр |safe.")
     nb.md("## Рабочий пример")
@@ -342,8 +342,8 @@ print("Так и есть: |safe отключает экранирование �
 def build_13() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-13 · POST-Redirect-GET\n\nПрактика к разделу "
-          "[«Формы: отправляем данные на сервер»](../../site/chapters/glava-22/22-13-formy.html).")
-    nb.md("## Цель\n\nУбедиться, что обработчик формы отвечает редиректом (код 302/303), "
+          "[«HTML-формы: отправляем данные на сервер»](../../site/chapters/glava-22/22-13-formy.html).")
+    nb.md("## Цель\n\nУбедиться, что обработчик формы отвечает редиректом (код 303 See Other), "
           "а не сразу готовой страницей.")
     nb.md("## Рабочий пример")
     nb.code('''from flask import Flask, redirect, request, url_for
@@ -362,7 +362,10 @@ def dobavit():
     tekst = request.form.get("tekst", "").strip()
     if tekst:
         zapisi.append(tekst)
-    return redirect(url_for("glavnaya"))
+    # code=303 (See Other) точнее, чем редирект Flask по умолчанию (302
+    # Found), описывает POST-Redirect-GET: результат смотрите по другому
+    # адресу через GET.
+    return redirect(url_for("glavnaya"), code=303)
 
 
 client = app.test_client()
@@ -371,10 +374,10 @@ otvet = client.post("/dobavit", data={"tekst": "Первая запись"})
 print("Код ответа:", otvet.status_code)
 print("Заголовок Location:", otvet.headers.get("Location"))''')
     nb.md("## Проверка результата")
-    nb.code('''assert otvet.status_code in (302, 303)
+    nb.code('''assert otvet.status_code == 303
 assert otvet.headers.get("Location") is not None
 assert zapisi == ["Первая запись"]
-print("Верно: POST ответил редиректом, а не HTML-страницей напрямую.")''')
+print("Верно: POST ответил редиректом 303, а не HTML-страницей напрямую.")''')
     nb.md("## Задание ★★ Самостоятельная задача\n\nПройдите по редиректу вручную: "
           "выполните GET на адрес из заголовка Location и убедитесь, что он показывает "
           "актуальное количество записей.")
@@ -390,7 +393,7 @@ print("Верно: страница после редиректа показыв
 def build_15() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-15 · JSON и Python бок о бок\n\nПрактика к разделу "
-          "[«JSON: как программы передают данные»](../../site/chapters/glava-22/22-15-json.html).")
+          "[«JSON: формат обмена данными»](../../site/chapters/glava-22/22-15-json.html).")
     nb.md("## Цель\n\nПревратить словарь Python в текст JSON и обратно, и увидеть разницу "
           "между распечаткой словаря Python и настоящим JSON.")
     nb.md("## Рабочий пример")
@@ -423,7 +426,7 @@ print("Верно:", tekst_spiska)''')
 def build_16() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-16 · Формируем API-ответ\n\nПрактика к разделу "
-          "[«API: когда сервер возвращает данные вместо HTML»](../../site/chapters/glava-22/22-16-api.html).")
+          "[«API: ответы с данными вместо HTML»](../../site/chapters/glava-22/22-16-api.html).")
     nb.md("## Цель\n\nНаписать чистую функцию, которая превращает внутреннее "
           "представление задачи в словарь, готовый для API-ответа — без Flask, "
           "чистой логикой.")
@@ -486,7 +489,7 @@ print("Верно:", vybor["nizkourovnevyj_kontrol_nad_asgi"])''')
 def build_19() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-19 · WSGI или ASGI?\n\nПрактика к разделу "
-          "[«WSGI и ASGI: как Python-приложение получает запрос»](../../site/chapters/glava-22/22-19-wsgi-asgi.html).")
+          "[«WSGI и ASGI: связь приложения с сервером»](../../site/chapters/glava-22/22-19-wsgi-asgi.html).")
     nb.md("## Цель\n\nОтнести фреймворк или сервер приложений к WSGI или ASGI по "
           "таблице сравнения с сайта.")
     nb.md("## Рабочий пример")
@@ -513,7 +516,7 @@ print("Верно: сопоставление совпадает с раздел
 def build_22() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-22 · CRUD на SQLite\n\nПрактика к разделу "
-          "[«SQL: читаем и изменяем данные»](../../site/chapters/glava-22/22-22-sql.html).")
+          "[«SQL: создаём, читаем и изменяем данные»](../../site/chapters/glava-22/22-22-sql.html).")
     nb.md("## Цель\n\nВыполнить все четыре операции CRUD настоящими SQL-запросами через "
           "модуль sqlite3 — прямо в этом ноутбуке, без установки чего-либо дополнительно.")
     nb.md("## Рабочий пример")
@@ -553,7 +556,7 @@ print("Верно: Update изменил done, Delete убрал вторую з
 def build_23() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-23 · Подключение и курсор SQLite\n\nПрактика к разделу "
-          "[«SQLite: первая база данных без отдельного сервера»](../../site/chapters/glava-22/22-23-sqlite.html).")
+          "[«SQLite: база данных без отдельного сервера»](../../site/chapters/glava-22/22-23-sqlite.html).")
     nb.md("## Цель\n\nИспользовать row_factory для обращения к столбцам по имени и "
           "убедиться, что sqlite3.Row ведёт себя как строка результата.")
     nb.md("## Рабочий пример")
@@ -624,7 +627,7 @@ print("Верно: ORM-обёртка и прямой SQL-запрос верн�
 def build_27() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-27 · Миграция схемы\n\nПрактика к разделу "
-          "[«Миграции схемы: как меняется структура базы»](../../site/chapters/glava-22/22-27-migracii-shemy.html).")
+          "[«Миграции схемы: как изменяется структура базы»](../../site/chapters/glava-22/22-27-migracii-shemy.html).")
     nb.md("## Цель\n\nДобавить столбец в уже существующую таблицу через ALTER TABLE и "
           "убедиться, что старые строки не потерялись.")
     nb.md("## Рабочий пример — версия 1 схемы")
@@ -655,7 +658,7 @@ print("Верно: структура изменилась, старые дан�
 def build_28() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-28 · Перенос данных через JSON\n\nПрактика к разделу "
-          "[«Перенос данных между базами и роль JSON»](../../site/chapters/glava-22/22-28-perenos-dannyh.html).")
+          "[«Перенос данных между базами с помощью Python и JSON»](../../site/chapters/glava-22/22-28-perenos-dannyh.html).")
     nb.md("## Цель\n\nПеренести три строки из одной базы SQLite в другую через JSON как "
           "промежуточный формат — и проверить, что количество и содержимое совпали.")
     nb.md("## Рабочий пример — исходная база")
@@ -706,7 +709,7 @@ print("Верно: количество строк и их содержимое 
 def build_29() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-29 · Flask поверх SQLite\n\nПрактика к разделу "
-          "[«Добавляем SQLite в Flask-приложение»](../../site/chapters/glava-22/22-29-flask-sqlite.html). "
+          "[«Flask и SQLite: сохраняем задачи в базе данных»](../../site/chapters/glava-22/22-29-flask-sqlite.html). "
           "Полный проект — `projects/flask/todo-app/app.py`.")
     nb.md("## Цель\n\nСобрать маленькое Flask-приложение поверх настоящей базы SQLite и "
           "убедиться, что данные переживают создание нового объекта приложения — то есть "
@@ -777,7 +780,7 @@ print("Верно: данные хранятся в файле базы данн
 def build_30() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-30 · flash() и session\n\nПрактика к разделу "
-          "[«Как сайт запоминает пользователя: cookies и session»](../../site/chapters/glava-22/22-30-cookies-session.html).")
+          "[«Cookie и сессии: как сохраняется состояние между запросами»](../../site/chapters/glava-22/22-30-cookies-session.html).")
     nb.md("## Цель\n\nУвидеть, что flash()-сообщение появляется на следующей странице "
           "ровно один раз, а затем исчезает.")
     nb.md("## Рабочий пример")
@@ -817,7 +820,7 @@ print("Верно: flash-сообщение показано один раз и 
 def build_31() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-31 · Проверяем ввод\n\nПрактика к разделу "
-          "[«Проверяем данные и обрабатываем ошибки»](../../site/chapters/glava-22/22-31-validaciya-oshibki.html).")
+          "[«Проверка входных данных и обработка ошибок»](../../site/chapters/glava-22/22-31-validaciya-oshibki.html).")
     nb.md("## Цель\n\nПроверить ту же функцию clean_title(), которая используется в "
           "настоящем проекте (projects/flask/todo-app/app.py), на нескольких "
           "граничных случаях.")
@@ -898,7 +901,7 @@ print("Верно: параметризованный запрос обрабо�
 def build_33() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-33 · Тесты для Flask\n\nПрактика к разделу "
-          "[«Тестируем Flask без запуска браузера»](../../site/chapters/glava-22/22-33-testiruem-flask.html).")
+          "[«Автоматические тесты Flask-приложения»](../../site/chapters/glava-22/22-33-testiruem-flask.html).")
     nb.md("## Про тестовый клиент\n\n`app.test_client()` формирует запрос внутри "
           "процесса и передаёт его приложению через тестовый интерфейс Flask/Werkzeug — "
           "без открытия сетевого порта и без настоящего браузера.")
@@ -938,7 +941,7 @@ print("Верно: успешный JSON-ответ и код 404 для нес�
 def build_35() -> None:
     nb = NotebookBuilder()
     nb.md("# 22-35 · Приёмочная проверка итогового проекта\n\nПрактика к разделу "
-          "[«Итоговый проект: список задач с Flask и SQLite»](../../site/chapters/glava-22/22-35-itogovyj-proekt.html). "
+          "[«Итоговый проект: список задач на Flask и SQLite»](../../site/chapters/glava-22/22-35-itogovyj-proekt.html). "
           "Использует настоящий `projects/flask/todo-app/app.py`.")
     nb.md("## Цель\n\nПройти по итоговому проекту от начала до конца: добавить задачу, "
           "отметить её выполненной, проверить API и persistence — на реальном "

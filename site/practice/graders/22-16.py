@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("401bb8af", {})  # "Проверка результата" -- zadacha_dlya_api() формирует словарь с bool-полем done
-_zadanie = _cells.get("365e44f5", {})  # "Задание ★★" -- spisok_dlya_api() применяет форматирование к списку записей
+_proverka = _cells.get("5b4924cf", {})  # "Проверка результата" -- zadacha_dlya_api() формирует словарь с bool-полем done
+_zadanie = _cells.get("e9fecf3d", {})  # "Задание ★★" -- spisok_dlya_api() применяет форматирование к списку записей
 
 checks = [
     {
