@@ -77,6 +77,10 @@ def clean_title(raw_title: str) -> str | None:
 
 
 # -- HTML-маршруты -----------------------------------------------------------
+# Все редиректы ниже используют явный код 303 See Other (а не Flask'овский
+# редирект по умолчанию, 302 Found) — 303 семантически точнее описывает
+# POST-Redirect-GET (раздел 22.13 сайта): "результат обработки POST смотрите
+# по другому адресу через GET".
 
 @app.route("/")
 def glavnaya():
@@ -95,11 +99,11 @@ def dobavit():
     title = clean_title(request.form.get("zadacha", ""))
     if title is None:
         flash("Название задачи не может быть пустым и не длиннее 200 символов.")
-        return redirect(url_for("glavnaya"))
+        return redirect(url_for("glavnaya"), code=303)
     db = get_db()
     db.execute("INSERT INTO tasks (title) VALUES (?)", (title,))
     db.commit()
-    return redirect(url_for("glavnaya"))
+    return redirect(url_for("glavnaya"), code=303)
 
 
 @app.route("/vypolnit/<int:task_id>", methods=["POST"])
@@ -110,7 +114,7 @@ def vypolnit(task_id):
         abort(404)
     db.execute("UPDATE tasks SET done = ? WHERE id = ?", (0 if stroka["done"] else 1, task_id))
     db.commit()
-    return redirect(url_for("glavnaya"))
+    return redirect(url_for("glavnaya"), code=303)
 
 
 @app.route("/udalit/<int:task_id>", methods=["POST"])
@@ -121,7 +125,7 @@ def udalit(task_id):
         abort(404)
     db.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
     db.commit()
-    return redirect(url_for("glavnaya"))
+    return redirect(url_for("glavnaya"), code=303)
 
 
 # -- API-маршрут: тот же список, но в формате JSON (раздел 22.16 сайта) -----
@@ -155,9 +159,12 @@ def stranica_ne_najdena(error):
 
 
 if __name__ == "__main__":
-    if not Path(app.config["DATABASE"]).exists():
-        with app.app_context():
-            init_db()
+    # init_db() идемпотентна (schema.sql использует CREATE TABLE IF NOT
+    # EXISTS), поэтому её всегда безопасно вызывать здесь — это покрывает
+    # и случай уже существующего файла базы данных, в котором ещё нет
+    # таблицы tasks.
+    with app.app_context():
+        init_db()
     # debug=True запускает сервер РАЗРАБОТКИ — удобно локально, но не для
     # рабочего развёртывания (раздел 22.34 сайта).
     app.run(debug=True)
