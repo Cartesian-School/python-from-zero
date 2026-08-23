@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Как веб-приложение работает после разработки — Python с нуля — Cartesian School</title>
+<meta name="description" content="Разница между сервером разработки Flask и рабочим развёртыванием, конфигурация через переменные окружения и что остаётся за рамками главы." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-22/22-34-razvyortyvanie.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Как веб-приложение работает после разработки — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Разница между сервером разработки Flask и рабочим развёртыванием, конфигурация через переменные окружения и что остаётся за рамками главы." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-22/22-34-razvyortyvanie.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Как веб-приложение работает после разработки — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Разница между сервером разработки Flask и рабочим развёртыванием, конфигурация через переменные окружения и что остаётся за рамками главы." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Как веб-приложение работает после разработки — Python с нуля — Cartesian School","description":"Разница между сервером разработки Flask и рабочим развёртыванием, конфигурация через переменные окружения и что остаётся за рамками главы.","url":"https://www.cartesianschool.org/chapters/glava-22/22-34-razvyortyvanie.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 22 · Веб-разработка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="22-01-python-i-veb.html">Как устроен веб и где в нём работает Python</a></li><li><a href="22-02-html.html">HTML: структура веб-страницы</a></li><li><a href="22-03-css.html">CSS: оформление и расположение элементов</a></li><li><a href="22-04-javascript.html">JavaScript: поведение страницы в браузере</a></li><li><a href="22-05-flask.html">Первое веб-приложение на Flask</a></li><li><a href="22-06-itogi.html">Первый веб-проект: что мы уже умеем</a></li><li><a href="22-07-put-zaprosa.html">Что происходит после ввода адреса в браузере</a></li><li><a href="22-08-url-anatomiya.html">Адрес сайта: URL, домен, путь и параметры</a></li><li><a href="22-09-http.html">HTTP: запрос, ответ, методы и коды состояния</a></li><li><a href="22-10-https.html">HTTPS: зачем вебу шифрование</a></li><li><a href="22-11-flask-marshrutizaciya.html">Как Flask выбирает функцию для запроса</a></li><li><a href="22-12-jinja-shablony.html">Шаблоны Jinja: HTML с данными из Python</a></li><li><a href="22-13-formy.html">Формы: отправляем данные на сервер</a></li><li><a href="22-14-staticheskie-fajly.html">Статические файлы: CSS, изображения и JavaScript</a></li><li><a href="22-15-json.html">JSON: как программы передают данные</a></li><li><a href="22-16-api.html">API: когда сервер возвращает данные вместо HTML</a></li><li><a href="22-17-veb-frejmvorki.html">Веб-фреймворки Python: карта инструментов</a></li><li><a href="22-18-flask-django-fastapi.html">Flask, Django и FastAPI: как выбрать подход</a></li><li><a href="22-19-wsgi-asgi.html">WSGI и ASGI: как Python-приложение получает запрос</a></li><li><a href="22-20-zachem-baza-dannyh.html">Зачем веб-приложению база данных</a></li><li><a href="22-21-relyacionnaya-baza.html">Реляционная база данных: таблицы, строки и связи</a></li><li><a href="22-22-sql.html">SQL: читаем и изменяем данные</a></li><li><a href="22-23-sqlite.html">SQLite: первая база данных без отдельного сервера</a></li><li><a href="22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB и SQLite: чем отличаются</a></li><li><a href="22-25-nosql.html">Нереляционные базы данных: когда таблиц недостаточно</a></li><li><a href="22-26-orm.html">ORM: работа с базой через объекты Python</a></li><li><a href="22-27-migracii-shemy.html">Миграции схемы: как меняется структура базы</a></li><li><a href="22-28-perenos-dannyh.html">Перенос данных между базами и роль JSON</a></li><li><a href="22-29-flask-sqlite.html">Добавляем SQLite в Flask-приложение</a></li><li><a href="22-30-cookies-session.html">Как сайт запоминает пользователя: cookies и session</a></li><li><a href="22-31-validaciya-oshibki.html">Проверяем данные и обрабатываем ошибки</a></li><li><a href="22-32-bezopasnost.html">Основы безопасности веб-приложений</a></li><li><a href="22-33-testiruem-flask.html">Тестируем Flask без запуска браузера</a></li><li><a href="22-34-razvyortyvanie.html" class="active">Как веб-приложение работает после разработки</a></li><li><a href="22-35-itogovyj-proekt.html">Итоговый проект: список задач с Flask и SQLite</a></li><li><a href="22-36-chto-dalshe.html">Что изучать дальше в веб-разработке на Python</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/22-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Практика</a></li><li><a href="../../practice/22-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Практика</a></li><li><a href="../../practice/22-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Практика</a></li><li><a href="../../practice/22-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Практика</a></li><li><a href="../../practice/22-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Практика</a></li><li><a href="../../practice/22-12/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Практика</a></li><li><a href="../../practice/22-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Практика</a></li><li><a href="../../practice/22-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Практика</a></li><li><a href="../../practice/22-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Практика</a></li><li><a href="../../practice/22-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Практика</a></li><li><a href="../../practice/22-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Практика</a></li><li><a href="../../practice/22-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Практика</a></li><li><a href="../../practice/22-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Практика</a></li><li><a href="../../practice/22-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Практика</a></li><li><a href="../../practice/22-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Практика</a></li><li><a href="../../practice/22-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Практика</a></li><li><a href="../../practice/22-29/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Практика</a></li><li><a href="../../practice/22-30/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Практика</a></li><li><a href="../../practice/22-31/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Практика</a></li><li><a href="../../practice/22-32/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Практика</a></li><li><a href="../../practice/22-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Практика</a></li><li><a href="../../practice/22-35/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 22</a> / После разработки</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 22 · Веб-разработка с Python</div>
+    <h1>Как веб-приложение работает после разработки</h1>
+    <p class="lede">Сервер разработки Flask удобен локально — но не для того, что доступно всему интернету.</p>
+
+
+    <p>Раздел 22.5 запускал приложение командой <code class="inline">python app.py</code>,
+    которая внутри вызывает <code class="inline">app.run(debug=True)</code>. Это
+    <strong>сервер разработки</strong> (development server) — встроенный во Flask, удобный
+    для локальной работы, но не предназначенный для реальной эксплуатации. Раздел
+    «Deploying to Production» официальной документации Flask прямо предупреждает об этом.</p>
+
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th></th><th>Среда разработки</th><th>Рабочее развёртывание</th></tr></thead>
+      <tbody><tr><td>Кто использует</td><td>Вы сами, локально</td><td>Реальные пользователи через интернет</td></tr><tr><td>Сервер</td><td>Встроенный сервер разработки Flask</td><td>Отдельный сервер приложений (раздел 22.19)</td></tr><tr><td>debug=True</td><td>Удобно — подробные ошибки, автоперезапуск</td><td>Опасно — может показать посторонним внутренние детали кода и данные</td></tr><tr><td>Секреты (SECRET_KEY и т.п.)</td><td>Можно временное значение для локальной работы</td><td>Обязательно отдельное, не публикуемое значение</td></tr></tbody>
+    </table>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">debug=True в открытом приложении — реальная уязвимость</div>
+        <div class="callout-body">В режиме отладки Flask может показать интерактивный отладчик с полным доступом к выполнению кода прямо в браузере при необработанной ошибке. Это огромное удобство локально и серьёзный риск, если приложение доступно кому-то ещё, — отладочный режим должен быть выключен в любом развёртывании, доступном не только вам.</div>
+      </div>
+    </div>
+
+    <h2>Путь запроса до рабочего приложения</h2>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Браузер</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">пользователь в интернете</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">HTTPS / edge</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">раздел 22.10</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Сервер приложений</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">Gunicorn, Uvicorn… (раздел 22.19)</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Flask-приложение</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">та же логика, что и локально</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">База данных</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">отдельное надёжное хранилище</div></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Тот же Flask-код — но между браузером и им теперь несколько дополнительных слоёв</figcaption></figure>
+
+    <h2>Конфигурация через переменные окружения</h2>
+    <p>Проект этой главы уже читает путь к базе данных и секретный ключ из переменных
+    окружения, с явным резервным значением для локальной разработки:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>app.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>app.config[<span class="tok-str">&quot;DATABASE&quot;</span>] = os.environ.get(<span class="tok-str">&quot;TODO_APP_DB&quot;</span>, <span class="tok-fn">str</span>(DEFAULT_DB_PATH))
+app.config[<span class="tok-str">&quot;SECRET_KEY&quot;</span>] = os.environ.get(
+    <span class="tok-str">&quot;TODO_APP_SECRET_KEY&quot;</span>, <span class="tok-str">&quot;dev-only-secret-do-not-use-in-production&quot;</span>
+)</code></pre>
+    </div>
+    <p>Так один и тот же код работает и локально (без единой настройки), и в другом окружении
+    — там, где нужно, значения переменных окружения просто задают иначе, не трогая сам код.</p>
+
+    <h2>Логи, несколько процессов, персистентность</h2>
+    <p>У рабочего развёртывания есть и другие практические заботы, которые выходят за рамки
+    этой главы: <strong>логи</strong> (записанная история происходящего, чтобы разбирать
+    проблемы постфактум), запуск <strong>нескольких процессов или потоков</strong>
+    одновременно для обработки параллельных запросов, и то, что база данных должна физически
+    находиться на надёжном, не исчезающем хранилище. Мы намеренно не превращаем эту главу в
+    учебник по эксплуатации — раздел 22.36 покажет, где эта тема продолжается.</p>
+
+    <p>Официальная документация: <a href="https://flask.palletsprojects.com/en/stable/deploying/">Flask — Deploying to Production</a>.</p>
+
+
+    <div class="section-nav"><a href="22-33-testiruem-flask.html"><div class="dir">← Назад</div><div class="lbl">Тестируем Flask без запуска браузера</div></a><a href="22-35-itogovyj-proekt.html" class="next"><div class="dir">Далее →</div><div class="lbl">Итоговый проект: список задач с Flask и SQLite</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

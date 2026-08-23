@@ -1,24 +1,35 @@
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <title>Список задач</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block content %}
   <h1>Мой список задач</h1>
 
-  <ul class="zadachi">
-    {% for zadacha in zadachi %}
-      <li>{{ zadacha }}</li>
-    {% endfor %}
-  </ul>
+  {% if zadachi %}
+    <ul class="zadachi">
+      {% for zadacha in zadachi %}
+        <li class="{{ 'vypolneno' if zadacha['done'] else '' }}">
+          <form class="forma-perekluchit" method="post" action="{{ url_for('vypolnit', task_id=zadacha['id']) }}">
+            <button type="submit" class="knopka-galochka" aria-label="Отметить «{{ zadacha['title'] }}» как {{ 'невыполненную' if zadacha['done'] else 'выполненную' }}">
+              {{ '✓' if zadacha['done'] else '' }}
+            </button>
+          </form>
+          <span class="tekst-zadachi">{{ zadacha['title'] }}</span>
+          <form class="forma-udalit" method="post" action="{{ url_for('udalit', task_id=zadacha['id']) }}">
+            <button type="submit" class="knopka-udalit" aria-label="Удалить «{{ zadacha['title'] }}»">✕</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="pusto">Задач пока нет — добавьте первую ниже.</p>
+  {% endif %}
 
-  <form action="{{ url_for('dobavit') }}" method="post">
-    <input type="text" name="zadacha" placeholder="Новая задача" required>
+  <form class="forma-dobavit" method="post" action="{{ url_for('dobavit') }}">
+    <label for="zadacha">Новая задача</label>
+    <input type="text" id="zadacha" name="zadacha" placeholder="Например: купить хлеб" maxlength="200" required>
     <button type="submit">Добавить</button>
   </form>
 
-  <p><a href="{{ url_for('privet', imya='Друг') }}">Поздороваться</a></p>
-</body>
-</html>
+  <p class="ssylka-privet"><a href="{{ url_for('privet', imya='Друг') }}">Поздороваться</a></p>
+{% endblock %}
