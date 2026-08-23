@@ -112,9 +112,9 @@ def obnovit_igru(state, dt):
     state["puli"] = [p for p in state["puli"] if p["rect"].bottom > 0]
 
     state["vremya_do_vraga"] -= dt
-    if state["vremya_do_vraga"] <= 0:
+    if state["vremya_do_vraga"] <= 0.0:
         state["vragi"].append(sozdat_vraga())
-        state["vremya_do_vraga"] = INTERVAL_POYAVLENIYA_VRAGA
+        state["vremya_do_vraga"] += INTERVAL_POYAVLENIYA_VRAGA
 
     for vrag in state["vragi"]:
         vrag["y"] += VRAG_SKOROST * dt
@@ -163,7 +163,7 @@ def narisovat(state):
 def build_01() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-01 · Импорт и инициализация\n\nПрактика к разделу "
-          "[«Игра «Космический шутер»»](../../site/chapters/glava-21/21-01-igra-import-init.html).")
+          "[«План игры и подготовка проекта»](../../site/chapters/glava-21/21-01-igra-import-init.html).")
     nb.md("## Цель\n\nПодключить нужные модули и настроить экран, часы и шрифт для новой игры.")
     nb.md("## Рабочий пример")
     nb.code('''import random
@@ -195,7 +195,7 @@ pygame.quit()''')
 def build_02() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-02 · Игровой цикл и корабль\n\nПрактика к разделу "
-          "[«Игровой цикл»](../../site/chapters/glava-21/21-02-cikl-korabl.html).")
+          "[«Игровой цикл и корабль игрока»](../../site/chapters/glava-21/21-02-cikl-korabl.html).")
     nb.md("## Цель\n\nСоздать корабль игрока через pygame.Rect и отрисовать его.")
     nb.md(LOOP_NOTE_MD)
     nb.md("## Рабочий пример")
@@ -237,7 +237,7 @@ pygame.quit()''')
 def build_03() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-03 · Движение корабля и враги\n\nПрактика к разделу "
-          "[«Перемещаем корабль. Создаём и перемещаем врагов»]"
+          "[«Движение корабля и появление врагов»]"
           "(../../site/chapters/glava-21/21-03-dvizhenie-vragi.html).")
     nb.md("## Цель\n\nОграничить движение корабля краями экрана и заставить врагов появляться "
           "и спускаться вниз.")
@@ -281,7 +281,7 @@ print("Верно: появился второй враг.")''')
 def build_04() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-04 · Стреляем\n\nПрактика к разделу "
-          "[«Стреляем»](../../site/chapters/glava-21/21-04-strelba.html).")
+          "[«Стрельба: создаём и двигаем пули»](../../site/chapters/glava-21/21-04-strelba.html).")
     nb.md("## Цель\n\nСоздать пулю у носа корабля и убедиться, что она улетает вверх.")
     nb.md("## Рабочий пример")
     nb.code(SETUP_CODE)
@@ -366,8 +366,8 @@ print("Верно: после игра окончена состояние бо�
 def build_08() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-08 · Полная игра целиком\n\nПрактика к разделу "
-          "[«Полный код»](../../site/chapters/glava-21/21-08-polnyj-kod-itogi.html). "
-          "Полный файл — `projects/pygame/space-shooter/space_shooter.py`.")
+          "[«Первая рабочая версия игры»](../../site/chapters/glava-21/21-08-polnyj-kod-itogi.html). "
+          "Ячейка ниже собирает вместе весь код разделов 21.1–21.7.")
     nb.md("## Цель\n\nПрогнать игру много кадров подряд и убедиться, что движение корабля, "
           "появление врагов, отрисовка и завершение игры работают вместе, как единое целое.")
     nb.md(LOOP_NOTE_MD)
@@ -411,7 +411,7 @@ pygame.quit()''')
 def build_09() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-09 · Архитектура: набросок класса Player\n\nПрактика к разделу "
-          "[«Архитектура: Game, Player, Bullet, Enemy»]"
+          "[«Разделяем игру на классы»]"
           "(../../site/chapters/glava-21/21-09-arhitektura-proekta.html).")
     nb.md("## Цель\n\nСобрать минимальный класс Player с Vector2-позицией и Rect, "
           "синхронизированным из неё — тот же принцип, что использует настоящий "
@@ -461,7 +461,7 @@ print("Верно: rect.center пересобран из position, а не об�
 def build_11() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-11 · Vector2 и точное движение\n\nПрактика к разделу "
-          "[«Vector2 и точное движение»]"
+          "[«Точное движение с Vector2»]"
           "(../../site/chapters/glava-21/21-11-vector2-tochnoe-dvizhenie.html).")
     nb.md("## Цель\n\nПосчитать нормализацию вектора направления и ограничение позиции "
           "границами игрового поля — той же логикой, что использует Player.move().")
@@ -507,8 +507,8 @@ print("Верно: нормализация делает диагональну�
 
 def build_13() -> None:
     nb = NotebookBuilder()
-    nb.md("# 21-13 · Скорострельность и кулдаун\n\nПрактика к разделу "
-          "[«Скорострельность и кулдаун»]"
+    nb.md("# 21-13 · Скорострельность и интервал между выстрелами\n\nПрактика к разделу "
+          "[«Скорострельность и интервал между выстрелами»]"
           "(../../site/chapters/glava-21/21-13-skorostrelnost.html).")
     nb.md("## Цель\n\nПосчитать, сколько выстрелов происходит при удержании огня в течение "
           "секунды, и убедиться, что результат не зависит от FPS.")
@@ -543,9 +543,9 @@ print("Верно: скорострельность почти не зависи
 def build_14() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-14 · Появление врагов\n\nПрактика к разделу "
-          "[«Появление врагов»](../../site/chapters/glava-21/21-14-poyavlenie-vragov.html).")
+          "[«Как появляются враги»](../../site/chapters/glava-21/21-14-poyavlenie-vragov.html).")
     nb.md("## Цель\n\nПроверить, что таймер появления врагов через while сохраняет "
-          "«перелёт» времени, а не теряет его.")
+          "остаток времени сверх интервала, а не теряет его.")
     nb.md("## Рабочий пример")
     nb.code('''INTERVAL = 0.5
 
@@ -560,7 +560,7 @@ def poyavivshiesya_vragi(spawn_timer, dt):
 
 
 poyavilos, ostatok = poyavivshiesya_vragi(INTERVAL, 1.2)
-print("Заспавнилось врагов:", poyavilos)
+print("Появилось врагов:", poyavilos)
 print("Остаток таймера:", ostatok)''')
     nb.md("## Проверка результата")
     nb.code('''assert poyavilos == 2, "1.2 секунды при интервале 0.5 должны дать 2 полных интервала"
@@ -591,7 +591,7 @@ print("Верно: враг всегда появляется полностью
 def build_15() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-15 · Столкновения пуль и счёт\n\nПрактика к разделу "
-          "[«Столкновения пуль и счёт»]"
+          "[«Попадания во врагов и начисление очков»]"
           "(../../site/chapters/glava-21/21-15-stolknoveniya-i-schet.html).")
     nb.md("## Цель\n\nУбедиться, что очки за одного уничтоженного врага начисляются "
           "ровно один раз, даже если его задели две пули сразу.")
@@ -620,7 +620,7 @@ print("Верно: подсчёт очков через set защищает о�
 def build_16() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-16 · Урон кораблю и неуязвимость\n\nПрактика к разделу "
-          "[«Урон кораблю и неуязвимость»]"
+          "[«Жизни, урон и временная неуязвимость»]"
           "(../../site/chapters/glava-21/21-16-uron-i-neuyazvimost.html).")
     nb.md("## Цель\n\nПроверить, что несколько одновременных столкновений отнимают ровно "
           "одну жизнь, а неуязвимость блокирует урон до истечения таймера.")
@@ -636,7 +636,7 @@ def primenit_stolknovenie(zhizni, invulnerable_timer, est_stolknovenie):
 
 
 zhizni, timer = 3, 0.0
-# Три врага столкнулись с кораблём в ОДНОМ обновлении -- это ОДНО событие "est_stolknovenie"
+# Три врага столкнулись с кораблём в одном обновлении -- это одно событие "est_stolknovenie"
 zhizni, timer = primenit_stolknovenie(zhizni, timer, est_stolknovenie=True)
 print("Жизней после столкновения:", zhizni)''')
     nb.md("## Проверка результата")
@@ -683,7 +683,7 @@ assert interval_poyavleniya_vraga(500) < interval_poyavleniya_vraga(0)
 
 assert mnozhitel_skorosti_vraga(0) == 1.0
 assert mnozhitel_skorosti_vraga(100_000) == 1.0 + MAX_SPEED_BONUS
-print("Верно: интервал спавна уменьшается, скорость растёт, обе формулы ограничены.")''')
+print("Верно: интервал появления уменьшается, скорость растёт, обе формулы ограничены.")''')
     nb.write(OUT_DIR / "21-17-slozhnost.ipynb")
     print(f"Записано: 21-17 ({len(nb)} ячеек)")
 
@@ -724,7 +724,7 @@ print("Верно: длинный кадр продвинул анимацию �
 def build_25() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-25 · Финальная версия игры\n\nПрактика к разделу "
-          "[«Финальная версия игры»]"
+          "[«Собираем финальную версию игры»]"
           "(../../site/chapters/glava-21/21-25-finalnaya-arhitektura.html). "
           "Полный файл — `projects/pygame/space-shooter/space_shooter.py`.")
     nb.md("## Цель\n\nЗапустить настоящий класс Game из финальной игры, прогнать несколько "
