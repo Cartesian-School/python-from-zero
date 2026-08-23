@@ -1,16 +1,17 @@
 """Регрессионный набор для финального проекта главы 21 (космический
-шутер): FPS-независимость движения, кулдаун стрельбы, таймер спавна,
-столкновения, счёт, неуязвимость, пауза, перезапуск, Game Over и таймер
-анимации взрыва — работает через SDL dummy-драйверы, поэтому не требует
-ни Xvfb, ни настоящего дисплея (раздел 21.24 сайта).
+шутер): FPS-независимость движения, интервал между выстрелами, таймер
+появления врагов, столкновения, счёт, неуязвимость, пауза, перезапуск,
+Game Over и таймер анимации взрыва — работает через SDL dummy-драйверы,
+поэтому не требует ни Xvfb, ни настоящего дисплея (раздел 21.24 сайта).
 
-Все тесты импортируют и вызывают РЕАЛЬНЫЙ производственный код
+Все тесты импортируют и вызывают настоящий производственный код
 (projects/pygame/space-shooter/space_shooter.py), а не его копии.
 """
 
 import math
 import os
 import random
+import re
 import sys
 from pathlib import Path
 
@@ -88,7 +89,7 @@ def test_enemy_movement_is_fps_independent():
 #
 # До раздела 21.9 на сайте ещё нет классов Player/Bullet/Enemy и Vector2 —
 # только обычные переменные, Rect и dict, обновляемые вручную. Тесты выше
-# доказывают FPS-независимость ФИНАЛЬНОГО класса Game; тесты ниже доказывают
+# доказывают FPS-независимость финального класса Game; тесты ниже доказывают
 # то же самое для процедурного кода, который реально показан на страницах
 # 21.2–21.4 (scripts/build_chapter_21.py, build_03/build_04) и в ноутбуках
 # 21-03/21-04 (scripts/build_notebooks_ch21.py) — учебный путь должен быть
@@ -152,26 +153,96 @@ def test_istoricheskaya_pulya_fps_independent():
     assert math.isclose(itogi[60], -_PULYA_SKOROST_ISTORICHESKAYA, abs_tol=1e-6)
 
 
-def test_istoricheskij_taimer_poyavleniya_vraga_fps_independent():
-    """Раздел 21.3: таймер появления врага через if (сохранение остатка
-    через while появится только в разделе 21.14) обязан давать одинаковое
-    число появившихся врагов за одно и то же реальное время на разных FPS,
-    пока один кадр короче целого интервала — dt здесь всегда мал по
-    сравнению с INTERVAL_POYAVLENIYA_VRAGA, поэтому if ведёт себя как while."""
-    itogi = {}
-    for fps in (30, 60, 120):
-        vremya_do_vraga = _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
-        poyavilos = 0
-        dt = 1 / fps
-        for _ in range(fps * 2):   # 2.0 реальные секунды
-            vremya_do_vraga -= dt
-            if vremya_do_vraga <= 0:
-                poyavilos += 1
-                vremya_do_vraga = _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
-        itogi[fps] = poyavilos
+def _istoricheskie_momenty_poyavleniya(fps, sekund):
+    """Точно повторяет исправленный алгоритм таймера появления врагов со
+    страницы 21.3: после срабатывания время продвигается через
+    += INTERVAL, а не через = INTERVAL — остаток (то, на сколько таймер
+    успел уйти в минус) переносится на следующий отсчёт, а не
+    выбрасывается. Возвращает список реальных моментов появления."""
+    dt = 1 / fps
+    shagov = round(sekund * fps)
+    vremya_do_vraga = _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+    t = 0.0
+    momenty = []
+    for _ in range(shagov):
+        t += dt
+        vremya_do_vraga -= dt
+        if vremya_do_vraga <= 0.0:
+            momenty.append(t)
+            vremya_do_vraga += _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+    return momenty
 
+
+def test_istoricheskij_taimer_poyavleniya_vraga_fps_independent():
+    """Раздел 21.3: за одно и то же реальное время на разных FPS должно
+    появиться одинаковое число врагов, пока один кадр короче целого
+    интервала. Проверка только числа появлений — намеренно слабая: она не
+    ловит дрейф фазы (см. test_istoricheskij_taimer_ne_dreyfuet_so_vremenem
+    ниже, который как раз и поймал реальную ошибку с полным сбросом таймера)."""
+    itogi = {fps: len(_istoricheskie_momenty_poyavleniya(fps, 2.0)) for fps in (30, 60, 120)}
     assert itogi[30] == itogi[60] == itogi[120]
     assert itogi[60] >= 1
+
+
+def test_istoricheskij_taimer_momenty_poyavleniya_ne_ukhodyat_ot_ideala():
+    """Раздел 21.3: += INTERVAL после срабатывания обязан удерживать
+    моменты появления рядом с идеальным расписанием n * INTERVAL — каждое
+    отклонение не должно превышать один кадр (dt), сколько бы врагов ни
+    появилось за 10 секунд симуляции."""
+    for fps in (30, 60, 120):
+        dt = 1 / fps
+        momenty = _istoricheskie_momenty_poyavleniya(fps, 10.0)
+        assert len(momenty) >= 10
+        for n, moment in enumerate(momenty, start=1):
+            ideal = n * _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+            assert abs(moment - ideal) <= dt + 1e-9, (
+                f"{fps} FPS: появление №{n} в момент {moment:.4f}с отклонилось "
+                f"от идеального {ideal:.4f}с больше, чем на один кадр"
+            )
+
+
+def test_istoricheskij_taimer_ne_dreyfuet_so_vremenem():
+    """Раздел 21.3: отклонение момента появления от идеального расписания
+    не должно расти от одного появления к следующему. Именно этот тест
+    отличает += INTERVAL (остаток сохраняется, отклонение остаётся в
+    пределах одного кадра) от = INTERVAL (остаток выбрасывается при
+    каждом срабатывании, и отклонение накапливается почти линейно —
+    ошибка, которую скрывал прежний тест, считавший только число врагов)."""
+    for fps in (30, 60, 120):
+        dt = 1 / fps
+        momenty = _istoricheskie_momenty_poyavleniya(fps, 10.0)
+        otkloneniya = [
+            moment - n * _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+            for n, moment in enumerate(momenty, start=1)
+        ]
+        razmakh = max(otkloneniya) - min(otkloneniya)
+        assert razmakh <= dt + 1e-9, (
+            f"{fps} FPS: разброс отклонений {razmakh:.4f}с превышает один "
+            f"кадр — похоже, таймер сбрасывается в полный интервал вместо "
+            f"того, чтобы прибавлять его к остатку"
+        )
+
+
+def test_istoricheskij_taimer_istochnik_sohranyaet_ostatok():
+    """Контракт с исходником: код, который реально показан на странице
+    21.3 (scripts/build_chapter_21.py) и в ноутбуке 21-03
+    (scripts/build_notebooks_ch21.py), обязан продвигать таймер через
+    += INTERVAL_POYAVLENIYA_VRAGA после срабатывания, а не через простое
+    присваивание — иначе тесты выше проверяют алгоритм, который на сайте
+    и в ноутбуке уже не показан, и расхождение остаётся незамеченным."""
+    pattern = re.compile(
+        r"sozdat_vraga\(\)\).{0,160}?vremya_do_vraga.{0,20}?(\+=|=)\s*INTERVAL_POYAVLENIYA_VRAGA",
+        re.DOTALL,
+    )
+    for rel_path in ("scripts/build_chapter_21.py", "scripts/build_notebooks_ch21.py"):
+        src = (ROOT / rel_path).read_text(encoding="utf-8")
+        match = pattern.search(src)
+        assert match is not None, f"{rel_path}: не найден таймер появления врага рядом с sozdat_vraga()"
+        assert match.group(1) == "+=", (
+            f"{rel_path}: код учебного примера должен продвигать таймер через "
+            "+= INTERVAL_POYAVLENIYA_VRAGA (сохраняя остаток), а не через "
+            "= INTERVAL_POYAVLENIYA_VRAGA (сбрасывая его)"
+        )
 
 
 # ---------- 21.11 — субпиксельное движение не теряется ----------
@@ -190,7 +261,7 @@ def test_subpixel_movement_accumulates_in_float_position():
     assert math.isclose(player.position.x, 270.0, abs_tol=1e-6)
 
 
-# ---------- 21.12 — нормализация диагонального движения ----------
+# ---------- 21.11 — нормализация диагонального движения ----------
 
 def test_diagonal_movement_is_normalized():
     image = pygame.Surface((10, 10))
@@ -250,7 +321,7 @@ def test_keydown_fires_once_get_pressed_is_polled():
     assert klavishi_pervoe[pygame.K_SPACE] == klavishi_vtoroe[pygame.K_SPACE]
 
 
-# ---------- 21.13 — кулдаун стрельбы: не более одного выстрела за кадр ----------
+# ---------- 21.13 — интервал между выстрелами: не более одного выстрела за кадр ----------
 
 def test_fire_cooldown_limits_shots_per_second():
     game = novaya_igra()
@@ -268,8 +339,9 @@ def test_fire_cooldown_limits_shots_per_second():
 
 
 def test_fire_cooldown_never_fires_every_rendered_frame():
-    """При кулдауне 0.2 с удержание огня 60 кадров подряд НЕ должно
-    создать 60 пуль — иначе кулдаун измерялся бы кадрами, а не секундами."""
+    """При интервале между выстрелами 0.2 с удержание огня 60 кадров подряд
+    не должно создать 60 пуль — иначе интервал измерялся бы кадрами, а не
+    секундами."""
     game = novaya_igra()
     game.start_new_game()
     dt = 1 / 60
@@ -300,17 +372,17 @@ def test_fire_rate_is_fps_independent():
     assert max(znacheniya) - min(znacheniya) <= 1
 
 
-# ---------- 21.16 — таймер спавна врагов: секунды, не кадры ----------
+# ---------- 21.14 — таймер появления врагов: секунды, не кадры ----------
 
 def test_enemy_spawn_timer_is_fps_independent():
     """Ровно одна и та же реальная секунда, нарезанная на 30/60/120 шагов,
-    обязана заспавнить одно и то же число врагов при фиксированном
-    (нулевом) счёте — интервал спавна тогда не меняется по ходу теста."""
+    обязана создать одно и то же число врагов при фиксированном (нулевом)
+    счёте — интервал появления тогда не меняется по ходу теста."""
     kolichestvo = {}
     for fps in (30, 60, 120):
         game = novaya_igra()
         game.start_new_game()
-        game.score = 0   # фиксируем интервал спавна на всё время теста
+        game.score = 0   # фиксируем интервал появления на всё время теста
         dt = 1 / fps
         for _ in range(fps):
             game.spawn_timer -= dt
@@ -323,8 +395,8 @@ def test_enemy_spawn_timer_is_fps_independent():
 
 
 def test_enemy_spawn_timer_preserves_overshoot():
-    """dt длиннее интервала спавна обязан заспавнить НЕСКОЛЬКО врагов за
-    один шаг (while), а не потерять «лишнее» время (if)."""
+    """dt длиннее интервала появления обязан создать несколько врагов за
+    один шаг (while), а не потерять лишнее время (if)."""
     game = novaya_igra()
     game.start_new_game()
     game.score = 0
@@ -351,7 +423,7 @@ def test_spawn_x_keeps_full_enemy_width_inside_playfield():
         assert playfield.left <= x <= playfield.right - shirina_vraga
 
 
-# ---------- 21.18 — столкновения пуль и врагов: счёт без двойного начисления ----------
+# ---------- 21.15 — столкновения пуль и врагов: счёт без двойного начисления ----------
 
 def test_bullet_destroys_enemy_and_awards_score_once():
     game = novaya_igra()
@@ -387,7 +459,7 @@ def test_overlapping_bullets_do_not_double_score_same_enemy():
     assert len(game.enemies) == 0
 
 
-# ---------- 21.19 — урон игроку и временная неуязвимость ----------
+# ---------- 21.16 — урон игроку и временная неуязвимость ----------
 
 def test_single_collision_removes_one_life():
     game = novaya_igra()
@@ -407,7 +479,7 @@ def test_single_collision_removes_one_life():
 
 
 def test_three_simultaneous_enemies_remove_only_one_life():
-    """Три врага, столкнувшиеся с игроком в ОДНОМ обновлении, должны
+    """Три врага, столкнувшиеся с игроком в одном обновлении, должны
     отнять ровно одну жизнь, а не три — раздел 21.16 сайта."""
     game = novaya_igra()
     game.start_new_game()
@@ -462,7 +534,7 @@ def test_invulnerability_expires_and_allows_next_hit():
     assert game.lives == zhizni_do - 1
 
 
-# ---------- 21.21 — враги, покинувшие игровое поле ----------
+# ---------- 21.16 — враги, покинувшие игровое поле ----------
 
 def test_enemy_escape_costs_one_life_each():
     game = novaya_igra()
@@ -495,7 +567,7 @@ def test_enemy_still_inside_playfield_does_not_escape():
     assert len(game.enemies) == 1
 
 
-# ---------- 21.22 — пауза замораживает игровой мир ----------
+# ---------- 21.18 — пауза замораживает игровой мир ----------
 
 def test_pause_freezes_all_gameplay_state():
     game = novaya_igra(seed=5)
@@ -553,7 +625,7 @@ def test_resume_continues_from_frozen_state():
     assert math.isclose(game.player.position.x, x_do_resume, abs_tol=1e-6)
 
 
-# ---------- 21.23 — перезапуск сбрасывает ВСЁ переходное состояние ----------
+# ---------- 21.19 — перезапуск сбрасывает всё переходное состояние ----------
 
 def test_restart_resets_all_transient_state():
     game = novaya_igra(seed=3)
@@ -594,7 +666,7 @@ def test_restart_preserves_session_high_score():
     assert game.score == 0
 
 
-# ---------- 21.7/21.22 — Game Over: вход и перезапуск ----------
+# ---------- 21.7/21.18–21.19 — Game Over: вход и перезапуск ----------
 
 def test_lives_reaching_zero_triggers_game_over():
     game = novaya_igra()
@@ -634,7 +706,7 @@ def test_enter_on_game_over_restarts_into_playing():
     assert game.score == 0
 
 
-# ---------- 21.24 — таймер анимации взрыва: аккумулятор с overshoot ----------
+# ---------- 21.20 — таймер анимации взрыва: аккумулятор с overshoot ----------
 
 def test_explosion_accumulator_preserves_overshoot():
     game = novaya_igra()
