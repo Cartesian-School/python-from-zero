@@ -481,18 +481,18 @@ screen = pygame.display.set_mode((600, 400))
 clock = pygame.time.Clock()
 
 KOLICHESTVO_KADROV = 4
-SKOROST_ANIMACII = 0.1  # секунд на кадр анимации
+INTERVAL_KADRA = 0.1  # секунд на кадр анимации
 
 tekushij_kadr = 0
-vremya_do_smeny = SKOROST_ANIMACII
+vremya_animacii = 0.0
 istoriya_kadrov = []
 
 for _ in range(60):
     dt = clock.tick(60) / 1000
-    vremya_do_smeny -= dt
-    if vremya_do_smeny <= 0:
+    vremya_animacii += dt
+    while vremya_animacii >= INTERVAL_KADRA:
+        vremya_animacii -= INTERVAL_KADRA
         tekushij_kadr = (tekushij_kadr + 1) % KOLICHESTVO_KADROV
-        vremya_do_smeny = SKOROST_ANIMACII
     istoriya_kadrov.append(tekushij_kadr)
 
 print("Кадр анимации сменился хотя бы раз:", len(set(istoriya_kadrov)) > 1)
@@ -777,8 +777,9 @@ assert pryamougolniki_peresekayutsya(igrok, vrag_daleko) is False
 assert pryamougolniki_peresekayutsya((0, 0, 40, 40), (40, 0, 40, 40)) is False
 print("Верно: пересечение находится правильно, включая пограничный случай соприкосновения краями.")''')
     nb.md("## Задание ★★ Самостоятельная задача\n\nУменьшите хитбокс игрока на 10 пикселей с "
-          "каждой стороны (как rect.inflate(-10, -10) из раздела 20.21) и убедитесь, что после "
-          "уменьшения столкновение с vrag_blizko, которое было true, может стать false.")
+          "каждой стороны (то есть на 20 пикселей по ширине и высоте суммарно — как "
+          "rect.inflate(-20, -20) из раздела 20.21) и убедитесь, что после уменьшения "
+          "столкновение с vrag_blizko, которое было true, может стать false.")
     nb.code('''def szhat(rect, na):
     x, y, w, h = rect
     return (x + na, y + na, w - 2 * na, h - 2 * na)
@@ -802,7 +803,7 @@ def build_22() -> None:
           "отскоках.")
     nb.md("## Рабочий пример")
     nb.code('''GRAVITACIYA = 900  # пикселей в секунду за секунду
-POTERYA_PRI_UDARE = 0.8
+KOEFF_OTSKOKA = 0.8
 
 def shag_gravitacii(skorost_y, dt):
     return skorost_y + GRAVITACIYA * dt
@@ -813,7 +814,7 @@ for _ in range(60):   # одна секунда падения на 60 "кадр
 
 print("Скорость падения после 1 секунды:", round(skorost, 1), "пикселей/сек")
 
-skorost_otskoka = -skorost * POTERYA_PRI_UDARE
+skorost_otskoka = -skorost * KOEFF_OTSKOKA
 print("Скорость сразу после отскока:", round(skorost_otskoka, 1))''')
     nb.md("## Проверка результата")
     nb.code('''assert abs(skorost - 900) < 5    # накопленная скорость близка к GRAVITACIYA * 1 сек
@@ -825,7 +826,7 @@ print("Верно: гравитация накапливает скорость,
     nb.code('''s = 300.0
 otskokov = 0
 while s > 1.0:
-    s *= POTERYA_PRI_UDARE
+    s *= KOEFF_OTSKOKA
     otskokov += 1
 
 print("Отскоков до почти полной остановки:", otskokov)
