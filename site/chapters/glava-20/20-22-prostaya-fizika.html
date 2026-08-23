@@ -91,17 +91,19 @@ y += skorost_y * dt             <span class="tok-com"># позиция меня�
 
     <div class="code-block">
       <div class="code-label"><span>otskok_s_zatuhaniem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>POTERYA_PRI_UDARE = <span class="tok-num">0.8</span>   <span class="tok-com"># мяч сохраняет 80% скорости после отскока</span>
+      <pre><code>KOEFF_OTSKOKA = <span class="tok-num">0.8</span>   <span class="tok-com"># мяч сохраняет 80% скорости после отскока</span>
 
 <span class="tok-kw">if</span> y + radius &gt; VYSOTA:
     y = VYSOTA - radius
-    skorost_y = -skorost_y * POTERYA_PRI_UDARE</code></pre>
+    skorost_y = -skorost_y * KOEFF_OTSKOKA</code></pre>
     </div>
-    <p>Без множителя затухания <code class="inline">POTERYA_PRI_UDARE</code> мяч отскакивал бы
+    <p>Без множителя затухания <code class="inline">KOEFF_OTSKOKA</code> мяч отскакивал бы
     на одну и ту же высоту бесконечно — с ним же высота отскоков естественно уменьшается с
     каждым ударом, пока мяч почти не остановится. Такой множитель затухания скорости от удара к
     удару — устоявшийся в играх приём и называется <strong>restitution</strong> (коэффициент
-    восстановления, буквально «коэффициент отскока»).</p>
+    восстановления, буквально «коэффициент отскока»): значение <code class="inline">1.0</code>
+    соответствует идеализированному отскоку без потерь на исходной скорости, а любое значение
+    между 0 и 1 — затухающему отскоку с постепенной потерей энергии.</p>
 
     <h2>Трение</h2>
     <p>Трение работает похожим образом для горизонтального движения — скорость постепенно

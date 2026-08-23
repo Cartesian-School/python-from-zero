@@ -109,8 +109,8 @@ screen.blit(sprajt, (<span class="tok-num">50</span>, <span class="tok-num">50</
     <div class="callout callout-debug">
       <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
       <div>
-        <div class="callout-title">Прозрачность &quot;потерялась&quot; после загрузки изображения</div>
-        <div class="callout-body">Изображение с альфа-каналом теряет прозрачность, если загрузить его <code class="inline">pygame.image.load()</code> без последующего <code class="inline">.convert_alpha()</code> — без этого вызова Pygame может трактовать картинку как непрозрачную поверхность, и её края отрисуются со случайным фоновым цветом вместо мягкого перехода.</div>
+        <div class="callout-title">Прозрачность &quot;потерялась&quot; после конвертации изображения</div>
+        <div class="callout-body"><code class="inline">pygame.image.load()</code> сама по себе сохраняет альфа-канал загруженной картинки. Прозрачность реально теряется, если после загрузки вызвать <code class="inline">.convert()</code> вместо <code class="inline">.convert_alpha()</code>: <code class="inline">.convert()</code> создаёт копию в формате пикселей экрана, но без per-pixel alpha, и края спрайта отрисуются со сплошным фоновым цветом вместо мягкого перехода. Тот же результат — если создать новую поверхность вручную (<code class="inline">pygame.Surface(size)</code>) без флага <code class="inline">pygame.SRCALPHA</code>, когда нужен именно per-pixel alpha.</div>
       </div>
     </div>
 
