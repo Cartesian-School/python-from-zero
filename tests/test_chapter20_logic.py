@@ -179,23 +179,39 @@ def test_colliderect_agrees_with_manual_aabb():
     assert rect_a.colliderect(rect_b) == pryamougolniki_peresekayutsya(a, b) is True
 
 
+# ---------- 20.21 — Rect.inflate(): меняет ОБЩИЙ размер, сохраняя центр ----------
+
+def test_rect_inflate_changes_total_size_not_per_side():
+    """Раздел 20.21: rect.inflate(x, y) меняет ширину на x и высоту на y
+    ЦЕЛИКОМ (не на x/y с каждой стороны), сохраняя центр прямоугольника —
+    поэтому rect.inflate(-20, -20) убирает 20 пикселей суммарно по каждой
+    оси, то есть примерно 10 пикселей с каждой стороны."""
+    import pygame  # noqa: PLC0415 — требует SDL_VIDEODRIVER=dummy, уже выставлен выше
+
+    rect = pygame.Rect(0, 0, 100, 100)
+    smaller = rect.inflate(-20, -20)
+
+    assert smaller.size == (80, 80)
+    assert smaller.center == rect.center
+
+
 # ---------- 20.22 — простая физика: отскок с затуханием ----------
 
 def test_bounce_with_damping_loses_speed_but_keeps_direction_flip():
-    potery_pri_udare = 0.8
+    koeff_otskoka = 0.8
     skorost_do = -300.0   # летит вверх (отрицательный Y — раздел 20.18)
-    skorost_posle = -skorost_do * potery_pri_udare
+    skorost_posle = -skorost_do * koeff_otskoka
     assert skorost_posle == 240.0
     assert skorost_posle > 0   # направление развернулось
     assert skorost_posle < abs(skorost_do)   # но по модулю стало меньше
 
 
 def test_repeated_damped_bounces_eventually_settle_below_threshold():
-    potery_pri_udare = 0.8
+    koeff_otskoka = 0.8
     skorost = 300.0
     otskokov = 0
     while skorost > 1.0 and otskokov < 200:
-        skorost *= potery_pri_udare
+        skorost *= koeff_otskoka
         otskokov += 1
     assert skorost <= 1.0
     assert otskokov < 200   # действительно затухает, а не зацикливается вечно
@@ -300,3 +316,59 @@ def test_pause_freezes_update_not_only_render():
     for _ in range(120):
         game.update(1 / 60)
     assert (game.x, game.y, game.vx, game.vy, game.otskokov, game.schet) == do
+
+
+# ---------- 20.23 — таймер анимации: аккумулятор сохраняет "перелёт" времени ----------
+
+def _prodvinut_kadr_animacii(tekushij_kadr, vremya_animacii, dt, interval_kadra, kolichestvo_kadrov):
+    """Тот же while-based алгоритм таймера анимации, что показан на
+    странице 20.23: копит dt в аккумуляторе vremya_animacii и продвигает
+    кадр столько раз подряд, сколько целых интервалов туда поместилось —
+    ничего не теряя, даже если один игровой кадр длиннее одного интервала
+    анимации."""
+    vremya_animacii += dt
+    while vremya_animacii >= interval_kadra:
+        vremya_animacii -= interval_kadra
+        tekushij_kadr = (tekushij_kadr + 1) % kolichestvo_kadrov
+    return tekushij_kadr, vremya_animacii
+
+
+def test_animation_accumulator_preserves_overshoot_across_frames():
+    """Обязательный регрессионный тест раздела 20.23: один длинный игровой
+    кадр (dt = 0.32 c) при интервале анимации 0.10 c обязан продвинуть кадр
+    анимации ровно на 3 позиции за один вызов, а не на 1 (как было бы у
+    старой версии с if вместо while, которая теряла лишние 0.22 c), и
+    сохранить остаток в аккумуляторе. dt намеренно не кратен interval_kadra
+    ровно (0.32, а не 0.30) — чтобы сравнение не попадало на границу
+    интервала, где точное равенство float ненадёжно само по себе."""
+    tekushij_kadr, vremya_animacii = _prodvinut_kadr_animacii(
+        tekushij_kadr=0, vremya_animacii=0.0, dt=0.32,
+        interval_kadra=0.10, kolichestvo_kadrov=10,
+    )
+    assert tekushij_kadr == 3
+    assert math.isclose(vremya_animacii, 0.02, abs_tol=1e-9)
+
+
+def test_animation_accumulator_is_fps_independent_over_equal_elapsed_time():
+    """Ровно одна и та же реальная секунда анимации, нарезанная на 30, 60
+    или 120 игровых кадров, обязана продвинуть счётчик кадра анимации на
+    одинаковое число позиций — иначе таймер анимации зависел бы от FPS,
+    как нескорректированное движение из раздела 20.16. Интервал 0.12 c —
+    тот же INTERVAL_KADRA, что и на странице 20.23; он выбран специально,
+    чтобы не делить секунду ровно нацело и не попадать на границу
+    интервала, где сравнение float с "==" ненадёжно само по себе."""
+    INTERVAL_KADRA = 0.12
+    KOLICHESTVO_KADROV = 1000   # достаточно большое, чтобы не зацикливаться в тесте
+
+    itogi = {}
+    for fps in (30, 60, 120):
+        tekushij_kadr, vremya_animacii = 0, 0.0
+        dt = 1 / fps
+        for _ in range(fps):   # ровно 1.0 секунда реального времени
+            tekushij_kadr, vremya_animacii = _prodvinut_kadr_animacii(
+                tekushij_kadr, vremya_animacii, dt, INTERVAL_KADRA, KOLICHESTVO_KADROV,
+            )
+        itogi[fps] = tekushij_kadr
+
+    # 1.0 с / 0.12 с = 8 целых интервалов и 0.04 с в остатке
+    assert itogi[30] == itogi[60] == itogi[120] == 8
