@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("2c1b2f4a", {})  # "Проверка результата" -- AABB-пересечение
-_zadanie = _cells.get("edb29970", {})   # "Задание ★★" -- уменьшенный хитбокс
+_proverka = _cells.get("5a3b85db", {})  # "Проверка результата" -- AABB-пересечение
+_zadanie = _cells.get("b557e3f8", {})   # "Задание ★★" -- уменьшенный хитбокс
 
 checks = [
     {
