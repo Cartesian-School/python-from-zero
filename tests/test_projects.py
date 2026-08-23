@@ -604,17 +604,29 @@ def test_space_shooter():
     r = run_with_display(
         """
 import space_shooter as sh
-state = sh.novaya_igra()
-sh.vystrelit(state)
-assert len(state["puli"]) == 1
-vrag = sh.pygame.Rect(state["korabl"].centerx - 20, state["korabl"].top - 30, sh.VRAG_SHIRINA, sh.VRAG_VYSOTA)
-state["vragi"] = [vrag]
-for _ in range(10):
-    sh.obnovit_igru(state)
-    if state["schet"]:
+
+game = sh.Game()
+game.start_new_game()
+
+game._spawn_bullet()
+assert len(game.bullets) == 1
+
+vrag = sh.Enemy(
+    game.assets.images["enemy_scout"],
+    game.player.rect.midtop,
+    points=100,
+    speed=0.0,
+)
+game.enemies.add(vrag)
+
+for _ in range(30):
+    game.update(1 / 60)
+    if game.score:
         break
-assert state["schet"] == 10
-assert len(state["vragi"]) == 0
+
+assert game.score == 100
+assert len(game.enemies) == 0
+game.render()
 print("OK")
 """,
         ROOT / "projects" / "pygame" / "space-shooter",
