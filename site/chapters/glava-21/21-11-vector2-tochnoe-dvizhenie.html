@@ -85,7 +85,7 @@
     <div class="callout callout-info">
       <div>
         <div class="callout-title">direction.length_squared() &gt; 0, а не &gt; 0 сразу для длины</div>
-        <div class="callout-body">Проверка через <code class="inline">length_squared()</code> (квадрат длины) вместо <code class="inline">length()</code> избегает деления на ноль и извлечения корня для нулевого вектора, когда игрок вообще не нажимает клавиши движения — обычная микрооптимизация в реальном коде на Vector2.</div>
+        <div class="callout-body">У этих двух строк разные задачи. Проверка <code class="inline">> 0</code> — то, что не даёт вызвать <code class="inline">normalize()</code> у нулевого вектора (когда игрок вообще не нажимает клавиши движения): нормализация делит вектор на его длину, а длина нулевого вектора равна нулю. А <code class="inline">length_squared()</code> (квадрат длины) вместо <code class="inline">length()</code> нужен только затем, чтобы не извлекать лишний квадратный корень, когда достаточно знать, ненулевой ли вектор — обычная микрооптимизация в реальном коде на Vector2.</div>
       </div>
     </div>
 
@@ -117,7 +117,7 @@
     </script>
 
 
-    <div class="section-nav"><a href="21-10-assety-i-zvuk.html"><div class="dir">← Назад</div><div class="lbl">Ресурсы игры</div></a><a href="21-12-igrovoe-pole-i-hud.html" class="next"><div class="dir">Далее →</div><div class="lbl">Игровое поле и интерфейс игрока</div></a></div>
+    <div class="section-nav"><a href="21-10-assety-i-zvuk.html"><div class="dir">← Назад</div><div class="lbl">Ресурсы игры: графика и звук</div></a><a href="21-12-igrovoe-pole-i-hud.html" class="next"><div class="dir">Далее →</div><div class="lbl">Игровое поле и интерфейс игрока</div></a></div>
   </article>
 </div>
 

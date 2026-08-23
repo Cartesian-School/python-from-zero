@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("f27eee65", {})  # "Проверка результата" -- очки без двойного начисления
+_proverka = _cells.get("72cdeada", {})  # "Проверка результата" -- очки без двойного начисления
 
 checks = [
     {

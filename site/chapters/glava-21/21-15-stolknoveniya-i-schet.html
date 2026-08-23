@@ -44,7 +44,7 @@
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Попадания и очки</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Попадания во врагов и начисление очков</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
     <h1>Попадания во врагов и начисление очков</h1>
     <p class="lede">groupcollide() проверяет столкновения целых групп одним вызовом — но очки нужно начислять аккуратно.</p>
@@ -62,7 +62,7 @@
         self._spawn_explosion(vrag.rect.center)
     <span class="tok-kw">return</span> ochki_za_unichtozhennyh(destroyed)</code></pre>
     </div>
-    <p><code class="inline">pygame.sprite.groupcollide(a, b, True, True)</code> сравнивает КАЖДЫЙ
+    <p><code class="inline">pygame.sprite.groupcollide(a, b, True, True)</code> сравнивает каждый
     спрайт из <code class="inline">a</code> с каждым спрайтом из <code class="inline">b</code> и
     возвращает словарь: пуля → список врагов, которых она задела. Оба флага
     <code class="inline">True</code> означают «удалить из своей группы при столкновении» — сама
@@ -79,7 +79,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Почему подсчёт очков идёт через set, а не через сумму по всем парам</div>
-        <div class="callout-body">Если сразу НЕСКОЛЬКО пуль задели одного и того же врага в одном обновлении, <code class="inline">groupcollide()</code> вернёт этого врага в списках для каждой из них — но физически это один и тот же уничтоженный враг. Собирая всех задетых врагов в множество (<code class="inline">set</code>) перед подсчётом очков, каждый враг засчитывается ровно один раз, сколько бы пуль его ни задели одновременно.</div>
+        <div class="callout-body">Если сразу несколько пуль задели одного и того же врага в одном обновлении, <code class="inline">groupcollide()</code> вернёт этого врага в списках для каждой из них — но физически это один и тот же уничтоженный враг. Собирая всех задетых врагов в множество (<code class="inline">set</code>) перед подсчётом очков, каждый враг засчитывается ровно один раз, сколько бы пуль его ни задели одновременно.</div>
       </div>
     </div>
 

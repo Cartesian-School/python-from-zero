@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("17222ed1", {})  # "Проверка результата" -- анимация сохраняет overshoot
+_proverka = _cells.get("54719948", {})  # "Проверка результата" -- анимация сохраняет overshoot
 
 checks = [
     {
