@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Игровое поле и HUD — Python с нуля — Cartesian School</title>
+<meta name="description" content="Почему HUD и игровое поле — разные прямоугольники, и как это защищает интерфейс от перекрытия игровыми объектами." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-21/21-12-igrovoe-pole-i-hud.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Игровое поле и HUD — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Почему HUD и игровое поле — разные прямоугольники, и как это защищает интерфейс от перекрытия игровыми объектами." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-21/21-12-igrovoe-pole-i-hud.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Игровое поле и HUD — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Почему HUD и игровое поле — разные прямоугольники, и как это защищает интерфейс от перекрытия игровыми объектами." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Игровое поле и HUD — Python с нуля — Cartesian School","description":"Почему HUD и игровое поле — разные прямоугольники, и как это защищает интерфейс от перекрытия игровыми объектами.","url":"https://www.cartesianschool.org/chapters/glava-21/21-12-igrovoe-pole-i-hud.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 21 · Космический шутер</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="21-01-igra-import-init.html">План проекта и окружение</a></li><li><a href="21-02-cikl-korabl.html">Игровой цикл и корабль</a></li><li><a href="21-03-dvizhenie-vragi.html">Движение и появление врагов</a></li><li><a href="21-04-strelba.html">Стрельба и пули</a></li><li><a href="21-05-tablo-scheta.html">Табло счёта</a></li><li><a href="21-06-unichtozhenie.html">Столкновения</a></li><li><a href="21-07-game-over.html">Перерисовка и Game Over</a></li><li><a href="21-08-polnyj-kod-itogi.html">Первая играбельная версия</a></li><li><a href="21-09-arhitektura-proekta.html">Архитектура: Game, Player, Bullet, Enemy</a></li><li><a href="21-10-assety-i-zvuk.html">Графика и звук: собственные ассеты</a></li><li><a href="21-11-vector2-tochnoe-dvizhenie.html">Vector2 и точное движение</a></li><li><a href="21-12-igrovoe-pole-i-hud.html" class="active">Игровое поле и HUD</a></li><li><a href="21-13-skorostrelnost.html">Скорострельность и кулдаун</a></li><li><a href="21-14-poyavlenie-vragov.html">Появление врагов</a></li><li><a href="21-15-stolknoveniya-i-schet.html">Столкновения пуль и счёт</a></li><li><a href="21-16-uron-i-neuyazvimost.html">Урон кораблю и неуязвимость</a></li><li><a href="21-17-slozhnost-i-volny.html">Рост сложности и волны</a></li><li><a href="21-18-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="21-19-perezapusk.html">Перезапуск игры</a></li><li><a href="21-20-animatsiya-vzryva.html">Анимация взрыва</a></li><li><a href="21-21-zvukovye-effekty.html">Звуковые эффекты</a></li><li><a href="21-22-zvyozdnyj-fon.html">Звёздный фон и порядок отрисовки</a></li><li><a href="21-23-otladka-shutera.html">Отладка: типичные баги шутера</a></li><li><a href="21-24-testiruemost.html">Тестируемость и детерминированный random</a></li><li><a href="21-25-finalnaya-arhitektura.html">Финальная версия игры</a></li><li><a href="21-26-itogi-proekta.html">Итоги проекта</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/21-01/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-01: Практика</a></li><li><a href="../../practice/21-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-02: Практика</a></li><li><a href="../../practice/21-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-03: Практика</a></li><li><a href="../../practice/21-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-04: Практика</a></li><li><a href="../../practice/21-06/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-06: Практика</a></li><li><a href="../../practice/21-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-08: Практика</a></li><li><a href="../../practice/21-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-09: Практика</a></li><li><a href="../../practice/21-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-11: Практика</a></li><li><a href="../../practice/21-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-13: Практика</a></li><li><a href="../../practice/21-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-14: Практика</a></li><li><a href="../../practice/21-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-15: Практика</a></li><li><a href="../../practice/21-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-16: Практика</a></li><li><a href="../../practice/21-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-17: Практика</a></li><li><a href="../../practice/21-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-20: Практика</a></li><li><a href="../../practice/21-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-25: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/space-shooter/space_shooter.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> space_shooter.py</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Игровое поле и HUD</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
+    <h1>Игровое поле и HUD</h1>
+    <p class="lede">Счёт и жизни живут в своей полосе сверху — игровые объекты в неё физически не заходят.</p>
+
+
+    <p>Глава 19 уже показывала, что бывает, если интерфейс перекрывает игровое поле: важный текст
+    может оказаться под движущимся объектом. Финальная версия шутера с самого начала разделяет
+    экран на две чётко разные области.</p>
+
+
+    <figure style="margin:24px 0">
+      <img src="../../assets/img/chapter-21/output/02-empty-playfield.png" alt="Реальное окно: верхняя тёмная полоса HUD со счётом и жизнями отделена тонкой линией от основного игрового поля со звёздным фоном и кораблём внизу" width="320"
+        style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно — HUD-полоса сверху (64 пикселя) отделена тонкой линией от игрового поля; ни один враг или снаряд не может оказаться выше этой границы.</figcaption>
+    </figure>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>fragment_playfield.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>HUD_HEIGHT = <span class="tok-num">64</span>
+
+self.playfield = pygame.Rect(<span class="tok-num">0</span>, HUD_HEIGHT, SHIRINA, VYSOTA - HUD_HEIGHT)</code></pre>
+    </div>
+    <p>Игровое поле — обычный <code class="inline">Rect</code>, а не просто число отступа: у него
+    сразу есть <code class="inline">.top</code>, <code class="inline">.bottom</code>,
+    <code class="inline">.left</code>, <code class="inline">.right</code> — то же самое, что
+    возвращает <code class="inline">korabl.top</code> в разделе 21.2, только теперь описывает не
+    один объект, а всю разрешённую область движения.</p>
+
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Что где происходит</th><th>Область</th></tr></thead>
+      <tbody><tr><td>Счёт, жизни, волна</td><td>HUD-полоса (0 — HUD_HEIGHT)</td></tr><tr><td>Корабль, враги, пули, взрывы</td><td>Игровое поле (HUD_HEIGHT — низ экрана)</td></tr><tr><td>Появление врагов</td><td>Чуть выше верхней границы игрового поля</td></tr><tr><td>Побег врага (раздел 21.16)</td><td>Пересечение НИЖНЕЙ границы игрового поля</td></tr></tbody>
+    </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Корабль ограничен именно игровым полем, а не всем окном</div>
+        <div class="callout-body"><code class="inline">Player.move()</code> (раздел 21.11) зажимает позицию в границах <code class="inline">self.playfield</code>, а не всего окна <code class="inline">SHIRINA × VYSOTA</code> — иначе корабль мог бы заехать под HUD и спрятать сам себя за текстом счёта.</div>
+      </div>
+    </div>
+
+
+    <div class="section-nav"><a href="21-11-vector2-tochnoe-dvizhenie.html"><div class="dir">← Назад</div><div class="lbl">Vector2 и точное движение</div></a><a href="21-13-skorostrelnost.html" class="next"><div class="dir">Далее →</div><div class="lbl">Скорострельность и кулдаун</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
