@@ -57,9 +57,11 @@
     в стандартную поставку Python — его нужно установить отдельно.</p>
     <p>У Pygame есть два пакета с почти одинаковым названием, и это стоит сразу прояснить.
     Классический <code class="inline">pygame</code> — исходный проект. <strong>pygame-ce</strong>
-    (Community Edition) — его активно поддерживаемое продолжение с полностью совместимым API:
-    именно pygame-ce получает новые версии и исправления быстрее и надёжнее устанавливается на
-    актуальных версиях Python. В этой книге мы устанавливаем и используем pygame-ce.</p>
+    (Community Edition) — его активно поддерживаемое продолжение: API во многом совместим с
+    классическим pygame, большинство базовых примеров pygame работает без изменений, а импорт
+    остаётся тем же самым — <code class="inline">import pygame</code>. При этом pygame-ce получает
+    новые версии и исправления быстрее и надёжнее устанавливается на актуальных версиях Python.
+    В этой книге мы устанавливаем и используем pygame-ce.</p>
 
     <h2 id="ustanovka">Устанавливаем и импортируем Pygame</h2>
 
@@ -78,7 +80,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Не держите pygame и pygame-ce в одном окружении одновременно</div>
-        <div class="callout-body">Оба пакета устанавливаются под одним и тем же именем модуля <code class="inline">pygame</code>, поэтому если в окружении случайно оказались сразу оба, непредсказуемо, какой из них реально импортируется. Если раньше вы уже устанавливали классический <code class="inline">pygame</code>, сначала удалите его: <code class="inline">pip uninstall pygame</code>, и только потом ставьте <code class="inline">pip install pygame-ce</code>. Виртуальное окружение (глава 15) снимает эту проблему полностью — в нём заведомо нет ничего, кроме того, что вы сами поставили.</div>
+        <div class="callout-body">Оба пакета устанавливаются под одним и тем же именем модуля <code class="inline">pygame</code>, поэтому если в окружении случайно оказались сразу оба, непредсказуемо, какой из них реально импортируется. Если раньше вы уже устанавливали классический <code class="inline">pygame</code>, сначала удалите его: <code class="inline">pip uninstall pygame</code>, и только потом ставьте <code class="inline">pip install pygame-ce</code>. Новое обычное виртуальное окружение (глава 15) помогает изолировать зависимости проекта от глобальных пакетов. Но и внутри него не устанавливайте одновременно pygame и pygame-ce.</div>
       </div>
     </div>
 
@@ -86,7 +88,7 @@
       <div class="code-label"><span>import_pygame.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">import</span> pygame
 
-pygame.init()   <span class="tok-com"># обязательная инициализация перед началом работы</span></code></pre>
+pygame.init()   <span class="tok-com"># в проектах этой книги мы начинаем настройку Pygame с этого вызова</span></code></pre>
     </div>
 
 

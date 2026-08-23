@@ -62,7 +62,7 @@
     <div class="code-block">
       <div class="code-label"><span>kadr_iz_lista.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>SHIRINA_KADRA, VYSOTA_KADRA = <span class="tok-num">32</span>, <span class="tok-num">32</span>
-spisok_kadrov = pygame.image.load(<span class="tok-str">&quot;assets/hodьba.png&quot;</span>).convert_alpha()
+spisok_kadrov = pygame.image.load(<span class="tok-str">&quot;assets/hodba.png&quot;</span>).convert_alpha()
 
 <span class="tok-kw">def</span> poluchit_kadr(nomer):
     x = nomer * SHIRINA_KADRA
@@ -71,22 +71,28 @@ spisok_kadrov = pygame.image.load(<span class="tok-str">&quot;assets/hodьba.png
 
     <h2>Таймер анимации</h2>
     <p>Кадры анимации не должны меняться каждый кадр игрового цикла — это слишком быстро (при 60
-    FPS это 60 смен рисунка в секунду). Вместо этого копится время, и кадр анимации переключается
-    по своему собственному, более медленному таймеру:</p>
+    FPS это 60 смен рисунка в секунду). Вместо этого копится время в накопителе (аккумуляторе), и
+    кадр анимации переключается по своему собственному, более медленному таймеру:</p>
 
     <div class="code-block">
       <div class="code-label"><span>tajmer_animacii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>SKOROST_ANIMACII = <span class="tok-num">0.12</span>   <span class="tok-com"># секунд на один кадр анимации</span>
+      <pre><code>INTERVAL_KADRA = <span class="tok-num">0.12</span>   <span class="tok-com"># секунд на один кадр анимации</span>
 tekushij_kadr = <span class="tok-num">0</span>
-vremya_do_smeny = SKOROST_ANIMACII
+vremya_animacii = <span class="tok-num">0.0</span>
 
-vremya_do_smeny -= dt
-<span class="tok-kw">if</span> vremya_do_smeny &lt;= <span class="tok-num">0</span>:
-    tekushij_kadr = (tekushij_kadr + <span class="tok-num">1</span>) % KOLICHESTVO_KADROV
-    vremya_do_smeny = SKOROST_ANIMACII</code></pre>
+vremya_animacii += dt
+<span class="tok-kw">while</span> vremya_animacii &gt;= INTERVAL_KADRA:
+    vremya_animacii -= INTERVAL_KADRA
+    tekushij_kadr = (tekushij_kadr + <span class="tok-num">1</span>) % KOLICHESTVO_KADROV</code></pre>
     </div>
     <p><code class="inline">% KOLICHESTVO_KADROV</code> (остаток от деления, глава 4) заставляет
-    счётчик кадра зациклиться: после последнего кадра анимация начинается заново с нулевого.</p>
+    счётчик кадра зациклиться: после последнего кадра анимация начинается заново с нулевого.
+    Здесь важен именно <code class="inline">while</code>, а не <code class="inline">if</code>:
+    если один игровой кадр из-за просадки FPS длится дольше, чем сразу несколько интервалов
+    анимации, <code class="inline">while</code> переключит кадр анимации нужное число раз подряд
+    и сохранит остаток времени в <code class="inline">vremya_animacii</code> для следующего
+    прохода. <code class="inline">if</code> вместо этого продвинул бы анимацию только на один
+    кадр и молча потерял лишнее накопленное время.</p>
 
     <figure style="margin:24px 0">
       <img src="../../assets/img/chapter-20/output/animation-strip.png" alt="Четыре реальных окна рядом: у голубой фигурки нога смещается влево-вправо от кадра к кадру, создавая шаг" width="680"
