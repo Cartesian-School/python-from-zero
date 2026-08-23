@@ -2533,8 +2533,26 @@ def math_formula(node, *, caption: str = "", aria_label: str = "") -> str:
     )
 
 
-def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) -> str:
-    """A real screenshot/photo, not a generated diagram — captioned figure."""
+def image_figure(src: str, alt: str, caption: str, *, size: str | None = None, width: int | None = None) -> str:
+    """A real screenshot/photo, not a generated diagram — captioned figure.
+
+    size controls the figure's max display width via a CSS preset class
+    (see .chapter-figure--* in theory.css): "narrow" (~460px, a small
+    supporting example), "medium" (~620px), or "wide" (~840px, an
+    evidence-grade screenshot that needs to be read without zooming).
+
+    width is the older, pre-preset call style (still used by several
+    other chapters) — kept exactly as it behaved before the preset
+    system existed, so those chapters' rendered output does not change.
+    Pass size for new call sites; width is not consulted when size is
+    given."""
+    if size is not None:
+        assert size in ("narrow", "medium", "wide"), f"unknown figure size: {size!r}"
+        return f"""
+    <figure class="chapter-figure chapter-figure--{size}">
+      <img src="{html.escape(src)}" alt="{html.escape(alt)}" loading="lazy" />
+      <figcaption>{html.escape(caption)}</figcaption>
+    </figure>"""
     width_attr = f' width="{width}"' if width else ""
     return f"""
     <figure style="margin:24px 0">
@@ -2542,6 +2560,36 @@ def image_figure(src: str, alt: str, caption: str, *, width: int | None = None) 
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
       <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>
     </figure>"""
+
+
+def image_figure_pair(
+    src_a: str, alt_a: str, caption_a: str,
+    src_b: str, alt_b: str, caption_b: str,
+) -> str:
+    """Two real screenshots meant to be compared side by side (e.g. a
+    before/after state) — equal-size boxes with object-fit:contain, so
+    source images of different native proportions still line up cleanly.
+    Stacks vertically on narrow/mobile viewports."""
+
+    def _cell(src: str, alt: str, caption: str) -> str:
+        return f"""
+      <figure class="chapter-figure">
+        <div class="chapter-figure-imgbox">
+          <img src="{html.escape(src)}" alt="{html.escape(alt)}" loading="lazy" />
+        </div>
+        <figcaption>{html.escape(caption)}</figcaption>
+      </figure>"""
+
+    return f'\n    <div class="chapter-figure-pair">{_cell(src_a, alt_a, caption_a)}{_cell(src_b, alt_b, caption_b)}\n    </div>'
+
+
+def image_figure_sequence(figures: list[tuple[str, str, str]], *, size: str = "medium") -> str:
+    """Several real screenshots meant to be read as an ordered, chronological
+    sequence (step 1, step 2, step 3...) — stacked vertically with
+    consistent spacing on both desktop and mobile, instead of squeezed
+    side by side into a shrinking row."""
+    items = "".join(image_figure(src, alt, caption, size=size) for src, alt, caption in figures)
+    return f'\n    <div class="chapter-figure-sequence">{items}\n    </div>'
 
 
 def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> str:
@@ -3439,16 +3487,16 @@ def relationship_diagram(
     never use the filled-diamond arrow for inheritance; the two
     relationships are not interchangeable.
     """
-    box_w, box_h = 200, 60
-    gap = 130
+    box_w, box_h = 220, 72
+    gap = 140
     left_x = 10
     right_x = left_x + box_w + gap
     total_w = right_x + box_w + 20
-    total_h = box_h + 70
+    total_h = box_h + 80
 
     is_a = style == "is-a"
     line_color = "#5B24F9" if is_a else "#059669"
-    cy = 40
+    cy = 46
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
@@ -3468,15 +3516,15 @@ def relationship_diagram(
             f'<rect x="{lx}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="12" '
             f'fill="#FAFAFC" stroke="#0D0230" stroke-width="1.5"/>'
         )
-        lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
-        first_y = cy - (len(lines) - 1) * 9 + 5
+        lines = _wrap_svg_text(" ".join(label.split()), max_chars=20, max_lines=2)
+        first_y = cy - (len(lines) - 1) * 10 + 6
         tspans = "".join(
-            f'<tspan x="{lx + box_w / 2}" y="{first_y + li * 18}">{html.escape(line)}</tspan>'
+            f'<tspan x="{lx + box_w / 2}" y="{first_y + li * 21}">{html.escape(line)}</tspan>'
             for li, line in enumerate(lines)
         )
         parts.append(
             f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-weight="700" '
-            f'font-size="14" fill="#0D0230">{tspans}</text>'
+            f'font-size="17" fill="#0D0230">{tspans}</text>'
         )
     line_x1 = left_x + box_w
     line_x2 = right_x
@@ -3489,17 +3537,24 @@ def relationship_diagram(
     )
     rel_label = relation.upper()
     parts.append(
-        f'<text x="{(line_x1 + line_x2) / 2}" y="{cy - 12}" text-anchor="middle" '
-        f'font-family="Sora, sans-serif" font-weight="700" font-size="12.5" letter-spacing="0.04em" '
+        f'<text x="{(line_x1 + line_x2) / 2}" y="{cy - 14}" text-anchor="middle" '
+        f'font-family="Sora, sans-serif" font-weight="700" font-size="15" letter-spacing="0.04em" '
         f'fill="{line_color}">{html.escape(rel_label)}</text>'
     )
     parts.append("</svg>")
     svg = "".join(parts)
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    # A bare <svg width:100%> with no HTML width/height attribute has no
+    # definite width to resolve against inside display:inline-block (whose
+    # own width is auto/shrink-to-fit) — browsers then fall back to the
+    # SVG's small CSS-replaced-element default size instead of growing up
+    # to max-width. Sizing the wrapper itself (width:min(100%, total_w))
+    # gives the SVG a definite width to fill, so it actually reaches its
+    # intended size.
     return (
         f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);'
         f'border-radius:var(--radius-lg,20px);overflow-x:auto">'
-        f'<div style="display:flex;justify-content:center"><div style="display:inline-block">{svg}</div></div>'
+        f'<div style="width:min(100%, {total_w}px);margin:0 auto">{svg}</div>'
         f'{cap}</figure>'
     )
 

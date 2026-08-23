@@ -389,6 +389,41 @@ code.inline { background: var(--gray-100); color: var(--navy-900); padding: 2px 
 .compare-table td:first-child, .compare-table th:first-child { font-weight: 600; color: var(--color-text-primary); }
 .compare-table tbody tr:hover { background: var(--color-bg-surface); }
 
+/* ---------- Chapter figures: reusable sizing presets ----------
+   A figure's img is never stretched to fill the article column at full
+   width by default — .chapter-figure--* caps how wide it may grow, so a
+   small supporting screenshot stays a supporting screenshot instead of
+   ballooning into a giant blurry poster. Pick the preset by how much
+   detail the figure needs to show, not by habit: narrow for a short
+   before/after snippet, wide for evidence the reader must read without
+   zooming (a real API response, a finished app screen). */
+.chapter-figure { margin: 24px auto; }
+.chapter-figure img { width: 100%; height: auto; border-radius: var(--radius-lg, 20px); border: 1px solid var(--color-border-default, #ddd); display: block; }
+.chapter-figure figcaption { text-align: center; font-size: 13px; color: var(--color-text-muted, #6B6B7D); margin-top: 8px; }
+.chapter-figure--narrow { max-width: 460px; }
+.chapter-figure--medium { max-width: 620px; }
+.chapter-figure--wide { max-width: 840px; }
+
+/* Two figures compared side by side (e.g. before/after a click) — equal
+   boxes so mismatched source-image proportions don't throw off the
+   comparison; object-fit:contain shows each image whole, never cropped
+   or distorted to fit. */
+.chapter-figure-pair { display: flex; gap: 20px; margin: 24px 0; align-items: flex-start; justify-content: center; }
+.chapter-figure-pair .chapter-figure { flex: 1 1 0; max-width: 420px; margin: 0; }
+.chapter-figure-pair .chapter-figure-imgbox { display: flex; align-items: center; justify-content: center; height: 200px; background: var(--color-bg-surface, #FAFAFC); border-radius: var(--radius-lg, 20px); border: 1px solid var(--color-border-default, #ddd); overflow: hidden; padding: 12px; }
+.chapter-figure-pair .chapter-figure-imgbox img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+
+/* An ordered chronological sequence of screenshots (step 1, 2, 3...) —
+   always stacked vertically, desktop and mobile alike, so the reading
+   order matches the process order. */
+.chapter-figure-sequence { display: flex; flex-direction: column; gap: 28px; margin: 24px 0; align-items: center; }
+.chapter-figure-sequence .chapter-figure { margin: 0; width: 100%; }
+
+@media (max-width: 860px) {
+  .chapter-figure-pair { flex-direction: column; }
+  .chapter-figure-pair .chapter-figure { max-width: 100%; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; padding: var(--spacing-md); gap: var(--spacing-lg); }
