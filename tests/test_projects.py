@@ -684,7 +684,7 @@ resp = client.get("/")
 assert resp.status_code == 200
 assert "Задач пока нет" in resp.get_data(as_text=True)
 resp2 = client.post("/dobavit", data={"zadacha": "Новая задача"})
-assert resp2.status_code == 302
+assert resp2.status_code == 303
 resp3 = client.get("/")
 assert "Новая задача" in resp3.get_data(as_text=True)
 print("OK")
