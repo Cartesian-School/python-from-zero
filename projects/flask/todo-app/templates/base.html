@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Список задач{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="shapka">
+    <a class="logotip" href="{{ url_for('glavnaya') }}">Список задач</a>
+  </header>
+
+  <main class="soderzhimoe">
+    {% with soobshcheniya = get_flashed_messages() %}
+      {% if soobshcheniya %}
+        <ul class="soobshcheniya" role="status">
+          {% for soobshchenie in soobshcheniya %}
+            <li>{{ soobshchenie }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

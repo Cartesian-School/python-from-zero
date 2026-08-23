@@ -24,13 +24,17 @@ def run_with_display(code: str, cwd: Path) -> subprocess.CompletedProcess:
     )
 
 
-def run_plain(code: str, cwd: Path) -> subprocess.CompletedProcess:
+def run_plain(code: str, cwd: Path, env: dict | None = None) -> subprocess.CompletedProcess:
+    import os
+
+    full_env = {**os.environ, **env} if env else None
     return subprocess.run(
         [sys.executable, "-c", code],
         cwd=str(cwd),
         capture_output=True,
         text=True,
         timeout=30,
+        env=full_env,
     )
 
 
@@ -667,19 +671,26 @@ print("OK")
 
 
 def test_flask_todo_app():
-    r = run_plain(
-        """
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        r = run_plain(
+            """
 import app as app_module
+with app_module.app.app_context():
+    app_module.init_db()
 client = app_module.app.test_client()
 resp = client.get("/")
 assert resp.status_code == 200
-assert "Выучить основы Python" in resp.get_data(as_text=True)
+assert "Задач пока нет" in resp.get_data(as_text=True)
 resp2 = client.post("/dobavit", data={"zadacha": "Новая задача"})
 assert resp2.status_code == 302
-assert "Новая задача" in app_module.zadachi
+resp3 = client.get("/")
+assert "Новая задача" in resp3.get_data(as_text=True)
 print("OK")
 """,
-        ROOT / "projects" / "flask" / "todo-app",
-    )
+            ROOT / "projects" / "flask" / "todo-app",
+            env={"TODO_APP_DB": str(Path(tmpdir) / "zadachi_test.db")},
+        )
     assert r.returncode == 0, r.stderr
     assert "OK" in r.stdout

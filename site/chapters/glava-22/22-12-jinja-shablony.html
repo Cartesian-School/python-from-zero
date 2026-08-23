@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Шаблоны Jinja: HTML с данными из Python — Python с нуля — Cartesian School</title>
+<meta name="description" content="Выражения и команды Jinja, автоэкранирование по умолчанию, риск фильтра |safe и наследование шаблонов через extends/block." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-22/22-12-jinja-shablony.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Шаблоны Jinja: HTML с данными из Python — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Выражения и команды Jinja, автоэкранирование по умолчанию, риск фильтра |safe и наследование шаблонов через extends/block." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-22/22-12-jinja-shablony.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Шаблоны Jinja: HTML с данными из Python — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Выражения и команды Jinja, автоэкранирование по умолчанию, риск фильтра |safe и наследование шаблонов через extends/block." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Шаблоны Jinja: HTML с данными из Python — Python с нуля — Cartesian School","description":"Выражения и команды Jinja, автоэкранирование по умолчанию, риск фильтра |safe и наследование шаблонов через extends/block.","url":"https://www.cartesianschool.org/chapters/glava-22/22-12-jinja-shablony.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 22 · Веб-разработка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="22-01-python-i-veb.html">Как устроен веб и где в нём работает Python</a></li><li><a href="22-02-html.html">HTML: структура веб-страницы</a></li><li><a href="22-03-css.html">CSS: оформление и расположение элементов</a></li><li><a href="22-04-javascript.html">JavaScript: поведение страницы в браузере</a></li><li><a href="22-05-flask.html">Первое веб-приложение на Flask</a></li><li><a href="22-06-itogi.html">Первый веб-проект: что мы уже умеем</a></li><li><a href="22-07-put-zaprosa.html">Что происходит после ввода адреса в браузере</a></li><li><a href="22-08-url-anatomiya.html">Адрес сайта: URL, домен, путь и параметры</a></li><li><a href="22-09-http.html">HTTP: запрос, ответ, методы и коды состояния</a></li><li><a href="22-10-https.html">HTTPS: зачем вебу шифрование</a></li><li><a href="22-11-flask-marshrutizaciya.html">Как Flask выбирает функцию для запроса</a></li><li><a href="22-12-jinja-shablony.html" class="active">Шаблоны Jinja: HTML с данными из Python</a></li><li><a href="22-13-formy.html">Формы: отправляем данные на сервер</a></li><li><a href="22-14-staticheskie-fajly.html">Статические файлы: CSS, изображения и JavaScript</a></li><li><a href="22-15-json.html">JSON: как программы передают данные</a></li><li><a href="22-16-api.html">API: когда сервер возвращает данные вместо HTML</a></li><li><a href="22-17-veb-frejmvorki.html">Веб-фреймворки Python: карта инструментов</a></li><li><a href="22-18-flask-django-fastapi.html">Flask, Django и FastAPI: как выбрать подход</a></li><li><a href="22-19-wsgi-asgi.html">WSGI и ASGI: как Python-приложение получает запрос</a></li><li><a href="22-20-zachem-baza-dannyh.html">Зачем веб-приложению база данных</a></li><li><a href="22-21-relyacionnaya-baza.html">Реляционная база данных: таблицы, строки и связи</a></li><li><a href="22-22-sql.html">SQL: читаем и изменяем данные</a></li><li><a href="22-23-sqlite.html">SQLite: первая база данных без отдельного сервера</a></li><li><a href="22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB и SQLite: чем отличаются</a></li><li><a href="22-25-nosql.html">Нереляционные базы данных: когда таблиц недостаточно</a></li><li><a href="22-26-orm.html">ORM: работа с базой через объекты Python</a></li><li><a href="22-27-migracii-shemy.html">Миграции схемы: как меняется структура базы</a></li><li><a href="22-28-perenos-dannyh.html">Перенос данных между базами и роль JSON</a></li><li><a href="22-29-flask-sqlite.html">Добавляем SQLite в Flask-приложение</a></li><li><a href="22-30-cookies-session.html">Как сайт запоминает пользователя: cookies и session</a></li><li><a href="22-31-validaciya-oshibki.html">Проверяем данные и обрабатываем ошибки</a></li><li><a href="22-32-bezopasnost.html">Основы безопасности веб-приложений</a></li><li><a href="22-33-testiruem-flask.html">Тестируем Flask без запуска браузера</a></li><li><a href="22-34-razvyortyvanie.html">Как веб-приложение работает после разработки</a></li><li><a href="22-35-itogovyj-proekt.html">Итоговый проект: список задач с Flask и SQLite</a></li><li><a href="22-36-chto-dalshe.html">Что изучать дальше в веб-разработке на Python</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/22-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Практика</a></li><li><a href="../../practice/22-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Практика</a></li><li><a href="../../practice/22-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Практика</a></li><li><a href="../../practice/22-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Практика</a></li><li><a href="../../practice/22-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Практика</a></li><li><a href="../../practice/22-12/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Практика</a></li><li><a href="../../practice/22-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Практика</a></li><li><a href="../../practice/22-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Практика</a></li><li><a href="../../practice/22-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Практика</a></li><li><a href="../../practice/22-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Практика</a></li><li><a href="../../practice/22-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Практика</a></li><li><a href="../../practice/22-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Практика</a></li><li><a href="../../practice/22-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Практика</a></li><li><a href="../../practice/22-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Практика</a></li><li><a href="../../practice/22-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Практика</a></li><li><a href="../../practice/22-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Практика</a></li><li><a href="../../practice/22-29/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Практика</a></li><li><a href="../../practice/22-30/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Практика</a></li><li><a href="../../practice/22-31/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Практика</a></li><li><a href="../../practice/22-32/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Практика</a></li><li><a href="../../practice/22-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Практика</a></li><li><a href="../../practice/22-35/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 22</a> / Шаблоны Jinja</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 22 · Веб-разработка с Python</div>
+    <h1>Шаблоны Jinja: HTML с данными из Python</h1>
+    <p class="lede">Обычный HTML с вставками Python — и встроенная защита от случайно выполненной разметки.</p>
+
+
+    <p>Раздел 22.5 уже использовал шаблоны — теперь разберём, как устроен движок
+    <strong>Jinja</strong>, который Flask использует по умолчанию. Шаблон — обычный
+    HTML-файл, куда вставлены два вида конструкций: <code class="inline">{{ выражение }}</code>
+    (вывести значение) и <code class="inline">{% команда %}</code> (условие, цикл,
+    наследование).</p>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>templates/spisok.html</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&lt;ul&gt;
+  {% for zadacha in zadachi %}
+    &lt;li&gt;{{ zadacha.title }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ul&gt;
+
+{% if not zadachi %}
+  &lt;p&gt;Задач пока нет.&lt;/p&gt;
+{% endif %}</code></pre>
+    </div>
+
+    <h2>Автоэкранирование — Jinja защищает вас по умолчанию</h2>
+    <p>Если значение, которое вставляет <code class="inline">{{ }}</code>, содержит
+    HTML-разметку (например, пользователь ввёл в поле <code class="inline">&lt;b&gt;</code>),
+    Jinja по умолчанию экранирует специальные символы — превращает
+    <code class="inline">&lt;</code> в <code class="inline">&amp;lt;</code> и так далее.
+    Браузер покажет это как обычный текст, а не выполнит как разметку. Это называют
+    <strong>автоэкранированием</strong> (autoescaping), и оно включено для HTML-шаблонов
+    Flask по умолчанию.</p>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">|safe отключает именно эту защиту</div>
+        <div class="callout-body">У Jinja есть фильтр <code class="inline">|safe</code>, который отключает автоэкранирование для конкретного значения — Jinja вставит его как есть, включая любую разметку. Это уместно для текста, который вы полностью контролируете сами (например, HTML, зашитый в код приложения), но <strong>не для данных, которые ввёл пользователь</strong>: раздел 22.32 покажет, к чему это приводит на практике. Если сомневаетесь — не добавляйте <code class="inline">|safe</code>.</div>
+      </div>
+    </div>
+
+    <h2>Наследование шаблонов — общий каркас страницы</h2>
+    <p>Чтобы не повторять <code class="inline">&lt;head&gt;</code>, навигацию и подключение
+    CSS в каждом шаблоне, заводят базовый шаблон с «дырками», которые заполняют дочерние
+    шаблоны:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>templates/base.html</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;{% block title %}Список задач{% endblock %}&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ url_for(&#x27;static&#x27;, filename=&#x27;style.css&#x27;) }}&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  {% block content %}{% endblock %}
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>templates/index.html</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>{% extends &quot;base.html&quot; %}
+
+{% block content %}
+  &lt;h1&gt;Мой список задач&lt;/h1&gt;
+  ...
+{% endblock %}</code></pre>
+    </div>
+    <p><code class="inline">{% extends "base.html" %}</code> говорит: «возьми базовый
+    шаблон и подставь моё содержимое в отмеченные блоки». Итоговый проект главы (раздел 22.35)
+    использует именно эту структуру — <code class="inline">base.html</code> и несколько
+    дочерних шаблонов.</p>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: шаблоны и автоэкранирование</div>
+        <div class="nc-sub">Модуль flask не установлен в браузерном окружении Pyodide — выполните локально в VS Code, PyCharm или Jupyter</div>
+        <div class="practice-inline-status" data-lesson-id="22-12">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/22-12/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-12"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-12"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="22-11-flask-marshrutizaciya.html"><div class="dir">← Назад</div><div class="lbl">Как Flask выбирает функцию для запроса</div></a><a href="22-13-formy.html" class="next"><div class="dir">Далее →</div><div class="lbl">Формы: отправляем данные на сервер</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

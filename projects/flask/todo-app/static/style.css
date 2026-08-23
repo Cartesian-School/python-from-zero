@@ -1,46 +1,162 @@
+:root {
+  --fon: #f7f7fb;
+  --tekst: #1a1a2e;
+  --akcent: #4a2fbd;
+  --akcent-tyomnyj: #3a239a;
+  --granica: #d8d8e6;
+  --oshibka: #b3261e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: system-ui, sans-serif;
+  margin: 0;
+  color: var(--tekst);
+  background: var(--fon);
+}
+
+.shapka {
+  padding: 1rem 1.25rem;
+  background: white;
+  border-bottom: 1px solid var(--granica);
+}
+
+.logotip {
+  font-weight: 700;
+  color: var(--akcent);
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.soderzhimoe {
   max-width: 32rem;
-  margin: 3rem auto;
-  padding: 0 1rem;
-  color: #1a1a2e;
-  background: #f7f7fb;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
 }
 
 h1 {
-  color: #4a2fbd;
+  color: var(--akcent);
+  font-size: 1.5rem;
+}
+
+.soobshcheniya {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  background: #fdecea;
+  color: var(--oshibka);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.pusto {
+  color: #6b6b7d;
 }
 
 .zadachi {
-  padding-left: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
 }
 
 .zadachi li {
-  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--granica);
+  flex-wrap: wrap;
 }
 
-form {
-  margin-top: 1.5rem;
+.tekst-zadachi {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.zadachi li.vypolneno .tekst-zadachi {
+  text-decoration: line-through;
+  color: #8a8a9a;
+}
+
+.knopka-galochka,
+.knopka-udalit {
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid var(--granica);
+  background: white;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.knopka-galochka {
+  color: var(--akcent);
+}
+
+.knopka-udalit {
+  color: var(--oshibka);
+}
+
+.forma-perekluchit,
+.forma-udalit {
+  margin: 0;
+  display: contents;
+}
+
+.forma-dobavit {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-input[type="text"] {
+.forma-dobavit label {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  color: #6b6b7d;
+}
+
+.forma-dobavit input[type="text"] {
   flex: 1;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #ccc;
+  min-width: 0;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--granica);
   border-radius: 6px;
+  font-size: 1rem;
 }
 
-button {
-  padding: 0.4rem 0.9rem;
+.forma-dobavit button,
+.ssylka-privet a {
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
-  background: #4a2fbd;
+  background: var(--akcent);
   color: white;
   cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
 }
 
-button:hover {
-  background: #3a239a;
+.forma-dobavit button:hover,
+.ssylka-privet a:hover {
+  background: var(--akcent-tyomnyj);
+}
+
+.ssylka-privet {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 420px) {
+  .forma-dobavit button {
+    width: 100%;
+  }
 }
