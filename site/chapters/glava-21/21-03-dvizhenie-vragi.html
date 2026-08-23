@@ -44,7 +44,7 @@
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Движение и появление врагов</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Движение корабля и появление врагов</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
     <h1>Движение корабля и появление врагов</h1>
     <p class="lede">Скорость в пикселях в секунду с самого начала — и враги, появляющиеся сверху с течением времени.</p>
@@ -111,9 +111,9 @@ vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
 
 <span class="tok-com"># в игровом цикле, каждый кадр:</span>
 vremya_do_vraga -= dt
-<span class="tok-kw">if</span> vremya_do_vraga &lt;= <span class="tok-num">0</span>:
+<span class="tok-kw">if</span> vremya_do_vraga &lt;= <span class="tok-num">0.0</span>:
     vragi.append(sozdat_vraga())
-    vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
+    vremya_do_vraga += INTERVAL_POYAVLENIYA_VRAGA
 
 <span class="tok-kw">for</span> vrag <span class="tok-kw">in</span> vragi:
     vrag[<span class="tok-str">&quot;y&quot;</span>] += VRAG_SKOROST * dt
@@ -135,8 +135,8 @@ vremya_do_vraga -= dt
 
     <div class="callout callout-tip">
       <div>
-        <div class="callout-title">Что раздел 21.14 добавит к этому же таймеру</div>
-        <div class="callout-body"><code class="inline">if vremya_do_vraga <= 0:</code> продвигает появление врага не более чем на одного за кадр — для игры это уже незаметно на практике, но раздел 21.14 показывает более аккуратный вариант через <code class="inline">while</code>, который не теряет остаток времени, если один кадр вдруг окажется длиннее целого интервала.</div>
+        <div class="callout-title">+= interval, а не = interval — вот что сохраняет остаток</div>
+        <div class="callout-body">После появления врага мы прибавляем интервал к текущему значению таймера, а не присваиваем интервал заново. Поэтому небольшое превышение времени не теряется: если <code class="inline">vremya_do_vraga</code> ушёл в −0.01, следующий отсчёт начнётся именно с этого небольшого долга, а не с чистого интервала. В разделе 21.14 этот же принцип будет обобщён с помощью <code class="inline">while</code> на случай, когда один обрабатываемый шаг может охватить сразу несколько интервалов.</div>
       </div>
     </div>
 

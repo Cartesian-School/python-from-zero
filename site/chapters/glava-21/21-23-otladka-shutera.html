@@ -44,7 +44,7 @@
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Отладка шутера</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Как находить и исправлять ошибки в шутере</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
     <h1>Как находить и исправлять ошибки в шутере</h1>
     <p class="lede">Справочник по симптому — плюс подробный разбор трёх самых незаметных ошибок проекта.</p>
@@ -69,7 +69,7 @@
       <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
       <div>
         <div class="callout-title">Субпиксельное движение теряется на медленных объектах</div>
-        <div class="callout-body"><strong>Симптом:</strong> объект со скоростью меньше одного пикселя за кадр вообще не двигается. <strong>Ломаная версия:</strong> <code class="inline">self.rect.x += self.speed * dt</code> — Rect хранит только целые числа, и дробное приращение округляется в ноль на каждом кадре по отдельности. <strong>Почему:</strong> округление происходит КАЖДЫЙ раз, а не один раз в конце. <strong>Исправление:</strong> накапливать движение в <code class="inline">self.position</code> (Vector2, раздел 21.11), а <code class="inline">rect.center</code> пересобирать из неё через <code class="inline">round()</code> каждый кадр. <strong>Правило:</strong> позиция — всегда float, Rect — производная от неё, никогда не наоборот.</div>
+        <div class="callout-body"><strong>Симптом:</strong> объект со скоростью меньше одного пикселя за кадр вообще не двигается. <strong>Ломаная версия:</strong> <code class="inline">self.rect.x += self.speed * dt</code> — Rect хранит только целые числа, и дробное приращение округляется в ноль на каждом кадре по отдельности. <strong>Почему:</strong> округление происходит каждый раз, а не один раз в конце. <strong>Исправление:</strong> накапливать движение в <code class="inline">self.position</code> (Vector2, раздел 21.11), а <code class="inline">rect.center</code> пересобирать из неё через <code class="inline">round()</code> каждый кадр. <strong>Правило:</strong> позиция — всегда float, Rect — производная от неё, никогда не наоборот.</div>
       </div>
     </div>
 
@@ -85,7 +85,7 @@
       <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
       <div>
         <div class="callout-title">Три врага одновременно отнимают три жизни</div>
-        <div class="callout-body"><strong>Симптом:</strong> лобовое столкновение с группой врагов сразу переводит игру в Game Over, хотя жизней было три. <strong>Ломаная версия:</strong> <code class="inline">for vrag in hit: self.lives -= 1</code> — урон внутри цикла по столкнувшимся врагам. <strong>Почему:</strong> цикл списывает жизнь за КАЖДОГО врага, а не за сам факт столкновения. <strong>Исправление:</strong> проверить "было ли хоть одно столкновение" один раз ПОСЛЕ цикла и списать не больше одной жизни за кадр (раздел 21.16). <strong>Правило:</strong> урон измеряется событием «задели», а не количеством объектов, которые это сделали одновременно.</div>
+        <div class="callout-body"><strong>Симптом:</strong> лобовое столкновение с группой врагов сразу переводит игру в Game Over, хотя жизней было три. <strong>Ломаная версия:</strong> <code class="inline">for vrag in hit: self.lives -= 1</code> — урон внутри цикла по столкнувшимся врагам. <strong>Почему:</strong> цикл списывает жизнь за каждого врага, а не за сам факт столкновения. <strong>Исправление:</strong> проверить "было ли хоть одно столкновение" один раз после цикла и списать не больше одной жизни за кадр (раздел 21.16). <strong>Правило:</strong> урон измеряется событием «задели», а не количеством объектов, которые это сделали одновременно.</div>
       </div>
     </div>
 
