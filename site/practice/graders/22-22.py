@@ -6,16 +6,16 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("5d094fec", {})  # "Проверка результата" -- Create и Read через настоящий sqlite3
-_update_delete = _cells.get("0d3b4b10", {})  # "Эксперимент — Update" -- Update и Delete через настоящий sqlite3
+_proverka = _cells.get("5d094fec", {})  # "Проверка результата" -- Create и Read через модуль sqlite3
+_update_delete = _cells.get("0d3b4b10", {})  # "Эксперимент — Update" -- Update и Delete через модуль sqlite3
 
 checks = [
     {
-        "name": "Проверка результата: Create и Read через настоящий sqlite3",
+        "name": "Проверка результата: Create и Read через модуль sqlite3",
         "passed": bool(_proverka) and _proverka.get("ok", False),
     },
     {
-        "name": "Проверка результата: Update и Delete через настоящий sqlite3",
+        "name": "Проверка результата: Update и Delete через модуль sqlite3",
         "passed": bool(_update_delete) and _update_delete.get("ok", False),
     },
 ]
