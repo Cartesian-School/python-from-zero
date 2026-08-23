@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Перенос данных между базами и роль JSON — Python с нуля — Cartesian School</title>
+<meta name="description" content="Перенос данных как отдельное значение слова «миграция», роль JSON как промежуточного формата и обязательная проверка результата." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-22/22-28-perenos-dannyh.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Перенос данных между базами и роль JSON — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Перенос данных как отдельное значение слова «миграция», роль JSON как промежуточного формата и обязательная проверка результата." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-22/22-28-perenos-dannyh.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Перенос данных между базами и роль JSON — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Перенос данных как отдельное значение слова «миграция», роль JSON как промежуточного формата и обязательная проверка результата." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Перенос данных между базами и роль JSON — Python с нуля — Cartesian School","description":"Перенос данных как отдельное значение слова «миграция», роль JSON как промежуточного формата и обязательная проверка результата.","url":"https://www.cartesianschool.org/chapters/glava-22/22-28-perenos-dannyh.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 22 · Веб-разработка</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="22-01-python-i-veb.html">Как устроен веб и где в нём работает Python</a></li><li><a href="22-02-html.html">HTML: структура веб-страницы</a></li><li><a href="22-03-css.html">CSS: оформление и расположение элементов</a></li><li><a href="22-04-javascript.html">JavaScript: поведение страницы в браузере</a></li><li><a href="22-05-flask.html">Первое веб-приложение на Flask</a></li><li><a href="22-06-itogi.html">Первый веб-проект: что мы уже умеем</a></li><li><a href="22-07-put-zaprosa.html">Что происходит после ввода адреса в браузере</a></li><li><a href="22-08-url-anatomiya.html">Адрес сайта: URL, домен, путь и параметры</a></li><li><a href="22-09-http.html">HTTP: запрос, ответ, методы и коды состояния</a></li><li><a href="22-10-https.html">HTTPS: зачем вебу шифрование</a></li><li><a href="22-11-flask-marshrutizaciya.html">Как Flask выбирает функцию для запроса</a></li><li><a href="22-12-jinja-shablony.html">Шаблоны Jinja: HTML с данными из Python</a></li><li><a href="22-13-formy.html">Формы: отправляем данные на сервер</a></li><li><a href="22-14-staticheskie-fajly.html">Статические файлы: CSS, изображения и JavaScript</a></li><li><a href="22-15-json.html">JSON: как программы передают данные</a></li><li><a href="22-16-api.html">API: когда сервер возвращает данные вместо HTML</a></li><li><a href="22-17-veb-frejmvorki.html">Веб-фреймворки Python: карта инструментов</a></li><li><a href="22-18-flask-django-fastapi.html">Flask, Django и FastAPI: как выбрать подход</a></li><li><a href="22-19-wsgi-asgi.html">WSGI и ASGI: как Python-приложение получает запрос</a></li><li><a href="22-20-zachem-baza-dannyh.html">Зачем веб-приложению база данных</a></li><li><a href="22-21-relyacionnaya-baza.html">Реляционная база данных: таблицы, строки и связи</a></li><li><a href="22-22-sql.html">SQL: читаем и изменяем данные</a></li><li><a href="22-23-sqlite.html">SQLite: первая база данных без отдельного сервера</a></li><li><a href="22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB и SQLite: чем отличаются</a></li><li><a href="22-25-nosql.html">Нереляционные базы данных: когда таблиц недостаточно</a></li><li><a href="22-26-orm.html">ORM: работа с базой через объекты Python</a></li><li><a href="22-27-migracii-shemy.html">Миграции схемы: как меняется структура базы</a></li><li><a href="22-28-perenos-dannyh.html" class="active">Перенос данных между базами и роль JSON</a></li><li><a href="22-29-flask-sqlite.html">Добавляем SQLite в Flask-приложение</a></li><li><a href="22-30-cookies-session.html">Как сайт запоминает пользователя: cookies и session</a></li><li><a href="22-31-validaciya-oshibki.html">Проверяем данные и обрабатываем ошибки</a></li><li><a href="22-32-bezopasnost.html">Основы безопасности веб-приложений</a></li><li><a href="22-33-testiruem-flask.html">Тестируем Flask без запуска браузера</a></li><li><a href="22-34-razvyortyvanie.html">Как веб-приложение работает после разработки</a></li><li><a href="22-35-itogovyj-proekt.html">Итоговый проект: список задач с Flask и SQLite</a></li><li><a href="22-36-chto-dalshe.html">Что изучать дальше в веб-разработке на Python</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/22-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Практика</a></li><li><a href="../../practice/22-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Практика</a></li><li><a href="../../practice/22-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Практика</a></li><li><a href="../../practice/22-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Практика</a></li><li><a href="../../practice/22-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Практика</a></li><li><a href="../../practice/22-12/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Практика</a></li><li><a href="../../practice/22-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Практика</a></li><li><a href="../../practice/22-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Практика</a></li><li><a href="../../practice/22-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Практика</a></li><li><a href="../../practice/22-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Практика</a></li><li><a href="../../practice/22-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Практика</a></li><li><a href="../../practice/22-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Практика</a></li><li><a href="../../practice/22-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Практика</a></li><li><a href="../../practice/22-26/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Практика</a></li><li><a href="../../practice/22-27/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Практика</a></li><li><a href="../../practice/22-28/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Практика</a></li><li><a href="../../practice/22-29/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Практика</a></li><li><a href="../../practice/22-30/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Практика</a></li><li><a href="../../practice/22-31/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Практика</a></li><li><a href="../../practice/22-32/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Практика</a></li><li><a href="../../practice/22-33/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Практика</a></li><li><a href="../../practice/22-35/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 22</a> / Перенос данных</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 22 · Веб-разработка с Python</div>
+    <h1>Перенос данных между базами и роль JSON</h1>
+    <p class="lede">Не структура таблицы, а сами записи — как их переносят между базами и почему перенос обязательно проверяют.</p>
+
+
+    <p>Второе значение слова «миграция» — <strong>перенос данных</strong> между базами или
+    системами: например, из старой базы в новую, из одного формата хранения в другой. Не
+    путайте с миграцией схемы из раздела 22.27 — там менялась структура таблицы, здесь
+    переезжают сами записи.</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Исходная база</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">читаем строки</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Python</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">преобразуем данные</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">JSON</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">промежуточный файл (необязательно)</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Целевая база</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">записываем строки</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;background:var(--color-bg-canvas,#fff);border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Проверка</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">сверяем количество и содержимое</div></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Перенос данных: чтение, преобразование, запись, проверка</figcaption></figure>
+
+    <p>JSON (раздел 22.15) удобен как <em>промежуточный</em> формат в этом процессе — он
+    текстовый, человекочитаемый и его легко прочитать в любом языке программирования. Но JSON
+    — не универсальный формат переноса без потерь: у него нет отдельного типа для дат, для
+    двоичных данных, и он не хранит ограничения и связи между таблицами (внешние ключи,
+    раздел 22.21) — их приходится восстанавливать отдельно на стороне целевой базы.</p>
+
+    <h2>Маленький воспроизводимый пример</h2>
+
+    <div class="code-block">
+      <div class="code-label"><span>eksport_v_json.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">import</span> sqlite3
+
+istochnik = sqlite3.connect(<span class="tok-str">&quot;zadachi.db&quot;</span>)
+istochnik.row_factory = sqlite3.Row
+
+stroki = istochnik.execute(<span class="tok-str">&quot;SELECT title, done FROM tasks&quot;</span>).fetchall()
+dannye = [<span class="tok-fn">dict</span>(stroka) <span class="tok-kw">for</span> stroka <span class="tok-kw">in</span> stroki]
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;zadachi.json&quot;</span>, <span class="tok-str">&quot;w&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> fajl:
+    json.dump(dannye, fajl, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label"><span>import_iz_json.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">import</span> sqlite3
+
+<span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">&quot;zadachi.json&quot;</span>, encoding=<span class="tok-str">&quot;utf-8&quot;</span>) <span class="tok-kw">as</span> fajl:
+    dannye = json.load(fajl)
+
+cel = sqlite3.connect(<span class="tok-str">&quot;novaya_zadachi.db&quot;</span>)
+cel.execute(<span class="tok-str">&quot;CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT NOT NULL, done INTEGER NOT NULL DEFAULT 0)&quot;</span>)
+<span class="tok-kw">for</span> zapis <span class="tok-kw">in</span> dannye:
+    cel.execute(
+        <span class="tok-str">&quot;INSERT INTO tasks (title, done) VALUES (?, ?)&quot;</span>,
+        (zapis[<span class="tok-str">&quot;title&quot;</span>], zapis[<span class="tok-str">&quot;done&quot;</span>]),
+    )
+cel.commit()</code></pre>
+    </div>
+
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Идентификаторы — решение, которое нужно явно продумать и проверить</div>
+        <div class="callout-body">В примере выше новая база сама назначает новые значения <code class="inline">id</code> при вставке — старые идентификаторы не переносятся. Это осознанный выбор, не случайность: если приложению важно сохранить исходные <code class="inline">id</code> (например, на них ссылаются извне), их нужно переносить явно и после этого проверить, что они остались уникальными. Любой перенос данных должен заканчиваться проверкой: совпадает ли количество строк и совпадают ли представительные записи в источнике и в цели.</div>
+      </div>
+    </div>
+
+    <p>Перенос между локальными файлами SQLite в этом примере воспроизводит тот же принцип,
+    что и перенос в промышленную базу вроде PostgreSQL, — читать, преобразовывать, записывать,
+    проверять. Отличаются только конкретные инструменты и драйверы подключения; сначала —
+    обязательная резервная копия исходных данных.</p>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: перенос данных через JSON</div>
+        <div class="nc-sub">Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки</div>
+        <div class="practice-inline-status" data-lesson-id="22-28"></div>
+      </div>
+      <a class="nc-btn" href="../../practice/22-28/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-28"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-28"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Практика пройдена</strong> — Результат: ' + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="22-27-migracii-shemy.html"><div class="dir">← Назад</div><div class="lbl">Миграции схемы: как меняется структура базы</div></a><a href="22-29-flask-sqlite.html" class="next"><div class="dir">Далее →</div><div class="lbl">Добавляем SQLite в Flask-приложение</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>
