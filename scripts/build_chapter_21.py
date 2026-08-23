@@ -35,32 +35,32 @@ IMG = "../../assets/img/chapter-21/output"
 
 PAGES = [
     ("index.html", "Обзор главы"),
-    ("21-01-igra-import-init.html", "План проекта и окружение"),
-    ("21-02-cikl-korabl.html", "Игровой цикл и корабль"),
-    ("21-03-dvizhenie-vragi.html", "Движение и появление врагов"),
-    ("21-04-strelba.html", "Стрельба и пули"),
-    ("21-05-tablo-scheta.html", "Табло счёта"),
-    ("21-06-unichtozhenie.html", "Столкновения"),
-    ("21-07-game-over.html", "Перерисовка и Game Over"),
-    ("21-08-polnyj-kod-itogi.html", "Первая играбельная версия"),
-    ("21-09-arhitektura-proekta.html", "Архитектура: Game, Player, Bullet, Enemy"),
-    ("21-10-assety-i-zvuk.html", "Графика и звук: собственные ассеты"),
-    ("21-11-vector2-tochnoe-dvizhenie.html", "Vector2 и точное движение"),
-    ("21-12-igrovoe-pole-i-hud.html", "Игровое поле и HUD"),
-    ("21-13-skorostrelnost.html", "Скорострельность и кулдаун"),
-    ("21-14-poyavlenie-vragov.html", "Появление врагов"),
-    ("21-15-stolknoveniya-i-schet.html", "Столкновения пуль и счёт"),
-    ("21-16-uron-i-neuyazvimost.html", "Урон кораблю и неуязвимость"),
-    ("21-17-slozhnost-i-volny.html", "Рост сложности и волны"),
-    ("21-18-sostoyaniya-igry.html", "Состояния игры"),
-    ("21-19-perezapusk.html", "Перезапуск игры"),
+    ("21-01-igra-import-init.html", "План игры и подготовка проекта"),
+    ("21-02-cikl-korabl.html", "Игровой цикл и корабль игрока"),
+    ("21-03-dvizhenie-vragi.html", "Движение корабля и появление врагов"),
+    ("21-04-strelba.html", "Стрельба: создаём и двигаем пули"),
+    ("21-05-tablo-scheta.html", "Счёт и информация на экране"),
+    ("21-06-unichtozhenie.html", "Попадания и столкновения"),
+    ("21-07-game-over.html", "Завершение игры и экран «Игра окончена»"),
+    ("21-08-polnyj-kod-itogi.html", "Первая рабочая версия игры"),
+    ("21-09-arhitektura-proekta.html", "Разделяем игру на классы"),
+    ("21-10-assety-i-zvuk.html", "Ресурсы игры: графика и звук"),
+    ("21-11-vector2-tochnoe-dvizhenie.html", "Точное движение с Vector2"),
+    ("21-12-igrovoe-pole-i-hud.html", "Игровое поле и интерфейс игрока"),
+    ("21-13-skorostrelnost.html", "Скорострельность и интервал между выстрелами"),
+    ("21-14-poyavlenie-vragov.html", "Как появляются враги"),
+    ("21-15-stolknoveniya-i-schet.html", "Попадания во врагов и начисление очков"),
+    ("21-16-uron-i-neuyazvimost.html", "Жизни, урон и временная неуязвимость"),
+    ("21-17-slozhnost-i-volny.html", "Как растёт сложность игры"),
+    ("21-18-sostoyaniya-igry.html", "Меню, игра, пауза и завершение"),
+    ("21-19-perezapusk.html", "Перезапуск игры без перезапуска программы"),
     ("21-20-animatsiya-vzryva.html", "Анимация взрыва"),
-    ("21-21-zvukovye-effekty.html", "Звуковые эффекты"),
+    ("21-21-zvukovye-effekty.html", "Звуки выстрела, попадания и взрыва"),
     ("21-22-zvyozdnyj-fon.html", "Звёздный фон и порядок отрисовки"),
-    ("21-23-otladka-shutera.html", "Отладка: типичные баги шутера"),
-    ("21-24-testiruemost.html", "Тестируемость и детерминированный random"),
-    ("21-25-finalnaya-arhitektura.html", "Финальная версия игры"),
-    ("21-26-itogi-proekta.html", "Итоги проекта"),
+    ("21-23-otladka-shutera.html", "Как находить и исправлять ошибки в шутере"),
+    ("21-24-testiruemost.html", "Как сделать игру удобной для автоматических тестов"),
+    ("21-25-finalnaya-arhitektura.html", "Собираем финальную версию игры"),
+    ("21-26-itogi-proekta.html", "Что мы построили и как развивать игру дальше"),
 ]
 
 NOTEBOOKS = [
@@ -120,40 +120,40 @@ def build_opener() -> None:
         "полноценный конец игры, собранные в архитектуру на классах и делта-тайме.",
         meta_items=["[[icon:timer]] ~10–12 часов", "[[icon:launch]] полноценная игра", "[[icon:practice]] 15 практик"],
         sections=[
-            ChapterSectionLink("21.1", "Игра «Космический шутер»", "21-01-igra-import-init.html", "467"),
-            ChapterSectionLink("", "Импортируем модули. Инициализируем", "21-01-igra-import-init.html#init", "469"),
-            ChapterSectionLink("21.2", "Игровой цикл", "21-02-cikl-korabl.html", "470"),
+            ChapterSectionLink("21.1", "План игры и подготовка проекта", "21-01-igra-import-init.html", "467"),
+            ChapterSectionLink("", "Импортируем необходимые модули", "21-01-igra-import-init.html#init", "469"),
+            ChapterSectionLink("21.2", "Игровой цикл и корабль игрока", "21-02-cikl-korabl.html", "470"),
             ChapterSectionLink("", "Создаём космический корабль", "21-02-cikl-korabl.html#korabl", "471"),
-            ChapterSectionLink("21.3", "Перемещаем корабль", "21-03-dvizhenie-vragi.html", "473"),
+            ChapterSectionLink("21.3", "Движение корабля и появление врагов", "21-03-dvizhenie-vragi.html", "473"),
             ChapterSectionLink("", "Создаём и перемещаем врагов", "21-03-dvizhenie-vragi.html#vragi", "475"),
-            ChapterSectionLink("21.4", "Стреляем", "21-04-strelba.html", "479"),
-            ChapterSectionLink("21.5", "Табло счёта", "21-05-tablo-scheta.html", "482"),
-            ChapterSectionLink("21.6", "Уничтожаем врагов", "21-06-unichtozhenie.html", "484"),
-            ChapterSectionLink("", "Уничтожаем космический корабль!", "21-06-unichtozhenie.html#korabl-unichtozhen", "487"),
-            ChapterSectionLink("21.7", "Перерисовываем врагов. Игра окончена!", "21-07-game-over.html", "488"),
-            ChapterSectionLink("21.8", "Первая играбельная версия", "21-08-polnyj-kod-itogi.html", "491"),
+            ChapterSectionLink("21.4", "Стрельба: создаём и двигаем пули", "21-04-strelba.html", "479"),
+            ChapterSectionLink("21.5", "Счёт и информация на экране", "21-05-tablo-scheta.html", "482"),
+            ChapterSectionLink("21.6", "Попадания и столкновения", "21-06-unichtozhenie.html", "484"),
+            ChapterSectionLink("", "Когда враг уничтожает корабль", "21-06-unichtozhenie.html#korabl-unichtozhen", "487"),
+            ChapterSectionLink("21.7", "Завершение игры и экран «Игра окончена»", "21-07-game-over.html", "488"),
+            ChapterSectionLink("21.8", "Первая рабочая версия игры", "21-08-polnyj-kod-itogi.html", "491"),
             # С 21.9 главу продолжают страницы, добавленные в цифровой версии
             # книги — у них нет физической страницы бумажного макета (см.
             # render_chapter_opener() / раздел 20.1 сайта), поэтому page здесь
             # намеренно не указывается.
-            ChapterSectionLink("21.9", "Архитектура: классы Game, Player, Bullet, Enemy", "21-09-arhitektura-proekta.html"),
-            ChapterSectionLink("21.10", "Графика и звук: собственные ассеты игры", "21-10-assety-i-zvuk.html"),
-            ChapterSectionLink("21.11", "Vector2 и точное движение", "21-11-vector2-tochnoe-dvizhenie.html"),
-            ChapterSectionLink("21.12", "Игровое поле и HUD", "21-12-igrovoe-pole-i-hud.html"),
-            ChapterSectionLink("21.13", "Скорострельность и кулдаун", "21-13-skorostrelnost.html"),
-            ChapterSectionLink("21.14", "Появление врагов", "21-14-poyavlenie-vragov.html"),
-            ChapterSectionLink("21.15", "Столкновения пуль и счёт", "21-15-stolknoveniya-i-schet.html"),
-            ChapterSectionLink("21.16", "Урон кораблю и неуязвимость", "21-16-uron-i-neuyazvimost.html"),
-            ChapterSectionLink("21.17", "Рост сложности и волны", "21-17-slozhnost-i-volny.html"),
-            ChapterSectionLink("21.18", "Состояния игры: меню, пауза, Game Over", "21-18-sostoyaniya-igry.html"),
-            ChapterSectionLink("21.19", "Перезапуск игры", "21-19-perezapusk.html"),
+            ChapterSectionLink("21.9", "Разделяем игру на классы", "21-09-arhitektura-proekta.html"),
+            ChapterSectionLink("21.10", "Ресурсы игры: графика и звук", "21-10-assety-i-zvuk.html"),
+            ChapterSectionLink("21.11", "Точное движение с Vector2", "21-11-vector2-tochnoe-dvizhenie.html"),
+            ChapterSectionLink("21.12", "Игровое поле и интерфейс игрока", "21-12-igrovoe-pole-i-hud.html"),
+            ChapterSectionLink("21.13", "Скорострельность и интервал между выстрелами", "21-13-skorostrelnost.html"),
+            ChapterSectionLink("21.14", "Как появляются враги", "21-14-poyavlenie-vragov.html"),
+            ChapterSectionLink("21.15", "Попадания во врагов и начисление очков", "21-15-stolknoveniya-i-schet.html"),
+            ChapterSectionLink("21.16", "Жизни, урон и временная неуязвимость", "21-16-uron-i-neuyazvimost.html"),
+            ChapterSectionLink("21.17", "Как растёт сложность игры", "21-17-slozhnost-i-volny.html"),
+            ChapterSectionLink("21.18", "Меню, игра, пауза и завершение", "21-18-sostoyaniya-igry.html"),
+            ChapterSectionLink("21.19", "Перезапуск игры без перезапуска программы", "21-19-perezapusk.html"),
             ChapterSectionLink("21.20", "Анимация взрыва", "21-20-animatsiya-vzryva.html"),
-            ChapterSectionLink("21.21", "Звуковые эффекты", "21-21-zvukovye-effekty.html"),
+            ChapterSectionLink("21.21", "Звуки выстрела, попадания и взрыва", "21-21-zvukovye-effekty.html"),
             ChapterSectionLink("21.22", "Звёздный фон и порядок отрисовки", "21-22-zvyozdnyj-fon.html"),
-            ChapterSectionLink("21.23", "Отладка: типичные баги шутера", "21-23-otladka-shutera.html"),
-            ChapterSectionLink("21.24", "Тестируемость и детерминированный random", "21-24-testiruemost.html"),
-            ChapterSectionLink("21.25", "Финальная версия игры", "21-25-finalnaya-arhitektura.html"),
-            ChapterSectionLink("21.26", "Итоги проекта", "21-26-itogi-proekta.html"),
+            ChapterSectionLink("21.23", "Как находить и исправлять ошибки в шутере", "21-23-otladka-shutera.html"),
+            ChapterSectionLink("21.24", "Как сделать игру удобной для автоматических тестов", "21-24-testiruemost.html"),
+            ChapterSectionLink("21.25", "Собираем финальную версию игры", "21-25-finalnaya-arhitektura.html"),
+            ChapterSectionLink("21.26", "Что мы построили и как развивать игру дальше", "21-26-itogi-proekta.html"),
         ],
     )
     write("index.html", out)
@@ -165,7 +165,7 @@ def build_01() -> None:
     стрельба, уничтожение врагов, счёт очков, жизни, растущая сложность и полноценный конец игры
     с перезапуском. Все составные части уже знакомы по главе 20 — <code class="inline">Rect</code>,
     <code class="inline">colliderect()</code>, спрайты, состояния игры, delta time — здесь они
-    впервые работают вместе, в одном настоящем проекте.</p>
+    впервые работают вместе, в одном учебном проекте.</p>
 
     {image_figure(f"{IMG}/25-final-gameplay.png", "Реальный кадр готовой игры: синий корабль внизу, несколько врагов разных типов и пуль на игровом поле, HUD со счётом и жизнями сверху", "Реальный кадр финальной версии игры — то, что получится в итоге этой главы.", width=320)}
 
@@ -200,7 +200,7 @@ def build_01() -> None:
     (раздел 21.25) состоит из пяти классов с чёткими обязанностями:</p>
     {capability_map([
         ("Game", ["Владеет всем состоянием игры", "Игровой цикл: события → ввод → обновление → отрисовка", "Переключает состояния MENU/PLAYING/PAUSED/GAME_OVER"]),
-        ("Player", ["Позиция как Vector2 (раздел 21.11)", "Движение, ограниченное игровым полем", "Кулдаун стрельбы и таймер неуязвимости"]),
+        ("Player", ["Позиция как Vector2 (раздел 21.11)", "Движение, ограниченное игровым полем", "Интервал между выстрелами и таймер неуязвимости"]),
         ("Bullet", ["Летит вверх с постоянной скоростью", "Удаляет себя за пределами игрового поля"]),
         ("Enemy", ["Летит вниз с индивидуальной скоростью", "Несёт очки за уничтожение"]),
         ("Explosion", ["Анимация из нескольких кадров", "Удаляет себя после последнего кадра"]),
@@ -217,16 +217,16 @@ def build_01() -> None:
     )}
     """
     out = render_page(
-        page_title="Игра «Космический шутер»: план и окружение",
+        page_title="План игры и подготовка проекта",
         description="План проекта «Космический шутер», пять классов финальной версии и первоначальная настройка Pygame.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("План проекта и окружение", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("План игры и подготовка проекта", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Игра «Космический шутер»",
+        h1="План игры и подготовка проекта",
         lede="Самая крупная игра книги — все части уже знакомы по главе 20, здесь они впервые работают вместе.",
         body_html=body,
         sidebar_groups=sidebar("21-01-igra-import-init.html"),
-        nav=PageNav(prev_href="index.html", prev_label="Обзор главы", next_href="21-02-cikl-korabl.html", next_label="Игровой цикл и корабль"),
+        nav=PageNav(prev_href="index.html", prev_label="Обзор главы", next_href="21-02-cikl-korabl.html", next_label="Игровой цикл и корабль игрока"),
     )
     write("21-01-igra-import-init.html", out)
 
@@ -235,23 +235,27 @@ def build_02() -> None:
     body = f"""
     <h2>Игровой цикл</h2>
     <p>Как и в главе 20, цикл — сердце игры. На этот раз он на каждом кадре обновляет сразу
-    несколько вещей: положение корабля, врагов, пуль — и проверяет столкновения между ними:</p>
+    несколько вещей: положение корабля, врагов, пуль — и проверяет столкновения между ними. С
+    самого первого кадра цикл считает delta time (сокращённо dt) — раздел 20.16 уже объяснял,
+    зачем: скорость, заданная в пикселях в секунду и применённая через dt, не зависит от частоты
+    кадров конкретного компьютера:</p>
     {code_block(
         "igrovoj_cikl_plan.py",
         "while rabotaet:\n"
+        "    dt = clock.tick(FPS) / 1000.0   # секунд с прошлого кадра\n\n"
         "    # 1. обработать события (выход, пауза, выстрел по нажатию)\n"
         "    # 2. обработать зажатые клавиши (движение корабля, удержание огня)\n"
-        "    # 3. обновить положение врагов и пуль, проверить столкновения\n"
-        "    # 4. нарисовать всё заново\n"
-        "    # 5. clock.tick(FPS)\n",
+        "    # 3. обновить положение врагов и пуль по dt, проверить столкновения\n"
+        "    # 4. нарисовать всё заново\n",
     )}
     {callout(
         "info",
-        "Здесь план та же, но за ним — dt, а не кадры",
-        "В историческом варианте этой главы движение считалось «пикселей за кадр», как в первой "
-        "версии прыгающего мяча (раздел 20.5). Финальная версия проекта (с раздела 21.11) считает "
-        "скорость в px/s и применяет её через delta time — так же, как раздел 20.16 научил "
-        "делать для любого Pygame-проекта.",
+        "dt здесь с самого начала, а не добавляется позже",
+        "Мини-проект прыгающего мяча (раздел 20.5) начинался с движения «пикселей за кадр» и "
+        "переходил на delta time только в разделе 20.16. Здесь так делать не будем: раз глава 20 "
+        "уже объяснила, почему движение «пикселей за кадр» зависит от чужого железа, космический "
+        "шутер с первого движущегося объекта считает скорость в пикселях в секунду (px/s) и "
+        "применяет её через dt.",
     )}
 
     <h2 id="korabl">Создаём космический корабль</h2>
@@ -288,16 +292,16 @@ def build_02() -> None:
     )}
     """
     out = render_page(
-        page_title="Игровой цикл. Создаём космический корабль",
-        description="План игрового цикла шутера и создание корабля игрока через pygame.Rect.",
+        page_title="Игровой цикл и корабль игрока",
+        description="План игрового цикла шутера с delta time и создание корабля игрока через pygame.Rect.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Цикл и корабль", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Игровой цикл и корабль", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Игровой цикл",
+        h1="Игровой цикл и корабль игрока",
         lede="План того, что должно происходить на каждом кадре — и первый персонаж игры.",
         body_html=body,
         sidebar_groups=sidebar("21-02-cikl-korabl.html"),
-        nav=PageNav(prev_href="21-01-igra-import-init.html", prev_label="План проекта и окружение", next_href="21-03-dvizhenie-vragi.html", next_label="Движение и появление врагов"),
+        nav=PageNav(prev_href="21-01-igra-import-init.html", prev_label="План игры и подготовка проекта", next_href="21-03-dvizhenie-vragi.html", next_label="Движение корабля и появление врагов"),
     )
     write("21-02-cikl-korabl.html", out)
 
@@ -306,55 +310,66 @@ def build_03() -> None:
     body = f"""
     <h2>Перемещаем космический корабль</h2>
     <p>Управление — через <code class="inline">get_pressed()</code> из главы 20 (непрерывное
-    движение, пока клавиша зажата), с ограничением, чтобы корабль не улетел за края экрана:</p>
+    движение, пока клавиша зажата). Скорость сразу задана в пикселях в секунду (px/s), а
+    позиция корабля хранится отдельным дробным числом — <code class="inline">Rect</code>
+    понимает только целые координаты, и обновлять его напрямую по чуть-чуть на каждом кадре
+    значило бы терять дробную часть движения:</p>
     {code_block(
         "dvizhenie_korablya.py",
-        "KORABL_SKOROST = 6\n\n"
-        "def obrabotat_klavishi(korabl, klavishi):\n"
-        "    if klavishi[pygame.K_LEFT]:\n"
-        "        korabl.x -= KORABL_SKOROST\n"
-        "    if klavishi[pygame.K_RIGHT]:\n"
-        "        korabl.x += KORABL_SKOROST\n"
-        "    korabl.x = max(0, min(korabl.x, SHIRINA - KORABL_SHIRINA))\n",
+        "KORABL_SKOROST = 260.0   # px/s\n\n"
+        "korabl_x = float(korabl.x)   # дробная копия позиции — сам Rect хранит только целые числа\n\n"
+        "def obrabotat_klavishi(korabl_x, klavishi, dt):\n"
+        "    napravlenie = klavishi[pygame.K_RIGHT] - klavishi[pygame.K_LEFT]\n"
+        "    korabl_x += napravlenie * KORABL_SKOROST * dt\n"
+        "    return max(0.0, min(korabl_x, SHIRINA - KORABL_SHIRINA))\n\n"
+        "# в игровом цикле:\n"
+        "korabl_x = obrabotat_klavishi(korabl_x, klavishi, dt)\n"
+        "korabl.x = round(korabl_x)\n",
     )}
     {callout(
         "tip",
         "max/min — тот же приём ограничения, что и в главе 20",
-        "<code class=\"inline\">max(0, min(korabl.x, SHIRINA - KORABL_SHIRINA))</code> "
-        "гарантирует, что <code class=\"inline\">korabl.x</code> никогда не выйдет за пределы "
+        "<code class=\"inline\">max(0.0, min(korabl_x, SHIRINA - KORABL_SHIRINA))</code> "
+        "гарантирует, что <code class=\"inline\">korabl_x</code> никогда не выйдет за пределы "
         "<code class=\"inline\">[0, SHIRINA - KORABL_SHIRINA]</code> — тот же самый приём "
         "«зажимания» значения в диапазон, что мы использовали для прыгающего мяча.",
     )}
     {callout(
-        "warning",
-        "KORABL_SKOROST здесь — пикселей за кадр, и это временно",
-        "Как и в мини-проекте 20.5, <code class=\"inline\">KORABL_SKOROST = 6</code> означает "
-        "«6 пикселей за кадр», а не за секунду — на другом FPS корабль будет двигаться быстрее "
-        "или медленнее. Раздел 21.11 заменит это на px/s через delta time, как только появится "
-        "класс <code class=\"inline\">Player</code>.",
+        "info",
+        "napravlenie — число -1, 0 или 1",
+        "<code class=\"inline\">klavishi[pygame.K_RIGHT] - klavishi[pygame.K_LEFT]</code> — булевы "
+        "значения <code class=\"inline\">True</code>/<code class=\"inline\">False</code> ведут "
+        "себя как 1/0 (глава 9), поэтому разность даёт ровно то, что нужно: 1, если зажата только "
+        "правая стрелка, −1, если только левая, и 0, если обе или ни одна. Раздел 21.11 обобщит "
+        "этот же приём на два измерения сразу через <code class=\"inline\">Vector2</code>.",
     )}
 
     <h2 id="vragi">Создаём и перемещаем врагов</h2>
-    <p>Враг тоже появится позже как отдельный спрайт-класс (раздел 21.9), а пока — простой
-    <code class="inline">Rect</code>, как и корабль. Врагов будет много, и они появляются со
-    временем — значит, нужен список (глава 11) и счётчик кадров до следующего появления:</p>
+    <p>Враг тоже появится позже как отдельный спрайт-класс (раздел 21.9), а пока — словарь с
+    <code class="inline">Rect</code> и дробной координатой Y, по той же причине, что и у корабля.
+    Врагов будет много, и они появляются со временем — значит, нужен список (глава 11) и таймер
+    в секундах до следующего появления:</p>
     {code_block(
         "vragi.py",
         "VRAG_SHIRINA, VRAG_VYSOTA = 32, 28\n"
-        "VRAG_SKOROST = 2\n"
-        "INTERVAL_POYAVLENIYA_VRAGA = 45   # кадров между новыми врагами\n\n"
+        "VRAG_SKOROST = 150.0            # px/s\n"
+        "INTERVAL_POYAVLENIYA_VRAGA = 0.75   # секунд между новыми врагами\n\n"
         "vragi = []\n"
-        "kadrov_do_vraga = INTERVAL_POYAVLENIYA_VRAGA\n\n"
+        "vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA\n\n"
         "def sozdat_vraga():\n"
         "    x = random.randint(0, SHIRINA - VRAG_SHIRINA)\n"
-        "    return pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA)\n\n"
+        "    return {{\n"
+        "        \"rect\": pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA),\n"
+        "        \"y\": float(-VRAG_VYSOTA),\n"
+        "    }}\n\n"
         "# в игровом цикле, каждый кадр:\n"
-        "kadrov_do_vraga -= 1\n"
-        "if kadrov_do_vraga <= 0:\n"
+        "vremya_do_vraga -= dt\n"
+        "if vremya_do_vraga <= 0:\n"
         "    vragi.append(sozdat_vraga())\n"
-        "    kadrov_do_vraga = INTERVAL_POYAVLENIYA_VRAGA\n\n"
+        "    vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA\n\n"
         "for vrag in vragi:\n"
-        "    vrag.y += VRAG_SKOROST\n",
+        "    vrag[\"y\"] += VRAG_SKOROST * dt\n"
+        "    vrag[\"rect\"].y = round(vrag[\"y\"])\n",
     )}
     {image_figure(f"{IMG}/07-first-enemy.png", "Реальное окно: маленький оранжевый треугольный враг спускается сверху к синему кораблю игрока", "Реальное окно — маленький «разведчик» (scout), один из двух типов врагов финальной версии (раздел 21.17).", width=220)}
     {callout(
@@ -364,12 +379,12 @@ def build_03() -> None:
         "области и плавно «въезжает» в кадр сверху — а не появляется резко посередине экрана.",
     )}
     {callout(
-        "warning",
-        "Интервал здесь тоже считается кадрами — и тоже временно",
-        "<code class=\"inline\">kadrov_do_vraga -= 1</code> зависит от FPS точно так же, как "
-        "<code class=\"inline\">KORABL_SKOROST</code> выше: на более быстром устройстве враги "
-        "будут появляться чаще при том же самом коде. Раздел 21.14 заменит счётчик кадров на "
-        "таймер в секундах, сохраняющий «перелёт» времени через while.",
+        "tip",
+        "Что раздел 21.14 добавит к этому же таймеру",
+        "<code class=\"inline\">if vremya_do_vraga <= 0:</code> продвигает появление врага не "
+        "более чем на одного за кадр — для игры это уже незаметно на практике, но раздел 21.14 "
+        "показывает более аккуратный вариант через <code class=\"inline\">while</code>, который "
+        "не теряет остаток времени, если один кадр вдруг окажется длиннее целого интервала.",
     )}
 
     {local_required_card(
@@ -380,59 +395,64 @@ def build_03() -> None:
     )}
     """
     out = render_page(
-        page_title="Перемещаем корабль. Появление врагов",
-        description="Управление кораблём с ограничением по краям экрана и периодическое появление врагов сверху.",
+        page_title="Движение корабля и появление врагов",
+        description="Управление кораблём в пикселях в секунду с ограничением по краям экрана и появление врагов по таймеру в секундах.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Движение и враги", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Движение и появление врагов", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Перемещаем космический корабль",
-        lede="Управление с ограничением по краям экрана — и враги, появляющиеся сверху с течением времени.",
+        h1="Движение корабля и появление врагов",
+        lede="Скорость в пикселях в секунду с самого начала — и враги, появляющиеся сверху с течением времени.",
         body_html=body,
         sidebar_groups=sidebar("21-03-dvizhenie-vragi.html"),
-        nav=PageNav(prev_href="21-02-cikl-korabl.html", prev_label="Игровой цикл и корабль", next_href="21-04-strelba.html", next_label="Стрельба и пули"),
+        nav=PageNav(prev_href="21-02-cikl-korabl.html", prev_label="Игровой цикл и корабль игрока", next_href="21-04-strelba.html", next_label="Стрельба: создаём и двигаем пули"),
     )
     write("21-03-dvizhenie-vragi.html", out)
 
 
 def build_04() -> None:
     body = f"""
-    <p>Пули — тоже <code class="inline">Rect</code>, появляющийся у носа корабля при нажатии
-    пробела и улетающий вверх на каждом кадре:</p>
+    <p>Пули — словарь с <code class="inline">Rect</code> и дробной координатой Y, появляющийся у
+    носа корабля при нажатии пробела и улетающий вверх со скоростью в пикселях в секунду:</p>
     {code_block(
         "strelba.py",
         "PULYA_SHIRINA, PULYA_VYSOTA = 6, 18\n"
-        "PULYA_SKOROST = 9\n\n"
+        "PULYA_SKOROST = 560.0   # px/s\n\n"
         "puli = []\n\n"
         "def vystrelit():\n"
-        "    pulya = pygame.Rect(\n"
+        "    pulya_rect = pygame.Rect(\n"
         "        korabl.centerx - PULYA_SHIRINA // 2,\n"
         "        korabl.top,\n"
         "        PULYA_SHIRINA,\n"
         "        PULYA_VYSOTA,\n"
         "    )\n"
-        "    puli.append(pulya)\n\n"
+        "    puli.append({{\"rect\": pulya_rect, \"y\": float(pulya_rect.y)}})\n\n"
         "# в обработке событий:\n"
         "if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:\n"
         "    vystrelit()\n\n"
         "# в обновлении кадра:\n"
         "for pulya in puli:\n"
-        "    pulya.y -= PULYA_SKOROST\n"
-        "puli = [p for p in puli if p.bottom > 0]   # убираем улетевшие за экран\n",
+        "    pulya[\"y\"] -= PULYA_SKOROST * dt\n"
+        "    pulya[\"rect\"].y = round(pulya[\"y\"])\n"
+        "puli = [p for p in puli if p[\"rect\"].bottom > 0]   # убираем улетевшие за экран\n",
     )}
     {image_figure(f"{IMG}/09-first-bullet.png", "Реальное окно: маленькая жёлтая пуля вылетает из носа синего корабля вверх", "Реальное окно — пуля появляется точно у носа корабля и летит вверх.", width=220)}
     {callout(
         "tip",
         "Список через генератор списков — чистка «мусора»",
-        "<code class=\"inline\">[p for p in puli if p.bottom &gt; 0]</code> (генератор списков "
-        "из главы 11) оставляет только те пули, что ещё видны на экране — без этой строки "
+        "<code class=\"inline\">[p for p in puli if p[\"rect\"].bottom &gt; 0]</code> (генератор "
+        "списков из главы 11) оставляет только те пули, что ещё видны на экране — без этой строки "
         "список пуль рос бы бесконечно, замедляя игру всё сильнее.",
     )}
     {callout(
-        "warning",
-        "Здесь стреляют по каждому KEYDOWN — финальная версия иначе",
-        "Разовое <code class=\"inline\">KEYDOWN</code> подходит для одиночного выстрела, но "
-        "финальная игра (раздел 21.13) стреляет при УДЕРЖАНИИ пробела с ограничением скорострельности "
-        "через кулдаун в секундах — иначе за одну удерживаемую секунду при 60 FPS вылетело бы 60 пуль.",
+        "info",
+        "KEYDOWN — одно событие на одно нажатие",
+        "Событие <code class=\"inline\">pygame.KEYDOWN</code> возникает один раз в момент "
+        "физического нажатия клавиши. Автоматический повтор клавиш в Pygame по умолчанию "
+        "выключен (включить его можно только явно, через "
+        "<code class=\"inline\">pygame.key.set_repeat(...)</code>, а мы этого не делаем) — значит, "
+        "удержание пробела НЕ порождает новый <code class=\"inline\">KEYDOWN</code> на каждом "
+        "кадре. Здесь это даёт ровно один выстрел за одно нажатие: удобно для одиночной "
+        "стрельбы, но не подходит для удержания огня — этим займётся раздел 21.13.",
     )}
 
     {local_required_card(
@@ -443,16 +463,16 @@ def build_04() -> None:
     )}
     """
     out = render_page(
-        page_title="Стреляем",
-        description="Создаём пули, реагируем на пробел и убираем пули, улетевшие за пределы экрана.",
+        page_title="Стрельба: создаём и двигаем пули",
+        description="Создаём пули по нажатию пробела, двигаем их со скоростью в пикселях в секунду и убираем пули, улетевшие за пределы экрана.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Стреляем", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Стрельба и пули", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Стреляем",
+        h1="Стрельба: создаём и двигаем пули",
         lede="Пробел создаёт пулю у носа корабля — она улетает вверх, пока не покинет экран.",
         body_html=body,
         sidebar_groups=sidebar("21-04-strelba.html"),
-        nav=PageNav(prev_href="21-03-dvizhenie-vragi.html", prev_label="Движение и появление врагов", next_href="21-05-tablo-scheta.html", next_label="Табло счёта"),
+        nav=PageNav(prev_href="21-03-dvizhenie-vragi.html", prev_label="Движение корабля и появление врагов", next_href="21-05-tablo-scheta.html", next_label="Счёт и информация на экране"),
     )
     write("21-04-strelba.html", out)
 
@@ -488,16 +508,16 @@ def build_05() -> None:
     )}
     """
     out = render_page(
-        page_title="Запускаем табло счёта",
+        page_title="Счёт и информация на экране",
         description="Отрисовка текста счёта через pygame.font: render() и blit().",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Табло счёта", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Счёт и информация на экране", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Запускаем табло счёта",
+        h1="Счёт и информация на экране",
         lede="Текст в Pygame рисуется в два шага: сначала render(), потом blit() на экран.",
         body_html=body,
         sidebar_groups=sidebar("21-05-tablo-scheta.html"),
-        nav=PageNav(prev_href="21-04-strelba.html", prev_label="Стрельба и пули", next_href="21-06-unichtozhenie.html", next_label="Столкновения"),
+        nav=PageNav(prev_href="21-04-strelba.html", prev_label="Стрельба и пули", next_href="21-06-unichtozhenie.html", next_label="Попадания и столкновения"),
     )
     write("21-05-tablo-scheta.html", out)
 
@@ -536,7 +556,7 @@ def build_06() -> None:
     )}
     {image_figure(f"{IMG}/12-bullet-enemy-hit.png", "Реальное окно: оранжевая вспышка взрыва в точке, где пуля попала во врага, счёт увеличился до 100", "Реальное окно — момент попадания: враг уничтожен, счёт увеличился ровно один раз.", width=220)}
 
-    <h2 id="korabl-unichtozhen">Уничтожаем космический корабль!</h2>
+    <h2 id="korabl-unichtozhen">Когда враг уничтожает корабль</h2>
     <p>Если враг долетел до низа экрана или столкнулся с кораблём — игра заканчивается:</p>
     {code_block(
         "unichtozhenie_korablya.py",
@@ -561,24 +581,24 @@ def build_06() -> None:
     )}
     """
     out = render_page(
-        page_title="Уничтожаем врагов и корабль",
+        page_title="Попадания и столкновения",
         description="Проверка столкновений pulya.colliderect(vrag) и условия окончания игры.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Столкновения", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Попадания и столкновения", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Уничтожаем врагов",
+        h1="Попадания и столкновения",
         lede="colliderect() проверяет столкновения — попадание уничтожает врага, а враг может "
         "уничтожить корабль.",
         body_html=body,
         sidebar_groups=sidebar("21-06-unichtozhenie.html"),
-        nav=PageNav(prev_href="21-05-tablo-scheta.html", prev_label="Табло счёта", next_href="21-07-game-over.html", next_label="Перерисовка и Game Over"),
+        nav=PageNav(prev_href="21-05-tablo-scheta.html", prev_label="Счёт и информация на экране", next_href="21-07-game-over.html", next_label="Завершение игры"),
     )
     write("21-06-unichtozhenie.html", out)
 
 
 def build_07() -> None:
     body = f"""
-    <h2>Перерисовываем врагов</h2>
+    <h2>Рисуем кадр заново</h2>
     <p>После всех проверок и обновлений кадр рисуется заново целиком — фон, корабль, пули,
     враги и счёт, в таком порядке (чтобы более поздние элементы оказывались поверх более
     ранних):</p>
@@ -595,7 +615,7 @@ def build_07() -> None:
         "pygame.display.flip()\n",
     )}
 
-    <h2>Игра окончена!</h2>
+    <h2>Экран «Игра окончена»</h2>
     <p>Когда <code class="inline">igra_okonchena</code> становится истинной, вместо обычной
     игровой логики выводится финальный экран:</p>
     {code_block(
@@ -616,7 +636,7 @@ def build_07() -> None:
     )}
     {callout(
         "warning",
-        "Тупик: из этого Game Over нет выхода без перезапуска Python",
+        "Из этого экрана нет выхода без перезапуска Python",
         "У переменной <code class=\"inline\">igra_okonchena</code> нет обратного пути — единственный "
         "способ сыграть ещё раз — запустить программу заново. Раздел 21.18 заменит одну булеву "
         "переменную на явный <code class=\"inline\">enum.Enum</code> с четырьмя состояниями "
@@ -632,33 +652,36 @@ def build_07() -> None:
     )}
     """
     out = render_page(
-        page_title="Перерисовываем врагов. Игра окончена!",
+        page_title="Завершение игры и экран «Игра окончена»",
         description="Полная перерисовка кадра каждый цикл и финальный экран «Игра окончена».",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Перерисовка и Game Over", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Завершение игры", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Перерисовываем врагов",
+        h1="Завершение игры и экран «Игра окончена»",
         lede="Каждый кадр рисуется заново целиком — а при окончании игры на экране появляется "
         "финальная надпись.",
         body_html=body,
         sidebar_groups=sidebar("21-07-game-over.html"),
-        nav=PageNav(prev_href="21-06-unichtozhenie.html", prev_label="Столкновения", next_href="21-08-polnyj-kod-itogi.html", next_label="Первая играбельная версия"),
+        nav=PageNav(prev_href="21-06-unichtozhenie.html", prev_label="Попадания и столкновения", next_href="21-08-polnyj-kod-itogi.html", next_label="Первая рабочая версия игры"),
     )
     write("21-07-game-over.html", out)
 
 
 def build_08() -> None:
     body = f"""
-    <p>Собрав разделы 21.1–21.7 вместе, получаем первую действительно играбельную версию —
-    именно на ней заканчивается глава в бумажной книге. Дальше, с раздела 21.9, книга продолжает
-    в цифровой версии: тот же проект вырастает в архитектуру на классах, обзаводится собственной
-    графикой и звуком, точным движением через Vector2, системой жизней, ростом сложности и
-    полноценными состояниями игры.</p>
+    <p>Собрав разделы 21.1–21.7 вместе, получаем первую рабочую версию игры, в которую уже можно
+    играть — именно на ней заканчивается глава в бумажной книге. Движение корабля, врагов и пуль
+    в ней уже не зависит от частоты кадров: скорости заданы в пикселях в секунду, а появление
+    врагов — таймером в секундах, как и в разделах 21.2–21.4. Дальше, с раздела 21.9, книга
+    продолжает в цифровой версии: тот же проект вырастает в архитектуру на классах, обзаводится
+    собственной графикой и звуком, системой жизней, ростом сложности и полноценными состояниями
+    игры.</p>
     {callout(
         "info",
         "Цифровое продолжение проекта — ниже в оглавлении главы",
-        "Разделы 21.9–21.26 в боковом меню — это не отдельная тема, а инженерный проход по той "
-        "же самой игре: та же механика, но код становится чище, точнее и надёжнее на каждом шаге.",
+        "Разделы 21.9–21.26 в боковом меню — это не отдельная тема, а следующий этап разработки "
+        "той же самой игры: та же механика, но код становится чище, точнее и надёжнее на каждом "
+        "шаге.",
     )}
 
     {exercise(2, "Жизни вместо мгновенного конца", "Добавьте переменную zhizni = 3 — при столкновении корабля с врагом отнимайте одну жизнь и убирайте врага, вместо немедленного окончания игры. (Раздел 21.16 показывает готовое решение с временной неуязвимостью.)")}
@@ -666,22 +689,22 @@ def build_08() -> None:
 
     {local_required_card(
         "21-08",
-        "Практика: первая играбельная версия",
+        "Практика: первая рабочая версия",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
         "../../practice/21-08/index.html",
     )}
     """
     out = render_page(
-        page_title="Первая играбельная версия",
-        description="Итог исторической части главы 21 — первая полностью играбельная версия космического шутера, и переход к цифровому продолжению проекта.",
+        page_title="Первая рабочая версия игры",
+        description="Итог исторической части главы 21 — первая рабочая, FPS-независимая версия космического шутера, и переход к цифровому продолжению проекта.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Первая играбельная версия", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Первая рабочая версия игры", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Первая играбельная версия",
-        lede="Разделы 21.1–21.7 вместе дают полностью играбельную игру — а глава продолжается дальше.",
+        h1="Первая рабочая версия игры",
+        lede="Разделы 21.1–21.7 вместе дают рабочую игру, в которую уже можно играть — а глава продолжается дальше.",
         body_html=body,
         sidebar_groups=sidebar("21-08-polnyj-kod-itogi.html"),
-        nav=PageNav(prev_href="21-07-game-over.html", prev_label="Перерисовка и Game Over", next_href="21-09-arhitektura-proekta.html", next_label="Архитектура: Game, Player, Bullet, Enemy"),
+        nav=PageNav(prev_href="21-07-game-over.html", prev_label="Завершение игры", next_href="21-09-arhitektura-proekta.html", next_label="Разделяем игру на классы"),
     )
     write("21-08-polnyj-kod-itogi.html", out)
 
@@ -756,16 +779,16 @@ def build_09() -> None:
     )}
     """
     out = render_page(
-        page_title="Архитектура: классы Game, Player, Bullet, Enemy",
+        page_title="Разделяем игру на классы",
         description="Как финальная версия космического шутера делится на классы Game, Player, Bullet, Enemy и Explosion, и почему.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Архитектура проекта", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Разделяем игру на классы", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Архитектура: классы Game, Player, Bullet, Enemy",
+        h1="Разделяем игру на классы",
         lede="Пять классов с чёткими обязанностями — вместо одних глобальных переменных и списков.",
         body_html=body,
         sidebar_groups=sidebar("21-09-arhitektura-proekta.html"),
-        nav=PageNav(prev_href="21-08-polnyj-kod-itogi.html", prev_label="Первая играбельная версия", next_href="21-10-assety-i-zvuk.html", next_label="Графика и звук"),
+        nav=PageNav(prev_href="21-08-polnyj-kod-itogi.html", prev_label="Первая рабочая версия игры", next_href="21-10-assety-i-zvuk.html", next_label="Ресурсы игры"),
     )
     write("21-09-arhitektura-proekta.html", out)
 
@@ -778,10 +801,13 @@ def build_10() -> None:
 
     <h2>Спрайты проекта</h2>
     {image_figure(f"{IMG}/19-two-enemy-types.png", "Реальное окно: маленький оранжевый враг-разведчик слева и более крупный розово-красный враг-истребитель справа, синий корабль игрока снизу", "Три собственных спрайта одновременно: разведчик (scout), истребитель (fighter) и корабль игрока — разные силуэты и цвета, чтобы враги считывались с одного взгляда.", width=320)}
-    <p>Все изображения — <code class="inline">.png</code> с прозрачным фоном
-    (<code class="inline">pygame.SRCALPHA</code>, раздел 20.17), нарисованные напрямую через
+    <p>Все изображения сохранены как файлы <code class="inline">.png</code> с прозрачным фоном.
+    При загрузке они попадают в Surface, которая поддерживает альфа-канал (флаг
+    <code class="inline">pygame.SRCALPHA</code> при создании такой Surface, раздел 20.17, —
+    это свойство самой Surface в pygame, а не PNG-файла), поэтому прозрачные пиксели остаются
+    прозрачными и на экране. Спрайты нарисованы напрямую через
     <code class="inline">pygame.draw</code> в отдельном скрипте
-    <code class="inline">scripts/generate_chapter_21_assets.py</code>, а не скачанные откуда-то —
+    <code class="inline">scripts/generate_chapter_21_assets.py</code>, а не скачаны откуда-то —
     простые геометрические фигуры, без единого существующего коммерческого спрайта.</p>
 
     {comparison_table(
@@ -833,16 +859,16 @@ def build_10() -> None:
     )}
     """
     out = render_page(
-        page_title="Графика и звук: собственные ассеты",
+        page_title="Ресурсы игры: графика и звук",
         description="Собственные спрайты и звуки финальной версии игры и класс AssetStore, который загружает их один раз.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Графика и звук", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Ресурсы игры", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Графика и звук: собственные ассеты",
+        h1="Ресурсы игры: графика и звук",
         lede="Настоящие спрайты вместо прямоугольников — и класс, который загружает их ровно один раз.",
         body_html=body,
         sidebar_groups=sidebar("21-10-assety-i-zvuk.html"),
-        nav=PageNav(prev_href="21-09-arhitektura-proekta.html", prev_label="Архитектура проекта", next_href="21-11-vector2-tochnoe-dvizhenie.html", next_label="Vector2 и точное движение"),
+        nav=PageNav(prev_href="21-09-arhitektura-proekta.html", prev_label="Разделяем игру на классы", next_href="21-11-vector2-tochnoe-dvizhenie.html", next_label="Точное движение с Vector2"),
     )
     write("21-10-assety-i-zvuk.html", out)
 
@@ -904,16 +930,16 @@ def build_11() -> None:
     )}
     """
     out = render_page(
-        page_title="Vector2 и точное движение",
+        page_title="Точное движение с Vector2",
         description="Почему позиция хранится как Vector2 с плавающей точкой, а не как Rect напрямую, и как нормализуется диагональное движение.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Vector2 и точное движение", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Точное движение с Vector2", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Vector2 и точное движение",
+        h1="Точное движение с Vector2",
         lede="Rect хранит только целые числа — позиция живёт отдельно, как Vector2 с плавающей точкой.",
         body_html=body,
         sidebar_groups=sidebar("21-11-vector2-tochnoe-dvizhenie.html"),
-        nav=PageNav(prev_href="21-10-assety-i-zvuk.html", prev_label="Графика и звук", next_href="21-12-igrovoe-pole-i-hud.html", next_label="Игровое поле и HUD"),
+        nav=PageNav(prev_href="21-10-assety-i-zvuk.html", prev_label="Ресурсы игры", next_href="21-12-igrovoe-pole-i-hud.html", next_label="Игровое поле и интерфейс игрока"),
     )
     write("21-11-vector2-tochnoe-dvizhenie.html", out)
 
@@ -922,9 +948,12 @@ def build_12() -> None:
     body = f"""
     <p>Глава 19 уже показывала, что бывает, если интерфейс перекрывает игровое поле: важный текст
     может оказаться под движущимся объектом. Финальная версия шутера с самого начала разделяет
-    экран на две чётко разные области.</p>
+    экран на две чётко разные области: игровое поле и полосу с показаниями для игрока — счётом,
+    жизнями, номером волны. Такую полосу поверх игрового мира в индустрии принято называть HUD
+    (Heads-Up Display, «приборная панель» — интерфейс, который не является частью самой игры, а
+    просто показывает её текущее состояние).</p>
 
-    {image_figure(f"{IMG}/02-empty-playfield.png", "Реальное окно: верхняя тёмная полоса HUD со счётом и жизнями отделена тонкой линией от основного игрового поля со звёздным фоном и кораблём внизу", "Реальное окно — HUD-полоса сверху (64 пикселя) отделена тонкой линией от игрового поля; ни один враг или снаряд не может оказаться выше этой границы.", width=320)}
+    {image_figure(f"{IMG}/02-empty-playfield.png", "Реальное окно: верхняя тёмная полоса HUD со счётом и жизнями отделена тонкой линией от основного игрового поля со звёздным фоном и кораблём внизу", "Реальное окно — полоса интерфейса сверху (64 пикселя) отделена тонкой линией от игрового поля; ни один враг или снаряд не может оказаться выше этой границы.", width=320)}
 
     {code_block(
         "fragment_playfield.py",
@@ -956,26 +985,31 @@ def build_12() -> None:
     )}
     """
     out = render_page(
-        page_title="Игровое поле и HUD",
+        page_title="Игровое поле и интерфейс игрока",
         description="Почему HUD и игровое поле — разные прямоугольники, и как это защищает интерфейс от перекрытия игровыми объектами.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Игровое поле и HUD", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Игровое поле и интерфейс", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Игровое поле и HUD",
+        h1="Игровое поле и интерфейс игрока",
         lede="Счёт и жизни живут в своей полосе сверху — игровые объекты в неё физически не заходят.",
         body_html=body,
         sidebar_groups=sidebar("21-12-igrovoe-pole-i-hud.html"),
-        nav=PageNav(prev_href="21-11-vector2-tochnoe-dvizhenie.html", prev_label="Vector2 и точное движение", next_href="21-13-skorostrelnost.html", next_label="Скорострельность и кулдаун"),
+        nav=PageNav(prev_href="21-11-vector2-tochnoe-dvizhenie.html", prev_label="Точное движение с Vector2", next_href="21-13-skorostrelnost.html", next_label="Скорострельность и интервал между выстрелами"),
     )
     write("21-12-igrovoe-pole-i-hud.html", out)
 
 
 def build_13() -> None:
     body = f"""
-    <p>Раздел 21.4 стрелял по каждому <code class="inline">KEYDOWN</code> — удобно для одиночного
-    выстрела, но не годится для удерживаемой стрельбы: при 60 FPS секунда удержания пробела
-    вызвала бы 60 срабатываний подряд. Финальная версия стреляет, пока пробел ЗАЖАТ, но с
-    ограничением скорострельности через кулдаун в секундах.</p>
+    <p>Раздел 21.4 стрелял по событию <code class="inline">KEYDOWN</code> — оно происходит ровно
+    один раз на одно физическое нажатие пробела, поэтому даже долгое удержание клавиши там давало
+    только один выстрел. Финальной версии игры нужна стрельба очередями, пока пробел зажат, а для
+    этого требуется другой источник данных — <code class="inline">pygame.key.get_pressed()</code>,
+    которая на каждом обновлении сообщает, зажата ли клавиша прямо сейчас. Без ограничений это
+    означало бы выстрел на каждом обновлении игры, то есть скорострельность, зависящую от FPS: 60
+    выстрелов в секунду при 60 FPS и 120 — при 120 FPS. Поэтому стрельба через
+    <code class="inline">get_pressed()</code> всегда сопровождается минимальным интервалом между
+    выстрелами (cooldown, в профессиональной речи — кулдаун), заданным в секундах.</p>
 
     {code_block(
         "fragment_fire_cooldown.py",
@@ -987,22 +1021,22 @@ def build_13() -> None:
     )}
     {callout(
         "warning",
-        "Кулдаун измеряется в секундах, а не в кадрах",
+        "Интервал измеряется в секундах, а не в кадрах",
         "Если бы вместо <code class=\"inline\">fire_cooldown -= dt</code> счётчик уменьшался на "
         "единицу каждый кадр (<code class=\"inline\">kadrov_do_vystrela -= 1</code>), скорострельность "
         "зависела бы от FPS точно так же, как нескорректированное движение из раздела 20.16: на "
         "120 FPS корабль стрелял бы вдвое чаще, чем на 60 FPS, при одном и том же коде.",
     )}
 
-    <h2>Почему здесь НЕ используется while, как в таймере спавна</h2>
+    <h2>Почему здесь не используется while, как в таймере появления врагов</h2>
     <p>Раздел 21.14 покажет таймер появления врагов, использующий <code class="inline">while</code>
-    — он специально сохраняет «перелёт» времени, чтобы не терять запланированные события. Кулдаун
-    стрельбы устроен иначе:</p>
+    — он специально сохраняет остаток времени сверх интервала, чтобы не терять запланированные
+    события. Интервал между выстрелами устроен иначе:</p>
     {comparison_table(
-        ["", "Таймер спавна врагов", "Кулдаун стрельбы игрока"],
+        ["", "Таймер появления врагов", "Интервал между выстрелами игрока"],
         [
             ["Источник события", "Автономная симуляция (сама игра решает, когда)", "Ввод игрока (человек решает, когда)"],
-            ["Долгий кадр (просадка FPS)", "Может честно наверстать несколько пропущенных спавнов", "НЕ должен выстрелить сразу несколько пуль одним кадром"],
+            ["Долгий кадр (просадка FPS)", "Может честно наверстать несколько пропущенных появлений", "НЕ должен выстрелить сразу несколько пуль одним кадром"],
             ["Приём в коде", "while: продолжать, пока накоплено время", "if: не больше одного выстрела за кадр"],
         ],
     )}
@@ -1010,8 +1044,8 @@ def build_13() -> None:
         "info",
         "Это осознанный выбор, а не недосмотр",
         "После действительно долгого кадра (пауза отладчика, зависание ОС) внезапный залп из "
-        "десяти пуль ощущался бы как баг, а не как честное поведение — поэтому кулдаун игрока "
-        "нарочно даёт максимум один новый выстрел за одно обновление, даже если "
+        "десяти пуль ощущался бы как ошибка, а не как честное поведение — поэтому интервал между "
+        "выстрелами игрока нарочно даёт максимум один новый выстрел за одно обновление, даже если "
         "<code class=\"inline\">dt</code> оказался большим.",
     )}
 
@@ -1023,16 +1057,16 @@ def build_13() -> None:
     )}
     """
     out = render_page(
-        page_title="Скорострельность и кулдаун",
-        description="Удерживаемая стрельба с ограничением скорострельности через кулдаун в секундах, и почему он не использует while, в отличие от таймера спавна.",
+        page_title="Скорострельность и интервал между выстрелами",
+        description="Удерживаемая стрельба с ограничением скорострельности через интервал между выстрелами в секундах, и почему он не использует while, в отличие от таймера появления врагов.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Скорострельность", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Скорострельность и кулдаун",
+        h1="Скорострельность и интервал между выстрелами",
         lede="Удержание пробела стреляет с ограниченной частотой — в секундах, а не в кадрах.",
         body_html=body,
         sidebar_groups=sidebar("21-13-skorostrelnost.html"),
-        nav=PageNav(prev_href="21-12-igrovoe-pole-i-hud.html", prev_label="Игровое поле и HUD", next_href="21-14-poyavlenie-vragov.html", next_label="Появление врагов"),
+        nav=PageNav(prev_href="21-12-igrovoe-pole-i-hud.html", prev_label="Игровое поле и интерфейс игрока", next_href="21-14-poyavlenie-vragov.html", next_label="Как появляются враги"),
     )
     write("21-13-skorostrelnost.html", out)
 
@@ -1053,11 +1087,31 @@ def build_14() -> None:
     {callout(
         "info",
         "while — та же причина, что и в разделе 20.23",
-        "Если один игровой кадр из-за просадки FPS длится дольше интервала спавна, "
-        "<code class=\"inline\">while</code> честно заспавнит нужное число врагов подряд и "
-        "сохранит остаток времени — точно так же, как таймер анимации в разделе 20.23. "
-        "<code class=\"inline\">if</code> вместо этого продвинул бы спавн только на одного врага "
-        "и молча потерял остальное накопленное время.",
+        "<code class=\"inline\">while</code> здесь делает две разные вещи, и важно не путать их. "
+        "Первое — то, что нужно на каждом кадре: остаток времени сверх интервала не выбрасывается, "
+        "а сохраняется в <code class=\"inline\">self.spawn_timer</code> и переносится на следующий "
+        "враг, точно так же, как таймер анимации в разделе 20.23. Это работает и с "
+        "<code class=\"inline\">if</code>. Второе — на что рассчитан именно <code class=\"inline\">"
+        "while</code>: если бы один кадр длился дольше сразу нескольких интервалов появления "
+        "врагов, он честно создал бы несколько врагов подряд за один вызов, а "
+        "<code class=\"inline\">if</code> продвинул бы появление только одного врага и молча "
+        "потерял остальное накопленное время.",
+    )}
+    {callout(
+        "tip",
+        "В этой конкретной игре второй случай пока не наступает",
+        "Финальная версия игры ограничивает <code class=\"inline\">dt</code> значением "
+        "<code class=\"inline\">MAX_DT = 0.05</code> секунды перед каждым обновлением (защита от "
+        "скачка после паузы отладчика или зависания ОС), а нижняя граница интервала появления "
+        "врагов — "
+        "<code class=\"inline\">MIN_SPAWN_INTERVAL = 0.35</code> секунды: даже самый долгий "
+        "допустимый кадр короче любого возможного интервала между врагами. Значит, тело "
+        "<code class=\"inline\">while</code> в этой игре сейчас никогда не выполняется больше "
+        "одного раза за кадр — и написанный через <code class=\"inline\">if</code> код вёл бы себя "
+        "здесь ровно так же. <code class=\"inline\">while</code> оставлен как более общий и "
+        "надёжный приём: он не сломается, если позже поднять MAX_DT или уменьшить интервал "
+        "появления врагов сильнее, чем сейчас, а <code class=\"inline\">if</code> в этом случае "
+        "пришлось бы менять.",
     )}
 
     <h2>Где именно появляется враг</h2>
@@ -1095,16 +1149,16 @@ def build_14() -> None:
     )}
     """
     out = render_page(
-        page_title="Появление врагов",
-        description="Таймер спавна врагов в секундах с сохранением перелёта времени, безопасная координата появления и два типа врагов.",
+        page_title="Как появляются враги",
+        description="Таймер появления врагов в секундах с сохранением остатка времени сверх интервала, безопасная координата появления и два типа врагов.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Появление врагов", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Как появляются враги", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Появление врагов",
-        lede="Таймер спавна в секундах — с тем же while-накопителем, что и таймер анимации в главе 20.",
+        h1="Как появляются враги",
+        lede="Таймер появления в секундах — с тем же while-накопителем, что и таймер анимации в главе 20.",
         body_html=body,
         sidebar_groups=sidebar("21-14-poyavlenie-vragov.html"),
-        nav=PageNav(prev_href="21-13-skorostrelnost.html", prev_label="Скорострельность и кулдаун", next_href="21-15-stolknoveniya-i-schet.html", next_label="Столкновения пуль и счёт"),
+        nav=PageNav(prev_href="21-13-skorostrelnost.html", prev_label="Скорострельность и интервал между выстрелами", next_href="21-15-stolknoveniya-i-schet.html", next_label="Попадания во врагов и начисление очков"),
     )
     write("21-14-poyavlenie-vragov.html", out)
 
@@ -1148,17 +1202,17 @@ def build_15() -> None:
     )}
     """
     out = render_page(
-        page_title="Столкновения пуль и счёт",
+        page_title="Попадания во врагов и начисление очков",
         description="pygame.sprite.groupcollide() для столкновений пуль и врагов, и почему подсчёт очков защищён от двойного начисления.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Столкновения и счёт", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Попадания и очки", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Столкновения пуль и счёт",
+        h1="Попадания во врагов и начисление очков",
         lede="groupcollide() проверяет столкновения целых групп одним вызовом — но очки нужно "
         "начислять аккуратно.",
         body_html=body,
         sidebar_groups=sidebar("21-15-stolknoveniya-i-schet.html"),
-        nav=PageNav(prev_href="21-14-poyavlenie-vragov.html", prev_label="Появление врагов", next_href="21-16-uron-i-neuyazvimost.html", next_label="Урон кораблю и неуязвимость"),
+        nav=PageNav(prev_href="21-14-poyavlenie-vragov.html", prev_label="Как появляются враги", next_href="21-16-uron-i-neuyazvimost.html", next_label="Жизни, урон и временная неуязвимость"),
     )
     write("21-15-stolknoveniya-i-schet.html", out)
 
@@ -1223,16 +1277,16 @@ def build_16() -> None:
     )}
     """
     out = render_page(
-        page_title="Урон кораблю и неуязвимость",
+        page_title="Жизни, урон и временная неуязвимость",
         description="Система жизней вместо мгновенного конца игры, защита от потери нескольких жизней за одно столкновение и временная неуязвимость.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Урон и неуязвимость", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Жизни и неуязвимость", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Урон кораблю и неуязвимость",
+        h1="Жизни, урон и временная неуязвимость",
         lede="Несколько врагов, столкнувшихся одновременно, отнимают одну жизнь — а не одну за каждого.",
         body_html=body,
         sidebar_groups=sidebar("21-16-uron-i-neuyazvimost.html"),
-        nav=PageNav(prev_href="21-15-stolknoveniya-i-schet.html", prev_label="Столкновения пуль и счёт", next_href="21-17-slozhnost-i-volny.html", next_label="Рост сложности и волны"),
+        nav=PageNav(prev_href="21-15-stolknoveniya-i-schet.html", prev_label="Попадания во врагов и начисление очков", next_href="21-17-slozhnost-i-volny.html", next_label="Как растёт сложность игры"),
     )
     write("21-16-uron-i-neuyazvimost.html", out)
 
@@ -1263,7 +1317,7 @@ def build_17() -> None:
         "info",
         "Нижняя и верхняя границы — не случайность",
         "Без <code class=\"inline\">max()</code>/<code class=\"inline\">min()</code> интервал "
-        "спавна на очень высоком счёте мог бы уйти в ноль или отрицательное число — а это "
+        "появления врагов на очень высоком счёте мог бы уйти в ноль или отрицательное число — а это "
         "физически невозможный, зависающий игровой цикл. Ограничения защищают формулы от "
         "собственного роста.",
     )}
@@ -1284,16 +1338,16 @@ def build_17() -> None:
     )}
     """
     out = render_page(
-        page_title="Рост сложности и волны",
+        page_title="Как растёт сложность игры",
         description="Плавный рост сложности через ограниченные сверху и снизу чистые функции от счёта, и номер волны как индикатор прогресса.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Сложность и волны", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Рост сложности", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Рост сложности и волны",
+        h1="Как растёт сложность игры",
         lede="Три независимые формулы от счёта — с ограничением сверху и снизу, без резких скачков.",
         body_html=body,
         sidebar_groups=sidebar("21-17-slozhnost-i-volny.html"),
-        nav=PageNav(prev_href="21-16-uron-i-neuyazvimost.html", prev_label="Урон и неуязвимость", next_href="21-18-sostoyaniya-igry.html", next_label="Состояния игры"),
+        nav=PageNav(prev_href="21-16-uron-i-neuyazvimost.html", prev_label="Жизни, урон и временная неуязвимость", next_href="21-18-sostoyaniya-igry.html", next_label="Меню, игра, пауза и завершение"),
     )
     write("21-17-slozhnost-i-volny.html", out)
 
@@ -1338,16 +1392,16 @@ def build_18() -> None:
     )}
     """
     out = render_page(
-        page_title="Состояния игры: меню, пауза, Game Over",
+        page_title="Меню, игра, пауза и завершение",
         description="Явный GameStatus вместо одной булевой переменной, и таблица разрешённых переходов между состояниями игры.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Состояния игры", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Состояния игры: меню, пауза, Game Over",
+        h1="Меню, игра, пауза и завершение",
         lede="Явное перечисление GameStatus и таблица разрешённых переходов вместо одной булевой переменной.",
         body_html=body,
         sidebar_groups=sidebar("21-18-sostoyaniya-igry.html"),
-        nav=PageNav(prev_href="21-17-slozhnost-i-volny.html", prev_label="Сложность и волны", next_href="21-19-perezapusk.html", next_label="Перезапуск игры"),
+        nav=PageNav(prev_href="21-17-slozhnost-i-volny.html", prev_label="Как растёт сложность игры", next_href="21-19-perezapusk.html", next_label="Перезапуск игры без перезапуска программы"),
     )
     write("21-18-sostoyaniya-igry.html", out)
 
@@ -1376,13 +1430,13 @@ def build_19() -> None:
             ["Позиция корабля", "Рекорд сессии (high_score)"],
             ["Все пули, враги, взрывы", ""],
             ["Счёт и жизни", ""],
-            ["Таймер спавна и кулдаун выстрела", ""],
+            ["Таймер появления врагов и интервал между выстрелами", ""],
             ["Таймер неуязвимости", ""],
         ],
     )}
     {callout(
         "warning",
-        "Забытая пуля из прошлой игры — реальный баг, не гипотетический",
+        "Забытая пуля из прошлой игры — реальная ошибка, не гипотетическая",
         "Если <code class=\"inline\">self.bullets.empty()</code> пропустить, старые пули из "
         "предыдущей попытки останутся висеть на экране новой игры — визуально безобидно, но "
         "явно неправильно, и легко упустить при ручном тестировании, если специально не "
@@ -1391,16 +1445,16 @@ def build_19() -> None:
     {image_figure(f"{IMG}/24-restarted-game.png", "Реальное окно: чистое игровое поле сразу после перезапуска, счёт 0, три жизни", "Реальное окно сразу после перезапуска — счёт, жизни, таймеры и все группы спрайтов возвращены к начальному состоянию.", width=220)}
     """
     out = render_page(
-        page_title="Перезапуск игры",
+        page_title="Перезапуск игры без перезапуска программы",
         description="Полный сброс переходного состояния при перезапуске: позиция корабля, все группы спрайтов, счёт, жизни и таймеры.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Перезапуск игры", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Перезапуск игры",
+        h1="Перезапуск игры без перезапуска программы",
         lede="Перезапуск обязан сбросить каждый кусочек переходного состояния — не только счёт.",
         body_html=body,
         sidebar_groups=sidebar("21-19-perezapusk.html"),
-        nav=PageNav(prev_href="21-18-sostoyaniya-igry.html", prev_label="Состояния игры", next_href="21-20-animatsiya-vzryva.html", next_label="Анимация взрыва"),
+        nav=PageNav(prev_href="21-18-sostoyaniya-igry.html", prev_label="Меню, игра, пауза и завершение", next_href="21-20-animatsiya-vzryva.html", next_label="Анимация взрыва"),
     )
     write("21-19-perezapusk.html", out)
 
@@ -1449,7 +1503,7 @@ def build_20() -> None:
     """
     out = render_page(
         page_title="Анимация взрыва",
-        description="Explosion как спрайт с собственной while-анимацией, сохраняющей перелёт времени, и самоудалением после последнего кадра.",
+        description="Explosion как спрайт с собственной while-анимацией, сохраняющей остаток времени сверх интервала, и самоудалением после последнего кадра.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Анимация взрыва", "")],
         kicker="Глава 21 · Проект: космический шутер",
@@ -1457,7 +1511,7 @@ def build_20() -> None:
         lede="Тот же while-накопитель времени, что и в главе 20 — теперь для взрыва, а не для ходьбы.",
         body_html=body,
         sidebar_groups=sidebar("21-20-animatsiya-vzryva.html"),
-        nav=PageNav(prev_href="21-19-perezapusk.html", prev_label="Перезапуск игры", next_href="21-21-zvukovye-effekty.html", next_label="Звуковые эффекты"),
+        nav=PageNav(prev_href="21-19-perezapusk.html", prev_label="Перезапуск игры без перезапуска программы", next_href="21-21-zvukovye-effekty.html", next_label="Звуки выстрела, попадания и взрыва"),
     )
     write("21-20-animatsiya-vzryva.html", out)
 
@@ -1502,12 +1556,12 @@ def build_21() -> None:
     )}
     """
     out = render_page(
-        page_title="Звуковые эффекты",
+        page_title="Звуки выстрела, попадания и взрыва",
         description="Три оригинальных синтезированных звука, загруженных один раз, и безопасное проигрывание, устойчивое к отсутствию звукового устройства.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Звуковые эффекты", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Звуковые эффекты",
+        h1="Звуки выстрела, попадания и взрыва",
         lede="Три коротких звука — загруженные один раз, и молча пропускаемые без звуковой карты.",
         body_html=body,
         sidebar_groups=sidebar("21-21-zvukovye-effekty.html"),
@@ -1562,7 +1616,7 @@ def build_22() -> None:
         lede="Процедурные звёзды вместо готового изображения — и явный порядок слоёв, чтобы HUD всегда оставался поверх.",
         body_html=body,
         sidebar_groups=sidebar("21-22-zvyozdnyj-fon.html"),
-        nav=PageNav(prev_href="21-21-zvukovye-effekty.html", prev_label="Звуковые эффекты", next_href="21-23-otladka-shutera.html", next_label="Отладка: типичные баги шутера"),
+        nav=PageNav(prev_href="21-21-zvukovye-effekty.html", prev_label="Звуки выстрела, попадания и взрыва", next_href="21-23-otladka-shutera.html", next_label="Как находить и исправлять ошибки в шутере"),
     )
     write("21-22-zvyozdnyj-fon.html", out)
 
@@ -1582,11 +1636,11 @@ def build_23() -> None:
             ["Корабль вылетает за пределы игрового поля", "Забыт clamp по X и/или Y в Player.move()", "21.11"],
             ["Корабль заезжает под HUD", "Границы движения — всё окно, а не self.playfield", "21.12"],
             ["Пробел стреляет каждый отрисованный кадр", "Нет проверки fire_cooldown перед выстрелом", "21.13"],
-            ["Скорострельность зависит от FPS", "Кулдаун измеряется кадрами (-= 1), а не секундами (-= dt)", "21.13"],
-            ["После долгой паузы отладчика — залп из десятков пуль", "Кулдаун стрельбы реализован через while вместо if", "21.13"],
+            ["Скорострельность зависит от FPS", "Интервал между выстрелами измеряется кадрами (-= 1), а не секундами (-= dt)", "21.13"],
+            ["После долгой паузы отладчика — залп из десятков пуль", "Интервал между выстрелами реализован через while вместо if", "21.13"],
             ["Пули летят вечно, игра тормозит сильнее с каждой минутой", "Bullet не удаляет себя за пределами игрового поля", "21.16 (Bullet.update)"],
-            ["Появление врагов зависит от FPS", "Таймер спавна считает кадры, а не секунды", "21.14"],
-            ["После просадки FPS «пропадают» запланированные враги", "Таймер спавна использует if вместо while", "21.14"],
+            ["Появление врагов зависит от FPS", "Таймер появления врагов считает кадры, а не секунды", "21.14"],
+            ["После просадки FPS «пропадают» запланированные враги", "Таймер появления врагов использует if вместо while", "21.14"],
             ["Враг появляется наполовину за краем экрана", "x_poyavleniya_vraga не учитывает ширину врага", "21.14"],
             ["Один враг помечен уничтоженным дважды", "Список мутируется прямо во время перебора (как и в разделе 21.6)", "21.15"],
             ["Одному врагу засчитывают очки дважды", "Подсчёт идёт по всем парам пуля–враг, а не по множеству уникальных врагов", "21.15"],
@@ -1596,7 +1650,7 @@ def build_23() -> None:
             ["После перезапуска остаются старые пули или враги", "start_new_game() не очищает все группы спрайтов", "21.19"],
             ["После перезапуска враг появляется мгновенно", "spawn_timer не сброшен к начальному интервалу", "21.19"],
             ["Анимация взрыва «проглатывает» кадры на слабом устройстве", "Explosion.update() использует if вместо while", "21.20"],
-            ["Ассеты долго загружаются перед каждым выстрелом/взрывом", "Изображение или звук загружается внутри игрового цикла, а не в AssetStore", "21.10, 21.21"],
+            ["Игра подтормаживает перед каждым выстрелом или взрывом", "Изображение или звук загружается внутри игрового цикла, а не в AssetStore", "21.10, 21.21"],
             ["Игра падает без звуковой карты", "Sound.play() вызывается без проверки на None", "21.21"],
             ["HUD перекрыт врагом или взрывом", "Порядок отрисовки не выносит HUD и оверлей последними слоями", "21.22"],
             ["rect и position со временем «расходятся»", "Rect обновлён напрямую, а не пересобран из position", "21.11"],
@@ -1604,7 +1658,7 @@ def build_23() -> None:
         ],
     )}
 
-    <h2>Разберём три самых незаметных бага подробнее</h2>
+    <h2>Разберём три самых незаметных ошибки подробнее</h2>
 
     {callout(
         "debug",
@@ -1646,22 +1700,22 @@ def build_23() -> None:
 
     {local_required_card(
         "21-08",
-        "Практика: найдите и почините баг",
+        "Практика: найдите и исправьте ошибку",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
         "../../practice/21-08/index.html",
     )}
     """
     out = render_page(
-        page_title="Отладка: типичные баги шутера",
-        description="Справочник типичных багов финального проекта по симптому, и разбор трёх самых незаметных из них.",
+        page_title="Как находить и исправлять ошибки в шутере",
+        description="Справочник типичных ошибок финального проекта по симптому, и разбор трёх самых незаметных из них.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Отладка шутера", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Отладка: типичные баги шутера",
+        h1="Как находить и исправлять ошибки в шутере",
         lede="Справочник по симптому — плюс подробный разбор трёх самых незаметных ошибок проекта.",
         body_html=body,
         sidebar_groups=sidebar("21-23-otladka-shutera.html"),
-        nav=PageNav(prev_href="21-22-zvyozdnyj-fon.html", prev_label="Звёздный фон", next_href="21-24-testiruemost.html", next_label="Тестируемость и random"),
+        nav=PageNav(prev_href="21-22-zvyozdnyj-fon.html", prev_label="Звёздный фон и порядок отрисовки", next_href="21-24-testiruemost.html", next_label="Как сделать игру удобной для автоматических тестов"),
     )
     write("21-23-otladka-shutera.html", out)
 
@@ -1672,7 +1726,7 @@ def build_24() -> None:
     комбинаций состояний. Финальная версия написана так, чтобы её можно было тестировать
     автоматически, без единого настоящего окна.</p>
 
-    <h2>Чистые функции — тестируются без Pygame вообще</h2>
+    <h2>Чистые функции: логика без Pygame</h2>
     <p>Формулы сложности (раздел 21.17), координата появления врага (раздел 21.14) и подсчёт
     очков (раздел 21.15) — обычные функции от чисел и списков, без обращения к
     <code class="inline">self</code> или экрану:</p>
@@ -1680,11 +1734,23 @@ def build_24() -> None:
         "fragment_pure_functions.py",
         "def ochki_za_unichtozhennyh(vragi):\n"
         "    return sum(vrag.points for vrag in vragi)\n\n"
+        "# Чистой функции не нужен настоящий Enemy со спрайтом и картинкой —\n"
+        "# достаточно любого объекта с атрибутом points:\n"
+        "class ZaglushkaVraga:\n"
+        "    def __init__(self, points):\n"
+        "        self.points = points\n\n"
         "assert ochki_za_unichtozhennyh([]) == 0\n"
-        "assert ochki_za_unichtozhennyh([Vrag(points=100), Vrag(points=200)]) == 300\n",
+        "assert ochki_za_unichtozhennyh(\n"
+        "    [ZaglushkaVraga(points=100), ZaglushkaVraga(points=200)]\n"
+        ") == 300\n",
     )}
+    <p>Это не обход правил, а прямое следствие того, что <code class="inline">ochki_za_unichtozhennyh</code>
+    вообще не проверяет, какого класса переданные объекты — ей нужен только атрибут
+    <code class="inline">.points</code> у каждого. Такую функцию можно протестировать любым
+    объектом с этим атрибутом, вплоть до простой заглушки, без запуска Pygame и без создания
+    настоящих врагов.</p>
 
-    <h2>Game(rng=...) — управляемая случайность</h2>
+    <h2>Управляемая случайность: Game(rng=...)</h2>
     <p>Игра принимает генератор случайных чисел явным параметром, а не обращается к глобальному
     <code class="inline">random</code> напрямую:</p>
     {code_block(
@@ -1707,10 +1773,12 @@ def build_24() -> None:
         "известного состояния игры.",
     )}
 
-    <h2>Headless-запуск через SDL dummy-драйвер</h2>
+    <h2>Запуск без окна: «пустой» SDL-драйвер (headless)</h2>
     <p>Тот же приём, что и во всех тестах главы 20: переменные окружения переключают Pygame на
-    «пустой» видео- и аудиодрайвер SDL — окно нигде физически не появляется, но вся логика
-    (Surface, Rect, столкновения, звук) работает по-настоящему:</p>
+    «пустой» (dummy) видео- и аудиодрайвер SDL — окно нигде физически не появляется, но вся
+    логика (Surface, Rect, столкновения, звук) работает по-настоящему. Такой запуск без
+    настоящего окна в англоязычной терминологии называют headless — «без головы», то есть без
+    экрана и без пользовательского интерфейса.</p>
     {code_block(
         "fragment_headless_env.py",
         "import os\n\n"
@@ -1731,16 +1799,16 @@ def build_24() -> None:
     )}
     """
     out = render_page(
-        page_title="Тестируемость и детерминированный random",
-        description="Чистые функции, внедрение генератора случайных чисел и headless-запуск игры под SDL dummy-драйвером для автоматических тестов.",
+        page_title="Как сделать игру удобной для автоматических тестов",
+        description="Чистые функции, внедрение генератора случайных чисел с предсказуемым (детерминированным) результатом и запуск игры без окна для автоматических тестов.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Тестируемость", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Тестируемость и детерминированный random",
-        lede="Чистые функции, Game(rng=...) и headless-запуск — игра, которую можно проверить автоматически.",
+        h1="Как сделать игру удобной для автоматических тестов",
+        lede="Чистые функции, Game(rng=...) и запуск без окна — игра, которую можно проверить автоматически.",
         body_html=body,
         sidebar_groups=sidebar("21-24-testiruemost.html"),
-        nav=PageNav(prev_href="21-23-otladka-shutera.html", prev_label="Отладка шутера", next_href="21-25-finalnaya-arhitektura.html", next_label="Финальная версия игры"),
+        nav=PageNav(prev_href="21-23-otladka-shutera.html", prev_label="Как находить и исправлять ошибки в шутере", next_href="21-25-finalnaya-arhitektura.html", next_label="Собираем финальную версию игры"),
     )
     write("21-24-testiruemost.html", out)
 
@@ -1766,7 +1834,7 @@ def build_25() -> None:
         caption="Реальное состояние работающей игры в конкретный момент — то, что на самом деле хранится в памяти между кадрами.",
     )}
 
-    <h2>Что изменилось по сравнению с первой играбельной версией (21.8)</h2>
+    <h2>Что изменилось по сравнению с первой рабочей версией (21.8)</h2>
     {comparison_table(
         ["", "Раздел 21.8 (checkpoint)", "Финальная версия (21.25)"],
         [
@@ -1795,16 +1863,16 @@ def build_25() -> None:
     )}
     """
     out = render_page(
-        page_title="Финальная версия: полный код и разбор",
-        description="Полный исходный код финальной версии космического шутера, сравнение с первой играбельной версией и идеи для дальнейшего развития.",
+        page_title="Собираем финальную версию игры",
+        description="Полный исходный код финальной версии космического шутера, сравнение с первой рабочей версией и идеи для дальнейшего развития.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Финальная версия", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Финальная версия игры",
+        h1="Собираем финальную версию игры",
         lede="Все разделы 21.9–21.24 — в одном читаемом файле, действительно запускаемом прямо сейчас.",
         body_html=body,
         sidebar_groups=sidebar("21-25-finalnaya-arhitektura.html"),
-        nav=PageNav(prev_href="21-24-testiruemost.html", prev_label="Тестируемость", next_href="21-26-itogi-proekta.html", next_label="Итоги проекта"),
+        nav=PageNav(prev_href="21-24-testiruemost.html", prev_label="Как сделать игру удобной для автоматических тестов", next_href="21-26-itogi-proekta.html", next_label="Что мы построили и как развивать игру дальше"),
     )
     write("21-25-finalnaya-arhitektura.html", out)
 
@@ -1822,17 +1890,17 @@ def build_26() -> None:
         "глобальных переменных и списков.",
         "Точное движение через <code class=\"inline\">Vector2</code> и delta time — тот же принцип "
         "из главы 20, применённый к настоящему проекту с несколькими типами объектов сразу.",
-        "Таймеры, которые различают автономную симуляцию (спавн врагов, анимация — сохраняют "
-        "перелёт времени через while) и реакцию на ввод игрока (кулдаун стрельбы — не более "
-        "одного события за кадр).",
+        "Таймеры, которые различают автономную симуляцию (появление врагов, анимация — сохраняют "
+        "остаток времени сверх интервала через while) и реакцию на ввод игрока (интервал между "
+        "выстрелами — не более одного события за кадр).",
         "Столкновения через <code class=\"inline\">pygame.sprite.groupcollide()</code> и "
         "<code class=\"inline\">spritecollide()</code>, с защитой от двойного подсчёта очков и "
         "от потери нескольких жизней за одно одновременное столкновение.",
         "Явные состояния игры (<code class=\"inline\">GameStatus</code>) и контракт перезапуска, "
         "сбрасывающий действительно всё переходное состояние — не только счёт.",
         "Собственную графику и звук, загруженные один раз, и игру, которую можно проверить "
-        "автоматически — через внедрение генератора случайных чисел и headless-запуск под SDL "
-        "dummy-драйвером.",
+        "автоматически — через внедрение генератора случайных чисел и запуск без окна под "
+        "«пустым» SDL-драйвером (headless).",
     ])}
 
     <h2>Куда развивать проект дальше</h2>
@@ -1848,16 +1916,16 @@ def build_26() -> None:
     состояния, тестируемый код — пригодятся и там, просто в других декорациях.</p>
     """
     out = render_page(
-        page_title="Итоги проекта",
+        page_title="Что мы построили и как развивать игру дальше",
         description="Итоги главы 21: чему научил космический шутер целиком, и идеи для его дальнейшего развития.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 21", "index.html"), ("Итоги проекта", "")],
         kicker="Глава 21 · Проект: космический шутер",
-        h1="Итоги проекта",
+        h1="Что мы построили и как развивать игру дальше",
         lede="От первого окна в главе 20 до тестируемой, озвученной игры с собственной графикой.",
         body_html=body,
         sidebar_groups=sidebar("21-26-itogi-proekta.html"),
-        nav=PageNav(prev_href="21-25-finalnaya-arhitektura.html", prev_label="Финальная версия", next_href="../glava-22/index.html", next_label="Глава 22: Веб-разработка с Python"),
+        nav=PageNav(prev_href="21-25-finalnaya-arhitektura.html", prev_label="Собираем финальную версию игры", next_href="../glava-22/index.html", next_label="Глава 22: Веб-разработка с Python"),
     )
     write("21-26-itogi-proekta.html", out)
 

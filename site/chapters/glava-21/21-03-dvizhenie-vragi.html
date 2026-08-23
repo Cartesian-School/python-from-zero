@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Перемещаем корабль. Появление врагов — Python с нуля — Cartesian School</title>
-<meta name="description" content="Управление кораблём с ограничением по краям экрана и периодическое появление врагов сверху." />
+<title>Движение корабля и появление врагов — Python с нуля — Cartesian School</title>
+<meta name="description" content="Управление кораблём в пикселях в секунду с ограничением по краям экрана и появление врагов по таймеру в секундах." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +14,16 @@
 <link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-21/21-03-dvizhenie-vragi.html" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Перемещаем корабль. Появление врагов — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Управление кораблём с ограничением по краям экрана и периодическое появление врагов сверху." />
+<meta property="og:title" content="Движение корабля и появление врагов — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Управление кораблём в пикселях в секунду с ограничением по краям экрана и появление врагов по таймеру в секундах." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-21/21-03-dvizhenie-vragi.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Перемещаем корабль. Появление врагов — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Управление кораблём с ограничением по краям экрана и периодическое появление врагов сверху." />
+<meta name="twitter:title" content="Движение корабля и появление врагов — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Управление кораблём в пикселях в секунду с ограничением по краям экрана и появление врагов по таймеру в секундах." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Перемещаем корабль. Появление врагов — Python с нуля — Cartesian School","description":"Управление кораблём с ограничением по краям экрана и периодическое появление врагов сверху.","url":"https://www.cartesianschool.org/chapters/glava-21/21-03-dvizhenie-vragi.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Движение корабля и появление врагов — Python с нуля — Cartesian School","description":"Управление кораблём в пикселях в секунду с ограничением по краям экрана и появление врагов по таймеру в секундах.","url":"https://www.cartesianschool.org/chapters/glava-21/21-03-dvizhenie-vragi.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -40,72 +40,84 @@
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
     <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
-    <div class="sidebar-title">Глава 21 · Космический шутер</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="21-01-igra-import-init.html">План проекта и окружение</a></li><li><a href="21-02-cikl-korabl.html">Игровой цикл и корабль</a></li><li><a href="21-03-dvizhenie-vragi.html" class="active">Движение и появление врагов</a></li><li><a href="21-04-strelba.html">Стрельба и пули</a></li><li><a href="21-05-tablo-scheta.html">Табло счёта</a></li><li><a href="21-06-unichtozhenie.html">Столкновения</a></li><li><a href="21-07-game-over.html">Перерисовка и Game Over</a></li><li><a href="21-08-polnyj-kod-itogi.html">Первая играбельная версия</a></li><li><a href="21-09-arhitektura-proekta.html">Архитектура: Game, Player, Bullet, Enemy</a></li><li><a href="21-10-assety-i-zvuk.html">Графика и звук: собственные ассеты</a></li><li><a href="21-11-vector2-tochnoe-dvizhenie.html">Vector2 и точное движение</a></li><li><a href="21-12-igrovoe-pole-i-hud.html">Игровое поле и HUD</a></li><li><a href="21-13-skorostrelnost.html">Скорострельность и кулдаун</a></li><li><a href="21-14-poyavlenie-vragov.html">Появление врагов</a></li><li><a href="21-15-stolknoveniya-i-schet.html">Столкновения пуль и счёт</a></li><li><a href="21-16-uron-i-neuyazvimost.html">Урон кораблю и неуязвимость</a></li><li><a href="21-17-slozhnost-i-volny.html">Рост сложности и волны</a></li><li><a href="21-18-sostoyaniya-igry.html">Состояния игры</a></li><li><a href="21-19-perezapusk.html">Перезапуск игры</a></li><li><a href="21-20-animatsiya-vzryva.html">Анимация взрыва</a></li><li><a href="21-21-zvukovye-effekty.html">Звуковые эффекты</a></li><li><a href="21-22-zvyozdnyj-fon.html">Звёздный фон и порядок отрисовки</a></li><li><a href="21-23-otladka-shutera.html">Отладка: типичные баги шутера</a></li><li><a href="21-24-testiruemost.html">Тестируемость и детерминированный random</a></li><li><a href="21-25-finalnaya-arhitektura.html">Финальная версия игры</a></li><li><a href="21-26-itogi-proekta.html">Итоги проекта</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/21-01/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-01: Практика</a></li><li><a href="../../practice/21-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-02: Практика</a></li><li><a href="../../practice/21-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-03: Практика</a></li><li><a href="../../practice/21-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-04: Практика</a></li><li><a href="../../practice/21-06/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-06: Практика</a></li><li><a href="../../practice/21-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-08: Практика</a></li><li><a href="../../practice/21-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-09: Практика</a></li><li><a href="../../practice/21-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-11: Практика</a></li><li><a href="../../practice/21-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-13: Практика</a></li><li><a href="../../practice/21-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-14: Практика</a></li><li><a href="../../practice/21-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-15: Практика</a></li><li><a href="../../practice/21-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-16: Практика</a></li><li><a href="../../practice/21-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-17: Практика</a></li><li><a href="../../practice/21-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-20: Практика</a></li><li><a href="../../practice/21-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-25: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/space-shooter/space_shooter.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> space_shooter.py</a></li></ul>
+    <div class="sidebar-title">Глава 21 · Космический шутер</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="21-01-igra-import-init.html">План игры и подготовка проекта</a></li><li><a href="21-02-cikl-korabl.html">Игровой цикл и корабль игрока</a></li><li><a href="21-03-dvizhenie-vragi.html" class="active">Движение корабля и появление врагов</a></li><li><a href="21-04-strelba.html">Стрельба: создаём и двигаем пули</a></li><li><a href="21-05-tablo-scheta.html">Счёт и информация на экране</a></li><li><a href="21-06-unichtozhenie.html">Попадания и столкновения</a></li><li><a href="21-07-game-over.html">Завершение игры и экран «Игра окончена»</a></li><li><a href="21-08-polnyj-kod-itogi.html">Первая рабочая версия игры</a></li><li><a href="21-09-arhitektura-proekta.html">Разделяем игру на классы</a></li><li><a href="21-10-assety-i-zvuk.html">Ресурсы игры: графика и звук</a></li><li><a href="21-11-vector2-tochnoe-dvizhenie.html">Точное движение с Vector2</a></li><li><a href="21-12-igrovoe-pole-i-hud.html">Игровое поле и интерфейс игрока</a></li><li><a href="21-13-skorostrelnost.html">Скорострельность и интервал между выстрелами</a></li><li><a href="21-14-poyavlenie-vragov.html">Как появляются враги</a></li><li><a href="21-15-stolknoveniya-i-schet.html">Попадания во врагов и начисление очков</a></li><li><a href="21-16-uron-i-neuyazvimost.html">Жизни, урон и временная неуязвимость</a></li><li><a href="21-17-slozhnost-i-volny.html">Как растёт сложность игры</a></li><li><a href="21-18-sostoyaniya-igry.html">Меню, игра, пауза и завершение</a></li><li><a href="21-19-perezapusk.html">Перезапуск игры без перезапуска программы</a></li><li><a href="21-20-animatsiya-vzryva.html">Анимация взрыва</a></li><li><a href="21-21-zvukovye-effekty.html">Звуки выстрела, попадания и взрыва</a></li><li><a href="21-22-zvyozdnyj-fon.html">Звёздный фон и порядок отрисовки</a></li><li><a href="21-23-otladka-shutera.html">Как находить и исправлять ошибки в шутере</a></li><li><a href="21-24-testiruemost.html">Как сделать игру удобной для автоматических тестов</a></li><li><a href="21-25-finalnaya-arhitektura.html">Собираем финальную версию игры</a></li><li><a href="21-26-itogi-proekta.html">Что мы построили и как развивать игру дальше</a></li></ul><div class="sidebar-title">Практика</div><ul class="toc-list"><li><a href="../../practice/21-01/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-01: Практика</a></li><li><a href="../../practice/21-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-02: Практика</a></li><li><a href="../../practice/21-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-03: Практика</a></li><li><a href="../../practice/21-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-04: Практика</a></li><li><a href="../../practice/21-06/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-06: Практика</a></li><li><a href="../../practice/21-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-08: Практика</a></li><li><a href="../../practice/21-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-09: Практика</a></li><li><a href="../../practice/21-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-11: Практика</a></li><li><a href="../../practice/21-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-13: Практика</a></li><li><a href="../../practice/21-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-14: Практика</a></li><li><a href="../../practice/21-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-15: Практика</a></li><li><a href="../../practice/21-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-16: Практика</a></li><li><a href="../../practice/21-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-17: Практика</a></li><li><a href="../../practice/21-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-20: Практика</a></li><li><a href="../../practice/21-25/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-25: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/pygame/space-shooter/space_shooter.py"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> space_shooter.py</a></li></ul>
   </nav>
 
   <article>
-    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Движение и враги</div>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Движение и появление врагов</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
-    <h1>Перемещаем космический корабль</h1>
-    <p class="lede">Управление с ограничением по краям экрана — и враги, появляющиеся сверху с течением времени.</p>
+    <h1>Движение корабля и появление врагов</h1>
+    <p class="lede">Скорость в пикселях в секунду с самого начала — и враги, появляющиеся сверху с течением времени.</p>
 
 
     <h2>Перемещаем космический корабль</h2>
     <p>Управление — через <code class="inline">get_pressed()</code> из главы 20 (непрерывное
-    движение, пока клавиша зажата), с ограничением, чтобы корабль не улетел за края экрана:</p>
+    движение, пока клавиша зажата). Скорость сразу задана в пикселях в секунду (px/s), а
+    позиция корабля хранится отдельным дробным числом — <code class="inline">Rect</code>
+    понимает только целые координаты, и обновлять его напрямую по чуть-чуть на каждом кадре
+    значило бы терять дробную часть движения:</p>
 
     <div class="code-block">
       <div class="code-label"><span>dvizhenie_korablya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code>KORABL_SKOROST = <span class="tok-num">6</span>
+      <pre><code>KORABL_SKOROST = <span class="tok-num">260.0</span>   <span class="tok-com"># px/s</span>
 
-<span class="tok-kw">def</span> obrabotat_klavishi(korabl, klavishi):
-    <span class="tok-kw">if</span> klavishi[pygame.K_LEFT]:
-        korabl.x -= KORABL_SKOROST
-    <span class="tok-kw">if</span> klavishi[pygame.K_RIGHT]:
-        korabl.x += KORABL_SKOROST
-    korabl.x = <span class="tok-fn">max</span>(<span class="tok-num">0</span>, <span class="tok-fn">min</span>(korabl.x, SHIRINA - KORABL_SHIRINA))</code></pre>
+korabl_x = <span class="tok-fn">float</span>(korabl.x)   <span class="tok-com"># дробная копия позиции — сам Rect хранит только целые числа</span>
+
+<span class="tok-kw">def</span> obrabotat_klavishi(korabl_x, klavishi, dt):
+    napravlenie = klavishi[pygame.K_RIGHT] - klavishi[pygame.K_LEFT]
+    korabl_x += napravlenie * KORABL_SKOROST * dt
+    <span class="tok-kw">return</span> <span class="tok-fn">max</span>(<span class="tok-num">0.0</span>, <span class="tok-fn">min</span>(korabl_x, SHIRINA - KORABL_SHIRINA))
+
+<span class="tok-com"># в игровом цикле:</span>
+korabl_x = obrabotat_klavishi(korabl_x, klavishi, dt)
+korabl.x = <span class="tok-fn">round</span>(korabl_x)</code></pre>
     </div>
 
     <div class="callout callout-tip">
       <div>
         <div class="callout-title">max/min — тот же приём ограничения, что и в главе 20</div>
-        <div class="callout-body"><code class="inline">max(0, min(korabl.x, SHIRINA - KORABL_SHIRINA))</code> гарантирует, что <code class="inline">korabl.x</code> никогда не выйдет за пределы <code class="inline">[0, SHIRINA - KORABL_SHIRINA]</code> — тот же самый приём «зажимания» значения в диапазон, что мы использовали для прыгающего мяча.</div>
+        <div class="callout-body"><code class="inline">max(0.0, min(korabl_x, SHIRINA - KORABL_SHIRINA))</code> гарантирует, что <code class="inline">korabl_x</code> никогда не выйдет за пределы <code class="inline">[0, SHIRINA - KORABL_SHIRINA]</code> — тот же самый приём «зажимания» значения в диапазон, что мы использовали для прыгающего мяча.</div>
       </div>
     </div>
 
-    <div class="callout callout-warning">
+    <div class="callout callout-info">
       <div>
-        <div class="callout-title">KORABL_SKOROST здесь — пикселей за кадр, и это временно</div>
-        <div class="callout-body">Как и в мини-проекте 20.5, <code class="inline">KORABL_SKOROST = 6</code> означает «6 пикселей за кадр», а не за секунду — на другом FPS корабль будет двигаться быстрее или медленнее. Раздел 21.11 заменит это на px/s через delta time, как только появится класс <code class="inline">Player</code>.</div>
+        <div class="callout-title">napravlenie — число -1, 0 или 1</div>
+        <div class="callout-body"><code class="inline">klavishi[pygame.K_RIGHT] - klavishi[pygame.K_LEFT]</code> — булевы значения <code class="inline">True</code>/<code class="inline">False</code> ведут себя как 1/0 (глава 9), поэтому разность даёт ровно то, что нужно: 1, если зажата только правая стрелка, −1, если только левая, и 0, если обе или ни одна. Раздел 21.11 обобщит этот же приём на два измерения сразу через <code class="inline">Vector2</code>.</div>
       </div>
     </div>
 
     <h2 id="vragi">Создаём и перемещаем врагов</h2>
-    <p>Враг тоже появится позже как отдельный спрайт-класс (раздел 21.9), а пока — простой
-    <code class="inline">Rect</code>, как и корабль. Врагов будет много, и они появляются со
-    временем — значит, нужен список (глава 11) и счётчик кадров до следующего появления:</p>
+    <p>Враг тоже появится позже как отдельный спрайт-класс (раздел 21.9), а пока — словарь с
+    <code class="inline">Rect</code> и дробной координатой Y, по той же причине, что и у корабля.
+    Врагов будет много, и они появляются со временем — значит, нужен список (глава 11) и таймер
+    в секундах до следующего появления:</p>
 
     <div class="code-block">
       <div class="code-label"><span>vragi.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>VRAG_SHIRINA, VRAG_VYSOTA = <span class="tok-num">32</span>, <span class="tok-num">28</span>
-VRAG_SKOROST = <span class="tok-num">2</span>
-INTERVAL_POYAVLENIYA_VRAGA = <span class="tok-num">45</span>   <span class="tok-com"># кадров между новыми врагами</span>
+VRAG_SKOROST = <span class="tok-num">150.0</span>            <span class="tok-com"># px/s</span>
+INTERVAL_POYAVLENIYA_VRAGA = <span class="tok-num">0.75</span>   <span class="tok-com"># секунд между новыми врагами</span>
 
 vragi = []
-kadrov_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
+vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
 
 <span class="tok-kw">def</span> sozdat_vraga():
     x = random.randint(<span class="tok-num">0</span>, SHIRINA - VRAG_SHIRINA)
-    <span class="tok-kw">return</span> pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA)
+    <span class="tok-kw">return</span> {{
+        <span class="tok-str">&quot;rect&quot;</span>: pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA),
+        <span class="tok-str">&quot;y&quot;</span>: <span class="tok-fn">float</span>(-VRAG_VYSOTA),
+    }}
 
 <span class="tok-com"># в игровом цикле, каждый кадр:</span>
-kadrov_do_vraga -= <span class="tok-num">1</span>
-<span class="tok-kw">if</span> kadrov_do_vraga &lt;= <span class="tok-num">0</span>:
+vremya_do_vraga -= dt
+<span class="tok-kw">if</span> vremya_do_vraga &lt;= <span class="tok-num">0</span>:
     vragi.append(sozdat_vraga())
-    kadrov_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
+    vremya_do_vraga = INTERVAL_POYAVLENIYA_VRAGA
 
 <span class="tok-kw">for</span> vrag <span class="tok-kw">in</span> vragi:
-    vrag.y += VRAG_SKOROST</code></pre>
+    vrag[<span class="tok-str">&quot;y&quot;</span>] += VRAG_SKOROST * dt
+    vrag[<span class="tok-str">&quot;rect&quot;</span>].y = <span class="tok-fn">round</span>(vrag[<span class="tok-str">&quot;y&quot;</span>])</code></pre>
     </div>
 
     <figure style="margin:24px 0">
@@ -121,10 +133,10 @@ kadrov_do_vraga -= <span class="tok-num">1</span>
       </div>
     </div>
 
-    <div class="callout callout-warning">
+    <div class="callout callout-tip">
       <div>
-        <div class="callout-title">Интервал здесь тоже считается кадрами — и тоже временно</div>
-        <div class="callout-body"><code class="inline">kadrov_do_vraga -= 1</code> зависит от FPS точно так же, как <code class="inline">KORABL_SKOROST</code> выше: на более быстром устройстве враги будут появляться чаще при том же самом коде. Раздел 21.14 заменит счётчик кадров на таймер в секундах, сохраняющий «перелёт» времени через while.</div>
+        <div class="callout-title">Что раздел 21.14 добавит к этому же таймеру</div>
+        <div class="callout-body"><code class="inline">if vremya_do_vraga <= 0:</code> продвигает появление врага не более чем на одного за кадр — для игры это уже незаметно на практике, но раздел 21.14 показывает более аккуратный вариант через <code class="inline">while</code>, который не теряет остаток времени, если один кадр вдруг окажется длиннее целого интервала.</div>
       </div>
     </div>
 
@@ -151,7 +163,7 @@ kadrov_do_vraga -= <span class="tok-num">1</span>
     </script>
 
 
-    <div class="section-nav"><a href="21-02-cikl-korabl.html"><div class="dir">← Назад</div><div class="lbl">Игровой цикл и корабль</div></a><a href="21-04-strelba.html" class="next"><div class="dir">Далее →</div><div class="lbl">Стрельба и пули</div></a></div>
+    <div class="section-nav"><a href="21-02-cikl-korabl.html"><div class="dir">← Назад</div><div class="lbl">Игровой цикл и корабль игрока</div></a><a href="21-04-strelba.html" class="next"><div class="dir">Далее →</div><div class="lbl">Стрельба: создаём и двигаем пули</div></a></div>
   </article>
 </div>
 

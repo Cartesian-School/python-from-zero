@@ -23,8 +23,11 @@ LOOP_NOTE_MD = (
     "пользователя (закрытие окна, нажатия клавиш). В автоматически выполняемом ноутбуке "
     "некому создавать такие события, поэтому здесь мы прогоняем фиксированное число кадров "
     "через `for kadr in range(N):` — логика каждого отдельного кадра (движение, столкновения, "
-    "отрисовка, `clock.tick()`) при этом точно такая же, как в настоящей игре из "
-    "`projects/pygame/space-shooter/space_shooter.py`."
+    "отрисовка) при этом точно такая же, как в настоящей игре из "
+    "`projects/pygame/space-shooter/space_shooter.py`. Скорость по-прежнему задана в пикселях "
+    "в секунду (px/s), а не в пикселях за кадр — но чтобы результат ноутбука не зависел от "
+    "того, насколько быстро выполняется код на конкретном компьютере, `dt` здесь берётся не из "
+    "`clock.tick()`, а фиксируется заранее как `1 / FPS`."
 )
 
 SETUP_CODE = '''import random
@@ -35,14 +38,14 @@ SHIRINA, VYSOTA = 480, 720
 FPS = 60
 
 KORABL_SHIRINA, KORABL_VYSOTA = 44, 44
-KORABL_SKOROST = 6
+KORABL_SKOROST = 260.0   # px/s
 
 PULYA_SHIRINA, PULYA_VYSOTA = 6, 18
-PULYA_SKOROST = 9
+PULYA_SKOROST = 560.0   # px/s
 
 VRAG_SHIRINA, VRAG_VYSOTA = 32, 28
-VRAG_SKOROST = 2
-INTERVAL_POYAVLENIYA_VRAGA = 45
+VRAG_SKOROST = 150.0                # px/s
+INTERVAL_POYAVLENIYA_VRAGA = 0.75   # секунд между новыми врагами
 
 BELYJ = (255, 255, 255)
 CHERNYJ = (10, 10, 20)
@@ -59,68 +62,70 @@ shrift_bolshoj = pygame.font.SysFont(None, 64)
 
 
 def novaya_igra():
+    korabl = pygame.Rect(
+        SHIRINA // 2 - KORABL_SHIRINA // 2,
+        VYSOTA - KORABL_VYSOTA - 20,
+        KORABL_SHIRINA,
+        KORABL_VYSOTA,
+    )
     return {
-        "korabl": pygame.Rect(
-            SHIRINA // 2 - KORABL_SHIRINA // 2,
-            VYSOTA - KORABL_VYSOTA - 20,
-            KORABL_SHIRINA,
-            KORABL_VYSOTA,
-        ),
+        "korabl": korabl,
+        "korabl_x": float(korabl.x),
         "puli": [],
         "vragi": [],
         "schet": 0,
-        "kadrov_do_vraga": INTERVAL_POYAVLENIYA_VRAGA,
+        "vremya_do_vraga": INTERVAL_POYAVLENIYA_VRAGA,
         "igra_okonchena": False,
     }
 
 
-def obrabotat_klavishi(state, klavishi):
-    korabl = state["korabl"]
-    if klavishi[pygame.K_LEFT]:
-        korabl.x -= KORABL_SKOROST
-    if klavishi[pygame.K_RIGHT]:
-        korabl.x += KORABL_SKOROST
-    korabl.x = max(0, min(korabl.x, SHIRINA - KORABL_SHIRINA))
+def obrabotat_klavishi(state, klavishi, dt):
+    napravlenie = klavishi[pygame.K_RIGHT] - klavishi[pygame.K_LEFT]
+    korabl_x = state["korabl_x"] + napravlenie * KORABL_SKOROST * dt
+    state["korabl_x"] = max(0.0, min(korabl_x, SHIRINA - KORABL_SHIRINA))
+    state["korabl"].x = round(state["korabl_x"])
 
 
 def vystrelit(state):
     korabl = state["korabl"]
-    pulya = pygame.Rect(
+    pulya_rect = pygame.Rect(
         korabl.centerx - PULYA_SHIRINA // 2,
         korabl.top,
         PULYA_SHIRINA,
         PULYA_VYSOTA,
     )
-    state["puli"].append(pulya)
+    state["puli"].append({"rect": pulya_rect, "y": float(pulya_rect.y)})
 
 
 def sozdat_vraga():
     x = random.randint(0, SHIRINA - VRAG_SHIRINA)
-    return pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA)
+    return {"rect": pygame.Rect(x, -VRAG_VYSOTA, VRAG_SHIRINA, VRAG_VYSOTA), "y": float(-VRAG_VYSOTA)}
 
 
-def obnovit_igru(state):
+def obnovit_igru(state, dt):
     if state["igra_okonchena"]:
         return
 
     for pulya in state["puli"]:
-        pulya.y -= PULYA_SKOROST
-    state["puli"] = [p for p in state["puli"] if p.bottom > 0]
+        pulya["y"] -= PULYA_SKOROST * dt
+        pulya["rect"].y = round(pulya["y"])
+    state["puli"] = [p for p in state["puli"] if p["rect"].bottom > 0]
 
-    state["kadrov_do_vraga"] -= 1
-    if state["kadrov_do_vraga"] <= 0:
+    state["vremya_do_vraga"] -= dt
+    if state["vremya_do_vraga"] <= 0:
         state["vragi"].append(sozdat_vraga())
-        state["kadrov_do_vraga"] = INTERVAL_POYAVLENIYA_VRAGA
+        state["vremya_do_vraga"] = INTERVAL_POYAVLENIYA_VRAGA
 
     for vrag in state["vragi"]:
-        vrag.y += VRAG_SKOROST
+        vrag["y"] += VRAG_SKOROST * dt
+        vrag["rect"].y = round(vrag["y"])
 
     novye_puli = []
     novye_vragi = list(state["vragi"])
     for pulya in state["puli"]:
         popala = False
         for vrag in list(novye_vragi):
-            if pulya.colliderect(vrag):
+            if pulya["rect"].colliderect(vrag["rect"]):
                 novye_vragi.remove(vrag)
                 state["schet"] += 10
                 popala = True
@@ -131,7 +136,7 @@ def obnovit_igru(state):
     state["vragi"] = novye_vragi
 
     for vrag in state["vragi"]:
-        if vrag.bottom >= VYSOTA or vrag.colliderect(state["korabl"]):
+        if vrag["rect"].bottom >= VYSOTA or vrag["rect"].colliderect(state["korabl"]):
             state["igra_okonchena"] = True
             break
 
@@ -140,9 +145,9 @@ def narisovat(state):
     screen.fill(CHERNYJ)
     pygame.draw.rect(screen, ZELYONYJ, state["korabl"])
     for pulya in state["puli"]:
-        pygame.draw.rect(screen, ZHYOLTYJ, pulya)
+        pygame.draw.rect(screen, ZHYOLTYJ, pulya["rect"])
     for vrag in state["vragi"]:
-        pygame.draw.rect(screen, KRASNYJ, vrag)
+        pygame.draw.rect(screen, KRASNYJ, vrag["rect"])
 
     tablo = shrift.render(f"Счёт: {state['schet']}", True, BELYJ)
     screen.blit(tablo, (10, 10))
@@ -240,29 +245,30 @@ def build_03() -> None:
     nb.md("## Рабочий пример")
     nb.code(SETUP_CODE)
     nb.code('''state = novaya_igra()
+dt = 1 / FPS
 
-# симулируем: стрелка вправо зажата 50 кадров подряд
-for kadr in range(50):
+# симулируем: стрелка вправо зажата 60 кадров подряд (60 * dt = 1.0 секунда)
+for kadr in range(60):
     klavishi = {pygame.K_LEFT: False, pygame.K_RIGHT: True}
-    obrabotat_klavishi(state, klavishi)
-    obnovit_igru(state)
+    obrabotat_klavishi(state, klavishi, dt)
+    obnovit_igru(state, dt)
     narisovat(state)
     clock.tick(FPS)
 
-print("Корабль после 50 кадров движения вправо:", state["korabl"])
+print("Корабль после 1 секунды движения вправо:", state["korabl"])
 print("Врагов появилось:", len(state["vragi"]))''')
     nb.md("## Проверка результата")
     nb.code('''assert state["korabl"].x == SHIRINA - KORABL_SHIRINA, "корабль должен упереться в правый край"
 print("Верно: корабль остановился у правого края экрана, не выйдя за его пределы.")
 
-assert len(state["vragi"]) >= 1, "за 50 кадров должен появиться хотя бы один враг (интервал 45)"
+assert len(state["vragi"]) >= 1, "за 1 секунду должен появиться хотя бы один враг (интервал 0.75 с)"
 print(f"Найдено врагов: {len(state['vragi'])}")''')
-    nb.md("## Задание ★ Базовая практика\n\nПрогоните ещё 45 кадров без движения корабля и "
-          "убедитесь, что появился второй враг.")
+    nb.md("## Задание ★ Базовая практика\n\nПрогоните ещё 45 кадров (0.75 секунды) без движения "
+          "корабля и убедитесь, что появился второй враг.")
     nb.code('''for kadr in range(45):
     klavishi = {pygame.K_LEFT: False, pygame.K_RIGHT: False}
-    obrabotat_klavishi(state, klavishi)
-    obnovit_igru(state)
+    obrabotat_klavishi(state, klavishi, dt)
+    obnovit_igru(state, dt)
     narisovat(state)
 
 print("Врагов теперь:", len(state["vragi"]))
@@ -283,17 +289,18 @@ def build_04() -> None:
 vystrelit(state)
 
 print("Пуль после выстрела:", len(state["puli"]))
-print("Позиция пули:", state["puli"][0])
+print("Позиция пули:", state["puli"][0]["rect"])
 print("Позиция корабля:", state["korabl"])''')
     nb.md("## Проверка результата")
-    nb.code('''pulya = state["puli"][0]
+    nb.code('''pulya = state["puli"][0]["rect"]
 assert pulya.centerx == state["korabl"].centerx
 assert pulya.top == state["korabl"].top
 print("Верно: пуля появилась ровно у носа корабля.")''')
     nb.md("## Эксперимент — пуля улетает за экран и исчезает")
-    nb.code('''y_do = state["puli"][0].y
+    nb.code('''y_do = state["puli"][0]["rect"].y
+dt = 1 / FPS
 for kadr in range(200):
-    obnovit_igru(state)
+    obnovit_igru(state, dt)
 
 print("Пуль осталось:", len(state["puli"]))
 assert len(state["puli"]) == 0, "пуля должна улететь за верхний край экрана и исчезнуть"
@@ -305,22 +312,23 @@ print(f"Верно: пуля улетела с {y_do} за пределы экр
 def build_06() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-06 · Уничтожаем врагов и корабль\n\nПрактика к разделам "
-          "[«Уничтожаем врагов»](../../site/chapters/glava-21/21-06-unichtozhenie.html) и "
-          "[«Перерисовываем врагов. Игра окончена!»]"
+          "[«Попадания и столкновения»](../../site/chapters/glava-21/21-06-unichtozhenie.html) и "
+          "[«Завершение игры и экран «Игра окончена»»]"
           "(../../site/chapters/glava-21/21-07-game-over.html).")
     nb.md("## Цель\n\nПроверить, что попадание пули уничтожает врага и начисляет очки, а "
           "враг, долетевший до низа экрана, завершает игру.")
     nb.md("## Рабочий пример — попадание пули по врагу")
     nb.code(SETUP_CODE)
     nb.code('''state = novaya_igra()
+dt = 1 / FPS
 
 # ставим врага прямо перед носом корабля и стреляем
-vrag = pygame.Rect(state["korabl"].centerx - 20, state["korabl"].top - 30, VRAG_SHIRINA, VRAG_VYSOTA)
-state["vragi"] = [vrag]
+vrag_rect = pygame.Rect(state["korabl"].centerx - 20, state["korabl"].top - 30, VRAG_SHIRINA, VRAG_VYSOTA)
+state["vragi"] = [{"rect": vrag_rect, "y": float(vrag_rect.y)}]
 vystrelit(state)
 
 for kadr in range(10):
-    obnovit_igru(state)
+    obnovit_igru(state, dt)
     if state["schet"] > 0:
         break
 
@@ -332,9 +340,10 @@ assert len(state["vragi"]) == 0, "уничтоженный враг должен
 print("Верно: враг уничтожен пулей, счёт увеличен на 10.")''')
     nb.md("## Эксперимент — враг долетает до низа экрана")
     nb.code('''state2 = novaya_igra()
-state2["vragi"] = [pygame.Rect(100, VYSOTA - VRAG_VYSOTA - 1, VRAG_SHIRINA, VRAG_VYSOTA)]
+vrag2_rect = pygame.Rect(100, VYSOTA - VRAG_VYSOTA - 1, VRAG_SHIRINA, VRAG_VYSOTA)
+state2["vragi"] = [{"rect": vrag2_rect, "y": float(vrag2_rect.y)}]
 
-obnovit_igru(state2)
+obnovit_igru(state2, dt)
 narisovat(state2)
 
 print("Игра окончена:", state2["igra_okonchena"])
@@ -345,7 +354,7 @@ print("Верно: враг, долетевший до низа экрана, з
 vragov_do = len(state2["vragi"])
 
 for kadr in range(20):
-    obnovit_igru(state2)
+    obnovit_igru(state2, dt)
 
 assert state2["schet"] == schet_do
 assert len(state2["vragi"]) == vragov_do
@@ -365,20 +374,23 @@ def build_08() -> None:
     nb.code(SETUP_CODE)
     nb.md("## Полная симуляция — движение и появление врагов без стрельбы\n\n"
           "Чтобы результат был предсказуемым (враги не уничтожаются случайными попаданиями), "
-          "в этом прогоне корабль просто двигается, а первый же враг долетает до низа экрана "
-          "и завершает игру — ровно так, как описано в разделе «Уничтожаем космический корабль!».")
+          "в этом прогоне корабль просто двигается, а один из врагов долетает до низа экрана "
+          "и завершает игру — ровно так, как описано в разделе «Когда враг уничтожает корабль».")
     nb.code('''state = novaya_igra()
 random.seed(3)
+dt = 1 / FPS
 
-# При VRAG_SKOROST = 2 px/кадр первому врагу нужно больше 400/2 = 200 кадров,
-# только чтобы пересечь VYSOTA = 720 px по вертикали — 500 кадров даёт запас.
+# При VRAG_SKOROST = 150 px/s и dt = 1/60 с враг проходит около 2.5 px за кадр,
+# то есть все 720 px высоты экрана — примерно за 288 кадров после появления.
+# Первый враг появляется на 45-м кадре (интервал 0.75 с = 45 кадров при 60 FPS),
+# так что 500 кадров дают уверенный запас.
 for kadr in range(500):
     klavishi = {
         pygame.K_LEFT: kadr % 20 < 10,
         pygame.K_RIGHT: kadr % 20 >= 10,
     }
-    obrabotat_klavishi(state, klavishi)
-    obnovit_igru(state)
+    obrabotat_klavishi(state, klavishi, dt)
+    obnovit_igru(state, dt)
     narisovat(state)
     clock.tick(FPS)
     if state["igra_okonchena"]:
@@ -642,7 +654,7 @@ print("Верно: неуязвимость блокирует повторны�
 def build_17() -> None:
     nb = NotebookBuilder()
     nb.md("# 21-17 · Рост сложности и волны\n\nПрактика к разделу "
-          "[«Рост сложности и волны»](../../site/chapters/glava-21/21-17-slozhnost-i-volny.html).")
+          "[«Как растёт сложность игры»](../../site/chapters/glava-21/21-17-slozhnost-i-volny.html).")
     nb.md("## Цель\n\nПроверить, что формулы сложности растут вместе со счётом, но не "
           "уходят за разумные границы.")
     nb.md("## Рабочий пример")

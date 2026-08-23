@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("b78d15c0", {})  # "Проверка результата" -- кулдаун стрельбы
+_proverka = _cells.get("89503917", {})  # "Проверка результата" -- кулдаун стрельбы
 
 checks = [
     {
