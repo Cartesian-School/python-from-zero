@@ -2,7 +2,7 @@
 шутер): FPS-независимость движения, кулдаун стрельбы, таймер спавна,
 столкновения, счёт, неуязвимость, пауза, перезапуск, Game Over и таймер
 анимации взрыва — работает через SDL dummy-драйверы, поэтому не требует
-ни Xvfb, ни настоящего дисплея (раздел 21.29, 21.30 сайта).
+ни Xvfb, ни настоящего дисплея (раздел 21.24 сайта).
 
 Все тесты импортируют и вызывают РЕАЛЬНЫЙ производственный код
 (projects/pygame/space-shooter/space_shooter.py), а не его копии.
@@ -84,6 +84,96 @@ def test_enemy_movement_is_fps_independent():
     assert math.isclose(itogi[60], 150.0, abs_tol=1e-6)
 
 
+# ---------- 21.2–21.4 — историческая (процедурная) версия: FPS-независимость ----------
+#
+# До раздела 21.9 на сайте ещё нет классов Player/Bullet/Enemy и Vector2 —
+# только обычные переменные, Rect и dict, обновляемые вручную. Тесты выше
+# доказывают FPS-независимость ФИНАЛЬНОГО класса Game; тесты ниже доказывают
+# то же самое для процедурного кода, который реально показан на страницах
+# 21.2–21.4 (scripts/build_chapter_21.py, build_03/build_04) и в ноутбуках
+# 21-03/21-04 (scripts/build_notebooks_ch21.py) — учебный путь должен быть
+# честным с самого первого работающего примера, а не только в финале главы.
+
+_KORABL_SKOROST_ISTORICHESKAYA = 260.0   # px/s, раздел 21.3
+_VRAG_SKOROST_ISTORICHESKAYA = 150.0     # px/s, раздел 21.3
+_PULYA_SKOROST_ISTORICHESKAYA = 560.0    # px/s, раздел 21.4
+_INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY = 0.75   # секунд, раздел 21.3
+
+
+def test_istoricheskoe_dvizhenie_korablya_fps_independent():
+    """Раздел 21.3: obrabotat_klavishi() двигает korabl_x на
+    KORABL_SKOROST * dt и ограничивает результат через max(0.0, min(...)) —
+    смещение за одну и ту же реальную секунду обязано совпадать на любом
+    FPS, точно как в test_player_movement_is_fps_independent выше."""
+    shirina, korabl_shirina = 480, 44
+    itogi = {}
+    for fps in (30, 60, 120):
+        korabl_x = 0.0
+        dt = 1 / fps
+        for _ in range(fps):   # ровно 1.0 секунда
+            korabl_x += 1 * _KORABL_SKOROST_ISTORICHESKAYA * dt
+            korabl_x = max(0.0, min(korabl_x, shirina - korabl_shirina))
+        itogi[fps] = korabl_x
+
+    assert math.isclose(itogi[30], itogi[60], abs_tol=1e-6)
+    assert math.isclose(itogi[60], itogi[120], abs_tol=1e-6)
+    assert math.isclose(itogi[60], _KORABL_SKOROST_ISTORICHESKAYA, abs_tol=1e-6)
+
+
+def test_istoricheskoe_dvizhenie_vraga_fps_independent():
+    """Раздел 21.3: vrag['y'] += VRAG_SKOROST * dt — та же проверка, что и
+    для корабля выше, но для падения врага вниз."""
+    itogi = {}
+    for fps in (30, 60, 120):
+        vrag_y = 0.0
+        dt = 1 / fps
+        for _ in range(fps):
+            vrag_y += _VRAG_SKOROST_ISTORICHESKAYA * dt
+        itogi[fps] = vrag_y
+
+    assert math.isclose(itogi[30], itogi[60], abs_tol=1e-6)
+    assert math.isclose(itogi[60], itogi[120], abs_tol=1e-6)
+    assert math.isclose(itogi[60], _VRAG_SKOROST_ISTORICHESKAYA, abs_tol=1e-6)
+
+
+def test_istoricheskaya_pulya_fps_independent():
+    """Раздел 21.4: pulya['y'] -= PULYA_SKOROST * dt — та же проверка для
+    пули, летящей вверх."""
+    itogi = {}
+    for fps in (30, 60, 120):
+        pulya_y = 0.0
+        dt = 1 / fps
+        for _ in range(fps):
+            pulya_y -= _PULYA_SKOROST_ISTORICHESKAYA * dt
+        itogi[fps] = pulya_y
+
+    assert math.isclose(itogi[30], itogi[60], abs_tol=1e-6)
+    assert math.isclose(itogi[60], itogi[120], abs_tol=1e-6)
+    assert math.isclose(itogi[60], -_PULYA_SKOROST_ISTORICHESKAYA, abs_tol=1e-6)
+
+
+def test_istoricheskij_taimer_poyavleniya_vraga_fps_independent():
+    """Раздел 21.3: таймер появления врага через if (сохранение остатка
+    через while появится только в разделе 21.14) обязан давать одинаковое
+    число появившихся врагов за одно и то же реальное время на разных FPS,
+    пока один кадр короче целого интервала — dt здесь всегда мал по
+    сравнению с INTERVAL_POYAVLENIYA_VRAGA, поэтому if ведёт себя как while."""
+    itogi = {}
+    for fps in (30, 60, 120):
+        vremya_do_vraga = _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+        poyavilos = 0
+        dt = 1 / fps
+        for _ in range(fps * 2):   # 2.0 реальные секунды
+            vremya_do_vraga -= dt
+            if vremya_do_vraga <= 0:
+                poyavilos += 1
+                vremya_do_vraga = _INTERVAL_POYAVLENIYA_VRAGA_ISTORICHESKY
+        itogi[fps] = poyavilos
+
+    assert itogi[30] == itogi[60] == itogi[120]
+    assert itogi[60] >= 1
+
+
 # ---------- 21.11 — субпиксельное движение не теряется ----------
 
 def test_subpixel_movement_accumulates_in_float_position():
@@ -127,6 +217,37 @@ def test_playfield_clamp_keeps_player_inside():
         player.move(pygame.Vector2(-1, -1), 1 / 60, playfield)
     assert player.rect.left >= playfield.left
     assert player.rect.top >= playfield.top
+
+
+# ---------- 21.4/21.13 — KEYDOWN один раз за нажатие, get_pressed() — опрос ----------
+
+def test_keydown_fires_once_get_pressed_is_polled():
+    """Раздел 21.4/21.13: pygame.KEYDOWN добавляется в очередь событий один
+    раз на одно физическое нажатие и «вычерпывается» первым же чтением —
+    второе pygame.event.get() подряд его уже не вернёт. У
+    pygame.key.get_pressed() такого нет: он читает живое состояние
+    клавиатуры и может опрашиваться сколько угодно раз подряд без единого
+    нового события. Именно это, а не KEYDOWN, было бы источником выстрела
+    на каждом кадре, если бы стрельбу на удержании не ограничить отдельным
+    интервалом (раздел 21.13) — раздел 21.4 стреляет по KEYDOWN и поэтому
+    удержание там уже безопасно даёт ровно один выстрел."""
+    pygame.display.init()   # pygame.key.* и pygame.event.* требуют видеоподсистему
+    assert pygame.key.get_repeat() == (0, 0), (
+        "автоматический повтор клавиш должен быть выключен по умолчанию — "
+        "иначе KEYDOWN сам по себе генерировался бы заново на каждый кадр удержания"
+    )
+
+    pygame.event.clear()
+    pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_SPACE))
+
+    pervoe_chtenie = [e for e in pygame.event.get() if e.type == pygame.KEYDOWN]
+    vtoroe_chtenie = [e for e in pygame.event.get() if e.type == pygame.KEYDOWN]
+    assert len(pervoe_chtenie) == 1, "один event.post() должен дать ровно одно KEYDOWN-событие"
+    assert vtoroe_chtenie == [], "повторное чтение очереди не должно вернуть то же KEYDOWN снова"
+
+    klavishi_pervoe = pygame.key.get_pressed()
+    klavishi_vtoroe = pygame.key.get_pressed()
+    assert klavishi_pervoe[pygame.K_SPACE] == klavishi_vtoroe[pygame.K_SPACE]
 
 
 # ---------- 21.13 — кулдаун стрельбы: не более одного выстрела за кадр ----------
@@ -287,7 +408,7 @@ def test_single_collision_removes_one_life():
 
 def test_three_simultaneous_enemies_remove_only_one_life():
     """Три врага, столкнувшиеся с игроком в ОДНОМ обновлении, должны
-    отнять ровно одну жизнь, а не три — раздел 21.19 сайта."""
+    отнять ровно одну жизнь, а не три — раздел 21.16 сайта."""
     game = novaya_igra()
     game.start_new_game()
     zhizni_do = game.lives
