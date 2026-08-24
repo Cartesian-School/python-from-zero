@@ -28,11 +28,12 @@ def sohranit_v_fajl(put: Path, tekst: str) -> None:
 def zagruzit_iz_fajla(put: Path) -> str:
     """Читает текст из файла put в кодировке UTF-8.
 
-    Вызывает FileNotFoundError, если файла ещё нет — это ожидаемая
+    Пробрасывает FileNotFoundError, если файла ещё нет, — это ожидаемая
     ситуация при первом запуске, а не повод падать с трудночитаемой
-    трассировкой."""
-    if not put.exists():
-        raise FileNotFoundError(put)
+    трассировкой. read_text() уже поднимает это исключение сам; отдельная
+    проверка put.exists() до чтения не нужна — а вдобавок оставляла бы
+    короткий промежуток, за который файл мог бы исчезнуть между проверкой
+    и самим чтением."""
     return put.read_text(encoding="utf-8")
 
 
@@ -46,10 +47,31 @@ def main() -> None:
 
     polye_teksta = tk.Text(root, width=50, height=15)
     polye_teksta.pack(padx=8, pady=8)
-    # Отдельное событие <Key>, а не <<Modified>>: у <<Modified>> есть
-    # особенность — после первого срабатывания его нужно вручную сбрасывать
-    # через edit_modified(False), иначе оно больше не сработает ни разу.
-    polye_teksta.bind("<Key>", lambda event: est_nesohranennye_izmeneniya.set(True))
+
+    def na_izmenenie_teksta(event: object) -> None:
+        # <<Modified>> — встроенный сигнал Tk «содержимое виджета изменилось»:
+        # он срабатывает при любом изменении текста, а не только при вводе с
+        # клавиатуры (например, и при вставке через контекстное меню мыши).
+        # У события есть особенность: после срабатывания флаг edit_modified
+        # нужно сбросить вручную через edit_modified(False), иначе оно больше
+        # не сработает ни разу — сброс здесь на каждое реальное изменение
+        # держит счётчик рабочим постоянно.
+        if polye_teksta.edit_modified():
+            est_nesohranennye_izmeneniya.set(True)
+            polye_teksta.edit_modified(False)
+
+    polye_teksta.bind("<<Modified>>", na_izmenenie_teksta)
+
+    def zamenit_tekst_programmno(novyj_tekst: str) -> None:
+        """Заменяет содержимое поля программно (после load/очистки) так,
+        чтобы это НЕ отметилось как несохранённое изменение пользователя:
+        edit_modified(False) сбрасывает флаг, который сама вставка
+        выставляет, — иначе загрузка немедленно выглядела бы как
+        «несохранённые изменения»."""
+        polye_teksta.delete("1.0", "end")
+        polye_teksta.insert("1.0", novyj_tekst)
+        polye_teksta.edit_modified(False)
+        est_nesohranennye_izmeneniya.set(False)
 
     def sohranit_zametku() -> None:
         tekst = polye_teksta.get("1.0", "end-1c")
@@ -73,15 +95,23 @@ def main() -> None:
         except (PermissionError, OSError) as oshibka:
             status_text.set(f"Не удалось загрузить: {oshibka}")
             return
-        polye_teksta.delete("1.0", "end")
-        polye_teksta.insert("1.0", tekst)
-        est_nesohranennye_izmeneniya.set(False)
+        zamenit_tekst_programmno(tekst)
         status_text.set(f"Загружено из {fajl_zametok.name}")
 
     def ochistit_polye() -> None:
-        polye_teksta.delete("1.0", "end")
-        est_nesohranennye_izmeneniya.set(False)
+        if est_nesohranennye_izmeneniya.get():
+            status_text.set("Есть несохранённые изменения — сначала сохраните, иначе очистка их сотрёт")
+            return
+        zamenit_tekst_programmno("")
         status_text.set("Поле очищено (файл не тронут)")
+
+    def na_zakrytie_okna() -> None:
+        if est_nesohranennye_izmeneniya.get():
+            status_text.set("Есть несохранённые изменения — сначала сохраните, иначе они будут потеряны")
+            return
+        root.destroy()
+
+    root.protocol("WM_DELETE_WINDOW", na_zakrytie_okna)
 
     knopki = tk.Frame(root)
     knopki.pack(pady=4)
