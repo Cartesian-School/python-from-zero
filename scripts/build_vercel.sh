@@ -13,6 +13,9 @@ python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 echo "==> Validating data/chapter-23-official-sources.json"
 python3 "${ROOT_DIR}/scripts/validate_chapter23_sources.py"
 
+echo "==> Validating projects/python/safesort/ upstream sync"
+python3 "${ROOT_DIR}/scripts/validate_safesort_upstream_sync.py"
+
 echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 python3 "${ROOT_DIR}/scripts/build_seo_meta.py"
 python3 "${ROOT_DIR}/scripts/build_sitemap.py"
