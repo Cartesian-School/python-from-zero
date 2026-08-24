@@ -10,6 +10,9 @@ echo "==> Building Cartesian School Python deployment"
 echo "==> Validating manifest/practice_manifest.json"
 python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 
+echo "==> Validating data/chapter-23-official-sources.json"
+python3 "${ROOT_DIR}/scripts/validate_chapter23_sources.py"
+
 echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 python3 "${ROOT_DIR}/scripts/build_seo_meta.py"
 python3 "${ROOT_DIR}/scripts/build_sitemap.py"
