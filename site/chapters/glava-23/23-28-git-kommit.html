@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git: от рабочего изменения к коммиту — Python с нуля — Cartesian School</title>
+<meta name="description" content="Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix»." />
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theory.css" />
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-23/23-28-git-kommit.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Git: от рабочего изменения к коммиту — Python с нуля — Cartesian School" />
+<meta property="og:description" content="Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix»." />
+<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-23/23-28-git-kommit.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Git: от рабочего изменения к коммиту — Python с нуля — Cartesian School" />
+<meta name="twitter:description" content="Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix»." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Git: от рабочего изменения к коммиту — Python с нуля — Cartesian School","description":"Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix».","url":"https://www.cartesianschool.org/chapters/glava-23/23-28-git-kommit.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/index.html">
+    <img src="/assets/img/logo.png" alt="Cartesian School" />
+    <span class="brand-word">Cartesian<span class="school">School</span></span>
+  </a>
+  <ul class="top-nav"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="mobile-nav-panel">
+    <div class="mobile-nav-links"><ul class="toc-list"><li><a href="/index.html#o-kurse">О курсе</a></li><li><a href="/index.html#glavy" class="active">Главы</a></li><li><a href="/index.html#praktika">Практика</a></li><li><a href="/index.html#proekty">Проекты</a></li><li><a href="/index.html#spravochnik">Справочник</a></li></ul></div>
+    <div class="sidebar-title">Глава 23 · SafeSort</div><ul class="toc-list"><li><a href="index.html">Обзор главы</a></li><li><a href="23-01-ideya-trebovaniya.html">От идеи к требованиям проекта</a></li><li><a href="23-02-repozitorij.html">Создаём репозиторий проекта</a></li><li><a href="23-03-readme.html">Первый README проекта</a></li><li><a href="23-04-struktura-paketa.html">Планируем структуру Python-пакета</a></li><li><a href="23-05-pyproject-toml.html">pyproject.toml и установка проекта</a></li><li><a href="23-06-komandnaya-stroka.html">Командная строка SafeSort</a></li><li><a href="23-07-pathlib.html">pathlib: работаем с путями и каталогами</a></li><li><a href="23-08-skaniruem-katalog.html">Сканируем каталог</a></li><li><a href="23-09-isklyucheniya.html">Какие каталоги не нужно сканировать</a></li><li><a href="23-10-klassifikaciya.html">Определяем категорию файла</a></li><li><a href="23-11-plan-dejstvij.html">От анализа к плану действий</a></li><li><a href="23-12-predvaritelnyj-prosmotr.html">Режим предварительного просмотра</a></li><li><a href="23-13-peremeshaem-fajly.html">Безопасно перемещаем файлы</a></li><li><a href="23-14-imya-zanyato.html">Что делать, если имя уже занято</a></li><li><a href="23-15-zhurnal-operacij.html">Журнал выполненных операций</a></li><li><a href="23-16-otmena-operacii.html">Отмена последней операции</a></li><li><a href="23-17-poisk-dublikatov.html">Поиск одинаковых файлов</a></li><li><a href="23-18-sha256.html">SHA-256 и хеш содержимого файла</a></li><li><a href="23-19-gruppy-dublikatov.html">Находим группы дубликатов</a></li><li><a href="23-20-oshibki-fajlovoj-sistemy.html">Обрабатываем ошибки файловой системы</a></li><li><a href="23-21-logging.html">Добавляем журнал работы программы</a></li><li><a href="23-22-nastrojki-proekta.html">Настройки проекта</a></li><li><a href="23-23-pervye-testy.html">Пишем первые автоматические тесты</a></li><li><a href="23-24-testy-skanirovaniya.html">Проверяем сканирование и классификацию</a></li><li><a href="23-25-testy-peremeshheniya.html">Проверяем перемещение и отмену</a></li><li><a href="23-26-testy-dublikatov.html">Проверяем поиск дубликатов</a></li><li><a href="23-27-testy-cli.html">Проверяем интерфейс командной строки</a></li><li><a href="23-28-git-kommit.html" class="active">Git: от рабочего изменения к коммиту</a></li><li><a href="23-29-github-pr.html">GitHub: Issue, ветка и Pull Request</a></li><li><a href="23-30-github-actions.html">GitHub Actions: автоматически запускаем тесты</a></li><li><a href="23-31-versiya-reliz.html">Документация, версия и первый релиз</a></li><li><a href="23-32-itogi-reliz.html">Итоги: полный путь проекта от идеи до релиза</a></li></ul><div class="sidebar-title">Приложение · Домашняя практика</div><ul class="toc-list"><li><a href="23-hw-index.html">Дополнительная практика: шесть мини-проектов для GitHub</a></li><li><a href="23-hw-01-kalkulyator.html">Домашний проект A: калькулятор с Tkinter</a></li><li><a href="23-hw-02-generator-istorij.html">Домашний проект B: генератор случайных историй</a></li><li><a href="23-hw-03-kamen-nozhnicy-bumaga.html">Домашний проект C: «Камень, ножницы, бумага»</a></li><li><a href="23-hw-04-otskakivayushie-myachi.html">Домашний проект D: отскакивающие мячи с Pygame</a></li><li><a href="23-hw-05-temperatura.html">Домашний проект E: преобразование температуры</a></li><li><a href="23-hw-06-zametki.html">Домашний проект F: приложение «Заметки»</a></li></ul><div class="sidebar-title">Практика: SafeSort</div><ul class="toc-list"><li><a href="../../practice/23-07/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-07: Практика</a></li><li><a href="../../practice/23-08/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-08: Практика</a></li><li><a href="../../practice/23-09/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-09: Практика</a></li><li><a href="../../practice/23-10/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-10: Практика</a></li><li><a href="../../practice/23-11/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-11: Практика</a></li><li><a href="../../practice/23-12/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-12: Практика</a></li><li><a href="../../practice/23-13/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-13: Практика</a></li><li><a href="../../practice/23-14/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-14: Практика</a></li><li><a href="../../practice/23-15/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-15: Практика</a></li><li><a href="../../practice/23-16/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-16: Практика</a></li><li><a href="../../practice/23-17/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-17: Практика</a></li><li><a href="../../practice/23-18/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-18: Практика</a></li><li><a href="../../practice/23-19/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-19: Практика</a></li><li><a href="../../practice/23-20/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-20: Практика</a></li><li><a href="../../practice/23-21/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-21: Практика</a></li><li><a href="../../practice/23-22/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-22: Практика</a></li><li><a href="../../practice/23-23/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-23: Практика</a></li><li><a href="../../practice/23-24/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-24: Практика</a></li></ul><div class="sidebar-title">Практика: домашние проекты</div><ul class="toc-list"><li><a href="../../practice/23-01/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-01: Практика</a></li><li><a href="../../practice/23-02/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-02: Практика</a></li><li><a href="../../practice/23-03/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-03: Практика</a></li><li><a href="../../practice/23-04/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-04: Практика</a></li><li><a href="../../practice/23-05/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-05: Практика</a></li><li><a href="../../practice/23-06/index.html"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-06: Практика</a></li></ul><div class="sidebar-title">Исходный код</div><ul class="toc-list"><li><a href="../../../projects/python/safesort/README.md"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/python/safesort/</a></li><li><a href="https://github.com/Cartesian-School/python-mini-projects"><svg class="cs-icon cs-icon--code" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> python-mini-projects</a></li></ul>
+  </nav>
+
+  <article>
+    <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 23</a> / Git и коммит</div>
+    <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 23 · Первый проект на GitHub</div>
+    <h1>Git: от рабочего изменения к коммиту</h1>
+    <p class="lede">git add переносит изменение в индекс, git commit фиксирует его в истории — а хороший коммит описывает одно законченное изменение.</p>
+
+
+    <p>Код SafeSort готов и проверен тестами — самое время сохранить его в истории Git.
+    Между «файл изменён на диске» и «изменение сохранено в истории» есть два промежуточных
+    шага, и понимание разницы между ними экономит немало недоумения в будущем.</p>
+
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 664 148" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="git add переносит изменение из рабочего дерева в индекс; git commit фиксирует содержимое индекса в истории" style="width:100%;height:auto;max-width:664px"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Рабочее дерево</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="60">файлы на диске — то,</tspan><tspan x="92.0" y="74">что видит текстовый</tspan><tspan x="92.0" y="88">редактор</tspan></text><line x1="190" y1="64.0" x2="234" y2="64.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">Индекс</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="60">изменения, отмеченные</tspan><tspan x="332.0" y="74">командой git add —</tspan><tspan x="332.0" y="88">«черновик» будущего…</tspan></text><line x1="430" y1="64.0" x2="474" y2="64.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="108" rx="14" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Коммит</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="60">сохранённый снимок</tspan><tspan x="572.0" y="74">индекса — постоянная</tspan><tspan x="572.0" y="88">запись в истории</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">git add переносит изменение из рабочего дерева в индекс; git commit фиксирует содержимое индекса в истории</figcaption></figure>
+
+
+    <div class="code-block">
+      <div class="code-label"><span>Терминал</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>git status
+git diff
+git add src/safesort/duplicates.py tests/test_duplicates.py
+git commit -m &quot;feat: add duplicate-file detection&quot;
+</code></pre>
+    </div>
+
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">git diff — что именно изменилось, а не только какие файлы</div>
+        <div class="callout-body"><code class="inline">git status</code> перечисляет изменённые файлы, но не показывает содержимое изменений. <code class="inline">git diff</code> показывает построчно, что именно добавлено и что удалено — стоит прочитать его перед каждым коммитом, чтобы случайно не закоммитить что-то лишнее: отладочный <code class="inline">print()</code>, забытый файл с личными данными, временный код.</div>
+      </div>
+    </div>
+
+    <h2>Логические коммиты</h2>
+    <p>Один коммит должен описывать одно законченное, осмысленное изменение — а не «конец
+    рабочего дня» или случайный набор всего, что накопилось. Сравните:</p>
+
+    <div style="overflow-x:auto;margin:20px 0">
+    <table class="compare-table">
+      <thead><tr><th>Хорошо</th><th>Плохо</th></tr></thead>
+      <tbody><tr><td>feat: add directory scanner</td><td>update</td></tr><tr><td>feat: add dry-run sort planning</td><td>fix</td></tr><tr><td>test: cover undo conflicts</td><td>stuff</td></tr><tr><td>docs: document SafeSort 0.1.0</td><td>final-final</td></tr></tbody>
+    </table>
+    </div>
+
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">git add . — не единственный и не всегда лучший способ</div>
+        <div class="callout-body"><code class="inline">git add .</code> добавляет в индекс вообще все изменения в текущем каталоге разом — удобно, когда коммит действительно должен включать всё, но легко случайно затянуть в коммит что-то не относящееся к делу. <code class="inline">git add путь/к/файлу</code> добавляет только нужные файлы и делает коммиты более осмысленными.</div>
+      </div>
+    </div>
+
+
+    <div class="notebook-card">
+      <div>
+        <div class="nc-title">Практика: читаем git diff и группируем изменения</div>
+        <div class="nc-sub">Нужен настоящий Git-репозиторий — выполните локально в VS Code, PyCharm или терминале</div>
+        <div class="practice-inline-status" data-lesson-id="23-24">Практика выполняется локально</div>
+      </div>
+      <a class="nc-btn" href="../../practice/23-24/index.html">Открыть практику →</a>
+    </div>
+    <script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["23-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="23-24"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = '<strong style="color:#15803d">✓ Выполнено локально</strong> — результат не проверялся автоматически';
+        }
+      } catch (e) {}
+    })();
+    </script>
+
+
+    <div class="section-nav"><a href="23-27-testy-cli.html"><div class="dir">← Назад</div><div class="lbl">Тесты интерфейса</div></a><a href="23-29-github-pr.html" class="next"><div class="dir">Далее →</div><div class="lbl">GitHub: Issue, ветка и Pull Request</div></a></div>
+  </article>
+</div>
+
+<script src="/assets/js/nav.js" defer></script>
+</body>
+</html>

@@ -47,11 +47,12 @@ assert c.vychislit_vyrazhenie("10-3*2") == "4"
 assert c.vychislit_vyrazhenie("(1+2)*3") == "9"
 assert c.vychislit_vyrazhenie("5/0") == "Ошибка"
 assert c.vychislit_vyrazhenie("import os") == "Ошибка"
-c.na_ochistit_nazhali()
+
+sostoyanie = c.SostoyanieKalkulyatora()
 for s in "12+8":
-    c.na_cifru_ili_znak_nazhali(s)
-c.na_ravno_nazhali()
-assert c.ekran_text.get() == "20"
+    sostoyanie.na_cifru_ili_znak_nazhali(s)
+sostoyanie.na_ravno_nazhali()
+assert sostoyanie.na_ekrane() == "20"
 print("OK")
 """,
         ROOT / "projects" / "tkinter" / "calculator",
@@ -69,9 +70,21 @@ assert abs(r0["F"] - 32) < 1e-9
 assert abs(r0["K"] - 273.15) < 1e-9
 r100 = tc.preobrazovat(100, "C")
 assert abs(r100["F"] - 212) < 1e-9
-tc.pole_vvoda.insert(0, "не число")
-tc.na_preobrazovat_nazhali()
-assert tc.rezultat_text.get() == "Введите число"
+rk = tc.preobrazovat(-273.15, "C")
+assert abs(rk["K"] - 0) < 1e-9
+
+try:
+    tc.preobrazovat(-300, "C")
+    raise AssertionError("должно было отклонить температуру ниже абсолютного нуля")
+except ValueError:
+    pass
+
+try:
+    tc.preobrazovat(-10, "K")
+    raise AssertionError("отрицательные кельвины должны быть отклонены")
+except ValueError:
+    pass
+
 print("OK")
 """,
         ROOT / "projects" / "tkinter" / "temperature-converter",
@@ -80,19 +93,24 @@ print("OK")
     assert "OK" in r.stdout
 
 
-def test_notes_app():
+def test_notes_app(tmp_path):
+    fajl = tmp_path / "zametka.txt"
+    otsutstvuyushij = tmp_path / "net-takogo-fajla.txt"
     r = run_with_display(
-        """
+        f"""
+from pathlib import Path
 import notes_app as na
-if na.FAJL_ZAMETOK.exists():
-    na.FAJL_ZAMETOK.unlink()
-na.polye_teksta.insert("1.0", "test note")
-na.sohranit_zametku()
-assert na.FAJL_ZAMETOK.read_text(encoding="utf-8") == "test note"
-na.ochistit_polye()
-na.zagruzit_zametku()
-assert na.polye_teksta.get("1.0", "end-1c") == "test note"
-na.FAJL_ZAMETOK.unlink()
+
+fajl = Path(r"{fajl}")
+na.sohranit_v_fajl(fajl, "test note")
+assert na.zagruzit_iz_fajla(fajl) == "test note"
+
+try:
+    na.zagruzit_iz_fajla(Path(r"{otsutstvuyushij}"))
+    raise AssertionError("должен был вызвать FileNotFoundError")
+except FileNotFoundError:
+    pass
+
 print("OK")
 """,
         ROOT / "projects" / "tkinter" / "notes-app",
@@ -590,12 +608,44 @@ def test_bouncing_balls_oop():
 import bouncing_balls as bb
 myachi = bb.sozdat_myachi(3)
 assert len(myachi) == 3
+dt = 1 / bb.FPS
 for kadr in range(300):
     for m in myachi:
-        m.shag()
+        m.shag(dt)
 for m in myachi:
-    assert m.radius <= m.x <= bb.SHIRINA - m.radius
+    assert m.radius <= m.pos.x <= bb.SHIRINA - m.radius
     assert m.otskokov > 0
+print("OK")
+""",
+        ROOT / "projects" / "pygame" / "bouncing-balls-oop",
+    )
+    assert r.returncode == 0, r.stderr
+    assert "OK" in r.stdout
+
+
+def test_bouncing_balls_oop_dt_independent():
+    r = run_with_display(
+        """
+import bouncing_balls as bb
+
+itogi = {}
+for fps in (30, 60, 120):
+    myach = bb.Myach(x=300.0, y=200.0, vx=50.0, vy=30.0, radius=15, cvet=(255, 0, 0))
+    dt = 1 / fps
+    for _ in range(fps):
+        myach.shag(dt)
+    itogi[fps] = (myach.pos.x, myach.pos.y)
+
+x30, y30 = itogi[30]
+x60, y60 = itogi[60]
+x120, y120 = itogi[120]
+
+assert abs(x30 - x60) < 1e-6
+assert abs(x60 - x120) < 1e-6
+assert abs(y30 - y60) < 1e-6
+assert abs(y60 - y120) < 1e-6
+assert abs(x60 - 350.0) < 1e-6
+assert abs(y60 - 230.0) < 1e-6
 print("OK")
 """,
         ROOT / "projects" / "pygame" / "bouncing-balls-oop",
@@ -644,9 +694,16 @@ def test_story_generator():
         """
 import random
 import story_generator as sg
-random.seed(1)
-istoriya = sg.sluchajnaya_istoriya()
+
+rng = random.Random(1)
+istoriya = sg.sluchajnaya_istoriya(rng)
 assert istoriya.startswith("Однажды") and istoriya.endswith("прежней.")
+
+istorii = sg.neskolko_istorij(5, random.Random(42))
+assert len(istorii) == 5
+assert all(i.startswith("Однажды") for i in istorii)
+
+assert sg.sluchajnaya_istoriya(random.Random(7)) == sg.sluchajnaya_istoriya(random.Random(7))
 print("OK")
 """,
         ROOT / "projects" / "console" / "story-generator",
@@ -658,10 +715,25 @@ print("OK")
 def test_rock_paper_scissors():
     r = run_plain(
         """
+import random
 import rps
-assert rps.opredelit_pobeditelya("камень", "ножницы") == "игрок"
-assert rps.opredelit_pobeditelya("ножницы", "камень") == "компьютер"
-assert rps.opredelit_pobeditelya("бумага", "бумага") == "ничья"
+
+ozhidaemyj = {
+    ("камень", "камень"): "ничья",
+    ("камень", "ножницы"): "игрок",
+    ("камень", "бумага"): "компьютер",
+    ("ножницы", "камень"): "компьютер",
+    ("ножницы", "ножницы"): "ничья",
+    ("ножницы", "бумага"): "игрок",
+    ("бумага", "камень"): "игрок",
+    ("бумага", "ножницы"): "компьютер",
+    ("бумага", "бумага"): "ничья",
+}
+for (igrok, kompyuter), rezultat in ozhidaemyj.items():
+    assert rps.opredelit_pobeditelya(igrok, kompyuter) == rezultat, (igrok, kompyuter)
+
+assert rps.hod_kompyutera(random.Random(3)) in rps.VARIANTY
+assert rps.hod_kompyutera(random.Random(9)) == rps.hod_kompyutera(random.Random(9))
 print("OK")
 """,
         ROOT / "projects" / "console" / "rock-paper-scissors",
