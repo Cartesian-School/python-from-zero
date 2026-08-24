@@ -2939,6 +2939,231 @@ def tree_diagram(node: tuple, *, caption: str = "") -> str:
     )
 
 
+# ---------------------------------------------------------------------------
+# Глава 23 — визуальная система для пошагового проекта SafeSort: дерево
+# каталога, индикатор этапа, терминал, карточка состояния проекта, граница
+# безопасности "только чтение / меняет файлы".
+# ---------------------------------------------------------------------------
+
+def dir_tree(node: tuple, *, highlight: frozenset[str] = frozenset(), faded: frozenset[str] = frozenset(), caption: str = "") -> str:
+    """Иллюстрация дерева каталогов: node = (имя, вид, дети), вид — "dir"
+    или "file", дети — список таких же кортежей ([] для файла). Использует
+    иконки folder/file Cartesian (не Unicode-эмодзи) с теми же соединительными
+    линиями, что и tree_diagram(). `highlight` — точные отображаемые имена
+    ("scanner.py"), появившиеся именно в этом уроке: подсвечиваются и
+    получают метку «НОВОЕ». `faded` — имена, которых ещё нет («появятся
+    позже»): показываются полупрозрачными с пунктирной связью."""
+
+    def render_node(n: tuple, depth: int) -> str:
+        name, kind, children = n
+        icon = cs_icon("folder" if kind == "dir" else "file")
+        is_new = name in highlight
+        is_faded = name in faded
+        row_style = "display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px"
+        badge = ""
+        if is_new:
+            row_style += ";background:#EAF1FF"
+            badge = '<span style="margin-left:8px;font-size:11px;font-weight:700;color:var(--blue-600);letter-spacing:.02em">НОВОЕ</span>'
+        elif is_faded:
+            row_style += ";opacity:.45"
+        label = html.escape(name) + ("/" if kind == "dir" else "")
+        out = (
+            f'<div style="{row_style}">'
+            f'{icon}'
+            f'<span style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:#0D0230">{label}</span>'
+            f'{badge}'
+            f'</div>'
+        )
+        if children:
+            kids = "".join(render_node(c, depth + 1) for c in children)
+            border = "border-left:2px dashed #D8D3F0" if is_faded else "border-left:2px solid #E4E1F5"
+            out += f'<div style="margin-left:11px;padding-left:17px;{border}">{kids}</div>'
+        return out
+
+    body = render_node(node, 0)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px);overflow-x:auto">{body}{cap}</figure>'
+    )
+
+
+def before_after_trees(before_node: tuple, after_node: tuple, *, label_before: str = "Было", label_after: str = "Стало", caption: str = "") -> str:
+    """Two dir_tree()-style panels side by side (stacks vertically on
+    mobile) — the "messy folder -> organized folder" picture used on the
+    chapter opener and the apply-page before/after."""
+
+    def panel(label: str, node: tuple, accent: str) -> str:
+        tree_html = dir_tree(node)
+        # dir_tree() already wraps in <figure>; unwrap so we can nest two
+        # panels inside one flex row without a doubled card background.
+        inner = re.sub(r'^\s*<figure[^>]*>|</figure>\s*$', '', tree_html.strip())
+        return (
+            f'<div style="flex:1;min-width:220px;background:var(--color-bg-canvas,#fff);'
+            f'border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:16px 18px">'
+            f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;'
+            f'text-transform:uppercase;color:{accent};margin-bottom:10px">{html.escape(label)}</div>'
+            f'{inner}</div>'
+        )
+
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">{html.escape(caption)}</figcaption>' if caption else ""
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">'
+        f'<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">'
+        f'{panel(label_before, before_node, "#6B6B7D")}'
+        f'<div style="align-self:center;font-size:22px;color:#B9A0FC;flex:0 0 auto;padding:0 4px">→</div>'
+        f'{panel(label_after, after_node, "#059669")}'
+        f'</div>{cap}</figure>'
+    )
+
+
+SAFESORT_STAGES: list[str] = [
+    "Идея", "Проект", "Код", "Безопасность", "Дубликаты", "Тесты", "GitHub", "Релиз",
+]
+
+
+def stage_tracker(current: int, *, stages: list[str] = SAFESORT_STAGES) -> str:
+    """Persistent "where are we" strip for a multi-stage project (Chapter
+    23 / SafeSort): a row of labels with the current one highlighted, plus
+    an "Этап N из M" line above it. `current` is 1-based. Small and
+    reusable at the top of every main SafeSort page — never a heavy visual,
+    just a constant orientation cue."""
+    n = len(stages)
+    current = max(1, min(current, n))
+    items = "".join(
+        (
+            f'<span style="display:flex;align-items:center;gap:6px">'
+            f'<span style="font-family:Sora,sans-serif;font-weight:{700 if i + 1 == current else 500};'
+            f'font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;'
+            f'background:{"linear-gradient(90deg,var(--violet-500),var(--blue-500))" if i + 1 == current else "transparent"};'
+            f'color:{"#fff" if i + 1 == current else "var(--gray-600)"}">{html.escape(label)}</span>'
+            f'</span>'
+            + (f'<span style="color:#D8D3F0;font-size:12px">→</span>' if i < n - 1 else "")
+        )
+        for i, label in enumerate(stages)
+    )
+    return (
+        f'<div style="margin:0 0 24px;padding:12px 16px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:14px;border:1px solid var(--color-border-default,#E4E1F5)">'
+        f'<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;'
+        f'color:#5B24F9;margin-bottom:8px">SafeSort · Этап {current} из {n}</div>'
+        f'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">{items}</div>'
+        f'</div>'
+    )
+
+
+def terminal_capture(lines: list[str], *, cwd: str = "~/safesort", caption: str = "") -> str:
+    """A real captured terminal session, styled as an actual terminal window
+    (traffic-light dots + monospace pane) — visually distinct from
+    code_block()'s source-file tab, so it reads unmistakably as "this really
+    ran", not as a source listing. `lines` is the literal sequence to
+    display: prefix a line with "$ " for a typed command (bold, bright);
+    anything else is program output (dimmed). Every line here must be
+    genuine captured output — never invented."""
+    rendered = []
+    for line in lines:
+        if line.startswith("$ "):
+            rendered.append(
+                f'<div><span style="color:#8FB7FE">{html.escape(cwd)} $</span> '
+                f'<span style="color:#fff">{html.escape(line[2:])}</span></div>'
+            )
+        elif line == "":
+            rendered.append('<div>&nbsp;</div>')
+        else:
+            rendered.append(f'<div style="color:#B4B4C4">{html.escape(line)}</div>')
+    body = "".join(rendered)
+    cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
+    return f"""
+    <figure style="margin:24px 0">
+    <div style="background:var(--navy-950,#08011C);border-radius:var(--radius-md,14px);overflow:hidden;box-shadow:var(--shadow-sm)">
+      <div style="display:flex;gap:6px;padding:10px 14px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08)">
+        <span style="width:10px;height:10px;border-radius:50%;background:#EF4444"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:#F5B93D"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:#22C55E"></span>
+      </div>
+      <div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.75;overflow-x:auto">{body}</div>
+    </div>{cap}
+    </figure>"""
+
+
+def project_state_card(done: list[str], now: str, upcoming: list[str]) -> str:
+    """"Что уже есть" checklist: done items with a check, the current
+    lesson's item bolded/highlighted, future items dimmed with an empty
+    circle. Gives continuity without repeating the full stage_tracker."""
+    rows = "".join(
+        f'<div style="display:flex;align-items:center;gap:10px;padding:3px 0;color:#059669">'
+        f'<span style="flex-shrink:0">{cs_icon("success")}</span>'
+        f'<span style="font-size:14px">{html.escape(item)}</span></div>'
+        for item in done
+    )
+    rows += (
+        f'<div style="display:flex;align-items:center;gap:10px;padding:3px 0">'
+        f'<span style="width:9px;height:9px;border-radius:50%;background:#5B24F9;flex-shrink:0;margin:0 3.5px"></span>'
+        f'<span style="font-size:14px;font-weight:700;color:#0D0230">{html.escape(now)}</span></div>'
+    )
+    rows += "".join(
+        f'<div style="display:flex;align-items:center;gap:10px;padding:3px 0;opacity:.5">'
+        f'<span style="width:9px;height:9px;border-radius:50%;border:1.5px solid #B4B4C4;flex-shrink:0;margin:0 3.5px"></span>'
+        f'<span style="font-size:14px;color:#6B6B7D">{html.escape(item)}</span></div>'
+        for item in upcoming
+    )
+    return (
+        f'<div style="margin:24px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:var(--radius-lg,20px)">'
+        f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;'
+        f'text-transform:uppercase;color:#6B6B7D;margin-bottom:10px">Что уже есть</div>{rows}</div>'
+    )
+
+
+def safety_boundary(read_only: list[str], modifying: list[str]) -> str:
+    """The read-only-vs-modifying-commands picture (scan/plan/duplicates
+    never touch disk; apply/undo do) — two visually distinct cards so the
+    boundary reads as a hard line, not a sentence buried in prose."""
+
+    def card(title: str, items: list[str], color: str, bg: str) -> str:
+        rows = "".join(
+            f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:14px;color:#0D0230;'
+            f'padding:3px 0">{html.escape(item)}</div>'
+            for item in items
+        )
+        return (
+            f'<div style="flex:1;min-width:200px;background:{bg};border:1.5px solid {color};'
+            f'border-radius:16px;padding:16px 20px">'
+            f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;letter-spacing:.03em;'
+            f'text-transform:uppercase;color:{color};margin-bottom:10px">{html.escape(title)}</div>{rows}</div>'
+        )
+
+    return (
+        f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">'
+        f'<div style="display:flex;gap:16px;flex-wrap:wrap">'
+        f'{card("Только читают", read_only, "#059669", "#ECFDF5")}'
+        f'{card("Меняют файлы", modifying, "#DC2626", "#FEF2F2")}'
+        f'</div></figure>'
+    )
+
+
+def github_mark(size: int = 20) -> str:
+    """Inline official GitHub mark (Primer Octicons `mark-github`, MIT-
+    licensed), for GitHub-phase headings and links — currentColor, so it
+    matches surrounding text/heading color. The same SVG is also stored as
+    the canonical asset at site/assets/brand/github/mark-github.svg; this
+    function embeds it inline (same markup) rather than an <img src="...">
+    so every call site works regardless of page depth and costs no extra
+    request, matching how the other diagram helpers in this file embed
+    their own SVG."""
+    return (
+        f'<svg viewBox="0 0 16 16" width="{size}" height="{size}" aria-hidden="true" '
+        f'style="vertical-align:-0.15em;fill:currentColor">'
+        f'<path d="M8 0c-4.42 0-8 3.58-8 8a8.01 8.01 0 0 0 5.47 7.59c.4.08.55-.17.55-.38 '
+        f'0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 '
+        f'1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 '
+        f'0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 '
+        f'1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 '
+        f'3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 '
+        f'8c0-4.42-3.58-8-8-8Z"/></svg>'
+    )
+
+
 def shallow_copy_diagram(outer_a_label: str, outer_b_label: str, inner_items: list[str], *, caption: str = "") -> str:
     """Two independent OUTER lists (e.g. `original` and `original.copy()`),
     drawn as two stacked rows of slot boxes, both fanning arrows down into
@@ -4163,6 +4388,7 @@ def render_chapter_opener(
     meta_items: list[str],
     sections: list[ChapterSectionLink],
     brand_html: str = "",
+    intro_html: str = "",
 ) -> str:
     root = "../../"
     meta_html = "".join(f"<span>{m}</span>" for m in meta_items)
@@ -4202,6 +4428,7 @@ def render_chapter_opener(
   .section-item:hover {{ border-color: var(--color-brand-blue); }}
   .section-item .si-num {{ font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }}
   .section-item .si-page {{ font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }}
+  .chapter-intro {{ max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }}
   @media (max-width: 860px) {{ .chapter-hero h1 {{ font-size: 30px; }} }}
 </style>
 </head>
@@ -4220,6 +4447,10 @@ def render_chapter_opener(
     <p>{description}</p>
     <div class="chapter-meta">{meta_html}</div>
   </div>
+</div>
+
+<div class="chapter-intro">
+  {intro_html}
 </div>
 
 <div class="section-list">
