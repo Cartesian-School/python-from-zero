@@ -1,0 +1,29 @@
+name: SafeSort tests
+
+on:
+  push:
+    paths:
+      - "projects/python/safesort/**"
+      - ".github/workflows/safesort-tests.yml"
+  pull_request:
+    paths:
+      - "projects/python/safesort/**"
+      - ".github/workflows/safesort-tests.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install SafeSort with dev dependencies
+        run: pip install -e "projects/python/safesort/[dev]"
+
+      - name: Run tests
+        run: pytest projects/python/safesort/tests/
