@@ -185,7 +185,8 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup(
             "Исходный код",
             [
-                NavItem("[[icon:code]] projects/python/safesort/", "../../../projects/python/safesort/README.md"),
+                NavItem("[[icon:code]] SafeSort — исходный репозиторий (GitHub)", "https://github.com/Cartesian-School/safesort"),
+                NavItem("[[icon:code]] projects/python/safesort/ — учебная копия в этой книге", "../../../projects/python/safesort/README.md"),
                 NavItem("[[icon:code]] python-mini-projects", "https://github.com/Cartesian-School/python-mini-projects"),
             ],
         ),
