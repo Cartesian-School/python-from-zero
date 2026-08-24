@@ -3018,7 +3018,7 @@ def before_after_trees(before_node: tuple, after_node: tuple, *, label_before: s
 
 
 SAFESORT_STAGES: list[str] = [
-    "Идея", "Проект", "Код", "Безопасность", "Дубликаты", "Тесты", "GitHub", "Релиз",
+    "Git и GitHub", "Планирование", "Проект", "Реализация", "Тесты и CI", "Релиз",
 ]
 
 
@@ -3046,7 +3046,7 @@ def stage_tracker(current: int, *, stages: list[str] = SAFESORT_STAGES) -> str:
         f'<div style="margin:0 0 24px;padding:12px 16px;background:var(--color-bg-surface,#FAFAFC);'
         f'border-radius:14px;border:1px solid var(--color-border-default,#E4E1F5)">'
         f'<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;'
-        f'color:#5B24F9;margin-bottom:8px">SafeSort · Этап {current} из {n}</div>'
+        f'color:#5B24F9;margin-bottom:8px">SafeSort · Часть {current} из {n}</div>'
         f'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">{items}</div>'
         f'</div>'
     )
@@ -3142,25 +3142,64 @@ def safety_boundary(read_only: list[str], modifying: list[str]) -> str:
     )
 
 
-def github_mark(size: int = 20) -> str:
-    """Inline official GitHub mark (Primer Octicons `mark-github`, MIT-
-    licensed), for GitHub-phase headings and links — currentColor, so it
-    matches surrounding text/heading color. The same SVG is also stored as
-    the canonical asset at site/assets/brand/github/mark-github.svg; this
-    function embeds it inline (same markup) rather than an <img src="...">
-    so every call site works regardless of page depth and costs no extra
-    request, matching how the other diagram helpers in this file embed
-    their own SVG."""
+def github_mark(size: int = 24, *, on_dark: bool = False) -> str:
+    """Official GitHub Invertocat mark, downloaded from brand.github.com
+    (GitHub_Logos.zip) and stored verbatim at
+    site/assets/brand/github/invertocat-{black,white}.svg — real brand
+    asset, not a hand-approximated recreation. Per GitHub's own usage
+    guidance the mark must stay one of the permitted flat colors (black
+    on light backgrounds, white on dark — never recolored via
+    currentColor or a gradient), so `on_dark` picks the correct file
+    instead of tinting a single asset. Native aspect ratio is 98:96;
+    height is derived from `size` (the width) to avoid distortion."""
+    variant = "white" if on_dark else "black"
+    height = round(size * 96 / 98)
     return (
-        f'<svg viewBox="0 0 16 16" width="{size}" height="{size}" aria-hidden="true" '
-        f'style="vertical-align:-0.15em;fill:currentColor">'
-        f'<path d="M8 0c-4.42 0-8 3.58-8 8a8.01 8.01 0 0 0 5.47 7.59c.4.08.55-.17.55-.38 '
-        f'0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 '
-        f'1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 '
-        f'0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 '
-        f'1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 '
-        f'3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 '
-        f'8c0-4.42-3.58-8-8-8Z"/></svg>'
+        f'<img src="/assets/brand/github/invertocat-{variant}.svg" alt="GitHub" '
+        f'width="{size}" height="{height}" '
+        f'style="display:inline-block;vertical-align:-0.15em" />'
+    )
+
+
+def official_sources(entries: list[tuple[str, str]], *, adapted: bool = True) -> str:
+    """Small "Официальная документация" box: (title, url) pairs the page's
+    content is adapted from. Not visually dominant — a compact list, not a
+    callout. When `adapted` is True (the default — this is Chapter 23's
+    normal case), appends a one-line CC BY 4.0 attribution notice per
+    docs/CHAPTER-23-GITHUB-SOURCES.md's policy: GitHub Docs content is
+    reused in translated/adapted form, not simply linked."""
+    rows = "".join(
+        f'<div style="margin:3px 0"><a href="{html.escape(url)}" style="color:#185DFA">{html.escape(title)}</a></div>'
+        for title, url in entries
+    )
+    note = (
+        '<div style="margin-top:8px;font-size:12px;color:#6B6B7D">'
+        "Перевод и учебная адаптация официальной документации GitHub. "
+        "Исходный материал — CC BY 4.0.</div>"
+        if adapted
+        else ""
+    )
+    return (
+        f'<div style="margin:20px 0;padding:14px 18px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-radius:12px;font-size:13.5px">'
+        f'<div style="font-weight:700;color:#6B6B7D;font-size:11px;letter-spacing:.04em;'
+        f'text-transform:uppercase;margin-bottom:6px">Официальная документация</div>'
+        f'{rows}{note}</div>'
+    )
+
+
+def github_lockup(width: int = 140, *, on_dark: bool = False) -> str:
+    """Official GitHub logo lockup (Invertocat + wordmark), same source
+    and provenance as github_mark(). Reserved for places that function as
+    a real link/identification to github.com (per GitHub's brand usage
+    guidance) — the chapter opener and "what is GitHub" introduction —
+    not as page decoration; use the smaller github_mark() elsewhere.
+    Native aspect ratio is 416:95."""
+    variant = "white" if on_dark else "black"
+    height = round(width * 95 / 416)
+    return (
+        f'<img src="/assets/brand/github/lockup-{variant}.svg" alt="GitHub" '
+        f'width="{width}" height="{height}" style="display:block" />'
     )
 
 

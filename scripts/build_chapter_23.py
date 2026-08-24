@@ -28,9 +28,11 @@ from site_lib import (
     dir_tree,
     exercise,
     flow_diagram,
+    github_lockup,
     github_mark,
     image_figure,
     local_required_card,
+    official_sources,
     practice_card,
     project_state_card,
     render_chapter_opener,
@@ -47,40 +49,60 @@ OUT_DIR = ROOT / "site" / "chapters" / "glava-23"
 IMG = "../../assets/img/chapter-23/output"
 
 # --- Основной путь главы: SafeSort, от идеи до релиза -----------------------
+# Каждая запись — (href, title, часть); "часть" — номер ЧАСТИ 1..6, тот же,
+# что передаётся в stage_tracker() на самой странице (см. SAFESORT_STAGES в
+# site_lib.py). Группировка сайдбара строится по этому полю явно (см.
+# sidebar() ниже), а не угадывается по числу в имени файла — так новые
+# страницы Части I/II можно свободно добавлять с любыми именами.
 PAGES = [
-    ("index.html", "Обзор главы"),
-    ("23-01-ideya-trebovaniya.html", "Что мы будем создавать: SafeSort"),
-    ("23-02-repozitorij.html", "Создаём репозиторий проекта"),
-    ("23-03-readme.html", "Первый README проекта"),
-    ("23-04-struktura-paketa.html", "Планируем структуру Python-пакета"),
-    ("23-05-pyproject-toml.html", "pyproject.toml и установка проекта"),
-    ("23-06-komandnaya-stroka.html", "Командная строка SafeSort"),
-    ("23-07-pathlib.html", "pathlib: работаем с путями и каталогами"),
-    ("23-08-skaniruem-katalog.html", "Сканируем каталог"),
-    ("23-09-isklyucheniya.html", "Какие каталоги не нужно сканировать"),
-    ("23-10-klassifikaciya.html", "Определяем категорию файла"),
-    ("23-11-plan-dejstvij.html", "От анализа к плану действий"),
-    ("23-12-predvaritelnyj-prosmotr.html", "Режим предварительного просмотра"),
-    ("23-13-peremeshaem-fajly.html", "Безопасно перемещаем файлы"),
-    ("23-14-imya-zanyato.html", "Что делать, если имя уже занято"),
-    ("23-15-zhurnal-operacij.html", "Журнал выполненных операций"),
-    ("23-16-otmena-operacii.html", "Отмена последней операции"),
-    ("23-17-poisk-dublikatov.html", "Поиск одинаковых файлов"),
-    ("23-18-sha256.html", "SHA-256 и хеш содержимого файла"),
-    ("23-19-gruppy-dublikatov.html", "Находим группы дубликатов"),
-    ("23-20-oshibki-fajlovoj-sistemy.html", "Обрабатываем ошибки файловой системы"),
-    ("23-21-logging.html", "Добавляем журнал работы программы"),
-    ("23-22-nastrojki-proekta.html", "Настройки проекта"),
-    ("23-23-pervye-testy.html", "Пишем первые автоматические тесты"),
-    ("23-24-testy-skanirovaniya.html", "Проверяем сканирование и классификацию"),
-    ("23-25-testy-peremeshheniya.html", "Проверяем перемещение и отмену"),
-    ("23-26-testy-dublikatov.html", "Проверяем поиск дубликатов"),
-    ("23-27-testy-cli.html", "Проверяем интерфейс командной строки"),
-    ("23-28-git-kommit.html", "Git: от рабочего изменения к коммиту"),
-    ("23-29-github-pr.html", "GitHub: Issue, ветка и Pull Request"),
-    ("23-30-github-actions.html", "GitHub Actions: автоматически запускаем тесты"),
-    ("23-31-versiya-reliz.html", "Документация, версия и первый релиз"),
-    ("23-32-itogi-reliz.html", "Итоги: полный путь проекта от идеи до релиза"),
+    ("index.html", "Обзор главы", 1),
+    ("23-01-ideya-trebovaniya.html", "Что мы будем создавать: SafeSort", 1),
+    ("23-git-01-chto-takoe-git-github.html", "Что такое Git и что такое GitHub", 1),
+    ("23-git-02-ustanavlivaem-git.html", "Устанавливаем Git", 1),
+    ("23-git-03-pervaya-nastrojka.html", "Первая настройка Git", 1),
+    ("23-git-04-github-account.html", "Создаём и защищаем учётную запись GitHub", 1),
+    ("23-git-05-autentifikaciya.html", "HTTPS, SSH и аутентификация", 1),
+    ("23-git-06-ssh.html", "Настраиваем SSH", 1),
+    ("23-git-07-sozdaem-repozitorij.html", "Создаём репозиторий SafeSort на GitHub", 1),
+    ("23-git-08-kloniruem.html", "Клонируем репозиторий", 1),
+    ("23-git-09-lokalnyj-i-udalennyj.html", "Локальный и удалённый репозиторий", 1),
+    ("23-git-10-working-tree-staging-commit.html", "Working tree, staging и commit", 1),
+    ("23-proj-01-repo-vs-project.html", "Repository и GitHub Project — в чём разница", 2),
+    ("23-proj-02-sozdaem-project.html", "Создаём GitHub Project", 2),
+    ("23-proj-03-board-table.html", "Board, Table и представления", 2),
+    ("23-proj-04-issues.html", "Создаём Issues и добавляем в Project", 2),
+    ("23-proj-05-issue-branch-pr.html", "Первый цикл: Issue → Branch → Pull Request", 2),
+    ("23-02-repozitorij.html", "Первый коммит в клонированном репозитории", 3),
+    ("23-03-readme.html", "Первый README проекта", 3),
+    ("23-04-struktura-paketa.html", "Планируем структуру Python-пакета", 3),
+    ("23-05-pyproject-toml.html", "pyproject.toml и установка проекта", 3),
+    ("23-06-komandnaya-stroka.html", "Командная строка SafeSort", 3),
+    ("23-07-pathlib.html", "pathlib: работаем с путями и каталогами", 4),
+    ("23-08-skaniruem-katalog.html", "Сканируем каталог", 4),
+    ("23-09-isklyucheniya.html", "Какие каталоги не нужно сканировать", 4),
+    ("23-10-klassifikaciya.html", "Определяем категорию файла", 4),
+    ("23-11-plan-dejstvij.html", "От анализа к плану действий", 4),
+    ("23-12-predvaritelnyj-prosmotr.html", "Режим предварительного просмотра", 4),
+    ("23-13-peremeshaem-fajly.html", "Безопасно перемещаем файлы", 4),
+    ("23-14-imya-zanyato.html", "Что делать, если имя уже занято", 4),
+    ("23-15-zhurnal-operacij.html", "Журнал выполненных операций", 4),
+    ("23-16-otmena-operacii.html", "Отмена последней операции", 4),
+    ("23-17-poisk-dublikatov.html", "Поиск одинаковых файлов", 4),
+    ("23-18-sha256.html", "SHA-256 и хеш содержимого файла", 4),
+    ("23-19-gruppy-dublikatov.html", "Находим группы дубликатов", 4),
+    ("23-20-oshibki-fajlovoj-sistemy.html", "Обрабатываем ошибки файловой системы", 4),
+    ("23-21-logging.html", "Добавляем журнал работы программы", 4),
+    ("23-22-nastrojki-proekta.html", "Настройки проекта", 4),
+    ("23-23-pervye-testy.html", "Пишем первые автоматические тесты", 5),
+    ("23-24-testy-skanirovaniya.html", "Проверяем сканирование и классификацию", 5),
+    ("23-25-testy-peremeshheniya.html", "Проверяем перемещение и отмену", 5),
+    ("23-26-testy-dublikatov.html", "Проверяем поиск дубликатов", 5),
+    ("23-27-testy-cli.html", "Проверяем интерфейс командной строки", 5),
+    ("23-28-git-kommit.html", "Git: от рабочего изменения к коммиту", 5),
+    ("23-29-github-pr.html", "GitHub: Issue, ветка и Pull Request", 5),
+    ("23-30-github-actions.html", "GitHub Actions: автоматически запускаем тесты", 5),
+    ("23-31-versiya-reliz.html", "Документация, версия и первый релиз", 6),
+    ("23-32-itogi-reliz.html", "Итоги: полный путь проекта от идеи до релиза", 6),
 ]
 
 # --- Приложение: шесть мини-проектов для домашней практики -------------------
@@ -114,29 +136,24 @@ SAFESORT_LESSON_IDS = [f"23-{n:02d}" for n in range(7, 25)]  # 23-07..23-24
 HOMEWORK_LESSON_IDS = [f"23-{n:02d}" for n in range(1, 7)]  # 23-01..23-06 (сохранены)
 
 
-# Восемь этапов проекта — та же последовательность страниц, что и в PAGES,
-# просто сгруппированная по смыслу в боковой панели (см. stage_tracker() в
-# site_lib.py: 8 этапов совпадают с SAFESORT_STAGES один в один).
-SAFESORT_PHASES: list[tuple[str, int, int]] = [
-    ("Этап 1 · Понимаем задачу", 1, 1),
-    ("Этап 2 · Создаём проект", 2, 6),
-    ("Этап 3 · Делаем первую рабочую версию", 7, 13),
-    ("Этап 4 · Делаем работу безопасной", 14, 16),
-    ("Этап 5 · Находим дубликаты", 17, 19),
-    ("Этап 6 · Настройки и диагностика", 20, 22),
-    ("Этап 7 · Проверяем программу", 23, 28),
-    ("Этап 8 · Отправляем проект на GitHub", 29, 32),
+# Шесть частей главы — те же названия, что и SAFESORT_STAGES в site_lib.py
+# (индекс совпадает с полем "часть" в PAGES и с аргументом stage_tracker()).
+SAFESORT_PART_TITLES: list[str] = [
+    "Часть I · Git и GitHub с нуля",
+    "Часть II · Планируем SafeSort на GitHub",
+    "Часть III · Создаём Python-проект",
+    "Часть IV · Реализуем SafeSort",
+    "Часть V · Проверяем и автоматизируем",
+    "Часть VI · Выпускаем первую версию",
 ]
 
 
 def sidebar(active_href: str) -> list[SidebarGroup]:
     hw_items = [NavItem(title, href) for href, title in HOMEWORK_PAGES]
-    pages_by_num = {int(href.split("-")[1]): (href, title) for href, title in PAGES if href != "index.html"}
     phase_groups = []
-    for phase_title, lo, hi in SAFESORT_PHASES:
-        items = [NavItem(title, href) for n, (href, title) in pages_by_num.items() if lo <= n <= hi]
-        items.sort(key=lambda it: it.href)
-        phase_groups.append(SidebarGroup(phase_title, items))
+    for part_num, part_title in enumerate(SAFESORT_PART_TITLES, start=1):
+        items = [NavItem(title, href) for href, title, part in PAGES if part == part_num and href != "index.html"]
+        phase_groups.append(SidebarGroup(part_title, items))
     overview_item = NavItem("Обзор главы", "index.html")
     phase_groups[0].items.insert(0, overview_item)
     all_main_items = [it for g in phase_groups for it in g.items]
@@ -221,10 +238,25 @@ def build_opener() -> None:
         baseline_page=511,
         title="Первый проект на GitHub: SafeSort",
         description="Пишем программу, которая наводит порядок в файлах, — и доводим её до состояния, готового для GitHub: тесты, история коммитов, Pull Request.",
-        meta_items=["[[icon:timer]] ~10-14 часов", "[[icon:architecture]] один проект, 8 этапов", "[[icon:practice]] 20 практик + приложение"],
+        meta_items=["[[icon:timer]] ~16-20 часов", "[[icon:architecture]] один проект, 6 частей", "[[icon:practice]] 20 практик + приложение"],
         intro_html=intro,
         sections=[
             ChapterSectionLink("23.1", "Что мы будем создавать: SafeSort", "23-01-ideya-trebovaniya.html"),
+            ChapterSectionLink("", "Что такое Git и что такое GitHub", "23-git-01-chto-takoe-git-github.html"),
+            ChapterSectionLink("", "Устанавливаем Git", "23-git-02-ustanavlivaem-git.html"),
+            ChapterSectionLink("", "Первая настройка Git", "23-git-03-pervaya-nastrojka.html"),
+            ChapterSectionLink("", "Учётная запись GitHub", "23-git-04-github-account.html"),
+            ChapterSectionLink("", "HTTPS, SSH и аутентификация", "23-git-05-autentifikaciya.html"),
+            ChapterSectionLink("", "Настраиваем SSH", "23-git-06-ssh.html"),
+            ChapterSectionLink("", "Создаём репозиторий SafeSort", "23-git-07-sozdaem-repozitorij.html"),
+            ChapterSectionLink("", "Клонируем репозиторий", "23-git-08-kloniruem.html"),
+            ChapterSectionLink("", "Локальный и удалённый репозиторий", "23-git-09-lokalnyj-i-udalennyj.html"),
+            ChapterSectionLink("", "Working tree, staging и commit", "23-git-10-working-tree-staging-commit.html"),
+            ChapterSectionLink("", "Repository и GitHub Project", "23-proj-01-repo-vs-project.html"),
+            ChapterSectionLink("", "Создаём GitHub Project", "23-proj-02-sozdaem-project.html"),
+            ChapterSectionLink("", "Board, Table и представления", "23-proj-03-board-table.html"),
+            ChapterSectionLink("", "Создаём Issues", "23-proj-04-issues.html"),
+            ChapterSectionLink("", "Первый цикл: Issue → Branch → PR", "23-proj-05-issue-branch-pr.html"),
             ChapterSectionLink("23.2", "Создаём репозиторий проекта", "23-02-repozitorij.html"),
             ChapterSectionLink("23.3", "Первый README проекта", "23-03-readme.html"),
             ChapterSectionLink("23.4", "Планируем структуру Python-пакета", "23-04-struktura-paketa.html"),
@@ -358,92 +390,1044 @@ def build_01() -> None:
         description="Знакомимся с SafeSort, видим будущий результат и определяем, что должна уметь первая версия проекта.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("SafeSort", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
         h1="Что мы будем создавать: SafeSort",
         lede="Программа, которая наводит порядок в файлах, — сначала показывает, что сделает, и только потом делает это по команде.",
         body_html=body,
         sidebar_groups=sidebar("23-01-ideya-trebovaniya.html"),
-        nav=PageNav(prev_href="index.html", prev_label="Обзор главы", next_href="23-02-repozitorij.html", next_label="Создаём репозиторий проекта"),
+        nav=PageNav(prev_href="index.html", prev_label="Обзор главы", next_href="23-git-01-chto-takoe-git-github.html", next_label="Что такое Git и что такое GitHub"),
     )
     write("23-01-ideya-trebovaniya.html", out)
 
 
-def build_02() -> None:
+def build_git_01() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <div style="margin:8px 0 20px">{github_lockup(150)}</div>
+
+    <p>Предыдущий раздел показал, что будет делать SafeSort. Прежде чем писать код, разберёмся с
+    инструментами, вокруг которых построена вся оставшаяся часть главы, — и с четырьмя
+    похожими словами, которые легко перепутать.</p>
+
+    {comparison_table(
+        ["Понятие", "Что это"],
+        [
+            ["Python-проект", "исходный код и файлы SafeSort на диске — то, что мы пишем"],
+            ["Git-репозиторий", "история изменений этих файлов, хранящаяся в скрытом каталоге .git"],
+            ["GitHub-репозиторий", "тот же Git-репозиторий, размещённый на сервере GitHub — плюс веб-интерфейс"],
+            ["GitHub Project", "отдельный инструмент планирования поверх репозитория — Issues, доска, представления"],
+        ],
+    )}
+
+    <p><strong>Git</strong> — программа, которая работает локально, на вашем компьютере: она
+    следит за историей изменений файлов. <strong>GitHub</strong> — сервис в интернете,
+    построенный вокруг Git: он хранит удалённую копию репозитория и добавляет то, чего у
+    голого Git нет, — Issues, Pull Request, Projects, Actions, Releases.</p>
+
+    {flow_diagram([
+        ("Ваш компьютер", "Git-репозиторий — работает без интернета"),
+        ("git push / git pull", "синхронизация истории"),
+        ("GitHub", "удалённая копия + Issues, Projects, PR, Actions, Releases"),
+    ], caption="Git — локальный инструмент истории; GitHub — сервис вокруг него. Одно не работает без другого, но это два разных слоя.")}
+
+    {callout(
+        "info",
+        "Репозиторий на GitHub — не то же самое, что GitHub Project",
+        "Это одна из самых частых путаниц у начинающих. Репозиторий хранит код и его историю. "
+        "GitHub Project — отдельный, необязательный инструмент планирования: можно иметь "
+        "репозиторий вообще без Project, и можно завести Project, объединяющий Issues сразу "
+        "из нескольких репозиториев. Часть II этой главы разберёт эту разницу подробно.",
+    )}
+
+    {official_sources([
+        ("Git", "https://git-scm.com/"),
+        ("Start your journey: What is GitHub?", "https://docs.github.com/en/get-started/start-your-journey/what-is-github"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Git работает локально и следит за историей файлов; ему не нужен интернет.",
+        "GitHub — сервис вокруг Git: удалённая копия репозитория плюс Issues, Pull Request, Projects, Actions, Releases.",
+        "Репозиторий (код и история) и GitHub Project (планирование) — разные, независимые понятия.",
+    ])}
+    """
+    out = render_page(
+        page_title="Что такое Git и что такое GitHub",
+        description="Git — локальный инструмент истории изменений; GitHub — сервис вокруг него с Issues, Pull Request, Projects и Actions.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Git и GitHub", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Что такое Git и что такое GitHub",
+        lede="Git и GitHub — не синонимы: один работает локально, другой — сервис вокруг него.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-01-chto-takoe-git-github.html"),
+        nav=PageNav(prev_href="23-01-ideya-trebovaniya.html", prev_label="Что мы будем создавать", next_href="23-git-02-ustanavlivaem-git.html", next_label="Устанавливаем Git"),
+    )
+    write("23-git-01-chto-takoe-git-github.html", out)
+
+
+def build_git_02() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Git — не встроенная часть Python: его нужно установить отдельно, один раз для всей
+    системы. Способ установки зависит от операционной системы.</p>
+
+    {terminal_capture([
+        "$ git --version",
+        "git version 2.47.3",
+    ], caption="Так выглядит успешная проверка — программа сообщает свою версию и ничего больше.")}
+
+    <h2>Linux (Debian/Ubuntu)</h2>
+    {code_block(
+        "Документированная команда — см. git-scm.com/download/linux",
+        "sudo apt update\nsudo apt install git\n",
+        lang="text",
+    )}
+    {callout(
+        "info",
+        "git, а не git-all",
+        "Пакет <code class=\"inline\">git</code> уже включает всё нужное для этого курса. Пакет "
+        "<code class=\"inline\">git-all</code> — метапакет, добавляющий дополнительные "
+        "интеграции (например, с Emacs), которые здесь не понадобятся.",
+    )}
+    <p>Для дистрибутивов на основе Fedora/RHEL:</p>
+    {code_block("Документированная команда", "sudo dnf install git\n", lang="text")}
+
+    <h2>Windows</h2>
+    <p>Официальный установщик — <strong>Git for Windows</strong>: он ставит саму программу
+    <code class="inline">git</code> и терминал <strong>Git Bash</strong>, в котором работают
+    все команды этой главы без изменений.</p>
+    {official_sources([("Git for Windows", "https://git-scm.com/download/win")])}
+
+    <h2>macOS</h2>
+    <p>Простейший путь — Xcode Command Line Tools (<code class="inline">xcode-select
+    --install</code>), которые включают Git. Официальный установщик с git-scm.com —
+    альтернатива, если нужна конкретная версия Git.</p>
+    {official_sources([("Git for macOS", "https://git-scm.com/download/mac")])}
+
+    <h2>Проверяем установку</h2>
+    <p>Независимо от системы, результат один и тот же: команда <code class="inline">git
+    --version</code> в терминале печатает номер версии. Если вместо этого терминал отвечает
+    «command not found» (или похожим сообщением на Windows) — Git не установлен или его нет
+    в PATH; переустановка обычно решает проблему.</p>
+
+    {official_sources([("Git — Downloads", "https://git-scm.com/downloads")], adapted=False)}
+
+    {summary_box("Коротко", [
+        "Git ставится один раз для системы — отдельно от Python.",
+        "Linux: sudo apt install git (или dnf install git). Windows: Git for Windows + Git Bash. macOS: Xcode Command Line Tools.",
+        "git --version — единственная проверка, что всё получилось.",
+    ])}
+    """
+    out = render_page(
+        page_title="Устанавливаем Git",
+        description="Установка Git на Linux, Windows и macOS — и проверка через git --version.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Установка Git", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Устанавливаем Git",
+        lede="Git ставится отдельно от Python, один раз для всей системы — способ зависит от операционной системы.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-02-ustanavlivaem-git.html"),
+        nav=PageNav(prev_href="23-git-01-chto-takoe-git-github.html", prev_label="Что такое Git и GitHub", next_href="23-git-03-pervaya-nastrojka.html", next_label="Первая настройка Git"),
+    )
+    write("23-git-02-ustanavlivaem-git.html", out)
+
+
+def build_git_03() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Прежде чем сделать первый коммит, Git нужно один раз сказать, кто вы, — эта информация
+    записывается в каждый коммит и остаётся в истории навсегда.</p>
+
+    {terminal_capture([
+        "$ git init",
+        "Initialized empty Git repository in .../git_demo/.git/",
+        "$ git config user.name \"Ваше Имя\"",
+        "$ git config user.email \"you@example.com\"",
+        "$ git config --local --list",
+        "core.repositoryformatversion=0",
+        "core.filemode=true",
+        "core.bare=false",
+        "core.logallrefupdates=true",
+        "user.name=Ваше Имя",
+        "user.email=you@example.com",
+    ], cwd="~/git_demo")}
+
+    {callout(
+        "warning",
+        "Это имя пишется в коммиты — а не только в профиль GitHub",
+        "<code class=\"inline\">user.name</code>/<code class=\"inline\">user.email</code> — "
+        "не логин GitHub и не то же самое, что имя в профиле. Это данные, которые буквально "
+        "попадают в каждый коммит как автор изменения, и их видно всем, кто посмотрит "
+        "историю — в том числе после публикации на GitHub.",
+    )}
+
+    <p>Флаг <code class="inline">--local</code> относится только к этому одному репозиторию.
+    Чтобы не повторять настройку для каждого нового проекта, обычно используют
+    <code class="inline">--global</code> — тогда имя и почта применяются ко всем репозиториям
+    на этом компьютере:</p>
+
+    {code_block(
+        "Терминал",
+        "git config --global user.name \"Ваше Имя\"\n"
+        "git config --global user.email \"you@example.com\"\n",
+        lang="text",
+    )}
+
+    <h2>Имя ветки по умолчанию</h2>
+    <p>Современный Git (2.28 и новее) уже использует <code class="inline">main</code> как имя
+    первой ветки по умолчанию — отдельно настраивать это обычно не нужно. Если понадобится
+    явно это зафиксировать:</p>
+    {code_block("Терминал", "git config --global init.defaultBranch main\n", lang="text")}
+
+    {official_sources([("Set up Git", "https://docs.github.com/en/get-started/git-basics/set-up-git")])}
+
+    {summary_box("Коротко", [
+        "user.name/user.email записываются в каждый коммит — это данные автора, а не логин GitHub.",
+        "--global применяет настройку сразу ко всем репозиториям на компьютере.",
+        "Современный Git уже использует main как имя ветки по умолчанию.",
+    ])}
+    """
+    out = render_page(
+        page_title="Первая настройка Git",
+        description="user.name и user.email записываются в каждый коммит; --global применяет настройку ко всем репозиториям.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Настройка Git", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Первая настройка Git",
+        lede="Прежде чем сделать первый коммит, Git нужно один раз сказать, кто вы, — это записывается в каждый коммит.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-03-pervaya-nastrojka.html"),
+        nav=PageNav(prev_href="23-git-02-ustanavlivaem-git.html", prev_label="Устанавливаем Git", next_href="23-git-04-github-account.html", next_label="Учётная запись GitHub"),
+    )
+    write("23-git-03-pervaya-nastrojka.html", out)
+
+
+def build_git_04() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Работа с GitHub требует учётной записи. Завести её просто, но пара решений на этом шаге
+    стоит того, чтобы принять их осознанно.</p>
+
+    <h2>Имя пользователя</h2>
+    <p>Имя пользователя GitHub становится частью адреса каждого вашего репозитория
+    (<code class="inline">github.com/имя/репозиторий</code>) и видно всем — стоит выбрать
+    что-то, что не жалко будет использовать в резюме или портфолио, а не сиюминутный
+    никнейм.</p>
+
+    <h2>Email</h2>
+    <p>GitHub требует подтверждённый email. Если не хочется, чтобы личный адрес попадал в
+    историю коммитов при публикации репозитория, GitHub предоставляет приватный
+    <code class="inline">@users.noreply.github.com</code>-адрес — специально для этого
+    случая.</p>
+
+    <h2>Пароль и двухфакторная аутентификация</h2>
+    <p>GitHub поддерживает вход по паролю с двухфакторной аутентификацией (2FA) и по
+    passkey. Включить 2FA стоит сразу: учётная запись на GitHub — это не просто набор файлов,
+    а доступ к публикации кода от вашего имени.</p>
+
+    {decision_map([
+        ("Личный email в коммитах нежелателен", "используйте noreply-адрес GitHub"),
+        ("Нужен резервный способ входа", "сохраните коды восстановления при включении 2FA"),
+        ("Забыт пароль", "используйте официальное восстановление доступа, не сторонние сервисы"),
+    ], title="Частые решения при создании аккаунта")}
+
+    {official_sources([
+        ("Signing up for a new GitHub account", "https://docs.github.com/en/get-started/onboarding/getting-started-with-your-github-account"),
+        ("About two-factor authentication", "https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/about-two-factor-authentication"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Имя пользователя становится частью адреса каждого репозитория — выбирайте осознанно.",
+        "Приватный noreply-адрес GitHub скрывает личный email из истории коммитов.",
+        "Двухфакторная аутентификация стоит того, чтобы включить её сразу, а не откладывать.",
+    ])}
+    """
+    out = render_page(
+        page_title="Создаём и защищаем учётную запись GitHub",
+        description="Имя пользователя, email (в том числе приватный noreply-адрес) и двухфакторная аутентификация.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Аккаунт GitHub", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Создаём и защищаем учётную запись GitHub",
+        lede="Имя пользователя, email и двухфакторная аутентификация — несколько решений стоит принять осознанно с самого начала.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-04-github-account.html"),
+        nav=PageNav(prev_href="23-git-03-pervaya-nastrojka.html", prev_label="Настройка Git", next_href="23-git-05-autentifikaciya.html", next_label="HTTPS, SSH и аутентификация"),
+    )
+    write("23-git-04-github-account.html", out)
+
+
+def build_git_05() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Открыть github.com в браузере и работать с Git из терминала — два разных способа
+    подтвердить, что это действительно вы, и у них разные механизмы.</p>
+
+    {flow_diagram([
+        ("Браузер", "вход в аккаунт — пароль/passkey + 2FA"),
+        ("Git по HTTPS", "credential helper или GitHub CLI, не пароль напрямую"),
+        ("Git по SSH", "пара ключей — приватный остаётся на компьютере"),
+    ], caption="Три разных способа подтвердить, что это вы — у каждого свой механизм")}
+
+    {callout(
+        "warning",
+        "Пароль напрямую для git push больше не работает",
+        "Раньше можно было использовать пароль аккаунта прямо при git push по HTTPS — GitHub "
+        "отключил этот способ. Сейчас HTTPS требует personal access token через credential "
+        "helper или вход через GitHub CLI (<code class=\"inline\">gh auth login</code>), а не "
+        "пароль напрямую.",
+    )}
+
+    {comparison_table(
+        ["HTTPS", "SSH"],
+        [
+            ["URL вида https://github.com/OWNER/REPO.git", "URL вида git@github.com:OWNER/REPO.git"],
+            ["Работает почти везде, включая сети со строгим firewall", "Может требовать открытый порт 22"],
+            ["Аутентификация через credential helper / GitHub CLI", "Аутентификация через пару SSH-ключей"],
+        ],
+    )}
+
+    <p>Курс использует <strong>SSH</strong> как основной путь: один раз настроенная пара
+    ключей работает для любого числа репозиториев без повторного ввода токена — а следующая
+    страница проведёт через настройку целиком. Это не значит, что SSH объективно лучше во
+    всех случаях: в сети с жёстким firewall, блокирующим порт 22, HTTPS может быть
+    единственным рабочим вариантом.</p>
+
+    {official_sources([("About authentication to GitHub", "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github")])}
+
+    {summary_box("Коротко", [
+        "Вход в браузере, Git по HTTPS и Git по SSH — три разных механизма аутентификации.",
+        "Пароль аккаунта напрямую для git push больше не работает — только token или SSH-ключ.",
+        "Курс использует SSH как основной путь; HTTPS остаётся рабочей альтернативой.",
+    ])}
+    """
+    out = render_page(
+        page_title="HTTPS, SSH и аутентификация",
+        description="Вход в браузере, Git по HTTPS (credential helper) и Git по SSH (пара ключей) — три разных механизма.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Аутентификация", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="HTTPS, SSH и аутентификация",
+        lede="Браузер, Git по HTTPS и Git по SSH подтверждают личность тремя разными способами — курс использует SSH.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-05-autentifikaciya.html"),
+        nav=PageNav(prev_href="23-git-04-github-account.html", prev_label="Аккаунт GitHub", next_href="23-git-06-ssh.html", next_label="Настраиваем SSH"),
+    )
+    write("23-git-05-autentifikaciya.html", out)
+
+
+def build_git_06() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    {flow_diagram([
+        ("Ваш компьютер", "приватный ключ — никогда его не покидает"),
+        ("ssh-agent", "хранит расшифрованный ключ в памяти на время сессии"),
+        ("GitHub", "публичный ключ — подтверждает подлинность, не даёт доступа сам по себе"),
+    ], caption="Приватный ключ доказывает личность, не покидая компьютер; на GitHub попадает только публичный")}
+
+    <p>SSH-аутентификация строится на паре ключей: приватный остаётся на вашем компьютере и
+    никогда никому не передаётся, публичный — загружается в настройки GitHub. GitHub
+    проверяет, что у вас есть приватная половина пары, не видя её саму.</p>
+
+    <h2>Создаём ключ</h2>
+    {code_block(
+        "Документированная команда — см. официальную инструкцию GitHub",
+        'ssh-keygen -t ed25519 -C "you@example.com"\n',
+        lang="text",
+    )}
+    <p>На вопрос о файле для сохранения обычно достаточно нажать Enter (путь по умолчанию),
+    а парольную фразу (passphrase) стоит задать — это дополнительная защита ключа на диске.</p>
+
+    <h2>Добавляем ключ в ssh-agent</h2>
+    {code_block(
+        "Документированная команда",
+        "eval \"$(ssh-agent -s)\"\n"
+        "ssh-add ~/.ssh/id_ed25519\n",
+        lang="text",
+    )}
+
+    <h2>Добавляем публичный ключ в GitHub</h2>
+    <p>Содержимое файла <code class="inline">~/.ssh/id_ed25519.pub</code> копируется в
+    Settings → SSH and GPG keys → New SSH key.</p>
+
+    <h2>Проверяем соединение</h2>
+    {code_block(
+        "Документированная команда",
+        "ssh -T git@github.com\n"
+        "# Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.\n",
+        lang="text",
+    )}
+    {callout(
+        "info",
+        "Это сообщение — не ошибка",
+        "GitHub не предоставляет интерактивную оболочку по SSH — фраза «does not provide shell "
+        "access» означает ровно то, что она говорит: соединение и аутентификация прошли "
+        "успешно, именно это и было целью проверки.",
+    )}
+
+    {official_sources([
+        ("About SSH", "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh"),
+        ("Generating a new SSH key and adding it to the ssh-agent", "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"),
+        ("Adding a new SSH key to your GitHub account", "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Приватный ключ никогда не покидает компьютер; на GitHub загружается только публичный.",
+        "ssh-keygen создаёт пару, ssh-add добавляет её в ssh-agent на время сессии.",
+        "ssh -T git@github.com проверяет соединение — сообщение об отсутствии shell-доступа означает успех.",
+    ])}
+    """
+    out = render_page(
+        page_title="Настраиваем SSH",
+        description="Пара SSH-ключей: приватный остаётся на компьютере, публичный загружается в настройки GitHub.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("SSH", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Настраиваем SSH",
+        lede="Приватный ключ остаётся на компьютере и доказывает личность, не покидая его; публичный ключ уходит на GitHub.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-06-ssh.html"),
+        nav=PageNav(prev_href="23-git-05-autentifikaciya.html", prev_label="Аутентификация", next_href="23-git-07-sozdaem-repozitorij.html", next_label="Создаём репозиторий SafeSort"),
+    )
+    write("23-git-06-ssh.html", out)
+
+
+def build_git_07() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
+      font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:8px 0 16px">
+      {github_mark()}<span>Настоящий репозиторий этой главы</span>
+    </div>
+
+    <p>Учётная запись готова, аутентификация настроена — пора создать настоящий репозиторий
+    для SafeSort. Именно этот репозиторий, <code class="inline">Cartesian-School/safesort</code>,
+    используется на всех оставшихся страницах главы: каждый Issue, каждая ветка, каждый
+    Pull Request и финальный релиз, которые здесь показаны, — реальные.</p>
+
+    {image_figure(
+        f"{IMG}/safesort-repo-home.jpg",
+        "Главная страница реального репозитория Cartesian-School/safesort на GitHub: файлы, README, история коммитов, вкладки Issues/Pull requests/Actions/Projects",
+        "Реальный репозиторий SafeSort — тот, что используется во всей оставшейся части главы.",
+        size="wide",
+    )}
+
+    <h2>Поля формы создания репозитория</h2>
+    {comparison_table(
+        ["Поле", "Что оно значит"],
+        [
+            ["Owner", "аккаунт или организация, которой принадлежит репозиторий"],
+            ["Repository name", "часть адреса github.com/OWNER/ИМЯ — короткое, без пробелов"],
+            ["Description", "одна строка, видна в списке репозиториев и в поиске"],
+            ["Public / Private", "виден ли репозиторий всем или только тем, кого вы пригласили"],
+            ["Add a README", "создать ли стартовый README.md сразу при создании"],
+            [".gitignore template", "готовый шаблон исключений для конкретного языка"],
+            ["License", "лицензия, под которой распространяется код — например, MIT"],
+        ],
+    )}
+
+    <h2>Пустой репозиторий или сразу с README?</h2>
+    <p>Есть два пути: создать репозиторий с README/.gitignore/лицензией сразу на GitHub — или
+    создать его пустым и запушить туда уже готовый локальный проект. Эта глава идёт вторым
+    путём: пустой репозиторий на GitHub, а первый коммит (README, LICENSE, .gitignore,
+    pyproject.toml) приходит с локальной машины — так с самого начала понятно, что именно
+    легло в историю первым коммитом, а не появилось «само» через веб-интерфейс.</p>
+
+    {official_sources([("Creating a new repository", "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository")])}
+
+    {summary_box("Коротко", [
+        "Cartesian-School/safesort — настоящий репозиторий, используемый во всей оставшейся части главы.",
+        "Repository name становится частью адреса; Public/Private определяет видимость.",
+        "Курс создаёт пустой репозиторий на GitHub и пушит в него готовый локальный первый коммит.",
+    ])}
+    """
+    out = render_page(
+        page_title="Создаём репозиторий SafeSort на GitHub",
+        description="Настоящий репозиторий Cartesian-School/safesort — используется во всей оставшейся части главы.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Репозиторий SafeSort", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Создаём репозиторий SafeSort на GitHub",
+        lede="Настоящий репозиторий Cartesian-School/safesort — тот, что используется во всей оставшейся части главы.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-07-sozdaem-repozitorij.html"),
+        nav=PageNav(prev_href="23-git-06-ssh.html", prev_label="Настраиваем SSH", next_href="23-git-08-kloniruem.html", next_label="Клонируем репозиторий"),
+    )
+    write("23-git-07-sozdaem-repozitorij.html", out)
+
+
+def build_git_08() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Репозиторий существует на GitHub — но, чтобы писать код, его нужно получить на свой
+    компьютер. <code class="inline">git clone</code> скачивает репозиторий целиком, вместе со
+    всей его историей коммитов, и сразу настраивает связь с GitHub как <code class="inline">
+    origin</code> (следующая страница разберёт это подробнее).</p>
+
+    {flow_diagram([
+        ("GitHub", "Cartesian-School/safesort"),
+        ("git clone", "скачивает файлы и всю историю"),
+        ("Ваш компьютер", "локальная копия, готовая к работе"),
+    ], caption="git clone — единственная команда, разом создающая полную локальную копию")}
+
+    {terminal_capture([
+        "$ git clone https://github.com/Cartesian-School/safesort.git",
+        "Cloning into 'safesort'...",
+        "$ cd safesort",
+        "$ git status",
+        "On branch main",
+        "Your branch is up to date with 'origin/main'.",
+        "",
+        "nothing to commit, working tree clean",
+        "$ git log --oneline -5",
+        "fe610cf docs: fill in CHANGELOG for 0.1.0 (#23)",
+        "c376fba feat: add command-line interface (#21)",
+        "01989e0 feat: add duplicate detection with byte-level confirmation (#20)",
+        "29c6328 feat: record operation manifest and add undo (#19)",
+        "c5e34d5 feat: add explicit apply operation (#18)",
+    ])}
+
+    {callout(
+        "info",
+        "git log сразу показывает настоящую историю",
+        "Обратите внимание: git log --oneline сразу после клонирования показывает не пустую "
+        "историю, а все коммиты, которые уже есть в репозитории на GitHub, — клонирование "
+        "скачивает полную историю, а не только последнее состояние файлов.",
+    )}
+
+    {official_sources([("Cloning a repository", "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository")])}
+
+    {summary_box("Коротко", [
+        "git clone скачивает репозиторий целиком — файлы и всю историю коммитов, не только последнее состояние.",
+        "После клонирования git status сразу показывает связь с origin — GitHub уже настроен как удалённый репозиторий.",
+        "git log --oneline после клонирования сразу показывает настоящую историю проекта.",
+    ])}
+    """
+    out = render_page(
+        page_title="Клонируем репозиторий",
+        description="git clone скачивает репозиторий целиком — файлы и всю историю коммитов — и сразу настраивает origin.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Клонирование", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Клонируем репозиторий",
+        lede="git clone создаёт полную локальную копию репозитория разом — файлы, всю историю и связь с GitHub.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-08-kloniruem.html"),
+        nav=PageNav(prev_href="23-git-07-sozdaem-repozitorij.html", prev_label="Репозиторий SafeSort", next_href="23-git-09-lokalnyj-i-udalennyj.html", next_label="Локальный и удалённый репозиторий"),
+    )
+    write("23-git-08-kloniruem.html", out)
+
+
+def build_git_09() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p><code class="inline">origin</code> — не специальный сервер и не зарезервированное
+    слово Git, а просто имя, которое <code class="inline">git clone</code> дал одному
+    конкретному удалённому репозиторию по умолчанию. Ничто не мешает называть удалённые
+    репозитории иначе — но <code class="inline">origin</code> для «того, откуда всё началось»
+    настолько общепринято, что почти никто не выбирает другое имя без веской причины.</p>
+
+    {terminal_capture([
+        "$ git remote -v",
+        "origin\thttps://github.com/Cartesian-School/safesort.git (fetch)",
+        "origin\thttps://github.com/Cartesian-School/safesort.git (push)",
+    ])}
+
+    {flow_diagram([
+        ("Локальный репозиторий", "ветка main на вашем компьютере"),
+        ("origin", "имя удалённого репозитория — просто ссылка на URL"),
+        ("GitHub", "Cartesian-School/safesort"),
+    ], caption="origin — имя, а не адрес; сам адрес хранится отдельно и виден через git remote -v")}
+
+    <p>Один локальный репозиторий может иметь несколько удалённых — например, «origin» для
+    основного репозитория и «upstream» для оригинала, из которого сделан fork (этот сценарий
+    встретится в домашней практике, где студенты работают в собственном fork
+    <code class="inline">python-mini-projects</code>).</p>
+
+    {official_sources([
+        ("About remote repositories", "https://docs.github.com/en/get-started/git-basics/about-remote-repositories"),
+        ("Managing remote repositories", "https://docs.github.com/en/get-started/git-basics/managing-remote-repositories"),
+    ])}
+
+    {summary_box("Коротко", [
+        "origin — имя удалённого репозитория, которое git clone назначает по умолчанию, а не специальное слово Git.",
+        "git remote -v показывает настоящий URL, стоящий за именем origin.",
+        "У одного локального репозитория может быть несколько удалённых — например, origin и upstream при работе с fork.",
+    ])}
+    """
+    out = render_page(
+        page_title="Локальный и удалённый репозиторий",
+        description="origin — имя удалённого репозитория, назначенное git clone по умолчанию, а не специальное слово Git.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Remotes", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Локальный и удалённый репозиторий",
+        lede="origin — просто имя для удалённого репозитория, которое git clone назначает по умолчанию.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-09-lokalnyj-i-udalennyj.html"),
+        nav=PageNav(prev_href="23-git-08-kloniruem.html", prev_label="Клонируем репозиторий", next_href="23-git-10-working-tree-staging-commit.html", next_label="Working tree, staging и commit"),
+    )
+    write("23-git-09-lokalnyj-i-udalennyj.html", out)
+
+
+def build_git_10() -> None:
+    body = f"""
+    {stage_tracker(1)}
+
+    <p>Прежде чем что-то менять в SafeSort, стоит один раз чётко понять три состояния, через
+    которые проходит любое изменение файла в Git.</p>
+
+    {flow_diagram([
+        ("Working tree", "файлы на диске — то, что видит текстовый редактор"),
+        ("git add", "Staging area / индекс — что попадёт в следующий коммит"),
+        ("git commit", "Локальный репозиторий — постоянная запись в истории"),
+        ("git push", "GitHub — та же история, опубликованная удалённо"),
+    ], caption="Четыре состояния одного изменения — от файла на диске до истории на GitHub")}
+
+    {comparison_table(
+        ["Команда", "Что показывает"],
+        [
+            ["git status", "какие файлы изменены, какие уже в staging, какие Git вообще не отслеживает"],
+            ["git diff", "построчные изменения в рабочем дереве, ещё не добавленные в staging"],
+            ["git diff --staged", "построчные изменения, уже добавленные в staging — то, что попадёт в коммит"],
+            ["git log", "история коммитов — что уже стало постоянной записью"],
+        ],
+    )}
+
+    {terminal_capture([
+        "$ git status",
+        "?? README.md",
+        "$ git add README.md",
+        "$ git status",
+        "A  README.md",
+        "$ git commit -m \"Первый коммит: README\"",
+        "[main (root-commit) 05913f1] Первый коммит: README",
+        " 1 file changed, 3 insertions(+)",
+        " create mode 100644 README.md",
+        "$ git log --oneline",
+        "05913f1 Первый коммит: README",
+    ])}
+
+    <p>Разница между <code class="inline">git diff</code> и <code class="inline">git diff
+    --staged</code> — источник частой путаницы: первая команда сравнивает рабочее дерево с
+    staging, вторая — staging с последним коммитом. Если файл добавлен через
+    <code class="inline">git add</code>, а потом ещё раз изменён, <code class="inline">git
+    diff</code> покажет только это последнее, ещё не добавленное изменение.</p>
+
+    {summary_box("Коротко", [
+        "Working tree → staging (git add) → локальный репозиторий (git commit) → GitHub (git push) — четыре состояния одного изменения.",
+        "git diff сравнивает рабочее дерево со staging; git diff --staged — staging с последним коммитом.",
+        "git log показывает историю уже сделанных коммитов — постоянных записей.",
+    ])}
+    """
+    out = render_page(
+        page_title="Working tree, staging и commit",
+        description="Working tree, staging area, локальный репозиторий и GitHub — четыре состояния одного изменения.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Working tree", "")],
+        kicker="Глава 23 · Часть I · Git и GitHub с нуля",
+        h1="Working tree, staging и commit",
+        lede="Working tree, staging, локальный репозиторий и GitHub — четыре состояния, через которые проходит любое изменение.",
+        body_html=body,
+        sidebar_groups=sidebar("23-git-10-working-tree-staging-commit.html"),
+        nav=PageNav(prev_href="23-git-09-lokalnyj-i-udalennyj.html", prev_label="Локальный и удалённый репозиторий", next_href="23-proj-01-repo-vs-project.html", next_label="Repository и GitHub Project"),
+    )
+    write("23-git-10-working-tree-staging-commit.html", out)
+
+
+def build_proj_01() -> None:
     body = f"""
     {stage_tracker(2)}
 
-    <p>Проект начинается с пустого каталога — и с решения хранить его историю через Git.</p>
+    <p>Часть I уже разделила Git и GitHub. Здесь — вторая частая путаница: репозиторий
+    и <strong>GitHub Project</strong> — тоже разные, независимые понятия, и легко решить, что
+    раз оба слова начинаются с «проект», это одно и то же.</p>
 
-    {dir_tree(("safesort", "dir", []), caption="Пока это просто пустой каталог.")}
-
-    {terminal_capture([
-        "$ mkdir safesort && cd safesort",
-        "$ git init",
-        "Initialized empty Git repository in .../safesort/.git/",
-        "$ git status",
-        "On branch main",
-        "",
-        "No commits yet",
-        "",
-        'nothing to commit (create/copy files and use "git add" to track)',
-    ])}
-
-    {dir_tree(("safesort", "dir", [(".git", "dir", [])]), highlight=frozenset({".git"}), caption="git init добавил только один новый каталог — .git.")}
-
-    <p>Файлы проекта — <strong>рабочее дерево</strong> (working tree). Служебные данные Git
-    (история, ветки, настройки) лежат отдельно, внутри <code class="inline">.git</code>.
-    Вместе рабочее дерево и <code class="inline">.git</code> и называют
-    <strong>репозиторием</strong>.</p>
-
-    {flow_diagram([
-        ("Ваш компьютер", "safesort/ + .git/"),
-        ("GitHub", "позже: git push"),
-    ], caption="Git может полностью жить на одном компьютере — GitHub понадобится только позже.")}
-
-    <p>git status показывает состояние репозитория: какие файлы Git видит, но ещё не
-    отслеживает, какие изменены с последнего коммита, какие уже подготовлены к коммиту.</p>
-
-    <h2>Что войдёт в репозиторий, а что нет</h2>
-    <p>Не все файлы, которые появляются в каталоге проекта, стоит хранить в Git: например,
-    служебные файлы виртуального окружения или кеш сборки создаются заново на любой машине и
-    только засоряют историю. Список того, что Git должен игнорировать, задаёт файл
-    <code class="inline">.gitignore</code>:</p>
-    {code_block(
-        ".gitignore",
-        "__pycache__/\n"
-        "*.pyc\n"
-        ".venv/\n"
-        "dist/\n"
-        "*.egg-info/\n",
+    {comparison_table(
+        ["Repository", "GitHub Project"],
+        [
+            ["код, файлы, история коммитов", "задачи, их статус, представления (доска/таблица)"],
+            ["ветки, теги, Pull Request", "может объединять Issues сразу из нескольких репозиториев"],
+            ["отвечает на вопрос «что уже сделано»", "отвечает на вопрос «что нужно сделать и в каком порядке»"],
+            ["обязателен — без него нет кода", "необязателен — можно работать вообще без Project"],
+        ],
     )}
 
+    {flow_diagram([
+        ("Issue", "формулировка задачи"),
+        ("GitHub Project", "статус, приоритет, представление"),
+        ("Ветка / Pull Request", "работа над задачей и её результат"),
+    ], caption="Project не хранит код — он отслеживает статус задач, которые ссылаются на репозиторий")}
+
+    {callout(
+        "info",
+        "Один Project может охватывать несколько репозиториев",
+        "GitHub Project — не часть репозитория и не находится «внутри» него: это отдельный "
+        "объект, который может показывать Issues и Pull Request сразу из нескольких "
+        "репозиториев одной организации. Для SafeSort в этой главе используется один Project "
+        "на один репозиторий — но так бывает не всегда.",
+    )}
+
+    {official_sources([("About Projects", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects")])}
+
     {summary_box("Коротко", [
-        "git init создаёт локальный репозиторий — каталог .git с историей изменений — внутри "
-        "рабочего дерева проекта.",
-        "git status показывает текущее состояние: какие файлы изменены, какие ещё не отслеживаются Git.",
-        "Локальный репозиторий и репозиторий на GitHub — разные копии одной истории; они "
-        "связываются позже, через git push.",
+        "Repository хранит код и историю; GitHub Project отслеживает статус задач — это разные объекты.",
+        "Project не обязателен: можно вести репозиторий вообще без него.",
+        "Один Project может объединять Issues из нескольких репозиториев организации.",
+    ])}
+    """
+    out = render_page(
+        page_title="Repository и GitHub Project — в чём разница",
+        description="Repository хранит код и историю; GitHub Project отслеживает статус задач — разные, независимые объекты.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Repository vs Project", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Repository и GitHub Project — в чём разница",
+        lede="Repository хранит код; GitHub Project отслеживает статус задач — два разных, независимых объекта.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-01-repo-vs-project.html"),
+        nav=PageNav(prev_href="23-git-10-working-tree-staging-commit.html", prev_label="Working tree, staging, commit", next_href="23-proj-02-sozdaem-project.html", next_label="Создаём GitHub Project"),
+    )
+    write("23-proj-01-repo-vs-project.html", out)
+
+
+def build_proj_02() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Прежде чем писать код SafeSort, полезно составить список того, что нужно сделать, —
+    GitHub Project даёт для этого готовое место, связанное с реальными Issues репозитория.</p>
+
+    <h2>Что заполняется при создании</h2>
+    {comparison_table(
+        ["Поле", "Значение"],
+        [
+            ["Owner", "организация или аккаунт — здесь Cartesian-School"],
+            ["Title", "например, «SafeSort — первый релиз»"],
+            ["Template", "пустой Project или один из готовых шаблонов (Board, Roadmap...)"],
+            ["Visibility", "виден ли Project всем или только участникам организации"],
+        ],
+    )}
+
+    {callout(
+        "warning",
+        "На момент подготовки этой страницы live-доступ к Projects ещё не был предоставлен",
+        "Создание GitHub Project требует отдельного разрешения (\"project\" scope) для "
+        "инструмента, которым собирается этот курс, — предоставляется отдельно от доступа к "
+        "самому репозиторию. Реальные скриншоты доски Project (созданный Project, Board, "
+        "Table, перемещение элементов между статусами) появятся на этой и следующих страницах "
+        "после того, как доступ будет подтверждён; текстовое и диаграммное описание работы "
+        "Project точное и основано на официальной документации независимо от этого.",
+    )}
+
+    <h2>Название без номера версии</h2>
+    <p>Название Project для этой главы — <strong>«SafeSort — первый релиз»</strong>, без
+    номера <code class="inline">0.1.0</code>: часть VI введёт версии только тогда, когда
+    первая версия действительно будет готова, и называть Project по номеру раньше времени —
+    забегать вперёд без необходимости.</p>
+
+    {official_sources([("Creating a project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project")])}
+
+    {summary_box("Коротко", [
+        "GitHub Project создаётся для конкретного владельца (организации или аккаунта) с названием и уровнем видимости.",
+        "Название Project для SafeSort не включает номер версии — версия появляется позже.",
+        "Project изначально пуст: следующий раздел показывает его представления, а затем — как в него попадают задачи.",
+    ])}
+    """
+    out = render_page(
+        page_title="Создаём GitHub Project",
+        description="GitHub Project для SafeSort: владелец, название без номера версии, уровень видимости.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Создаём Project", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Создаём GitHub Project",
+        lede="Прежде чем писать код, GitHub Project даёт место для списка задач, связанного с реальными Issues репозитория.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-02-sozdaem-project.html"),
+        nav=PageNav(prev_href="23-proj-01-repo-vs-project.html", prev_label="Repository vs Project", next_href="23-proj-03-board-table.html", next_label="Board, Table и представления"),
+    )
+    write("23-proj-02-sozdaem-project.html", out)
+
+
+def build_proj_03() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Один и тот же набор задач можно смотреть по-разному — GitHub Project называет это
+    <strong>представлениями</strong> (views): один набор элементов, несколько способов на
+    него посмотреть.</p>
+
+    {comparison_table(
+        ["Представление", "Когда полезно"],
+        [
+            ["Board", "видеть прогресс по колонкам-статусам: Backlog / Ready / In Progress / In Review / Done"],
+            ["Table", "видеть все задачи и их поля сразу — сортировать, фильтровать, группировать"],
+            ["Roadmap", "видеть задачи на временной шкале — полезно при датах и дедлайнах"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Не каждому проекту нужны все представления",
+        "Для SafeSort в этой главе хватает Board (видно, что происходит прямо сейчас) и Table "
+        "(видно все задачи целиком). Roadmap имеет смысл, когда у задач есть даты начала и "
+        "окончания, — здесь этого нет, и добавлять его не нужно только потому, что "
+        "GitHub его предлагает.",
+    )}
+
+    <h2>Статусы для SafeSort</h2>
+    {flow_diagram([
+        ("Backlog", "задача сформулирована, но пока не начата"),
+        ("Ready", "готова к работе — можно начинать в любой момент"),
+        ("In Progress", "ветка создана, идёт разработка"),
+        ("In Review", "Pull Request открыт, ждёт проверки"),
+        ("Done", "изменения слиты в main"),
+    ], caption="Пять статусов, через которые проходит каждая задача SafeSort")}
+
+    <h2>Поля, кроме статуса</h2>
+    {comparison_table(
+        ["Поле", "Значения"],
+        [
+            ["Priority", "High / Medium / Low"],
+            ["Area", "Packaging / CLI / Filesystem / Safety / Duplicates / Testing / Documentation / CI"],
+        ],
+    )}
+    <p>Оба поля добавлены, потому что отвечают на конкретный вопрос («что делать в первую
+    очередь», «к какой части относится задача») — а не просто потому, что GitHub позволяет
+    создать произвольное поле.</p>
+
+    {official_sources([
+        ("Understanding fields", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields"),
+        ("Customizing views in your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Board, Table и Roadmap — представления одного и того же набора задач, а не отдельные наборы данных.",
+        "SafeSort использует пять статусов: Backlog, Ready, In Progress, In Review, Done.",
+        "Дополнительные поля (Priority, Area) стоит добавлять только когда они отвечают на конкретный вопрос.",
+    ])}
+    """
+    out = render_page(
+        page_title="Board, Table и представления",
+        description="Board, Table и Roadmap — представления одного набора задач; статусы и поля Priority/Area для SafeSort.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Board и Table", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Board, Table и представления",
+        lede="Board, Table и Roadmap — разные способы посмотреть на один и тот же набор задач, а не отдельные наборы данных.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-03-board-table.html"),
+        nav=PageNav(prev_href="23-proj-02-sozdaem-project.html", prev_label="Создаём Project", next_href="23-proj-04-issues.html", next_label="Создаём Issues"),
+    )
+    write("23-proj-03-board-table.html", out)
+
+
+def build_proj_04() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Прежде чем писать код, каждая часть SafeSort формулируется как <strong>Issue</strong> —
+    запись, описывающая задачу, до того как появилась хоть одна строка кода.</p>
+
+    {comparison_table(
+        ["Часть Issue", "Пример для SafeSort"],
+        [
+            ["Title", "«Add directory scanner»"],
+            ["Problem", "SafeSort не умеет находить файлы в каталоге"],
+            ["Expected outcome", "scan() обходит каталог и возвращает список FileInfo"],
+            ["Acceptance criteria", "чек-лист: принимает Path, исключает .git/.venv, не следует по символическим ссылкам, покрыт тестами"],
+        ],
+    )}
+
+    <p>Все 14 задач SafeSort действительно оформлены так в реальном репозитории — не
+    отредактированы задним числом, а созданы как формулировка задачи до начала работы над
+    ней:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-issues-list.jpg",
+        "Список Issues репозитория Cartesian-School/safesort: 14 закрытых задач, каждая — от scanner до релиза",
+        "Настоящие 14 Issues репозитория SafeSort — каждая закрыта соответствующим Pull Request.",
+        size="wide",
+    )}
+
+    <h2>Issue добавляется в Project</h2>
+    {flow_diagram([
+        ("Issue создан", "в репозитории"),
+        ("Добавлен в Project", "статус по умолчанию — Backlog"),
+        ("Готов к работе", "статус меняется на Ready"),
+    ], caption="Issue существует в репозитории независимо от Project; добавление в Project — отдельное, необязательное действие")}
+
+    {official_sources([
+        ("About issues", "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues"),
+        ("Creating an issue", "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue"),
+        ("Adding items to your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Issue формулирует задачу — что нужно сделать и как проверить результат — до того, как написан код.",
+        "У каждого Issue SafeSort есть Title, Problem, Expected outcome и чек-лист Acceptance criteria.",
+        "Issue существует в репозитории независимо от Project; добавление в Project — отдельный шаг.",
+    ])}
+    """
+    out = render_page(
+        page_title="Создаём Issues и добавляем в Project",
+        description="Issue формулирует задачу до написания кода: Title, Problem, Expected outcome, Acceptance criteria.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Issues", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Создаём Issues и добавляем в Project",
+        lede="Каждая часть SafeSort формулируется как Issue до того, как написана хоть одна строка кода.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-04-issues.html"),
+        nav=PageNav(prev_href="23-proj-03-board-table.html", prev_label="Board и Table", next_href="23-proj-05-issue-branch-pr.html", next_label="Первый цикл: Issue → Branch → PR"),
+    )
+    write("23-proj-04-issues.html", out)
+
+
+def build_proj_05() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Issue сформулирован — теперь разберём полный цикл его жизни, от постановки задачи до
+    закрытия. Этот цикл повторяется для каждой из 14 задач SafeSort, начиная со следующей
+    части главы.</p>
+
+    {flow_diagram([
+        ("Issue", "задача сформулирована, статус Ready"),
+        ("Ветка", "статус меняется на In Progress"),
+        ("Код и тесты", "работа в изолированной ветке"),
+        ("Pull Request", "статус меняется на In Review"),
+        ("CI и проверка", "автоматические тесты + самопроверка Files changed"),
+        ("Слияние", "Issue закрывается, статус — Done"),
+    ], caption="Полный цикл одной задачи — от Issue до Done. Этот цикл повторится 14 раз.")}
+
+    {code_block(
+        "Терминал",
+        "git switch -c feat/directory-scanner\n"
+        "# ...пишем код и тесты, коммитим изменения...\n"
+        "git push -u origin feat/directory-scanner\n"
+        "gh pr create --title \"feat: add directory scanner\" --body \"Closes #1.\"\n",
+        lang="text",
+    )}
+
+    {callout(
+        "tip",
+        "Closes #N в описании Pull Request закрывает Issue автоматически",
+        "Если тело Pull Request содержит фразу вида <code class=\"inline\">Closes #1</code>, "
+        "GitHub автоматически закрывает Issue №1 в момент слияния этого PR — вручную закрывать "
+        "Issue не нужно. Именно так закрыты все 14 Issues репозитория SafeSort.",
+    )}
+
+    <p>Следующая часть главы проходит этот цикл по-настоящему, шаг за шагом, для первой
+    реальной задачи — сканера каталогов.</p>
+
+    {official_sources([("About pull requests", "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests")])}
+
+    {summary_box("Коротко", [
+        "Issue → ветка → код и тесты → Pull Request → CI и проверка → слияние — полный цикл одной задачи.",
+        "«Closes #N» в описании Pull Request закрывает Issue автоматически при слиянии.",
+        "Этот цикл повторяется для каждой из 14 задач SafeSort, начиная со следующей части главы.",
+    ])}
+    """
+    out = render_page(
+        page_title="Первый цикл: Issue → Branch → Pull Request",
+        description="Полный цикл одной задачи SafeSort — от Issue до слияния Pull Request и автоматического закрытия.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Issue → Branch → PR", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Первый цикл: Issue → Branch → Pull Request",
+        lede="Issue → ветка → код и тесты → Pull Request → CI → слияние — цикл, который повторится 14 раз.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-05-issue-branch-pr.html"),
+        nav=PageNav(prev_href="23-proj-04-issues.html", prev_label="Создаём Issues", next_href="23-02-repozitorij.html", next_label="Первый коммит в клонированном репозитории"),
+    )
+    write("23-proj-05-issue-branch-pr.html", out)
+
+
+def build_02() -> None:
+    body = f"""
+    {stage_tracker(3)}
+
+    <p>Репозиторий склонирован (часть I), Issue и Project настроены (часть II) — самое время
+    заглянуть внутрь каталога, который появился после <code class="inline">git clone</code>,
+    и понять, что в нём уже есть.</p>
+
+    {terminal_capture([
+        "$ ls -la",
+        "CHANGELOG.md",
+        ".git/",
+        ".github/",
+        ".gitignore",
+        "LICENSE",
+        "pyproject.toml",
+        "README.md",
+        "src/",
+        "tests/",
+        "$ cat .gitignore",
+        "__pycache__/",
+        "*.pyc",
+        ".venv/",
+        "dist/",
+        "build/",
+        "*.egg-info/",
+        ".pytest_cache/",
+        ".safesort/",
+    ])}
+
+    {dir_tree(("safesort", "dir", [
+        (".git", "dir", []),
+        (".github", "dir", []),
+        (".gitignore", "file", []),
+        ("README.md", "file", []),
+        ("LICENSE", "file", []),
+        ("CHANGELOG.md", "file", []),
+        ("pyproject.toml", "file", []),
+        ("src", "dir", []),
+        ("tests", "dir", []),
+    ]), caption="Настоящий стартовый набор репозитория SafeSort — уже в вашем каталоге после клонирования.")}
+
+    <p>Всё это — первый коммит репозитория, <code class="inline">chore: initial project
+    scaffold</code>: рабочее дерево (файлы на диске) плюс <code class="inline">.git</code>
+    (история изменений) — вместе их и называют <strong>репозиторием</strong>. Каждый следующий
+    раздел этой части добавляет к этому набору содержание — README дополняется, появляется
+    Python-пакет внутри <code class="inline">src/</code>, а <code class="inline">
+    .gitignore</code> уже сейчас исключает служебные файлы (кеш байткода, виртуальное
+    окружение, сборочные каталоги), чтобы они не засоряли историю.</p>
+
+    {summary_box("Коротко", [
+        "git clone сразу приносит рабочее дерево — файлы на диске — и .git — историю изменений; вместе это и есть репозиторий.",
+        "У SafeSort уже есть стартовый набор: README, LICENSE, CHANGELOG, pyproject.toml, .gitignore — первый коммит репозитория.",
         ".gitignore перечисляет то, что Git не должен отслеживать: временные и сгенерированные файлы.",
     ])}
     """
     out = render_page(
-        page_title="Создаём репозиторий проекта",
-        description="git init превращает пустой каталог в репозиторий: рабочее дерево плюс .git с историей — а GitHub понадобится только позже.",
+        page_title="Первый коммит в клонированном репозитории",
+        description="После git clone в рабочем дереве уже есть README, LICENSE, CHANGELOG, pyproject.toml и .gitignore — стартовый набор репозитория SafeSort.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Репозиторий", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
-        h1="Создаём репозиторий проекта",
-        lede="git init превращает обычный каталог в репозиторий — но каталог проекта и репозиторий не одно и то же понятие.",
+        kicker="Глава 23 · Часть III · Создаём Python-проект",
+        h1="Первый коммит в клонированном репозитории",
+        lede="После клонирования в рабочем дереве уже есть стартовый набор файлов — первый коммит репозитория SafeSort.",
         body_html=body,
         sidebar_groups=sidebar("23-02-repozitorij.html"),
-        nav=PageNav(prev_href="23-01-ideya-trebovaniya.html", prev_label="Что мы будем создавать", next_href="23-03-readme.html", next_label="Первый README проекта"),
+        nav=PageNav(prev_href="23-proj-05-issue-branch-pr.html", prev_label="Issue → Branch → PR", next_href="23-03-readme.html", next_label="Первый README проекта"),
     )
     write("23-02-repozitorij.html", out)
 
 
 def build_03() -> None:
     body = f"""
-    {stage_tracker(2)}
+    {stage_tracker(3)}
 
     {dir_tree(("safesort", "dir", [(".git", "dir", []), ("README.md", "file", [])]), highlight=frozenset({"README.md"}), caption="Первый файл рабочего дерева.")}
 
@@ -528,7 +1512,7 @@ def build_03() -> None:
         description="Пишем README.md постепенно — сначала заголовок и описание, потом раздел за разделом — и коммитим каждый шаг.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("README", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="Первый README проекта",
         lede="README отвечает на вопросы «что это?» и «как запустить?» ещё до того, как человек откроет код.",
         body_html=body,
@@ -540,7 +1524,7 @@ def build_03() -> None:
 
 def build_04() -> None:
     body = f"""
-    {stage_tracker(2)}
+    {stage_tracker(3)}
 
     <p>Хаотичная структура каталогов не мешает программе работать, но мешает её понимать,
     тестировать и устанавливать как пакет. Пока код не написан, зафиксируем только каркас —
@@ -591,7 +1575,7 @@ def build_04() -> None:
         description="Строим каркас пакета шаг за шагом: README, pyproject.toml, src/safesort/ — а остальные модули появятся позже, по одному.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Структура пакета", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="Планируем структуру Python-пакета",
         lede="src-раскладка: пакет лежит в src/safesort/, а не в корне репозитория — и почему это осознанный выбор, а не догма.",
         body_html=body,
@@ -603,7 +1587,7 @@ def build_04() -> None:
 
 def build_05() -> None:
     body = f"""
-    {stage_tracker(2)}
+    {stage_tracker(3)}
 
     <p>Python пока видит в <code class="inline">src/safesort/</code> просто папку с кодом —
     не пакет, который можно установить. <code class="inline">pyproject.toml</code> это
@@ -665,7 +1649,7 @@ def build_05() -> None:
         description="pyproject.toml превращает папку с кодом в устанавливаемый пакет: имя, версия, команда safesort после pip install -e.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("pyproject.toml", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="pyproject.toml и установка проекта",
         lede="Один файл описывает пакет для инструментов установки — и после pip install -e команда safesort появляется в терминале.",
         body_html=body,
@@ -677,7 +1661,7 @@ def build_05() -> None:
 
 def build_06() -> None:
     body = f"""
-    {stage_tracker(2)}
+    {stage_tracker(3)}
 
     {dir_tree(("src/safesort", "dir", [("__init__.py", "file", []), ("cli.py", "file", [])]), highlight=frozenset({"cli.py"}), caption="Первый файл с настоящей логикой: cli.py.")}
 
@@ -777,7 +1761,7 @@ def build_06() -> None:
         description="argparse, add_subparsers() и пять подкоманд SafeSort: scan, plan, apply, duplicates, undo.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Командная строка", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="Командная строка SafeSort",
         lede="argparse разбирает пять подкоманд SafeSort и связывает каждую с отдельной функцией-обработчиком.",
         body_html=body,
@@ -789,7 +1773,7 @@ def build_06() -> None:
 
 def build_07() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>Всё, что SafeSort делает с файлами, начинается с путей — а модуль
     <code class="inline">pathlib</code> из стандартной библиотеки описывает путь не строкой, а
@@ -861,7 +1845,7 @@ def build_07() -> None:
         description="Path, оператор / для путей и неизменяемая модель FileInfo — основа для сканера SafeSort.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("pathlib", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="pathlib: работаем с путями и каталогами",
         lede="Path описывает путь объектом со своими операциями — и на нём строится вся модель данных SafeSort.",
         body_html=body,
@@ -873,7 +1857,7 @@ def build_07() -> None:
 
 def build_08() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>Первый шаг SafeSort — обойти каталог и составить список файлов. Функция
     <code class="inline">scan()</code> — одна из трёх строго читающих команд SafeSort: она
@@ -949,7 +1933,7 @@ def build_08() -> None:
         description="scan() рекурсивно обходит каталог через iterdir() и stat(), не изменяя файловую систему.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Сканирование", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Сканируем каталог",
         lede="scan() строго читает файловую систему — обходит каталог рекурсивно и не меняет ни одного файла.",
         body_html=body,
@@ -961,7 +1945,7 @@ def build_08() -> None:
 
 def build_09() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     {dir_tree(("Downloads", "dir", [
         ("report.pdf — ✓ сканировать", "file", []),
@@ -1026,7 +2010,7 @@ def build_09() -> None:
         description="Настраиваемые исключения, обязательное исключение каталога результата и .safesort, политика в отношении символических ссылок.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Исключения", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Какие каталоги не нужно сканировать",
         lede="Каталог результата и служебный каталог SafeSort исключены всегда — а символические ссылки не отслеживаются вовсе.",
         body_html=body,
@@ -1038,7 +2022,7 @@ def build_09() -> None:
 
 def build_10() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>Каждому найденному файлу нужно назначить категорию — документы, изображения, видео и
     так далее. SafeSort определяет категорию по расширению файла: простое и предсказуемое
@@ -1111,7 +2095,7 @@ def build_10() -> None:
         description="classify() сопоставляет расширение файла категории по словарю DEFAULT_EXTENSIONS, с явным запасным вариантом other.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Классификация", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Определяем категорию файла",
         lede="Классификация по расширению — практичная эвристика, не доказательство того, что действительно лежит внутри файла.",
         body_html=body,
@@ -1123,7 +2107,7 @@ def build_10() -> None:
 
 def build_11() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>У SafeSort есть список найденных файлов и правило классификации — но само по себе это
     ещё не план действий. <strong>План</strong> — список конкретных перемещений: откуда и
@@ -1188,7 +2172,7 @@ def build_11() -> None:
         description="MoveOperation, SortPlan и build_plan() — план перемещений как данные, без единого изменения файловой системы.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("План действий", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="От анализа к плану действий",
         lede="План перемещений — обычные данные: его можно вывести на экран, проверить или отбросить, не тронув ни одного файла.",
         body_html=body,
@@ -1200,7 +2184,7 @@ def build_11() -> None:
 
 def build_12() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>Команда <code class="inline">plan</code> — единственное, что нужно сделать с готовым
     объектом <code class="inline">SortPlan</code>, чтобы получить полноценный
@@ -1265,7 +2249,7 @@ def build_12() -> None:
         description="Команда plan показывает размер плана перемещений, не трогая файловую систему — настоящий dry run.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Предпросмотр", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Режим предварительного просмотра",
         lede="Команда plan — предварительный просмотр без побочных эффектов: тот же план, что и у apply, но без единого изменения диска.",
         body_html=body,
@@ -1277,7 +2261,7 @@ def build_12() -> None:
 
 def build_13() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(4)}
 
     <p>До сих пор ни одна строка кода SafeSort не трогала файловую систему на запись. Модуль
     <code class="inline">executor.py</code> — единственное место во всей программе, где это
@@ -1355,7 +2339,7 @@ def build_13() -> None:
         description="apply_plan() — единственная функция SafeSort, которая перемещает файлы, с повторной проверкой перед каждым перемещением.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Перемещение файлов", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Безопасно перемещаем файлы",
         lede="Одна функция во всей программе имеет право перемещать файлы — и делает это только после повторной проверки на конфликт.",
         body_html=body,
@@ -1431,7 +2415,7 @@ def build_14() -> None:
         description="_resolve_collision() находит свободное имя по схеме name (1).ext, никогда не перезаписывая существующий файл.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Конфликт имён", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Что делать, если имя уже занято",
         lede="Ни на диске, ни внутри одного плана два файла никогда не получат одинаковое имя назначения.",
         body_html=body,
@@ -1510,7 +2494,7 @@ def build_15() -> None:
         description="JSON-манифест каждого apply: operation_id, список перемещений и их статус — основа для undo.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Журнал операций", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Журнал выполненных операций",
         lede="Каждый apply записывает JSON-манифест того, что действительно произошло — это единственный источник данных для отмены.",
         body_html=body,
@@ -1598,7 +2582,7 @@ def build_16() -> None:
         description="undo() восстанавливает файлы из последнего манифеста и отказывается перезаписывать, если на исходном месте что-то появилось.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Отмена операции", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Отмена последней операции",
         lede="undo восстанавливает файлы из журнала — и отказывается затирать то, что успело появиться на исходном месте.",
         body_html=body,
@@ -1610,7 +2594,7 @@ def build_16() -> None:
 
 def build_17() -> None:
     body = f"""
-    {stage_tracker(5)}
+    {stage_tracker(4)}
 
     <p>Второй крупный компонент SafeSort — поиск файлов с одинаковым содержимым. Задача
     выглядит просто: если у двух файлов одинаковые байты, они дубликаты. Наивное решение —
@@ -1663,7 +2647,7 @@ def build_17() -> None:
         description="Поэтапный поиск дубликатов: сначала по размеру, затем хеширование только внутри групп совпадающего размера.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Поиск дубликатов", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Поиск одинаковых файлов",
         lede="Дорогое хеширование содержимого делается только там, где оно действительно может изменить ответ — после отбора по размеру.",
         body_html=body,
@@ -1675,7 +2659,7 @@ def build_17() -> None:
 
 def build_18() -> None:
     body = f"""
-    {stage_tracker(5)}
+    {stage_tracker(4)}
 
     {flow_diagram([
         ("Байты файла", "содержимое целиком"),
@@ -1741,7 +2725,7 @@ def build_18() -> None:
         description="sha256_file() читает файл блоками, а не целиком, вычисляя дайджест SHA-256 без загрузки всего файла в память.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("SHA-256", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="SHA-256 и хеш содержимого файла",
         lede="Одинаковое содержимое всегда даёт одинаковый дайджест SHA-256 — а поблочное чтение не требует держать в памяти весь файл разом.",
         body_html=body,
@@ -1753,7 +2737,7 @@ def build_18() -> None:
 
 def build_19() -> None:
     body = f"""
-    {stage_tracker(5)}
+    {stage_tracker(4)}
 
     <p>С хеш-функцией с предыдущей страницы поиск дубликатов группирует файлы сначала по
     размеру, затем по дайджесту SHA-256 — и на этом почти любая реализация бы остановилась.
@@ -1854,7 +2838,7 @@ def build_19() -> None:
         description="find_duplicates() группирует файлы сначала по размеру, затем по дайджесту — с зеркальным правилом для пустых файлов.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Группы дубликатов", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Находим группы дубликатов",
         lede="Одна функция превращает список файлов в группы дубликатов — и никогда не удаляет ни одного файла сама.",
         body_html=body,
@@ -1866,7 +2850,7 @@ def build_19() -> None:
 
 def build_20() -> None:
     body = f"""
-    {stage_tracker(6)}
+    {stage_tracker(4)}
 
     <p>Реальная файловая система непредсказуема: файл может исчезнуть между сканированием и
     чтением, доступ к каталогу может быть запрещён, диск может оказаться неисправен. Python
@@ -1934,7 +2918,7 @@ def build_20() -> None:
         description="SafeSort перехватывает конкретные исключения — FileNotFoundError, PermissionError, OSError — а не всё подряд.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Ошибки файловой системы", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Обрабатываем ошибки файловой системы",
         lede="Конкретные исключения вместо except Exception: программа не скрывает реальные ошибки, а обрабатывает только ожидаемые.",
         body_html=body,
@@ -1946,7 +2930,7 @@ def build_20() -> None:
 
 def build_21() -> None:
     body = f"""
-    {stage_tracker(6)}
+    {stage_tracker(4)}
 
     <p>В коде SafeSort уже несколько раз встречался вызов <code class="inline">logger.warning
     (...)</code>. Это не то же самое, что вывод на экран через <code class="inline">print()
@@ -2009,7 +2993,7 @@ def build_21() -> None:
         description="logging отдельно от пользовательского вывода: три уровня важности — INFO, WARNING, ERROR.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Журнал программы", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Добавляем журнал работы программы",
         lede="Итог для пользователя печатается напрямую; диагностика идёт отдельным каналом — через модуль logging.",
         body_html=body,
@@ -2021,7 +3005,7 @@ def build_21() -> None:
 
 def build_22() -> None:
     body = f"""
-    {stage_tracker(6)}
+    {stage_tracker(4)}
 
     <p>Категории по умолчанию и каталог результата подходят для большинства случаев, но
     иногда их стоит настроить — например, разложенные файлы должны попадать не в
@@ -2103,7 +3087,7 @@ def build_22() -> None:
         description="Необязательный файл safesort.toml переопределяет каталог результата, исключения и категории через tomllib.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Настройки проекта", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Настройки проекта",
         lede="Файл настроек необязателен: без него в силу вступают встроенные значения по умолчанию, а с ним можно переопределить часть поведения.",
         body_html=body,
@@ -2115,7 +3099,7 @@ def build_22() -> None:
 
 def build_23() -> None:
     body = f"""
-    {stage_tracker(7)}
+    {stage_tracker(5)}
 
     <p>Представим: кто-то случайно сломал классификатор — расширение <code class="inline">
     .PDF</code> в верхнем регистре перестало определяться как документ. Как об этом узнать, не
@@ -2194,7 +3178,7 @@ def build_23() -> None:
         description="pytest и tmp_path: первые тесты SafeSort проверяют классификатор, не трогая файловую систему.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Первые тесты", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Пишем первые автоматические тесты",
         lede="Тесты SafeSort работают только во временном каталоге pytest — ни один из них не трогает настоящие пользовательские файлы.",
         body_html=body,
@@ -2206,7 +3190,7 @@ def build_23() -> None:
 
 def build_24() -> None:
     body = f"""
-    {stage_tracker(7)}
+    {stage_tracker(5)}
 
     {flow_diagram([("Arrange", "подготовить файлы"), ("Act", "вызвать scan()"), ("Assert", "проверить результат")])}
 
@@ -2257,7 +3241,7 @@ def build_24() -> None:
         description="Тесты для scan() создают контролируемую структуру во временном каталоге и проверяют её результат, включая исключение каталога результата.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты сканирования", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем сканирование и классификацию",
         lede="Тест на пустом каталоге и тест на повторное сканирование Sorted/ — простые случаи, которые чаще всего ломаются незаметно.",
         body_html=body,
@@ -2269,7 +3253,7 @@ def build_24() -> None:
 
 def build_25() -> None:
     body = f"""
-    {stage_tracker(7)}
+    {stage_tracker(5)}
 
     {flow_diagram([("Arrange", "создать файл во временном каталоге"), ("Act", "apply_plan() / undo()"), ("Assert", "файл на новом или исходном месте")])}
 
@@ -2327,7 +3311,7 @@ def build_25() -> None:
         description="Тесты apply_plan() и undo(): успешное перемещение, полная отмена и отдельный тест на конфликт при восстановлении.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты перемещения", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем перемещение и отмену",
         lede="Каждый шаг — перемещение, отмену, конфликт при отмене — проверяет отдельный тест, а не один общий сценарий.",
         body_html=body,
@@ -2339,7 +3323,7 @@ def build_25() -> None:
 
 def build_26() -> None:
     body = f"""
-    {stage_tracker(7)}
+    {stage_tracker(5)}
 
     {flow_diagram([("Arrange", "два файла с одинаковым содержимым"), ("Act", "find_duplicates()"), ("Assert", "одна группа из двух файлов")])}
 
@@ -2395,7 +3379,7 @@ def build_26() -> None:
         description="Тесты find_duplicates(): одинаковое содержимое, пустые файлы как дубликаты друг друга, инкрементальное хеширование большого файла.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты дубликатов", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем поиск дубликатов",
         lede="Два крайних случая — пустые файлы и файл в несколько мегабайт — проверяют то, что типичный тест на паре файлов не заметит.",
         body_html=body,
@@ -2407,7 +3391,7 @@ def build_26() -> None:
 
 def build_27() -> None:
     body = f"""
-    {stage_tracker(7)}
+    {stage_tracker(5)}
 
     {flow_diagram([("Arrange", "файл во временном каталоге"), ("Act", 'main(["scan", ...])'), ("Assert", "код возврата и вывод capsys")])}
 
@@ -2453,7 +3437,7 @@ def build_27() -> None:
         description="Тесты cli.main(): код возврата, разбор аргументов и перехват вывода через capsys.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты интерфейса", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем интерфейс командной строки",
         lede="capsys перехватывает то, что программа напечатала, — и тесты проверяют это как обычную строку, без реального терминала.",
         body_html=body,
@@ -2465,7 +3449,7 @@ def build_27() -> None:
 
 def build_28() -> None:
     body = f"""
-    {stage_tracker(8)}
+    {stage_tracker(5)}
 
     <p>Код SafeSort готов и проверен тестами — самое время сохранить его в истории Git.
     Между «файл изменён на диске» и «изменение сохранено в истории» есть два промежуточных
@@ -2534,7 +3518,7 @@ def build_28() -> None:
         description="Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix».",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Git и коммит", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Git: от рабочего изменения к коммиту",
         lede="git add переносит изменение в индекс, git commit фиксирует его в истории — а хороший коммит описывает одно законченное изменение.",
         body_html=body,
@@ -2557,9 +3541,9 @@ GITHUB_WORKFLOW_STEPS = [
 
 def build_29() -> None:
     body = f"""
-    {stage_tracker(8)}
+    {stage_tracker(5)}
 
-    <p>История коммитов из раздела 23.28 пока существует только в локальном репозитории — на
+    <p>История коммитов, сделанных до этого момента, пока существует только в локальном репозитории — на
     одном компьютере. <code class="inline">git push</code> публикует её на GitHub — там вокруг
     этой истории есть рабочий процесс для совместной разработки: Issue, ветка, Pull Request.</p>
 
@@ -2605,9 +3589,9 @@ def build_29() -> None:
     на следующей странице) и обсуждения, прежде чем код попадёт в основную ветку.</p>
 
     {image_figure(
-        f"{IMG}/pr-56-merged.jpg",
-        "Страница реального Pull Request на GitHub: заголовок, статус Merged, вкладки Conversation/Commits/Checks/Files changed",
-        "Реальный Pull Request из этого курса — тот же рабочий процесс, что описан на этой странице: ветка, коммиты, проверка, слияние. Это не отдельный репозиторий SafeSort, а тот же python-from-zero.",
+        f"{IMG}/safesort-pr-files-changed.jpg",
+        "Вкладка Files changed настоящего Pull Request репозитория Cartesian-School/safesort: добавленный файл duplicates.py, статус Merged",
+        "Настоящий Pull Request репозитория SafeSort — «Add duplicate detection with byte-level confirmation», закрывший Issue №9.",
         size="wide",
     )}
 
@@ -2633,7 +3617,7 @@ def build_29() -> None:
         description="Issue формулирует задачу, ветка изолирует изменения, Pull Request открывает их для проверки перед слиянием в main.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Issue, ветка, PR", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="GitHub: Issue, ветка и Pull Request",
         lede="От формулировки задачи в Issue до предложения изменений через Pull Request — путь одного изменения на GitHub.",
         body_html=body,
@@ -2645,7 +3629,7 @@ def build_29() -> None:
 
 def build_30() -> None:
     body = f"""
-    {stage_tracker(8)}
+    {stage_tracker(5)}
 
     <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
       font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:8px 0 16px">
@@ -2669,30 +3653,20 @@ def build_30() -> None:
     )}
 
     {image_figure(
-        f"{IMG}/actions-checks-tab.jpg",
-        "Вкладка Checks реального Pull Request на GitHub со списком проверок",
-        "Вкладка Checks реального Pull Request — здесь видны все проверки, запущенные для этой ветки.",
+        f"{IMG}/safesort-actions-runs.jpg",
+        "Список запусков GitHub Actions репозитория Cartesian-School/safesort: 19 реальных запусков, включая один красный (намеренно сломанный тест) и следующий за ним зелёный",
+        "Настоящая история запусков CI репозитория SafeSort — 19 запусков, вплоть до одного специально сломанного и тут же исправленного (раздел ниже).",
         size="wide",
     )}
 
-    {image_figure(
-        f"{IMG}/actions-run-success.jpg",
-        "Страница одного запуска GitHub Actions: workflow safesort-tests.yml, задача test, статус Success, 18s",
-        "Один реальный запуск воркфлоу — конкретная задача, её статус и длительность.",
-        size="wide",
-    )}
-
-    <p>Вот тот самый файл-инструкция, который GitHub прочитал перед этим запуском:</p>
+    <p>Вот тот самый файл-инструкция, который GitHub читает перед каждым запуском:</p>
     {code_block(
-        ".github/workflows/safesort-tests.yml",
-        "name: SafeSort tests\n\n"
+        ".github/workflows/tests.yml",
+        "name: tests\n\n"
         "on:\n"
         "  push:\n"
-        "    paths:\n"
-        '      - "projects/python/safesort/**"\n'
-        "  pull_request:\n"
-        "    paths:\n"
-        '      - "projects/python/safesort/**"\n\n'
+        '    branches: ["main"]\n'
+        "  pull_request:\n\n"
         "jobs:\n"
         "  test:\n"
         "    runs-on: ubuntu-latest\n"
@@ -2704,25 +3678,29 @@ def build_30() -> None:
         "        with:\n"
         '          python-version: "3.14"\n\n'
         "      - name: Install SafeSort with dev dependencies\n"
-        '        run: pip install -e "projects/python/safesort/[dev]"\n\n'
+        '        run: pip install -e ".[dev]"\n\n'
         "      - name: Run tests\n"
-        "        run: pytest projects/python/safesort/tests/\n",
+        "        run: pytest tests/\n",
         lang="yaml",
     )}
 
     {callout(
         "tip",
-        "paths — не запускать проверку по любому поводу",
-        "Ключ <code class=\"inline\">paths</code> ограничивает запуск: воркфлоу срабатывает "
-        "только тогда, когда изменились файлы внутри "
-        "<code class=\"inline\">projects/python/safesort/</code>. Без этого ограничения любое "
-        "изменение в совершенно другой части репозитория запускало бы тесты SafeSort "
-        "впустую.",
+        "on: без ограничений — потому что весь репозиторий и есть SafeSort",
+        "Здесь нет ключа <code class=\"inline\">paths</code>, ограничивающего запуск по "
+        "изменённым файлам: в отдельном репозитории <code class=\"inline\">safesort</code> "
+        "любой пуш или Pull Request так или иначе касается самого пакета. Такое ограничение "
+        "нужно только в общем репозитории курса, где SafeSort — лишь один из многих "
+        "подкаталогов и незачем перезапускать его тесты из-за изменений где-то ещё.",
     )}
 
     <h2>Управляемая проверка: специально сломанный тест</h2>
     <p>Полезно один раз увидеть, как выглядит красная (неудачная) проверка — и как её
-    исправить, — прежде чем столкнуться с этим впервые в реальной ситуации:</p>
+    исправить, — прежде чем столкнуться с этим впервые в реальной ситуации. В истории запусков
+    выше это тот самый красный кружок: временный коммит намеренно вернул регистрозависимое
+    сравнение расширений в классификаторе (тот же дефект, что показан в разделе 23-23 как
+    RED/GREEN пример), затем был отменён следующим же коммитом — main ни на секунду не
+    оставался в сломанном состоянии.</p>
     {flow_diagram(
         [
             ("Ломаем тест", "намеренно меняем ожидаемое значение на неверное"),
@@ -2745,7 +3723,7 @@ def build_30() -> None:
 
     {summary_box("Коротко", [
         "GitHub Actions запускает заданные действия автоматически — при пуше или открытии Pull Request.",
-        "paths ограничивает запуск воркфлоу только теми изменениями, к которым он относится.",
+        "В отдельном репозитории воркфлоу запускается без ограничения по paths — любое изменение здесь так или иначе касается SafeSort.",
         "Специально сломанный и затем исправленный тест — быстрый способ научиться читать журнал проверки.",
     ])}
     """
@@ -2754,7 +3732,7 @@ def build_30() -> None:
         description="Воркфлоу GitHub Actions с ограничением по paths и упражнение на намеренно сломанном тесте.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("GitHub Actions", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="GitHub Actions: автоматически запускаем тесты",
         lede="Один файл воркфлоу запускает тесты SafeSort автоматически при каждом изменении — без ручной проверки перед Pull Request.",
         body_html=body,
@@ -2766,12 +3744,12 @@ def build_30() -> None:
 
 def build_31() -> None:
     body = f"""
-    {stage_tracker(8)}
+    {stage_tracker(6)}
 
     <p>Проект готов, проверен тестами и подключён к автоматической проверке. Мы закончили
     первую пригодную для использования версию SafeSort. Теперь ей нужен номер, чтобы отличать
     её от будущих изменений — тот самый номер, который мы уже записали в
-    <code class="inline">pyproject.toml</code> на странице 23.5, где он был просто техническим
+    <code class="inline">pyproject.toml</code> ещё в части III, где он был просто техническим
     полем. Сейчас разберём, что он означает.</p>
 
     {flow_diagram(
@@ -2828,60 +3806,68 @@ def build_31() -> None:
 
     <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
       font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:24px 0 16px">
-      {github_mark()}<span>GitHub Release строится поверх тега — здесь честно о том, чего нет</span>
+      {github_mark()}<span>GitHub Release строится поверх тега</span>
     </div>
 
-    <h2>Тег и релиз — а почему их здесь нет</h2>
+    <h2>Тег и релиз</h2>
     <p><strong>Тег</strong> (tag) — постоянная метка на конкретном коммите, обычно
     соответствующая номеру версии. <strong>Релиз</strong> на GitHub строится поверх тега и
     добавляет к нему описание изменений — то же содержание, что и в CHANGELOG, но в формате,
-    который видно прямо на странице репозитория:</p>
-    {code_block(
-        "Терминал (как это делается — не для этого репозитория, см. ниже)",
-        "git tag v0.1.0\n"
-        "git push origin v0.1.0\n",
-        lang="text",
+    который видно прямо на странице репозитория. Тег версии относится ко всему репозиторию
+    целиком, а не к одной его части — именно поэтому SafeSort живёт в собственном репозитории
+    <code class="inline">Cartesian-School/safesort</code>, а не только в подкаталоге курса:
+    <code class="inline">git tag v0.1.0</code> здесь однозначно означает «версия 0.1.0
+    SafeSort», без двусмысленности.</p>
+
+    {terminal_capture([
+        "$ git tag -a v0.1.0 -m \"SafeSort 0.1.0 — first release\"",
+        "$ git push origin v0.1.0",
+        "To https://github.com/Cartesian-School/safesort.git",
+        " * [new tag]         v0.1.0 -> v0.1.0",
+    ], cwd="~/safesort")}
+
+    {image_figure(
+        f"{IMG}/safesort-release.jpg",
+        "Страница релиза SafeSort 0.1.0 на GitHub: заголовок, метка Latest, описание, команда pip install, прикреплённые файлы wheel и sdist",
+        "Настоящий релиз SafeSort 0.1.0 — тег, описание изменений и собранные пакеты (wheel и sdist) как файлы релиза.",
+        size="wide",
     )}
 
     {callout(
-        "warning",
-        "SafeSort подготовлен к версии 0.1.0 — но тег и релиз для этого курса не создавались",
-        "SafeSort живёт внутри <code class=\"inline\">projects/python/safesort/</code> — "
-        "подкаталога общего репозитория курса <code class=\"inline\">python-from-zero</code>, "
-        "а не отдельного репозитория. Тег версии в Git относится ко всему репозиторию целиком, "
-        "а не к одному подкаталогу — поэтому <code class=\"inline\">git tag v0.1.0</code> здесь "
-        "означало бы «версия 0.1.0 всего курса», а не «версия 0.1.0 SafeSort», и было бы вводит "
-        "в заблуждение. SafeSort подготовлен к релизу — версия зафиксирована в "
-        "<code class=\"inline\">pyproject.toml</code>, изменения описаны в CHANGELOG.md, тесты "
-        "проходят, — но реальный тег и GitHub Release имеет смысл создавать только в отдельном "
-        "репозитории, если SafeSort когда-нибудь в него переедет.",
+        "info",
+        "Релиз создан только после того, как всё остальное было готово",
+        "Тег и релиз — последний шаг, не первый: он появился только когда CI был зелёным, "
+        "CHANGELOG.md описывал реальные изменения, а editable install, сборка wheel/sdist и "
+        "команда <code class=\"inline\">safesort --help</code> были заново проверены на чистом "
+        "окружении. Релиз без этих проверок — только цифра в номере, ничего не гарантирующая.",
     )}
 
     {callout(
         "tip",
         "Публикация в PyPI — осознанно за рамками версии 0.1.0",
-        "Установка через <code class=\"inline\">pip install -e .</code> достаточна для "
-        "разработки и личного использования. Публикация пакета в PyPI, чтобы его можно было "
-        "установить командой <code class=\"inline\">pip install safesort</code> без ссылки на "
-        "репозиторий, — отдельная тема с собственными требованиями к учётной записи и "
-        "публикации, и версия 0.1.0 сознательно её не касается.",
+        "Установка через <code class=\"inline\">pip install git+https://github.com/Cartesian-"
+        "School/safesort.git@v0.1.0</code> достаточна для разработки и личного использования. "
+        "Публикация пакета в PyPI, чтобы его можно было установить командой "
+        "<code class=\"inline\">pip install safesort</code> без ссылки на репозиторий, — "
+        "отдельная тема с собственными требованиями к учётной записи и публикации, и версия "
+        "0.1.0 сознательно её не касается.",
     )}
 
     {summary_box("Коротко", [
         "MAJOR.MINOR.PATCH — соглашение о номере версии, а не встроенное в инструменты правило.",
         "CHANGELOG.md описывает только версии, которые действительно вышли.",
-        "Тег версии относится ко всему репозиторию — для проекта внутри общего репозитория "
-        "курса это значит, что тег и GitHub Release для SafeSort 0.1.0 сознательно не создавались.",
+        "Тег версии относится ко всему репозиторию — SafeSort живёт в собственном репозитории, "
+        "поэтому v0.1.0 однозначно означает «версия SafeSort», а не «версия курса».",
     ])}
     """
     out = render_page(
         page_title="Документация, версия и первый релиз",
-        description="Семантическое версионирование, CHANGELOG.md и тег версии — от 0.1.0 к первому релизу проекта.",
+        description="Семантическое версионирование, CHANGELOG.md, реальный тег и GitHub Release SafeSort 0.1.0.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Версия и релиз", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть VI · Выпускаем первую версию",
         h1="Документация, версия и первый релиз",
-        lede="MAJOR.MINOR.PATCH, CHANGELOG.md и тег версии — проект получает точку, к которой можно вернуться и на которую можно ссылаться.",
+        lede="MAJOR.MINOR.PATCH, CHANGELOG.md, настоящий тег и GitHub Release — проект получает точку, к которой можно вернуться и на которую можно ссылаться.",
         body_html=body,
         sidebar_groups=sidebar("23-31-versiya-reliz.html"),
         nav=PageNav(prev_href="23-30-github-actions.html", prev_label="GitHub Actions", next_href="23-32-itogi-reliz.html", next_label="Итоги главы"),
@@ -2891,40 +3877,37 @@ def build_31() -> None:
 
 def build_32() -> None:
     body = f"""
-    {stage_tracker(8)}
+    {stage_tracker(6)}
 
     <h2 id="itogi">Полный путь проекта</h2>
-    <p>Тридцать один раздел назад SafeSort был только идеей. Теперь это установленный пакет с
-    рабочей командной строкой, автоматическими тестами и настроенной проверкой на GitHub —
-    вот весь путь целиком, с тем, что появилось на каждом шаге:</p>
+    <p>В начале этой главы SafeSort был только идеей. Теперь это настоящий репозиторий на
+    GitHub — <a href="https://github.com/Cartesian-School/safesort">Cartesian-School/safesort</a>
+    — с 14 закрытыми Issues, реальными Pull Request, зелёной проверкой CI и опубликованным
+    релизом 0.1.0. Вот весь путь целиком, с тем, что появилось на каждом шаге:</p>
 
     {timeline_diagram([
-        ("Идея", "требования: что программа делает и чего не делает (23.1)"),
-        ("Каталог проекта", "safesort/, затем git init (23.2)"),
-        ("README.md", "описание проекта, видно на GitHub (23.3)"),
-        ("Структура пакета", "src/safesort/, tests/ (23.4)"),
-        ("pyproject.toml", "команда safesort становится доступной (23.5)"),
-        ("Командная строка", "argparse, пять подкоманд (23.6)"),
-        ("Сканер", "scanner.py — находит файлы (23.8)"),
-        ("Классификатор", "classifier.py — определяет категорию (23.10)"),
-        ("План", "planner.py — описывает перемещения, не трогая диск (23.11)"),
-        ("Apply / Undo", "executor.py, manifest.py — перемещает и умеет отменить (23.13, 23.16)"),
-        ("Дубликаты", "duplicates.py — размер → SHA-256 → байтовое подтверждение (23.17–23.19)"),
-        ("Тесты", "tests/ — pytest, tmp_path, ни одного реального файла (23.23–23.27)"),
-        ("Git", "коммиты с осмысленными сообщениями (23.28)"),
-        ("GitHub", "Issue, ветка, Pull Request (23.29)"),
-        ("CI", "GitHub Actions запускает тесты автоматически (23.30)"),
-        ("Версия 0.1.0", "pyproject.toml, CHANGELOG.md (23.31)"),
-        ("Готово к релизу", "тег и GitHub Release — осознанно не для этого репозитория"),
-    ], caption="От идеи до готового к релизу проекта — 17 шагов, каждый с собственной страницей")}
+        ("Идея", "требования: что программа делает и чего не делает"),
+        ("Git и GitHub", "установка, аутентификация, настоящий репозиторий SafeSort"),
+        ("GitHub Project", "14 Issues — задача сформулирована для каждой части"),
+        ("README.md, pyproject.toml", "первый коммит репозитория — команда safesort становится доступной"),
+        ("Командная строка", "argparse, пять подкоманд"),
+        ("Сканер, классификатор, план", "scanner.py, classifier.py, planner.py — Issues №1–3"),
+        ("Apply, коллизии, manifest, undo", "executor.py, manifest.py — Issues №5–8"),
+        ("Дубликаты", "duplicates.py — размер → SHA-256 → байтовое подтверждение (Issue №9)"),
+        ("Ошибки, config, логирование", "Issues №10–11"),
+        ("Тесты", "tests/ — pytest, tmp_path, ни одного реального файла (Issue №12)"),
+        ("CI", "GitHub Actions запускает тесты на каждый push и PR (Issue №13)"),
+        ("Версия 0.1.0", "CHANGELOG.md, editable install, wheel и sdist проверены заново"),
+        ("Релиз", "настоящий тег v0.1.0 и GitHub Release (Issue №14)"),
+    ], caption="От идеи до опубликованного релиза — каждый шаг подтверждён реальным коммитом, Issue или Pull Request")}
 
     {project_state_card(
         [
-            "Требования первой версии", "Git-репозиторий и README", "Установленный пакет",
-            "Работающая командная строка", "Безопасные перемещения с отменой",
-            "Поиск дубликатов", "Автоматические тесты", "GitHub: Issue, ветка, Pull Request, CI",
+            "Git и GitHub настроены", "Настоящий репозиторий SafeSort", "GitHub Project и 14 Issues",
+            "Установленный пакет", "Работающая командная строка", "Безопасные перемещения с отменой",
+            "Поиск дубликатов", "Автоматические тесты", "GitHub Actions (CI)",
         ],
-        "Версия 0.1.0 зафиксирована",
+        "Версия 0.1.0 — тег и GitHub Release опубликованы",
         ["Публикация в PyPI", "Классификация по содержимому файла"],
     )}
 
@@ -2941,7 +3924,7 @@ def build_32() -> None:
     )}
 
     <h2>Что дальше</h2>
-    <p>Версия 0.1.0 сознательно не покрывает всё, что в принципе возможно: раздел 23.1 заранее
+    <p>Версия 0.1.0 сознательно не покрывает всё, что в принципе возможно: самый первый раздел этой главы заранее
     очертил границы. Дальнейшее развитие SafeSort — за рамками этой главы, но некоторые
     направления естественно продолжают уже сделанное: публикация пакета в PyPI, классификация
     не только по расширению, а с осторожной проверкой содержимого файла, интерфейс для
@@ -2970,7 +3953,7 @@ def build_32() -> None:
         description="От требований и репозитория до тестов, GitHub Actions и версии 0.1.0 — итоги главы 23.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Итоги главы", "")],
-        kicker="Глава 23 · Первый проект на GitHub",
+        kicker="Глава 23 · Часть VI · Выпускаем первую версию",
         h1="Итоги: полный путь проекта от идеи до релиза",
         lede="От идеи до первого релиза — весь путь пройден один раз целиком, на настоящем проекте.",
         body_html=body,
@@ -3652,6 +4635,21 @@ if __name__ == "__main__":
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     build_opener()
     build_01()
+    build_git_01()
+    build_git_02()
+    build_git_03()
+    build_git_04()
+    build_git_05()
+    build_git_06()
+    build_git_07()
+    build_git_08()
+    build_git_09()
+    build_git_10()
+    build_proj_01()
+    build_proj_02()
+    build_proj_03()
+    build_proj_04()
+    build_proj_05()
     build_02()
     build_03()
     build_04()
