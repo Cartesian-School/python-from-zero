@@ -1,8 +1,15 @@
 """Мини-проект «Генератор случайных историй».
 
-Проект к главе 23 книги «Python с нуля» (Cartesian School).
+Домашняя практика к главе 23 книги «Python с нуля» (Cartesian School).
 Запуск: python story_generator.py
+
+sluchajnaya_istoriya() принимает необязательный параметр rng — экземпляр
+random.Random. Тесты передают random.Random(seed), чтобы получать
+предсказуемый результат вместо зависимости от глобального состояния
+модуля random.
 """
+
+from __future__ import annotations
 
 import random
 
@@ -18,14 +25,20 @@ SHABLON = (
 )
 
 
-def sluchajnaya_istoriya():
+def sluchajnaya_istoriya(rng: random.Random | None = None) -> str:
+    generator = rng if rng is not None else random
     return SHABLON.format(
-        prilagatelnoe=random.choice(PRILAGATELNYE),
-        sushestvitelnoe=random.choice(SUSHESTVITELNYE),
-        mesto=random.choice(MESTA),
-        glagol=random.choice(GLAGOLY),
-        predmet=random.choice(PREDMETY),
+        prilagatelnoe=generator.choice(PRILAGATELNYE),
+        sushestvitelnoe=generator.choice(SUSHESTVITELNYE),
+        mesto=generator.choice(MESTA),
+        glagol=generator.choice(GLAGOLY),
+        predmet=generator.choice(PREDMETY),
     )
+
+
+def neskolko_istorij(kolichestvo: int, rng: random.Random | None = None) -> list[str]:
+    generator = rng if rng is not None else random
+    return [sluchajnaya_istoriya(generator) for _ in range(kolichestvo)]
 
 
 if __name__ == "__main__":

@@ -1,8 +1,14 @@
 """Мини-проект «Камень, ножницы, бумага».
 
-Проект к главе 23 книги «Python с нуля» (Cartesian School).
+Домашняя практика к главе 23 книги «Python с нуля» (Cartesian School).
 Запуск: python rps.py
+
+hod_kompyutera() принимает необязательный rng — экземпляр random.Random,
+чтобы тесты могли получать предсказуемый ход компьютера вместо зависимости
+от глобального состояния модуля random.
 """
+
+from __future__ import annotations
 
 import random
 
@@ -15,12 +21,15 @@ POBEZHDAET = {
     "бумага": "камень",
 }
 
-
-def hod_kompyutera():
-    return random.choice(VARIANTY)
+POBED_DLYA_POBEDY_V_MATCHE = 3
 
 
-def opredelit_pobeditelya(hod_igroka, hod_kompyutera):
+def hod_kompyutera(rng: random.Random | None = None) -> str:
+    generator = rng if rng is not None else random
+    return generator.choice(VARIANTY)
+
+
+def opredelit_pobeditelya(hod_igroka: str, hod_kompyutera: str) -> str:
     """Возвращает 'игрок', 'компьютер' или 'ничья'."""
     if hod_igroka == hod_kompyutera:
         return "ничья"
@@ -29,17 +38,18 @@ def opredelit_pobeditelya(hod_igroka, hod_kompyutera):
     return "компьютер"
 
 
-def sygrat_raund(hod_igroka):
-    hod_pk = hod_kompyutera()
+def sygrat_raund(hod_igroka: str, rng: random.Random | None = None) -> tuple[str, str]:
+    hod_pk = hod_kompyutera(rng)
     pobeditel = opredelit_pobeditelya(hod_igroka, hod_pk)
     return hod_pk, pobeditel
 
 
-def glavnoe_menyu():
+def glavnoe_menyu() -> None:
+    """Матч до трёх побед одной из сторон."""
     schet_igroka = 0
     schet_kompyutera = 0
 
-    while True:
+    while schet_igroka < POBED_DLYA_POBEDY_V_MATCHE and schet_kompyutera < POBED_DLYA_POBEDY_V_MATCHE:
         hod_igroka = input("Ваш ход (камень/ножницы/бумага, 'выход' — закончить): ").strip().lower()
         if hod_igroka == "выход":
             break
@@ -61,7 +71,12 @@ def glavnoe_menyu():
 
         print(f"Счёт — вы: {schet_igroka}, компьютер: {schet_kompyutera}\n")
 
-    print(f"Игра окончена. Финальный счёт — вы: {schet_igroka}, компьютер: {schet_kompyutera}")
+    if schet_igroka == POBED_DLYA_POBEDY_V_MATCHE:
+        print(f"Матч выигран! Финальный счёт — вы: {schet_igroka}, компьютер: {schet_kompyutera}")
+    elif schet_kompyutera == POBED_DLYA_POBEDY_V_MATCHE:
+        print(f"Матч проигран. Финальный счёт — вы: {schet_igroka}, компьютер: {schet_kompyutera}")
+    else:
+        print(f"Игра остановлена. Счёт на момент выхода — вы: {schet_igroka}, компьютер: {schet_kompyutera}")
 
 
 if __name__ == "__main__":
