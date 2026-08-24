@@ -4260,6 +4260,7 @@ PROJECT_ACCENTS: dict[str, tuple[str, str]] = {
     "temperature-converter": ("var(--blue-500)", "var(--red-500)"),
     "notes-app": ("var(--gray-600)", "var(--blue-500)"),
     "tic-tac-toe": ("var(--navy-950)", "var(--blue-500)"),
+    "safesort": ("var(--navy-950)", "var(--green-500)"),
 }
 
 
@@ -4361,6 +4362,17 @@ def _project_icon_svg(project_id: str) -> str:
         <rect x="155" y="105" width="90" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>
         <rect x="155" y="123" width="90" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>
         <rect x="155" y="141" width="55" height="7" rx="3.5" fill="var(--navy-950)" opacity=".35"/>"""
+    if project_id == "safesort":
+        # A folder receiving files that are already sorted into labeled
+        # bins, with a small shield-checkmark standing for the safety
+        # contract (nothing moves without an explicit apply).
+        return """
+        <path d="M110 150 V95 q0 -8 8 -8 h34 l14 16 h74 q8 0 8 8 v39 z" fill="#fff" opacity=".55"/>
+        <rect x="150" y="100" width="34" height="34" rx="6" fill="#fff" opacity=".9"/>
+        <rect x="192" y="100" width="34" height="34" rx="6" fill="#fff" opacity=".75"/>
+        <rect x="234" y="100" width="34" height="34" rx="6" fill="#fff" opacity=".6"/>
+        <path d="M280 55 l22 8 v20 q0 22 -22 30 q-22 -8 -22 -30 v-20 z" fill="#fff" opacity=".95"/>
+        <path d="M271 84 l6 6 12 -14" fill="none" stroke="var(--navy-950)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>"""
     if project_id == "tic-tac-toe":
         return """
         <g stroke="#fff" stroke-width="6" opacity=".55">

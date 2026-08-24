@@ -3278,7 +3278,7 @@ def build_36() -> None:
         lede="От первого HTTP-запроса до работающего приложения с базой данных — и куда двигаться дальше.",
         body_html=body,
         sidebar_groups=sidebar("22-36-chto-dalshe.html"),
-        nav=PageNav(prev_href="22-35-itogovyj-proekt.html", prev_label="Итоговый проект: список задач на Flask и SQLite", next_href="../glava-23/index.html", next_label="Глава 23: Ещё больше мини-проектов"),
+        nav=PageNav(prev_href="22-35-itogovyj-proekt.html", prev_label="Итоговый проект: список задач на Flask и SQLite", next_href="../glava-23/index.html", next_label="Глава 23: Первый проект на GitHub — SafeSort"),
     )
     write("22-36-chto-dalshe.html", out)
 
