@@ -154,6 +154,25 @@ def test_full_lifecycle_scan_plan_apply_duplicates_undo(
     assert (tmp_path / "copy2.txt").exists()
 
 
+def test_apply_preserves_config_for_the_next_run(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    config_file = tmp_path / "safesort.toml"
+    config_file.write_text(
+        'destination = "Library"\n[extensions]\nbooks = [".epub"]\n',
+        encoding="utf-8",
+    )
+    (tmp_path / "novel.epub").write_bytes(b"book")
+
+    assert main(["apply", str(tmp_path)]) == 0
+    capsys.readouterr()
+    assert config_file.exists()
+    assert (tmp_path / "Library" / "books" / "novel.epub").exists()
+
+    assert main(["scan", str(tmp_path)]) == 0
+    assert "Files scanned: 0" in capsys.readouterr().out
+
+
 def test_undo_with_no_history_reports_and_returns_nonzero(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:

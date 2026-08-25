@@ -25,6 +25,7 @@ import hashlib
 import logging
 from collections import defaultdict
 from pathlib import Path
+from typing import BinaryIO
 
 from safesort.models import DuplicateGroup, FileInfo
 
@@ -34,6 +35,22 @@ logger = logging.getLogger(__name__)
 DEFAULT_CHUNK_SIZE = 1024 * 1024
 
 
+def sha256_stream(stream: BinaryIO, chunk_size: int = DEFAULT_CHUNK_SIZE) -> str:
+    """Compute a SHA-256 digest through bounded ``read(chunk_size)`` calls.
+
+    Keeping the read loop in this small helper makes its interaction contract
+    directly observable in a beginner-friendly test with an instrumented
+    in-memory stream.  :func:`sha256_file` owns opening and closing the file.
+    """
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than zero")
+
+    digest = hashlib.sha256()
+    while chunk := stream.read(chunk_size):
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
 def sha256_file(path: Path, chunk_size: int = DEFAULT_CHUNK_SIZE) -> str:
     """Compute the SHA-256 hex digest of ``path``'s contents.
 
@@ -41,11 +58,8 @@ def sha256_file(path: Path, chunk_size: int = DEFAULT_CHUNK_SIZE) -> str:
     into memory all at once, so this scales to files much larger than
     available RAM.
     """
-    digest = hashlib.sha256()
     with path.open("rb") as file:
-        while chunk := file.read(chunk_size):
-            digest.update(chunk)
-    return digest.hexdigest()
+        return sha256_stream(file, chunk_size)
 
 
 def files_equal(path_a: Path, path_b: Path, chunk_size: int = DEFAULT_CHUNK_SIZE) -> bool:
@@ -93,21 +107,37 @@ def find_duplicates(
         for digest, matched in by_digest.items():
             if len(matched) < 2:
                 continue
-            confirmed = [matched[0]]
-            for candidate in matched[1:]:
-                try:
-                    if files_equal(matched[0].path, candidate.path, chunk_size):
-                        confirmed.append(candidate)
-                    else:
+            # A digest bucket is only a set of candidates.  Partition it into
+            # byte-equivalence classes so even a forced digest collision can
+            # yield two independent exact-content groups instead of dropping
+            # everything that differs from the bucket's first file.
+            exact_groups: list[list[FileInfo]] = []
+            for candidate in matched:
+                placed = False
+                readable = True
+                for exact_group in exact_groups:
+                    representative = exact_group[0]
+                    try:
+                        if files_equal(representative.path, candidate.path, chunk_size):
+                            exact_group.append(candidate)
+                            placed = True
+                            break
+                    except (PermissionError, FileNotFoundError, OSError) as exc:
                         logger.warning(
-                            "SHA-256 digest matched but bytes differ for %s and %s "
-                            "(hash collision or file changed after hashing); excluding from duplicate group",
-                            matched[0].path,
+                            "Could not confirm %s against %s, skipping: %s",
                             candidate.path,
+                            representative.path,
+                            exc,
                         )
-                except (PermissionError, FileNotFoundError, OSError) as exc:
-                    logger.warning("Could not confirm %s against %s, skipping: %s", candidate.path, matched[0].path, exc)
-            if len(confirmed) >= 2:
-                groups.append(DuplicateGroup(size=size, digest=digest, files=tuple(confirmed)))
+                        readable = False
+                        break
+                if readable and not placed:
+                    exact_groups.append([candidate])
+
+            for exact_group in exact_groups:
+                if len(exact_group) >= 2:
+                    groups.append(
+                        DuplicateGroup(size=size, digest=digest, files=tuple(exact_group))
+                    )
 
     return groups

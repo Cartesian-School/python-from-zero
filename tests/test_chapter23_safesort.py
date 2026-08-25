@@ -53,7 +53,7 @@ def test_full_lifecycle_scan_plan_apply_duplicates_undo(tmp_path):
     for entry in tmp_path.iterdir():
         assert entry.is_file()
 
-    # apply — единственная команда, которая двигает файлы
+    # apply выполняет прямую сортировку; undo ниже выполняет обратное перемещение
     moves = apply_plan(plan)
     assert all(move.completed for move in moves)
     assert (tmp_path / "Sorted" / "documents" / "report.pdf").exists()

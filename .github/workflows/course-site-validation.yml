@@ -1,0 +1,74 @@
+name: Course site validation
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - "site/**"
+      - "tests/**"
+      - "data/**"
+      - "projects/**"
+      - "manifest/**"
+      - "notebooks/chapter-23/**"
+      - "evidence/chapter-23-professorial-review.md"
+      - ".github/workflows/course-site-validation.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "site/**"
+      - "tests/**"
+      - "data/**"
+      - "projects/**"
+      - "manifest/**"
+      - "notebooks/chapter-23/**"
+      - "evidence/chapter-23-professorial-review.md"
+      - ".github/workflows/course-site-validation.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install system dependencies (Tk, Xvfb — needed by tests/test_projects.py)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk xvfb
+
+      - name: Install Python test dependencies
+        run: python -m pip install pytest pygame-ce Flask nbformat build
+
+      - name: Install SafeSort (editable — tests/test_chapter23_safesort.py imports it)
+        run: python -m pip install -e "projects/python/safesort/[dev]"
+
+      - name: Regenerate Chapter 23 from source builders
+        run: |
+          python scripts/build_notebooks_ch23.py
+          python scripts/build_chapter23_graders.py
+          python scripts/build_chapter_23.py
+          python scripts/build_chapter23_source_manifest.py
+          python scripts/build_practice_pages.py
+
+      - name: Run course test suite
+        run: pytest tests/
+
+      - name: Run SafeSort test suite
+        run: pytest projects/python/safesort/tests/
+
+      - name: Build the full site (runs chapter/source/upstream validators, then navigation/catalog/SEO validators against dist/)
+        run: bash scripts/build_vercel.sh
+
+      - name: Verify generated files match their source builders
+        run: git diff --exit-code
+
+      - name: Check for whitespace errors introduced by this change
+        if: github.event_name == 'pull_request'
+        run: git diff --check "$(git merge-base origin/${{ github.base_ref }} HEAD)" HEAD

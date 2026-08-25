@@ -3030,7 +3030,9 @@ SAFESORT_STAGES: list[str] = [
 ]
 
 
-def stage_tracker(current: int, *, stages: list[str] = SAFESORT_STAGES) -> str:
+def stage_tracker(
+    current: int, *, stages: list[str] = SAFESORT_STAGES, full: bool = False
+) -> str:
     """Persistent "where are we" strip for a multi-stage project (Chapter
     23 / SafeSort): a row of labels with the current one highlighted, plus
     an "Этап N из M" line above it. `current` is 1-based. Small and
@@ -3038,6 +3040,13 @@ def stage_tracker(current: int, *, stages: list[str] = SAFESORT_STAGES) -> str:
     just a constant orientation cue."""
     n = len(stages)
     current = max(1, min(current, n))
+    if not full:
+        return (
+            '<div class="stage-tracker-compact" aria-label="Положение в проекте SafeSort">'
+            f'<span>SafeSort · Часть {current} из {n}</span>'
+            f'<strong>{html.escape(stages[current - 1])}</strong>'
+            '</div>'
+        )
     items = "".join(
         (
             f'<span style="display:flex;align-items:center;gap:6px">'
@@ -3120,6 +3129,57 @@ def project_state_card(done: list[str], now: str, upcoming: list[str]) -> str:
         f'border-radius:var(--radius-lg,20px)">'
         f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;'
         f'text-transform:uppercase;color:#6B6B7D;margin-bottom:10px">Что уже есть</div>{rows}</div>'
+    )
+
+
+def github_issue_card(number: int, title: str, *, area: str, priority: str, branch: str | None = None) -> str:
+    """Compact "real work item" opener for a SafeSort feature cluster in
+    Part IV: ties the following pages to a genuine Issue in the real
+    GitHub Project (github.com/orgs/Cartesian-School/projects/1 —
+    "SafeSort — первый релиз"), not a hypothetical example. Area/Priority
+    are that Issue's real field values in the live Project, not invented
+    for the lesson. One card per feature cluster (not per page) — see
+    github_issue_checkpoint() for the matching closer."""
+    branch_row = (
+        f'<div style="margin-top:8px;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#0D0230">'
+        f"git switch -c {html.escape(branch)}</div>"
+        if branch
+        else ""
+    )
+    return (
+        f'<div style="margin:24px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-left:3px solid #5B24F9;border-radius:0 12px 12px 0">'
+        f'<div style="display:flex;align-items:center;gap:6px;font-family:Sora,sans-serif;font-weight:700;'
+        f'font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin-bottom:6px">'
+        f'{github_mark(15)}<span>Issue #{number} · Project «SafeSort — первый релиз»</span></div>'
+        f'<div style="font-size:15px;font-weight:700;color:#0D0230;margin-bottom:8px">{html.escape(title)}</div>'
+        f'<div style="display:flex;gap:18px;font-size:13px;color:#6B6B7D">'
+        f'<span>Area: <strong style="color:#0D0230">{html.escape(area)}</strong></span>'
+        f'<span>Priority: <strong style="color:#0D0230">{html.escape(priority)}</strong></span>'
+        f"</div>{branch_row}</div>"
+    )
+
+
+def github_issue_checkpoint(issues: list[int], *, commit_subject: str, history: str, project_outcome: str = "Done") -> str:
+    """Compact "checkpoint" closer for a SafeSort feature cluster, pairing
+    with github_issue_card() at the cluster's start. `history` is the real
+    closing story for these Issues, in whatever shape it actually took —
+    a single PR, one PR closing several related Issues, or (for #10/#11,
+    genuinely) a manual close with no PR "Closes" keyword because the work
+    landed inside another Issue's commit. Never invent a uniform
+    one-Issue-one-PR pattern the real repository doesn't have."""
+    issue_list = ", ".join(f"#{n}" for n in issues)
+    return (
+        f'<div style="margin:24px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);'
+        f'border-left:3px solid #059669;border-radius:0 12px 12px 0">'
+        f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:11px;letter-spacing:.04em;'
+        f'text-transform:uppercase;color:#059669;margin-bottom:6px">Чекпойнт · Issue {issue_list}</div>'
+        f'<div style="font-family:\'JetBrains Mono\',monospace;font-size:13px;color:#0D0230;margin-bottom:8px">'
+        f'git commit -m "{html.escape(commit_subject)}"</div>'
+        f'<div style="font-size:13.5px;color:#3A3A4A;line-height:1.5;margin-bottom:6px">{history}</div>'
+        f'<div style="font-size:13px;color:#6B6B7D">Статус в реальном Project: '
+        f'<strong style="color:#059669">{html.escape(project_outcome)}</strong></div>'
+        f"</div>"
     )
 
 
@@ -3207,6 +3267,55 @@ def github_lockup(width: int = 140, *, on_dark: bool = False) -> str:
     height = round(width * 95 / 416)
     return (
         f'<img src="/assets/brand/github/lockup-{variant}.svg" alt="GitHub" '
+        f'width="{width}" height="{height}" style="display:block" />'
+    )
+
+
+def git_mark(size: int = 24, *, on_dark: bool = False, aria_label: str | None = None) -> str:
+    """Official Git icon mark (the tilted diamond), downloaded verbatim
+    from git-scm.com/downloads/logos — Jason Long's Git logo, CC BY 3.0 —
+    and stored at site/assets/brand/git/mark-{black,white}.svg. Kept in a
+    brand directory of its own, separate from
+    site/assets/icons/cartesian/icons.svg, so Git's real mark is never
+    confused with a Cartesian School semantic icon. Native aspect ratio is
+    78:78 (square).
+
+    Decorative by default (empty alt + aria-hidden), matching Git's own
+    brand guidance for a mark placed next to the visible word "Git" — the
+    text already carries the meaning, so a screen reader would otherwise
+    announce "Git" twice. Pass `aria_label` (e.g. "Git — официальный
+    сайт") only for the rare case of the mark used alone as a link, with
+    no adjacent visible "Git" text."""
+    variant = "white" if on_dark else "black"
+    if aria_label:
+        alt_attrs = f'alt="" role="img" aria-label="{html.escape(aria_label)}"'
+    else:
+        alt_attrs = 'alt="" aria-hidden="true"'
+    return (
+        f'<img src="/assets/brand/git/mark-{variant}.svg" {alt_attrs} '
+        f'width="{size}" height="{size}" '
+        f'style="display:inline-block;vertical-align:-0.15em" />'
+    )
+
+
+def git_lockup(width: int = 90, *, on_dark: bool = False, aria_label: str | None = None) -> str:
+    """Official Git logo lockup (mark + "git" wordmark), same source and
+    provenance as git_mark(). Reserved for places that establish Git as a
+    distinct technology in its own right — the Git-vs-GitHub comparison
+    and the installation-lesson opener — not repeated next to every
+    mention of the word "Git"; use the smaller git_mark() there instead,
+    or no mark at all. Native aspect ratio is 219:92.
+
+    Decorative by default, same reasoning as git_mark(); pass
+    `aria_label` only when the lockup stands alone as a link."""
+    variant = "white" if on_dark else "black"
+    height = round(width * 92 / 219)
+    if aria_label:
+        alt_attrs = f'alt="" role="img" aria-label="{html.escape(aria_label)}"'
+    else:
+        alt_attrs = 'alt="" aria-hidden="true"'
+    return (
+        f'<img src="/assets/brand/git/lockup-{variant}.svg" {alt_attrs} '
         f'width="{width}" height="{height}" style="display:block" />'
     )
 
@@ -4322,6 +4431,58 @@ class PageNav:
     next_label: str | None = None
 
 
+@dataclass(frozen=True)
+class BrandedHeading:
+    """Trusted description of an H1 with external technology branding.
+
+    The builder passes only plain text and a known brand variant.  Rendering
+    stays centralized, so official assets, accessibility attributes, and
+    responsive sizing cannot drift from page to page.
+    """
+
+    text: str
+    brand: str
+
+
+def git_heading(text: str) -> BrandedHeading:
+    """Return an H1 model with the official Git mark before visible text."""
+    return BrandedHeading(text=text, brand="git")
+
+
+def git_github_heading(text: str) -> BrandedHeading:
+    """Return a balanced mixed Git/GitHub H1 without merging the brands."""
+    return BrandedHeading(text=text, brand="git-github")
+
+
+def _render_h1(heading: str | BrandedHeading) -> str:
+    if isinstance(heading, str):
+        return f"<h1>{html.escape(heading)}</h1>"
+
+    text = html.escape(heading.text)
+    if heading.brand == "git":
+        marks = (
+            '<span class="technology-heading__brands" aria-hidden="true">'
+            '<img class="technology-heading__mark technology-heading__mark--git" '
+            'src="/assets/brand/git/mark-black.svg" alt=""></span>'
+        )
+    elif heading.brand == "git-github":
+        marks = (
+            '<span class="technology-heading__brands technology-heading__brands--pair" '
+            'aria-hidden="true">'
+            '<span class="technology-heading__brand-token">'
+            '<img class="technology-heading__mark technology-heading__mark--git" '
+            'src="/assets/brand/git/mark-black.svg" alt=""><span>Git</span></span>'
+            '<span class="technology-heading__not-equal">≠</span>'
+            '<span class="technology-heading__brand-token">'
+            '<img class="technology-heading__mark technology-heading__mark--github" '
+            'src="/assets/brand/github/invertocat-black.svg" alt=""><span>GitHub</span></span>'
+            '</span>'
+        )
+    else:
+        raise ValueError(f"unknown heading brand: {heading.brand!r}")
+    return f'<h1 class="technology-heading">{marks}<span>{text}</span></h1>'
+
+
 def render_sidebar(groups: list[SidebarGroup]) -> str:
     parts = []
     for g in groups:
@@ -4346,7 +4507,7 @@ def render_page(
     depth: int,
     breadcrumb: list[tuple[str, str]],
     kicker: str,
-    h1: str,
+    h1: str | BrandedHeading,
     lede: str,
     body_html: str,
     sidebar_groups: list[SidebarGroup],
@@ -4367,6 +4528,7 @@ def render_page(
     breadcrumb_html = " / ".join(crumb_parts)
 
     sidebar_html = render_sidebar(sidebar_groups)
+    h1_html = _render_h1(h1)
 
     nav_html = '<div class="section-nav">'
     if nav.prev_href:
@@ -4403,7 +4565,7 @@ def render_page(
   <article>
     <div class="breadcrumb">{breadcrumb_html}</div>
     <div class="section-kicker">{f'<img src="{root}assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />' if kicker.startswith("Глава ") else ""}{html.escape(kicker)}</div>
-    <h1>{html.escape(h1)}</h1>
+    {h1_html}
     <p class="lede">{lede}</p>
 
 {body_html}

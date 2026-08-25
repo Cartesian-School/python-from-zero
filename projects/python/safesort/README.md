@@ -35,9 +35,9 @@ SafeSort is built around one rule: **you decide when files move.**
 - `scan`, `plan`, and `duplicates` are strictly read-only. They never
   create, move, or delete anything on disk, no matter how many times you
   run them.
-- `apply` is the only command that moves files, and it does so because
-  you explicitly ran it — there's no separate confirmation prompt to
-  half-trust.
+- `apply` is the only forward sorting command. `undo` is the explicit
+  reverse command, and both move files only because you invoked them.
+  There is no separate confirmation prompt to half-trust.
 - Duplicate detection only ever *reports* what it finds. There is no
   delete feature in SafeSort, not even a hidden or "coming soon" one.
 - A move never overwrites an existing file. If two files would land on
@@ -152,9 +152,9 @@ src/safesort/
   scanner.py      read-only directory walk
   classifier.py   extension -> category mapping
   planner.py      pure move-plan construction (no filesystem writes)
-  executor.py     the only module allowed to move files
+  executor.py     forward sorting moves from an approved plan
   duplicates.py   size + chunked-SHA256 duplicate detection
-  manifest.py     JSON manifest read/write and undo
+  manifest.py     JSON manifest read/write and reverse undo moves
   config.py       defaults + optional safesort.toml overlay
 ```
 

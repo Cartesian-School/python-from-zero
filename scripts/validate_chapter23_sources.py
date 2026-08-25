@@ -12,8 +12,9 @@ scripts/build_chapter_23.py: манифест обязан описывать р
   provider, license, checked_date, adapted, routes);
 - есть повторяющийся id или повторяющийся url среди записей;
 - route ссылается на файл, которого нет в site/chapters/glava-23/;
-- provider "github-docs" сочетается с license, отличной от "CC BY 4.0";
-- provider "git-scm" сочетается с license, отличной от "link-only";
+- provider не соответствует домену официального источника;
+- license не соответствует правилам provider (GitHub Docs: CC BY 4.0,
+  остальные первичные источники в этом манифесте: link-only);
 - манифест не совпадает с фактическими official_sources(...) в
   build_chapter_23.py — ни по множеству URL, ни по множеству маршрутов
   на каждый URL (это ловит и забытые добавления, и устаревшие записи).
@@ -36,21 +37,65 @@ BUILD_SCRIPT_PATH = ROOT / "scripts" / "build_chapter_23.py"
 CHAPTER_DIR = ROOT / "site" / "chapters" / "glava-23"
 
 REQUIRED_TOP_KEYS = {"schema_version", "chapter", "sources"}
-REQUIRED_ENTRY_KEYS = {"id", "title", "url", "provider", "license", "checked_date", "adapted", "routes"}
-VALID_PROVIDERS = {"github-docs", "git-scm"}
-PROVIDER_LICENSE = {"github-docs": "CC BY 4.0", "git-scm": "link-only"}
+REQUIRED_ENTRY_KEYS = {
+    "id", "title", "url", "provider", "category", "license",
+    "checked_date", "adapted", "routes",
+}
+PROVIDER_LICENSE = {
+    "github-docs": "CC BY 4.0",
+    "git-scm": "link-only",
+    "python-docs": "link-only",
+    "packaging-guide": "link-only",
+    "pytest-docs": "link-only",
+    "nist": "link-only",
+    "semver": "link-only",
+    "bipm": "link-only",
+}
+VALID_PROVIDERS = set(PROVIDER_LICENSE)
+VALID_CATEGORIES = {
+    "git-github", "python-packaging", "testing", "cryptography",
+    "versioning", "metrology", "physics",
+}
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
-def extract_sources_from_build_script() -> dict[str, dict]:
+def classify_source(url: str) -> tuple[str, str]:
+    """Return the manifest provider and academic coverage category."""
+    if url.startswith("https://docs.github.com/"):
+        return "github-docs", "git-github"
+    if url.startswith("https://git-scm.com/"):
+        return "git-scm", "git-github"
+    if url.startswith("https://docs.python.org/"):
+        category = "testing" if "/unittest.mock" in url else "python-packaging"
+        return "python-docs", category
+    if url.startswith("https://packaging.python.org/"):
+        return "packaging-guide", "python-packaging"
+    if url.startswith("https://docs.pytest.org/"):
+        return "pytest-docs", "testing"
+    if url.startswith("https://csrc.nist.gov/"):
+        return "nist", "cryptography"
+    if url.startswith("https://semver.org/"):
+        return "semver", "versioning"
+    if url.startswith("https://www.bipm.org/"):
+        return "bipm", "metrology"
+    raise ValueError(f"неизвестный официальный source URL: {url}")
+
+
+def extract_sources_from_build_script() -> tuple[dict[str, dict], list[dict]]:
     """Заново вычисляет множество источников из official_sources(...) вызовов
-    в build_chapter_23.py. Возвращает {url: {"title": ..., "adapted": bool|None, "routes": set[str]}}."""
+    в build_chapter_23.py. Возвращает (by_url, calls):
+    - by_url: {url: {"title": ..., "adapted": bool|None, "routes": set[str]}}
+    - calls: список отдельных вызовов official_sources(...) — по одному на
+      каждую "коробку" на странице — как {"route", "urls": [...], "adapted": bool},
+      где adapted уже разрешён к фактическому значению (True по умолчанию,
+      если аргумент не передан), нужен для проверки атрибуции git-scm."""
     text = BUILD_SCRIPT_PATH.read_text(encoding="utf-8")
     func_pattern = re.compile(r"^def (build_\w+)\(\) -> None:", re.M)
     starts = [(m.group(1), m.start()) for m in func_pattern.finditer(text)]
     starts.append(("__END__", len(text)))
 
     by_url: dict[str, dict] = {}
+    calls: list[dict] = []
     for i in range(len(starts) - 1):
         _name, start = starts[i]
         end = starts[i + 1][1]
@@ -63,10 +108,14 @@ def extract_sources_from_build_script() -> dict[str, dict]:
             body = os_m.group(1)
             adapted_raw = os_m.group(2)
             adapted = None if adapted_raw is None else (adapted_raw == "True")
+            call_urls: list[str] = []
             for title, url in re.findall(r'\(\s*"([^"]+)",\s*"(https://[^"]+)"\s*\)', body):
                 entry = by_url.setdefault(url, {"title": title, "adapted": adapted, "routes": set()})
                 entry["routes"].add(route)
-    return by_url
+                call_urls.append(url)
+            if call_urls:
+                calls.append({"route": route, "urls": call_urls, "adapted": True if adapted is None else adapted})
+    return by_url, calls
 
 
 def validate() -> list[str]:
@@ -101,6 +150,7 @@ def validate() -> list[str]:
         entry_id = entry["id"]
         url = entry["url"]
         provider = entry["provider"]
+        category = entry["category"]
         license_ = entry["license"]
         checked_date = entry["checked_date"]
         adapted = entry["adapted"]
@@ -122,6 +172,19 @@ def validate() -> list[str]:
         elif license_ != PROVIDER_LICENSE[provider]:
             errors.append(f"{prefix}: provider={provider!r} требует license={PROVIDER_LICENSE[provider]!r}, получено {license_!r}")
 
+        if category not in VALID_CATEGORIES:
+            errors.append(f"{prefix}: неизвестная category {category!r}")
+        try:
+            expected_provider, expected_category = classify_source(url)
+        except ValueError as exc:
+            errors.append(f"{prefix}: {exc}")
+        else:
+            if provider != expected_provider or category != expected_category:
+                errors.append(
+                    f"{prefix}: URL требует provider/category "
+                    f"{expected_provider}/{expected_category}, получено {provider}/{category}"
+                )
+
         if not DATE_RE.match(str(checked_date)):
             errors.append(f"{prefix}: checked_date {checked_date!r} не в формате YYYY-MM-DD")
 
@@ -136,7 +199,7 @@ def validate() -> list[str]:
                 errors.append(f"{prefix}: route {route!r} не найден в site/chapters/glava-23/")
 
     # Сверка с фактическим содержимым build_chapter_23.py.
-    actual = extract_sources_from_build_script()
+    actual, calls = extract_sources_from_build_script()
 
     actual_urls = set(actual.keys())
     manifest_urls = set(manifest_by_url.keys())
@@ -167,6 +230,20 @@ def validate() -> list[str]:
             if extra_routes:
                 detail.append(f"лишние в манифесте: {sorted(extra_routes)}")
             errors.append(f"Маршруты для {url} не совпадают ({'; '.join(detail)})")
+
+    # Link-only sources are not translated GitHub documentation. No source
+    # box containing only link-only providers may render the GitHub CC BY note.
+    # не должна рендерить примечание "официальной документации GitHub... CC
+    # BY 4.0" — это ложная атрибуция. Разрешено только если та же коробка
+    # реально содержит источник с provider=github-docs (смешанная коробка).
+    for call in calls:
+        providers = {manifest_by_url[u]["provider"] for u in call["urls"] if u in manifest_by_url}
+        if providers and "github-docs" not in providers and call["adapted"]:
+            errors.append(
+                f"{call['route']}: official_sources({call['urls']}) содержит только "
+                f"link-only providers, но adapted не установлен в False — рендерится ложная "
+                f"атрибуция 'официальной документации GitHub... CC BY 4.0' на ссылки git-scm.com"
+            )
 
     return errors
 

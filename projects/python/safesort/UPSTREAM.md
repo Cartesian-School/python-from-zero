@@ -1,62 +1,62 @@
-# SafeSort — upstream relationship
+# SafeSort upstream relationship
 
-This directory (`projects/python/safesort/`) is an **educational snapshot**
-of a real, standalone repository: [Cartesian-School/safesort](https://github.com/Cartesian-School/safesort).
-It exists so a reader of Chapter 23 can browse SafeSort's source next to the
-book's own repository, without cloning a second one. The canonical,
-authoritative home of SafeSort is the standalone repository, not this
-directory.
+This directory is an educational snapshot of the standalone
+[Cartesian-School/safesort](https://github.com/Cartesian-School/safesort)
+repository. The standalone repository is SafeSort's canonical home; this copy
+lets Chapter 23 readers inspect and run the project without a second clone.
 
-## Canonical reference point
+## Verified base and course corrections
 
-- **Canonical repository:** https://github.com/Cartesian-School/safesort
 - **Canonical tag:** `v0.1.0`
-- **Canonical commit:** `70e480d5cdaa16e00e6cdb8613ac31c1dbf9c401`
+- **Canonical commit:** `fe610cf09392bee999ab8daac814779df7306eeb`
+- **Last comparison:** 2026-08-25
 
-`src/` and `tests/` in this snapshot are kept **byte-identical** to that
-commit. `.upstream-sync.json` in this directory records a sha256 hash for
-every file under `src/` and `tests/` as of that commit, and
-`scripts/validate_safesort_upstream_sync.py` (run as part of
-`scripts/build_vercel.sh`) fails the build if the snapshot drifts from those
-hashes — whether from an accidental edit here, or from the real repository
-moving on without this snapshot being updated to match.
+The snapshot was compared with that exact tag and commit. Most files under
+`src/` and `tests/` remain byte-identical. A small, explicit correction layer
+differs from upstream because Chapter 23 now teaches contracts that the tagged
+sample did not implement:
 
-## Allowed intentional differences
+- category-specific TOML values overlay built-in extension defaults;
+- `safesort.toml` remains configuration input and is never sorted;
+- one digest bucket is partitioned into exact byte-content groups;
+- bounded reads have a directly testable stream interaction contract;
+- the configured console log format displays the logger name;
+- executor documentation distinguishes forward `apply` from reverse `undo` mutation.
 
-A handful of files are **not** part of the sync lock and are expected to
-differ from the canonical repository:
+`.upstream-sync.json` records the upstream hash and reason for every changed
+file under `course_corrections`. Its `locked_files` table pins the complete
+course snapshot after those corrections. This is intentionally not described
+as byte-identical to upstream.
+
+`scripts/validate_safesort_upstream_sync.py` checks the declared relationship
+without network access. A passing result proves only that the local course
+snapshot matches its lock. It cannot prove that GitHub still points at the same
+commit or that a newer upstream release does not exist.
+
+## Files outside the lock
 
 | File | Why it differs |
 |---|---|
-| `README.md` | The canonical repository's README is written in Russian for its own audience on GitHub. This copy's README is written in English, matching the language used across the rest of `projects/` in this course repository. |
-| `CHANGELOG.md`, `pyproject.toml`, `LICENSE` | Project metadata — package name/URLs may reference the canonical repository directly; kept here for completeness but not treated as code that must match byte-for-byte. |
-| `.github/` (GitHub Actions workflow) | The canonical repository's CI workflow runs against its own repository; not meaningful to duplicate inside this course monorepo, which has its own CI. |
+| `README.md` | The course copy uses English to match other `projects/` documentation. |
+| `CHANGELOG.md`, `pyproject.toml`, `LICENSE` | Included as project metadata, but not treated as synchronized source or test code. |
+| `.github/` | The standalone repository and course monorepo use different CI workflows. |
 
-Only `src/` and `tests/` — the actual program and its automated tests — are
-covered by the sync lock, because those are the files a reader might copy,
-study, or diff against the real thing expecting them to match exactly.
+Only Python files under `src/` and `tests/` are locked. The
+`course_corrections` table makes their provenance reviewable file by file.
 
-## Sync procedure
+## Manual update procedure
 
-When the canonical repository gets a new tagged release that should be
-reflected here:
+When a new tagged upstream release should enter the course:
 
-1. Fetch the new tag's tree from the canonical repository (e.g. via
-   `gh api repos/Cartesian-School/safesort/tarball/<tag>` or a plain
-   `git clone` + `git checkout <tag>`).
-2. Diff its `src/` and `tests/` against this directory's `src/` and
-   `tests/`. Copy over any real changes.
-3. Regenerate `.upstream-sync.json`: recompute the sha256 of every file
-   under `src/` and `tests/`, and update `canonical_tag` /
-   `canonical_commit` / `synced_at`.
-4. Run `python3 scripts/validate_safesort_upstream_sync.py` — it should
-   pass cleanly against the newly regenerated lock.
-5. Run the test suites (`pytest tests/test_chapter23_safesort.py` and
-   `pytest projects/python/safesort/tests/`) to confirm the synced code
-   still passes on this side.
-6. Commit the updated snapshot together with the updated lock file in one
-   change, so the two never land out of step.
+1. Fetch the tag from the canonical repository and verify its commit ID.
+2. Diff upstream `src/` and `tests/` against this directory.
+3. Reapply or retire each documented course correction deliberately.
+4. Recompute every `locked_files` hash. For each remaining correction, record
+   the upstream hash and a specific reason.
+5. Update `canonical_tag`, `canonical_commit`, and `synced_at`.
+6. Run `python3 scripts/validate_safesort_upstream_sync.py`.
+7. Run `pytest tests/test_chapter23_safesort.py` and the SafeSort test suite.
+8. Commit the snapshot and lock together.
 
-This procedure is deliberately manual — a real sync is a decision (does
-this course's narrative still match the new upstream code?), not something
-that should happen silently in CI.
+The process stays manual because synchronizing code is a curriculum decision,
+not an operation CI should perform silently.

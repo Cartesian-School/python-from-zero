@@ -27,10 +27,25 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from notebook_lib import NotebookBuilder
+from chapter23_practice_model import apply_practice_model
+from notebook_lib import NotebookBuilder as BaseNotebookBuilder
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "notebooks" / "chapter-23"
+
+
+class NotebookBuilder(BaseNotebookBuilder):
+    """Chapter-local builder enforcing the final task pedagogy contract."""
+
+    def write(self, path: Path) -> Path:
+        lesson_id = path.name[:5]
+        self._cells = apply_practice_model(self._cells, lesson_id)
+        stable_prefixes = ("task-", "tests-", "setup-", "diagnostic-")
+        for index, cell in enumerate(self._cells):
+            current_id = cell.get("id", "")
+            if not current_id.startswith(stable_prefixes):
+                cell["id"] = f"cell-{lesson_id}-{index:02d}"
+        return super().write(path)
 
 
 # ---------------------------------------------------------------------------
@@ -222,8 +237,8 @@ assert abs(pozicii[30].x - pozicii[60].x) < 1e-6
 assert abs(pozicii[30].y - pozicii[60].y) < 1e-6
 assert abs(pozicii[30].x - pozicii[120].x) < 1e-6
 assert abs(pozicii[30].y - pozicii[120].y) < 1e-6
-print("Верно: при 30, 60 и 120 кадрах в секунду мяч оказывается в одной и той же "
-      "точке — движение зависит от dt, а не от FPS.")''')
+print("Верно для свободного равномерного движения: позиции совпали в пределах численной "
+      "точности. При дискретных столкновениях результат всё ещё может зависеть от dt.")''')
     nb.md("## Эксперимент — отскок от стены тоже считается через dt")
     nb.code('''myach_u_steny = bb.Myach(x=bb.SHIRINA - 20, y=200, vx=200, vy=0, radius=15, cvet=(100, 200, 255))
 for _ in range(60):
@@ -284,7 +299,7 @@ assert abs(r["C"] - 0) < 1e-9
 r = tc.preobrazovat(0, "K")
 assert abs(r["C"] - (-273.15)) < 1e-9
 
-print("Верно: 0°C = 32°F = 273.15K, 100°C = 212°F, 0K = -273.15°C (абсолютный ноль).")''')
+print("Верно: 0 °C = 32 °F = 273.15 K, 100 °C = 212 °F, 0 K = -273.15 °C.")''')
     nb.md("## Эксперимент — ниже абсолютного нуля такой температуры не существует")
     nb.code('''tc.preobrazovat(-274, "C")''', raises=True)
     nb.md("## Как это выглядит в коде\n\nВызов выше завершился трассировкой "
@@ -403,7 +418,7 @@ def build_parser():
         prog="safesort",
         description=(
             "SafeSort: a safe, non-destructive file organizer. "
-            "scan/plan/duplicates never modify anything; only 'apply' moves files."
+            "scan/plan/duplicates are read-only; 'apply' sorts and 'undo' restores files."
         ),
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1085,7 +1100,8 @@ assert sha256_file(put) == ozhidaemyj
 assert sha256_file(put, chunk_size=16) == ozhidaemyj  # тот же результат при маленьком размере блока
 print("Верно: результат sha256_file совпадает с hashlib.sha256() напрямую — при любом размере блока.")''')
     nb.md("## Задание ★ Базовая практика\n\nИзмените хотя бы один байт "
-          "содержимого и убедитесь, что дайджест изменился полностью.")
+          "содержимого и убедитесь, что дайджест изменился. Малое изменение обычно меняет "
+          "много выходных битов, но не обязано менять каждую hex-цифру.")
     nb.code('''izmenennoe_soderzhimoe = b"x" + soderzhimoe[1:]
 put2 = Path("proverka_sha256_izmenen.bin")
 put2.write_bytes(izmenennoe_soderzhimoe)
@@ -1222,10 +1238,12 @@ assert raw["extensions"]["documents"] == [".pdf", ".docx", ".txt"]
 print("Верно: tomllib.loads() вернул обычный словарь с ожидаемой структурой.")''')
     nb.md("## Строим Config из разобранного TOML")
     nb.code('''def config_from_raw(raw):
+    extensions = {k: list(v) for k, v in DEFAULT_EXTENSIONS.items()}
+    extensions.update(raw.get("extensions", {}))
     return Config(
         destination=raw.get("destination", DEFAULT_DESTINATION),
         exclude=tuple(raw.get("exclude", list(DEFAULT_EXCLUDE))),
-        extensions=raw.get("extensions", {k: list(v) for k, v in DEFAULT_EXTENSIONS.items()}),
+        extensions=extensions,
     )
 
 

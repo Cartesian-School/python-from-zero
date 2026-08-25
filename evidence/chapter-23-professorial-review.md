@@ -1,197 +1,166 @@
-# Глава 23 — визуальный ревью (1440px и 390px)
+# Глава 23 — финальная профессорская проверка
 
-Дата: 2026-08-25 (обновлено в тот же день после создания реального GitHub Project)
-Область: реальный визуальный осмотр страниц главы 23 после аудит-фикс прохода
-(branch `fix/chapter-23-github-foundation-audit`) — не только автоматическая
-проверка переполнения, а фактические скриншоты в двух ширинах вьюпорта.
+Дата проверки: 2026-08-25
 
-**Обновление того же дня:** после того как Product Owner подтвердил OAuth-авторизацию
-`project`/`read:project`, был создан настоящий GitHub Project
-(`github.com/orgs/Cartesian-School/projects/1`, «SafeSort — первый релиз»), заполнен
-14 реальными Issues, настроены поля и представления, и все текстовые заглушки на
-страницах `23-proj-03`, `23-proj-05`, `23-proj-06`, `23-proj-09`, `23-proj-10`,
-`23-proj-13` заменены на реальные аутентифицированные скриншоты (Claude in Chrome,
-не headless — расширение переподключилось между первым и вторым проходом ревью).
-Эти шесть страниц переосмотрены заново на 1440px и 390px — см. обновлённые строки
-в таблице ниже, помеченные «Обновлено 2026-08-25».
+Ветка: `fix/chapter-23-final-professorial-audit`
 
-## Методология
+Область: академическая точность, педагогическая последовательность, практика,
+источники, SafeSort, сборка курса и полный визуальный проход главы 23.
 
-Браузерное расширение Claude in Chrome в этой сессии недоступно (extension not
-connected). Вместо него использован локально установленный `google-chrome` в
-headless-режиме напрямую через Bash: `google-chrome --headless --disable-gpu
---no-sandbox --window-size=<W>,<H> --screenshot=<path> <url>` против собранного
-`dist/`, отданного локальным `python3 -m http.server`. Это даёт настоящий
-рендер страницы в заданной CSS-ширине вьюпорта (1440px — десктоп, 390px —
-мобильный), а не масштабирование уже отрендеренной десктопной раскладки.
+## Итог
 
-Каждый файл ниже — реальный PNG-скриншот, открытый и посмотренный (через Read),
-не автоматическая метрика. Там, где скриншот показывал проблему, использована
-дополнительная короткая перезахватка (меньшей высоты) для лучшей читаемости
-перед тем, как записать находку.
+| Контрольная группа | Результат |
+|---|---:|
+| P0 — научная целостность | 4/4 исправлено |
+| P1 — серьёзные педагогические дефекты | 12/12 исправлено |
+| P2 — существенные улучшения преподавания | 10/10 рассмотрено и исправлено |
+| P3 — редакционная полировка | 3/3 выполнено |
+| Канонические страницы главы | 67 |
+| Визуальная проверка desktop 1440×1000 | 67/67 |
+| Визуальная проверка mobile 390×844 | 67/67 |
+| Практики главы | 24: 18 SafeSort + 6 домашних |
+| Полностью заполненные ответы в starter | 0 |
+| Официальные источники | 59 |
+| Git-заголовки с официальным знаком | 10/10 |
+| Остаточные P0/P1 | 0/0 |
 
-**Что фактически осмотрено:** все 27 страниц, изменённые или созданные в этом
-аудит-раунде (Часть I «Git и GitHub с нуля» — 10 страниц, Часть II «Планируем
-SafeSort на GitHub» — 17 страниц), плюс `index.html` главы (сайдбар изменился),
-плюс три страницы Части III/VI, куда был внесён точечный правочный фикс
-(23-02, 23-03, 23-32). Итого 31 страница осмотрена на 390px; на 1440px —
-представительная выборка из 3 страниц (полный проход по обеим ширинам для
-всех 31 страницы физически не поместился в объём одной сессии). Остальные
-~42 страницы главы (Части III–VI основного текста и домашняя практика) в этом
-раунде НЕ модифицировались и повторно не переснимались — их визуальное
-состояние не переоценивалось заново в этом проходе.
+## Трассировка P0
 
-## Найденные и исправленные реальные проблемы
+| Audit ID | Находка | Исправление и файлы | Проверка |
+|---|---|---|---|
+| P0-01 | `pyproject.toml` ошибочно связывался с созданием import package. | В `scripts/build_chapter_23.py` и сгенерированной `23-05-pyproject-toml.html` разделены import package `src/safesort`, distribution/build project и установленная distribution; показаны src-layout и `pip install -e .`. | `scripts/validate_chapter23_outputs.py`; editable-install и import smoke test в CI; полный build. |
+| P0-02 | Правильный digest большого файла выдавался за доказательство чтения блоками. | В уроке 23-26 разделены result test (black-box) и interaction/implementation contract. В `projects/python/safesort/tests/test_duplicates.py` введён простой `RecordingReader`, который наблюдает несколько ограниченных `read(size)`. | 85 тестов SafeSort; `scripts/validate_chapter23_outputs.py` проверяет оба вида доказательства. |
+| P0-03 | Текст обещал добавление категории TOML, хотя реализация могла заменить всю карту; конфигурационный файл мог попасть в план. | `projects/python/safesort/src/safesort/config.py` реализует defaults + category-specific override; `scanner.py` исключает `safesort.toml`. Урок 23-22 описывает ту же семантику. | `tests/test_config.py`, `tests/test_scanner.py`, 85 тестов SafeSort; output validator. |
+| P0-04 | Столкновение мячей могло восприниматься как общая формула 2D, а движение — как «пиксели за кадр». | Домашний проект D ограничен лобовым столкновением двух одинаковых масс на одной прямой; прямо указано, что это не общая 2D-модель. Объяснены `velocity`, `dt`, зависимость численной точности от шага и независимость скорости от FPS в пределах дискретизации. | `scripts/validate_chapter23_outputs.py`; desktop/mobile просмотр `23-hw-04-otskakivayushie-myachi.html`. |
 
-### 1. `.compare-table` переполнялся на 390px (сайт-wide баг, не только глава 23)
+## Трассировка P1
 
-**Где обнаружено:** `23-proj-06-polya.html`, скриншот на 390px — колонки
-таблицы обрывались посреди слова («заголовок Issue или Pull Requ...»,
-«кому назначена задача в сам...»).
+| Audit ID | Находка | Исправление и файлы | Проверка |
+|---|---|---|---|
+| P1-01 | Не хватало цельной модели commit graph, branch, HEAD, `origin/main`, fetch/pull/push. | Урок `23-git-10-working-tree-staging-commit.html` фундаментально расширен: граф коммитов, подвижная ссылка-ветка, HEAD, три различных состояния local main / origin/main / GitHub main и команды наблюдения. | P0-contract validator; desktop/mobile visual; проверка обязательных терминов и команд. |
+| P1-02 | Git-страницы не имели требуемого официального брендинга. | Добавлены неизменённые assets из `https://git-scm.com/downloads/logos`; `scripts/site_lib.py` предоставляет reusable Git-heading helper; CSS задаёт 40×40 desktop и 31×31 mobile, mixed heading — 34×34/28×28. | 10/10 H1; `h1LogoFirst=true`; `scripts/validate_chapter23_outputs.py`; 134 визуальных снимка. |
+| P1-03 | Локальные операции Git смешивались с объектами GitHub. | В 23-29 добавлены две дорожки: switch/edit/test/stage/commit выполняются локально; Issue, PR, review и merge принадлежат GitHub; граница показана на `git push`. | Output validator; visual review страницы 23-29. |
+| P1-04 | Зелёные Checks могли восприниматься как замена review. | В 23-29 явно разделены автоматические Checks и инженерное human review с Comment / Approve / Request changes. | Output validator; desktop/mobile review. |
+| P1-05 | Starter практики содержали или могли раскрывать полное решение. | `scripts/chapter23_practice_model.py`, `build_notebooks_ch23.py`, `build_chapter23_graders.py` и `build_practice_pages.py` задают структуру Example → Starter → Task → Tests → Hint → Solution; starter не содержит готового решения. | `scripts/validate_chapter23_practices.py`: 24/24, untouched starter fails, solution passes, prefilled=0. |
+| P1-06 | Не было надёжного пути от попытки к полному решению. | Для всех 24 задач сохранены отдельные solution cells/sections, при этом решение не исполняется как starter. | Practice validator исполняет attempt и solution изолированно для каждого notebook. |
+| P1-07 | Навигация практик не гарантировала монотонный порядок. | `build_practice_pages.py` строит prev/next из канонического manifest; все 24 практики главы индексированы последовательно. | `validate_practice_manifest.py`: 493 практики курса без gaps; chapter practice validator. |
+| P1-08 | Локальные практики не имели воспроизводимой инструкции среды. | 10 задач, требующих filesystem/Tkinter/Pygame, явно помечены local-required и содержат команды установки/запуска; остальные 14 имеют browser graders. | Practice validator: 10 local-required, 14 graders, 24/24. |
+| P1-09 | `frozen=True` мог ошибочно трактоваться как чистая функция или защита файловой системы. | 23-07 объясняет только запрет переназначения полей объекта и отдельно показывает, что побочные эффекты функции от этого не исчезают. | Output validator; visual review 23-07. |
+| P1-10 | Объяснение logging не связывало имя logger с formatter. | 23-21 разделяет пользовательский output и диагностику; `getLogger(__name__)` связывается с `LogRecord.name`, а `%(name)s` делает имя видимым. | Output validator; visual review 23-21. |
+| P1-11 | Тесты появлялись слишком поздно, отдельно от feature development. | В каждой feature-странице введён test-checkpoint; в Части V проверки собраны как feature-level regression evidence. `capsys`, `tmp_path`, result/interaction tests объясняются на наблюдаемом поведении. | 157 course tests, 85 SafeSort tests, output validator. |
+| P1-12 | Release-модель была неполной, а `gh` мог появиться без предпосылки. | 23-31 теперь проходит `python -m build` → wheel/sdist → чистый venv → install artifact → import/console smoke test → tag → отдельный GitHub Release. В основном learner flow PR создаётся через web UI; GitHub CLI только опционален с явной установкой/auth. | Dry-run editable install; SafeSort tests; output validator; CI workflow; desktop/mobile 23-29/23-31. |
 
-**Причина:** `site/assets/css/theory.css` — `.compare-table` имел
-безусловный `min-width: 480px`, из-за чего таблица никогда не могла стать
-уже 480px даже в 390px-вьюпорте, и обёртка `overflow-x:auto` пряталa
-обрезанный правый край без визуального намёка на скролл.
+## Трассировка P2
 
-**Первое исправление** (`@media (max-width:480px){ min-width:0 }`) решило
-проблему для большинства таблиц, но не для таблиц с более длинным
-содержимым в ячейках — они всё равно расширялись за пределы вьюпорта
-(`23-20-oshibki-fajlovoj-sistemy.html`, `23-git-05-autentifikaciya.html`)
-из-за `table-layout: auto` по умолчанию.
+| Audit ID | Находка | Исправление и файлы | Проверка |
+|---|---|---|---|
+| P2-01 | Kelvin записывался с градусом и без физической границы. | 23-hw-05 использует `K`, не `°K`, объясняет абсолютный ноль и отклоняет значения ниже него. | Output validator; BIPM source; visual review. |
+| P2-02 | Формулировки о SHA-256 были сильнее научного доказательства. | 23-18 объясняет many-to-one, collision possibility, avalanche effect и то, что совпавший digest — фильтр, а не доказательство равенства. | NIST FIPS 180-4; output validator. |
+| P2-03 | Группировка только по digest могла объединить коллизию. | `duplicates.py` после size+digest выполняет побайтовое подтверждение и строит независимые exact groups, включая пустые файлы. | `test_duplicates.py`; 85 тестов; output validator. |
+| P2-04 | Упрощения Git скрывали staging snapshot, remote-tracking и различие tag/Release. | Исправлены 23-git-10, 23-28, 23-31 и связанные диаграммы/таблицы. | Output validator; Git model gates; visual review. |
+| P2-05 | Issue IDs и practice IDs могли выглядеть одной нумерацией. | Issue/checkpoint карточки явно маркируются как GitHub Project evidence, практики — как отдельная последовательность 23-01…23-24. | Practice manifest validator; visual review. |
+| P2-06 | Модель RPS через один winner value не расширялась до пяти ходов. | Домашний проект C учит `dict[str, set[str]]`, проверку membership и полный набор 25 пар. | Output validator; notebook solution execution. |
+| P2-07 | Advanced GitHub Projects перегружал ученика до первого feature cycle. | Базовая последовательность доведена до Issue → branch → PR раньше; copy, archive, templates, Insights и детали automation перенесены после цикла и помечены необязательными. | Канонический порядок 67 страниц; link/full-build validation; visual review. |
+| P2-08 | Источники были сконцентрированы на Git/GitHub. | `data/chapter-23-official-sources.json` расширен Python, packaging, testing, NIST, SemVer и BIPM источниками; `build_chapter23_source_manifest.py` формирует точное отображение на страницы. | `validate_chapter23_sources.py`: 59/59, exact manifest/source match. |
+| P2-09 | Число и индекс практик были неоднозначны. | Глава и manifest фиксируют ровно 24: 18 SafeSort и 6 домашних; index/navigation строятся из одной модели. | Practice validator и manifest validator. |
+| P2-10 | Слова «меняет/не меняет» не различали объекты, disk state и interface output. | Уточнены boundaries read-only/mutating для `scan`, `plan`, `duplicates`, `apply`, `undo`; mutation wording проверяется контрактами. | Output validator; 85 SafeSort tests; visual review. |
 
-**Итоговое исправление:** добавлен `table-layout: fixed` и
-`overflow-wrap: break-word` в тот же breakpoint. Перепроверено на
-`23-proj-06`, `23-proj-11`, `23-32`, `23-git-05` и на `23-20` — везде текст
-теперь полностью переносится внутри вьюпорта, ничего не обрезается.
-Дополнительно проверена страница другой главы (`glava-03/03-02-...html`) на
-отсутствие регрессии — раскладка не пострадала.
+## Трассировка P3
 
-Затронутые файлы: `site/assets/css/theory.css` (глобальный, влияет на все
-главы, использующие `comparison_table()` — исправление чисто аддитивное
-через media query, ничего не удалено).
+| Audit ID | Находка | Исправление и файлы | Проверка |
+|---|---|---|---|
+| P3-01 | Русский текст звучал машинно и местами был перегружен длинными тире. | После содержательных правок выполнены два отдельных Humanizer-прохода по learner-facing prose без изменения команд, формул, URL, цитат и технических терминов. | Повторная source/output validation и полный visual review. |
+| P3-02 | Этапы проекта повторялись без устойчивой системы ориентации. | Единый stage tracker показывает 6 частей и текущий этап на проектных страницах; итоговая timeline связывает требования, Git/GitHub, реализацию, тесты и release. | Output validator; visual review index/23-32. |
+| P3-03 | Generated output, CI и визуальные доказательства могли расходиться с source of truth. | Builders/validators сделаны каноническими, добавлен `.github/workflows/course-site-validation.yml`; `build_vercel.sh` последовательно выбирает `PYTHON_BIN`, локальную `.venv` или системный `python3`; проверена детерминированность всех 2606 tracked+untracked generated files и выполнен полный browser pass. | Два build-прохода дали идентичные SHA-256; штатный `bash scripts/build_vercel.sh`; `git diff --check`; 67+67 screenshots. |
 
-### 2. `decision_map()` использован не по назначению в двух местах главы 23
+## Git branding и provenance
 
-**Причина:** `decision_map()` в `site_lib.py` спроектирован для коротких
-кодоподобных ответов (собственный docstring приводит пример «какой числовой
-тип нужен?» → `int`/`float`) и жёстко задаёт `white-space: nowrap` на колонке
-ответа. Два места в главе 23 использовали его с ответами длиной в целое
-предложение:
-- `23-git-04-github-account.html` — «Частые решения при создании аккаунта»
-  (например, «используйте официальное восстановление доступа, не сторонние
-  сервисы»);
-- `23-22-nastrojki-proekta.html` — «Что произойдёт при запуске».
+Официальный источник: `https://git-scm.com/downloads/logos`.
 
-На 390px это давало ту же обрезку текста, что и баг №1, но по другой причине
-(компонент, а не CSS-таблица).
-
-**Исправление:** оба места переведены на `comparison_table()`, который
-корректно переносит текст. Оба места перепроверены скриншотами — переполнение
-исчезло. `decision_map()` в остальных двух местах главы 23
-(`23-20-oshibki-fajlovoj-sistemy.html`, `23-22-nastrojki-proekta.html` — тот же
-файл, другой блок про `FileNotFoundError`/`PermissionError`/`OSError`) оставлен
-как есть: там ответы — короткие идентификаторы, ровно то, для чего компонент
-предназначен, и скриншот подтверждает отсутствие проблемы.
-
-### 3. Опечатка
-
-`23-proj-11-filtr-sort-grupp.html`: «она organiзует весь список» — латинские
-буквы `organi` попали в середину русского слова. Исправлено на «организует».
-
-## Найденная, но НЕ исправленная проблема (сознательно, вне объёма аудита)
-
-### `flow_diagram()` теряет читаемость на 390px при 5+ узлах
-
-Компонент — SVG с фиксированным дизайн-размером, отображаемый через
-`width:100%;height:auto` без `min-width` — то есть при узком вьюпорте он
-всегда пропорционально сжимается, а не переходит на горизонтальный скролл
-(в отличие от таблиц и `code_block()`, которые именно скроллятся). При 2–3
-узлах сжатие умеренное и текст остаётся читаемым; при 5–6 узлах текст
-становится практически нечитаемым.
-
-Подтверждено скриншотами (кроп до области диаграммы для точной оценки):
-- `23-proj-05-board-table-roadmap.html` — 5 узлов (статусы SafeSort), подписи
-  под заголовками узлов на грани читаемости на 390px;
-- `23-proj-17-issue-branch-pr.html` — 6 узлов (Issue → Branch → Pull Request),
-  тот же эффект выражен сильнее — подписи узлов практически нечитаемы на 390px.
-
-Более лёгкая версия того же эффекта — на `23-git-10-working-tree-staging-commit.html`
-и `23-proj-08-chernovik-v-issue.html` (4 узла — умеренно тесно, но ещё читаемо).
-
-Это не уникально для главы 23: `flow_diagram()` используется 62 раза в 13
-файлах сборки по всей книге, так что это — общесистемная характеристика
-компонента, а не что-то, специфичное для нового материала этого раунда.
-Исправление потребовало бы либо переключения на паттерн
-горизонтального скролла (как у таблиц), либо адаптивной вертикальной
-раскладки для многих узлов — в обоих случаях это изменение поведения
-`site_lib.flow_diagram()`, затрагивающее все 13 файлов сборки книги, а не
-точечная правка. Учитывая, что мандат этого аудит-раунда — фактическая
-точность и достоверность свидетельств главы 23, а не общий редизайн
-компонентов сайта, решено задокументировать находку, а не чинить её в рамках
-этой ветки. Рекомендация: отдельная задача на адаптивность `flow_diagram()`
-(вероятно — горизонтальный скролл при `n >= 4`, по аналогии с таблицами).
-
-## Постранично — что реально осмотрено (390px)
-
-Каждая строка — отдельный реальный скриншот, открытый и просмотренный.
-
-| Страница | Результат |
+| Asset | SHA-256 |
 |---|---|
-| `index.html` (обзор главы) | Чисто: dir_tree до/после, safety_boundary-блоки, terminal_capture, новый список секций Части I/II — без переполнения. |
-| `23-git-01-chto-takoe-git-github.html` | Чисто. Полный GitHub-лockup (150px) на первом смысловом упоминании GitHub подтверждён и на 1440px, и на 390px. |
-| `23-git-02-ustanavlivaem-git.html` | Чисто. 3 code_block (Linux/Fedora, macOS) переносятся или скроллятся корректно. |
-| `23-git-03-pervaya-nastrojka.html` | Чисто. Исправление про Git 2.28/`init.defaultBranch` рендерится корректно, callout читаем. |
-| `23-git-04-github-account.html` | Была найдена и исправлена обрезка `decision_map()` (баг №2) — после фикса чисто. |
-| `23-git-05-autentifikaciya.html` | Была найдена обрезка `.compare-table` (часть бага №1, длинный текст) — после фикса чисто. |
-| `23-git-06-ssh.html` | Чисто. 3 code_block с длинными командами скроллятся, не обрезаются молча. |
-| `23-git-07-sozdaem-repozitorij.html` | Чисто. Реальный скриншот репозитория SafeSort масштабируется корректно на 390px. |
-| `23-git-08-kloniruem.html` | Чисто. Честная плашка «эталонный репозиторий подготовлен заранее» и подпись «как репозиторий выглядит сейчас» — обе читаемы, без переполнения. |
-| `23-git-09-lokalnyj-i-udalennyj.html` | Чисто. |
-| `23-git-10-working-tree-staging-commit.html` | Чисто по переполнению; учебный пример с `~/demo-project` и меткой «УЧЕБНЫЙ ПРИМЕР» читаем. 4-узловая flow_diagram — умеренно тесная (см. находку выше). |
-| `23-proj-01-repo-vs-project.html` | Чисто. |
-| `23-proj-02-luchshie-praktiki.html` | Чисто. |
-| `23-proj-03-sozdaem-project.html` | **Обновлено 2026-08-25 после создания реального Project.** Плашка-заглушка заменена на реальное подтверждение и ссылку на `github.com/orgs/Cartesian-School/projects/1`, плюс реальный скриншот Table (все 14 задач, поля Priority/Area). Переснято на 390px — чисто, изображение вписывается в вьюпорт без переполнения. |
-| `23-proj-04-kopiruem-project.html` | Чисто. |
-| `23-proj-05-board-table-roadmap.html` | **Обновлено 2026-08-25.** Добавлен реальный скриншот Board (5 колонок-статусов, все 14 задач в Done). Переснято на 390px — изображение вписывается в вьюпорт, чисто. 5-узловая flow_diagram по-прежнему нечитаема на 390px (не исправлено — см. находку выше, это отдельная, ранее задокументированная проблема). |
-| `23-proj-06-polya.html` | **Обновлено 2026-08-25.** Добавлен реальный скриншот Table с заполненными Priority/Area для всех 14 задач. Переснято на 390px — все 3 таблицы и новое изображение чисто, без переполнения. |
-| `23-proj-07-chernoviki.html` | Чисто. |
-| `23-proj-08-chernovik-v-issue.html` | Чисто по переполнению; 4-узловая flow_diagram умеренно тесная. |
-| `23-proj-09-issues.html` | Чисто. Реальный скриншот 14 Issues масштабируется корректно; исправленная подпись без «каждая закрыта своим PR» подтверждена. **Обновлено 2026-08-25:** добавлена ссылка на реальный Project с подтверждением, что все 14 Issues в него действительно добавлены — переснято на 390px, чисто. |
-| `23-proj-10-redaktiruem-elementy.html` | **Существенно обновлено 2026-08-25.** Ранее — просто чисто (без изображений). Теперь страница содержит честное объяснение, почему все 14 реальных задач нельзя двигать по статусам ради скриншота (релиз уже вышел), и реальную демонстрацию на отдельном демо-элементе — 4 настоящих скриншота (Ready → In Progress → In Review → Done) из настоящего Project. Переснято на 1440px и 390px — все 4 изображения читаемы, вписываются в вьюпорт на обеих ширинах, без переполнения. |
-| `23-proj-11-filtr-sort-grupp.html` | Найдена и исправлена опечатка «organiзует» → «организует»; 3-колоночная таблица чисто после фикса бага №1. |
-| `23-proj-12-upravlyaem-predstavleniyami.html` | Чисто. |
-| `23-proj-13-avtomatizaciya.html` | **Существенно обновлено 2026-08-25.** Ранее — чисто, но чисто текстовое описание без evidence. Теперь содержит два реальных скриншота настроенных workflow: «Item closed → Status: Done» (which actually fired on all 14 real items) и «Auto-add to project» (filter `is:issue`, now genuinely enabled). Переснято на 1440px и 390px — оба изображения читаемы на обеих ширинах, без переполнения. |
-| `23-proj-14-arhiviruem.html` | Чисто. |
-| `23-proj-15-shablony.html` | Чисто. Честная плашка про то, что SafeSort пока не помечен шаблоном, читаема целиком. |
-| `23-proj-16-insights.html` | Чисто. Два источника в одном official_sources-блоке отображаются оба. |
-| `23-proj-17-issue-branch-pr.html` | Чисто по переполнению. 6-узловая flow_diagram нечитаема на 390px — самый выраженный случай находки выше. |
-| `23-02-repozitorij.html` | Чисто. Исправленная фраза «Issues и GitHub Project разобраны» (вместо «настроены») подтверждена. |
-| `23-03-readme.html` | Чисто. Переписанное вступление (README уже существует со стартового коммита, не создаётся с нуля) и dir_tree с меткой «НОВОЕ» подтверждены; фиктивный хеш `05913f1` нигде не появляется. |
-| `23-32-itogi-reliz.html` | Самая насыщенная страница главы (timeline_diagram на 14 шагов, project_state_card, 3-колоночная таблица команд) — все компоненты чисто после фикса. Точная история «9 из 14 Issues через 7 PR» в подписи диаграммы подтверждена. |
+| `site/assets/brand/git/mark-black.svg` | `0bf58ad2b4a330d0023d65ffbf056f5d93abee6b29eca81904951b014b3c9cd9` |
+| `site/assets/brand/git/mark-white.svg` | `4b62d3bdfe913e88de9bd9d25cf466af9d4ac759dfecc8a17d86016b35b97a6e` |
+| `site/assets/brand/git/lockup-black.svg` | `bc76df3f745738484b172beb0b4fcf770de0603fde451487dafa2b45f76371ce` |
+| `site/assets/brand/git/lockup-white.svg` | `4b92d8fe6d9d7fa010a2cb526cb61bc9c7083678f7e9ffb5065d8b899817687f` |
 
-## Постранично — 1440px (выборка)
+Assets не recolored, не перерисованы, не помещены в Cartesian icon sprite и
+рендерятся с сохранением aspect ratio. На mixed Git/GitHub странице марки
+разделены и не создают видимость единого бренда.
 
-| Страница | Результат |
-|---|---|
-| `23-git-01-chto-takoe-git-github.html` | Чисто. Сайдбар корректно показывает новую структуру Части I/II; полный GitHub-lockup на месте. |
-| `23-proj-06-polya.html` | Чисто. Три таблицы читаемы, боковая панель отражает новый пункт «SafeSort — исходный репозиторий (GitHub)» первым элементом в разделе «Исходный код». |
+## Источники
 
-Остальные 29 страниц на 1440px не переснимались отдельно в этом раунде —
-десктопная ширина существенно менее рискованна по переполнению, чем 390px
-(что подтверждают все проверенные случаи), и приоритет отдан мобильной
-ширине как более вероятному источнику реальных проблем.
+| Категория | Количество |
+|---|---:|
+| Git/GitHub | 41 |
+| Python/Packaging | 13 |
+| Testing | 2 |
+| Cryptography | 1 |
+| Versioning | 1 |
+| Metrology | 1 |
+| Physics | 0 |
+| **Всего** | **59** |
 
-## Что не переоценивалось в этом раунде
+Physics=0 является осознанным результатом условия аудита: первичный physics
+source требовался только при преподавании общей 2D-формулы. Глава её не
+преподаёт и прямо ограничивает упражнение лобовым столкновением одинаковых
+масс; приписывать этому примеру общую 2D-модель запрещено.
 
-Части III–VI основного текста (кроме точечных правок 23-02/23-03/23-32) и
-шесть домашних проектов главы не изменялись в этом аудит-раунде и не были
-переснова осмотрены целиком. Баг №1 (`.compare-table`) и связанный с ним
-`decision_map()`-паттерн затрагивают и их — при попутной проверке (в ходе
-поиска второго случая `decision_map()`) были обнаружены и исправлены два
-случая за пределами Частей I/II (`23-20-oshibki-fajlovoj-sistemy.html`,
-`23-22-nastrojki-proekta.html`), но остальные ~40 страниц не проверялись
-скриншотами целенаправленно. Поскольку CSS-фикс — общий и безусловный
-(`@media (max-width:480px)`, применяется ко всем `.compare-table` на сайте),
-он чинит переполнение таблиц и там, даже без точечной проверки каждой
+## Визуальная методология и результат
+
+Собранный текущий `dist/` отдавался локальным HTTP server на порту 8876.
+Google Chrome запускался через Playwright driver с двумя viewport:
+1440×1000 и 390×844. Для каждой из 67 канонических страниц выполнялись
+полная прокрутка lazy images, DOM-preflight и full-page PNG. Каждый полный
+PNG разбивался на вертикальные фрагменты и был просмотрен вручную через
+contact sheet; всего просмотрено 134/134 снимка.
+
+Первый capture с порта 8765 был отвергнут до зачёта: порт обслуживал устаревший
+временный `dist`, что было обнаружено по отсутствующим Git logos. Все 134
+зачтённых снимка сделаны заново с текущего `/home/astra/Projects/Python_001/dist`.
+
+Итог preflight:
+
+- HTTP 200: 134/134;
+- desktop: 67/67;
+- mobile: 67/67;
+- page-level horizontal overflow: 0;
+- broken images после полной прокрутки: 0;
+- Git H1 branding: 10/10 на каждой ширине;
+- знак стоит первым дочерним элементом H1: 10/10;
+- desktop Git mark: 40×40 px, mixed heading: 34×34 px;
+- mobile Git mark: 31×31 px, mixed heading: 28×28 px;
+- desktop full-page height: 1611…6099 px;
+- mobile full-page height: 2194…8002 px.
+
+Широкие многоузловые схемы используют локальный горизонтальный scroll
+container. Это сохраняет размер подписей на mobile и не создаёт overflow
 страницы.
+
+## Верификация
+
+| Gate | Доказательство |
+|---|---|
+| Python syntax | builders/validators успешно прошли `py_compile` |
+| Course tests | 157 passed |
+| SafeSort tests | 85 passed |
+| Chapter practices | 24/24; 14 browser graders; 10 local-required; starter fails; solution passes |
+| Practice manifest | 493 canonical practices, gaps=0 |
+| SafeSort upstream sync | 19 locked files, 9 documented educational corrections, base `v0.1.0` / `fe610cf09392` |
+| Chapter output | 67 pages; Git H1 10/10; P0 contracts PASS |
+| Source validation | 59 sources; exact manifest/source match |
+| Full site build | navigation 1134 pages, broken links/fragments=0; catalogs 24 chapters / 493 practices / 13 projects; SEO 1134; sitemap 654 |
+| Determinism | 2606 files byte-identical across two complete generator/build passes |
+| Whitespace | `git diff --check` PASS |
+| Course/site CI definition | checkout/setup Python 3.14, regeneration, tests, validators, full build, generated diff and whitespace gates |
+
+## Профессорский вывод
+
+После главы ученик получает связную инженерную модель: требование становится
+Issue, работа изолируется веткой, изменение подтверждается тестами, review и
+CI, distribution собирается как wheel/sdist, artifact проверяется в чистой
+среде, а tag и GitHub Release остаются разными объектами. Научные ограничения
+SHA-256, Kelvin, `dt` и учебной collision model сформулированы явно.
+
+Остаточных P0 и P1 нет. Глава 23 готова к публикации после зелёного внешнего
+course/site CI на Pull Request.

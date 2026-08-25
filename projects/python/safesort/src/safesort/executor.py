@@ -1,10 +1,10 @@
 """Execution of a previously built :class:`~safesort.models.SortPlan`.
 
-This module contains the *only* code path in SafeSort that is allowed to
-move files. Everything upstream (``scan``, ``classify``, ``build_plan``) is
-read-only; ``apply_plan`` is what turns a plan into real filesystem
-changes, and only when the caller (the ``apply`` CLI subcommand) explicitly
-asks for it.
+This module contains SafeSort's forward sorting executor. Everything upstream
+(``scan``, ``classify``, ``build_plan``) is read-only; ``apply_plan`` turns a
+plan into real filesystem changes only when the caller explicitly invokes the
+``apply`` CLI subcommand. The separate ``undo`` path in :mod:`safesort.manifest`
+also moves files, in the reverse direction recorded by a manifest.
 
 A batch of filesystem moves is not a database transaction: if one move
 fails partway through (a vanished source file, a permission error, a full

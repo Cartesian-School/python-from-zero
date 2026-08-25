@@ -21,6 +21,9 @@ ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = ROOT / "manifest" / "practice_manifest.json"
 OUT_DIR = ROOT / "site" / "practice"
 
+CHAPTER_23_SAFESORT_LOCAL = {"23-09", "23-13", "23-16", "23-20", "23-21", "23-24"}
+CHAPTER_23_HOMEWORK_LOCAL = {"23-01", "23-04", "23-05", "23-06"}
+
 
 def build_page(lesson_id: str, entry: dict) -> str:
     notebook_url = f"/notebooks/{entry['notebook']}"
@@ -131,7 +134,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
 """
 
 
-def _local_required_explanation(entry: dict) -> tuple[str, str, str]:
+def _local_required_explanation(lesson_id: str, entry: dict) -> tuple[str, str, str]:
     """Returns (main_paragraph_html, vscode_tail, jupyter_tail) explaining why
     this specific lesson can't run in the browser. Uses entry["unavailable_module"]
     / entry["unavailable_kind"] ("window" or "server") when present for accurate,
@@ -140,6 +143,21 @@ def _local_required_explanation(entry: dict) -> tuple[str, str, str]:
     specific module, rather than risk a false claim for entries that predate
     this field.
     """
+    if lesson_id in CHAPTER_23_SAFESORT_LOCAL:
+        main = (
+            "Задание проверяет локальный checkout SafeSort, системные пути, Git или "
+            "операции с локальной файловой системой. Браузерная среда не даёт тот же "
+            "инженерный контекст. Выполните канонический ноутбук в отдельном окружении Python 3.14."
+        )
+        return main, "код выполнится в checkout SafeSort", "ядро будет использовать окружение SafeSort"
+    if lesson_id in CHAPTER_23_HOMEWORK_LOCAL:
+        main = (
+            "Задание импортирует код дополнительного проекта из репозитория курса и может "
+            "использовать локальную графическую или файловую подсистему. Выполните канонический "
+            "ноутбук в отдельном окружении Python 3.14."
+        )
+        return main, "код выполнится в checkout курса", "ядро будет использовать окружение курса"
+
     module = entry.get("unavailable_module")
     kind = entry.get("unavailable_kind", "window")
     if not module:
@@ -167,6 +185,53 @@ def _local_required_explanation(entry: dict) -> tuple[str, str, str]:
     return main, f"окно {esc_module} откроется на вашем компьютере", f"окно {esc_module} откроется как обычно"
 
 
+def _chapter_23_local_setup(lesson_id: str) -> str:
+    """Return the exact reproducible setup shown in Chapter 23 notebooks."""
+    if lesson_id in CHAPTER_23_SAFESORT_LOCAL:
+        return """
+  <div class="local-setup-contract">
+    <h2>Воспроизводимое окружение SafeSort</h2>
+    <pre><code>git clone https://github.com/Cartesian-School/safesort.git
+cd safesort
+python3.14 -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+python -m pip install -U pip
+python -m pip install -e ".[dev]"
+python -m pip install jupyter ipykernel
+python -m ipykernel install --user --name safesort-py314 --display-name "SafeSort Python 3.14"
+jupyter lab</code></pre>
+    <p>Выберите kernel <strong>SafeSort Python 3.14</strong>. До работы запустите диагностику:</p>
+    <pre><code>import sys
+import safesort
+
+print(sys.executable)
+print(safesort.__file__)</code></pre>
+    <p>Первый путь должен вести в <code class="inline">.venv</code>, второй в checkout <code class="inline">src/safesort</code>.</p>
+  </div>"""
+    if lesson_id in CHAPTER_23_HOMEWORK_LOCAL:
+        return """
+  <div class="local-setup-contract">
+    <h2>Воспроизводимое окружение проектов курса</h2>
+    <pre><code>git clone https://github.com/Cartesian-School/python-from-zero.git
+cd python-from-zero
+python3.14 -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+python -m pip install -U pip
+python -m pip install pytest pygame-ce jupyter ipykernel
+python -m ipykernel install --user --name course-py314 --display-name "Course Python 3.14"
+jupyter lab</code></pre>
+    <p>Выберите kernel <strong>Course Python 3.14</strong>. На Linux для Tkinter может понадобиться системный пакет <code class="inline">python3-tk</code>. Проверьте окружение:</p>
+    <pre><code>import sys
+from pathlib import Path
+
+print(sys.executable)
+print(Path.cwd())</code></pre>
+  </div>"""
+    return ""
+
+
 def build_local_required_page(lesson_id: str, entry: dict) -> str:
     """Practice page for lessons whose canonical code cannot run in the
     browser (confirmed: Pyodide has no turtle or tkinter, and pygame's
@@ -180,8 +245,10 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
     chapter_title = html.escape(entry["chapter_title"])
     lesson_title = html.escape(entry["lesson_title"])
     return_url = html.escape(entry["return_url"])
+    next_url = html.escape(entry.get("next_url") or entry["return_url"])
     lesson_id_js = html.escape(lesson_id).replace('"', '\\"')
-    explanation_html, vscode_tail, jupyter_tail = _local_required_explanation(entry)
+    explanation_html, vscode_tail, jupyter_tail = _local_required_explanation(lesson_id, entry)
+    setup_html = _chapter_23_local_setup(lesson_id)
 
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -214,6 +281,8 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
     <a class="btn-primary" href="{notebook_url}" download="{html.escape(download_name)}">📄 Скачать .ipynb</a>
   </div>
 
+{setup_html}
+
   <div class="local-instructions">
     <div class="instruction-card">
       <h3>VS Code</h3>
@@ -240,7 +309,10 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
     <div id="local-complete-status" class="local-complete-status"></div>
   </div>
 
-  <a class="practice-return" href="{return_url}">← Вернуться к уроку</a>
+  <div class="practice-route-links">
+    <a class="practice-return" href="{return_url}">← Вернуться к уроку</a>
+    <a class="practice-next" href="{next_url}">Следующая страница теории →</a>
+  </div>
 </main>
 
 {NAV_SCRIPT_TAG}
