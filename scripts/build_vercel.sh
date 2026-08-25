@@ -5,21 +5,42 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="${ROOT_DIR}/dist"
 
+if [[ -n "${PYTHON_BIN:-}" ]]; then
+  PYTHON="${PYTHON_BIN}"
+elif [[ -x "${ROOT_DIR}/.venv/bin/python" ]]; then
+  PYTHON="${ROOT_DIR}/.venv/bin/python"
+else
+  PYTHON="python3"
+fi
+
 echo "==> Building Cartesian School Python deployment"
 
 echo "==> Validating manifest/practice_manifest.json"
-python3 "${ROOT_DIR}/scripts/validate_practice_manifest.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 
 echo "==> Validating data/chapter-23-official-sources.json"
-python3 "${ROOT_DIR}/scripts/validate_chapter23_sources.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_sources.py"
 
 echo "==> Validating projects/python/safesort/ upstream sync"
-python3 "${ROOT_DIR}/scripts/validate_safesort_upstream_sync.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_safesort_upstream_sync.py"
+
+echo "==> Validating generated Chapter 23 academic contracts"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_outputs.py"
+
+echo "==> Validating Chapter 23 notebooks and graders"
+if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py" --portable
+elif [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "full" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py"
+else
+  echo "Unsupported CHAPTER23_VALIDATION_MODE: ${CHAPTER23_VALIDATION_MODE}" >&2
+  exit 2
+fi
 
 echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
-python3 "${ROOT_DIR}/scripts/build_seo_meta.py"
-python3 "${ROOT_DIR}/scripts/build_sitemap.py"
-python3 "${ROOT_DIR}/scripts/build_llms_full.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_seo_meta.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_sitemap.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_llms_full.py"
 
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
@@ -48,13 +69,13 @@ cp -a "${ROOT_DIR}/notebooks/."       "${DIST_DIR}/notebooks/"
 cp -a "${ROOT_DIR}/projects/."       "${DIST_DIR}/projects/"
 
 echo "==> Validating navigation (local links, fragments, canonical hosts)"
-python3 "${ROOT_DIR}/scripts/validate_navigation.py" "${DIST_DIR}"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_navigation.py" "${DIST_DIR}"
 
 echo "==> Validating site catalogs (homepage anchors, chapters, practice, projects)"
-python3 "${ROOT_DIR}/scripts/validate_site_catalogs.py" "${DIST_DIR}"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_site_catalogs.py" "${DIST_DIR}"
 
 echo "==> Validating SEO metadata"
-python3 "${ROOT_DIR}/scripts/validate_seo.py" "${DIST_DIR}"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_seo.py" "${DIST_DIR}"
 
 echo "==> Build completed"
 echo "Output: ${DIST_DIR}"

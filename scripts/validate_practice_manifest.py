@@ -29,6 +29,10 @@
 - osiротевшие директории site/practice/<id>/ без соответствующей записи
   в манифесте.
 
+Для Главы 23 дополнительно действует явный маршрутный контракт:
+страница теории -> практика -> следующая страница теории. Это важно,
+поскольку номер практики не всегда совпадает с номером страницы.
+
 Использование: python3 scripts/validate_practice_manifest.py
 Возвращает ненулевой код выхода и печатает все найденные ошибки, если
 манифест невалиден — предназначен для вызова из build-конвейера.
@@ -48,6 +52,35 @@ PRACTICE_DIR = SITE_DIR / "practice"
 
 VALID_BACKENDS = {"browser-pyodide", "browser-adapted", "local-required"}
 VALID_ASSESSMENTS = {"automatic", "manual-observation", "execution-only", "local-required"}
+
+# Explicit because Chapter 23 intentionally has lessons without a practice and
+# two test practices whose numeric IDs do not follow their page order.
+CHAPTER_23_ROUTE_CONTRACT: dict[str, tuple[str, str]] = {
+    "23-01": ("/chapters/glava-23/23-hw-01-kalkulyator.html", "/chapters/glava-23/23-hw-02-generator-istorij.html"),
+    "23-02": ("/chapters/glava-23/23-hw-02-generator-istorij.html", "/chapters/glava-23/23-hw-03-kamen-nozhnicy-bumaga.html"),
+    "23-03": ("/chapters/glava-23/23-hw-03-kamen-nozhnicy-bumaga.html", "/chapters/glava-23/23-hw-04-otskakivayushie-myachi.html"),
+    "23-04": ("/chapters/glava-23/23-hw-04-otskakivayushie-myachi.html", "/chapters/glava-23/23-hw-05-temperatura.html"),
+    "23-05": ("/chapters/glava-23/23-hw-05-temperatura.html", "/chapters/glava-23/23-hw-06-zametki.html"),
+    "23-06": ("/chapters/glava-23/23-hw-06-zametki.html", "/chapters/glava-24/index.html"),
+    "23-07": ("/chapters/glava-23/23-06-komandnaya-stroka.html", "/chapters/glava-23/23-07-pathlib.html"),
+    "23-08": ("/chapters/glava-23/23-07-pathlib.html", "/chapters/glava-23/23-08-skaniruem-katalog.html"),
+    "23-09": ("/chapters/glava-23/23-08-skaniruem-katalog.html", "/chapters/glava-23/23-09-isklyucheniya.html"),
+    "23-10": ("/chapters/glava-23/23-09-isklyucheniya.html", "/chapters/glava-23/23-10-klassifikaciya.html"),
+    "23-11": ("/chapters/glava-23/23-10-klassifikaciya.html", "/chapters/glava-23/23-11-plan-dejstvij.html"),
+    "23-12": ("/chapters/glava-23/23-11-plan-dejstvij.html", "/chapters/glava-23/23-12-predvaritelnyj-prosmotr.html"),
+    "23-13": ("/chapters/glava-23/23-13-peremeshaem-fajly.html", "/chapters/glava-23/23-14-imya-zanyato.html"),
+    "23-14": ("/chapters/glava-23/23-14-imya-zanyato.html", "/chapters/glava-23/23-15-zhurnal-operacij.html"),
+    "23-15": ("/chapters/glava-23/23-15-zhurnal-operacij.html", "/chapters/glava-23/23-16-otmena-operacii.html"),
+    "23-16": ("/chapters/glava-23/23-16-otmena-operacii.html", "/chapters/glava-23/23-17-poisk-dublikatov.html"),
+    "23-17": ("/chapters/glava-23/23-18-sha256.html", "/chapters/glava-23/23-19-gruppy-dublikatov.html"),
+    "23-18": ("/chapters/glava-23/23-19-gruppy-dublikatov.html", "/chapters/glava-23/23-20-oshibki-fajlovoj-sistemy.html"),
+    "23-19": ("/chapters/glava-23/23-22-nastrojki-proekta.html", "/chapters/glava-23/23-23-pervye-testy.html"),
+    "23-20": ("/chapters/glava-23/23-25-testy-peremeshheniya.html", "/chapters/glava-23/23-26-testy-dublikatov.html"),
+    "23-21": ("/chapters/glava-23/23-24-testy-skanirovaniya.html", "/chapters/glava-23/23-25-testy-peremeshheniya.html"),
+    "23-22": ("/chapters/glava-23/23-26-testy-dublikatov.html", "/chapters/glava-23/23-27-testy-cli.html"),
+    "23-23": ("/chapters/glava-23/23-27-testy-cli.html", "/chapters/glava-23/23-28-git-kommit.html"),
+    "23-24": ("/chapters/glava-23/23-28-git-kommit.html", "/chapters/glava-23/23-29-github-pr.html"),
+}
 
 
 def _load_top_level_pairs(path: Path) -> list[tuple[str, object]]:
@@ -134,6 +167,49 @@ def validate_global_completeness(manifest: dict) -> list[str]:
     return errors
 
 
+def validate_chapter_23_routes(manifest: dict) -> list[str]:
+    """Validate the exact theory/practice/theory graph and rendered links."""
+    errors = []
+    chapter_ids = {lesson_id for lesson_id in manifest if lesson_id.startswith("23-")}
+    expected_ids = set(CHAPTER_23_ROUTE_CONTRACT)
+    if chapter_ids != expected_ids:
+        missing = sorted(expected_ids - chapter_ids)
+        extra = sorted(chapter_ids - expected_ids)
+        errors.append(f"[Глава 23] маршрутный контракт: missing={missing}, extra={extra}")
+
+    for lesson_id, (return_url, next_url) in CHAPTER_23_ROUTE_CONTRACT.items():
+        entry = manifest.get(lesson_id)
+        if entry is None:
+            continue
+        if entry.get("return_url") != return_url:
+            errors.append(
+                f"[{lesson_id}] return_url нарушает маршрутный контракт: "
+                f"{entry.get('return_url')!r} != {return_url!r}"
+            )
+        if entry.get("next_url") != next_url:
+            errors.append(
+                f"[{lesson_id}] next_url нарушает маршрутный контракт: "
+                f"{entry.get('next_url')!r} != {next_url!r}"
+            )
+
+        theory_path = SITE_DIR / return_url.lstrip("/")
+        if not theory_path.exists():
+            errors.append(f"[{lesson_id}] страница теории не найдена: {return_url}")
+        else:
+            expected_link = f"../../practice/{lesson_id}/index.html"
+            theory_html = theory_path.read_text(encoding="utf-8")
+            if expected_link not in theory_html:
+                errors.append(
+                    f"[{lesson_id}] страница {return_url} не содержит каноническую ссылку {expected_link!r}"
+                )
+
+        next_path = SITE_DIR / next_url.lstrip("/")
+        if not next_path.exists():
+            errors.append(f"[{lesson_id}] следующая страница теории не найдена: {next_url}")
+
+    return errors
+
+
 def validate() -> list[str]:
     errors = []
 
@@ -189,6 +265,7 @@ def validate() -> list[str]:
             errors.append(f"{prefix} backend='local-required' не должен ссылаться на grader (нет Pyodide-раннера)")
 
     errors += validate_global_completeness(manifest)
+    errors += validate_chapter_23_routes(manifest)
 
     return errors
 

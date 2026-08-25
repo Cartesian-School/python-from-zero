@@ -15,6 +15,17 @@ def test_scan_empty_directory_returns_nothing(tmp_path: Path) -> None:
     assert scan(tmp_path, Config()) == []
 
 
+def test_scan_never_treats_safesort_toml_as_sortable_input(tmp_path: Path) -> None:
+    config_file = tmp_path / "safesort.toml"
+    config_file.write_text('[extensions]\nbooks = [".epub"]\n', encoding="utf-8")
+    (tmp_path / "novel.epub").write_bytes(b"book")
+
+    results = scan(tmp_path, Config())
+
+    assert [item.path.name for item in results] == ["novel.epub"]
+    assert config_file.exists()
+
+
 def test_scan_finds_nested_files_at_multiple_depths(tmp_path: Path) -> None:
     (tmp_path / "a.txt").write_text("top level")
     nested = tmp_path / "sub1" / "sub2"

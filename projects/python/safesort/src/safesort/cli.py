@@ -2,9 +2,9 @@
 
 Five subcommands: ``scan``, ``plan``, ``apply``, ``duplicates``, ``undo``.
 ``scan``, ``plan``, and ``duplicates`` are strictly read-only. ``apply`` is
-the only command that ever moves a file, and it does so as soon as it's
-invoked — the explicit subcommand *is* the confirmation, there is no
-additional interactive prompt.
+the only forward sorting executor; ``undo`` is the explicit reverse operation
+and also moves files. Both mutating commands act as soon as they are invoked:
+the explicit subcommand is the confirmation, with no additional prompt.
 
 Output printed to stdout here is the concise, user-facing summary shown in
 the README. Anything diagnostic (warnings about skipped files, permission
@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 
 def _configure_logging() -> None:
-    logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -41,7 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="safesort",
         description=(
             "SafeSort: a safe, non-destructive file organizer. "
-            "scan/plan/duplicates never modify anything; only 'apply' moves files."
+            "scan/plan/duplicates are read-only; 'apply' sorts and 'undo' restores files."
         ),
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

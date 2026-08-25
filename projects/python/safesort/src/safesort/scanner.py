@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from safesort.config import Config
+from safesort.config import CONFIG_FILENAME, Config
 from safesort.models import FileInfo
 
 logger = logging.getLogger(__name__)
@@ -61,6 +61,12 @@ def _scan_dir(directory: Path, excluded: frozenset[str], results: list[FileInfo]
                     continue
                 _scan_dir(entry, excluded, results)
             elif entry.is_file():
+                # The configuration controls this run and must remain in the
+                # root for later plan/apply/undo cycles.  It is SafeSort's
+                # input, not a user document to classify and move.
+                if entry.name == CONFIG_FILENAME:
+                    logger.info("Skipping SafeSort config file: %s", entry)
+                    continue
                 try:
                     size = entry.stat().st_size
                 except (PermissionError, FileNotFoundError, OSError) as exc:

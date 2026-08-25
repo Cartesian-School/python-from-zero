@@ -6,7 +6,14 @@ from pathlib import Path
 
 import pytest
 
-from safesort.config import Config, ConfigError, DEFAULT_DESTINATION, DEFAULT_EXCLUDE, load_config
+from safesort.config import (
+    DEFAULT_DESTINATION,
+    DEFAULT_EXCLUDE,
+    DEFAULT_EXTENSIONS,
+    Config,
+    ConfigError,
+    load_config,
+)
 
 
 def test_default_config_has_expected_values() -> None:
@@ -50,10 +57,21 @@ def test_load_config_reads_toml_overrides(tmp_path: Path) -> None:
     config = load_config(tmp_path)
     assert config.destination == "Organized"
     assert set(config.exclude) == {".git", "node_modules"}
-    assert config.extensions == {
-        "documents": [".pdf", ".docx", ".txt"],
-        "images": [".jpg", ".jpeg", ".png", ".webp"],
-    }
+    assert config.extensions["documents"] == [".pdf", ".docx", ".txt"]
+    assert config.extensions["images"] == [".jpg", ".jpeg", ".png", ".webp"]
+    assert config.extensions["video"] == DEFAULT_EXTENSIONS["video"]
+
+
+def test_extension_table_adds_category_without_removing_defaults(tmp_path: Path) -> None:
+    (tmp_path / "safesort.toml").write_text(
+        '[extensions]\nbooks = [".epub"]\n', encoding="utf-8"
+    )
+
+    config = load_config(tmp_path)
+
+    assert config.extensions["books"] == [".epub"]
+    for category, extensions in DEFAULT_EXTENSIONS.items():
+        assert config.extensions[category] == extensions
 
 
 def test_load_config_with_partial_toml_uses_defaults_for_missing_fields(tmp_path: Path) -> None:

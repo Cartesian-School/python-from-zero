@@ -45,10 +45,32 @@
   <div class="practice-chapter">Глава 23: Первый проект на GitHub — SafeSort</div>
   <div class="local-required-badge">Требуется локальный Python</div>
   <h1>23-24 · Читаем git diff и группируем изменения</h1>
-  <p>Эта практика использует функциональность, недоступную в текущей браузерной среде Python (Pyodide). Выполните это упражнение локально в Python 3.14.</p>
+  <p>Задание проверяет локальный checkout SafeSort, системные пути, Git или операции с локальной файловой системой. Браузерная среда не даёт тот же инженерный контекст. Выполните канонический ноутбук в отдельном окружении Python 3.14.</p>
 
   <div class="actions">
     <a class="btn-primary" href="/notebooks/chapter-23/23-24-git-diff.ipynb" download="23-24-git-diff.ipynb">📄 Скачать .ipynb</a>
+  </div>
+
+
+  <div class="local-setup-contract">
+    <h2>Воспроизводимое окружение SafeSort</h2>
+    <pre><code>git clone https://github.com/Cartesian-School/safesort.git
+cd safesort
+python3.14 -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -U pip
+python -m pip install -e ".[dev]"
+python -m pip install jupyter ipykernel
+python -m ipykernel install --user --name safesort-py314 --display-name "SafeSort Python 3.14"
+jupyter lab</code></pre>
+    <p>Выберите kernel <strong>SafeSort Python 3.14</strong>. До работы запустите диагностику:</p>
+    <pre><code>import sys
+import safesort
+
+print(sys.executable)
+print(safesort.__file__)</code></pre>
+    <p>Первый путь должен вести в <code class="inline">.venv</code>, второй в checkout <code class="inline">src/safesort</code>.</p>
   </div>
 
   <div class="local-instructions">
@@ -56,7 +78,7 @@
       <h3>VS Code</h3>
       <p>Установите расширения <strong>Python</strong> и <strong>Jupyter</strong> (Microsoft), откройте
       скачанный файл прямо в VS Code, выберите интерпретатор Python 3.14 и запускайте ячейки
-      (<code class="inline">Shift+Enter</code>) — на вашем компьютере.</p>
+      (<code class="inline">Shift+Enter</code>) — код выполнится в checkout SafeSort.</p>
     </div>
     <div class="instruction-card">
       <h3>PyCharm</h3>
@@ -68,7 +90,7 @@
       <h3>Jupyter</h3>
       <p>Установите Jupyter (<code class="inline">pip install notebook</code>), запустите
       <code class="inline">jupyter notebook</code> в папке со скачанным файлом и откройте его
-      в браузере — ядро выполняется локально, поэтому как обычно.</p>
+      в браузере — ядро выполняется локально, поэтому ядро будет использовать окружение SafeSort.</p>
     </div>
   </div>
 
@@ -77,7 +99,10 @@
     <div id="local-complete-status" class="local-complete-status"></div>
   </div>
 
-  <a class="practice-return" href="/chapters/glava-23/23-28-git-kommit.html">← Вернуться к уроку</a>
+  <div class="practice-route-links">
+    <a class="practice-return" href="/chapters/glava-23/23-28-git-kommit.html">← Вернуться к уроку</a>
+    <a class="practice-next" href="/chapters/glava-23/23-29-github-pr.html">Следующая страница теории →</a>
+  </div>
 </main>
 
 <script src="/assets/js/nav.js" defer></script>

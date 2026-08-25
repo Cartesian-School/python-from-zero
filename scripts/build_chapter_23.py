@@ -28,6 +28,12 @@ from site_lib import (
     dir_tree,
     exercise,
     flow_diagram,
+    git_github_heading,
+    git_heading,
+    git_lockup,
+    git_mark,
+    github_issue_card,
+    github_issue_checkpoint,
     github_lockup,
     github_mark,
     image_figure,
@@ -66,24 +72,24 @@ PAGES = [
     ("23-git-07-sozdaem-repozitorij.html", "Создаём репозиторий SafeSort на GitHub", 1),
     ("23-git-08-kloniruem.html", "Клонируем репозиторий", 1),
     ("23-git-09-lokalnyj-i-udalennyj.html", "Локальный и удалённый репозиторий", 1),
-    ("23-git-10-working-tree-staging-commit.html", "Working tree, staging и commit", 1),
+    ("23-git-10-working-tree-staging-commit.html", "Ветка, HEAD и origin/main", 1),
     ("23-proj-01-repo-vs-project.html", "Repository и GitHub Project — в чём разница", 2),
     ("23-proj-02-luchshie-praktiki.html", "Как спланировать Project: лучшие практики", 2),
     ("23-proj-03-sozdaem-project.html", "Создаём GitHub Project", 2),
-    ("23-proj-04-kopiruem-project.html", "Копируем существующий Project", 2),
     ("23-proj-05-board-table-roadmap.html", "Board, Table и Roadmap", 2),
     ("23-proj-06-polya.html", "Поля Project: встроенные и пользовательские", 2),
     ("23-proj-07-chernoviki.html", "Черновики: задача без Issue", 2),
     ("23-proj-08-chernovik-v-issue.html", "Превращаем черновик в Issue", 2),
     ("23-proj-09-issues.html", "Создаём Issues и добавляем в Project", 2),
-    ("23-proj-10-redaktiruem-elementy.html", "Редактируем элементы Project", 2),
-    ("23-proj-11-filtr-sort-grupp.html", "Фильтруем, сортируем и группируем", 2),
-    ("23-proj-12-upravlyaem-predstavleniyami.html", "Управляем представлениями", 2),
-    ("23-proj-13-avtomatizaciya.html", "Встроенная автоматизация и auto-add", 2),
-    ("23-proj-14-arhiviruem.html", "Архивируем и восстанавливаем элементы", 2),
-    ("23-proj-15-shablony.html", "Шаблоны Project", 2),
-    ("23-proj-16-insights.html", "Insights и графики Project", 2),
     ("23-proj-17-issue-branch-pr.html", "Первый цикл: Issue → Branch → Pull Request", 2),
+    ("23-proj-04-kopiruem-project.html", "Необязательно · Копируем существующий Project", 2),
+    ("23-proj-10-redaktiruem-elementy.html", "Необязательно · Редактируем элементы Project", 2),
+    ("23-proj-11-filtr-sort-grupp.html", "Необязательно · Фильтруем, сортируем и группируем", 2),
+    ("23-proj-12-upravlyaem-predstavleniyami.html", "Необязательно · Управляем представлениями", 2),
+    ("23-proj-13-avtomatizaciya.html", "Необязательно · Встроенная автоматизация и auto-add", 2),
+    ("23-proj-14-arhiviruem.html", "Необязательно · Архивируем и восстанавливаем элементы", 2),
+    ("23-proj-15-shablony.html", "Необязательно · Шаблоны Project", 2),
+    ("23-proj-16-insights.html", "Необязательно · Insights и графики Project", 2),
     ("23-02-repozitorij.html", "Первый коммит в клонированном репозитории", 3),
     ("23-03-readme.html", "Первый README проекта", 3),
     ("23-04-struktura-paketa.html", "Планируем структуру Python-пакета", 3),
@@ -110,8 +116,8 @@ PAGES = [
     ("23-25-testy-peremeshheniya.html", "Проверяем перемещение и отмену", 5),
     ("23-26-testy-dublikatov.html", "Проверяем поиск дубликатов", 5),
     ("23-27-testy-cli.html", "Проверяем интерфейс командной строки", 5),
-    ("23-28-git-kommit.html", "Git: от рабочего изменения к коммиту", 5),
-    ("23-29-github-pr.html", "GitHub: Issue, ветка и Pull Request", 5),
+    ("23-28-git-kommit.html", "Самопроверка изменений и дисциплина коммитов", 5),
+    ("23-29-github-pr.html", "GitHub: применяем Issue, ветку и Pull Request", 5),
     ("23-30-github-actions.html", "GitHub Actions: автоматически запускаем тесты", 5),
     ("23-31-versiya-reliz.html", "Документация, версия и первый релиз", 6),
     ("23-32-itogi-reliz.html", "Итоги: полный путь проекта от идеи до релиза", 6),
@@ -210,6 +216,16 @@ def build_opener() -> None:
     и доведём её до состояния, в котором её можно показать на GitHub: с тестами, историей
     коммитов и Pull Request.</p>
 
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+      margin:4px 0 20px;padding:14px 18px;background:var(--color-bg-surface,#FAFAFC);
+      border-radius:12px;font-size:13px;color:#3A3A4A">
+        <span>код</span>
+        <span style="color:#B4B4C4">→</span>
+        <span style="display:inline-flex;align-items:center;gap:6px">{git_mark(18)} <strong>working tree → staging → commit</strong></span>
+        <span style="color:#B4B4C4">→</span>
+        <span style="display:inline-flex;align-items:center;gap:6px">{github_mark(18)} <strong>push → PR → CI</strong></span>
+    </div>
+
     {before_after_trees(
         ("Downloads", "dir", [
             ("report.pdf", "file", []),
@@ -251,7 +267,7 @@ def build_opener() -> None:
         baseline_page=511,
         title="Первый проект на GitHub: SafeSort",
         description="Пишем программу, которая наводит порядок в файлах, — и доводим её до состояния, готового для GitHub: тесты, история коммитов, Pull Request.",
-        meta_items=["[[icon:timer]] ~16-20 часов", "[[icon:architecture]] один проект, 6 частей", "[[icon:practice]] 20 практик + приложение"],
+        meta_items=["[[icon:timer]] ~16-20 часов", "[[icon:architecture]] один проект, 6 частей", "[[icon:practice]] 24 практики: 18 SafeSort + 6 домашних"],
         intro_html=intro,
         sections=[
             ChapterSectionLink("23.1", "Что мы будем создавать: SafeSort", "23-01-ideya-trebovaniya.html"),
@@ -264,24 +280,24 @@ def build_opener() -> None:
             ChapterSectionLink("", "Создаём репозиторий SafeSort", "23-git-07-sozdaem-repozitorij.html"),
             ChapterSectionLink("", "Клонируем репозиторий", "23-git-08-kloniruem.html"),
             ChapterSectionLink("", "Локальный и удалённый репозиторий", "23-git-09-lokalnyj-i-udalennyj.html"),
-            ChapterSectionLink("", "Working tree, staging и commit", "23-git-10-working-tree-staging-commit.html"),
+            ChapterSectionLink("", "Ветка, HEAD и origin/main", "23-git-10-working-tree-staging-commit.html"),
             ChapterSectionLink("", "Repository и GitHub Project", "23-proj-01-repo-vs-project.html"),
             ChapterSectionLink("", "Лучшие практики Project", "23-proj-02-luchshie-praktiki.html"),
             ChapterSectionLink("", "Создаём GitHub Project", "23-proj-03-sozdaem-project.html"),
-            ChapterSectionLink("", "Копируем существующий Project", "23-proj-04-kopiruem-project.html"),
             ChapterSectionLink("", "Board, Table и Roadmap", "23-proj-05-board-table-roadmap.html"),
             ChapterSectionLink("", "Поля Project", "23-proj-06-polya.html"),
             ChapterSectionLink("", "Черновики: задача без Issue", "23-proj-07-chernoviki.html"),
             ChapterSectionLink("", "Превращаем черновик в Issue", "23-proj-08-chernovik-v-issue.html"),
             ChapterSectionLink("", "Создаём Issues", "23-proj-09-issues.html"),
-            ChapterSectionLink("", "Редактируем элементы Project", "23-proj-10-redaktiruem-elementy.html"),
-            ChapterSectionLink("", "Фильтруем, сортируем, группируем", "23-proj-11-filtr-sort-grupp.html"),
-            ChapterSectionLink("", "Управляем представлениями", "23-proj-12-upravlyaem-predstavleniyami.html"),
-            ChapterSectionLink("", "Автоматизация и auto-add", "23-proj-13-avtomatizaciya.html"),
-            ChapterSectionLink("", "Архивируем элементы", "23-proj-14-arhiviruem.html"),
-            ChapterSectionLink("", "Шаблоны Project", "23-proj-15-shablony.html"),
-            ChapterSectionLink("", "Insights и графики", "23-proj-16-insights.html"),
             ChapterSectionLink("", "Первый цикл: Issue → Branch → PR", "23-proj-17-issue-branch-pr.html"),
+            ChapterSectionLink("", "Необязательно · Копируем Project", "23-proj-04-kopiruem-project.html"),
+            ChapterSectionLink("", "Необязательно · Редактируем элементы", "23-proj-10-redaktiruem-elementy.html"),
+            ChapterSectionLink("", "Необязательно · Фильтруем и группируем", "23-proj-11-filtr-sort-grupp.html"),
+            ChapterSectionLink("", "Необязательно · Представления", "23-proj-12-upravlyaem-predstavleniyami.html"),
+            ChapterSectionLink("", "Необязательно · Автоматизация", "23-proj-13-avtomatizaciya.html"),
+            ChapterSectionLink("", "Необязательно · Архив", "23-proj-14-arhiviruem.html"),
+            ChapterSectionLink("", "Необязательно · Шаблоны", "23-proj-15-shablony.html"),
+            ChapterSectionLink("", "Необязательно · Insights", "23-proj-16-insights.html"),
             ChapterSectionLink("23.2", "Создаём репозиторий проекта", "23-02-repozitorij.html"),
             ChapterSectionLink("23.3", "Первый README проекта", "23-03-readme.html"),
             ChapterSectionLink("23.4", "Планируем структуру Python-пакета", "23-04-struktura-paketa.html"),
@@ -308,8 +324,8 @@ def build_opener() -> None:
             ChapterSectionLink("23.25", "Проверяем перемещение и отмену", "23-25-testy-peremeshheniya.html"),
             ChapterSectionLink("23.26", "Проверяем поиск дубликатов", "23-26-testy-dublikatov.html"),
             ChapterSectionLink("23.27", "Проверяем интерфейс командной строки", "23-27-testy-cli.html"),
-            ChapterSectionLink("23.28", "Git: от рабочего изменения к коммиту", "23-28-git-kommit.html"),
-            ChapterSectionLink("23.29", "GitHub: Issue, ветка и Pull Request", "23-29-github-pr.html"),
+            ChapterSectionLink("23.28", "Самопроверка изменений и дисциплина коммитов", "23-28-git-kommit.html"),
+            ChapterSectionLink("23.29", "GitHub: применяем Issue, ветку и Pull Request", "23-29-github-pr.html"),
             ChapterSectionLink("23.30", "GitHub Actions: автоматически запускаем тесты", "23-30-github-actions.html"),
             ChapterSectionLink("23.31", "Документация, версия и первый релиз", "23-31-versiya-reliz.html"),
             ChapterSectionLink("23.32", "Итоги: полный путь проекта от идеи до релиза", "23-32-itogi-reliz.html"),
@@ -321,7 +337,7 @@ def build_opener() -> None:
 
 def build_01() -> None:
     body = f"""
-    {stage_tracker(1)}
+    {stage_tracker(1, full=True)}
 
     <p>До сих пор мы писали программы по частям: функции, игры, интерфейсы. Теперь
     соберём один проект целиком и доведём его до состояния, которое можно разместить на
@@ -405,7 +421,7 @@ def build_01() -> None:
     )}
 
     {summary_box("Коротко", [
-        "scan, plan и duplicates только читают файловую систему; перемещает файлы исключительно apply.",
+        "scan, plan и duplicates только читают файловую систему; apply сортирует файлы, а undo выполняет обратное перемещение.",
         "«Показать план» и «выполнить план» — разные шаги, и это различие определяет всю архитектуру программы.",
         "Функциональные требования — что программа делает; нефункциональные — какими свойствами обладает её поведение.",
     ])}
@@ -429,38 +445,48 @@ def build_git_01() -> None:
     body = f"""
     {stage_tracker(1)}
 
-    <div style="margin:8px 0 20px">{github_lockup(150)}</div>
+    <div style="display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin:8px 0 20px">
+        <div style="display:flex;align-items:center;gap:10px">{git_lockup(84)}</div>
+        <div style="color:#9A9AAE;font-size:22px;font-weight:700;line-height:1">≠</div>
+        <div style="display:flex;align-items:center;gap:10px">{github_lockup(140)}</div>
+    </div>
 
     <p>Предыдущий раздел показал, что будет делать SafeSort. Прежде чем писать код, разберёмся с
-    инструментами, вокруг которых построена вся оставшаяся часть главы, — и с четырьмя
-    похожими словами, которые легко перепутать.</p>
+    инструментами, вокруг которых построена вся оставшаяся часть главы, и с четырьмя
+    похожими словами, которые легко перепутать. Git и GitHub: разные продукты,
+    а не два имени одной и той же вещи.</p>
 
     {comparison_table(
         ["Понятие", "Что это"],
         [
-            ["Python-проект", "исходный код и файлы SafeSort на диске — то, что мы пишем"],
+            ["Python-проект", "исходный код и файлы SafeSort на диске, с которыми мы работаем"],
             ["Git-репозиторий", "история изменений этих файлов, хранящаяся в скрытом каталоге .git"],
-            ["GitHub-репозиторий", "тот же Git-репозиторий, размещённый на сервере GitHub — плюс веб-интерфейс"],
-            ["GitHub Project", "отдельный инструмент планирования поверх репозитория — Issues, доска, представления"],
+            ["GitHub-репозиторий", "Git-репозиторий на сервере GitHub вместе с веб-интерфейсом"],
+            ["GitHub Project", "отдельный инструмент планирования: Issues, доска и представления"],
         ],
     )}
 
-    <p><strong>Git</strong> — программа, которая работает локально, на вашем компьютере: она
-    следит за историей изменений файлов. <strong>GitHub</strong> — сервис в интернете,
-    построенный вокруг Git: он хранит удалённую копию репозитория и добавляет то, чего у
-    голого Git нет, — Issues, Pull Request, Projects, Actions, Releases.</p>
+    <p><strong>Git</strong> {git_mark(20)} работает полностью локально на вашем компьютере и
+    хранит историю изменений файлов. Ему не нужны ни аккаунт GitHub,
+    ни интернет, ни удалённый репозиторий. Можно установить Git, создать
+    репозиторий, сделать сто коммитов и ни разу не подключиться к сети. <strong>GitHub</strong>
+    работает как отдельный интернет-сервис поверх Git: он хранит удалённую копию репозитория
+    и добавляет то, чего у самого Git
+    нет: Issues, Pull Request, Projects, Actions и Releases. GitHub построен вокруг Git, но
+    обратной зависимости нет: Git прекрасно работает без GitHub, а вот GitHub без Git,
+    напротив, работать не может. Этот сервис хранит и обслуживает Git-репозитории.</p>
 
     {flow_diagram([
-        ("Ваш компьютер", "Git-репозиторий — работает без интернета"),
-        ("git push / git pull", "синхронизация истории"),
+        ("Ваш компьютер", "Git-репозиторий работает полностью локально, без интернета"),
+        ("git push / git pull", "необязательная синхронизация истории"),
         ("GitHub", "удалённая копия + Issues, Projects, PR, Actions, Releases"),
-    ], caption="Git — локальный инструмент истории; GitHub — сервис вокруг него. Одно не работает без другого, но это два разных слоя.")}
+    ], caption="Git работает с локальной историей самостоятельно. GitHub предоставляет сетевой сервис поверх Git. Зависимость односторонняя: Git не нуждается в GitHub, а GitHub использует Git-репозитории.")}
 
     {callout(
         "info",
         "Репозиторий на GitHub — не то же самое, что GitHub Project",
         "Это одна из самых частых путаниц у начинающих. Репозиторий хранит код и его историю. "
-        "GitHub Project — отдельный, необязательный инструмент планирования: можно иметь "
+        "GitHub Project служит отдельным, необязательным инструментом планирования: можно иметь "
         "репозиторий вообще без Project, и можно завести Project, объединяющий Issues сразу "
         "из нескольких репозиториев. Часть II этой главы разберёт эту разницу подробно.",
     )}
@@ -472,18 +498,18 @@ def build_git_01() -> None:
 
     {summary_box("Коротко", [
         "Git работает локально и следит за историей файлов; ему не нужен интернет.",
-        "GitHub — сервис вокруг Git: удалённая копия репозитория плюс Issues, Pull Request, Projects, Actions, Releases.",
-        "Репозиторий (код и история) и GitHub Project (планирование) — разные, независимые понятия.",
+        "GitHub предоставляет удалённую копию репозитория и инструменты Issues, Pull Request, Projects, Actions и Releases.",
+        "Репозиторий хранит код и историю, а GitHub Project служит для планирования. Это независимые понятия.",
     ])}
     """
     out = render_page(
         page_title="Что такое Git и что такое GitHub",
-        description="Git — локальный инструмент истории изменений; GitHub — сервис вокруг него с Issues, Pull Request, Projects и Actions.",
+        description="Git хранит локальную историю изменений; GitHub предоставляет сетевой сервис с Issues, Pull Request, Projects и Actions.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Git и GitHub", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Что такое Git и что такое GitHub",
-        lede="Git и GitHub — не синонимы: один работает локально, другой — сервис вокруг него.",
+        h1=git_github_heading("Что такое Git и что такое GitHub"),
+        lede="Git и GitHub не синонимы: Git работает локально, а GitHub предоставляет сетевой сервис поверх репозитория.",
         body_html=body,
         sidebar_groups=sidebar("23-git-01-chto-takoe-git-github.html"),
         nav=PageNav(prev_href="23-01-ideya-trebovaniya.html", prev_label="Что мы будем создавать", next_href="23-git-02-ustanavlivaem-git.html", next_label="Устанавливаем Git"),
@@ -494,6 +520,8 @@ def build_git_01() -> None:
 def build_git_02() -> None:
     body = f"""
     {stage_tracker(1)}
+
+    <div style="margin:8px 0 20px">{git_lockup(100)}</div>
 
     <p>Git — не встроенная часть Python: его нужно установить отдельно, один раз для всей
     системы. Способ установки зависит от операционной системы.</p>
@@ -523,13 +551,34 @@ def build_git_02() -> None:
     <p>Официальный установщик — <strong>Git for Windows</strong>: он ставит саму программу
     <code class="inline">git</code> и терминал <strong>Git Bash</strong>, в котором работают
     все команды этой главы без изменений.</p>
-    {official_sources([("Git for Windows", "https://git-scm.com/download/win")])}
+    {official_sources([("Git for Windows", "https://git-scm.com/download/win")], adapted=False)}
 
     <h2>macOS</h2>
-    <p>Простейший путь — Xcode Command Line Tools (<code class="inline">xcode-select
-    --install</code>), которые включают Git. Официальный установщик с git-scm.com —
-    альтернатива, если нужна конкретная версия Git.</p>
-    {official_sources([("Git for macOS", "https://git-scm.com/download/mac")])}
+    <p>На macOS у git-scm.com больше нет единого официального установщика: отдельный
+    бинарный installer поддерживался только до версии 2.33.0 (2021 год) и с тех пор не
+    обновляется. git-scm.com прямо сообщает, что больше не ссылается на него и не
+    планирует возобновлять поддержку. Вместо этого на macOS используют один из трёх
+    вариантов:</p>
+
+    {comparison_table(
+        ["Способ", "Команда"],
+        [
+            ["Xcode Command Line Tools; подходит, если полный Xcode не нужен", "xcode-select --install"],
+            ["Homebrew; распространённый менеджер пакетов для macOS", "brew install git"],
+            ["MacPorts; альтернативный менеджер пакетов", "sudo port install git"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Эти сборки поддерживает не git-scm.com",
+        "git-scm.com сам предупреждает: любые дистрибутивы Git, кроме исходного кода, "
+        "собирают и поддерживают третьи стороны (Apple для Xcode Command Line Tools, "
+        "команда Homebrew, команда MacPorts), и они не обязаны обновляться сразу вслед за "
+        "новым релизом Git. Для этого курса подходит любой из трёх вариантов. Команда "
+        "git --version ниже покажет, что реально установилось.",
+    )}
+    {official_sources([("Git for macOS", "https://git-scm.com/download/mac")], adapted=False)}
 
     <h2>Проверяем установку</h2>
     <p>Независимо от системы, результат один и тот же: команда <code class="inline">git
@@ -541,8 +590,8 @@ def build_git_02() -> None:
 
     {summary_box("Коротко", [
         "Git ставится один раз для системы — отдельно от Python.",
-        "Linux: sudo apt install git (или dnf install git). Windows: Git for Windows + Git Bash. macOS: Xcode Command Line Tools.",
-        "git --version — единственная проверка, что всё получилось.",
+        "Linux: sudo apt install git (или dnf install git). Windows: Git for Windows + Git Bash. macOS: Xcode Command Line Tools, Homebrew или MacPorts; единого официального установщика с 2021 года нет.",
+        "Команда git --version проверяет результат установки.",
     ])}
     """
     out = render_page(
@@ -551,7 +600,7 @@ def build_git_02() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Установка Git", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Устанавливаем Git",
+        h1=git_heading("Устанавливаем Git"),
         lede="Git ставится отдельно от Python, один раз для всей системы — способ зависит от операционной системы.",
         body_html=body,
         sidebar_groups=sidebar("23-git-02-ustanavlivaem-git.html"),
@@ -564,8 +613,8 @@ def build_git_03() -> None:
     body = f"""
     {stage_tracker(1)}
 
-    <p>Прежде чем сделать первый коммит, Git нужно один раз сказать, кто вы, — эта информация
-    записывается в каждый коммит и остаётся в истории навсегда.</p>
+    <p>{git_mark(20)} Прежде чем сделать первый коммит, Git нужно один раз сообщить имя и email.
+    эта информация записывается в каждый коммит и остаётся в истории навсегда.</p>
 
     {terminal_capture([
         "$ git init",
@@ -583,11 +632,11 @@ def build_git_03() -> None:
 
     {callout(
         "warning",
-        "Это имя пишется в коммиты — а не только в профиль GitHub",
-        "<code class=\"inline\">user.name</code>/<code class=\"inline\">user.email</code> — "
+        "Это имя записывается в коммиты, а не только в профиль GitHub",
+        "<code class=\"inline\">user.name</code>/<code class=\"inline\">user.email</code> обозначают "
         "не логин GitHub и не то же самое, что имя в профиле. Это данные, которые буквально "
         "попадают в каждый коммит как автор изменения, и их видно всем, кто посмотрит "
-        "историю — в том числе после публикации на GitHub.",
+        "историю, в том числе после публикации на GitHub.",
     )}
 
     <p>Флаг <code class="inline">--local</code> относится только к этому одному репозиторию.
@@ -640,7 +689,7 @@ def build_git_03() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Настройка Git", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Первая настройка Git",
+        h1=git_heading("Первая настройка Git"),
         lede="Прежде чем сделать первый коммит, Git нужно один раз сказать, кто вы, — это записывается в каждый коммит.",
         body_html=body,
         sidebar_groups=sidebar("23-git-03-pervaya-nastrojka.html"),
@@ -759,7 +808,7 @@ def build_git_05() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Аутентификация", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="HTTPS, SSH и аутентификация",
+        h1=git_heading("HTTPS, SSH и аутентификация"),
         lede="Браузер, Git по HTTPS и Git по SSH подтверждают личность тремя разными способами — курс использует SSH.",
         body_html=body,
         sidebar_groups=sidebar("23-git-05-autentifikaciya.html"),
@@ -836,7 +885,7 @@ def build_git_06() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("SSH", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Настраиваем SSH",
+        h1=git_heading("Настраиваем SSH"),
         lede="Приватный ключ остаётся на компьютере и доказывает личность, не покидая его; публичный ключ уходит на GitHub.",
         body_html=body,
         sidebar_groups=sidebar("23-git-06-ssh.html"),
@@ -901,7 +950,7 @@ def build_git_07() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Репозиторий SafeSort", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Создаём репозиторий SafeSort на GitHub",
+        h1=git_heading("Создаём репозиторий SafeSort на GitHub"),
         lede="Настоящий репозиторий Cartesian-School/safesort — тот, что используется во всей оставшейся части главы.",
         body_html=body,
         sidebar_groups=sidebar("23-git-07-sozdaem-repozitorij.html"),
@@ -971,7 +1020,7 @@ def build_git_08() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Клонирование", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Клонируем репозиторий",
+        h1=git_heading("Клонируем репозиторий"),
         lede="git clone создаёт полную локальную копию репозитория разом — файлы, всю историю и связь с GitHub.",
         body_html=body,
         sidebar_groups=sidebar("23-git-08-kloniruem.html"),
@@ -995,6 +1044,12 @@ def build_git_09() -> None:
         "origin\thttps://github.com/Cartesian-School/safesort.git (fetch)",
         "origin\thttps://github.com/Cartesian-School/safesort.git (push)",
     ])}
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin:20px 0 4px;flex-wrap:wrap;font-size:13px;color:#6B6B7D">
+        <span style="display:inline-flex;align-items:center;gap:6px">{git_mark(20)} <strong>Ваш компьютер: локальный репозиторий</strong></span>
+        <span>⇄ push / pull ⇄</span>
+        <span style="display:inline-flex;align-items:center;gap:6px">{github_mark(20)} <strong>GitHub: удалённый репозиторий</strong></span>
+    </div>
 
     {flow_diagram([
         ("Локальный репозиторий", "ветка main на вашем компьютере"),
@@ -1024,11 +1079,11 @@ def build_git_09() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Remotes", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Локальный и удалённый репозиторий",
+        h1=git_heading("Локальный и удалённый репозиторий"),
         lede="origin — просто имя для удалённого репозитория, которое git clone назначает по умолчанию.",
         body_html=body,
         sidebar_groups=sidebar("23-git-09-lokalnyj-i-udalennyj.html"),
-        nav=PageNav(prev_href="23-git-08-kloniruem.html", prev_label="Клонируем репозиторий", next_href="23-git-10-working-tree-staging-commit.html", next_label="Working tree, staging и commit"),
+        nav=PageNav(prev_href="23-git-08-kloniruem.html", prev_label="Клонируем репозиторий", next_href="23-git-10-working-tree-staging-commit.html", next_label="Ветка, HEAD и origin/main"),
     )
     write("23-git-09-lokalnyj-i-udalennyj.html", out)
 
@@ -1037,15 +1092,67 @@ def build_git_10() -> None:
     body = f"""
     {stage_tracker(1)}
 
-    <p>Прежде чем что-то менять в SafeSort, стоит один раз чётко понять три состояния, через
-    которые проходит любое изменение файла в Git.</p>
+    <p>{git_mark(20)} Перед первой рабочей веткой соберём одну цельную модель: где лежит
+    изменение, на какой коммит указывает текущая ветка и что именно Git обновляет при
+    <code class="inline">fetch</code>, <code class="inline">pull</code> и
+    <code class="inline">push</code>.</p>
 
     {flow_diagram([
         ("Working tree", "файлы на диске — то, что видит текстовый редактор"),
-        ("git add", "Staging area / индекс — что попадёт в следующий коммит"),
-        ("git commit", "Локальный репозиторий — постоянная запись в истории"),
-        ("git push", "GitHub — та же история, опубликованная удалённо"),
-    ], caption="Четыре состояния одного изменения — от файла на диске до истории на GitHub")}
+        ("git add", "копирует текущее содержимое в staging area / индекс"),
+        ("git commit", "создаёт новый коммит в локальном графе"),
+        ("git push", "предлагает GitHub обновить удалённую ветку"),
+    ], caption="Файл остаётся в working tree: git add не перемещает его, а фиксирует выбранное содержимое в индексе")}
+
+    <p><code class="inline">git add</code> не переносит файл в другое место. Рабочий файл
+    остаётся на диске и может снова измениться. Команда помещает в индекс снимок его
+    <em>текущего содержимого</em>, который станет частью следующего коммита.</p>
+
+    <h2>Коммиты образуют граф</h2>
+    <p>Каждый коммит знает родительский коммит. Поэтому история похожа не на папку с
+    версиями, а на граф. <strong>Веткой</strong> называют подвижное имя, указывающее на один коммит.
+    <strong>HEAD</strong> обычно указывает на выбранную ветку. Новый коммит получает текущий
+    коммит родителем и передвигает эту ветку вперёд.</p>
+
+    {terminal_capture([
+        "$ git log --oneline --graph --decorate --all",
+        "* c31a4d2 (HEAD -> feature/scanner) Add directory scanner",
+        "* 82b19aa Add scanner test",
+        "* 4f10c77 (main, origin/main) Initial project structure",
+    ], cwd="~/safesort", caption="HEAD указывает на выбранную feature/scanner; main и origin/main пока остались на предыдущем коммите")}
+
+    <pre class="commit-graph" role="img" aria-label="Граф из ветки main и ответвившейся feature/scanner"><code>      C3  feature/scanner  ← HEAD
+     /
+C1──C2  main, origin/main</code></pre>
+
+    {comparison_table(
+        ["Имя", "Где живёт", "Что означает"],
+        [
+            ["main", "локальный репозиторий", "ваша локальная ветка"],
+            ["origin/main", "локальный репозиторий", "последнее известное Git состояние удалённой main"],
+            ["main на GitHub", "удалённый репозиторий", "реальная ветка на сервере GitHub"],
+        ],
+    )}
+
+    <p><code class="inline">origin/main</code> не показывает состояние GitHub в реальном времени. Это
+    локальная remote-tracking ссылка, которая меняется, когда Git получает сведения с сервера,
+    например после <code class="inline">git fetch</code>.</p>
+
+    {flow_diagram([
+        ("git fetch", "скачивает новые коммиты и обновляет origin/main; рабочие файлы не интегрирует"),
+        ("git pull", "сначала fetch, затем интеграция полученной ветки в текущую"),
+        ("git push", "отправляет локальные коммиты и просит обновить ветку на GitHub"),
+    ], caption="fetch обновляет знание о remote; pull добавляет интеграцию; push движется в обратную сторону")}
+
+    {terminal_capture([
+        "$ git status",
+        "On branch main",
+        "Your branch is up to date with 'origin/main'.",
+        "$ git branch -vv",
+        "* main 4f10c77 [origin/main] Initial project structure",
+        "$ git fetch origin",
+        "$ git log --oneline --graph --decorate --all",
+    ], cwd="~/safesort")}
 
     {comparison_table(
         ["Команда", "Что показывает"],
@@ -1053,49 +1160,32 @@ def build_git_10() -> None:
             ["git status", "какие файлы изменены, какие уже в staging, какие Git вообще не отслеживает"],
             ["git diff", "построчные изменения в рабочем дереве, ещё не добавленные в staging"],
             ["git diff --staged", "построчные изменения, уже добавленные в staging — то, что попадёт в коммит"],
-            ["git log", "история коммитов — что уже стало постоянной записью"],
+            ["git branch -vv", "локальные ветки, текущую ветку и их upstream-связи"],
+            ["git log --oneline --graph --decorate --all", "граф коммитов и положения ссылок"],
         ],
     )}
 
-    <p>Ниже — <strong>учебный пример</strong> на отдельном, специально созданном для
-    демонстрации каталоге (не в самом SafeSort — в клонированном репозитории README.md уже
-    закоммичен, это было видно в части III), чтобы показать, как эти четыре команды выглядят
-    на практике при самом первом коммите нового файла:</p>
-
-    {terminal_capture([
-        "$ git status",
-        "?? notes.md",
-        "$ git add notes.md",
-        "$ git status",
-        "A  notes.md",
-        "$ git commit -m \"Add notes\"",
-        "[main (root-commit) a1c2e9f] Add notes",
-        " 1 file changed, 1 insertion(+)",
-        " create mode 100644 notes.md",
-        "$ git log --oneline",
-        "a1c2e9f Add notes",
-    ], cwd="~/demo-project", caption="УЧЕБНЫЙ ПРИМЕР — отдельный тренировочный каталог, не репозиторий SafeSort")}
-
-    <p>Разница между <code class="inline">git diff</code> и <code class="inline">git diff
-    --staged</code> — источник частой путаницы: первая команда сравнивает рабочее дерево с
-    staging, вторая — staging с последним коммитом. Если файл добавлен через
-    <code class="inline">git add</code>, а потом ещё раз изменён, <code class="inline">git
-    diff</code> покажет только это последнее, ещё не добавленное изменение.</p>
-
     {summary_box("Коротко", [
-        "Working tree → staging (git add) → локальный репозиторий (git commit) → GitHub (git push) — четыре состояния одного изменения.",
-        "git diff сравнивает рабочее дерево со staging; git diff --staged — staging с последним коммитом.",
-        "git log показывает историю уже сделанных коммитов — постоянных записей.",
+        "Веткой называют подвижную ссылку на коммит; HEAD обычно указывает на текущую выбранную ветку.",
+        "main, origin/main и main на GitHub обозначают три различимых состояния, а не три написания одного объекта.",
+        "fetch обновляет remote-tracking ссылки; pull добавляет интеграцию; push обновляет удалённую ветку.",
     ])}
+
+    {official_sources([
+        ("Git Branching — Branches in a Nutshell", "https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell"),
+        ("git-fetch", "https://git-scm.com/docs/git-fetch"),
+        ("git-pull", "https://git-scm.com/docs/git-pull"),
+        ("git-push", "https://git-scm.com/docs/git-push"),
+    ], adapted=False)}
     """
     out = render_page(
-        page_title="Working tree, staging и commit",
-        description="Working tree, staging area, локальный репозиторий и GitHub — четыре состояния одного изменения.",
+        page_title="Ветка, HEAD и origin/main",
+        description="Commit graph, ветка, HEAD, main, origin/main, fetch, pull и push в одной точной модели Git.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Working tree", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Ветка и HEAD", "")],
         kicker="Глава 23 · Часть I · Git и GitHub с нуля",
-        h1="Working tree, staging и commit",
-        lede="Working tree, staging, локальный репозиторий и GitHub — четыре состояния, через которые проходит любое изменение.",
+        h1=git_heading("Ветка, HEAD и origin/main: как Git понимает, где мы находимся"),
+        lede="Сначала отделим текущую локальную ветку от локального знания о GitHub. Тогда switch, fetch, pull и push перестанут быть набором магических команд.",
         body_html=body,
         sidebar_groups=sidebar("23-git-10-working-tree-staging-commit.html"),
         nav=PageNav(prev_href="23-git-09-lokalnyj-i-udalennyj.html", prev_label="Локальный и удалённый репозиторий", next_href="23-proj-01-repo-vs-project.html", next_label="Repository и GitHub Project"),
@@ -1105,7 +1195,7 @@ def build_git_10() -> None:
 
 def build_proj_01() -> None:
     body = f"""
-    {stage_tracker(2)}
+    {stage_tracker(2, full=True)}
 
     <p>Часть I уже разделила Git и GitHub. Здесь — вторая частая путаница: репозиторий
     и <strong>GitHub Project</strong> — тоже разные, независимые понятия, и легко решить, что
@@ -1154,7 +1244,7 @@ def build_proj_01() -> None:
         lede="Repository хранит код; GitHub Project отслеживает статус задач — два разных, независимых объекта.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-01-repo-vs-project.html"),
-        nav=PageNav(prev_href="23-git-10-working-tree-staging-commit.html", prev_label="Working tree, staging, commit", next_href="23-proj-02-luchshie-praktiki.html", next_label="Лучшие практики Project"),
+        nav=PageNav(prev_href="23-git-10-working-tree-staging-commit.html", prev_label="Ветка, HEAD и origin/main", next_href="23-proj-02-luchshie-praktiki.html", next_label="Лучшие практики Project"),
     )
     write("23-proj-01-repo-vs-project.html", out)
 
@@ -1276,7 +1366,7 @@ def build_proj_03() -> None:
         lede="Прежде чем писать код, GitHub Project даёт место для списка задач, связанного с реальными Issues репозитория.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-03-sozdaem-project.html"),
-        nav=PageNav(prev_href="23-proj-02-luchshie-praktiki.html", prev_label="Лучшие практики", next_href="23-proj-04-kopiruem-project.html", next_label="Копируем существующий Project"),
+        nav=PageNav(prev_href="23-proj-02-luchshie-praktiki.html", prev_label="Лучшие практики", next_href="23-proj-05-board-table-roadmap.html", next_label="Board, Table и Roadmap"),
     )
     write("23-proj-03-sozdaem-project.html", out)
 
@@ -1328,11 +1418,11 @@ def build_proj_04() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Копируем Project", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Копируем существующий Project",
+        h1="Необязательно: копируем существующий Project",
         lede="Copy Project переносит структуру — поля, статусы, представления, — но не переносит сами задачи.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-04-kopiruem-project.html"),
-        nav=PageNav(prev_href="23-proj-03-sozdaem-project.html", prev_label="Создаём Project", next_href="23-proj-05-board-table-roadmap.html", next_label="Board, Table и Roadmap"),
+        nav=PageNav(prev_href="23-proj-17-issue-branch-pr.html", prev_label="Первый цикл Issue → Branch → PR", next_href="23-proj-10-redaktiruem-elementy.html", next_label="Необязательно: редактируем элементы"),
     )
     write("23-proj-04-kopiruem-project.html", out)
 
@@ -1397,7 +1487,7 @@ def build_proj_05() -> None:
         lede="Board, Table и Roadmap — разные способы посмотреть на один и тот же набор задач, а не отдельные наборы данных.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-05-board-table-roadmap.html"),
-        nav=PageNav(prev_href="23-proj-04-kopiruem-project.html", prev_label="Копируем Project", next_href="23-proj-06-polya.html", next_label="Поля Project"),
+        nav=PageNav(prev_href="23-proj-03-sozdaem-project.html", prev_label="Создаём Project", next_href="23-proj-06-polya.html", next_label="Поля Project"),
     )
     write("23-proj-05-board-table-roadmap.html", out)
 
@@ -1663,7 +1753,7 @@ def build_proj_09() -> None:
         lede="Каждая часть SafeSort формулируется как Issue до того, как написана хоть одна строка кода.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-09-issues.html"),
-        nav=PageNav(prev_href="23-proj-08-chernovik-v-issue.html", prev_label="Черновик → Issue", next_href="23-proj-10-redaktiruem-elementy.html", next_label="Редактируем элементы Project"),
+        nav=PageNav(prev_href="23-proj-08-chernovik-v-issue.html", prev_label="Черновик → Issue", next_href="23-proj-17-issue-branch-pr.html", next_label="Первый цикл Issue → Branch → PR"),
     )
     write("23-proj-09-issues.html", out)
 
@@ -1729,8 +1819,9 @@ def build_proj_10() -> None:
         "info",
         "Массовое редактирование экономит время на однотипных задачах",
         "Если несколько Issues одновременно переходят в одну и ту же фазу — например, все "
-        "задачи тестирования (Issues №20–23 по нумерации ноутбуков практики) готовы к работе "
-        "разом, — выделение нескольких строк в Table и разовое изменение поля Status для всех "
+        "учебные задания <strong>Практика 23-20</strong>–<strong>Практика 23-23</strong> "
+        "готовы к работе "
+        "одновременно, то выделение нескольких строк в Table и разовое изменение поля Status для всех "
         "выделенных быстрее, чем открывать каждый элемент по отдельности.",
     )}
 
@@ -1748,11 +1839,11 @@ def build_proj_10() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Редактируем элементы", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Редактируем элементы Project",
+        h1="Необязательно: редактируем элементы Project",
         lede="Статус, приоритет и другие поля элемента можно менять по одному, через панель или сразу массово в Table.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-10-redaktiruem-elementy.html"),
-        nav=PageNav(prev_href="23-proj-09-issues.html", prev_label="Создаём Issues", next_href="23-proj-11-filtr-sort-grupp.html", next_label="Фильтруем, сортируем, группируем"),
+        nav=PageNav(prev_href="23-proj-04-kopiruem-project.html", prev_label="Необязательно: копируем Project", next_href="23-proj-11-filtr-sort-grupp.html", next_label="Необязательно: фильтруем и группируем"),
     )
     write("23-proj-10-redaktiruem-elementy.html", out)
 
@@ -1803,7 +1894,7 @@ def build_proj_11() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Фильтр и группировка", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Фильтруем, сортируем и группируем",
+        h1="Необязательно: фильтруем, сортируем и группируем",
         lede="Фильтр оставляет подмножество элементов, сортировка меняет порядок строк, группировка раскладывает весь список по секциям.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-11-filtr-sort-grupp.html"),
@@ -1857,7 +1948,7 @@ def build_proj_12() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Управление представлениями", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Управляем представлениями",
+        h1="Необязательно: управляем представлениями",
         lede="Настроенные фильтр, сортировку и группировку можно сохранить как именованное представление со своей вкладкой.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-12-upravlyaem-predstavleniyami.html"),
@@ -1941,7 +2032,7 @@ def build_proj_13() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Автоматизация", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Встроенная автоматизация и auto-add",
+        h1="Необязательно: встроенная автоматизация и auto-add",
         lede="Встроенные workflow сами меняют статус элемента по событиям репозитория и сами добавляют новые Issues в Project.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-13-avtomatizaciya.html"),
@@ -1995,7 +2086,7 @@ def build_proj_14() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Архивирование", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Архивируем и восстанавливаем элементы",
+        h1="Необязательно: архивируем и восстанавливаем элементы",
         lede="Архивирование расчищает активное представление от завершённых задач, не стирая их данные и историю.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-14-arhiviruem.html"),
@@ -2046,7 +2137,7 @@ def build_proj_15() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Шаблоны Project", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Шаблоны Project",
+        h1="Необязательно: шаблоны Project",
         lede="Project, помеченный шаблоном, появляется в галерее заготовок организации при создании нового Project.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-15-shablony.html"),
@@ -2104,11 +2195,11 @@ def build_proj_16() -> None:
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Insights", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Insights и графики Project",
+        h1="Необязательно: Insights и графики Project",
         lede="Insights строит графики прямо из полей Project — необязательная, более продвинутая возможность.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-16-insights.html"),
-        nav=PageNav(prev_href="23-proj-15-shablony.html", prev_label="Шаблоны Project", next_href="23-proj-17-issue-branch-pr.html", next_label="Первый цикл: Issue → Branch → PR"),
+        nav=PageNav(prev_href="23-proj-15-shablony.html", prev_label="Шаблоны Project", next_href="23-02-repozitorij.html", next_label="Первый коммит в репозитории"),
     )
     write("23-proj-16-insights.html", out)
 
@@ -2135,10 +2226,14 @@ def build_proj_17() -> None:
         "Терминал",
         "git switch -c feat/directory-scanner\n"
         "# ...пишем код и тесты, коммитим изменения...\n"
-        "git push -u origin feat/directory-scanner\n"
-        "gh pr create --title \"feat: add directory scanner\" --body \"Closes #1.\"\n",
+        "git push -u origin feat/directory-scanner\n",
         lang="text",
     )}
+
+    <p>После push откройте репозиторий в браузере, нажмите <strong>Compare &amp; pull
+    request</strong>, выберите <code class="inline">base: main</code>, добавьте заголовок и
+    строку <code class="inline">Closes #1</code> в описание. <code class="inline">git</code>
+    работает с историей, а создание Pull Request выполняется в интерфейсе GitHub.</p>
 
     {callout(
         "tip",
@@ -2181,14 +2276,14 @@ def build_proj_17() -> None:
         lede="Issue → ветка → код и тесты → Pull Request → CI → слияние — цикл, который повторяется для большинства задач SafeSort, но не по жёсткому правилу «один Issue — один PR».",
         body_html=body,
         sidebar_groups=sidebar("23-proj-17-issue-branch-pr.html"),
-        nav=PageNav(prev_href="23-proj-16-insights.html", prev_label="Insights", next_href="23-02-repozitorij.html", next_label="Первый коммит в клонированном репозитории"),
+        nav=PageNav(prev_href="23-proj-09-issues.html", prev_label="Создаём Issues", next_href="23-proj-04-kopiruem-project.html", next_label="Необязательное углубление Projects"),
     )
     write("23-proj-17-issue-branch-pr.html", out)
 
 
 def build_02() -> None:
     body = f"""
-    {stage_tracker(3)}
+    {stage_tracker(3, full=True)}
 
     <p>Репозиторий склонирован (часть I), Issues и GitHub Project разобраны (часть II) — самое
     время заглянуть внутрь каталога, который появился после <code class="inline">git
@@ -2252,7 +2347,7 @@ def build_02() -> None:
         lede="После клонирования в рабочем дереве уже есть стартовый набор файлов — первый коммит репозитория SafeSort.",
         body_html=body,
         sidebar_groups=sidebar("23-02-repozitorij.html"),
-        nav=PageNav(prev_href="23-proj-17-issue-branch-pr.html", prev_label="Issue → Branch → PR", next_href="23-03-readme.html", next_label="Первый README проекта"),
+        nav=PageNav(prev_href="23-proj-16-insights.html", prev_label="Необязательно: Insights", next_href="23-03-readme.html", next_label="Первый README проекта"),
     )
     write("23-02-repozitorij.html", out)
 
@@ -2358,7 +2453,7 @@ def build_04() -> None:
             ("tests", "dir", []),
         ]),
         highlight=frozenset({"pyproject.toml", "src", "safesort", "__init__.py", "tests"}),
-        caption="Каркас пакета: pyproject.toml описывает пакет, src/safesort/ — сам код, tests/ — проверки.",
+        caption="Каркас проекта: src/safesort/ содержит импортируемый пакет, pyproject.toml описывает distribution/build project, а tests/ содержит проверки.",
     )}
 
     <p>Исходный код лежит внутри <code class="inline">src/</code>, а не прямо в корне
@@ -2409,16 +2504,26 @@ def build_05() -> None:
     body = f"""
     {stage_tracker(3)}
 
-    <p>Python пока видит в <code class="inline">src/safesort/</code> просто папку с кодом —
-    не пакет, который можно установить. <code class="inline">pyproject.toml</code> это
-    меняет: он описывает пакет для инструментов установки.</p>
+    <p>Здесь легко смешать три разных объекта. <strong>Импортируемый пакет</strong>
+    <code class="inline">src/safesort/</code> содержит <code class="inline">__init__.py</code>
+    и модули, которые Python загружает командой <code class="inline">import safesort</code>.
+    <strong>Distribution/build project</strong> представляет весь репозиторий с
+    <code class="inline">pyproject.toml</code>, метаданными и правилами сборки.
+    <strong>Установленная distribution</strong> представляет результат, зарегистрированный в конкретном
+    окружении Python.</p>
 
     {flow_diagram([
-        ("pip / uv", "инструмент установки"),
-        ("читает pyproject.toml", "имя, версия, команда"),
-        ("устанавливает safesort", "в окружение Python"),
-        ("команда safesort", "доступна в терминале"),
-    ])}
+        ("Репозиторий", "pyproject.toml + src/safesort + tests"),
+        ("python -m pip install -e .", "build frontend читает метаданные и связывает src-layout с окружением"),
+        ("Установленная distribution", "окружение знает, где находится импортируемый пакет"),
+        ("Два интерфейса", "import safesort и команда safesort --help"),
+    ], caption="pyproject.toml не превращает каталог в import package: он описывает сборку и установку distribution")}
+
+    <p>При src-layout запуск Python из корня репозитория сам по себе не добавляет
+    <code class="inline">src/</code> в <code class="inline">sys.path</code>. Поэтому до
+    установки <code class="inline">import safesort</code> обычно завершится
+    <code class="inline">ModuleNotFoundError</code>. Это ожидаемое свойство раскладки, а не
+    признак того, что <code class="inline">__init__.py</code> «не сработал».</p>
 
     {code_block(
         "pyproject.toml",
@@ -2439,39 +2544,45 @@ def build_05() -> None:
     <p>Строка <code class="inline">safesort = "safesort.cli:main"</code> говорит инструменту
     установки: после установки создай в окружении команду <code class="inline">safesort</code>,
     которая вызывает функцию <code class="inline">main()</code> из модуля
-    <code class="inline">safesort.cli</code> — этого модуля пока не существует, мы напишем его
+    <code class="inline">safesort.cli</code>. Этого модуля пока не существует; мы напишем его
     на следующей странице.</p>
 
     {callout(
         "info",
-        "dependencies = [] — не пропуск, а факт",
+        "Почему dependencies остаётся пустым",
         "У SafeSort нет ни одной обязательной сторонней зависимости: "
         "<code class=\"inline\">pathlib</code>, <code class=\"inline\">argparse</code>, "
         "<code class=\"inline\">hashlib</code>, <code class=\"inline\">shutil</code> и "
-        "<code class=\"inline\">json</code> — часть стандартной библиотеки Python.",
+        "<code class=\"inline\">json</code> входят в стандартную библиотеку Python.",
     )}
 
-    <h2>Устанавливаем пакет в редактируемом режиме</h2>
+    <h2>Устанавливаем distribution в редактируемом режиме</h2>
     <p><strong>Редактируемая установка</strong> (editable install) связывает окружение
     Python с исходным кодом пакета напрямую: изменения в файлах <code class="inline">
     src/safesort/</code> становятся видны сразу, без повторной установки.</p>
-    {code_block("Терминал (окружение активировано)", "pip install -e .[dev]", lang="text")}
-
-    {practice_card(
-        "23-07",
-        "Практика: разбор аргументов командной строки",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
-        "../../practice/23-07/index.html",
+    {code_block(
+        "Терминал (окружение активировано)",
+        'python -m pip install -e ".[dev]"\n'
+        'python -c "import safesort; print(safesort.__file__)"\n'
+        'safesort --help',
+        lang="text",
     )}
+
+    {official_sources([
+        ("Python Tutorial — Packages", "https://docs.python.org/3/tutorial/modules.html#packages"),
+        ("Packaging Python Projects", "https://packaging.python.org/en/latest/tutorials/packaging-projects/"),
+        ("src layout vs flat layout", "https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/"),
+        ("Writing pyproject.toml", "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="pyproject.toml и установка проекта",
-        description="pyproject.toml превращает папку с кодом в устанавливаемый пакет: имя, версия, команда safesort после pip install -e.",
+        description="Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("pyproject.toml", "")],
         kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="pyproject.toml и установка проекта",
-        lede="Один файл описывает пакет для инструментов установки — и после pip install -e команда safesort появляется в терминале.",
+        lede="src/safesort импортируется, pyproject.toml описывает distribution, а editable install связывает её с текущим окружением.",
         body_html=body,
         sidebar_groups=sidebar("23-05-pyproject-toml.html"),
         nav=PageNav(prev_href="23-04-struktura-paketa.html", prev_label="Структура пакета", next_href="23-06-komandnaya-stroka.html", next_label="Командная строка SafeSort"),
@@ -2498,7 +2609,7 @@ def build_06() -> None:
         '        prog="safesort",\n'
         '        description=(\n'
         '            "SafeSort: a safe, non-destructive file organizer. "\n'
-        '            "scan/plan/duplicates never modify anything; only \'apply\' moves files."\n'
+        '            "scan/plan/duplicates are read-only; \'apply\' sorts and \'undo\' restores files."\n'
         '        ),\n'
         '    )\n'
         '    subparsers = parser.add_subparsers(dest="command", required=True)\n\n'
@@ -2552,8 +2663,8 @@ def build_06() -> None:
         "$ safesort --help",
         "usage: safesort [-h] {scan,plan,apply,duplicates,undo} ...",
         "",
-        "SafeSort: a safe, non-destructive file organizer. scan/plan/duplicates never",
-        "modify anything; only 'apply' moves files.",
+        "SafeSort: a safe, non-destructive file organizer. scan/plan/duplicates are",
+        "read-only; 'apply' sorts and 'undo' restores files.",
         "",
         "positional arguments:",
         "  {scan,plan,apply,duplicates,undo}",
@@ -2566,6 +2677,17 @@ def build_06() -> None:
         "options:",
         "  -h, --help            show this help message and exit",
     ])}
+
+    {practice_card(
+        "23-07",
+        "Практика: разбор аргументов командной строки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
+        "../../practice/23-07/index.html",
+    )}
+
+    {official_sources([
+        ("argparse — Parser for command-line options", "https://docs.python.org/3/library/argparse.html"),
+    ], adapted=False)}
 
     {summary_box("Коротко", [
         "argparse.ArgumentParser с add_subparsers() разбирает пять подкоманд SafeSort и сам "
@@ -2593,9 +2715,9 @@ def build_06() -> None:
 
 def build_07() -> None:
     body = f"""
-    {stage_tracker(4)}
+    {stage_tracker(4, full=True)}
 
-    <p>Всё, что SafeSort делает с файлами, начинается с путей — а модуль
+    <p>Всё, что SafeSort делает с файлами, начинается с путей. Модуль
     <code class="inline">pathlib</code> из стандартной библиотеки описывает путь не строкой, а
     объектом <code class="inline">Path</code> с собственными операциями.</p>
 
@@ -2603,8 +2725,8 @@ def build_07() -> None:
         ["Строка", "Path"],
         [
             ['"/home/anna/Downloads/report.pdf"', 'Path("/home/anna/Downloads/report.pdf")'],
-            ["ручной разбор через .split('/')", "fajl.parent, fajl.name, fajl.suffix, fajl.stem — готовые атрибуты"],
-            ["конкатенация строк для соединения путей", "koren / 'report.pdf' — оператор / собирает путь сам"],
+            ["ручной разбор через .split('/')", "готовые атрибуты fajl.parent, fajl.name, fajl.suffix, fajl.stem"],
+            ["конкатенация строк для соединения путей", "оператор / собирает путь: koren / 'report.pdf'"],
         ],
     )}
 
@@ -2628,7 +2750,7 @@ def build_07() -> None:
 
     {callout(
         "tip",
-        "koren / \"otchet.pdf\" — оператор / для путей",
+        "Оператор / для путей",
         "У класса <code class=\"inline\">Path</code> переопределён оператор "
         "<code class=\"inline\">/</code>: он не делит числа, а склеивает часть пути с новым "
         "именем, автоматически подставляя правильный разделитель для текущей операционной "
@@ -2637,7 +2759,7 @@ def build_07() -> None:
     )}
 
     <h2>Модель данных SafeSort: FileInfo</h2>
-    <p>Сканер SafeSort не хранит просто список путей — он описывает каждый найденный файл
+    <p>Сканер SafeSort не ограничивается списком путей. Он описывает каждый найденный файл
     небольшим неизменяемым объектом:</p>
     {code_block(
         "src/safesort/models.py",
@@ -2647,27 +2769,40 @@ def build_07() -> None:
         '    size: int\n'
         '    extension: str\n',
     )}
-    <p><code class="inline">frozen=True</code> запрещает менять поля объекта после создания —
-    для SafeSort это не случайная деталь: программа сознательно разделяет
-    <em>планирование</em> (ничего не меняет на диске) и <em>выполнение</em> (единственный
-    этап, которому разрешено трогать файлы), и неизменяемые объекты не дают коду планирования
-    случайно превратиться в код, который что-то меняет.</p>
+    <p><code class="inline">frozen=True</code> запрещает переназначать поля уже созданного
+    <code class="inline">FileInfo</code>. Это свойство <em>объекта-значения</em>, а не
+    защита файловой системы. Функция может получать frozen-объект и всё равно записывать
+    файлы, обращаться к сети или выполнять другие побочные эффекты.</p>
+
+    {callout(
+        "info",
+        "Неизменяемые данные не означают чистую функцию",
+        "<code class=\"inline\">build_plan()</code> не меняет диск по отдельному контракту: "
+        "API возвращает план, реализация не вызывает move/write, а тест проверяет отсутствие "
+        "изменений. <code class=\"inline\">frozen=True</code> лишь не даёт переназначить "
+        "поля модели. Это разные границы, и обе нужны.",
+    )}
 
     {practice_card(
         "23-08",
         "Практика: операции с Path",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-08/index.html",
     )}
+
+    {official_sources([
+        ("pathlib — Object-oriented filesystem paths", "https://docs.python.org/3/library/pathlib.html"),
+        ("dataclasses", "https://docs.python.org/3/library/dataclasses.html"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="pathlib: работаем с путями и каталогами",
-        description="Path, оператор / для путей и неизменяемая модель FileInfo — основа для сканера SafeSort.",
+        description="Path, оператор / для путей и неизменяемая модель FileInfo составляют основу сканера SafeSort.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("pathlib", "")],
         kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="pathlib: работаем с путями и каталогами",
-        lede="Path описывает путь объектом со своими операциями — и на нём строится вся модель данных SafeSort.",
+        lede="Path описывает путь объектом со своими операциями. На нём строится модель данных SafeSort.",
         body_html=body,
         sidebar_groups=sidebar("23-07-pathlib.html"),
         nav=PageNav(prev_href="23-06-komandnaya-stroka.html", prev_label="Командная строка", next_href="23-08-skaniruem-katalog.html", next_label="Сканируем каталог"),
@@ -2678,6 +2813,8 @@ def build_07() -> None:
 def build_08() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(1, "Add directory scanner", area="Filesystem", priority="High", branch="feat/directory-scanner")}
 
     <p>Первый шаг SafeSort — обойти каталог и составить список файлов. Функция
     <code class="inline">scan()</code> — одна из трёх строго читающих команд SafeSort: она
@@ -2740,6 +2877,19 @@ def build_08() -> None:
         "Archives: 1",
         "Other: 4",
     ])}
+
+    <h2>Тест-чекпойнт: требование становится регрессией</h2>
+    {code_block(
+        "tests/test_scanner.py",
+        'def test_scan_finds_file_without_changing_it(tmp_path):\n'
+        '    source = tmp_path / "report.pdf"\n'
+        '    source.write_bytes(b"report")\n\n'
+        '    files = scan(tmp_path, Config())\n\n'
+        '    assert [item.path for item in files] == [source]\n'
+        '    assert source.read_bytes() == b"report"\n',
+    )}
+    <p>Сначала требование наблюдается на одном примере, затем тест сохраняет его как
+    контракт. Поздняя секция тестирования расширит эту основу fixtures и edge cases.</p>
 
     {local_required_card(
         "23-09",
@@ -2824,6 +2974,16 @@ def build_09() -> None:
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
         "../../practice/23-10/index.html",
     )}
+
+    {github_issue_checkpoint(
+        [1],
+        commit_subject="feat: add directory scanner and configuration",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/15" '
+            'style="color:#185DFA">Pull Request #15</a>. Та же ветка заодно принесла базовый '
+            "модуль Config, на который позже опираются Issues #10 и #11 (страницы 23-20–23-22)."
+        ),
+    )}
     """
     out = render_page(
         page_title="Какие каталоги не нужно сканировать",
@@ -2843,6 +3003,8 @@ def build_09() -> None:
 def build_10() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(2, "Add file classification", area="Filesystem", priority="High", branch="feat/classifier")}
 
     <p>Каждому найденному файлу нужно назначить категорию — документы, изображения, видео и
     так далее. SafeSort определяет категорию по расширению файла: простое и предсказуемое
@@ -2906,8 +3068,18 @@ def build_10() -> None:
     {practice_card(
         "23-11",
         "Практика: classify() и собственные категории",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-11/index.html",
+    )}
+
+    {github_issue_checkpoint(
+        [2],
+        commit_subject="feat: add file classification",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/16" '
+            'style="color:#185DFA">Pull Request #16</a> из отдельной самостоятельной ветки, '
+            "не связанная с остальными Issues."
+        ),
     )}
     """
     out = render_page(
@@ -2929,6 +3101,8 @@ def build_11() -> None:
     body = f"""
     {stage_tracker(4)}
 
+    {github_issue_card(3, "Add safe organization plan", area="Safety", priority="High", branch="feat/plan-and-collisions")}
+
     <p>У SafeSort есть список найденных файлов и правило классификации — но само по себе это
     ещё не план действий. <strong>План</strong> — список конкретных перемещений: откуда и
     куда переместится каждый файл, если пользователь подтвердит выполнение.</p>
@@ -2939,7 +3113,7 @@ def build_11() -> None:
         ("PLAN", "только описание"),
     ])}
 
-    {safety_boundary(["PLAN — только описание, файловая система не меняется"], ["APPLY — единственная команда, которая меняет диск"])}
+    {safety_boundary(["scan / plan / duplicates только читают"], ["apply сортирует; undo восстанавливает"])}
 
     {code_block(
         "src/safesort/models.py",
@@ -2980,11 +3154,36 @@ def build_11() -> None:
         '    return SortPlan(root=root, operations=tuple(operations))\n',
     )}
 
+    <h2>Тест-чекпойнт: чистое планирование</h2>
+    {code_block(
+        "tests/test_planner.py",
+        'def test_build_plan_describes_move_without_executing_it(tmp_path):\n'
+        '    source = tmp_path / "report.pdf"\n'
+        '    source.write_bytes(b"report")\n'
+        '    file = FileInfo(source, source.stat().st_size, ".pdf")\n\n'
+        '    plan = build_plan([file], tmp_path, Config())\n\n'
+        '    assert plan.operations[0].destination == tmp_path / "Sorted/documents/report.pdf"\n'
+        '    assert source.exists()\n'
+        '    assert not plan.operations[0].destination.exists()\n',
+    )}
+
     {practice_card(
         "23-12",
         "Практика: строим план из списка файлов",
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
         "../../practice/23-12/index.html",
+    )}
+
+    {github_issue_checkpoint(
+        [3],
+        commit_subject="feat: add safe organization plan with collision handling",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/17" '
+            'style="color:#185DFA">Pull Request #17</a>. Заголовок PR называет обе '
+            "вещи сразу: этот же PR закрыл и Issue #6 (обработка конфликта имён), показанную "
+            "отдельной страницей 23-14, потому что как урок это два разных, самостоятельных "
+            "понятия, даже если в репозитории они попали в одну ветку."
+        ),
     )}
     """
     out = render_page(
@@ -3005,6 +3204,8 @@ def build_11() -> None:
 def build_12() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(4, "Add dry-run CLI (scan/plan)", area="CLI", priority="Medium", branch="feat/cli")}
 
     <p>Команда <code class="inline">plan</code> — единственное, что нужно сделать с готовым
     объектом <code class="inline">SortPlan</code>, чтобы получить полноценный
@@ -3057,12 +3258,36 @@ def build_12() -> None:
         "<code class=\"inline\">scan</code> просто считает файлы по категориям.",
     )}
 
+    {callout(
+        "info",
+        "В истории репозитория cli.py собрали одним PR, в самом конце",
+        "Эта книга вводит <code class=\"inline\">cli.py</code> постепенно: "
+        "<code class=\"inline\">cmd_plan()</code> здесь, остальные подкоманды дальше по мере "
+        "готовности функций, которые они вызывают. В реальном репозитории SafeSort всё было "
+        "наоборот: argparse-обвязка для всех пяти подкоманд (scan, plan, apply, duplicates, "
+        "undo) была написана и слита одним PR в самом конце, уже когда все пять функций "
+        "существовали. Это два разных порядка: порядок, в котором "
+        "удобно объяснять, и порядок, в котором реально писали код.",
+    )}
+
     {summary_box("Коротко", [
         "plan строит тот же SortPlan, что и apply, но только выводит его размер на экран.",
         "scan, plan и duplicates начинаются одинаково — с вызова scan() — и расходятся дальше.",
         "Утверждение «файлы не изменены» после plan — не текст для красоты, а поведение, "
         "которое проверяется автоматическим тестом.",
     ])}
+
+    {github_issue_checkpoint(
+        [4],
+        commit_subject="feat: add command-line interface",
+        history=(
+            'В реальной истории репозитория это <a href="https://github.com/Cartesian-School/safesort/pull/21" '
+            'style="color:#185DFA">Pull Request #21</a>, который слился последним из девяти, '
+            "после Issue #9 (дубликаты), а не сразу после плана, как в порядке этой книги: "
+            "к этому моменту в репозитории уже существовали все функции, которые предстоит "
+            "обвязать интерфейсом командной строки."
+        ),
+    )}
     """
     out = render_page(
         page_title="Режим предварительного просмотра",
@@ -3081,19 +3306,22 @@ def build_12() -> None:
 
 def build_13() -> None:
     body = f"""
-    {stage_tracker(4)}
+    {stage_tracker(4, full=True)}
 
-    <p>До сих пор ни одна строка кода SafeSort не трогала файловую систему на запись. Модуль
-    <code class="inline">executor.py</code> — единственное место во всей программе, где это
-    происходит: функция <code class="inline">apply_plan()</code> выполняет уже готовый план и
-    только его.</p>
+    {github_issue_card(5, "Add explicit apply operation", area="Safety", priority="High", branch="feat/apply-operation")}
+
+    <p>До сих пор ни одна функция в прямой цепочке сортировки SafeSort не меняла файловую
+    систему. Модуль <code class="inline">executor.py</code> выполняет прямую операцию:
+    функция <code class="inline">apply_plan()</code> получает готовый план и перемещает только
+    перечисленные в нём файлы. Обратная операция <code class="inline">undo</code> тоже
+    перемещает файлы, но восстанавливает их по записанному манифесту.</p>
 
     {flow_diagram([
         ("Файловая система", "каталог с файлами"),
         ("Сканер", "scan()"),
         ("Классификатор", "classify()"),
         ("Executor", "apply_plan()"),
-    ], caption="Последнее звено цепочки — единственное, которому разрешено писать на диск.")}
+    ], caption="В прямой цепочке сортировки запись начинается только в executor; undo образует отдельную обратную цепочку.")}
 
     {before_after_trees(
         ("Downloads", "dir", [("report.pdf", "file", []), ("photo.jpg", "file", []), ("archive.zip", "file", [])]),
@@ -3102,7 +3330,7 @@ def build_13() -> None:
             ("images", "dir", [("photo.jpg", "file", [])]),
             ("archives", "dir", [("archive.zip", "file", [])]),
         ])]),
-        caption="apply — единственная команда, после которой файлы физически меняют место.",
+        caption="apply выполняет прямую сортировку; undo позднее сможет выполнить обратные перемещения по манифесту.",
     )}
 
     {code_block(
@@ -3147,21 +3375,46 @@ def build_13() -> None:
         ".safesort/history/20260824T085400685280.json",
     ])}
 
+    <h2>Тест-чекпойнт: apply меняет только заявленный путь</h2>
+    {code_block(
+        "tests/test_executor.py",
+        'def test_apply_plan_moves_one_file(tmp_path):\n'
+        '    source = tmp_path / "report.pdf"\n'
+        '    destination = tmp_path / "Sorted/documents/report.pdf"\n'
+        '    source.write_bytes(b"report")\n'
+        '    plan = SortPlan(tmp_path, (MoveOperation(source, destination),))\n\n'
+        '    [result] = apply_plan(plan)\n\n'
+        '    assert result.completed is True\n'
+        '    assert destination.read_bytes() == b"report"\n'
+        '    assert not source.exists()\n',
+    )}
+
     {local_required_card(
         "23-13",
         "Практика: перемещаем файлы во временном каталоге",
         "Нужен доступ к настоящей файловой системе — выполните локально в VS Code, PyCharm или Jupyter",
         "../../practice/23-13/index.html",
     )}
+
+    {github_issue_checkpoint(
+        [5],
+        commit_subject="feat: add explicit apply operation",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/18" '
+            'style="color:#185DFA">Pull Request #18</a>. В описании PR явно указано '
+            "<code class=\"inline\">Closes #5</code> в описании, поэтому Issue #5 закрылся "
+            "автоматически в момент слияния."
+        ),
+    )}
     """
     out = render_page(
         page_title="Безопасно перемещаем файлы",
-        description="apply_plan() — единственная функция SafeSort, которая перемещает файлы, с повторной проверкой перед каждым перемещением.",
+        description="apply_plan() выполняет прямые перемещения SafeSort и повторно проверяет конфликт перед каждым из них; undo отвечает за обратную операцию.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Перемещение файлов", "")],
         kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Безопасно перемещаем файлы",
-        lede="Одна функция во всей программе имеет право перемещать файлы — и делает это только после повторной проверки на конфликт.",
+        lede="Прямую сортировку выполняет apply_plan(): перед каждым перемещением функция повторно проверяет конфликт. Undo остаётся отдельной обратной операцией.",
         body_html=body,
         sidebar_groups=sidebar("23-13-peremeshaem-fajly.html"),
         nav=PageNav(prev_href="23-12-predvaritelnyj-prosmotr.html", prev_label="Предварительный просмотр", next_href="23-14-imya-zanyato.html", next_label="Если имя уже занято"),
@@ -3172,6 +3425,8 @@ def build_13() -> None:
 def build_14() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(6, "Handle destination name collisions", area="Safety", priority="Medium", branch="feat/plan-and-collisions")}
 
     <p>Два файла с одинаковым именем могут попасть в одну и ту же категорию — например, два
     разных <code class="inline">notes.txt</code> из разных подкаталогов исходного каталога.
@@ -3229,6 +3484,17 @@ def build_14() -> None:
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
         "../../practice/23-14/index.html",
     )}
+
+    {github_issue_checkpoint(
+        [6],
+        commit_subject="feat: add safe organization plan with collision handling",
+        history=(
+            'Та же ветка и тот же <a href="https://github.com/Cartesian-School/safesort/pull/17" '
+            'style="color:#185DFA">Pull Request #17</a>, который закрыл Issue #3 на странице 23-11. '
+            "план и обработка конфликта имён были одной, тесно связанной задачей в терминах "
+            "кода, но остаются двумя разными Issues и двумя разными уроками."
+        ),
+    )}
     """
     out = render_page(
         page_title="Что делать, если имя уже занято",
@@ -3248,6 +3514,8 @@ def build_14() -> None:
 def build_15() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(7, "Record operation manifest", area="Safety", priority="Medium", branch="feat/manifest-and-undo")}
 
     <p>Каждый успешный вызов <code class="inline">apply</code> оставляет след — файл-манифест
     в формате JSON, который описывает, что именно было сделано. Без этого журнала команда
@@ -3308,6 +3576,17 @@ def build_15() -> None:
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
         "../../practice/23-15/index.html",
     )}
+
+    {github_issue_checkpoint(
+        [7],
+        commit_subject="feat: record operation manifest and add undo",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/19" '
+            'style="color:#185DFA">Pull Request #19</a>. Заголовок PR показывает, что это '
+            "одна ветка на две тесно связанные задачи: без манифеста Issue #8 (undo, следующая "
+            "страница) попросту нечего было бы восстанавливать."
+        ),
+    )}
     """
     out = render_page(
         page_title="Журнал выполненных операций",
@@ -3327,6 +3606,8 @@ def build_15() -> None:
 def build_16() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(8, "Add undo", area="Safety", priority="High", branch="feat/manifest-and-undo")}
 
     <p>Команда <code class="inline">undo</code> находит последний манифест, читает список
     выполненных перемещений и возвращает файлы туда, откуда они были взяты. Здесь действует
@@ -3390,11 +3671,35 @@ def build_16() -> None:
     <p>Отказ — а не тихая перезапись. Каждый конфликт обрабатывается независимо: файлы без
     конфликта восстановились бы, даже если часть списка отказала.</p>
 
+    <h2>Тест-чекпойнт: обратная операция</h2>
+    {code_block(
+        "tests/test_manifest.py",
+        'def test_undo_restores_original_location(tmp_path):\n'
+        '    source = tmp_path / "report.pdf"\n'
+        '    source.write_bytes(b"report")\n'
+        '    plan = build_plan(scan(tmp_path, Config()), tmp_path, Config())\n'
+        '    moves = apply_plan(plan)\n'
+        '    manifest, _ = write_manifest(tmp_path, moves)\n\n'
+        '    result = undo(manifest)\n\n'
+        '    assert len(result.restored) == 1\n'
+        '    assert source.read_bytes() == b"report"\n',
+    )}
+
     {local_required_card(
         "23-16",
         "Практика: отмена и конфликт при восстановлении",
         "Нужен доступ к настоящей файловой системе — выполните локально в VS Code, PyCharm или Jupyter",
         "../../practice/23-16/index.html",
+    )}
+
+    {github_issue_checkpoint(
+        [8],
+        commit_subject="feat: record operation manifest and add undo",
+        history=(
+            'Та же ветка и тот же <a href="https://github.com/Cartesian-School/safesort/pull/19" '
+            'style="color:#185DFA">Pull Request #19</a>, что закрыл Issue #7 на предыдущей '
+            "странице."
+        ),
     )}
     """
     out = render_page(
@@ -3415,6 +3720,8 @@ def build_16() -> None:
 def build_17() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(9, "Add duplicate detection", area="Duplicates", priority="Medium", branch="feat/duplicate-detection")}
 
     <p>Второй крупный компонент SafeSort — поиск файлов с одинаковым содержимым. Задача
     выглядит просто: если у двух файлов одинаковые байты, они дубликаты. Наивное решение —
@@ -3491,37 +3798,42 @@ def build_18() -> None:
     строку фиксированной длины — <strong>дайджест</strong>. SafeSort использует
     <strong>SHA-256</strong> из модуля <code class="inline">hashlib</code>: одинаковые байты
     всегда дают одинаковый дайджест, а разные дайджесты гарантированно значат разное
-    содержимое. Совпадающий дайджест — сильный сигнал, но не абсолютное доказательство:
-    у SHA-256 в принципе есть коллизии, астрономически маловероятные, но не равные нулю.
+    содержимое. Хеширование <strong>many-to-one</strong>: возможных входов больше, чем
+    256-битных результатов, поэтому разные входы математически могут иметь один дайджест.
+    Совпадающий дайджест служит сильным фильтром, но не доказывает равенство файлов.
     Поскольку SafeSort перемещает настоящие файлы пользователя, он не останавливается на
     совпадении дайджеста — следующая страница показывает последний шаг, который превращает
     совпадение хеша в подтверждённый дубликат.</p>
 
     {code_block(
         "src/safesort/duplicates.py",
-        'def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:\n'
+        'def sha256_stream(stream: BinaryIO, chunk_size: int = 1024 * 1024) -> str:\n'
         '    digest = hashlib.sha256()\n'
-        '    with path.open("rb") as file:\n'
-        '        while chunk := file.read(chunk_size):\n'
-        '            digest.update(chunk)\n'
+        '    while chunk := stream.read(chunk_size):\n'
+        '        digest.update(chunk)\n'
         '    return digest.hexdigest()\n',
     )}
 
     {callout(
         "warning",
-        "Хеширование — не шифрование",
-        "SHA-256 нельзя обратить: из дайджеста невозможно восстановить исходное содержимое "
-        "файла, и это не его задача. Хеш-функция отвечает на вопрос «одинаковое ли это "
-        "содержимое», а не скрывает его — SafeSort использует SHA-256 исключительно для "
+        "Хеширование и шифрование решают разные задачи",
+        "SHA-256 спроектирован так, чтобы поиск прообраза по дайджесту был вычислительно "
+        "неосуществим на практике. Это инженерное свойство стойкости, а не математическое "
+        "утверждение «обратить невозможно». Хеш-функция помогает ответить на вопрос «может ли это быть одинаковое "
+        "содержимое», а не скрывает его. SafeSort использует SHA-256 исключительно для "
         "сравнения файлов, а не для защиты данных.",
     )}
+
+    <p>При <strong>лавинном эффекте</strong> малое изменение входа обычно меняет много битов
+    выхода; для идеализированного поведения ожидают примерно половину выходных битов. Это не
+    означает, что в каждом опыте обязана измениться каждая шестнадцатеричная цифра.</p>
 
     <h2>Зачем читать файл частями</h2>
     <p>Цикл <code class="inline">while chunk := file.read(chunk_size)</code> читает файл не
     целиком, а блоками по мегабайту, и каждый блок сразу добавляет к дайджесту через
     <code class="inline">digest.update()</code>. Если бы функция читала файл одним вызовом
     <code class="inline">file.read()</code>, для файла в несколько гигабайт программе
-    пришлось бы держать в оперативной памяти всё его содержимое разом — при поэтапном чтении
+    пришлось бы держать в оперативной памяти всё его содержимое разом. При поэтапном чтении
     в памяти в любой момент находится только один блок, независимо от размера файла целиком.</p>
 
     {code_block(
@@ -3536,9 +3848,14 @@ def build_18() -> None:
     {practice_card(
         "23-17",
         "Практика: хеш содержимого по частям",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-17/index.html",
     )}
+
+    {official_sources([
+        ("hashlib — Secure hashes and message digests", "https://docs.python.org/3/library/hashlib.html"),
+        ("NIST FIPS 180-4 — Secure Hash Standard", "https://csrc.nist.gov/pubs/fips/180-4/upd1/final"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="SHA-256 и хеш содержимого файла",
@@ -3547,7 +3864,7 @@ def build_18() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("SHA-256", "")],
         kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="SHA-256 и хеш содержимого файла",
-        lede="Одинаковое содержимое всегда даёт одинаковый дайджест SHA-256 — а поблочное чтение не требует держать в памяти весь файл разом.",
+        lede="Одинаковое содержимое всегда даёт одинаковый дайджест SHA-256. Поблочное чтение не требует держать в памяти весь файл разом.",
         body_html=body,
         sidebar_groups=sidebar("23-18-sha256.html"),
         nav=PageNav(prev_href="23-17-poisk-dublikatov.html", prev_label="Поиск дубликатов", next_href="23-19-gruppy-dublikatov.html", next_label="Находим группы дубликатов"),
@@ -3557,10 +3874,10 @@ def build_18() -> None:
 
 def build_19() -> None:
     body = f"""
-    {stage_tracker(4)}
+    {stage_tracker(4, full=True)}
 
     <p>С хеш-функцией с предыдущей страницы поиск дубликатов группирует файлы сначала по
-    размеру, затем по дайджесту SHA-256 — и на этом почти любая реализация бы остановилась.
+    размеру, затем по дайджесту SHA-256. На этом многие реализации останавливаются.
     SafeSort делает ещё один шаг: прежде чем считать группу подтверждённой, он сравнивает
     файлы внутри неё побайтово.</p>
 
@@ -3591,13 +3908,36 @@ def build_19() -> None:
         '        for digest, matched in by_digest.items():\n'
         '            if len(matched) < 2:\n'
         '                continue\n'
-        '            confirmed = [matched[0]]\n'
-        '            for candidate in matched[1:]:\n'
-        '                if files_equal(matched[0].path, candidate.path):\n'
-        '                    confirmed.append(candidate)\n'
-        '            if len(confirmed) >= 2:\n'
-        '                groups.append(DuplicateGroup(size=size, digest=digest, files=tuple(confirmed)))\n'
+        '            exact_groups = []\n'
+        '            for candidate in matched:\n'
+        '                for exact_group in exact_groups:\n'
+        '                    if files_equal(exact_group[0].path, candidate.path):\n'
+        '                        exact_group.append(candidate)\n'
+        '                        break\n'
+        '                else:\n'
+        '                    exact_groups.append([candidate])\n'
+        '            for exact_group in exact_groups:\n'
+        '                if len(exact_group) >= 2:\n'
+        '                    groups.append(DuplicateGroup(size=size, digest=digest, files=tuple(exact_group)))\n'
         '    return groups\n',
+    )}
+
+    <p>Один bucket с одинаковыми размером и дайджестом остаётся только набором кандидатов.
+    Алгоритм сравнивает кандидата с представителем каждой уже найденной группы: при равенстве
+    добавляет его туда, иначе создаёт новый класс. Поэтому даже искусственно вызванная
+    коллизия SHA-256 может дать несколько независимых групп точного содержимого.</p>
+
+    <h2>Тест-чекпойнт: два одинаковых файла</h2>
+    {code_block(
+        "tests/test_duplicates.py",
+        'def test_equal_content_forms_one_group(tmp_path):\n'
+        '    a = tmp_path / "a.bin"\n'
+        '    b = tmp_path / "b.bin"\n'
+        '    a.write_bytes(b"same")\n'
+        '    b.write_bytes(b"same")\n\n'
+        '    groups = find_duplicates(scan(tmp_path, Config()))\n\n'
+        '    assert len(groups) == 1\n'
+        '    assert {item.path for item in groups[0].files} == {a, b}\n',
     )}
 
     {callout(
@@ -3612,7 +3952,7 @@ def build_19() -> None:
 
     {callout(
         "info",
-        "Пустые файлы — тоже дубликаты друг друга",
+        "Пустые файлы тоже могут быть дубликатами",
         "Два файла нулевого размера побайтово идентичны: у обоих попросту нет байтов. "
         "<code class=\"inline\">find_duplicates()</code> не делает для этого случая никакого "
         "исключения — они естественно попадают в одну группу по размеру "
@@ -3638,10 +3978,10 @@ def build_19() -> None:
 
     {callout(
         "warning",
-        "duplicates только сообщает — не удаляет",
+        "duplicates сообщает о группах и не удаляет файлы",
         "Первая версия программы не удаляет ни один файл из найденной группы, и в коде "
         "<code class=\"inline\">find_duplicates()</code> нет ни одного вызова, который "
-        "удаляет файлы — даже отключённого или закомментированного. Автоматическое удаление "
+        "удаляет файлы, даже отключённого или закомментированного. Автоматическое удаление "
         "дубликатов сознательно вынесено за рамки первой версии: решение о том, какой из "
         "одинаковых файлов оставить, требует контекста, которого у программы нет.",
     )}
@@ -3649,18 +3989,29 @@ def build_19() -> None:
     {practice_card(
         "23-18",
         "Практика: группируем файлы в дубликаты",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-18/index.html",
+    )}
+
+    {github_issue_checkpoint(
+        [9],
+        commit_subject="feat: add duplicate detection with byte-level confirmation",
+        history=(
+            'Слился как <a href="https://github.com/Cartesian-School/safesort/pull/20" '
+            'style="color:#185DFA">Pull Request #20</a>. Три страницы (23-17–23-19) книги '
+            "соответствуют одному PR в репозитории: группировка по размеру, хеш и байтовое "
+            "подтверждение относятся к одному Issue, который объяснён по шагам."
+        ),
     )}
     """
     out = render_page(
         page_title="Находим группы дубликатов",
-        description="find_duplicates() группирует файлы сначала по размеру, затем по дайджесту — с зеркальным правилом для пустых файлов.",
+        description="find_duplicates() группирует файлы сначала по размеру, затем по дайджесту и подтверждает совпадение байтов.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Группы дубликатов", "")],
         kicker="Глава 23 · Часть IV · Реализуем SafeSort",
         h1="Находим группы дубликатов",
-        lede="Одна функция превращает список файлов в группы дубликатов — и никогда не удаляет ни одного файла сама.",
+        lede="Одна функция превращает список файлов в группы подтверждённых дубликатов и ничего не удаляет.",
         body_html=body,
         sidebar_groups=sidebar("23-19-gruppy-dublikatov.html"),
         nav=PageNav(prev_href="23-18-sha256.html", prev_label="SHA-256", next_href="23-20-oshibki-fajlovoj-sistemy.html", next_label="Ошибки файловой системы"),
@@ -3671,6 +4022,8 @@ def build_19() -> None:
 def build_20() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(10, "Handle filesystem errors", area="Filesystem", priority="Medium")}
 
     <p>Реальная файловая система непредсказуема: файл может исчезнуть между сканированием и
     чтением, доступ к каталогу может быть запрещён, диск может оказаться неисправен. Python
@@ -3732,6 +4085,19 @@ def build_20() -> None:
         "Каждый перехват сопровождается сообщением в журнал, а не молчаливым игнорированием.",
         "Ошибка на одном файле или каталоге не должна останавливать обработку остальных.",
     ])}
+
+    {github_issue_checkpoint(
+        [10],
+        commit_subject="feat: add directory scanner and configuration",
+        history=(
+            "У этого Issue нет собственного Pull Request с фразой «Closes #10». Обработка "
+            "ошибок файловой системы попала в тот же коммит, что и сканер "
+            '(<a href="https://github.com/Cartesian-School/safesort/pull/15" '
+            'style="color:#185DFA">PR #15</a>, страница 23-08), а сам Issue #10 закрыли '
+            "вручную уже после проверки, без автоматической связки. Не каждая задача "
+            "закрывается отдельным PR. Так выглядит фактическая история репозитория."
+        ),
+    )}
     """
     out = render_page(
         page_title="Обрабатываем ошибки файловой системы",
@@ -3751,6 +4117,8 @@ def build_20() -> None:
 def build_21() -> None:
     body = f"""
     {stage_tracker(4)}
+
+    {github_issue_card(11, "Add configuration and logging", area="CLI", priority="Low")}
 
     <p>В коде SafeSort уже несколько раз встречался вызов <code class="inline">logger.warning
     (...)</code>. Это не то же самое, что вывод на экран через <code class="inline">print()
@@ -3777,7 +4145,10 @@ def build_21() -> None:
     {code_block(
         "src/safesort/cli.py",
         'def _configure_logging() -> None:\n'
-        '    logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")\n',
+        '    logging.basicConfig(\n'
+        '        level=logging.WARNING,\n'
+        '        format="%(levelname)s:%(name)s:%(message)s",\n'
+        '    )\n',
     )}
 
     <p>SafeSort использует три уровня важности, каждый для своей ситуации:</p>
@@ -3793,11 +4164,11 @@ def build_21() -> None:
     {callout(
         "tip",
         "Модуль получает logger по своему имени",
-        "Каждый файл начинается со строки <code class=\"inline\">logger = logging.getLogger("
-        "__name__)</code> — так сообщения журнала автоматически помечены тем модулем, откуда "
-        "они пришли (<code class=\"inline\">safesort.scanner</code>, "
-        "<code class=\"inline\">safesort.executor</code> и так далее), и не нужно вручную "
-        "добавлять эту информацию в каждое сообщение.",
+        "Строка <code class=\"inline\">logger = logging.getLogger(__name__)</code> сохраняет "
+        "имя модуля в поле <code class=\"inline\">LogRecord.name</code>. Само по себе это "
+        "ещё не выводит имя в терминал: его показывает подстановка "
+        "<code class=\"inline\">%(name)s</code> в formatter. Без него имя осталось бы в "
+        "записи журнала, но пользователь его не увидел бы.",
     )}
 
     {summary_box("Коротко", [
@@ -3805,8 +4176,13 @@ def build_21() -> None:
         "с разным назначением, их не стоит смешивать.",
         "Три уровня важности — INFO, WARNING, ERROR — покрывают всё, что нужно SafeSort, без "
         "избыточной настройки.",
-        "logging.getLogger(__name__) в каждом модуле помечает сообщения тем модулем, откуда они пришли.",
+        "getLogger(__name__) записывает имя logger; formatter с %(name)s делает его видимым.",
     ])}
+
+    {official_sources([
+        ("Logging HOWTO", "https://docs.python.org/3/howto/logging.html"),
+        ("LogRecord attributes", "https://docs.python.org/3/library/logging.html#logrecord-attributes"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="Добавляем журнал работы программы",
@@ -3855,20 +4231,38 @@ def build_22() -> None:
         'destination = "Organized"\n'
         'exclude = [".git", ".venv"]\n\n'
         '[extensions]\n'
-        'documents = [".pdf", ".docx", ".txt"]\n'
-        'images = [".jpg", ".jpeg", ".png", ".webp"]\n',
+        'books = [".epub"]\n',
+    )}
+
+    {flow_diagram([
+        ("Встроенные defaults", "documents, images, video, audio, archives, code, data"),
+        ("safesort.toml", "добавляет новую категорию или заменяет только названную"),
+        ("Effective Config", "все остальные встроенные категории сохраняются"),
+    ], caption="Приоритет настроек: defaults → пользовательские additions/overrides → эффективная Config")}
+
+    <p>Таблица <code class="inline">[extensions]</code> работает как overlay. Строка
+    <code class="inline">books = [".epub"]</code> добавляет категорию books и не удаляет
+    documents или images. Если пользователь явно задаст
+    <code class="inline">documents = [".md"]</code>, только список documents будет заменён.</p>
+
+    {callout(
+        "warning",
+        "safesort.toml остаётся входом конфигурации",
+        "Сканер всегда пропускает этот файл. После <code class=\"inline\">plan</code>, "
+        "<code class=\"inline\">apply</code> и повторного запуска конфигурация остаётся в "
+        "корне, поэтому следующий запуск получает те же настройки.",
     )}
 
     {callout(
         "info",
         "Ни одна команда SafeSort не требует файла настроек",
         "Если <code class=\"inline\">safesort.toml</code> не найден, в дело идут встроенные "
-        "значения по умолчанию — программа работает предсказуемо и без единой строчки "
-        "настроек. Файл конфигурации — это возможность что-то переопределить, а не "
-        "обязательное условие для запуска.",
+        "значения по умолчанию. Программа работает предсказуемо и без единой строчки "
+        "настроек. Файл конфигурации переопределяет defaults, но не служит "
+        "обязательным условием для запуска.",
     )}
 
-    <p>Чтение файла использует <code class="inline">tomllib</code> — модуль стандартной
+    <p>Чтение файла использует <code class="inline">tomllib</code>, модуль стандартной
     библиотеки Python для разбора TOML, доступный только на чтение:</p>
     {code_block(
         "src/safesort/config.py",
@@ -3894,15 +4288,32 @@ def build_22() -> None:
     )}
 
     <p>Если файл настроек существует, но содержит некорректный TOML, SafeSort не пытается
-    угадать намерение пользователя — он поднимает понятную ошибку <code class="inline">
+    угадать намерение пользователя. Он поднимает понятную ошибку <code class="inline">
     ConfigError</code> с указанием файла и причины, вместо того чтобы либо упасть с
     трудночитаемой трассировкой, либо молча продолжить с настройками по умолчанию.</p>
 
     {practice_card(
         "23-19",
         "Практика: читаем и проверяем TOML-настройки",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-19/index.html",
+    )}
+
+    {official_sources([
+        ("tomllib — Parse TOML files", "https://docs.python.org/3/library/tomllib.html"),
+    ], adapted=False)}
+
+    {github_issue_checkpoint(
+        [11],
+        commit_subject="feat: add directory scanner and configuration",
+        history=(
+            "Как и Issue #10, у этой задачи нет собственного PR: логирование и настройки "
+            "попали в тот же коммит, что и сканер "
+            '(<a href="https://github.com/Cartesian-School/safesort/pull/15" '
+            'style="color:#185DFA">PR #15</a>), а Issue #11 закрыли вручную. Книга разносит '
+            "logging (23-21) и safesort.toml (эта страница) по двум урокам, потому что это "
+            "две разные идеи. В репозитории им соответствуют один Issue и один коммит."
+        ),
     )}
     """
     out = render_page(
@@ -3922,7 +4333,7 @@ def build_22() -> None:
 
 def build_23() -> None:
     body = f"""
-    {stage_tracker(5)}
+    {stage_tracker(5, full=True)}
 
     <p>Представим: кто-то случайно сломал классификатор — расширение <code class="inline">
     .PDF</code> в верхнем регистре перестало определяться как документ. Как об этом узнать, не
@@ -4174,28 +4585,56 @@ def build_26() -> None:
 
     {callout(
         "tip",
-        "Большой файл в тесте — несколько мегабайт, а не гигабайты",
-        "Проверить, что <code class=\"inline\">sha256_file()</code> действительно читает файл "
-        "по частям, а не целиком, можно файлом всего в несколько мегабайт — заметно больше "
-        "одного блока чтения, но при этом тест выполняется за доли секунды. Гигабайтные файлы "
-        "в тестах замедлили бы весь набор тестов без дополнительной пользы.",
+        "Результат и способ чтения проверяются отдельно",
+        "Файл больше одного блока и правильный digest доказывают только результат функции. "
+        "Такой тест не наблюдает вызовы <code class=\"inline\">read()</code>: реализация могла "
+        "бы прочитать весь файл сразу и всё равно вернуть тот же SHA-256. Контракт bounded "
+        "reads проверяется отдельным instrumented reader.",
     )}
 
     {code_block(
         "tests/test_duplicates.py",
-        'def test_sha256_hashes_large_file_incrementally(tmp_path):\n'
+        'def test_sha256_large_file_has_correct_result(tmp_path):\n'
         '    data = b"x" * (5 * 1024 * 1024)  # 5 МБ — больше одного блока чтения\n'
         '    path = tmp_path / "bolshoj_fajl.bin"\n'
         '    path.write_bytes(data)\n\n'
         '    assert sha256_file(path) == hashlib.sha256(data).hexdigest()\n',
     )}
 
+    {code_block(
+        "tests/test_duplicates.py: interaction test",
+        'class RecordingReader(io.BytesIO):\n'
+        '    def __init__(self, data: bytes) -> None:\n'
+        '        super().__init__(data)\n'
+        '        self.requested_sizes = []\n\n'
+        '    def read(self, size: int = -1) -> bytes:\n'
+        '        self.requested_sizes.append(size)\n'
+        '        return super().read(size)\n\n'
+        'def test_sha256_stream_uses_multiple_bounded_reads():\n'
+        '    reader = RecordingReader(b"abcdefghij")\n\n'
+        '    digest = sha256_stream(reader, chunk_size=4)\n\n'
+        '    assert digest == hashlib.sha256(b"abcdefghij").hexdigest()\n'
+        '    assert reader.requested_sizes == [4, 4, 4, 4]\n'
+        '    assert max(reader.requested_sizes) == 4\n',
+    )}
+
+    <p>Первый тест относится к типу <strong>result test (black-box)</strong>: он проверяет,
+    <em>что</em> вернулось.
+    Второй проверяет interaction/implementation contract: зависимость получила несколько
+    ограниченных <code class="inline">read(4)</code>. Небольшой записывающий поток делает
+    это наблюдаемым без тяжёлой mocking-инфраструктуры.</p>
+
     {practice_card(
         "23-22",
         "Практика: тесты дубликатов и пустых файлов",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-22/index.html",
     )}
+
+    {official_sources([
+        ("pytest — How to write and report assertions", "https://docs.pytest.org/en/stable/how-to/assert.html"),
+        ("unittest.mock — mock object library", "https://docs.python.org/3/library/unittest.mock.html"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="Проверяем поиск дубликатов",
@@ -4204,7 +4643,7 @@ def build_26() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты дубликатов", "")],
         kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем поиск дубликатов",
-        lede="Два крайних случая — пустые файлы и файл в несколько мегабайт — проверяют то, что типичный тест на паре файлов не заметит.",
+        lede="Пустые файлы и файл в несколько мегабайт проверяют два случая, которые легко пропустить в обычном тесте.",
         body_html=body,
         sidebar_groups=sidebar("23-26-testy-dublikatov.html"),
         nav=PageNav(prev_href="23-25-testy-peremeshheniya.html", prev_label="Тесты перемещения", next_href="23-27-testy-cli.html", next_label="Тесты интерфейса командной строки"),
@@ -4218,7 +4657,7 @@ def build_27() -> None:
 
     {flow_diagram([("Arrange", "файл во временном каталоге"), ("Act", 'main(["scan", ...])'), ("Assert", "код возврата и вывод capsys")])}
 
-    <p>Последний слой SafeSort, который стоит проверить тестами, — сама командная строка:
+    <p>Последний слой SafeSort, который стоит проверить тестами, это сама командная строка:
     правильно ли <code class="inline">argparse</code> разбирает аргументы, и правильный ли код
     возврата получает вызывающая сторона.</p>
 
@@ -4236,22 +4675,35 @@ def build_27() -> None:
 
     {callout(
         "info",
-        "capsys — встроенная перехватка вывода pytest",
+        "capsys: встроенная перехватка вывода pytest",
         "Функция <code class=\"inline\">main()</code> печатает результат через "
-        "<code class=\"inline\">print()</code>, а не возвращает текст напрямую — фикстура "
+        "<code class=\"inline\">print()</code>, а не возвращает текст напрямую. Фикстура "
         "<code class=\"inline\">capsys</code> перехватывает всё, что попало на стандартный "
         "вывод и поток ошибок во время теста, и позволяет проверить это как обычную строку.",
     )}
 
-    <p>Проверка <code class="inline">--help</code> тоже заслуживает отдельного теста: она
-    ловит ситуацию, когда кто-то случайно удаляет описание подкоманды или ломает сам разбор
-    аргументов — <code class="inline">argparse</code> в этом случае завершает программу с
-    ошибкой ещё до того, как выполнится хоть одна строка логики SafeSort.</p>
+    <p>Проверка <code class="inline">--help</code> тоже заслуживает отдельного теста.
+    <code class="inline">argparse</code> печатает справку и намеренно поднимает
+    <code class="inline">SystemExit(0)</code>: код 0 означает успешное завершение, а не
+    ошибку. Некорректные аргументы тоже приводят к <code class="inline">SystemExit</code>,
+    но уже с ненулевым кодом, обычно 2.</p>
+
+    {code_block(
+        "tests/test_cli.py",
+        'def test_help_exits_zero():\n'
+        '    with pytest.raises(SystemExit) as excinfo:\n'
+        '        main(["--help"])\n'
+        '    assert excinfo.value.code == 0\n\n'
+        'def test_invalid_subcommand_exits_nonzero():\n'
+        '    with pytest.raises(SystemExit) as excinfo:\n'
+        '        main(["not-a-command"])\n'
+        '    assert excinfo.value.code != 0\n',
+    )}
 
     {practice_card(
         "23-23",
         "Практика: тесты аргументов командной строки",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-23/index.html",
     )}
     """
@@ -4262,10 +4714,10 @@ def build_27() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Тесты интерфейса", "")],
         kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
         h1="Проверяем интерфейс командной строки",
-        lede="capsys перехватывает то, что программа напечатала, — и тесты проверяют это как обычную строку, без реального терминала.",
+        lede="capsys перехватывает напечатанный программой текст. Тесты проверяют его как обычную строку без реального терминала.",
         body_html=body,
         sidebar_groups=sidebar("23-27-testy-cli.html"),
-        nav=PageNav(prev_href="23-26-testy-dublikatov.html", prev_label="Тесты дубликатов", next_href="23-28-git-kommit.html", next_label="Git: от изменения к коммиту"),
+        nav=PageNav(prev_href="23-26-testy-dublikatov.html", prev_label="Тесты дубликатов", next_href="23-28-git-kommit.html", next_label="Дисциплина коммитов"),
     )
     write("23-27-testy-cli.html", out)
 
@@ -4274,17 +4726,21 @@ def build_28() -> None:
     body = f"""
     {stage_tracker(5)}
 
-    <p>Код SafeSort готов и проверен тестами — самое время сохранить его в истории Git.
-    Между «файл изменён на диске» и «изменение сохранено в истории» есть два промежуточных
-    шага, и понимание разницы между ними экономит немало недоумения в будущем.</p>
+    <p>{git_mark(20)} Git сопровождал SafeSort с самого начала: каждый чекпойнт в Части IV
+    (страницы с 23-08 по 23-22) отмечал коммит и Pull Request, сохранявший
+    очередную функцию в истории. Здесь мы не открываем Git впервые. Мы формализуем дисциплину
+    самопроверки перед коммитом, прежде чем в следующем разделе код пройдёт полный цикл
+    Issue → ветка → Pull Request на GitHub. Между «файл изменён на диске» и «изменение сохранено
+    в истории» есть два промежуточных шага, и понимание разницы между ними экономит немало
+    недоумения в будущем.</p>
 
     {flow_diagram(
         [
-            ("Рабочее дерево", "файлы на диске — то, что видит текстовый редактор"),
-            ("Индекс", "изменения, отмеченные командой git add — «черновик» будущего коммита"),
-            ("Коммит", "сохранённый снимок индекса — постоянная запись в истории"),
+            ("Рабочее дерево", "файлы на диске, которые видит текстовый редактор"),
+            ("Индекс", "содержимое, отмеченное командой git add для будущего коммита"),
+            ("Коммит", "сохранённый снимок индекса в истории"),
         ],
-        caption="git add переносит изменение из рабочего дерева в индекс; git commit фиксирует содержимое индекса в истории",
+        caption="git add помещает снимок текущего содержимого в индекс; рабочий файл остаётся на месте и может снова измениться",
     )}
 
     {code_block(
@@ -4298,16 +4754,16 @@ def build_28() -> None:
 
     {callout(
         "tip",
-        "git diff — что именно изменилось, а не только какие файлы",
+        "git diff показывает содержимое изменений",
         "<code class=\"inline\">git status</code> перечисляет изменённые файлы, но не "
         "показывает содержимое изменений. <code class=\"inline\">git diff</code> показывает "
-        "построчно, что именно добавлено и что удалено — стоит прочитать его перед каждым "
+        "построчно, что именно добавлено и что удалено. Читайте его перед каждым "
         "коммитом, чтобы случайно не закоммитить что-то лишнее: отладочный "
         "<code class=\"inline\">print()</code>, забытый файл с личными данными, временный код.",
     )}
 
     <h2>Логические коммиты</h2>
-    <p>Один коммит должен описывать одно законченное, осмысленное изменение — а не «конец
+    <p>Один коммит должен описывать одно законченное, осмысленное изменение, а не «конец
     рабочего дня» или случайный набор всего, что накопилось. Сравните:</p>
     {comparison_table(
         ["Хорошо", "Плохо"],
@@ -4321,9 +4777,9 @@ def build_28() -> None:
 
     {callout(
         "info",
-        "git add . — не единственный и не всегда лучший способ",
-        "<code class=\"inline\">git add .</code> добавляет в индекс вообще все изменения в "
-        "текущем каталоге разом — удобно, когда коммит действительно должен включать всё, но "
+        "Когда не стоит использовать git add .",
+        "<code class=\"inline\">git add .</code> добавляет в индекс все изменения в "
+        "текущем каталоге разом. Это удобно, когда коммит действительно должен включать всё, но "
         "легко случайно затянуть в коммит что-то не относящееся к делу. "
         "<code class=\"inline\">git add путь/к/файлу</code> добавляет только нужные файлы и "
         "делает коммиты более осмысленными.",
@@ -4332,21 +4788,21 @@ def build_28() -> None:
     {local_required_card(
         "23-24",
         "Практика: читаем git diff и группируем изменения",
-        "Нужен настоящий Git-репозиторий — выполните локально в VS Code, PyCharm или терминале",
+        "Нужен Git-репозиторий. Выполните практику локально в VS Code, PyCharm или терминале",
         "../../practice/23-24/index.html",
     )}
     """
     out = render_page(
-        page_title="Git: от рабочего изменения к коммиту",
-        description="Рабочее дерево, индекс и коммит; git diff перед коммитом; логические коммиты вместо «update» и «fix».",
+        page_title="Самопроверка изменений и дисциплина коммитов",
+        description="Рабочее дерево, индекс и коммит; git diff перед коммитом как самопроверка; логические коммиты вместо «update» и «fix».",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Git и коммит", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Дисциплина коммитов", "")],
         kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
-        h1="Git: от рабочего изменения к коммиту",
-        lede="git add переносит изменение в индекс, git commit фиксирует его в истории — а хороший коммит описывает одно законченное изменение.",
+        h1=git_heading("Самопроверка изменений и дисциплина коммитов"),
+        lede="Git сопровождал SafeSort с первой строчки кода. Теперь соберём привычку проверять изменения перед каждым коммитом.",
         body_html=body,
         sidebar_groups=sidebar("23-28-git-kommit.html"),
-        nav=PageNav(prev_href="23-27-testy-cli.html", prev_label="Тесты интерфейса", next_href="23-29-github-pr.html", next_label="GitHub: Issue, ветка и Pull Request"),
+        nav=PageNav(prev_href="23-27-testy-cli.html", prev_label="Тесты интерфейса", next_href="23-29-github-pr.html", next_label="Issue, ветка и Pull Request"),
     )
     write("23-28-git-kommit.html", out)
 
@@ -4364,39 +4820,43 @@ GITHUB_WORKFLOW_STEPS = [
 
 def build_29() -> None:
     body = f"""
-    {stage_tracker(5)}
+    {stage_tracker(5, full=True)}
 
-    <p>История коммитов, сделанных до этого момента, пока существует только в локальном репозитории — на
-    одном компьютере. <code class="inline">git push</code> публикует её на GitHub — там вокруг
-    этой истории есть рабочий процесс для совместной разработки: Issue, ветка, Pull Request.</p>
+    <p>Часть II уже разобрала цикл Issue → ветка → код → Pull Request → CI → слияние
+    на странице 23-proj-17. Теперь применим эту схему к завершённому изменению SafeSort:
+    Issue #9 «Add duplicate detection». На этот раз разберём и сам Pull Request.</p>
 
-    <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
-      font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:8px 0 16px">
-      {github_mark()}<span>Этот этап целиком происходит на GitHub</span>
-    </div>
-
-    {flow_diagram(
-        GITHUB_WORKFLOW_STEPS,
-        caption="Путь одного изменения на GitHub — на этой странице первые три шага и Pull Request, дальше про проверку и слияние отдельно",
+    {comparison_table(
+        ["LOCAL GIT", "GITHUB"],
+        [
+            ["git switch -c feat/duplicate-detection", "Issue #9 описывает задачу"],
+            ["редактирование + локальный pytest", "удалённая ветка появится после push"],
+            ["git add + git commit", "Pull Request сравнивает ветку с main"],
+            ["git push -u origin feat/duplicate-detection", "Conversation, Commits, Checks, Files changed"],
+            ["после merge: git fetch / pull", "review, решение о merge, закрытие Issue"],
+        ],
     )}
 
-    <h2>Issue — формулировка задачи до кода</h2>
-    <p><strong>Issue</strong> — запись на GitHub, описывающая задачу, найденную
-    проблему или предложение. Прежде чем писать код, полезно кратко сформулировать, что именно
-    нужно сделать и как проверить, что это сделано — так выглядит настоящая форма создания
-    Issue (ничего не отправлено, это просто интерфейс формы):</p>
+    <p>Граница пересекается на <code class="inline">git push</code>: локальные коммиты
+    становятся удалённой веткой. Issue и Pull Request являются объектами GitHub, а
+    <code class="inline">switch</code>, редактирование, тесты, staging и commit происходят
+    локально. После merge локальный Git узнаёт новое состояние через fetch/pull.</p>
+
+    <h2>Issue #9 в Project</h2>
+    <p>Issue #9 заранее добавили в Project «SafeSort: первый релиз». На странице 23-proj-09
+    мы уже видели, как Issues попадают в Project. Ниже показана форма GitHub с полями
+    заголовка, описания и метаданных.</p>
 
     {image_figure(
         f"{IMG}/github-new-issue.jpg",
         "Форма создания нового Issue на GitHub: поле заголовка, поле описания, боковая панель Assignees/Labels/Type",
-        "Реальная форма Issue на GitHub — заголовок и описание задачи, до того как написана хоть одна строка кода.",
+        "Форма Issue на GitHub, в которой был сформулирован Issue #9 репозитория SafeSort.",
         size="wide",
     )}
 
-    <h2>Ветка — изолированное место для изменений</h2>
-    <p><strong>Ветка</strong> (branch) — независимая линия истории, отходящая от
-    <code class="inline">main</code>. Пока изменения делаются в отдельной ветке, основная
-    ветка репозитория остаётся нетронутой и всегда содержит последнюю рабочую версию:</p>
+    <h2>Ветка feat/duplicate-detection</h2>
+    <p>Работа над Issue #9 шла в изолированной ветке. Тот же приём применялся в
+    каждом чекпойнте Части IV:</p>
     {code_block(
         "Терминал",
         "git switch -c feat/duplicate-detection\n"
@@ -4405,47 +4865,82 @@ def build_29() -> None:
         lang="text",
     )}
 
-    <h2>Pull Request — предложение изменений</h2>
-    <p><strong>Pull Request</strong> (PR) — предложение перенести изменения из одной ветки в
-    другую, обычно из рабочей ветки в <code class="inline">main</code>. PR не «сливает» код
-    автоматически: он открывает изменения для просмотра, автоматических проверок (о них —
-    на следующей странице) и обсуждения, прежде чем код попадёт в основную ветку.</p>
+    <h2>Pull Request #20: что сохранил GitHub</h2>
+    <p>Посмотрим на данные репозитория <code class="inline">Cartesian-School/safesort</code>:</p>
+
+    {comparison_table(
+        ["Поле PR #20", "Реальное значение"],
+        [
+            ["Заголовок", "feat: add duplicate detection with byte-level confirmation"],
+            ["Ветка → main", "feat/duplicate-detection → main"],
+            ["Commits", "1 коммит; весь Issue #9 уместился в одно логическое изменение"],
+            ["Files changed", "2 файла: src/safesort/duplicates.py (+113), tests/test_duplicates.py (+144)"],
+            ["Conversation", "«Closes #9» в описании и чек-лист плана тестирования (pytest tests/: 59 passed)"],
+            ["Checks", "test: pass, 11s (workflow safesort-tests.yml)"],
+            ["Review", "у учебного PR не было отдельного reviewer; это факт истории, а не модель для командной работы"],
+            ["Решение о слиянии", "Merged обычным merge commit 01989e0c, не squash и не rebase"],
+        ],
+    )}
+
+    <h2>Четыре вкладки и два разных вида проверки</h2>
+    {comparison_table(
+        ["Вкладка", "На какой вопрос отвечает"],
+        [
+            ["Conversation", "что обсуждали, какое Issue закрывается, каков итог review"],
+            ["Commits", "из каких сохранённых шагов состоит ветка"],
+            ["Checks", "прошли ли автоматические workflow и тесты"],
+            ["Files changed", "что именно предлагается добавить, изменить или удалить"],
+        ],
+    )}
+
+    <p>Reviewer читает изменения и может оставить <strong>comment</strong>, выбрать
+    <strong>Approve</strong> или <strong>Request changes</strong>. CI отвечает «прошли ли
+    автоматические проверки?», а человек отвечает «следует ли принять это изменение?». Ни
+    зелёный Checks не заменяет инженерное review, ни review не заменяет воспроизводимые тесты.</p>
 
     {image_figure(
         f"{IMG}/safesort-pr-files-changed.jpg",
         "Вкладка Files changed настоящего Pull Request репозитория Cartesian-School/safesort: добавленный файл duplicates.py, статус Merged",
-        "Настоящий Pull Request репозитория SafeSort — «Add duplicate detection with byte-level confirmation», закрывший Issue №9.",
+        "Pull Request SafeSort «Add duplicate detection with byte-level confirmation», закрывший Issue №9.",
         size="wide",
     )}
 
     {callout(
         "info",
+        "Один PR не всегда соответствует одному Issue",
+        "PR #20 показывает простой случай: одна ветка, один коммит, один Issue, автоматически закрытый "
+        "фразой <code class=\"inline\">Closes #9</code> при слиянии. В истории SafeSort "
+        "Встречаются и другие варианты: один PR может закрыть два связанных Issue (страницы "
+        "23-11 и 23-14 показывают такой пример), и Issues, закрытые вручную без отдельного PR "
+        "вовсе (страницы 23-20 и 23-22).",
+    )}
+
+    {callout(
+        "info",
         "PR можно открыть раньше, чем код готов полностью",
-        "Pull Request не обязан представлять уже законченную работу — его можно открыть "
+        "Pull Request не обязан представлять уже законченную работу. Его можно открыть "
         "раньше, чтобы обсудить подход или получить промежуточный отзыв, и явно пометить как "
         "черновик. Ожидание «пока всё не будет идеально» не единственный способ работать с "
         "Pull Request.",
     )}
 
     {summary_box("Коротко", [
-        "Issue формулирует задачу до того, как написан код — так проще понять, что именно "
-        "нужно сделать и как проверить результат.",
-        "Ветка изолирует работу над одной задачей, оставляя main нетронутой до готовности.",
-        "Pull Request открывает изменения для проверки и обсуждения перед слиянием в main — "
-        "он не сливает код автоматически сам по себе.",
+        "На PR #20 виден тот же цикл Issue, ветки и Pull Request, который был разобран в Части II.",
+        "Files changed, Commits, Checks и Conversation показывают 2 файла, 1 коммит, зелёную проверку и «Closes #9».",
+        "Один PR может закрыть несколько Issues; Issue также можно закрыть вручную без PR.",
     ])}
     """
     out = render_page(
-        page_title="GitHub: Issue, ветка и Pull Request",
-        description="Issue формулирует задачу, ветка изолирует изменения, Pull Request открывает их для проверки перед слиянием в main.",
+        page_title="GitHub: применяем Issue, ветку и Pull Request",
+        description="Цикл Issue → ветка → PR на Pull Request #20 репозитория SafeSort.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Issue, ветка, PR", "")],
         kicker="Глава 23 · Часть V · Проверяем и автоматизируем",
-        h1="GitHub: Issue, ветка и Pull Request",
-        lede="От формулировки задачи в Issue до предложения изменений через Pull Request — путь одного изменения на GitHub.",
+        h1="GitHub: применяем Issue, ветку и Pull Request",
+        lede="Разберём Pull Request #20, который прошёл проверку, был слит и закрыл Issue #9.",
         body_html=body,
         sidebar_groups=sidebar("23-29-github-pr.html"),
-        nav=PageNav(prev_href="23-28-git-kommit.html", prev_label="Git и коммит", next_href="23-30-github-actions.html", next_label="GitHub Actions"),
+        nav=PageNav(prev_href="23-28-git-kommit.html", prev_label="Дисциплина коммитов", next_href="23-30-github-actions.html", next_label="GitHub Actions"),
     )
     write("23-29-github-pr.html", out)
 
@@ -4567,31 +5062,31 @@ def build_30() -> None:
 
 def build_31() -> None:
     body = f"""
-    {stage_tracker(6)}
+    {stage_tracker(6, full=True)}
 
     <p>Проект готов, проверен тестами и подключён к автоматической проверке. Мы закончили
     первую пригодную для использования версию SafeSort. Теперь ей нужен номер, чтобы отличать
-    её от будущих изменений — тот самый номер, который мы уже записали в
+    её от будущих изменений. Этот номер мы уже записали в
     <code class="inline">pyproject.toml</code> ещё в части III, где он был просто техническим
     полем. Сейчас разберём, что он означает.</p>
 
     {flow_diagram(
         [
-            ("0", "MAJOR — несовместимые изменения"),
-            ("1", "MINOR — новая возможность, старое поведение сохранено"),
-            ("0", "PATCH — исправление ошибки"),
+            ("0", "MAJOR: несовместимые изменения"),
+            ("1", "MINOR: новая возможность, старое поведение сохранено"),
+            ("0", "PATCH: исправление ошибки"),
         ],
-        caption="0.1.0 — три числа, разделённые точкой, каждое отвечает за свой тип изменений",
+        caption="В 0.1.0 каждое из трёх чисел отвечает за свой тип изменений",
     )}
 
     <h2>Семантическое версионирование</h2>
     <p>Эта схема называется <strong>семантическим версионированием</strong> (Semantic
-    Versioning, SemVer) — соглашение о записи номера версии как
+    Versioning, SemVer), то есть соглашение о записи номера версии как
     <code class="inline">MAJOR.MINOR.PATCH</code>:</p>
     {comparison_table(
         ["Часть номера", "Меняется, когда"],
         [
-            ["MAJOR", "несовместимые изменения — старый способ использования перестаёт работать"],
+            ["MAJOR", "несовместимые изменения; старый способ использования перестаёт работать"],
             ["MINOR", "добавлена новая возможность, старое поведение сохранено"],
             ["PATCH", "исправлена ошибка, поведение по сути не изменилось"],
         ],
@@ -4599,16 +5094,16 @@ def build_31() -> None:
     {callout(
         "info",
         "Соглашение, а не закон физики",
-        "Семантическое версионирование — общепринятая договорённость, а не встроенное в "
+        "Семантическое версионирование задаёт общепринятую договорённость, но не встроено в "
         "инструменты правило: ничто технически не мешает нарушить его смысл. Пользы от него "
-        "ровно столько, сколько сам проект последовательно ему следует — это ориентир для "
+        "ровно столько, сколько сам проект последовательно ему следует. Это ориентир для "
         "тех, кто устанавливает пакет и хочет понимать, чего ждать от новой версии.",
     )}
 
-    <p>Первая версия SafeSort — <code class="inline">0.1.0</code>: минорная версия ниже 1
+    <p>Первая версия SafeSort имеет номер <code class="inline">0.1.0</code>. Минорная версия ниже 1
     традиционно означает «интерфейс ещё может измениться без отдельного согласования».</p>
 
-    <h2>CHANGELOG — что изменилось в этой версии</h2>
+    <h2>Что изменилось в этой версии: CHANGELOG</h2>
     {code_block(
         "CHANGELOG.md",
         "## [0.1.0]\n\n"
@@ -4622,22 +5117,68 @@ def build_31() -> None:
     {callout(
         "warning",
         "CHANGELOG описывает только реальные версии",
-        "Придумывать историю более ранних версий, которых не существовало, — не задача "
-        "CHANGELOG: он честно описывает то, что действительно вышло, начиная с первой "
-        "настоящей версии проекта.",
+        "CHANGELOG не должен придумывать более ранние версии, которых не существовало. "
+        "Он описывает выпущенные изменения, начиная с первой версии проекта.",
     )}
+
+    <h2>Собираем wheel и sdist</h2>
+    <p>Релиз начинается с исходного дерева, но пользователю передают distribution artifacts.
+    Команда <code class="inline">python -m build</code> создаёт оба стандартных формата:</p>
+    {code_block(
+        "Терминал (корень репозитория SafeSort)",
+        "python -m pip install --upgrade build\n"
+        "python -m build\n",
+        lang="text",
+    )}
+
+    {dir_tree(
+        ("dist", "dir", [
+            ("safesort-0.1.0-py3-none-any.whl", "file", []),
+            ("safesort-0.1.0.tar.gz", "file", []),
+        ]),
+        caption="wheel содержит готовый архив Python distribution; sdist содержит исходники для сборки",
+    )}
+
+    {comparison_table(
+        ["Артефакт", "Назначение"],
+        [
+            ["wheel (.whl)", "предсобранный архив distribution: установка обычно не запускает сборку проекта"],
+            ["sdist (.tar.gz)", "архив исходников и метаданных, из которого инструмент может собрать wheel"],
+        ],
+    )}
+
+    <h2>Smoke test в чистом окружении</h2>
+    <p>Editable install проверяет разработку, но не доказывает, что собранный wheel содержит
+    нужные файлы и console script. Поэтому устанавливаем именно artifact в новое окружение:</p>
+    {code_block(
+        "POSIX shell",
+        "python -m venv .release-smoke\n"
+        "source .release-smoke/bin/activate\n"
+        "python -m pip install dist/safesort-0.1.0-py3-none-any.whl\n"
+        "python -c \"import safesort; print(safesort.__file__)\"\n"
+        "safesort --help\n"
+        "deactivate\n",
+        lang="text",
+    )}
+
+    <p>На Windows активация выполняется командой
+    <code class="inline">.release-smoke\\Scripts\\activate</code>. Проверяется та же
+    установленная distribution, а не исходники из <code class="inline">src/</code>.</p>
 
     <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
       font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:24px 0 16px">
       {github_mark()}<span>GitHub Release строится поверх тега</span>
     </div>
 
-    <h2>Тег и релиз</h2>
-    <p><strong>Тег</strong> (tag) — постоянная метка на конкретном коммите, обычно
-    соответствующая номеру версии. <strong>Релиз</strong> на GitHub строится поверх тега и
-    добавляет к нему описание изменений — то же содержание, что и в CHANGELOG, но в формате,
-    который видно прямо на странице репозитория. Тег версии относится ко всему репозиторию
-    целиком, а не к одной его части — именно поэтому SafeSort живёт в собственном репозитории
+    <h2>Git tag и GitHub Release: разные объекты</h2>
+    <p><strong>Тег</strong> (tag) хранит Git-ссылку на конкретный коммит и обычно
+    соответствует номеру версии. Технически тег можно передвинуть или удалить, но
+    опубликованные release-теги проект по политике считает неизменяемыми. <strong>GitHub
+    Release</strong> служит отдельным объектом GitHub, созданным вокруг тега. У него есть
+    страница с описанием и прикреплёнными artifacts. Push тега сам по себе Release не создаёт.</p>
+
+    <p>Тег версии относится ко всему репозиторию
+    целиком, а не к одной его части. Поэтому SafeSort живёт в собственном репозитории
     <code class="inline">Cartesian-School/safesort</code>, а не только в подкаталоге курса:
     <code class="inline">git tag v0.1.0</code> здесь однозначно означает «версия 0.1.0
     SafeSort», без двусмысленности.</p>
@@ -4649,39 +5190,50 @@ def build_31() -> None:
         " * [new tag]         v0.1.0 -> v0.1.0",
     ], cwd="~/safesort")}
 
+    <p>Затем в веб-интерфейсе GitHub откройте <strong>Releases → Draft a new
+    release</strong>, выберите существующий тег <code class="inline">v0.1.0</code>, добавьте
+    выдержку из CHANGELOG и прикрепите оба файла из <code class="inline">dist/</code>.
+    После этого у тега появляется человекочитаемая страница релиза и загружаемые artifacts.</p>
+
     {image_figure(
         f"{IMG}/safesort-release.jpg",
         "Страница релиза SafeSort 0.1.0 на GitHub: заголовок, метка Latest, описание, команда pip install, прикреплённые файлы wheel и sdist",
-        "Настоящий релиз SafeSort 0.1.0 — тег, описание изменений и собранные пакеты (wheel и sdist) как файлы релиза.",
+        "Релиз SafeSort 0.1.0: тег, описание изменений и собранные пакеты wheel и sdist.",
         size="wide",
     )}
 
     {callout(
         "info",
         "Релиз создан только после того, как всё остальное было готово",
-        "Тег и релиз — последний шаг, не первый: он появился только когда CI был зелёным, "
+        "Тег и релиз появились на последнем шаге, когда CI уже был зелёным, "
         "CHANGELOG.md описывал реальные изменения, а editable install, сборка wheel/sdist и "
         "команда <code class=\"inline\">safesort --help</code> были заново проверены на чистом "
-        "окружении. Релиз без этих проверок — только цифра в номере, ничего не гарантирующая.",
+        "окружении. Без этих проверок номер версии ничего не гарантирует.",
     )}
 
     {callout(
         "tip",
-        "Публикация в PyPI — осознанно за рамками версии 0.1.0",
+        "Публикация в PyPI остаётся за рамками версии 0.1.0",
         "Установка через <code class=\"inline\">pip install git+https://github.com/Cartesian-"
         "School/safesort.git@v0.1.0</code> достаточна для разработки и личного использования. "
         "Публикация пакета в PyPI, чтобы его можно было установить командой "
-        "<code class=\"inline\">pip install safesort</code> без ссылки на репозиторий, — "
-        "отдельная тема с собственными требованиями к учётной записи и публикации, и версия "
+        "<code class=\"inline\">pip install safesort</code> без ссылки на репозиторий, остаётся "
+        "отдельной темой с собственными требованиями к учётной записи и публикации. Версия "
         "0.1.0 сознательно её не касается.",
     )}
 
     {summary_box("Коротко", [
-        "MAJOR.MINOR.PATCH — соглашение о номере версии, а не встроенное в инструменты правило.",
-        "CHANGELOG.md описывает только версии, которые действительно вышли.",
-        "Тег версии относится ко всему репозиторию — SafeSort живёт в собственном репозитории, "
-        "поэтому v0.1.0 однозначно означает «версия SafeSort», а не «версия курса».",
+        "MAJOR.MINOR.PATCH задаёт соглашение о номере версии, а не встроенное в инструменты правило.",
+        "python -m build создаёт wheel и sdist; чистое окружение проверяет установку wheel и console script.",
+        "Git tag и GitHub Release представляют разные объекты; Release создаётся вокруг тега и хранит artifacts.",
     ])}
+
+    {official_sources([
+        ("Packaging flow", "https://packaging.python.org/en/latest/flow/"),
+        ("Packaging Python Projects — Generating distribution archives", "https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives"),
+        ("Semantic Versioning 2.0.0", "https://semver.org/"),
+        ("Managing releases in a repository", "https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="Документация, версия и первый релиз",
@@ -4690,7 +5242,7 @@ def build_31() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Версия и релиз", "")],
         kicker="Глава 23 · Часть VI · Выпускаем первую версию",
         h1="Документация, версия и первый релиз",
-        lede="MAJOR.MINOR.PATCH, CHANGELOG.md, настоящий тег и GitHub Release — проект получает точку, к которой можно вернуться и на которую можно ссылаться.",
+        lede="MAJOR.MINOR.PATCH, CHANGELOG.md, Git tag и GitHub Release дают проекту точку, к которой можно вернуться и на которую можно ссылаться.",
         body_html=body,
         sidebar_groups=sidebar("23-31-versiya-reliz.html"),
         nav=PageNav(prev_href="23-30-github-actions.html", prev_label="GitHub Actions", next_href="23-32-itogi-reliz.html", next_label="Итоги главы"),
@@ -4761,8 +5313,8 @@ def build_32() -> None:
     {summary_box("Что мы узнали в этой главе", [
         "Прежде чем писать код, требования проекта описывают не только то, что программа делает, "
         "но и то, что она сознательно не делает.",
-        "Разделение на планирование (данные, ничего не меняющие) и выполнение (единственный "
-        "код, который трогает диск) защищает от случайных изменений файлов пользователя.",
+        "Разделение на read-only планирование и две явные операции, прямую apply и обратную "
+        "undo, защищает от случайных изменений файлов пользователя.",
         "Поиск дубликатов дорогую операцию — хеширование — делает только там, где она "
         "действительно может изменить ответ: после отбора файлов по размеру.",
         "Автоматические тесты работают только во временных каталогах — ни один тест не должен "
@@ -5081,9 +5633,8 @@ def build_hw_02() -> None:
 
 def build_hw_03() -> None:
     body = f"""
-    <p>Определение победителя раунда — только один из кусков логики игры (наряду со случайным
-    ходом компьютера и подсчётом счёта матча ниже), но именно он умещается в одном словаре —
-    кто кого побеждает:</p>
+    <p>Определение победителя раунда составляет одну часть логики игры наряду со случайным
+    ходом компьютера и подсчётом счёта. Правило «кто кого побеждает» умещается в одном словаре:</p>
     {code_block(
         "rps.py",
         'POBEZHDAET = {\n'
@@ -5102,14 +5653,14 @@ def build_hw_03() -> None:
         "tip",
         "Словарь вместо девяти условий",
         "Можно было бы написать девять веток <code class=\"inline\">if hod_igroka == "
-        "\"камень\" and hod_kompyutera == \"ножницы\": ...</code> — словарь "
+        "\"камень\" and hod_kompyutera == \"ножницы\": ...</code>. Словарь "
         "<code class=\"inline\">POBEZHDAET</code> делает то же самое в трёх строках и "
         "читается как обычное предложение: «камень побеждает ножницы».",
     )}
 
     <h2>Ход компьютера с проверяемой случайностью</h2>
     <p>Как и в генераторе историй, ход компьютера принимает необязательный генератор случайных
-    чисел — это позволяет тесту проверить конкретный, воспроизводимый ход:</p>
+    чисел. Так тест может проверить конкретный, воспроизводимый ход:</p>
     {code_block(
         "rps.py",
         'def hod_kompyutera(rng: random.Random | None = None) -> str:\n'
@@ -5119,7 +5670,7 @@ def build_hw_03() -> None:
 
     <h2>Матч до трёх побед</h2>
     <p>Игра теперь заканчивается не только по слову «выход», но и когда одна из сторон
-    набирает три победы — ясно определённое условие окончания, а не бесконечный цикл:</p>
+    набирает три победы. Это ясное условие окончания вместо бесконечного цикла:</p>
     {code_block(
         "rps.py",
         'POBED_DLYA_POBEDY_V_MATCHE = 3\n\n'
@@ -5130,7 +5681,20 @@ def build_hw_03() -> None:
     <p>Полный код: [[icon:file]] <a href="../../../projects/console/rock-paper-scissors/rps.py">projects/console/rock-paper-scissors/rps.py</a></p>
 
     <h2>Задание</h2>
-    {exercise(3, "Добавляем ящерицу и Спока", "Реализуйте расширенную версию игры «Камень, ножницы, бумага, ящерица, Спок» — понадобится словарь POBEZHDAET с пятью ключами, каждый побеждает по два варианта.")}
+    {exercise(3, "Добавляем ящерицу и Спока", "Расширьте требования до пяти ходов. Теперь один ход побеждает два, поэтому dict[str, str] больше не выражает правило. Перейдите на dict[str, set[str]], проверяйте opponent in beats[player] и добавьте тесты для всех 25 пар.")}
+
+    {code_block(
+        "Новая модель правила",
+        'POBEZHDAET: dict[str, set[str]] = {\n'
+        '    "камень": {"ножницы", "ящерица"},\n'
+        '    "бумага": {"камень", "Спок"},\n'
+        '    # остальные три хода\n'
+        '}\n\n'
+        'if hod_kompyutera in POBEZHDAET[hod_igroka]:\n'
+        '    return "игрок"\n',
+    )}
+    <p>Это обычная инженерная цепочка: изменилось требование → прежняя модель данных больше
+    не представляет отношение → меняется тип значения словаря → расширяется набор тестов.</p>
 
     <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
       font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:24px 0 4px">
@@ -5142,7 +5706,7 @@ def build_hw_03() -> None:
     {practice_card(
         "23-03",
         "Практика: все 9 комбинаций и симуляция раундов",
-        "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
+        "Интерактивный ноутбук в браузере: Python 3.14 через Pyodide, без установки",
         "../../practice/23-03/index.html",
     )}
     """
@@ -5153,7 +5717,7 @@ def build_hw_03() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Камень, ножницы, бумага", "")],
         kicker="Глава 23 · Приложение",
         h1="Домашний проект C: «Камень, ножницы, бумага»",
-        lede="Победителя раунда решает один словарь — кто кого побеждает; матч теперь заканчивается по ясному условию — до трёх побед.",
+        lede="Один словарь задаёт победителя раунда, а матч заканчивается после трёх побед одной из сторон.",
         body_html=body,
         sidebar_groups=sidebar("23-hw-03-kamen-nozhnicy-bumaga.html"),
         nav=PageNav(prev_href="23-hw-02-generator-istorij.html", prev_label="Генератор историй", next_href="23-hw-04-otskakivayushie-myachi.html", next_label="Домашний проект D: отскакивающие мячи"),
@@ -5163,7 +5727,7 @@ def build_hw_03() -> None:
 
 def build_hw_04() -> None:
     body = f"""
-    <p>Мяч описан классом <code class="inline">Myach</code> — позиция и скорость хранятся как
+    <p>Мяч описан классом <code class="inline">Myach</code>. Позиция и скорость хранятся как
     <code class="inline">pygame.Vector2</code>, а скорость измеряется в пикселях <strong>в
     секунду</strong>, а не в пикселях за кадр:</p>
 
@@ -5186,16 +5750,18 @@ def build_hw_04() -> None:
 
     {callout(
         "warning",
-        "self.pos += self.velocity * dt — не self.pos += self.velocity",
+        "Учитываем dt при изменении позиции",
         "Глава 20 уже показывала эту ошибку: если прибавлять скорость к позиции на каждый "
         "кадр без учёта <code class=\"inline\">dt</code> (реального времени, прошедшего с "
         "прошлого кадра), мяч на экране с частотой 120 кадров в секунду улетит вчетверо "
         "дальше за одну и ту же секунду, чем на 30 кадрах в секунду. Умножение на "
-        "<code class=\"inline\">dt</code> делает движение независимым от частоты кадров: за "
-        "одну реальную секунду мяч проходит одно и то же расстояние независимо от FPS.",
+        "<code class=\"inline\">dt</code> выражает скорость в единицах за секунду и сильно "
+        "уменьшает зависимость от FPS. Свободное равномерное движение совпадает при разных "
+        "FPS в пределах численной точности, но дискретное обнаружение столкновений всё ещё "
+        "может зависеть от размера шага времени.",
     )}
 
-    <p>Окно и цикл отрисовки создаются только внутри <code class="inline">main()</code> —
+    <p>Окно и цикл отрисовки создаются только внутри <code class="inline">main()</code>.
     импорт файла <code class="inline">bouncing_balls.py</code> не открывает окно pygame, а
     значит, <code class="inline">Myach.shag()</code> можно проверить тестом без дисплея:</p>
     {code_block(
@@ -5215,7 +5781,16 @@ def build_hw_04() -> None:
     <p>Полный код: [[icon:file]] <a href="../../../projects/pygame/bouncing-balls-oop/bouncing_balls.py">projects/pygame/bouncing-balls-oop/bouncing_balls.py</a></p>
 
     <h2>Задание</h2>
-    {exercise(2, "Столкновение мячей друг с другом", "Добавьте проверку расстояния между каждой парой мячей — если они соприкоснулись, поменяйте местами их velocity.")}
+    {exercise(2, "Упрощённое лобовое столкновение", "Для учебного упрощения рассматривайте только лобовое столкновение одинаковых мячей: центры и скорости лежат на одной прямой, мячи сближаются. В этом ограниченном случае обменяйте velocity целиком. Не выдавайте этот приём за общую формулу 2D-столкновения.")}
+
+    {callout(
+        "info",
+        "Почему ограничение обязательно",
+        "При произвольном 2D-столкновении меняются нормальные компоненты скоростей вдоль "
+        "линии центров, а касательные сохраняются; также нужны проверка сближения и коррекция "
+        "проникновения. Обмен полных векторов корректен только в сформулированной лобовой "
+        "модели одинаковых масс.",
+    )}
 
     <div style="display:flex;align-items:center;gap:8px;font-family:Sora,sans-serif;font-weight:700;
       font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5B24F9;margin:24px 0 4px">
@@ -5228,18 +5803,18 @@ def build_hw_04() -> None:
     {local_required_card(
         "23-04",
         "Практика: класс Myach и несколько мячей сразу",
-        "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "Pygame открывает нативное окно Python. Выполните практику локально в VS Code, PyCharm или Jupyter",
         "../../practice/23-04/index.html",
     )}
     """
     out = render_page(
         page_title="Домашний проект D: отскакивающие мячи с Pygame",
-        description="Vector2 и скорость в пикселях в секунду, движение по delta time — независимо от частоты кадров.",
+        description="Vector2, скорость в пикселях в секунду и delta time: меньше зависимости от FPS, с явной границей дискретной модели столкновений.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Отскакивающие мячи", "")],
         kicker="Глава 23 · Приложение",
         h1="Домашний проект D: отскакивающие мячи с Pygame",
-        lede="Позиция и скорость через Vector2, движение через dt — за одну реальную секунду мяч проходит одно и то же расстояние на любой частоте кадров.",
+        lede="Позиция и скорость хранятся в Vector2, а движение учитывает dt. Скорость измеряется в единицах за секунду, а не за кадр.",
         body_html=body,
         sidebar_groups=sidebar("23-hw-04-otskakivayushie-myachi.html"),
         nav=PageNav(prev_href="23-hw-03-kamen-nozhnicy-bumaga.html", prev_label="Камень, ножницы, бумага", next_href="23-hw-05-temperatura.html", next_label="Домашний проект E: температура"),
@@ -5250,7 +5825,7 @@ def build_hw_04() -> None:
 def build_hw_05() -> None:
     body = f"""
     <p>Небольшое, но по-настоящему полезное приложение: вводим температуру, выбираем единицу
-    через переключатели и сразу видим значение во всех трёх шкалах — Цельсий, Фаренгейт,
+    через переключатели и сразу видим значение во всех трёх шкалах: Цельсий, Фаренгейт,
     Кельвин:</p>
     {code_block(
         "temperature_converter.py",
@@ -5270,7 +5845,7 @@ def build_hw_05() -> None:
     {callout(
         "warning",
         "-300°C не существует",
-        "Абсолютный ноль — минимально возможная температура: -273.15°C, 0 K, -459.67°F. Любое "
+        "Абсолютный ноль задаёт минимально возможную температуру: -273.15°C, 0 K, -459.67°F. Любое "
         "значение ниже этой границы физически невозможно, и приложение отклоняет его явной "
         "ошибкой <code class=\"inline\">ValueError</code>, а не молча выдаёт формально "
         "посчитанный, но бессмысленный результат.",
@@ -5279,15 +5854,15 @@ def build_hw_05() -> None:
     {callout(
         "tip",
         "K, а не °K",
-        "У шкалы Кельвина нет знака градуса: правильная запись — <code class=\"inline\">"
-        "273.15 K</code>, а не <code class=\"inline\">273.15°K</code>. Это не орфографическая "
-        "мелочь: у Цельсия и Фаренгейта отсчёт идёт от условно выбранной точки, поэтому у них "
-        "и есть «градус» в названии единицы, а кельвин отсчитывается от абсолютного нуля и "
-        "исторически определён без такого смещения.",
+        "Единица SI называется <strong>кельвин</strong>, её символ: "
+        "<code class=\"inline\">K</code>. Правильная запись: "
+        "<code class=\"inline\">273.15 K</code>: без знака ° и с пробелом между числом и "
+        "символом. Такое обозначение задаёт SI Brochure; отсутствие ° не означает "
+        "логическим следствием того, что шкала начинается при абсолютном нуле.",
     )}
 
     <p>Формулы перевода остаются чистыми функциями без Tkinter, а окно создаётся только
-    внутри <code class="inline">main()</code> — как и во всех остальных домашних проектах.</p>
+    внутри <code class="inline">main()</code>, как и во всех остальных домашних проектах.</p>
 
     <p>Полный код: [[icon:file]] <a href="../../../projects/tkinter/temperature-converter/temperature_converter.py">projects/tkinter/temperature-converter/temperature_converter.py</a></p>
 
@@ -5305,9 +5880,13 @@ def build_hw_05() -> None:
     {local_required_card(
         "23-05",
         "Практика: формулы и проверка абсолютного нуля",
-        "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
+        "Модуль tkinter открывает нативное окно Python. Выполните практику локально в VS Code, PyCharm или Jupyter",
         "../../practice/23-05/index.html",
     )}
+
+    {official_sources([
+        ("BIPM SI Brochure, 9th edition", "https://www.bipm.org/en/publications/si-brochure"),
+    ], adapted=False)}
     """
     out = render_page(
         page_title="Домашний проект E: преобразование температуры",
@@ -5316,7 +5895,7 @@ def build_hw_05() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Температура", "")],
         kicker="Глава 23 · Приложение",
         h1="Домашний проект E: преобразование температуры",
-        lede="Одна функция перевода в Цельсий и обратно — и явная проверка, что такой температуры вообще может существовать.",
+        lede="Одна функция переводит значение в Цельсий и обратно, а отдельная проверка отклоняет невозможную температуру.",
         body_html=body,
         sidebar_groups=sidebar("23-hw-05-temperatura.html"),
         nav=PageNav(prev_href="23-hw-04-otskakivayushie-myachi.html", prev_label="Отскакивающие мячи", next_href="23-hw-06-zametki.html", next_label="Домашний проект F: заметки"),

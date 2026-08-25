@@ -112,10 +112,17 @@ def load_config(root: Path) -> Config:
         raise ConfigError(f"Invalid 'exclude' in {config_path}: expected a list of strings")
     exclude = tuple(exclude_raw)
 
-    extensions_raw = raw.get("extensions", DEFAULT_EXTENSIONS)
+    extensions_raw = raw.get("extensions", {})
     if not isinstance(extensions_raw, dict):
         raise ConfigError(f"Invalid '[extensions]' table in {config_path}")
-    extensions: dict[str, list[str]] = {}
+    # A config file is an overlay, not a replacement for every built-in
+    # category.  Copy the defaults first, then replace only categories the
+    # user actually names.  This keeps a small custom table predictable:
+    # ``books = [".epub"]`` adds books without silently disabling images,
+    # documents, and the other defaults.
+    extensions: dict[str, list[str]] = {
+        category: list(exts) for category, exts in DEFAULT_EXTENSIONS.items()
+    }
     for category, exts in extensions_raw.items():
         if not isinstance(exts, list) or not all(isinstance(x, str) for x in exts):
             raise ConfigError(

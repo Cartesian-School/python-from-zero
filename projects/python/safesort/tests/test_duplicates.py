@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import os
 from pathlib import Path
 
 import safesort.duplicates as duplicates_module
-from safesort.duplicates import files_equal, find_duplicates, sha256_file
+from safesort.duplicates import files_equal, find_duplicates, sha256_file, sha256_stream
 from safesort.models import FileInfo
 
 
@@ -89,9 +90,9 @@ def test_sha256_file_matches_direct_hash_for_small_file(tmp_path: Path) -> None:
 
 
 def test_sha256_file_matches_direct_hash_for_multi_chunk_file(tmp_path: Path) -> None:
-    # A few MB, using a small chunk size, so the incremental read loop in
-    # sha256_file has to run through several iterations to prove chunked
-    # reading produces the same digest as hashing all the bytes at once.
+    # This result test proves digest correctness for input larger than one
+    # configured chunk.  The separate interaction test below proves how the
+    # stream dependency is read.
     path = tmp_path / "large.bin"
     data = os.urandom(3 * 1024 * 1024 + 12345)  # not an exact multiple of the chunk size
     path.write_bytes(data)
@@ -100,6 +101,24 @@ def test_sha256_file_matches_direct_hash_for_multi_chunk_file(tmp_path: Path) ->
     actual = sha256_file(path, chunk_size=1024 * 1024)
 
     assert actual == expected
+
+
+def test_sha256_stream_uses_multiple_bounded_reads() -> None:
+    class RecordingReader(io.BytesIO):
+        def __init__(self, data: bytes) -> None:
+            super().__init__(data)
+            self.requested_sizes: list[int] = []
+
+        def read(self, size: int = -1) -> bytes:
+            self.requested_sizes.append(size)
+            return super().read(size)
+
+    data = b"abcdefghij"
+    reader = RecordingReader(data)
+
+    assert sha256_stream(reader, chunk_size=4) == hashlib.sha256(data).hexdigest()
+    assert reader.requested_sizes == [4, 4, 4, 4]
+    assert max(reader.requested_sizes) == 4
 
 
 def test_find_duplicates_with_no_files_returns_empty() -> None:
@@ -142,3 +161,23 @@ def test_find_duplicates_excludes_a_hash_collision_confirmed_different_by_bytes(
     groups = find_duplicates([_file(a), _file(b)])
 
     assert groups == []
+
+
+def test_forced_digest_bucket_is_partitioned_into_exact_content_groups(
+    tmp_path: Path, monkeypatch
+) -> None:
+    paths = [tmp_path / name for name in ("a1.bin", "b1.bin", "a2.bin", "b2.bin")]
+    for path, content in zip(paths, (b"AAAA", b"BBBB", b"AAAA", b"BBBB"), strict=True):
+        path.write_bytes(content)
+
+    monkeypatch.setattr(
+        duplicates_module,
+        "sha256_file",
+        lambda path, chunk_size=None: "forced-collision",
+    )
+
+    groups = find_duplicates([_file(path) for path in paths])
+
+    assert len(groups) == 2
+    grouped_names = {frozenset(item.path.name for item in group.files) for group in groups}
+    assert grouped_names == {frozenset({"a1.bin", "a2.bin"}), frozenset({"b1.bin", "b2.bin"})}
