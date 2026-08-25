@@ -68,10 +68,22 @@ PAGES = [
     ("23-git-09-lokalnyj-i-udalennyj.html", "Локальный и удалённый репозиторий", 1),
     ("23-git-10-working-tree-staging-commit.html", "Working tree, staging и commit", 1),
     ("23-proj-01-repo-vs-project.html", "Repository и GitHub Project — в чём разница", 2),
-    ("23-proj-02-sozdaem-project.html", "Создаём GitHub Project", 2),
-    ("23-proj-03-board-table.html", "Board, Table и представления", 2),
-    ("23-proj-04-issues.html", "Создаём Issues и добавляем в Project", 2),
-    ("23-proj-05-issue-branch-pr.html", "Первый цикл: Issue → Branch → Pull Request", 2),
+    ("23-proj-02-luchshie-praktiki.html", "Как спланировать Project: лучшие практики", 2),
+    ("23-proj-03-sozdaem-project.html", "Создаём GitHub Project", 2),
+    ("23-proj-04-kopiruem-project.html", "Копируем существующий Project", 2),
+    ("23-proj-05-board-table-roadmap.html", "Board, Table и Roadmap", 2),
+    ("23-proj-06-polya.html", "Поля Project: встроенные и пользовательские", 2),
+    ("23-proj-07-chernoviki.html", "Черновики: задача без Issue", 2),
+    ("23-proj-08-chernovik-v-issue.html", "Превращаем черновик в Issue", 2),
+    ("23-proj-09-issues.html", "Создаём Issues и добавляем в Project", 2),
+    ("23-proj-10-redaktiruem-elementy.html", "Редактируем элементы Project", 2),
+    ("23-proj-11-filtr-sort-grupp.html", "Фильтруем, сортируем и группируем", 2),
+    ("23-proj-12-upravlyaem-predstavleniyami.html", "Управляем представлениями", 2),
+    ("23-proj-13-avtomatizaciya.html", "Встроенная автоматизация и auto-add", 2),
+    ("23-proj-14-arhiviruem.html", "Архивируем и восстанавливаем элементы", 2),
+    ("23-proj-15-shablony.html", "Шаблоны Project", 2),
+    ("23-proj-16-insights.html", "Insights и графики Project", 2),
+    ("23-proj-17-issue-branch-pr.html", "Первый цикл: Issue → Branch → Pull Request", 2),
     ("23-02-repozitorij.html", "Первый коммит в клонированном репозитории", 3),
     ("23-03-readme.html", "Первый README проекта", 3),
     ("23-04-struktura-paketa.html", "Планируем структуру Python-пакета", 3),
@@ -173,7 +185,8 @@ def sidebar(active_href: str) -> list[SidebarGroup]:
         SidebarGroup(
             "Исходный код",
             [
-                NavItem("[[icon:code]] projects/python/safesort/", "../../../projects/python/safesort/README.md"),
+                NavItem("[[icon:code]] SafeSort — исходный репозиторий (GitHub)", "https://github.com/Cartesian-School/safesort"),
+                NavItem("[[icon:code]] projects/python/safesort/ — учебная копия в этой книге", "../../../projects/python/safesort/README.md"),
                 NavItem("[[icon:code]] python-mini-projects", "https://github.com/Cartesian-School/python-mini-projects"),
             ],
         ),
@@ -253,10 +266,22 @@ def build_opener() -> None:
             ChapterSectionLink("", "Локальный и удалённый репозиторий", "23-git-09-lokalnyj-i-udalennyj.html"),
             ChapterSectionLink("", "Working tree, staging и commit", "23-git-10-working-tree-staging-commit.html"),
             ChapterSectionLink("", "Repository и GitHub Project", "23-proj-01-repo-vs-project.html"),
-            ChapterSectionLink("", "Создаём GitHub Project", "23-proj-02-sozdaem-project.html"),
-            ChapterSectionLink("", "Board, Table и представления", "23-proj-03-board-table.html"),
-            ChapterSectionLink("", "Создаём Issues", "23-proj-04-issues.html"),
-            ChapterSectionLink("", "Первый цикл: Issue → Branch → PR", "23-proj-05-issue-branch-pr.html"),
+            ChapterSectionLink("", "Лучшие практики Project", "23-proj-02-luchshie-praktiki.html"),
+            ChapterSectionLink("", "Создаём GitHub Project", "23-proj-03-sozdaem-project.html"),
+            ChapterSectionLink("", "Копируем существующий Project", "23-proj-04-kopiruem-project.html"),
+            ChapterSectionLink("", "Board, Table и Roadmap", "23-proj-05-board-table-roadmap.html"),
+            ChapterSectionLink("", "Поля Project", "23-proj-06-polya.html"),
+            ChapterSectionLink("", "Черновики: задача без Issue", "23-proj-07-chernoviki.html"),
+            ChapterSectionLink("", "Превращаем черновик в Issue", "23-proj-08-chernovik-v-issue.html"),
+            ChapterSectionLink("", "Создаём Issues", "23-proj-09-issues.html"),
+            ChapterSectionLink("", "Редактируем элементы Project", "23-proj-10-redaktiruem-elementy.html"),
+            ChapterSectionLink("", "Фильтруем, сортируем, группируем", "23-proj-11-filtr-sort-grupp.html"),
+            ChapterSectionLink("", "Управляем представлениями", "23-proj-12-upravlyaem-predstavleniyami.html"),
+            ChapterSectionLink("", "Автоматизация и auto-add", "23-proj-13-avtomatizaciya.html"),
+            ChapterSectionLink("", "Архивируем элементы", "23-proj-14-arhiviruem.html"),
+            ChapterSectionLink("", "Шаблоны Project", "23-proj-15-shablony.html"),
+            ChapterSectionLink("", "Insights и графики", "23-proj-16-insights.html"),
+            ChapterSectionLink("", "Первый цикл: Issue → Branch → PR", "23-proj-17-issue-branch-pr.html"),
             ChapterSectionLink("23.2", "Создаём репозиторий проекта", "23-02-repozitorij.html"),
             ChapterSectionLink("23.3", "Первый README проекта", "23-03-readme.html"),
             ChapterSectionLink("23.4", "Планируем структуру Python-пакета", "23-04-struktura-paketa.html"),
@@ -578,17 +603,35 @@ def build_git_03() -> None:
     )}
 
     <h2>Имя ветки по умолчанию</h2>
-    <p>Современный Git (2.28 и новее) уже использует <code class="inline">main</code> как имя
-    первой ветки по умолчанию — отдельно настраивать это обычно не нужно. Если понадобится
-    явно это зафиксировать:</p>
+    <p>Здесь легко ошибиться: сам Git до сих пор называет самую первую ветку нового репозитория
+    <code class="inline">master</code>, если её имя никак не настроено, — это встроенное
+    поведение не изменилось. В версии 2.28 у Git появилась только сама
+    <em>настройка</em> <code class="inline">init.defaultBranch</code>, позволяющая задать другое
+    имя по умолчанию, — а не новое поведение "из коробки". Имя <code class="inline">main</code>
+    стало привычным, потому что GitHub, GitLab и многие редакторы настраивают эту опцию сами при
+    установке, но сам Git её не устанавливает. Поэтому Cartesian School задаёт её явно, а не
+    полагается на то, что окажется настроено на конкретном компьютере:</p>
     {code_block("Терминал", "git config --global init.defaultBranch main\n", lang="text")}
+
+    {callout(
+        "warning",
+        "Git 2.28 добавил настройку, а не новое поведение",
+        "Легко перепутать эти две вещи. Git 2.28 (выпущен в 2020 году) добавил опцию "
+        "<code class=\"inline\">init.defaultBranch</code> — раньше такой настройки не "
+        "существовало вообще, и переименовать первую ветку можно было только вручную после "
+        "создания репозитория. Но сама опция ничего не меняет, пока её не задать: без неё Git "
+        "по-прежнему создаёт ветку <code class=\"inline\">master</code>, в любой версии, вплоть "
+        "до самой новой. Проверить это можно на чистом окружении без "
+        "<code class=\"inline\">~/.gitconfig</code> — там <code class=\"inline\">git init</code> "
+        "создаёт именно <code class=\"inline\">master</code>.",
+    )}
 
     {official_sources([("Set up Git", "https://docs.github.com/en/get-started/git-basics/set-up-git")])}
 
     {summary_box("Коротко", [
         "user.name/user.email записываются в каждый коммит — это данные автора, а не логин GitHub.",
         "--global применяет настройку сразу ко всем репозиториям на компьютере.",
-        "Современный Git уже использует main как имя ветки по умолчанию.",
+        "Git 2.28 добавил настройку init.defaultBranch, но встроенное имя первой ветки по-прежнему master — main нужно задать явно.",
     ])}
     """
     out = render_page(
@@ -630,11 +673,14 @@ def build_git_04() -> None:
     passkey. Включить 2FA стоит сразу: учётная запись на GitHub — это не просто набор файлов,
     а доступ к публикации кода от вашего имени.</p>
 
-    {decision_map([
-        ("Личный email в коммитах нежелателен", "используйте noreply-адрес GitHub"),
-        ("Нужен резервный способ входа", "сохраните коды восстановления при включении 2FA"),
-        ("Забыт пароль", "используйте официальное восстановление доступа, не сторонние сервисы"),
-    ], title="Частые решения при создании аккаунта")}
+    {comparison_table(
+        ["Ситуация", "Решение"],
+        [
+            ["Личный email в коммитах нежелателен", "используйте noreply-адрес GitHub"],
+            ["Нужен резервный способ входа", "сохраните коды восстановления при включении 2FA"],
+            ["Забыт пароль", "используйте официальное восстановление доступа, не сторонние сервисы"],
+        ],
+    )}
 
     {official_sources([
         ("Signing up for a new GitHub account", "https://docs.github.com/en/get-started/onboarding/getting-started-with-your-github-account"),
@@ -894,14 +940,21 @@ def build_git_08() -> None:
         "01989e0 feat: add duplicate detection with byte-level confirmation (#20)",
         "29c6328 feat: record operation manifest and add undo (#19)",
         "c5e34d5 feat: add explicit apply operation (#18)",
-    ])}
+    ], caption="Как эталонный репозиторий Cartesian-School/safesort выглядит сейчас — с уже завершённой историей")}
 
     {callout(
         "info",
-        "git log сразу показывает настоящую историю",
-        "Обратите внимание: git log --oneline сразу после клонирования показывает не пустую "
-        "историю, а все коммиты, которые уже есть в репозитории на GitHub, — клонирование "
-        "скачивает полную историю, а не только последнее состояние файлов.",
+        "Эталонный репозиторий подготовлен для курса заранее",
+        "git log --oneline сразу после клонирования показывает не пустую историю, а все "
+        "коммиты, которые уже есть в репозитории на GitHub, — клонирование скачивает полную "
+        "историю, а не только последнее состояние файлов. И это не пустой репозиторий: "
+        "Cartesian-School/safesort подготовлен для курса заранее, со всеми Issue, ветками, "
+        "Pull Request и релизом v0.1.0 уже сделанными. Учебные шаги этой главы показывают, "
+        "как такой проект строится с нуля, но настоящая история эталонного репозитория — не "
+        "покадровая запись этих шагов, а её собственная, отдельная и полностью честная "
+        "последовательность реальных коммитов. Ниже по главе явные пометки различают "
+        "«РЕАЛЬНОЕ СВИДЕТЕЛЬСТВО РЕПОЗИТОРИЯ» (то, что действительно есть в этой истории) и "
+        "«УЧЕБНЫЙ ПРИМЕР» (иллюстрация приёма на отдельном тренировочном материале).",
     )}
 
     {official_sources([("Cloning a repository", "https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository")])}
@@ -1004,19 +1057,24 @@ def build_git_10() -> None:
         ],
     )}
 
+    <p>Ниже — <strong>учебный пример</strong> на отдельном, специально созданном для
+    демонстрации каталоге (не в самом SafeSort — в клонированном репозитории README.md уже
+    закоммичен, это было видно в части III), чтобы показать, как эти четыре команды выглядят
+    на практике при самом первом коммите нового файла:</p>
+
     {terminal_capture([
         "$ git status",
-        "?? README.md",
-        "$ git add README.md",
+        "?? notes.md",
+        "$ git add notes.md",
         "$ git status",
-        "A  README.md",
-        "$ git commit -m \"Первый коммит: README\"",
-        "[main (root-commit) 05913f1] Первый коммит: README",
-        " 1 file changed, 3 insertions(+)",
-        " create mode 100644 README.md",
+        "A  notes.md",
+        "$ git commit -m \"Add notes\"",
+        "[main (root-commit) a1c2e9f] Add notes",
+        " 1 file changed, 1 insertion(+)",
+        " create mode 100644 notes.md",
         "$ git log --oneline",
-        "05913f1 Первый коммит: README",
-    ])}
+        "a1c2e9f Add notes",
+    ], cwd="~/demo-project", caption="УЧЕБНЫЙ ПРИМЕР — отдельный тренировочный каталог, не репозиторий SafeSort")}
 
     <p>Разница между <code class="inline">git diff</code> и <code class="inline">git diff
     --staged</code> — источник частой путаницы: первая команда сравнивает рабочее дерево с
@@ -1096,12 +1154,75 @@ def build_proj_01() -> None:
         lede="Repository хранит код; GitHub Project отслеживает статус задач — два разных, независимых объекта.",
         body_html=body,
         sidebar_groups=sidebar("23-proj-01-repo-vs-project.html"),
-        nav=PageNav(prev_href="23-git-10-working-tree-staging-commit.html", prev_label="Working tree, staging, commit", next_href="23-proj-02-sozdaem-project.html", next_label="Создаём GitHub Project"),
+        nav=PageNav(prev_href="23-git-10-working-tree-staging-commit.html", prev_label="Working tree, staging, commit", next_href="23-proj-02-luchshie-praktiki.html", next_label="Лучшие практики Project"),
     )
     write("23-proj-01-repo-vs-project.html", out)
 
 
 def build_proj_02() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Создать Project — секундное дело; ошибка, которую совершает почти каждый новичок, —
+    сразу добавить десяток полей и три представления «на будущее», а через месяц забросить
+    большинство из них. Прежде чем нажать «New project», стоит принять несколько решений
+    осознанно.</p>
+
+    <h2>Решить область действия заранее</h2>
+    <p>Project можно привязать к одному репозиторию или объединить в нём несколько.
+    Для SafeSort ответ простой — один Project на один репозиторий, потому что вся работа
+    этой главы происходит в <code class="inline">Cartesian-School/safesort</code> и нет
+    смысла тянуть в один список задачи из других репозиториев курса.</p>
+
+    <h2>Меньше полей — лучше</h2>
+    {comparison_table(
+        ["Вместо", "Лучше"],
+        [
+            ["поле «на всякий случай», которое никто не заполняет", "поле, отвечающее на конкретный вопрос (кто важнее, что за часть кода)"],
+            ["свободный текст там, где вариантов на самом деле немного", "Single select с заранее известным списком значений"],
+            ["новое представление для каждой идеи «а вдруг пригодится»", "одно-два представления, которые реально открывают каждый день"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Статус — почти всегда достаточно одного поля для отслеживания прогресса",
+        "У GitHub Project уже есть встроенное поле Status. Прежде чем добавлять что-то ещё, "
+        "стоит спросить: отвечает ли новое поле на вопрос, которого Status не покрывает? Для "
+        "SafeSort это Priority (что делать в первую очередь) и Area (к какой части кода "
+        "относится задача) — оба поля появятся дальше в этой части главы.",
+    )}
+
+    <h2>Поля и представления можно менять позже</h2>
+    <p>Ничего из решённого на этом шаге не высечено в камне: GitHub позволяет добавить,
+    переименовать или удалить поле и представление в любой момент, не теряя уже собранные
+    данные. Ошибка новичка — не «выбрать неправильное поле», а решить всё сразу и никогда
+    не пересматривать.</p>
+
+    {official_sources([("Best practices for Projects", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/best-practices-for-projects")])}
+
+    {summary_box("Коротко", [
+        "Перед созданием Project стоит решить его область действия — один репозиторий или несколько.",
+        "Меньше полей и представлений, каждое из которых реально используется, лучше десятка «на будущее».",
+        "Status — встроенное поле; собственные поля стоит добавлять только когда Status не отвечает на нужный вопрос.",
+    ])}
+    """
+    out = render_page(
+        page_title="Как спланировать Project: лучшие практики",
+        description="Прежде чем создавать GitHub Project: область действия, минимум полей, встроенный Status вместо самодельных полей.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Лучшие практики", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Как спланировать Project: лучшие практики",
+        lede="Project легко создать за секунду и так же легко захламить десятком неиспользуемых полей — несколько решений стоит принять заранее.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-02-luchshie-praktiki.html"),
+        nav=PageNav(prev_href="23-proj-01-repo-vs-project.html", prev_label="Repository vs Project", next_href="23-proj-03-sozdaem-project.html", next_label="Создаём GitHub Project"),
+    )
+    write("23-proj-02-luchshie-praktiki.html", out)
+
+
+def build_proj_03() -> None:
     body = f"""
     {stage_tracker(2)}
 
@@ -1119,15 +1240,16 @@ def build_proj_02() -> None:
         ],
     )}
 
-    {callout(
-        "warning",
-        "На момент подготовки этой страницы live-доступ к Projects ещё не был предоставлен",
-        "Создание GitHub Project требует отдельного разрешения (\"project\" scope) для "
-        "инструмента, которым собирается этот курс, — предоставляется отдельно от доступа к "
-        "самому репозиторию. Реальные скриншоты доски Project (созданный Project, Board, "
-        "Table, перемещение элементов между статусами) появятся на этой и следующих страницах "
-        "после того, как доступ будет подтверждён; текстовое и диаграммное описание работы "
-        "Project точное и основано на официальной документации независимо от этого.",
+    <p>Именно так и был создан настоящий Project этой главы —
+    <a href="https://github.com/orgs/Cartesian-School/projects/1">Cartesian-School/projects/1
+    «SafeSort — первый релиз»</a>: Owner — Cartesian-School, Title — без номера версии,
+    Template — пустой Project.</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-table.jpg",
+        "Table-представление настоящего Project «SafeSort — первый релиз»: все 14 Issues, поля Status, Priority, Area",
+        "Настоящий Project SafeSort — первый релиз, созданный под организацией Cartesian-School.",
+        size="wide",
     )}
 
     <h2>Название без номера версии</h2>
@@ -1141,7 +1263,7 @@ def build_proj_02() -> None:
     {summary_box("Коротко", [
         "GitHub Project создаётся для конкретного владельца (организации или аккаунта) с названием и уровнем видимости.",
         "Название Project для SafeSort не включает номер версии — версия появляется позже.",
-        "Project изначально пуст: следующий раздел показывает его представления, а затем — как в него попадают задачи.",
+        "Сразу после создания Project пуст — следующие разделы показывают его представления и поля, а затем, как в него попадают задачи.",
     ])}
     """
     out = render_page(
@@ -1153,13 +1275,69 @@ def build_proj_02() -> None:
         h1="Создаём GitHub Project",
         lede="Прежде чем писать код, GitHub Project даёт место для списка задач, связанного с реальными Issues репозитория.",
         body_html=body,
-        sidebar_groups=sidebar("23-proj-02-sozdaem-project.html"),
-        nav=PageNav(prev_href="23-proj-01-repo-vs-project.html", prev_label="Repository vs Project", next_href="23-proj-03-board-table.html", next_label="Board, Table и представления"),
+        sidebar_groups=sidebar("23-proj-03-sozdaem-project.html"),
+        nav=PageNav(prev_href="23-proj-02-luchshie-praktiki.html", prev_label="Лучшие практики", next_href="23-proj-04-kopiruem-project.html", next_label="Копируем существующий Project"),
     )
-    write("23-proj-02-sozdaem-project.html", out)
+    write("23-proj-03-sozdaem-project.html", out)
 
 
-def build_proj_03() -> None:
+def build_proj_04() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Создать Project с нуля — не единственный способ начать. Если в организации уже есть
+    Project с нужным набором статусов, полей и представлений, GitHub позволяет
+    <strong>скопировать</strong> его: новый Project получает ту же структуру, но пустой список
+    задач — прошлые Issues, Pull Request и история статусов не переносятся.</p>
+
+    {flow_diagram([
+        ("Существующий Project", "поля, статусы, представления уже настроены"),
+        ("Copy", "новый Project с той же структурой"),
+        ("Пустой список задач", "старые элементы не копируются — только структура"),
+    ], caption="Копирование переносит структуру Project, а не его содержимое")}
+
+    {callout(
+        "info",
+        "SafeSort создаётся с нуля — копировать пока нечего",
+        "У Cartesian-School на момент подготовки этой главы ещё не было готового Project с "
+        "нужной структурой, поэтому Project «SafeSort — первый релиз» создаётся заново "
+        "(предыдущий раздел), а не копированием. Но у копирования есть реальное применение "
+        "для курса: после того как этот Project будет готов, он сам может стать заготовкой "
+        "для планирования следующих больших проектных глав — не нужно будет заново придумывать "
+        "статусы Backlog / Ready / In Progress / In Review / Done и поля Priority / Area.",
+    )}
+
+    <h2>Когда копирование окупается</h2>
+    <p>Копирование полезно, когда команда уже выработала удобный набор статусов и полей и
+    не хочет каждый раз собирать его заново, — типичный случай: несколько похожих релизов
+    подряд или несколько похожих учебных проектов один за другим. Для первого Project в
+    организации копировать попросту не с чего, и создание с нуля — не компромисс, а
+    единственный доступный путь.</p>
+
+    {official_sources([("Copying an existing project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/copying-an-existing-project")])}
+
+    {summary_box("Коротко", [
+        "Копирование Project переносит его структуру — поля, статусы, представления — но не сами задачи.",
+        "SafeSort создан с нуля, потому что подходящего Project для копирования ещё не существовало.",
+        "Копирование окупается, когда одна и та же структура нужна для нескольких похожих проектов подряд.",
+    ])}
+    """
+    out = render_page(
+        page_title="Копируем существующий Project",
+        description="Copy Project переносит структуру — поля, статусы, представления — но не задачи; SafeSort создан с нуля.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Копируем Project", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Копируем существующий Project",
+        lede="Copy Project переносит структуру — поля, статусы, представления, — но не переносит сами задачи.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-04-kopiruem-project.html"),
+        nav=PageNav(prev_href="23-proj-03-sozdaem-project.html", prev_label="Создаём Project", next_href="23-proj-05-board-table-roadmap.html", next_label="Board, Table и Roadmap"),
+    )
+    write("23-proj-04-kopiruem-project.html", out)
+
+
+def build_proj_05() -> None:
     body = f"""
     {stage_tracker(2)}
 
@@ -1194,45 +1372,224 @@ def build_proj_03() -> None:
         ("Done", "изменения слиты в main"),
     ], caption="Пять статусов, через которые проходит каждая задача SafeSort")}
 
-    <h2>Поля, кроме статуса</h2>
-    {comparison_table(
-        ["Поле", "Значения"],
-        [
-            ["Priority", "High / Medium / Low"],
-            ["Area", "Packaging / CLI / Filesystem / Safety / Duplicates / Testing / Documentation / CI"],
-        ],
+    {image_figure(
+        f"{IMG}/safesort-project-board.jpg",
+        "Board настоящего Project SafeSort: пять колонок-статусов, все 14 задач в Done",
+        "Настоящая доска Project SafeSort — все 14 задач уже в Done, потому что релиз 0.1.0 уже вышел.",
+        size="wide",
     )}
-    <p>Оба поля добавлены, потому что отвечают на конкретный вопрос («что делать в первую
-    очередь», «к какой части относится задача») — а не просто потому, что GitHub позволяет
-    создать произвольное поле.</p>
 
-    {official_sources([
-        ("Understanding fields", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields"),
-        ("Customizing views in your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project"),
-    ])}
+    {official_sources([("Changing the layout of a view", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/changing-the-layout-of-a-view")])}
 
     {summary_box("Коротко", [
         "Board, Table и Roadmap — представления одного и того же набора задач, а не отдельные наборы данных.",
         "SafeSort использует пять статусов: Backlog, Ready, In Progress, In Review, Done.",
-        "Дополнительные поля (Priority, Area) стоит добавлять только когда они отвечают на конкретный вопрос.",
+        "Представление стоит добавлять только тогда, когда им реально будут пользоваться.",
     ])}
     """
     out = render_page(
-        page_title="Board, Table и представления",
-        description="Board, Table и Roadmap — представления одного набора задач; статусы и поля Priority/Area для SafeSort.",
+        page_title="Board, Table и Roadmap",
+        description="Board, Table и Roadmap — представления одного набора задач; пять статусов SafeSort.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Board и Table", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
-        h1="Board, Table и представления",
+        h1="Board, Table и Roadmap",
         lede="Board, Table и Roadmap — разные способы посмотреть на один и тот же набор задач, а не отдельные наборы данных.",
         body_html=body,
-        sidebar_groups=sidebar("23-proj-03-board-table.html"),
-        nav=PageNav(prev_href="23-proj-02-sozdaem-project.html", prev_label="Создаём Project", next_href="23-proj-04-issues.html", next_label="Создаём Issues"),
+        sidebar_groups=sidebar("23-proj-05-board-table-roadmap.html"),
+        nav=PageNav(prev_href="23-proj-04-kopiruem-project.html", prev_label="Копируем Project", next_href="23-proj-06-polya.html", next_label="Поля Project"),
     )
-    write("23-proj-03-board-table.html", out)
+    write("23-proj-05-board-table-roadmap.html", out)
 
 
-def build_proj_04() -> None:
+def build_proj_06() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Каждый элемент Project — это набор полей: часть из них встроена в GitHub и есть
+    у любого Project, часть можно добавить самим под конкретную задачу.</p>
+
+    <h2>Встроенные поля</h2>
+    {comparison_table(
+        ["Поле", "Откуда берётся"],
+        [
+            ["Title", "заголовок Issue или Pull Request"],
+            ["Assignees", "кому назначена задача в самом Issue"],
+            ["Status", "колонка Board — управляется Project, не репозиторием"],
+            ["Labels", "метки Issue/PR из репозитория"],
+            ["Repository", "какой репозиторий, если Project объединяет несколько"],
+            ["Linked pull requests", "PR, связанные с Issue через «Closes #N»"],
+        ],
+    )}
+    <p>Эти поля Project не придумывает сам — он либо читает их из репозитория (Title,
+    Assignees, Labels), либо управляет ими только внутри себя (Status).</p>
+
+    <h2>Типы пользовательских полей</h2>
+    {comparison_table(
+        ["Тип поля", "Когда использовать"],
+        [
+            ["Text", "короткая произвольная заметка — например, ссылка на обсуждение"],
+            ["Number", "числовое значение — например, оценка сложности в часах"],
+            ["Date", "конкретная дата — например, дедлайн, если он есть"],
+            ["Single select", "фиксированный список значений — то, что выбирают из выпадающего списка"],
+            ["Iteration", "повторяющиеся отрезки времени — спринты, недели"],
+        ],
+    )}
+
+    <h2>Два пользовательских поля SafeSort</h2>
+    {comparison_table(
+        ["Поле", "Тип", "Значения"],
+        [
+            ["Priority", "Single select", "High / Medium / Low"],
+            ["Area", "Single select", "Packaging / CLI / Filesystem / Safety / Duplicates / Testing / Documentation / CI"],
+        ],
+    )}
+    <p>Оба поля — Single select, а не Text: список значений заранее известен и конечен,
+    а Single select ещё и позволяет группировать и фильтровать Table по значению, чего
+    свободный текст не даёт. <code class="inline">Iteration</code> здесь не нужен — SafeSort
+    не ведётся спринтами, у задач нет повторяющихся временных отрезков.</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-table.jpg",
+        "Table настоящего Project SafeSort с заполненными колонками Priority и Area для всех 14 задач",
+        "Priority и Area заполнены для всех 14 задач настоящего Project SafeSort.",
+        size="wide",
+    )}
+
+    {official_sources([("Understanding fields", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields")])}
+
+    {summary_box("Коротко", [
+        "Встроенные поля (Title, Assignees, Status, Labels) есть у любого Project без настройки.",
+        "Пользовательские поля бывают текстом, числом, датой, Single select или Iteration.",
+        "SafeSort использует два поля Single select — Priority и Area — потому что список их значений заранее известен и конечен.",
+    ])}
+    """
+    out = render_page(
+        page_title="Поля Project: встроенные и пользовательские",
+        description="Встроенные поля Title/Status/Labels и пользовательские типы Text/Number/Date/Single select/Iteration.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Поля Project", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Поля Project: встроенные и пользовательские",
+        lede="Часть полей Project встроена в GitHub, часть можно добавить самим — под конкретный вопрос, который они должны решать.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-06-polya.html"),
+        nav=PageNav(prev_href="23-proj-05-board-table-roadmap.html", prev_label="Board, Table, Roadmap", next_href="23-proj-07-chernoviki.html", next_label="Черновики: задача без Issue"),
+    )
+    write("23-proj-06-polya.html", out)
+
+
+def build_proj_07() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Не каждая мысль о будущей задаче сразу дозревает до полноценного Issue с Problem,
+    Expected outcome и чек-листом Acceptance criteria. Для таких промежуточных заметок
+    у Project есть <strong>черновик</strong> (draft issue) — элемент с заголовком и текстом,
+    который существует только внутри Project и пока не связан ни с одним репозиторием.</p>
+
+    {comparison_table(
+        ["Issue", "Черновик (draft issue)"],
+        [
+            ["живёт в конкретном репозитории", "живёт только внутри Project"],
+            ["у него есть номер (#14 и т.д.)", "номера нет — это ещё не запись репозитория"],
+            ["виден в списке Issues репозитория", "виден только тем, у кого есть доступ к Project"],
+            ["можно связать Pull Request через «Closes #N»", "связать Pull Request нельзя, пока не станет Issue"],
+        ],
+    )}
+
+    {flow_diagram([
+        ("Идея", "коротко записана прямо в Project"),
+        ("Черновик", "заголовок и текст, статус можно менять как у любого элемента"),
+        ("Дозрел до задачи", "следующий раздел — превращение в настоящий Issue"),
+    ], caption="Черновик — способ зафиксировать мысль в Project раньше, чем она станет формальным Issue")}
+
+    {callout(
+        "info",
+        "У SafeSort черновиков не было — но приём стоит знать",
+        "Все 14 задач SafeSort с самого начала были сформулированы достаточно чётко, чтобы "
+        "сразу стать полноценными Issues (следующие разделы), — черновики в их истории не "
+        "использовались. Но приём полезен в проектах, где работа идёт не заранее спланированным "
+        "списком, а по ходу дела: увидели проблему во время разработки — сразу записали "
+        "черновиком в Project, не отвлекаясь на формулировку полноценного Issue.",
+    )}
+
+    {official_sources([("Adding items to your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project")])}
+
+    {summary_box("Коротко", [
+        "Черновик (draft issue) — элемент Project без репозитория и без номера, для мыслей, которые ещё не дозрели до Issue.",
+        "У черновика есть заголовок, текст и статус, но нет связи с Pull Request.",
+        "SafeSort обошёлся без черновиков, потому что все 14 задач были сформулированы сразу как Issues.",
+    ])}
+    """
+    out = render_page(
+        page_title="Черновики: задача без Issue",
+        description="Draft issue — элемент Project без репозитория и номера, для мыслей, которые ещё не дозрели до полноценного Issue.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Черновики", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Черновики: задача без Issue",
+        lede="Черновик (draft issue) фиксирует мысль внутри Project раньше, чем она станет формальным Issue репозитория.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-07-chernoviki.html"),
+        nav=PageNav(prev_href="23-proj-06-polya.html", prev_label="Поля Project", next_href="23-proj-08-chernovik-v-issue.html", next_label="Превращаем черновик в Issue"),
+    )
+    write("23-proj-07-chernoviki.html", out)
+
+
+def build_proj_08() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Когда черновик дозрел до понятной задачи, его можно превратить в настоящий Issue —
+    одним действием прямо из Project, без копирования текста вручную.</p>
+
+    {flow_diagram([
+        ("Черновик в Project", "заголовок и текст, репозитория ещё нет"),
+        ("Convert to issue", "выбирается репозиторий-получатель"),
+        ("Настоящий Issue", "появляется номер, запись видна в репозитории"),
+        ("Элемент Project", "тот же элемент, поля Status/Priority/Area сохраняются"),
+    ], caption="Конвертация меняет тип элемента, но не создаёт новый — это тот же элемент Project")}
+
+    {callout(
+        "info",
+        "Поля не сбрасываются при конвертации",
+        "Если у черновика уже был выставлен статус или заполнено поле Priority, после "
+        "конвертации в Issue эти значения остаются как есть — конвертация меняет только "
+        "тип элемента (черновик → Issue) и добавляет связь с репозиторием, а не пересоздаёт "
+        "элемент с нуля.",
+    )}
+
+    <h2>Репозиторий выбирается в момент конвертации</h2>
+    <p>У черновика изначально нет репозитория — GitHub спрашивает, в какой репозиторий
+    добавить будущий Issue, только когда происходит конвертация. Для Project с несколькими
+    репозиториями это осознанный выбор; для SafeSort, где Project привязан к одному
+    репозиторию, ответ всегда один и тот же — <code class="inline">Cartesian-School/safesort</code>.</p>
+
+    {official_sources([("Converting draft issues to issues", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/converting-draft-issues-to-issues")])}
+
+    {summary_box("Коротко", [
+        "Convert to issue превращает черновик в настоящий Issue одним действием, без ручного копирования текста.",
+        "Уже заполненные поля элемента (Status, Priority и другие) сохраняются после конвертации.",
+        "Репозиторий-получатель выбирается в момент конвертации — у черновика его до этого не было.",
+    ])}
+    """
+    out = render_page(
+        page_title="Превращаем черновик в Issue",
+        description="Convert to issue превращает черновик Project в настоящий Issue репозитория, сохраняя уже заполненные поля.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Черновик → Issue", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Превращаем черновик в Issue",
+        lede="Convert to issue превращает черновик в настоящий Issue репозитория одним действием — без ручного копирования текста.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-08-chernovik-v-issue.html"),
+        nav=PageNav(prev_href="23-proj-07-chernoviki.html", prev_label="Черновики", next_href="23-proj-09-issues.html", next_label="Создаём Issues"),
+    )
+    write("23-proj-08-chernovik-v-issue.html", out)
+
+
+def build_proj_09() -> None:
     body = f"""
     {stage_tracker(2)}
 
@@ -1256,8 +1613,21 @@ def build_proj_04() -> None:
     {image_figure(
         f"{IMG}/safesort-issues-list.jpg",
         "Список Issues репозитория Cartesian-School/safesort: 14 закрытых задач, каждая — от scanner до релиза",
-        "Настоящие 14 Issues репозитория SafeSort — каждая закрыта соответствующим Pull Request.",
+        "Настоящие 14 Issues репозитория SafeSort.",
         size="wide",
+    )}
+
+    {callout(
+        "info",
+        "Один Issue — не всегда один Pull Request",
+        "В репозитории SafeSort 9 из 14 Issues закрыты Pull Request — но не «каждый своим»: "
+        "коллизии имён (Issue №6) оказались достаточно тесно связаны с планом перемещений "
+        "(Issue №3), чтобы попасть в один PR №17; то же с манифестом и undo (Issues №7 и №8 — "
+        "один PR №19). Остальные пять Issues (обработка ошибок файловой системы, настройки и "
+        "логирование, тестовый набор, CI, подготовка релиза) не имеют собственного "
+        "выделенного PR: эта работа вошла в код по мере реализации соответствующих модулей "
+        "и была закрыта записью, объясняющей, где именно она оказалась — реальная история "
+        "проекта, а не выдуманная ради красивой таблицы «14 Issues → 14 PR».",
     )}
 
     <h2>Issue добавляется в Project</h2>
@@ -1266,6 +1636,10 @@ def build_proj_04() -> None:
         ("Добавлен в Project", "статус по умолчанию — Backlog"),
         ("Готов к работе", "статус меняется на Ready"),
     ], caption="Issue существует в репозитории независимо от Project; добавление в Project — отдельное, необязательное действие")}
+
+    <p>Все 14 Issues репозитория SafeSort действительно добавлены в настоящий Project
+    <a href="https://github.com/orgs/Cartesian-School/projects/1">«SafeSort — первый релиз»</a> —
+    это видно на скриншотах Board и Table в следующих разделах этой части главы.</p>
 
     {official_sources([
         ("About issues", "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues"),
@@ -1288,19 +1662,465 @@ def build_proj_04() -> None:
         h1="Создаём Issues и добавляем в Project",
         lede="Каждая часть SafeSort формулируется как Issue до того, как написана хоть одна строка кода.",
         body_html=body,
-        sidebar_groups=sidebar("23-proj-04-issues.html"),
-        nav=PageNav(prev_href="23-proj-03-board-table.html", prev_label="Board и Table", next_href="23-proj-05-issue-branch-pr.html", next_label="Первый цикл: Issue → Branch → PR"),
+        sidebar_groups=sidebar("23-proj-09-issues.html"),
+        nav=PageNav(prev_href="23-proj-08-chernovik-v-issue.html", prev_label="Черновик → Issue", next_href="23-proj-10-redaktiruem-elementy.html", next_label="Редактируем элементы Project"),
     )
-    write("23-proj-04-issues.html", out)
+    write("23-proj-09-issues.html", out)
 
 
-def build_proj_05() -> None:
+def build_proj_10() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Задача редко остаётся неизменной от Backlog до Done — статус, приоритет, а иногда и
+    заголовок меняются по ходу работы. У Project для этого есть три способа, разной степени
+    массовости.</p>
+
+    {comparison_table(
+        ["Способ", "Когда удобен"],
+        [
+            ["Перетащить карточку на Board", "поменять только статус одного элемента — самый быстрый способ"],
+            ["Открыть панель элемента", "изменить сразу несколько полей одного элемента — Priority, Area, Assignees"],
+            ["Массовое изменение в Table", "выделить несколько строк и применить одно значение поля сразу ко всем"],
+        ],
+    )}
+
+    {flow_diagram([
+        ("Issue №1 создан", "статус Backlog"),
+        ("Ветка feat/directory-scanner создана", "статус меняется на In Progress"),
+        ("Как: перетащить карточку", "из колонки Backlog в колонку In Progress на Board"),
+    ], caption="Смена статуса — самое частое редактирование элемента Project")}
+
+    <p>Все 14 реальных задач SafeSort уже в статусе Done — релиз 0.1.0 вышел, менять их
+    статус назад ради красивого скриншота значило бы врать про историю проекта. Поэтому
+    ниже — настоящая демонстрация на отдельном демо-элементе, специально добавленном и
+    проведённом через Ready → In Progress → In Review → Done в реальном Project SafeSort,
+    а затем удалённом, чтобы не искажать фактическое состояние доски:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-ready.jpg",
+        "Демо-элемент в колонке Ready настоящего Project SafeSort",
+        "1. Ready — демо-карточка добавлена и готова к работе.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-in-progress.jpg",
+        "Демо-элемент перетащен в колонку In Progress",
+        "2. In Progress — та же карточка перетащена в следующую колонку.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-in-review.jpg",
+        "Демо-элемент перетащен в колонку In Review",
+        "3. In Review — карточка снова перетащена, теперь в предпоследнюю колонку.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-done-demo.jpg",
+        "Демо-элемент перетащен в колонку Done, счётчик Done стал 15",
+        "4. Done — карточка дошла до последней колонки; счётчик Done временно показывает 15 (14 реальных задач + демо-элемент).",
+        size="wide",
+    )}
+
+    {callout(
+        "info",
+        "Массовое редактирование экономит время на однотипных задачах",
+        "Если несколько Issues одновременно переходят в одну и ту же фазу — например, все "
+        "задачи тестирования (Issues №20–23 по нумерации ноутбуков практики) готовы к работе "
+        "разом, — выделение нескольких строк в Table и разовое изменение поля Status для всех "
+        "выделенных быстрее, чем открывать каждый элемент по отдельности.",
+    )}
+
+    {official_sources([("Editing items in your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/editing-items-in-your-project")])}
+
+    {summary_box("Коротко", [
+        "Перетаскивание карточки на Board — самый быстрый способ изменить статус одного элемента.",
+        "Панель элемента позволяет менять сразу несколько полей одного элемента за раз.",
+        "Массовое редактирование в Table применяет одно значение поля сразу ко всем выделенным элементам.",
+    ])}
+    """
+    out = render_page(
+        page_title="Редактируем элементы Project",
+        description="Три способа редактировать элемент Project: перетащить карточку, открыть панель, массово изменить в Table.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Редактируем элементы", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Редактируем элементы Project",
+        lede="Статус, приоритет и другие поля элемента можно менять по одному, через панель или сразу массово в Table.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-10-redaktiruem-elementy.html"),
+        nav=PageNav(prev_href="23-proj-09-issues.html", prev_label="Создаём Issues", next_href="23-proj-11-filtr-sort-grupp.html", next_label="Фильтруем, сортируем, группируем"),
+    )
+    write("23-proj-10-redaktiruem-elementy.html", out)
+
+
+def build_proj_11() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Table и Board показывают все элементы Project сразу, но по мере роста списка задач
+    нужен способ увидеть только нужную часть — для этого у представлений есть фильтрация,
+    сортировка и группировка.</p>
+
+    {comparison_table(
+        ["Операция", "Что делает", "Пример для SafeSort"],
+        [
+            ["Фильтр", "оставляет только элементы, подходящие под условие", "показать только Priority: High"],
+            ["Сортировка", "меняет порядок строк по значению поля", "отсортировать Table по Priority"],
+            ["Группировка", "разбивает элементы на секции по значению поля", "сгруппировать по Area — все задачи Filesystem вместе"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Фильтр и группировка решают разные задачи",
+        "Фильтр убирает лишнее и оставляет подмножество — удобно, когда интересна только "
+        "часть списка (например, только задачи со статусом In Progress прямо сейчас). "
+        "Группировка не убирает ничего — она организует весь список по разделам, так что "
+        "видно сразу все задачи, но разложенные по Area или по Priority.",
+    )}
+
+    <h2>Фильтр — это строка запроса</h2>
+    <p>Фильтр в Project записывается как текстовый запрос вида
+    <code class="inline">status:"In Review" area:CLI</code> — его можно ввести вручную в
+    строке фильтра или собрать через выпадающие подсказки. Тот же синтаксис используется
+    и в поиске по Issues репозитория, так что навык переносится.</p>
+
+    {official_sources([("Filtering projects", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects")])}
+
+    {summary_box("Коротко", [
+        "Фильтр оставляет только элементы, подходящие под условие — остальные временно скрываются из представления.",
+        "Сортировка меняет порядок строк; группировка раскладывает весь список по значению поля, не убирая элементы.",
+        "Фильтр записывается как текстовый запрос вида status:\"In Review\" — тот же синтаксис, что и в поиске по Issues.",
+    ])}
+    """
+    out = render_page(
+        page_title="Фильтруем, сортируем и группируем",
+        description="Фильтр оставляет подмножество элементов, сортировка меняет порядок строк, группировка раскладывает список по секциям.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Фильтр и группировка", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Фильтруем, сортируем и группируем",
+        lede="Фильтр оставляет подмножество элементов, сортировка меняет порядок строк, группировка раскладывает весь список по секциям.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-11-filtr-sort-grupp.html"),
+        nav=PageNav(prev_href="23-proj-10-redaktiruem-elementy.html", prev_label="Редактируем элементы", next_href="23-proj-12-upravlyaem-predstavleniyami.html", next_label="Управляем представлениями"),
+    )
+    write("23-proj-11-filtr-sort-grupp.html", out)
+
+
+def build_proj_12() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Настроенные фильтр, сортировку и группировку не нужно собирать заново каждый раз —
+    их можно сохранить как отдельное представление (view) со своей вкладкой и именем.</p>
+
+    {flow_diagram([
+        ("Table + фильтр area:CLI", "настроено вручную один раз"),
+        ("Сохранить как представление", "получает своё имя и вкладку"),
+        ("«CLI-задачи»", "открывается одним кликом, без повторной настройки фильтра"),
+    ], caption="Сохранённое представление — это настройка, а не копия данных")}
+
+    {comparison_table(
+        ["Действие", "Результат"],
+        [
+            ["Создать представление", "новая вкладка со своим макетом, фильтром и группировкой"],
+            ["Дублировать представление", "копия существующей вкладки — удобно как отправная точка для похожей настройки"],
+            ["Переименовать представление", "меняет только подпись вкладки"],
+            ["Изменить порядок вкладок", "перетаскивание вкладок местами"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Board и Table для SafeSort — это два сохранённых представления одного Project",
+        "Board (статусы по колонкам) и Table (все поля сразу) не дублируют данные — это два "
+        "разных способа посмотреть на один и тот же список из 14 задач. Изменение элемента "
+        "в одном представлении сразу видно в другом.",
+    )}
+
+    {official_sources([("Managing your views", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/managing-your-views")])}
+
+    {summary_box("Коротко", [
+        "Представление можно сохранить с именем и своей вкладкой — фильтр и группировка не нужно настраивать заново.",
+        "Board и Table — два сохранённых представления одного и того же списка задач, а не отдельные копии данных.",
+        "Представления можно дублировать, переименовывать и переставлять местами.",
+    ])}
+    """
+    out = render_page(
+        page_title="Управляем представлениями",
+        description="Сохранённые представления (views) хранят фильтр, сортировку и группировку под своим именем и вкладкой.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Управление представлениями", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Управляем представлениями",
+        lede="Настроенные фильтр, сортировку и группировку можно сохранить как именованное представление со своей вкладкой.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-12-upravlyaem-predstavleniyami.html"),
+        nav=PageNav(prev_href="23-proj-11-filtr-sort-grupp.html", prev_label="Фильтр и группировка", next_href="23-proj-13-avtomatizaciya.html", next_label="Автоматизация и auto-add"),
+    )
+    write("23-proj-12-upravlyaem-predstavleniyami.html", out)
+
+
+def build_proj_13() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Часть переходов между статусами не нужно делать руками — у Project есть встроенные
+    автоматизации (built-in workflows), которые реагируют на события в репозитории.</p>
+
+    {comparison_table(
+        ["Встроенный workflow", "Что делает"],
+        [
+            ["Item added to project", "выставляет статус по умолчанию новому элементу"],
+            ["Item reopened", "возвращает элемент в заданный статус, если Issue переоткрыт"],
+            ["Item closed", "переводит элемент в статус Done, когда Issue или PR закрыт"],
+            ["Pull request merged", "переводит элемент в статус Done при слиянии Pull Request"],
+            ["Auto-add to project", "автоматически добавляет в Project новые Issues и PR, подходящие под фильтр"],
+            ["Auto-archive items", "архивирует элементы, подходящие под фильтр — например, всё в статусе Done"],
+        ],
+    )}
+
+    {flow_diagram([
+        ("Pull Request смержен", "событие в репозитории"),
+        ("Workflow \"Pull request merged\"", "встроенная автоматизация Project реагирует"),
+        ("Статус элемента → Done", "без ручного перетаскивания карточки"),
+    ], caption="Встроенные workflow реагируют на события репозитория и сами меняют статус")}
+
+    <p>В настоящем Project SafeSort сработал похожий, но не тот же workflow — все 14 Issues
+    добавлялись уже закрытыми, поэтому включился <strong>Item closed</strong>, а не
+    «Pull request merged»:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-workflow-item-closed.jpg",
+        "Настроенный workflow Item closed → Status: Done в настоящем Project SafeSort",
+        "Реальный workflow, который автоматически перевёл все 14 задач в Done.",
+        size="wide",
+    )}
+
+    <h2>Auto-add — чтобы не добавлять Issues вручную</h2>
+    <p>Workflow <strong>Auto-add to project</strong> настраивается фильтром — например,
+    «любой новый Issue в репозитории <code class="inline">Cartesian-School/safesort</code>».
+    С таким правилом каждый новый Issue сам попадает в Project со статусом по умолчанию,
+    и не нужно помнить о ручном шаге «добавить в Project» из более раннего раздела главы.
+    Именно так настроен и включён Auto-add в настоящем Project SafeSort:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-workflow-auto-add.jpg",
+        "Включённый workflow Auto-add to project с фильтром is:issue для репозитория safesort",
+        "Реальный, включённый Auto-add — фильтр is:issue уже находит все 14 существующих Issues.",
+        size="wide",
+    )}
+
+    {callout(
+        "warning",
+        "Автоматизация не заменяет решения — она освобождает от рутины",
+        "Auto-add избавляет только от механического действия «перетащить Issue в Project». "
+        "Решение о том, в каком статусе должна оказаться задача дальше — Ready она уже или "
+        "ещё Backlog, — по-прежнему принимает человек.",
+    )}
+
+    {official_sources([
+        ("Using the built-in automations", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations"),
+        ("Adding items automatically", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/adding-items-automatically"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Встроенные workflow меняют статус элемента в ответ на событие репозитория — например, слияние Pull Request.",
+        "Auto-add to project автоматически добавляет в Project новые Issues и PR, подходящие под настроенный фильтр.",
+        "Автоматизация убирает рутинные действия, но не решения о том, в каком статусе должна быть задача.",
+    ])}
+    """
+    out = render_page(
+        page_title="Встроенная автоматизация и auto-add",
+        description="Built-in workflows меняют статус элемента по событиям репозитория; auto-add сам добавляет новые Issues в Project.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Автоматизация", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Встроенная автоматизация и auto-add",
+        lede="Встроенные workflow сами меняют статус элемента по событиям репозитория и сами добавляют новые Issues в Project.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-13-avtomatizaciya.html"),
+        nav=PageNav(prev_href="23-proj-12-upravlyaem-predstavleniyami.html", prev_label="Управление представлениями", next_href="23-proj-14-arhiviruem.html", next_label="Архивируем элементы"),
+    )
+    write("23-proj-13-avtomatizaciya.html", out)
+
+
+def build_proj_14() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Когда задача закрыта и попала в статус Done, оставлять её карточку на Board навсегда
+    не обязательно — но и удалять запись из Project тоже не стоит. Для этого есть
+    промежуточный шаг: <strong>архивирование</strong>.</p>
+
+    {comparison_table(
+        ["Действие", "Что происходит"],
+        [
+            ["Архивировать", "элемент исчезает из активных представлений, но данные сохраняются и его можно восстановить"],
+            ["Восстановить", "элемент возвращается во все представления с теми же полями, что были до архивации"],
+            ["Удалить", "элемент удаляется из Project безвозвратно — сам Issue в репозитории при этом не затрагивается"],
+        ],
+    )}
+
+    {flow_diagram([
+        ("14 задач в статусе Done", "Board и Table переполнены завершёнными карточками"),
+        ("Архивировать выполненные", "убирает их из активного вида"),
+        ("История не теряется", "при необходимости — Restore возвращает элемент как был"),
+    ], caption="Архивирование расчищает активное представление, не стирая историю")}
+
+    {callout(
+        "info",
+        "Архивирование можно автоматизировать",
+        "Workflow <strong>Auto-archive items</strong> из предыдущего раздела делает то же "
+        "самое по фильтру автоматически — например, архивирует любой элемент, как только его "
+        "статус становится Done, чтобы Board оставался читаемым без ручной уборки.",
+    )}
+
+    {official_sources([("Archiving items from your project", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/archiving-items-from-your-project")])}
+
+    {summary_box("Коротко", [
+        "Архивирование убирает элемент из активных представлений, но сохраняет его данные и позволяет восстановить.",
+        "Удаление, в отличие от архивирования, стирает элемент из Project безвозвратно — сам Issue в репозитории не затрагивается.",
+        "Auto-archive items автоматизирует архивирование завершённых задач по фильтру.",
+    ])}
+    """
+    out = render_page(
+        page_title="Архивируем и восстанавливаем элементы",
+        description="Архивирование убирает завершённые задачи из активного вида, сохраняя данные и возможность восстановить.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Архивирование", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Архивируем и восстанавливаем элементы",
+        lede="Архивирование расчищает активное представление от завершённых задач, не стирая их данные и историю.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-14-arhiviruem.html"),
+        nav=PageNav(prev_href="23-proj-13-avtomatizaciya.html", prev_label="Автоматизация", next_href="23-proj-15-shablony.html", next_label="Шаблоны Project"),
+    )
+    write("23-proj-14-arhiviruem.html", out)
+
+
+def build_proj_15() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Организация может пометить готовый Project как <strong>шаблон</strong> — тогда его
+    структура (поля, статусы, представления, но не сами задачи, как и при копировании из
+    более раннего раздела) появляется в списке заготовок, доступных при создании нового
+    Project любому участнику организации.</p>
+
+    {comparison_table(
+        ["Copy существующего Project", "Project-шаблон"],
+        [
+            ["копируется один раз, вручную выбранный Project", "виден в галерее шаблонов при создании любого нового Project"],
+            ["нужно знать, какой именно Project копировать", "не нужно искать — шаблон предлагается сразу в интерфейсе"],
+            ["доступно для любого Project, на который есть права", "требует, чтобы владелец явно включил флаг «сделать шаблоном»"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Потенциальный следующий шаг для Cartesian-School, не часть текущей главы",
+        "Project «SafeSort — первый релиз» решает конкретную задачу этой главы и сам по себе "
+        "шаблоном пока не помечен. Но его структура — статусы Backlog/Ready/In Progress/In "
+        "Review/Done и поля Priority/Area — подошла бы и другим проектным главам курса; "
+        "пометить его шаблоном для организации Cartesian-School — разумный будущий шаг, "
+        "а не то, что нужно SafeSort прямо сейчас.",
+    )}
+
+    {official_sources([("Managing project templates in your organization", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/managing-project-templates-in-your-organization")])}
+
+    {summary_box("Коротко", [
+        "Project-шаблон появляется в галерее заготовок при создании нового Project — не нужно искать, что копировать.",
+        "Шаблоном становится Project, для которого владелец организации явно включил эту настройку.",
+        "SafeSort пока не помечен шаблоном — это не нужно для текущей главы, но подходит как будущий шаг курса.",
+    ])}
+    """
+    out = render_page(
+        page_title="Шаблоны Project",
+        description="Project-шаблон появляется в галерее заготовок организации при создании нового Project.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Шаблоны Project", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Шаблоны Project",
+        lede="Project, помеченный шаблоном, появляется в галерее заготовок организации при создании нового Project.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-15-shablony.html"),
+        nav=PageNav(prev_href="23-proj-14-arhiviruem.html", prev_label="Архивирование", next_href="23-proj-16-insights.html", next_label="Insights и графики"),
+    )
+    write("23-proj-15-shablony.html", out)
+
+
+def build_proj_16() -> None:
+    body = f"""
+    {stage_tracker(2)}
+
+    <p>Последний раздел про механику Project — необязательный и более продвинутый:
+    <strong>Insights</strong> строит графики прямо из данных Project, без экспорта в
+    сторонний инструмент.</p>
+
+    {flow_diagram([
+        ("Данные Project", "статус, приоритет, область каждого элемента"),
+        ("Insights", "выбирается тип графика и группировка"),
+        ("График сохраняется", "остаётся частью Project, обновляется вместе с данными"),
+    ], caption="График строится из тех же полей, что уже есть у элементов Project")}
+
+    {comparison_table(
+        ["Настройка графика", "Пример для SafeSort"],
+        [
+            ["Группировка", "по Status — сколько задач в каждой колонке прямо сейчас"],
+            ["Фильтр", "например, только Area: CI — сколько задач относится к настройке CI"],
+            ["Тип графика", "столбчатая диаграмма, круговая диаграмма и другие — зависит от вопроса"],
+        ],
+    )}
+
+    {callout(
+        "info",
+        "Полезно для больших списков задач, необязательно для четырнадцати",
+        "Insights раскрывает свою пользу, когда элементов в Project много и вручную посчитать "
+        "распределение по статусам или областям неудобно. При 14 задачах SafeSort это "
+        "распределение видно и просто посмотрев на Board — Insights здесь скорее демонстрация "
+        "возможности, чем необходимость.",
+    )}
+
+    {official_sources([
+        ("About insights for Projects", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/viewing-insights-from-your-project/about-insights-for-projects"),
+        ("Creating charts", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/viewing-insights-from-your-project/creating-charts"),
+    ])}
+
+    {summary_box("Коротко", [
+        "Insights строит графики прямо из полей Project — без экспорта данных в сторонний инструмент.",
+        "График настраивается группировкой, фильтром и типом визуализации.",
+        "Польза Insights растёт вместе с количеством задач — на 14 элементах распределение видно и на глаз.",
+    ])}
+    """
+    out = render_page(
+        page_title="Insights и графики Project",
+        description="Insights строит графики прямо из полей Project — группировка, фильтр, тип визуализации, без экспорта данных.",
+        depth=2,
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Insights", "")],
+        kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
+        h1="Insights и графики Project",
+        lede="Insights строит графики прямо из полей Project — необязательная, более продвинутая возможность.",
+        body_html=body,
+        sidebar_groups=sidebar("23-proj-16-insights.html"),
+        nav=PageNav(prev_href="23-proj-15-shablony.html", prev_label="Шаблоны Project", next_href="23-proj-17-issue-branch-pr.html", next_label="Первый цикл: Issue → Branch → PR"),
+    )
+    write("23-proj-16-insights.html", out)
+
+
+def build_proj_17() -> None:
     body = f"""
     {stage_tracker(2)}
 
     <p>Issue сформулирован — теперь разберём полный цикл его жизни, от постановки задачи до
-    закрытия. Этот цикл повторяется для каждой из 14 задач SafeSort, начиная со следующей
-    части главы.</p>
+    закрытия. Этот цикл повторяется для большинства задач SafeSort, начиная со следующей
+    части главы — но не по жёсткому правилу «один Issue — один Pull Request», а так, как
+    реально удобно ложится работа.</p>
 
     {flow_diagram([
         ("Issue", "задача сформулирована, статус Ready"),
@@ -1309,7 +2129,7 @@ def build_proj_05() -> None:
         ("Pull Request", "статус меняется на In Review"),
         ("CI и проверка", "автоматические тесты + самопроверка Files changed"),
         ("Слияние", "Issue закрывается, статус — Done"),
-    ], caption="Полный цикл одной задачи — от Issue до Done. Этот цикл повторится 14 раз.")}
+    ], caption="Полный цикл одной задачи — от Issue до Done")}
 
     {code_block(
         "Терминал",
@@ -1322,10 +2142,22 @@ def build_proj_05() -> None:
 
     {callout(
         "tip",
-        "Closes #N в описании Pull Request закрывает Issue автоматически",
+        "Closes #N закрывает Issue автоматически — а один PR может закрыть сразу несколько",
         "Если тело Pull Request содержит фразу вида <code class=\"inline\">Closes #1</code>, "
         "GitHub автоматически закрывает Issue №1 в момент слияния этого PR — вручную закрывать "
-        "Issue не нужно. Именно так закрыты все 14 Issues репозитория SafeSort.",
+        "Issue не нужно. Ничто не мешает написать "
+        "<code class=\"inline\">Closes #3, Closes #6</code>, если один PR решает сразу две "
+        "тесно связанные задачи — именно так и произошло в репозитории SafeSort с планом "
+        "перемещений и обработкой конфликтов имён.",
+    )}
+
+    {callout(
+        "warning",
+        "Не каждый Issue закрывается через PR",
+        "Формулировка задачи через Issue не обязывает закрывать её именно Pull Request'ом. "
+        "Если работа была сделана попутно, в рамках другой задачи, или не требовала кода "
+        "вовсе, Issue можно закрыть вручную — с комментарием, объясняющим, что произошло. "
+        "Реальная история проекта важнее искусственно ровной таблицы «N задач — N PR».",
     )}
 
     <p>Следующая часть главы проходит этот цикл по-настоящему, шаг за шагом, для первой
@@ -1336,7 +2168,7 @@ def build_proj_05() -> None:
     {summary_box("Коротко", [
         "Issue → ветка → код и тесты → Pull Request → CI и проверка → слияние — полный цикл одной задачи.",
         "«Closes #N» в описании Pull Request закрывает Issue автоматически при слиянии.",
-        "Этот цикл повторяется для каждой из 14 задач SafeSort, начиная со следующей части главы.",
+        "Этот цикл описывает большинство задач SafeSort, но не жёсткое правило — один PR иногда закрывает несколько тесно связанных Issues, а часть задач закрывается без отдельного PR.",
     ])}
     """
     out = render_page(
@@ -1346,21 +2178,21 @@ def build_proj_05() -> None:
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("Issue → Branch → PR", "")],
         kicker="Глава 23 · Часть II · Планируем SafeSort на GitHub",
         h1="Первый цикл: Issue → Branch → Pull Request",
-        lede="Issue → ветка → код и тесты → Pull Request → CI → слияние — цикл, который повторится 14 раз.",
+        lede="Issue → ветка → код и тесты → Pull Request → CI → слияние — цикл, который повторяется для большинства задач SafeSort, но не по жёсткому правилу «один Issue — один PR».",
         body_html=body,
-        sidebar_groups=sidebar("23-proj-05-issue-branch-pr.html"),
-        nav=PageNav(prev_href="23-proj-04-issues.html", prev_label="Создаём Issues", next_href="23-02-repozitorij.html", next_label="Первый коммит в клонированном репозитории"),
+        sidebar_groups=sidebar("23-proj-17-issue-branch-pr.html"),
+        nav=PageNav(prev_href="23-proj-16-insights.html", prev_label="Insights", next_href="23-02-repozitorij.html", next_label="Первый коммит в клонированном репозитории"),
     )
-    write("23-proj-05-issue-branch-pr.html", out)
+    write("23-proj-17-issue-branch-pr.html", out)
 
 
 def build_02() -> None:
     body = f"""
     {stage_tracker(3)}
 
-    <p>Репозиторий склонирован (часть I), Issue и Project настроены (часть II) — самое время
-    заглянуть внутрь каталога, который появился после <code class="inline">git clone</code>,
-    и понять, что в нём уже есть.</p>
+    <p>Репозиторий склонирован (часть I), Issues и GitHub Project разобраны (часть II) — самое
+    время заглянуть внутрь каталога, который появился после <code class="inline">git
+    clone</code>, и понять, что в нём уже есть.</p>
 
     {terminal_capture([
         "$ ls -la",
@@ -1420,7 +2252,7 @@ def build_02() -> None:
         lede="После клонирования в рабочем дереве уже есть стартовый набор файлов — первый коммит репозитория SafeSort.",
         body_html=body,
         sidebar_groups=sidebar("23-02-repozitorij.html"),
-        nav=PageNav(prev_href="23-proj-05-issue-branch-pr.html", prev_label="Issue → Branch → PR", next_href="23-03-readme.html", next_label="Первый README проекта"),
+        nav=PageNav(prev_href="23-proj-17-issue-branch-pr.html", prev_label="Issue → Branch → PR", next_href="23-03-readme.html", next_label="Первый README проекта"),
     )
     write("23-02-repozitorij.html", out)
 
@@ -1429,12 +2261,13 @@ def build_03() -> None:
     body = f"""
     {stage_tracker(3)}
 
-    {dir_tree(("safesort", "dir", [(".git", "dir", []), ("README.md", "file", [])]), highlight=frozenset({"README.md"}), caption="Первый файл рабочего дерева.")}
+    {dir_tree(("safesort", "dir", [(".git", "dir", []), ("README.md", "file", [])]), highlight=frozenset({"README.md"}), caption="README.md — один из файлов стартового коммита, увиденного в предыдущем разделе.")}
 
     <p><strong>README</strong> — первый файл, который видит человек, открывший репозиторий:
-    GitHub автоматически показывает его содержимое на главной странице проекта. Начнём с
-    короткого README и будем дополнять его по мере того, как у программы появляются новые
-    возможности.</p>
+    GitHub автоматически показывает его содержимое на главной странице проекта. В клонированном
+    репозитории README.md уже существует и уже закоммичен — это часть стартового коммита
+    <code class="inline">chore: initial project scaffold</code>, который был показан в предыдущем
+    разделе. Сейчас он совсем короткий:</p>
 
     {code_block(
         "README.md",
@@ -1442,23 +2275,10 @@ def build_03() -> None:
         "SafeSort — программа для безопасной сортировки файлов по папкам.\n",
     )}
 
-    {terminal_capture([
-        "$ git status",
-        "?? README.md",
-        "$ git add README.md",
-        "$ git status",
-        "A  README.md",
-        '$ git commit -m "Первый коммит: README"',
-        "[main (root-commit) 05913f1] Первый коммит: README",
-        " 1 file changed, 3 insertions(+)",
-        " create mode 100644 README.md",
-        "$ git log --oneline",
-        "05913f1 Первый коммит: README",
-    ])}
-
-    <p>GitHub рендерит этот файл на главной странице репозитория — заголовок становится
-    крупным заголовком страницы, а обычный текст остаётся обычным текстом. Добавим второй
-    раздел:</p>
+    <p>Раз файл уже отслеживается Git, <code class="inline">git status</code> в чистом рабочем
+    дереве ничего не покажет — нечего добавлять и нечего коммитить. Интересное начнётся, когда
+    в файл внесут изменения: именно так README и растёт по ходу главы — дополняется разделами,
+    а не переписывается с нуля. Добавим первый такой раздел:</p>
 
     {code_block(
         "README.md",
@@ -3022,10 +3842,13 @@ def build_22() -> None:
     <p>Чтобы изменить их, SafeSort ищет необязательный файл
     <code class="inline">safesort.toml</code> прямо в корне сканируемого каталога:</p>
 
-    {decision_map([
-        ("safesort.toml есть в корне каталога", "читаем и применяем настройки"),
-        ("safesort.toml отсутствует", "используем встроенные значения по умолчанию"),
-    ], title="Что произойдёт при запуске")}
+    {comparison_table(
+        ["Ситуация", "Что произойдёт"],
+        [
+            ["safesort.toml есть в корне каталога", "читаем и применяем настройки"],
+            ["safesort.toml отсутствует", "используем встроенные значения по умолчанию"],
+        ],
+    )}
 
     {code_block(
         "safesort.toml — переопределяет имя каталога результата и добавляет категорию",
@@ -3890,16 +4713,17 @@ def build_32() -> None:
         ("Git и GitHub", "установка, аутентификация, настоящий репозиторий SafeSort"),
         ("GitHub Project", "14 Issues — задача сформулирована для каждой части"),
         ("README.md, pyproject.toml", "первый коммит репозитория — команда safesort становится доступной"),
-        ("Командная строка", "argparse, пять подкоманд"),
-        ("Сканер, классификатор, план", "scanner.py, classifier.py, planner.py — Issues №1–3"),
-        ("Apply, коллизии, manifest, undo", "executor.py, manifest.py — Issues №5–8"),
-        ("Дубликаты", "duplicates.py — размер → SHA-256 → байтовое подтверждение (Issue №9)"),
-        ("Ошибки, config, логирование", "Issues №10–11"),
-        ("Тесты", "tests/ — pytest, tmp_path, ни одного реального файла (Issue №12)"),
-        ("CI", "GitHub Actions запускает тесты на каждый push и PR (Issue №13)"),
-        ("Версия 0.1.0", "CHANGELOG.md, editable install, wheel и sdist проверены заново"),
-        ("Релиз", "настоящий тег v0.1.0 и GitHub Release (Issue №14)"),
-    ], caption="От идеи до опубликованного релиза — каждый шаг подтверждён реальным коммитом, Issue или Pull Request")}
+        ("Сканер", "scanner.py — Issue №1, PR №15"),
+        ("Классификатор", "classifier.py — Issue №2, PR №16"),
+        ("План и коллизии", "planner.py — Issues №3 и №6 вместе, PR №17"),
+        ("Apply", "executor.py — Issue №5, PR №18"),
+        ("Manifest и undo", "manifest.py — Issues №7 и №8 вместе, PR №19"),
+        ("Дубликаты", "duplicates.py — размер → SHA-256 → байтовое подтверждение, Issue №9, PR №20"),
+        ("Командная строка", "argparse, пять подкоманд — Issue №4, PR №21 (последней, когда всё остальное уже было)"),
+        ("Ошибки, config, тесты, CI", "Issues №10–13 — часть реализации соответствующих модулей, без отдельного PR"),
+        ("Версия 0.1.0", "CHANGELOG.md, editable install, wheel и sdist проверены заново — Issue №14"),
+        ("Релиз", "настоящий тег v0.1.0 и GitHub Release"),
+    ], caption="От идеи до опубликованного релиза — точная история: 9 из 14 Issues закрыты через 7 Pull Request (два PR закрыли по два Issue), остальные пять — без отдельного PR")}
 
     {project_state_card(
         [
@@ -4650,6 +5474,18 @@ if __name__ == "__main__":
     build_proj_03()
     build_proj_04()
     build_proj_05()
+    build_proj_06()
+    build_proj_07()
+    build_proj_08()
+    build_proj_09()
+    build_proj_10()
+    build_proj_11()
+    build_proj_12()
+    build_proj_13()
+    build_proj_14()
+    build_proj_15()
+    build_proj_16()
+    build_proj_17()
     build_02()
     build_03()
     build_04()
