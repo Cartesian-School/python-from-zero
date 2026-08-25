@@ -28,7 +28,14 @@ echo "==> Validating generated Chapter 23 academic contracts"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_outputs.py"
 
 echo "==> Validating Chapter 23 notebooks and graders"
-"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py"
+if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py" --portable
+elif [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "full" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py"
+else
+  echo "Unsupported CHAPTER23_VALIDATION_MODE: ${CHAPTER23_VALIDATION_MODE}" >&2
+  exit 2
+fi
 
 echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_seo_meta.py"

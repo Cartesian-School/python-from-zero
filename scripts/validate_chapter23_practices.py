@@ -3,17 +3,16 @@
 
 from __future__ import annotations
 
+import argparse
 import contextlib
 import io
 import json
 import os
-from pathlib import Path
 import re
 import sys
 import tempfile
 import types
-
-import nbformat
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 NOTEBOOK_DIR = ROOT / "notebooks" / "chapter-23"
@@ -42,13 +41,39 @@ def practice_id(path: Path) -> str:
     return "-".join(path.stem.split("-")[:2])
 
 
+def load_notebook(path: Path) -> dict:
+    """Load a version 4 Jupyter notebook without third-party dependencies."""
+    try:
+        notebook = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"не удалось прочитать notebook JSON: {exc}") from exc
+    if not isinstance(notebook, dict) or notebook.get("nbformat") != 4:
+        raise ValueError("ожидался Jupyter notebook формата версии 4")
+    cells = notebook.get("cells")
+    if not isinstance(cells, list):
+        raise TypeError("поле cells отсутствует или не является списком")
+    for index, cell in enumerate(cells):
+        if not isinstance(cell, dict):
+            raise TypeError(f"cell {index} не является JSON object")
+        source = cell.get("source")
+        if isinstance(source, list) and all(isinstance(line, str) for line in source):
+            cell["source"] = "".join(source)
+        elif not isinstance(source, str):
+            raise ValueError(f"source в cell {index} не является строкой или массивом строк")
+        if cell.get("cell_type") not in {"code", "markdown", "raw"}:
+            raise ValueError(f"неизвестный cell_type в cell {index}")
+        if not isinstance(cell.get("metadata", {}), dict):
+            raise TypeError(f"metadata в cell {index} не является JSON object")
+    return notebook
+
+
 def python_solution(notebook) -> str:
     cell = next(
         cell
-        for cell in notebook.cells
-        if cell.cell_type == "markdown" and cell.source.startswith("## Solution")
+        for cell in notebook["cells"]
+        if cell["cell_type"] == "markdown" and cell["source"].startswith("## Solution")
     )
-    blocks = re.findall(r"```python\n(.*?)\n```", cell.source, flags=re.DOTALL)
+    blocks = re.findall(r"```python\n(.*?)\n```", cell["source"], flags=re.DOTALL)
     if len(blocks) != 1:
         raise ValueError(f"ожидался один Python-блок решения, найдено {len(blocks)}")
     return blocks[0]
@@ -61,8 +86,8 @@ def validate_structure(path: Path, notebook) -> list[str]:
     for heading in HEADINGS:
         positions = [
             index
-            for index, cell in enumerate(notebook.cells)
-            if cell.cell_type == "markdown" and cell.source.startswith(heading)
+            for index, cell in enumerate(notebook["cells"])
+            if cell["cell_type"] == "markdown" and cell["source"].startswith(heading)
         ]
         if len(positions) != 1:
             errors.append(f"[{lesson_id}] heading {heading!r}: найдено {len(positions)}, ожидалось 1")
@@ -71,29 +96,29 @@ def validate_structure(path: Path, notebook) -> list[str]:
     if len(heading_positions) == len(HEADINGS) and heading_positions != sorted(heading_positions):
         errors.append(f"[{lesson_id}] нарушен порядок Example -> Starter -> Task -> Tests -> Hint -> Solution")
 
-    task_cells = [cell for cell in notebook.cells if cell.get("id") == f"task-{lesson_id}"]
-    test_cells = [cell for cell in notebook.cells if cell.get("id") == f"tests-{lesson_id}"]
+    task_cells = [cell for cell in notebook["cells"] if cell.get("id") == f"task-{lesson_id}"]
+    test_cells = [cell for cell in notebook["cells"] if cell.get("id") == f"tests-{lesson_id}"]
     if len(task_cells) != 1:
         errors.append(f"[{lesson_id}] task cell: найдено {len(task_cells)}, ожидалось 1")
     else:
-        starter = task_cells[0].source
+        starter = task_cells[0]["source"]
         if "TODO" not in starter:
             errors.append(f"[{lesson_id}] starter не содержит содержательный TODO")
-        if "exercise" not in task_cells[0].metadata.get("tags", []):
+        if "exercise" not in task_cells[0].get("metadata", {}).get("tags", []):
             errors.append(f"[{lesson_id}] task cell не помечена тегом exercise")
 
     if len(test_cells) != 1:
         errors.append(f"[{lesson_id}] tests cell: найдено {len(test_cells)}, ожидалось 1")
-    elif test_cells[0].source.count("assert ") < 2:
+    elif test_cells[0]["source"].count("assert ") < 2:
         errors.append(f"[{lesson_id}] tests не содержат основной и крайний случаи")
 
     solution_cells = [
         cell
-        for cell in notebook.cells
-        if cell.cell_type == "markdown" and cell.source.startswith("## Solution")
+        for cell in notebook["cells"]
+        if cell["cell_type"] == "markdown" and cell["source"].startswith("## Solution")
     ]
     if len(solution_cells) == 1:
-        source = solution_cells[0].source
+        source = solution_cells[0]["source"]
         if "<details>" not in source or "</details>" not in source:
             errors.append(f"[{lesson_id}] решение не помещено в раскрываемый details-блок")
         try:
@@ -101,18 +126,18 @@ def validate_structure(path: Path, notebook) -> list[str]:
         except ValueError as exc:
             errors.append(f"[{lesson_id}] {exc}")
         else:
-            if task_cells and task_cells[0].source.strip() == solution.strip():
+            if task_cells and task_cells[0]["source"].strip() == solution.strip():
                 errors.append(f"[{lesson_id}] starter совпадает с полным решением")
 
-    for index, cell in enumerate(notebook.cells):
-        if cell.cell_type == "code":
+    for index, cell in enumerate(notebook["cells"]):
+        if cell["cell_type"] == "code":
             try:
-                compile(cell.source, f"{path}:cell-{index}", "exec")
+                compile(cell["source"], f"{path}:cell-{index}", "exec")
             except SyntaxError as exc:
                 errors.append(f"[{lesson_id}] syntax error в code cell {index}: {exc}")
 
     if lesson_id in LOCAL_SAFESORT_IDS:
-        joined = "\n".join(cell.source for cell in notebook.cells)
+        joined = "\n".join(cell["source"] for cell in notebook["cells"])
         required = (
             "git clone https://github.com/Cartesian-School/safesort.git",
             "python3.14 -m venv .venv",
@@ -125,7 +150,7 @@ def validate_structure(path: Path, notebook) -> list[str]:
             if text not in joined:
                 errors.append(f"[{lesson_id}] локальная инструкция SafeSort не содержит {text!r}")
     elif lesson_id in LOCAL_HOMEWORK_IDS:
-        joined = "\n".join(cell.source for cell in notebook.cells)
+        joined = "\n".join(cell["source"] for cell in notebook["cells"])
         required = (
             "git clone https://github.com/Cartesian-School/python-from-zero.git",
             "python3.14 -m venv .venv",
@@ -150,8 +175,12 @@ def execute_attempt(path: Path, notebook, *, use_solution: bool) -> tuple[bool, 
     )
     sys.modules[module_name] = module
     namespace = module.__dict__
-    task_index = next(index for index, cell in enumerate(notebook.cells) if cell.get("id") == f"task-{lesson_id}")
-    tests_index = next(index for index, cell in enumerate(notebook.cells) if cell.get("id") == f"tests-{lesson_id}")
+    task_index = next(
+        index for index, cell in enumerate(notebook["cells"]) if cell.get("id") == f"task-{lesson_id}"
+    )
+    tests_index = next(
+        index for index, cell in enumerate(notebook["cells"]) if cell.get("id") == f"tests-{lesson_id}"
+    )
     try:
         with (
             tempfile.TemporaryDirectory(prefix=f"chapter23-{lesson_id}-") as temp_dir,
@@ -159,29 +188,40 @@ def execute_attempt(path: Path, notebook, *, use_solution: bool) -> tuple[bool, 
             contextlib.redirect_stdout(io.StringIO()),
             contextlib.redirect_stderr(io.StringIO()),
         ):
-            for index, cell in enumerate(notebook.cells[:task_index]):
-                if cell.cell_type != "code" or "raises-exception" in cell.metadata.get("tags", []):
+            for index, cell in enumerate(notebook["cells"][:task_index]):
+                if cell["cell_type"] != "code" or "raises-exception" in cell.get("metadata", {}).get("tags", []):
                     continue
-                exec(compile(cell.source, f"{path}:cell-{index}", "exec"), namespace)
+                exec(  # noqa: S102 - the validator must run published exercise code
+                    compile(cell["source"], f"{path}:cell-{index}", "exec"), namespace
+                )
 
-            attempt_source = python_solution(notebook) if use_solution else notebook.cells[task_index].source
-            exec(compile(attempt_source, f"{path}:attempt", "exec"), namespace)
-            exec(compile(notebook.cells[tests_index].source, f"{path}:tests", "exec"), namespace)
+            attempt_source = (
+                python_solution(notebook) if use_solution else notebook["cells"][task_index]["source"]
+            )
+            exec(  # noqa: S102 - the validator must run the learner attempt
+                compile(attempt_source, f"{path}:attempt", "exec"), namespace
+            )
+            exec(  # noqa: S102 - the validator must run published exercise tests
+                compile(notebook["cells"][tests_index]["source"], f"{path}:tests", "exec"),
+                namespace,
+            )
 
             grader_path = GRADER_DIR / f"{lesson_id}.py"
             if use_solution and grader_path.exists():
                 grader_source = grader_path.read_text(encoding="utf-8")
-                exec(compile(grader_source, str(grader_path), "exec"), namespace)
+                exec(  # noqa: S102 - graders are executable validation inputs
+                    compile(grader_source, str(grader_path), "exec"), namespace
+                )
                 if not namespace.get("passed"):
                     raise AssertionError(f"grader failed: {namespace.get('checks')}")
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - every exercise failure is evidence
         return False, f"{type(exc).__name__}: {exc}"
     finally:
         sys.modules.pop(module_name, None)
     return True, "ok"
 
 
-def validate() -> list[str]:
+def validate(*, portable: bool = False) -> list[str]:
     errors = []
     paths = sorted(NOTEBOOK_DIR.glob("*.ipynb"))
     ids = {practice_id(path) for path in paths}
@@ -214,10 +254,17 @@ def validate() -> list[str]:
     try:
         for path in paths:
             lesson_id = practice_id(path)
-            notebook = nbformat.read(path, as_version=4)
+            try:
+                notebook = load_notebook(path)
+            except (TypeError, ValueError) as exc:
+                errors.append(f"[{lesson_id}] {exc}")
+                continue
             errors.extend(validate_structure(path, notebook))
 
-            starter_passed, starter_detail = execute_attempt(path, notebook, use_solution=False)
+            if portable and lesson_id in LOCAL_IDS:
+                continue
+
+            starter_passed, _starter_detail = execute_attempt(path, notebook, use_solution=False)
             if starter_passed:
                 errors.append(f"[{lesson_id}] untouched starter unexpectedly passes tests")
 
@@ -242,18 +289,36 @@ def validate() -> list[str]:
     return errors
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--portable",
+        action="store_true",
+        help="execute the 14 browser-compatible practices and structurally validate all 24",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
-    errors = validate()
+    args = parse_args()
+    errors = validate(portable=args.portable)
     if errors:
         print(f"Практики Главы 23 невалидны: {len(errors)} ошибок", file=sys.stderr)
         for error in errors:
             print(f"  - {error}", file=sys.stderr)
         raise SystemExit(1)
-    print(
-        "Практики Главы 23 валидны: 24 notebooks (18 SafeSort + 6 homework), "
-        "14 browser graders, 10 local-required, 0 prefilled solutions; "
-        "untouched starters fail and all published solutions pass."
-    )
+    if args.portable:
+        print(
+            "Практики Главы 23 валидны: структура 24 notebooks; исполнены "
+            "14 browser-compatible starters/solutions/graders; 10 local-required "
+            "проверяются полным CI; 0 prefilled solutions."
+        )
+    else:
+        print(
+            "Практики Главы 23 валидны: 24 notebooks (18 SafeSort + 6 homework), "
+            "14 browser graders, 10 local-required, 0 prefilled solutions; "
+            "untouched starters fail and all published solutions pass."
+        )
 
 
 if __name__ == "__main__":

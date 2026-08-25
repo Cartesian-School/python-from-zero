@@ -71,7 +71,7 @@
 |---|---|---|---|
 | P3-01 | Русский текст звучал машинно и местами был перегружен длинными тире. | После содержательных правок выполнены два отдельных Humanizer-прохода по learner-facing prose без изменения команд, формул, URL, цитат и технических терминов. | Повторная source/output validation и полный visual review. |
 | P3-02 | Этапы проекта повторялись без устойчивой системы ориентации. | Единый stage tracker показывает 6 частей и текущий этап на проектных страницах; итоговая timeline связывает требования, Git/GitHub, реализацию, тесты и release. | Output validator; visual review index/23-32. |
-| P3-03 | Generated output, CI и визуальные доказательства могли расходиться с source of truth. | Builders/validators сделаны каноническими, добавлен `.github/workflows/course-site-validation.yml`; `build_vercel.sh` последовательно выбирает `PYTHON_BIN`, локальную `.venv` или системный `python3`; проверена детерминированность всех 2606 tracked+untracked generated files и выполнен полный browser pass. | Два build-прохода дали идентичные SHA-256; штатный `bash scripts/build_vercel.sh`; `git diff --check`; 67+67 screenshots. |
+| P3-03 | Generated output, CI и визуальные доказательства могли расходиться с source of truth. | Builders/validators сделаны каноническими, добавлен `.github/workflows/course-site-validation.yml`; `build_vercel.sh` последовательно выбирает `PYTHON_BIN`, локальную `.venv` или системный `python3`; проверена детерминированность всех 2606 tracked+untracked generated files и выполнен полный browser pass. Vercel структурно проверяет 24 практики и исполняет 14 browser-compatible, а CI в подготовленной среде исполняет все 24, включая 10 local-required. | Два build-прохода дали идентичные SHA-256; full и portable варианты `bash scripts/build_vercel.sh`; `git diff --check`; 67+67 screenshots. |
 
 ## Git branding и provenance
 
@@ -153,6 +153,7 @@ container. Это сохраняет размер подписей на mobile �
 | Determinism | 2606 files byte-identical across two complete generator/build passes |
 | Whitespace | `git diff --check` PASS |
 | Course/site CI definition | checkout/setup Python 3.14, regeneration, tests, validators, full build, generated diff and whitespace gates |
+| Vercel deployment gate | system Python без необъявленных third-party imports; структура 24/24, исполнение 14/14 browser-compatible; полный build PASS |
 
 ## Профессорский вывод
 
