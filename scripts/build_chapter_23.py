@@ -1240,15 +1240,16 @@ def build_proj_03() -> None:
         ],
     )}
 
-    {callout(
-        "warning",
-        "На момент подготовки этой страницы live-доступ к Projects ещё не был предоставлен",
-        "Создание GitHub Project требует отдельного разрешения (\"project\" scope) для "
-        "инструмента, которым собирается этот курс, — предоставляется отдельно от доступа к "
-        "самому репозиторию. Реальные скриншоты доски Project (созданный Project, Board, "
-        "Table, перемещение элементов между статусами) появятся на этой и следующих страницах "
-        "после того, как доступ будет подтверждён; текстовое и диаграммное описание работы "
-        "Project точное и основано на официальной документации независимо от этого.",
+    <p>Именно так и был создан настоящий Project этой главы —
+    <a href="https://github.com/orgs/Cartesian-School/projects/1">Cartesian-School/projects/1
+    «SafeSort — первый релиз»</a>: Owner — Cartesian-School, Title — без номера версии,
+    Template — пустой Project.</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-table.jpg",
+        "Table-представление настоящего Project «SafeSort — первый релиз»: все 14 Issues, поля Status, Priority, Area",
+        "Настоящий Project SafeSort — первый релиз, созданный под организацией Cartesian-School.",
+        size="wide",
     )}
 
     <h2>Название без номера версии</h2>
@@ -1262,7 +1263,7 @@ def build_proj_03() -> None:
     {summary_box("Коротко", [
         "GitHub Project создаётся для конкретного владельца (организации или аккаунта) с названием и уровнем видимости.",
         "Название Project для SafeSort не включает номер версии — версия появляется позже.",
-        "Project изначально пуст: следующие разделы показывают его представления, поля, а затем — как в него попадают задачи.",
+        "Сразу после создания Project пуст — следующие разделы показывают его представления и поля, а затем, как в него попадают задачи.",
     ])}
     """
     out = render_page(
@@ -1371,6 +1372,13 @@ def build_proj_05() -> None:
         ("Done", "изменения слиты в main"),
     ], caption="Пять статусов, через которые проходит каждая задача SafeSort")}
 
+    {image_figure(
+        f"{IMG}/safesort-project-board.jpg",
+        "Board настоящего Project SafeSort: пять колонок-статусов, все 14 задач в Done",
+        "Настоящая доска Project SafeSort — все 14 задач уже в Done, потому что релиз 0.1.0 уже вышел.",
+        size="wide",
+    )}
+
     {official_sources([("Changing the layout of a view", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/changing-the-layout-of-a-view")])}
 
     {summary_box("Коротко", [
@@ -1440,6 +1448,13 @@ def build_proj_06() -> None:
     а Single select ещё и позволяет группировать и фильтровать Table по значению, чего
     свободный текст не даёт. <code class="inline">Iteration</code> здесь не нужен — SafeSort
     не ведётся спринтами, у задач нет повторяющихся временных отрезков.</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-table.jpg",
+        "Table настоящего Project SafeSort с заполненными колонками Priority и Area для всех 14 задач",
+        "Priority и Area заполнены для всех 14 задач настоящего Project SafeSort.",
+        size="wide",
+    )}
 
     {official_sources([("Understanding fields", "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields")])}
 
@@ -1622,6 +1637,10 @@ def build_proj_09() -> None:
         ("Готов к работе", "статус меняется на Ready"),
     ], caption="Issue существует в репозитории независимо от Project; добавление в Project — отдельное, необязательное действие")}
 
+    <p>Все 14 Issues репозитория SafeSort действительно добавлены в настоящий Project
+    <a href="https://github.com/orgs/Cartesian-School/projects/1">«SafeSort — первый релиз»</a> —
+    это видно на скриншотах Board и Table в следующих разделах этой части главы.</p>
+
     {official_sources([
         ("About issues", "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues"),
         ("Creating an issue", "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue"),
@@ -1671,6 +1690,40 @@ def build_proj_10() -> None:
         ("Ветка feat/directory-scanner создана", "статус меняется на In Progress"),
         ("Как: перетащить карточку", "из колонки Backlog в колонку In Progress на Board"),
     ], caption="Смена статуса — самое частое редактирование элемента Project")}
+
+    <p>Все 14 реальных задач SafeSort уже в статусе Done — релиз 0.1.0 вышел, менять их
+    статус назад ради красивого скриншота значило бы врать про историю проекта. Поэтому
+    ниже — настоящая демонстрация на отдельном демо-элементе, специально добавленном и
+    проведённом через Ready → In Progress → In Review → Done в реальном Project SafeSort,
+    а затем удалённом, чтобы не искажать фактическое состояние доски:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-ready.jpg",
+        "Демо-элемент в колонке Ready настоящего Project SafeSort",
+        "1. Ready — демо-карточка добавлена и готова к работе.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-in-progress.jpg",
+        "Демо-элемент перетащен в колонку In Progress",
+        "2. In Progress — та же карточка перетащена в следующую колонку.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-in-review.jpg",
+        "Демо-элемент перетащен в колонку In Review",
+        "3. In Review — карточка снова перетащена, теперь в предпоследнюю колонку.",
+        size="wide",
+    )}
+
+    {image_figure(
+        f"{IMG}/safesort-project-board-done-demo.jpg",
+        "Демо-элемент перетащен в колонку Done, счётчик Done стал 15",
+        "4. Done — карточка дошла до последней колонки; счётчик Done временно показывает 15 (14 реальных задач + демо-элемент).",
+        size="wide",
+    )}
 
     {callout(
         "info",
@@ -1838,11 +1891,30 @@ def build_proj_13() -> None:
         ("Статус элемента → Done", "без ручного перетаскивания карточки"),
     ], caption="Встроенные workflow реагируют на события репозитория и сами меняют статус")}
 
+    <p>В настоящем Project SafeSort сработал похожий, но не тот же workflow — все 14 Issues
+    добавлялись уже закрытыми, поэтому включился <strong>Item closed</strong>, а не
+    «Pull request merged»:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-workflow-item-closed.jpg",
+        "Настроенный workflow Item closed → Status: Done в настоящем Project SafeSort",
+        "Реальный workflow, который автоматически перевёл все 14 задач в Done.",
+        size="wide",
+    )}
+
     <h2>Auto-add — чтобы не добавлять Issues вручную</h2>
     <p>Workflow <strong>Auto-add to project</strong> настраивается фильтром — например,
     «любой новый Issue в репозитории <code class="inline">Cartesian-School/safesort</code>».
     С таким правилом каждый новый Issue сам попадает в Project со статусом по умолчанию,
-    и не нужно помнить о ручном шаге «добавить в Project» из более раннего раздела главы.</p>
+    и не нужно помнить о ручном шаге «добавить в Project» из более раннего раздела главы.
+    Именно так настроен и включён Auto-add в настоящем Project SafeSort:</p>
+
+    {image_figure(
+        f"{IMG}/safesort-project-workflow-auto-add.jpg",
+        "Включённый workflow Auto-add to project с фильтром is:issue для репозитория safesort",
+        "Реальный, включённый Auto-add — фильтр is:issue уже находит все 14 существующих Issues.",
+        size="wide",
+    )}
 
     {callout(
         "warning",
