@@ -363,9 +363,17 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
 
     total_w = n * box_w + (n - 1) * gap
     total_h = box_h + 40
+    # Below ~5 boxes, shrinking the SVG to fit a narrow viewport still leaves
+    # legible text, so it's left free to shrink (matches every existing
+    # diagram across the book). At 5+ boxes shrink-to-fit makes the labels
+    # unreadably small on a 390px phone; forcing a min-width keeps the
+    # diagram at full, legible size and relies on the figure's own
+    # overflow-x:auto (below) to scroll it horizontally instead — the same
+    # trade-off already used for wide tables and code blocks.
+    min_width_style = f"min-width:{total_w}px;" if n >= 5 else ""
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px;{min_width_style}">'
     ]
     parts.append(
         "<defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' "
