@@ -70,25 +70,23 @@ PY_WORDMARK = '../../assets/img/brand/python-logo.svg'
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=1,
-        baseline_page=1,
-        title="А вы знали?",
         description="Первая глава книги «Python с нуля» — что такое программирование, откуда взялся "
         "Python, как устроена его экосистема и почему он отлично подходит для первого языка.",
         meta_items=["[[icon:timer]] ~70 минут", "[[icon:code]] без установки Python", "[[icon:practice]] 1 ноутбук практики"],
         sections=[
-            ChapterSectionLink("1.1", "Что такое программирование?", "01-01-chto-takoe-programmirovanie.html", "1"),
-            ChapterSectionLink("", "Алгоритм, инструкция, выражение", "01-01-chto-takoe-programmirovanie.html#algoritm-i-instrukcii", ""),
-            ChapterSectionLink("", "Интерпретатор и компилятор", "01-01-chto-takoe-programmirovanie.html#interpretator-i-kompilyator", ""),
-            ChapterSectionLink("", "Почему вашим детям стоит научиться программировать?", "01-01-chto-takoe-programmirovanie.html#deti", "2"),
-            ChapterSectionLink("", "Почему Python?", "01-01-chto-takoe-programmirovanie.html#pochemu-python", "7"),
-            ChapterSectionLink("1.2", "История Python", "01-04-istoriya-python.html", ""),
-            ChapterSectionLink("1.3", "python.org, документация и PyPI", "01-05-sajt-dokumentaciya-pypi.html", ""),
-            ChapterSectionLink("1.4", "Сообщество и философия Python", "01-06-soobschestvo-i-filosofiya.html", ""),
-            ChapterSectionLink("1.5", "Python — это весело!", "01-02-python-eto-veselo.html", "8"),
-            ChapterSectionLink("", "Где применяется Python", "01-02-python-eto-veselo.html#gde-primenyaetsya", ""),
-            ChapterSectionLink("1.6", "Первые переменные и первые ошибки", "01-07-peremennye-i-oshibki.html", ""),
-            ChapterSectionLink("1.7", "Как получить максимум от этой книги", "01-03-kak-poluchit-maksimum.html", "11"),
-            ChapterSectionLink("", "Итоги", "01-03-kak-poluchit-maksimum.html#itogi", "12"),
+            ChapterSectionLink("1.1", "Что такое программирование?", "01-01-chto-takoe-programmirovanie.html"),
+            ChapterSectionLink("", "Алгоритм, инструкция, выражение", "01-01-chto-takoe-programmirovanie.html#algoritm-i-instrukcii"),
+            ChapterSectionLink("", "Интерпретатор и компилятор", "01-01-chto-takoe-programmirovanie.html#interpretator-i-kompilyator"),
+            ChapterSectionLink("", "Почему вашим детям стоит научиться программировать?", "01-01-chto-takoe-programmirovanie.html#deti"),
+            ChapterSectionLink("", "Почему Python?", "01-01-chto-takoe-programmirovanie.html#pochemu-python"),
+            ChapterSectionLink("1.2", "История Python", "01-04-istoriya-python.html"),
+            ChapterSectionLink("1.3", "python.org, документация и PyPI", "01-05-sajt-dokumentaciya-pypi.html"),
+            ChapterSectionLink("1.4", "Сообщество и философия Python", "01-06-soobschestvo-i-filosofiya.html"),
+            ChapterSectionLink("1.5", "Python — это весело!", "01-02-python-eto-veselo.html"),
+            ChapterSectionLink("", "Где применяется Python", "01-02-python-eto-veselo.html#gde-primenyaetsya"),
+            ChapterSectionLink("1.6", "Первые переменные и первые ошибки", "01-07-peremennye-i-oshibki.html"),
+            ChapterSectionLink("1.7", "Как получить максимум от этой книги", "01-03-kak-poluchit-maksimum.html"),
+            ChapterSectionLink("", "Итоги", "01-03-kak-poluchit-maksimum.html#itogi"),
         ],
     )
     write("index.html", out)

@@ -9,18 +9,17 @@ fail loudly" requirement: a publication pipeline must never silently produce
 an incomplete artifact.
 """
 
-import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from book_pagination import pagination
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parent.parent
 PDF_PATH = ROOT / "book" / "pdf" / "готовая книга.pdf"
 EPUB_PATH = ROOT / "book" / "epub" / "python-s-nulya.epub"
-MANIFEST = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
 
 
 def validate_pdf(path: Path) -> list[str]:
@@ -39,9 +38,11 @@ def validate_pdf(path: Path) -> list[str]:
     except Exception as e:
         return [f"PDF page list unreadable: {e}"]
 
-    min_required = MANIFEST["min_required_pdf_pages"]
-    if page_count < min_required:
-        errors.append(f"page count {page_count} < required minimum {min_required}")
+    expected_pages = int(pagination()["total_pages"])
+    if page_count != expected_pages:
+        errors.append(
+            f"page count {page_count} != generated pagination total {expected_pages}"
+        )
 
     # No corrupt pages: every page must at least yield a mediabox and allow
     # text extraction without raising.

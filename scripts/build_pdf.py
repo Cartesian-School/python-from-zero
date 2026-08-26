@@ -1,42 +1,63 @@
 #!/usr/bin/env python3
-"""Собирает единый печатный PDF книги (book/pdf/готовая книга.pdf) через WeasyPrint.
+"""Собирает канонический печатный PDF и его фактическую пагинацию.
 
 Переиспользует извлечение содержимого страниц из build_epub.py (тот же <article> /
 .chapter-hero+.section-list разбор), но склеивает всё в один HTML-документ с печатной
 типографикой: обложка (уже готовый дизайн-концепт, склеен как первая физическая
 страница через pypdf), титульный лист, страница авторских прав, оглавление с реальными
-номерами страниц (CSS target-counter — один проход рендеринга, без ручного пересчёта),
+номерами страниц (CSS target-counter, без ручного пересчёта),
 разрыв страницы перед каждой главой, колонтитулы, приложение с проектами, предметный
 указатель.
 
-Нумерация страниц — сквозная (обложка не нумеруется, титульный лист не нумеруется,
-всё остальное — одна арабская последовательность). Сознательный выбор: раздельная
-нумерация (римские цифры во вводных материалах + перезапуск на "1" в главе 1, как в
-каноническом оглавлении python_book_table_of_contents_ru.md) была бы точнее, но вводит
-риск случайно нарушить главное инвариант «глава не может начинаться раньше канонической
-страницы» — при сквозной нумерации фактическая страница каждой главы только растёт по
-мере добавления нового содержимого (обложка, оглавление, страница авторских прав,
-приложение с проектами), никогда не уменьшается, так что инвариант остаётся тривиально
-верным.
+Нумерация страниц сквозная: обложка и титульный лист не показывают folio, остальные
+страницы используют арабские числа физического PDF. Каждая глава начинается на recto
+через ``break-before: right``; возникающая blank page учитывается физическим page tree.
 
-Все проверки пагинации ОБЯЗАТЕЛЬНЫ: main() завершается sys.exit(1), если хоть одна не
-прошла — сборка публикации не должна тихо создавать неполный артефакт.
+Физическое дерево итогового PDF является единственной authority для start pages.
+Builder пишет ``data/book-pagination.json`` из реально отрендеренных anchors; старые
+минимальные страницы или ручные offsets в расчёте не участвуют.
 """
 
+import hashlib
+import json
+import os
 import sys
+from importlib.metadata import version
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build_epub as be
 from bs4 import BeautifulSoup
+from chapter_metadata import chapters
 from pypdf import PdfReader, PdfWriter
 from weasyprint import HTML
+from weasyprint import __version__ as WEASYPRINT_VERSION
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = ROOT / "book" / "pdf" / "готовая книга.pdf"
 COVER_PDF = ROOT / "design" / "exports" / "cover_concept_v1.pdf"
+PAGINATION_OUT = ROOT / "data" / "book-pagination.json"
+
+# FontTools rewrites the OpenType ``head.modified`` field when WeasyPrint
+# subsets fonts (notably Noto Color Emoji).  Without a fixed epoch, two
+# otherwise identical renders contain different embedded font bytes.  This is
+# the standard reproducible-builds boundary supported by FontTools itself.
+SOURCE_DATE_EPOCH = "0"
+
+FONT_DIR = ROOT / "book" / "fonts" / "dejavu"
+FONT_FILES = {
+    "DejaVuSerif.ttf": "8cb29f7db250ebb2551a6ce2c1e0bfd5a0eb520e9e233370db0493e82e1f36f7",
+    "DejaVuSerif-Bold.ttf": "aac3f559445d23f0f567a243f91f3f6ad6cb4b5cafa1521a3479fffe0637f0bd",
+    "DejaVuSerif-Italic.ttf": "d843bf414381dd64b89e6c7c954075657b74168521f02b30e11d308558eda1d2",
+    "DejaVuSerif-BoldItalic.ttf": "ed336a3d81f5a2d6a3d12c16dda400b28ba7304792254fc9e96c0d6835fbeab2",
+    "DejaVuSans.ttf": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
+    "DejaVuSans-Bold.ttf": "a4c5bc453ca281d90ea079e596da7ae0dfeb5777497c29ec254e76d97ff6f890",
+    "DejaVuSans-Oblique.ttf": "e2f09289f4276309a36b9a93e5a0ac64957ef3eb7158151b243d41f667151ee4",
+    "DejaVuSansMono.ttf": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8",
+    "DejaVuSansMono-Bold.ttf": "0d3c03d1b667192f91223660a3163325cf83132662fe4d9f7d6e596bf7a995c2",
+}
 
 BOOK_TITLE = "Python с нуля"
 BOOK_SUBTITLE = "программирование, графика, приложения и игры"
@@ -46,6 +67,15 @@ BOOK_DESCRIPTION = "Книга для начинающих: Python 3.14, гра�
 SITE_URL_DISPLAY = "cartesianschool.org"
 
 PRINT_CSS = """
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-Italic.ttf'); font-style: italic; font-weight: 400; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-BoldItalic.ttf'); font-style: italic; font-weight: 700; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans-Oblique.ttf'); font-style: italic; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/DejaVuSansMono.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/DejaVuSansMono-Bold.ttf'); font-style: normal; font-weight: 700; }
 @page {
   size: 152mm 229mm;
   margin: 24mm 20mm 26mm 20mm;
@@ -113,6 +143,8 @@ code.inline { background: var(--color-bg-surface); padding: 1px 5px; border-radi
 .section-item .si-page { float: right; font-family: 'DejaVu Sans Mono', monospace; color: var(--color-text-muted); font-size: 8.5pt; }
 .chapter-hero { page: opener; break-before: right; padding-top: 30pt; }
 .chapter-hero .chapter-num { font-family: 'DejaVu Sans Mono', monospace; color: var(--color-brand-blue); font-size: 10pt; margin-bottom: 6pt; }
+.chapter-hero .chapter-num::after { content: " · СТР. " counter(page); }
+.chapter-hero .chapter-num img { display: none; }
 .chapter-hero h1 { font-size: 26pt; }
 .chapter-hero p { font-size: 11.5pt; color: var(--color-text-muted); max-width: 90%; }
 .chapter-meta { display: none; }
@@ -170,6 +202,7 @@ code.inline { background: var(--color-bg-surface); padding: 1px 5px; border-radi
 .reference-card .rt { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; font-size: 10.5pt; }
 .reference-card .rs { font-size: 9.5pt; color: var(--color-text-muted); }
 """
+PRINT_CSS = PRINT_CSS.replace("__FONT_DIR_URI__", FONT_DIR.as_uri())
 
 
 def build_title_page() -> str:
@@ -213,7 +246,7 @@ def build_toc_entries() -> str:
         parts.append(f'<a class="toc-entry" href="#{marker}"><span class="toc-label">{title}</span></a>')
 
     for num in range(1, 25):
-        title = be.chapter_title(num).split(": ", 1)[-1]
+        title = be.chapter_title(num)
         parts.append(f'<a class="toc-entry toc-chapter" href="#marker-ch-{num}"><span class="toc-label">Глава {num}. {title}</span></a>')
 
     parts.append('<div class="toc-part-title">Проекты</div>')
@@ -254,6 +287,48 @@ def printify_notebook_cards(inner_html: str) -> str:
     return "".join(str(c) for c in body.contents) if body else str(soup)
 
 
+def printify_opener(inner_html: str, num: int, marker_id: str) -> str:
+    """Make the opener's page labels depend only on the print page counter.
+
+    Website opener labels are generated from the previous PDF build. Keeping them
+    in the render input would create a metadata/layout cycle. The print edition
+    therefore removes those labels before layout and obtains its chapter folio
+    from CSS ``counter(page)`` on the final rendered page.
+    """
+    soup = BeautifulSoup(inner_html, "lxml")
+    hero = soup.select_one(".chapter-hero")
+    if hero is None:
+        raise RuntimeError(f"chapter {num}: opener has no .chapter-hero")
+    hero["id"] = marker_id
+    chapter_num = soup.select_one(".chapter-num")
+    if chapter_num is None:
+        raise RuntimeError(f"chapter {num}: opener has no .chapter-num")
+    chapter_num.clear()
+    chapter_num.string = f"ГЛАВА {num}"
+    for page_label in soup.select(".si-page"):
+        page_label.decompose()
+    body = soup.find("body")
+    return "".join(str(c) for c in body.contents) if body else str(soup)
+
+
+def validate_font_files() -> list[dict[str, str]]:
+    """Pin every font used by print CSS so fallback cannot silently repaginate."""
+    records: list[dict[str, str]] = []
+    for filename, expected_sha256 in FONT_FILES.items():
+        font_path = FONT_DIR / filename
+        if not font_path.is_file():
+            raise RuntimeError(f"required PDF font is missing: {font_path}")
+        actual_sha256 = hashlib.sha256(font_path.read_bytes()).hexdigest()
+        if actual_sha256 != expected_sha256:
+            raise RuntimeError(
+                f"PDF font drift: {font_path}: expected {expected_sha256}, got {actual_sha256}"
+            )
+        records.append(
+            {"file": str(font_path.relative_to(ROOT)), "sha256": actual_sha256}
+        )
+    return records
+
+
 def build_projects_appendix() -> str:
     parts = ['<div class="chapter-break"><h1>Проекты</h1><p>Двенадцать готовых мини-проектов с открытым исходным кодом — от «Крестики-нолики» до полноценного космического шутера. Исходный код и живая версия каждого — на сайте курса.</p></div>']
     for entry in be.PROJECTS:
@@ -263,15 +338,22 @@ def build_projects_appendix() -> str:
     return "".join(parts)
 
 
-def build_full_html() -> tuple[str, list[tuple[str, int]]]:
+def build_full_html() -> tuple[
+    str,
+    list[tuple[str, int]],
+    list[tuple[str, str]],
+    str,
+]:
     parts = [build_title_page(), build_copyright_page(), build_toc_entries()]
-    markers: list[tuple[str, int]] = []  # (marker_id, chapter_num)
+    chapter_markers: list[tuple[str, int]] = []  # (marker_id, chapter_num)
+    page_markers: list[tuple[str, str]] = []  # (marker_id, canonical URL)
 
     for rel_path, _title in be.FRONT_MATTER:
         marker = "fm-" + rel_path.rsplit("/", 1)[-1].replace(".html", "")
         html_text = (SITE / rel_path).read_text(encoding="utf-8")
         inner = printify_notebook_cards(strip_wrapper(be.extract_article(html_text)))
         parts.append(f'<div id="{marker}" class="chapter-break">{inner}</div>')
+        page_markers.append((marker, f"/{rel_path}"))
 
     for num in range(1, 25):
         pages = be.chapter_pages(num)
@@ -279,14 +361,24 @@ def build_full_html() -> tuple[str, list[tuple[str, int]]]:
             html_text = (SITE / rel_path).read_text(encoding="utf-8")
             if i == 0:
                 marker_id = f"marker-ch-{num}"
-                inner = strip_wrapper(be.extract_opener(html_text))
-                parts.append(f'<div id="{marker_id}" class="chapter-break">{inner}</div>')
-                markers.append((marker_id, num))
-            else:
-                inner = printify_notebook_cards(strip_wrapper(be.extract_article(html_text)))
+                inner = printify_opener(
+                    strip_wrapper(be.extract_opener(html_text)), num, marker_id
+                )
                 parts.append(inner)
+                chapter_markers.append((marker_id, num))
+            else:
+                marker_id = f"marker-page-{num:02d}-{i:03d}"
+                inner = printify_notebook_cards(strip_wrapper(be.extract_article(html_text)))
+                parts.append(f'<div id="{marker_id}">{inner}</div>')
+            page_markers.append((marker_id, f"/{rel_path}"))
 
-    parts.append(build_projects_appendix())
+    project_marker = "marker-projects"
+    projects_html = build_projects_appendix().replace(
+        '<div class="chapter-break">',
+        f'<div id="{project_marker}" class="chapter-break">',
+        1,
+    )
+    parts.append(projects_html)
 
     idx_html = (SITE / "predmetnyj-ukazatel.html").read_text(encoding="utf-8")
     idx_inner = strip_wrapper(be.extract_article(idx_html))
@@ -299,7 +391,132 @@ def build_full_html() -> tuple[str, list[tuple[str, int]]]:
         f"<meta name='description' content='{BOOK_DESCRIPTION}'>"
         f"<style>{PRINT_CSS}</style></head><body>{''.join(parts)}</body></html>"
     )
-    return full_html, markers
+    return full_html, chapter_markers, page_markers, project_marker
+
+
+def resolve_anchor_pages(doc, marker_ids: set[str]) -> dict[str, int]:
+    """Return first one-based WeasyPrint page occupied by each marked element.
+
+    WeasyPrint repeats an element anchor in ``page.anchors`` when the marked
+    wrapper spans more than one physical page. The first occurrence is the
+    target-counter destination and therefore the authoritative start page.
+    """
+    resolved: dict[str, int] = {}
+    for page_index, page in enumerate(doc.pages, start=1):
+        for marker_id in marker_ids.intersection(page.anchors):
+            resolved.setdefault(marker_id, page_index)
+    missing = marker_ids.difference(resolved)
+    if missing:
+        raise RuntimeError(f"PDF render lost anchors: {', '.join(sorted(missing))}")
+    return resolved
+
+
+def source_fingerprint(full_html: str, font_records: list[dict[str, str]]) -> str:
+    digest = hashlib.sha256()
+    digest.update(b"cartesian-school-book-layout-v1\0")
+    digest.update(
+        (
+            f"weasyprint={WEASYPRINT_VERSION}\0pypdf={version('pypdf')}\0"
+            f"source_date_epoch={SOURCE_DATE_EPOCH}\0"
+        ).encode()
+    )
+    normalized_html = full_html.replace(ROOT.as_uri(), "file://<REPOSITORY_ROOT>")
+    digest.update(normalized_html.encode("utf-8"))
+    digest.update(b"\0cover\0")
+    digest.update(COVER_PDF.read_bytes())
+    for record in font_records:
+        digest.update(b"\0font\0")
+        digest.update(record["file"].encode())
+        digest.update(b"\0")
+        digest.update(record["sha256"].encode())
+    return digest.hexdigest()
+
+
+def write_pagination_metadata(
+    *,
+    full_html: str,
+    font_records: list[dict[str, str]],
+    final_total_pages: int,
+    final_anchor_pages: dict[str, int],
+    chapter_markers: list[tuple[str, int]],
+    page_markers: list[tuple[str, str]],
+    project_marker: str,
+) -> None:
+    chapter_starts = {
+        num: final_anchor_pages[marker_id] for marker_id, num in chapter_markers
+    }
+    if sorted(chapter_starts) != list(range(1, 25)):
+        raise RuntimeError("pagination metadata does not contain exactly chapters 1..24")
+    starts = [chapter_starts[num] for num in range(1, 25)]
+    if starts != sorted(set(starts)):
+        raise RuntimeError(f"chapter starts are not strictly increasing: {starts}")
+
+    projects_start = final_anchor_pages[project_marker]
+    if projects_start <= chapter_starts[24]:
+        raise RuntimeError("projects appendix does not start after chapter 24")
+
+    chapter_data: dict[str, dict[str, object]] = {}
+    canonical_chapters = {item.number: item for item in chapters()}
+    for num in range(1, 25):
+        next_boundary = chapter_starts[num + 1] if num < 24 else projects_start
+        item = canonical_chapters[num]
+        chapter_data[f"{num:02d}"] = {
+            "number": num,
+            "title": item.title,
+            "url": item.url,
+            "start_page": chapter_starts[num],
+            "end_page": next_boundary - 1,
+        }
+
+    url_pages: dict[str, int] = {}
+    for marker_id, url in page_markers:
+        if url in url_pages:
+            raise RuntimeError(f"duplicate canonical page URL in PDF pagination: {url}")
+        url_pages[url] = final_anchor_pages[marker_id]
+
+    reader = PdfReader(str(OUT))
+    if len(reader.pages) != final_total_pages:
+        raise RuntimeError(
+            f"final PDF page tree has {len(reader.pages)} pages, expected {final_total_pages}"
+        )
+    first_width = float(reader.pages[0].mediabox.width)
+    first_height = float(reader.pages[0].mediabox.height)
+    for physical_page, page in enumerate(reader.pages, start=1):
+        width = float(page.mediabox.width)
+        height = float(page.mediabox.height)
+        if abs(width - first_width) > 0.01 or abs(height - first_height) > 0.01:
+            raise RuntimeError(
+                f"PDF trim drift on physical page {physical_page}: {width}x{height} pt"
+            )
+
+    metadata = {
+        "schema_version": "1.0.0",
+        "generated_from": f"sha256:{source_fingerprint(full_html, font_records)}",
+        "pdf_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest(),
+        "render_engine": f"WeasyPrint {WEASYPRINT_VERSION}",
+        "pdf_writer": f"pypdf {version('pypdf')}",
+        "source_date_epoch": int(SOURCE_DATE_EPOCH),
+        "page_format": {
+            "width_mm": round(first_width * 25.4 / 72, 3),
+            "height_mm": round(first_height * 25.4 / 72, 3),
+        },
+        "front_matter_numbering": (
+            "physical page 1 cover unnumbered; physical page 2 title unnumbered; "
+            "continuous Arabic physical folios thereafter"
+        ),
+        "chapter_start_policy": (
+            "recto/right-hand via break-before:right; inserted blank pages count"
+        ),
+        "total_pages": final_total_pages,
+        "fonts": font_records,
+        "chapters": chapter_data,
+        "pages": dict(sorted(url_pages.items())),
+    }
+    PAGINATION_OUT.parent.mkdir(parents=True, exist_ok=True)
+    PAGINATION_OUT.write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 def merge_cover(content_pdf_path: Path, out_path: Path) -> None:
@@ -336,23 +553,23 @@ def merge_cover(content_pdf_path: Path, out_path: Path) -> None:
 
 
 def main() -> None:
-    full_html, markers = build_full_html()
+    # FontTools reads SOURCE_DATE_EPOCH when serializing embedded subsets.
+    # Override any caller-specific value so this canonical build has one
+    # explicit, portable timestamp contract.
+    os.environ["SOURCE_DATE_EPOCH"] = SOURCE_DATE_EPOCH
+    if not COVER_PDF.is_file():
+        raise RuntimeError(f"cover PDF is missing: {COVER_PDF}")
+    font_records = validate_font_files()
+    full_html, chapter_markers, page_markers, project_marker = build_full_html()
 
     doc = HTML(string=full_html, base_url=str(SITE)).render()
     total_pages = len(doc.pages)
-
-    actual_pages: dict[int, int] = {}
-    for marker_id, num in markers:
-        for page_index, page in enumerate(doc.pages):
-            if marker_id in page.anchors:
-                actual_pages[num] = page_index + 1
-                break
-
-    index_actual_page = None
-    for page_index, page in enumerate(doc.pages):
-        if "marker-index" in page.anchors:
-            index_actual_page = page_index + 1
-            break
+    marker_ids = {
+        marker_id for marker_id, _num in chapter_markers
+    } | {
+        marker_id for marker_id, _url in page_markers
+    } | {project_marker, "marker-index"}
+    anchor_pages = resolve_anchor_pages(doc, marker_ids)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     tmp_content_pdf = OUT.parent / "_content_tmp.pdf"
@@ -362,45 +579,24 @@ def main() -> None:
 
     # +1 physical page for the merged, WeasyPrint-external cover.
     final_total_pages = total_pages + 1
-    final_actual_pages = {num: p + 1 for num, p in actual_pages.items()}
-    final_index_page = (index_actual_page + 1) if index_actual_page else None
+    final_anchor_pages = {marker_id: page + 1 for marker_id, page in anchor_pages.items()}
+
+    write_pagination_metadata(
+        full_html=full_html,
+        font_records=font_records,
+        final_total_pages=final_total_pages,
+        final_anchor_pages=final_anchor_pages,
+        chapter_markers=chapter_markers,
+        page_markers=page_markers,
+        project_marker=project_marker,
+    )
 
     print(f"Записано: {OUT.relative_to(ROOT)} ({final_total_pages} страниц)")
-
-    failures = []
-    for ch in be.MANIFEST["chapters"]:
-        num = ch.get("number")
-        if num is None or ch["kind"] != "chapter":
-            continue
-        canonical = ch["canonical_page"]
-        actual = final_actual_pages.get(num)
-        status = "OK" if actual is not None and actual >= canonical else "СБОЙ"
-        print(f"  Глава {num:>2}: канон. стр. {canonical:>3}  →  факт. стр. {actual}  [{status}]")
-        if status == "СБОЙ":
-            failures.append(f"chapter {num}: actual={actual} < canonical={canonical}")
-
-    idx_manifest = next(c for c in be.MANIFEST["chapters"] if c["id"] == "предметный-указатель")
-    idx_canonical = idx_manifest["canonical_page"]
-    idx_status = "OK" if final_index_page is not None and final_index_page >= idx_canonical else "СБОЙ"
-    print(f"  Указатель: канон. стр. {idx_canonical:>3}  →  факт. стр. {final_index_page}  [{idx_status}]")
-    if idx_status == "СБОЙ":
-        failures.append(f"index: actual={final_index_page} < canonical={idx_canonical}")
-
-    min_required = be.MANIFEST["min_required_pdf_pages"]
-    print(f"\nВсего страниц: {final_total_pages} (нужно ≥ {min_required})")
-    if final_total_pages < min_required:
-        failures.append(f"total_pages={final_total_pages} < min_required={min_required}")
-
-    if not COVER_PDF.exists():
-        failures.append(f"cover PDF missing: {COVER_PDF}")
-
-    if failures:
-        print(f"\nСБОЙ СБОРКИ — {len(failures)} проблем(а):", file=sys.stderr)
-        for f in failures:
-            print(f"  - {f}", file=sys.stderr)
-        sys.exit(1)
-
-    print("Все проверки пагинации пройдены.")
+    for marker_id, num in chapter_markers:
+        print(f"  Глава {num:>2}: физическая стр. {final_anchor_pages[marker_id]}")
+    print(f"  Предметный указатель: физическая стр. {final_anchor_pages['marker-index']}")
+    print(f"  Всего физических страниц: {final_total_pages}")
+    print(f"Записано: {PAGINATION_OUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

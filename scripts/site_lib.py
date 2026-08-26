@@ -14,6 +14,10 @@ import keyword
 import re
 import tokenize
 from dataclasses import dataclass, field
+from urllib.parse import urljoin
+
+from book_pagination import chapter_start, page_for_url
+from chapter_metadata import chapter
 
 
 # ---------------------------------------------------------------------------
@@ -3274,7 +3278,8 @@ def github_lockup(width: int = 140, *, on_dark: bool = False) -> str:
 def git_mark(size: int = 24, *, on_dark: bool = False, aria_label: str | None = None) -> str:
     """Official Git icon mark (the tilted diamond), downloaded verbatim
     from git-scm.com/downloads/logos — Jason Long's Git logo, CC BY 3.0 —
-    and stored at site/assets/brand/git/mark-{black,white}.svg. Kept in a
+    and stored as mark-orange.svg for light surfaces and mark-white.svg for
+    dark surfaces. Kept in a
     brand directory of its own, separate from
     site/assets/icons/cartesian/icons.svg, so Git's real mark is never
     confused with a Cartesian School semantic icon. Native aspect ratio is
@@ -3286,7 +3291,7 @@ def git_mark(size: int = 24, *, on_dark: bool = False, aria_label: str | None = 
     announce "Git" twice. Pass `aria_label` (e.g. "Git — официальный
     сайт") only for the rare case of the mark used alone as a link, with
     no adjacent visible "Git" text."""
-    variant = "white" if on_dark else "black"
+    variant = "white" if on_dark else "orange"
     if aria_label:
         alt_attrs = f'alt="" role="img" aria-label="{html.escape(aria_label)}"'
     else:
@@ -3308,7 +3313,7 @@ def git_lockup(width: int = 90, *, on_dark: bool = False, aria_label: str | None
 
     Decorative by default, same reasoning as git_mark(); pass
     `aria_label` only when the lockup stands alone as a link."""
-    variant = "white" if on_dark else "black"
+    variant = "white" if on_dark else "color"
     height = round(width * 92 / 219)
     if aria_label:
         alt_attrs = f'alt="" role="img" aria-label="{html.escape(aria_label)}"'
@@ -4463,7 +4468,7 @@ def _render_h1(heading: str | BrandedHeading) -> str:
         marks = (
             '<span class="technology-heading__brands" aria-hidden="true">'
             '<img class="technology-heading__mark technology-heading__mark--git" '
-            'src="/assets/brand/git/mark-black.svg" alt=""></span>'
+            'src="/assets/brand/git/mark-orange.svg" alt=""></span>'
         )
     elif heading.brand == "git-github":
         marks = (
@@ -4471,7 +4476,7 @@ def _render_h1(heading: str | BrandedHeading) -> str:
             'aria-hidden="true">'
             '<span class="technology-heading__brand-token">'
             '<img class="technology-heading__mark technology-heading__mark--git" '
-            'src="/assets/brand/git/mark-black.svg" alt=""><span>Git</span></span>'
+            'src="/assets/brand/git/mark-orange.svg" alt=""><span>Git</span></span>'
             '<span class="technology-heading__not-equal">≠</span>'
             '<span class="technology-heading__brand-token">'
             '<img class="technology-heading__mark technology-heading__mark--github" '
@@ -4498,6 +4503,16 @@ def render_sidebar(groups: list[SidebarGroup]) -> str:
             items.append(f'<li><a href="{html.escape(it.href)}"{cls_attr}>{html.escape(it.title)}</a></li>')
         parts.append(f'<ul class="toc-list">{"".join(items)}</ul>')
     return "".join(parts)
+
+
+def _page_nav_label(href: str | None, fallback: str | None) -> str:
+    """Canonicalize only cross-chapter opener links; keep local labels intact."""
+    if href:
+        match = re.search(r"(?:^|/)glava-(\d{2})/index\.html$", href)
+        if match:
+            number = int(match.group(1))
+            return f"Глава {number}: {chapter(number).title}"
+    return fallback or ""
 
 
 def render_page(
@@ -4532,11 +4547,13 @@ def render_page(
 
     nav_html = '<div class="section-nav">'
     if nav.prev_href:
-        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">← Назад</div><div class="lbl">{html.escape(nav.prev_label or "")}</div></a>'
+        prev_label = _page_nav_label(nav.prev_href, nav.prev_label)
+        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">← Назад</div><div class="lbl">{html.escape(prev_label)}</div></a>'
     else:
         nav_html += "<div></div>"
     if nav.next_href:
-        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">Далее →</div><div class="lbl">{html.escape(nav.next_label or "")}</div></a>'
+        next_label = _page_nav_label(nav.next_href, nav.next_label)
+        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">Далее →</div><div class="lbl">{html.escape(next_label)}</div></a>'
     nav_html += "</div>"
 
     return _render_icon_markers(f"""<!DOCTYPE html>
@@ -4585,14 +4602,11 @@ class ChapterSectionLink:
     num: str
     title: str
     href: str
-    page: str = ""
 
 
 def render_chapter_opener(
     *,
     chapter_num: int,
-    baseline_page: int,
-    title: str,
     description: str,
     meta_items: list[str],
     sections: list[ChapterSectionLink],
@@ -4600,14 +4614,21 @@ def render_chapter_opener(
     intro_html: str = "",
 ) -> str:
     root = "../../"
+    canonical = chapter(chapter_num)
+    title = canonical.title
+    physical_page = chapter_start(chapter_num)
     meta_html = "".join(f"<span>{m}</span>" for m in meta_items)
-    rows = "".join(
-        f'<a class="section-item" href="{html.escape(s.href)}">'
-        f'<span><span class="si-num">{html.escape(s.num)}</span>{html.escape(s.title)}</span>'
-        + (f'<span class="si-page">{html.escape(s.page)}</span>' if s.page else "")
-        + '</a>'
-        for s in sections
-    )
+    rows = []
+    for section in sections:
+        absolute_url = urljoin(canonical.url, section.href)
+        section_page = page_for_url(absolute_url)
+        page_html = f'<span class="si-page">{section_page}</span>' if section_page else ""
+        rows.append(
+            f'<a class="section-item" href="{html.escape(section.href)}">'
+            f'<span><span class="si-num">{html.escape(section.num)}</span>'
+            f'{html.escape(section.title)}</span>{page_html}</a>'
+        )
+    rows_html = "".join(rows)
     return _render_icon_markers(f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -4635,8 +4656,9 @@ def render_chapter_opener(
   .section-list {{ max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }}
   .section-item {{ display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }}
   .section-item:hover {{ border-color: var(--color-brand-blue); }}
+  .section-item > span:first-child {{ min-width: 0; overflow-wrap: anywhere; }}
   .section-item .si-num {{ font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }}
-  .section-item .si-page {{ font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }}
+  .section-item .si-page {{ flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }}
   .chapter-intro {{ max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }}
   @media (max-width: 860px) {{ .chapter-hero h1 {{ font-size: 30px; }} }}
 </style>
@@ -4651,7 +4673,7 @@ def render_chapter_opener(
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
 {brand_html}
-    <div class="chapter-num"><img src="{root}assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />ГЛАВА {chapter_num} · СТР. {baseline_page}</div>
+    <div class="chapter-num"><img src="{root}assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />ГЛАВА {chapter_num} · СТР. {physical_page}</div>
     <h1>{html.escape(title)}</h1>
     <p>{description}</p>
     <div class="chapter-meta">{meta_html}</div>
@@ -4663,7 +4685,7 @@ def render_chapter_opener(
 </div>
 
 <div class="section-list">
-  {rows}
+  {rows_html}
 </div>
 
 {NAV_SCRIPT_TAG}

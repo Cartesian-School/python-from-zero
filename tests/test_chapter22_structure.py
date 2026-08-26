@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CHAPTER_DIR = ROOT / "site" / "chapters" / "glava-22"
 MANIFEST_PATH = ROOT / "manifest" / "practice_manifest.json"
+PAGINATION_PATH = ROOT / "data" / "book-pagination.json"
 
 ORIGINAL_ROUTES = [
     "index.html",
@@ -55,19 +56,26 @@ def test_praktiki_glavy_22_ssylayutsya_na_sushchestvuyushchie_stranicy():
         assert return_put.exists(), f"{practice_id}: return_url указывает на несуществующий файл {return_put}"
 
 
-def test_fizicheskie_nomera_ne_vydumany_dlya_novyh_razdelov():
-    """В опенере главы (site-item со ссылками на все 36 разделов) только
-    у оригинальных разделов 22.1-22.6 должен быть номер бумажной
-    страницы (si-page); у новых цифровых разделов 22.7-22.36 такого
-    номера быть не должно — их не существовало в бумажной книге."""
-    import re
+def test_fizicheskie_nomera_sootvetstvuyut_kanonicheskomu_pdf():
+    """Все 36 разделов входят в текущую печатную книгу.
 
-    tekst = (CHAPTER_DIR / "index.html").read_text(encoding="utf-8")
-    razdely_s_nomerom_stranicy = set()
-    for blok in re.findall(r'<a class="section-item".*?</a>', tekst):
-        nomer = re.search(r'"si-num">22\.(\d+)<', blok)
-        est_stranica = 'si-page' in blok
-        if nomer and est_stranica:
-            razdely_s_nomerom_stranicy.add(int(nomer.group(1)))
+    Номер в opener берётся из фактически отрендерированного PDF, а не из
+    исторической бумажной редакции или ручного списка.
+    """
+    from bs4 import BeautifulSoup
 
-    assert razdely_s_nomerom_stranicy == {1, 2, 3, 4, 5, 6}
+    pagination = json.loads(PAGINATION_PATH.read_text(encoding="utf-8"))
+    opener = BeautifulSoup(
+        (CHAPTER_DIR / "index.html").read_text(encoding="utf-8"), "html.parser"
+    )
+    links = opener.select(".section-list > a.section-item")
+    assert len(links) == 36
+
+    for expected_number, link in enumerate(links, start=1):
+        number = link.select_one(".si-num")
+        displayed_page = link.select_one(".si-page")
+        assert number is not None and number.get_text(strip=True) == f"22.{expected_number}"
+        assert displayed_page is not None
+
+        url = f"/chapters/glava-22/{link['href']}"
+        assert int(displayed_page.get_text(strip=True)) == pagination["pages"][url]

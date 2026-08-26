@@ -2,7 +2,8 @@
 """Строит домашнюю страницу сайта (site/index.html).
 
 Единственный источник правды для каждой секции:
-- Главы           -> manifest/coverage_manifest.json (24 главы)
+- Главы           -> data/chapters.json (24 главы)
+- Страницы книги  -> data/book-pagination.json (фактический PDF)
 - Практика        -> manifest/practice_manifest.json (122 записи практики)
 - Проекты         -> manifest/projects_manifest.json (реальные projects/*)
 
@@ -13,17 +14,23 @@
 
 import html
 import json
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from site_lib import NAV_SCRIPT_TAG, _render_icon_markers, mobile_nav_links, project_card, site_header
+from book_pagination import total_pages
+from chapter_metadata import Chapter, chapters
+from site_lib import (
+    NAV_SCRIPT_TAG,
+    _render_icon_markers,
+    mobile_nav_links,
+    project_card,
+    site_header,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
-COVERAGE = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
 PRACTICE = json.loads((ROOT / "manifest" / "practice_manifest.json").read_text(encoding="utf-8"))
 PROJECTS = json.loads((ROOT / "manifest" / "projects_manifest.json").read_text(encoding="utf-8"))["projects"]
 
@@ -35,15 +42,8 @@ def chapter_href(num: int) -> str:
     return "#"
 
 
-def chapter_title_short(c: dict) -> str:
-    """Chapter title with the leading "Глава N: " stripped, escaped for HTML,
-    and its source *emphasis* markdown (used on a few titles to call out a
-    module name, e.g. "...с помощью *Turtle*") rendered as real <em>.
-    """
-    t = c["title"]
-    t = t.split(": ", 1)[-1] if ": " in t else t
-    escaped = html.escape(t)
-    return re.sub(r"\*(.+?)\*", r"<em>\1</em>", escaped)
+def chapter_title_short(chapter: Chapter) -> str:
+    return html.escape(chapter.title)
 
 
 def lesson_title_short(entry: dict) -> str:
@@ -66,7 +66,7 @@ MODE_CLASS = {"browser": "mode-browser", "local": "mode-local", "adapted": "mode
 # Percent-encoded "готовая книга.pdf" — matches build_pdf.py's OUT filename exactly.
 PDF_HREF = "/book/pdf/%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0.pdf"
 
-CHAPTERS = sorted((c for c in COVERAGE["chapters"] if c["kind"] == "chapter"), key=lambda c: c["number"])
+CHAPTERS = chapters()
 
 lessons_by_chapter: dict[int, list[tuple[str, dict]]] = defaultdict(list)
 for lesson_id, entry in PRACTICE.items():
@@ -76,11 +76,11 @@ for lst in lessons_by_chapter.values():
 
 TOTAL_LESSONS = len(PRACTICE)
 TOTAL_PROJECTS = len(PROJECTS)
-TOTAL_PAGES = COVERAGE["actual_pdf_total_pages"]
-TOTAL_CHAPTERS = COVERAGE["chapter_count"]
+TOTAL_PAGES = total_pages()
+TOTAL_CHAPTERS = len(CHAPTERS)
 BROWSER_COUNT = sum(1 for e in PRACTICE.values() if mode_of(e) == "browser")
 LOCAL_COUNT = sum(1 for e in PRACTICE.values() if mode_of(e) == "local")
-CHAPTERS_WITH_PRACTICE = sum(1 for c in CHAPTERS if lessons_by_chapter.get(c["number"]))
+CHAPTERS_WITH_PRACTICE = sum(1 for chapter in CHAPTERS if lessons_by_chapter.get(chapter.number))
 
 
 # ---------------------------------------------------------------------------
@@ -88,8 +88,8 @@ CHAPTERS_WITH_PRACTICE = sum(1 for c in CHAPTERS if lessons_by_chapter.get(c["nu
 # ---------------------------------------------------------------------------
 def build_roadmap() -> str:
     nodes = []
-    for c in CHAPTERS:
-        num = c["number"]
+    for chapter in CHAPTERS:
+        num = chapter.number
         href = chapter_href(num)
         entries = lessons_by_chapter.get(num, [])
         lesson_ids_csv = ",".join(lid for lid, _ in entries)
@@ -97,7 +97,7 @@ def build_roadmap() -> str:
         card_body = f"""<div class="jn-card-top">
           <span class="jn-num">Глава {num}</span>
         </div>
-        <div class="jn-title">{chapter_title_short(c)}</div>"""
+        <div class="jn-title">{chapter_title_short(chapter)}</div>"""
         if entries:
             card_body += '\n        <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>'
         card_body += f"""
@@ -118,11 +118,9 @@ def build_roadmap() -> str:
 # ---------------------------------------------------------------------------
 def build_practice_catalog() -> str:
     groups = []
-    for c in CHAPTERS:
-        num = c["number"]
+    for chapter in CHAPTERS:
+        num = chapter.number
         entries = lessons_by_chapter.get(num, [])
-        if not entries:
-            continue  # У главы 2 и 24 действительно нет практики (не ошибка)
         lesson_ids_csv = ",".join(lid for lid, _ in entries)
         rows = []
         for lid, e in entries:
@@ -142,7 +140,7 @@ def build_practice_catalog() -> str:
     <details class="practice-chapter-group" data-chapter="{num}" data-lesson-ids="{lesson_ids_csv}">
       <summary class="pcg-summary">
         <div>
-          <div class="pcg-title">Глава {num} · {chapter_title_short(c)}</div>
+          <div class="pcg-title">Глава {num} · {chapter_title_short(chapter)}</div>
           <div class="pcg-meta">{len(entries)} практических заданий</div>
         </div>
         <div class="pcg-progress">
@@ -292,7 +290,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
   <div class="reference-board">
     <a class="reference-card" href="/predmetnyj-ukazatel.html">
       <span class="ri">[[icon:note]]</span>
-      <div><div class="rt">Предметный указатель</div><div class="rs">Алфавитный список терминов книги с номерами страниц</div></div>
+      <div><div class="rt">Предметный указатель</div><div class="rs">Алфавитный список терминов книги по главам</div></div>
     </a>
     <a class="reference-card" href="/front-matter/vvedenie.html">
       <span class="ri">[[icon:note]]</span>

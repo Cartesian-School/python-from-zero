@@ -15,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from chapter_metadata import chapter_title as canonical_chapter_title
 from site_lib import NAV_SCRIPT_TAG, mobile_nav_links, site_header
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -25,10 +26,15 @@ CHAPTER_23_SAFESORT_LOCAL = {"23-09", "23-13", "23-16", "23-20", "23-21", "23-24
 CHAPTER_23_HOMEWORK_LOCAL = {"23-01", "23-04", "23-05", "23-06"}
 
 
+def practice_chapter_title(lesson_id: str) -> str:
+    number = int(lesson_id.split("-", 1)[0])
+    return f"Глава {number}: {canonical_chapter_title(number)}"
+
+
 def build_page(lesson_id: str, entry: dict) -> str:
     notebook_url = f"/notebooks/{entry['notebook']}"
     download_name = entry["notebook"].split("/")[-1]
-    chapter_title = html.escape(entry["chapter_title"])
+    chapter_title = html.escape(practice_chapter_title(lesson_id))
     lesson_title = html.escape(entry["lesson_title"])
     return_url = html.escape(entry["return_url"])
     next_url = html.escape(entry.get("next_url") or "")
@@ -51,7 +57,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
     config_json = json.dumps(
         {
             "lessonId": lesson_id,
-            "chapterTitle": entry["chapter_title"],
+            "chapterTitle": practice_chapter_title(lesson_id),
             "lessonTitle": entry["lesson_title"],
             "notebookUrl": notebook_url,
             "graderUrl": entry["grader"],
@@ -242,7 +248,7 @@ def build_local_required_page(lesson_id: str, entry: dict) -> str:
     """
     notebook_url = f"/notebooks/{entry['notebook']}"
     download_name = entry["notebook"].split("/")[-1]
-    chapter_title = html.escape(entry["chapter_title"])
+    chapter_title = html.escape(practice_chapter_title(lesson_id))
     lesson_title = html.escape(entry["lesson_title"])
     return_url = html.escape(entry["return_url"])
     next_url = html.escape(entry.get("next_url") or entry["return_url"])

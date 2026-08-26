@@ -14,7 +14,7 @@ from validate_chapter23_sources import (
     extract_sources_from_build_script,
 )
 
-CHECKED_DATE = "2026-08-25"
+CHECKED_DATE = "2026-08-26"
 
 
 def slugify(value: str) -> str:

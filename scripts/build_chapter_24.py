@@ -44,15 +44,13 @@ def write(name: str, html_out: str) -> None:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=24,
-        baseline_page=539,
-        title="Что дальше?",
         description="Книга заканчивается — но путешествие в программирование только начинается. Куда двигаться дальше.",
         meta_items=["[[icon:timer]] ~1 час", "[[icon:idea]] идеи проектов", "[[icon:note]] карта дальнейшего пути"],
         sections=[
-            ChapterSectionLink("24.1", "Идеи мини-проектов, которые можно попробовать", "24-01-idei-mini-proektov.html", "539"),
-            ChapterSectionLink("24.2", "Идеи итоговых проектов, которые можно попробовать", "24-02-idei-itogovyh-proektov.html", "540"),
-            ChapterSectionLink("24.3", "Что изучать дальше", "24-03-chto-izuchat-dalshe-itogi.html", "542"),
-            ChapterSectionLink("", "Итоги", "24-03-chto-izuchat-dalshe-itogi.html#itogi", "543"),
+            ChapterSectionLink("24.1", "Идеи мини-проектов, которые можно попробовать", "24-01-idei-mini-proektov.html"),
+            ChapterSectionLink("24.2", "Идеи итоговых проектов, которые можно попробовать", "24-02-idei-itogovyh-proektov.html"),
+            ChapterSectionLink("24.3", "Что изучать дальше", "24-03-chto-izuchat-dalshe-itogi.html"),
+            ChapterSectionLink("", "Итоги", "24-03-chto-izuchat-dalshe-itogi.html#itogi"),
         ],
     )
     write("index.html", out)

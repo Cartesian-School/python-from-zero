@@ -6,9 +6,9 @@ from __future__ import annotations
 import hashlib
 import html
 import json
-from pathlib import Path
 import re
 import sys
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -17,6 +17,7 @@ from build_chapter_23 import HOMEWORK_PAGES, PAGES
 ROOT = Path(__file__).resolve().parent.parent
 CHAPTER_DIR = ROOT / "site" / "chapters" / "glava-23"
 SOURCE_MANIFEST = ROOT / "data" / "chapter-23-official-sources.json"
+BRAND_MANIFEST = ROOT / "data" / "git-brand-assets.json"
 
 GIT_BRANDED_PAGES = {
     "23-git-01-chto-takoe-git-github.html",
@@ -32,8 +33,10 @@ GIT_BRANDED_PAGES = {
 }
 
 OFFICIAL_GIT_ASSET_HASHES = {
+    "lockup-color.svg": "c5f6153fc8e226accca81b404961b2bc465baccfb8521d081799eaaf4be3379d",
     "lockup-black.svg": "bc76df3f745738484b172beb0b4fcf770de0603fde451487dafa2b45f76371ce",
     "lockup-white.svg": "4b92d8fe6d9d7fa010a2cb526cb61bc9c7083678f7e9ffb5065d8b899817687f",
+    "mark-orange.svg": "1080a5430edb6278dc03e4b04efc16c8bed5b943408d648ad721a28836814220",
     "mark-black.svg": "0bf58ad2b4a330d0023d65ffbf056f5d93abee6b29eca81904951b014b3c9cd9",
     "mark-white.svg": "4b62d3bdfe913e88de9bd9d25cf466af9d4ac759dfecc8a17d86016b35b97a6e",
 }
@@ -51,6 +54,13 @@ def require_tokens(errors: list[str], filename: str, tokens: tuple[str, ...]) ->
     for token in tokens:
         if token not in text:
             errors.append(f"{filename}: отсутствует обязательный academic contract token {token!r}")
+
+
+def require_html_tokens(errors: list[str], filename: str, tokens: tuple[str, ...]) -> None:
+    source = (CHAPTER_DIR / filename).read_text(encoding="utf-8")
+    for token in tokens:
+        if token not in source:
+            errors.append(f"{filename}: отсутствует обязательный HTML contract token {token!r}")
 
 
 def validate() -> list[str]:
@@ -78,6 +88,17 @@ def validate() -> list[str]:
         if actual_hash != expected_hash:
             errors.append(f"Git asset изменён или перерисован: {name}, sha256={actual_hash}")
 
+    brand_manifest = json.loads(BRAND_MANIFEST.read_text(encoding="utf-8"))
+    if brand_manifest.get("official_source") != "https://git-scm.com/downloads/logos":
+        errors.append("Git brand metadata не указывает официальный logo source")
+    if brand_manifest.get("author") != "Jason Long" or brand_manifest.get("license") != "CC BY 3.0":
+        errors.append("Git logo attribution должна быть отделена от GitHub Docs CC BY 4.0")
+    manifest_hashes = {
+        Path(asset["path"]).name: asset["sha256"] for asset in brand_manifest.get("assets", [])
+    }
+    if manifest_hashes != OFFICIAL_GIT_ASSET_HASHES:
+        errors.append("Git brand metadata не совпадает с pinned official asset hashes")
+
     actual_git_branded = set()
     for filename in canonical:
         path = CHAPTER_DIR / filename
@@ -87,9 +108,16 @@ def validate() -> list[str]:
         match = re.search(r"<h1[^>]*>.*?</h1>", source, flags=re.DOTALL)
         h1 = match.group(0) if match else ""
         if "/assets/brand/git/mark-black.svg" in h1:
+            errors.append(f"{filename}: black Git mark запрещён в light-surface H1")
+        if "/assets/brand/git/mark-orange.svg" in h1:
             actual_git_branded.add(filename)
             if 'alt=""' not in h1 or 'aria-hidden="true"' not in h1:
                 errors.append(f"{filename}: Git heading mark нарушает accessibility contract")
+            h1_inner = re.sub(r"^<h1[^>]*>\s*", "", h1)
+            if not h1_inner.startswith('<span class="technology-heading__brands'):
+                errors.append(f"{filename}: Git mark не является ведущим H1 brand element")
+            if any(token in h1 for token in ("filter:", "currentColor", "assets/icons/cartesian")):
+                errors.append(f"{filename}: Git H1 пытается recolor/reconstruct официальный asset")
     if actual_git_branded != GIT_BRANDED_PAGES:
         errors.append(
             f"Git heading branding: missing={sorted(GIT_BRANDED_PAGES - actual_git_branded)}, "
@@ -98,7 +126,10 @@ def validate() -> list[str]:
 
     mixed = (CHAPTER_DIR / "23-git-01-chto-takoe-git-github.html").read_text(encoding="utf-8")
     mixed_h1 = re.search(r"<h1[^>]*>.*?</h1>", mixed, flags=re.DOTALL).group(0)
-    if "/assets/brand/github/invertocat-black.svg" not in mixed_h1:
+    if (
+        "/assets/brand/git/mark-orange.svg" not in mixed_h1
+        or "/assets/brand/github/invertocat-black.svg" not in mixed_h1
+    ):
         errors.append("Смешанный Git/GitHub H1 не показывает отдельный официальный GitHub mark")
     github_pr_h1 = re.search(
         r"<h1[^>]*>.*?</h1>",
@@ -109,6 +140,30 @@ def validate() -> list[str]:
         errors.append("GitHub-primary страница 23-29 ошибочно получила Git mark в H1")
 
     require_tokens(errors, "index.html", ("24 практики: 18 SafeSort + 6 домашних",))
+    require_tokens(
+        errors,
+        "23-git-01-chto-takoe-git-github.html",
+        (
+            "Официальные ресурсы Git",
+            "Официальный сайт Git",
+            "Справочная документация Git",
+            "Книга Pro Git",
+            "Git Source Code Mirror on GitHub",
+            "Сам Git не зависит от GitHub",
+            "Jason Long",
+            "CC BY 3.0",
+        ),
+    )
+    require_html_tokens(
+        errors,
+        "23-git-01-chto-takoe-git-github.html",
+        (
+            'href="https://git-scm.com/"',
+            'href="https://git-scm.com/docs"',
+            'href="https://git-scm.com/book/en/v2"',
+            'href="https://github.com/git/git"',
+        ),
+    )
     require_tokens(
         errors,
         "23-05-pyproject-toml.html",

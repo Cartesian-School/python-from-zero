@@ -33,6 +33,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from chapter_metadata import chapters
+
 ROOT = Path(__file__).resolve().parent.parent
 
 REQUIRED_ANCHORS = [
@@ -76,8 +80,7 @@ def validate_homepage_anchors(base_dir: Path, errors: list[str]) -> None:
 
 
 def validate_chapter_roadmap(base_dir: Path, errors: list[str]) -> None:
-    coverage = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
-    chapters = [c for c in coverage["chapters"] if c["kind"] == "chapter"]
+    canonical_chapters = chapters()
     index_text = _read(base_dir / "index.html")
     if index_text is None:
         return  # already reported above
@@ -88,7 +91,7 @@ def validate_chapter_roadmap(base_dir: Path, errors: list[str]) -> None:
     )
     nodes = {int(num): href for num, href in node_re.findall(index_text)}
 
-    expected_numbers = {c["number"] for c in chapters}
+    expected_numbers = {chapter.number for chapter in canonical_chapters}
     missing = expected_numbers - nodes.keys()
     for n in sorted(missing):
         errors.append(f"index.html: roadmap has no milestone for chapter {n}")

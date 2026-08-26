@@ -228,8 +228,6 @@ def page(href: str, *, page_title: str, description: str, kicker_suffix: str, h1
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=12,
-        baseline_page=259,
-        title="Множество увлекательных мини-проектов!",
         description="Первая настоящая проектная лаборатория курса: 16 проектов, которые заставляют "
         "работать вместе всё, что вы изучили в главах 1-11 — условия, циклы, строки, числа, "
         "random, списки/кортежи/множества/словари и Turtle. Не новая теория, а то, как строить "
@@ -237,24 +235,24 @@ def build_opener() -> None:
         "и отладка.",
         meta_items=["[[icon:timer]] ~8 часов", "[[icon:architecture]] проектная лаборатория", "[[icon:practice]] 22 практики"],
         sections=[
-            ChapterSectionLink("12.1", "Что такое проект", "12-07-chto-takoe-proekt.html", "259"),
-            ChapterSectionLink("12.2", "Строим проект по шагам", "12-08-stroim-proekt-po-shagam.html", "263"),
-            ChapterSectionLink("12.3", "Проект: чётное или нечётное", "12-01-chetnoe-ili-nechetnoe.html", "267"),
-            ChapterSectionLink("12.4", "Проект: достаточно ли чаевых?", "12-02-chaevye.html", "269"),
-            ChapterSectionLink("12.5", "Проект: угадай число, версия 3", "12-09-ugadaj-chislo-v3.html", "271"),
-            ChapterSectionLink("12.6", "Проект: анализатор текста и частота слов", "12-11-analizator-teksta.html", "275"),
-            ChapterSectionLink("12.7", "Проект: записная книжка", "12-13-zapisnaya-knizhka.html", "279"),
-            ChapterSectionLink("12.8", "Проекты: журнал оценок и корзина покупок", "12-14-zhurnal-i-korzina.html", "282"),
-            ChapterSectionLink("12.9", "Проект: викторина", "12-16-viktorina.html", "286"),
-            ChapterSectionLink("", "Данные vs алгоритм, рефакторинг", "12-16-viktorina.html#dannye-vs-algoritm", "289"),
-            ChapterSectionLink("12.10", "Проекты: консоль команд и проверка пароля", "12-18-konsol-i-validator.html", "291"),
-            ChapterSectionLink("12.11", "Проект: студия многоугольников", "12-20-studiya-mnogougolnikov.html", "295"),
-            ChapterSectionLink("12.12", "Проект: рождественская ёлка", "12-03-elka.html", "298"),
-            ChapterSectionLink("12.13", "Проект: спирали!", "12-04-spirali.html", "301"),
-            ChapterSectionLink("12.14", "Проект: сложная мандала", "12-05-slozhnaya-mandala.html", "304"),
-            ChapterSectionLink("12.15", "Проект: пиксельная графика по сетке", "12-22-setka-piksel-art.html", "307"),
-            ChapterSectionLink("12.16", "Проект: гонка Turtle", "12-06-gonka-turtle-itogi.html", "310"),
-            ChapterSectionLink("", "Итоги главы", "12-06-gonka-turtle-itogi.html#itogi", "313"),
+            ChapterSectionLink("12.1", "Что такое проект", "12-07-chto-takoe-proekt.html"),
+            ChapterSectionLink("12.2", "Строим проект по шагам", "12-08-stroim-proekt-po-shagam.html"),
+            ChapterSectionLink("12.3", "Проект: чётное или нечётное", "12-01-chetnoe-ili-nechetnoe.html"),
+            ChapterSectionLink("12.4", "Проект: достаточно ли чаевых?", "12-02-chaevye.html"),
+            ChapterSectionLink("12.5", "Проект: угадай число, версия 3", "12-09-ugadaj-chislo-v3.html"),
+            ChapterSectionLink("12.6", "Проект: анализатор текста и частота слов", "12-11-analizator-teksta.html"),
+            ChapterSectionLink("12.7", "Проект: записная книжка", "12-13-zapisnaya-knizhka.html"),
+            ChapterSectionLink("12.8", "Проекты: журнал оценок и корзина покупок", "12-14-zhurnal-i-korzina.html"),
+            ChapterSectionLink("12.9", "Проект: викторина", "12-16-viktorina.html"),
+            ChapterSectionLink("", "Данные vs алгоритм, рефакторинг", "12-16-viktorina.html#dannye-vs-algoritm"),
+            ChapterSectionLink("12.10", "Проекты: консоль команд и проверка пароля", "12-18-konsol-i-validator.html"),
+            ChapterSectionLink("12.11", "Проект: студия многоугольников", "12-20-studiya-mnogougolnikov.html"),
+            ChapterSectionLink("12.12", "Проект: рождественская ёлка", "12-03-elka.html"),
+            ChapterSectionLink("12.13", "Проект: спирали!", "12-04-spirali.html"),
+            ChapterSectionLink("12.14", "Проект: сложная мандала", "12-05-slozhnaya-mandala.html"),
+            ChapterSectionLink("12.15", "Проект: пиксельная графика по сетке", "12-22-setka-piksel-art.html"),
+            ChapterSectionLink("12.16", "Проект: гонка Turtle", "12-06-gonka-turtle-itogi.html"),
+            ChapterSectionLink("", "Итоги главы", "12-06-gonka-turtle-itogi.html#itogi"),
         ],
     )
     write("index.html", out)

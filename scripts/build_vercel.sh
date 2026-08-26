@@ -42,6 +42,20 @@ echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_sitemap.py"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_llms_full.py"
 
+echo "==> Validating canonical chapter titles"
+if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter_titles.py" --portable
+else
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter_titles.py"
+fi
+
+echo "==> Validating canonical PDF pagination"
+if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_pagination.py" --portable
+else
+  "${PYTHON}" "${ROOT_DIR}/scripts/validate_pagination.py"
+fi
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"
