@@ -114,24 +114,22 @@ def write(name: str, html_out: str) -> None:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=21,
-        baseline_page=467,
-        title="Проект: космический шутер с Pygame",
         description="Самый крупный проект книги — корабль, враги, стрельба, счёт, жизни, сложность и "
         "полноценный конец игры, собранные в архитектуру на классах и делта-тайме.",
         meta_items=["[[icon:timer]] ~10–12 часов", "[[icon:launch]] полноценная игра", "[[icon:practice]] 15 практик"],
         sections=[
-            ChapterSectionLink("21.1", "План игры и подготовка проекта", "21-01-igra-import-init.html", "467"),
-            ChapterSectionLink("", "Импортируем необходимые модули", "21-01-igra-import-init.html#init", "469"),
-            ChapterSectionLink("21.2", "Игровой цикл и корабль игрока", "21-02-cikl-korabl.html", "470"),
-            ChapterSectionLink("", "Создаём космический корабль", "21-02-cikl-korabl.html#korabl", "471"),
-            ChapterSectionLink("21.3", "Движение корабля и появление врагов", "21-03-dvizhenie-vragi.html", "473"),
-            ChapterSectionLink("", "Создаём и перемещаем врагов", "21-03-dvizhenie-vragi.html#vragi", "475"),
-            ChapterSectionLink("21.4", "Стрельба: создаём и двигаем пули", "21-04-strelba.html", "479"),
-            ChapterSectionLink("21.5", "Счёт и информация на экране", "21-05-tablo-scheta.html", "482"),
-            ChapterSectionLink("21.6", "Попадания и столкновения", "21-06-unichtozhenie.html", "484"),
-            ChapterSectionLink("", "Когда враг уничтожает корабль", "21-06-unichtozhenie.html#korabl-unichtozhen", "487"),
-            ChapterSectionLink("21.7", "Завершение игры и экран «Игра окончена»", "21-07-game-over.html", "488"),
-            ChapterSectionLink("21.8", "Первая рабочая версия игры", "21-08-polnyj-kod-itogi.html", "491"),
+            ChapterSectionLink("21.1", "План игры и подготовка проекта", "21-01-igra-import-init.html"),
+            ChapterSectionLink("", "Импортируем необходимые модули", "21-01-igra-import-init.html#init"),
+            ChapterSectionLink("21.2", "Игровой цикл и корабль игрока", "21-02-cikl-korabl.html"),
+            ChapterSectionLink("", "Создаём космический корабль", "21-02-cikl-korabl.html#korabl"),
+            ChapterSectionLink("21.3", "Движение корабля и появление врагов", "21-03-dvizhenie-vragi.html"),
+            ChapterSectionLink("", "Создаём и перемещаем врагов", "21-03-dvizhenie-vragi.html#vragi"),
+            ChapterSectionLink("21.4", "Стрельба: создаём и двигаем пули", "21-04-strelba.html"),
+            ChapterSectionLink("21.5", "Счёт и информация на экране", "21-05-tablo-scheta.html"),
+            ChapterSectionLink("21.6", "Попадания и столкновения", "21-06-unichtozhenie.html"),
+            ChapterSectionLink("", "Когда враг уничтожает корабль", "21-06-unichtozhenie.html#korabl-unichtozhen"),
+            ChapterSectionLink("21.7", "Завершение игры и экран «Игра окончена»", "21-07-game-over.html"),
+            ChapterSectionLink("21.8", "Первая рабочая версия игры", "21-08-polnyj-kod-itogi.html"),
             # С 21.9 главу продолжают страницы, добавленные в цифровой версии
             # книги — у них нет физической страницы бумажного макета (см.
             # render_chapter_opener() / раздел 20.1 сайта), поэтому page здесь

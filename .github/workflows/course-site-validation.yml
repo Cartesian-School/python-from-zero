@@ -7,8 +7,10 @@ on:
       - "site/**"
       - "tests/**"
       - "data/**"
+      - "book/**"
       - "projects/**"
       - "manifest/**"
+      - "python_book_table_of_contents_ru.md"
       - "notebooks/chapter-23/**"
       - "evidence/chapter-23-professorial-review.md"
       - ".github/workflows/course-site-validation.yml"
@@ -18,8 +20,10 @@ on:
       - "site/**"
       - "tests/**"
       - "data/**"
+      - "book/**"
       - "projects/**"
       - "manifest/**"
+      - "python_book_table_of_contents_ru.md"
       - "notebooks/chapter-23/**"
       - "evidence/chapter-23-professorial-review.md"
       - ".github/workflows/course-site-validation.yml"
@@ -44,7 +48,9 @@ jobs:
           sudo apt-get install -y python3-tk xvfb
 
       - name: Install Python test dependencies
-        run: python -m pip install pytest pygame-ce Flask nbformat build
+        run: >-
+          python -m pip install pytest pygame-ce Flask nbformat build
+          pypdf beautifulsoup4 lxml WeasyPrint EbookLib
 
       - name: Install SafeSort (editable — tests/test_chapter23_safesort.py imports it)
         run: python -m pip install -e "projects/python/safesort/[dev]"

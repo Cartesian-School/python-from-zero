@@ -118,19 +118,17 @@ def write(name: str, html_out: str) -> None:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=22,
-        baseline_page=497,
-        title="Веб-разработка с Python",
         description="Введение в устройство веб-приложений: браузер и сервер, HTTP и HTTPS, HTML/CSS/"
         "JavaScript, Flask, базы данных, SQL, JSON и API. Более глубокое изучение продолжается "
         "в отдельном курсе по веб-разработке на Python.",
         meta_items=["[[icon:timer]] ~8-10 часов", "[[icon:note]] от HTTP-запроса до Flask с базой данных", "[[icon:practice]] 22 практики"],
         sections=[
-            ChapterSectionLink("22.1", "Основы веб-разработки: клиент, сервер и Python", "22-01-python-i-veb.html", "497"),
-            ChapterSectionLink("22.2", "HTML: структура веб-страницы", "22-02-html.html", "499"),
-            ChapterSectionLink("22.3", "CSS: оформление и расположение элементов веб-страницы", "22-03-css.html", "502"),
-            ChapterSectionLink("22.4", "JavaScript: программирование в браузере", "22-04-javascript.html", "504"),
-            ChapterSectionLink("22.5", "Первое веб-приложение на Flask", "22-05-flask.html", "507"),
-            ChapterSectionLink("22.6", "Итоги первого веб-проекта", "22-06-itogi.html", "510"),
+            ChapterSectionLink("22.1", "Основы веб-разработки: клиент, сервер и Python", "22-01-python-i-veb.html"),
+            ChapterSectionLink("22.2", "HTML: структура веб-страницы", "22-02-html.html"),
+            ChapterSectionLink("22.3", "CSS: оформление и расположение элементов веб-страницы", "22-03-css.html"),
+            ChapterSectionLink("22.4", "JavaScript: программирование в браузере", "22-04-javascript.html"),
+            ChapterSectionLink("22.5", "Первое веб-приложение на Flask", "22-05-flask.html"),
+            ChapterSectionLink("22.6", "Итоги первого веб-проекта", "22-06-itogi.html"),
             # С 22.7 главу продолжают страницы цифрового издания — у них нет
             # физической страницы бумажного макета, поэтому page не указывается.
             ChapterSectionLink("22.7", "Как браузер получает веб-страницу", "22-07-put-zaprosa.html"),

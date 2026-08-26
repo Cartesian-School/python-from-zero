@@ -9,22 +9,25 @@
 
 import importlib
 import json
+import mimetypes
+import posixpath
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from ebooklib import epub
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from chapter_metadata import chapter_title
 from site_structure import SITE_ORIGIN
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = ROOT / "book" / "epub" / "python-s-nulya.epub"
 
-MANIFEST = json.loads((ROOT / "manifest" / "coverage_manifest.json").read_text(encoding="utf-8"))
 PROJECTS = json.loads((ROOT / "manifest" / "projects_manifest.json").read_text(encoding="utf-8"))["projects"]
 
 FRONT_MATTER = [
@@ -34,16 +37,14 @@ FRONT_MATTER = [
 ]
 
 
-def chapter_title(num: int) -> str:
-    for ch in MANIFEST["chapters"]:
-        if ch.get("number") == num:
-            return ch["title"].replace("*", "")
-    raise KeyError(num)
-
-
 def chapter_pages(num: int) -> list[tuple[str, str]]:
     mod = importlib.import_module(f"build_chapter_{num:02d}")
-    return [(f"chapters/glava-{num:02d}/{href}", title) for href, title in mod.PAGES]
+    # Chapter 23 additionally stores a stable curriculum sequence number as the
+    # third tuple item. EPUB/PDF navigation consumes only URL and title.
+    return [
+        (f"chapters/glava-{num:02d}/{entry[0]}", entry[1])
+        for entry in mod.PAGES
+    ]
 
 
 def rewrite_links(tag) -> None:
@@ -177,15 +178,123 @@ def ncx_id(file_name: str) -> str:
     return "nav_" + file_name.replace("/", "_").replace(".", "_")
 
 
+@lru_cache(maxsize=1)
+def included_html_paths() -> frozenset[str]:
+    paths = {rel_path for rel_path, _title in FRONT_MATTER}
+    for number in range(1, 25):
+        paths.update(rel_path for rel_path, _title in chapter_pages(number))
+    paths.update(f"projects/{entry['slug']}/index.html" for entry in PROJECTS)
+    paths.add("predmetnyj-ukazatel.html")
+    return frozenset(paths)
+
+
+def _literalize_pseudotags(soup: BeautifulSoup) -> None:
+    """Repair traceback/URL literals that permissive HTML parsed as elements."""
+    for code in soup.find_all(["code", "pre"]):
+        for tag in list(code.find_all("module")):
+            tag.insert_before(NavigableString("<module>"))
+            tag.unwrap()
+        for tag in list(code.find_all("class")):
+            type_name = next(iter(tag.attrs), "object")
+            tag.insert_before(NavigableString(f"<class {type_name}>"))
+            tag.unwrap()
+        for tag in list(code.find_all("svg")):
+            tag.replace_with(NavigableString(str(tag)))
+    for tag in list(soup.find_all("id")):
+        tag.replace_with(NavigableString("<id>"))
+
+
+def _namespace_and_uniquify_svg(soup: BeautifulSoup) -> None:
+    for svg_index, svg in enumerate(soup.find_all("svg"), start=1):
+        svg["xmlns"] = "http://www.w3.org/2000/svg"
+        replacements: dict[str, str] = {}
+        for node in svg.find_all(id=True):
+            old_id = node["id"]
+            new_id = f"epub-{svg_index}-{old_id}"
+            node["id"] = new_id
+            replacements[old_id] = new_id
+        if not replacements:
+            continue
+        for node in svg.find_all(True):
+            for attribute, value in list(node.attrs.items()):
+                if not isinstance(value, str):
+                    continue
+                for old_id, new_id in replacements.items():
+                    value = value.replace(f"url(#{old_id})", f"url(#{new_id})")
+                    if value == f"#{old_id}":
+                        value = f"#{new_id}"
+                node[attribute] = value
+    for math in soup.find_all("math"):
+        math["xmlns"] = "http://www.w3.org/1998/Math/MathML"
+
+
+def normalize_epub_content(
+    content: str,
+    rel_html_path: str,
+    output_xhtml_path: str | None = None,
+) -> str:
+    """Convert permissive site HTML to deterministic, self-contained XHTML."""
+    soup = BeautifulSoup(content, "lxml")
+    _literalize_pseudotags(soup)
+    for caption in soup.find_all("figcaption"):
+        if caption.find_parent("figure") is None:
+            caption.name = "p"
+            caption["class"] = [*caption.get("class", []), "figcaption"]
+    _namespace_and_uniquify_svg(soup)
+
+    current_xhtml = output_xhtml_path or (
+        rel_html_path.removesuffix(".html") + ".xhtml"
+    )
+    depth = current_xhtml.count("/")
+    asset_prefix = "../" * depth
+    for node in soup.find_all(True):
+        for attribute in ("src", "href", "xlink:href"):
+            value = node.get(attribute)
+            if isinstance(value, str) and value.startswith("/assets/"):
+                node[attribute] = asset_prefix + value.lstrip("/")
+
+    included = included_html_paths()
+    for anchor in soup.find_all("a", href=True):
+        href = anchor["href"]
+        if href.startswith(("http://", "https://", "mailto:", "#")):
+            continue
+        href_without_fragment, separator, fragment = href.partition("#")
+        if not href_without_fragment.endswith((".html", ".xhtml")):
+            continue
+        resolved = posixpath.normpath(
+            posixpath.join(posixpath.dirname(rel_html_path), href_without_fragment)
+        ).lstrip("/")
+        resolved_html = re.sub(r"\.xhtml$", ".html", resolved)
+        if resolved_html in included:
+            target_xhtml = resolved_html.removesuffix(".html") + ".xhtml"
+            relative = posixpath.relpath(
+                target_xhtml, start=posixpath.dirname(current_xhtml) or "."
+            )
+            anchor["href"] = relative + (separator + fragment if separator else "")
+        else:
+            anchor["href"] = (
+                f"{SITE_ORIGIN}/{resolved_html}" + (separator + fragment if separator else "")
+            )
+
+    body = soup.find("body")
+    normalized = "".join(str(child) for child in body.contents) if body else str(soup)
+    return resolve_svg_css_vars(f"<html><body>{normalized}</body></html>")
+
+
 def build_item(rel_html_path: str, title: str, *, is_opener: bool) -> epub.EpubHtml:
     src = SITE / rel_html_path
     html_text = src.read_text(encoding="utf-8")
-    content = (extract_opener if is_opener else extract_article)(html_text)
+    content = normalize_epub_content(
+        (extract_opener if is_opener else extract_article)(html_text),
+        rel_html_path,
+    )
     file_name = rel_html_path.replace(".html", ".xhtml")
     item = epub.EpubHtml(title=title, file_name=file_name, lang="ru")
     item.content = content
-    if "<svg" in content:
+    if re.search(r"<svg\b", content):
         item.properties.append("svg")
+    if re.search(r"<math\b", content):
+        item.properties.append("mathml")
     depth = rel_html_path.count("/")
     css_href = "../" * depth + "assets/css/theory.css"
     item.add_link(href=css_href, rel="stylesheet", type="text/css")
@@ -196,12 +305,16 @@ def build_project_item(entry: dict) -> epub.EpubHtml:
     slug = entry["slug"]
     rel_html_path = f"projects/{slug}/index.html"
     html_text = (SITE / rel_html_path).read_text(encoding="utf-8")
-    content = extract_project(html_text)
     file_name = f"projects/{slug}.xhtml"
+    content = normalize_epub_content(
+        extract_project(html_text), rel_html_path, file_name
+    )
     item = epub.EpubHtml(title=entry["title"], file_name=file_name, lang="ru")
     item.content = content
-    if "<svg" in content:
+    if re.search(r"<svg\b", content):
         item.properties.append("svg")
+    if re.search(r"<math\b", content):
+        item.properties.append("mathml")
     item.add_link(href="../assets/css/theory.css", rel="stylesheet", type="text/css")
     item.add_link(href="../assets/css/project.css", rel="stylesheet", type="text/css")
     return item
@@ -239,6 +352,23 @@ def main() -> None:
     project_css_item = epub.EpubItem(uid="project_css", file_name="assets/css/project.css", media_type="text/css", content=project_css.encode("utf-8"))
     book.add_item(project_css_item)
 
+    for asset_root in (SITE / "assets" / "img", SITE / "assets" / "brand", SITE / "assets" / "icons"):
+        for asset_path in sorted(path for path in asset_root.rglob("*") if path.is_file()):
+            relative = asset_path.relative_to(SITE).as_posix()
+            media_type = mimetypes.guess_type(asset_path.name)[0]
+            if asset_path.suffix.lower() == ".svg":
+                media_type = "image/svg+xml"
+            if not media_type:
+                raise RuntimeError(f"cannot determine EPUB media type: {asset_path}")
+            book.add_item(
+                epub.EpubItem(
+                    uid=ncx_id(relative),
+                    file_name=relative,
+                    media_type=media_type,
+                    content=asset_path.read_bytes(),
+                )
+            )
+
     cover_path = ROOT / "design" / "exports" / "cover_concept_v1.png"
     book.set_cover("cover.png", cover_path.read_bytes())
 
@@ -261,7 +391,7 @@ def main() -> None:
             book.add_item(item)
             spine.append(item)
             ch_links.append(epub.Link(item.file_name, title, ncx_id(item.file_name)))
-        toc.append((epub.Section(f"Глава {num}: {chapter_title(num).split(': ', 1)[-1]}"), tuple(ch_links)))
+        toc.append((epub.Section(f"Глава {num}: {chapter_title(num)}"), tuple(ch_links)))
 
     project_links = []
     for entry in PROJECTS:

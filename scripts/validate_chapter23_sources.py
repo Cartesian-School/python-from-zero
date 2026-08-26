@@ -43,6 +43,7 @@ REQUIRED_ENTRY_KEYS = {
 }
 PROVIDER_LICENSE = {
     "github-docs": "CC BY 4.0",
+    "git-source-mirror": "link-only",
     "git-scm": "link-only",
     "python-docs": "link-only",
     "packaging-guide": "link-only",
@@ -63,6 +64,8 @@ def classify_source(url: str) -> tuple[str, str]:
     """Return the manifest provider and academic coverage category."""
     if url.startswith("https://docs.github.com/"):
         return "github-docs", "git-github"
+    if url == "https://github.com/git/git":
+        return "git-source-mirror", "git-github"
     if url.startswith("https://git-scm.com/"):
         return "git-scm", "git-github"
     if url.startswith("https://docs.python.org/"):
@@ -90,7 +93,7 @@ def extract_sources_from_build_script() -> tuple[dict[str, dict], list[dict]]:
       где adapted уже разрешён к фактическому значению (True по умолчанию,
       если аргумент не передан), нужен для проверки атрибуции git-scm."""
     text = BUILD_SCRIPT_PATH.read_text(encoding="utf-8")
-    func_pattern = re.compile(r"^def (build_\w+)\(\) -> None:", re.M)
+    func_pattern = re.compile(r"^def (build_\w+)\(\) -> None:", re.MULTILINE)
     starts = [(m.group(1), m.start()) for m in func_pattern.finditer(text)]
     starts.append(("__END__", len(text)))
 
@@ -104,7 +107,11 @@ def extract_sources_from_build_script() -> tuple[dict[str, dict], list[dict]]:
         if not write_m:
             continue
         route = write_m.group(1)
-        for os_m in re.finditer(r"official_sources\(\[(.*?)\](?:,\s*adapted=(\w+))?\)", block, re.S):
+        for os_m in re.finditer(
+            r"official_sources\(\[(.*?)\](?:,\s*adapted=(\w+))?\)",
+            block,
+            re.DOTALL,
+        ):
             body = os_m.group(1)
             adapted_raw = os_m.group(2)
             adapted = None if adapted_raw is None else (adapted_raw == "True")

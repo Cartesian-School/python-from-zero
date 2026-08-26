@@ -42,6 +42,12 @@ echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_sitemap.py"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_llms_full.py"
 
+echo "==> Validating canonical chapter titles"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter_titles.py"
+
+echo "==> Validating canonical PDF pagination"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_pagination.py"
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"

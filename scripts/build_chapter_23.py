@@ -264,8 +264,6 @@ def build_opener() -> None:
     """
     out = render_chapter_opener(
         chapter_num=23,
-        baseline_page=511,
-        title="Первый проект на GitHub: SafeSort",
         description="Пишем программу, которая наводит порядок в файлах, — и доводим её до состояния, готового для GitHub: тесты, история коммитов, Pull Request.",
         meta_items=["[[icon:timer]] ~16-20 часов", "[[icon:architecture]] один проект, 6 частей", "[[icon:practice]] 24 практики: 18 SafeSort + 6 домашних"],
         intro_html=intro,
@@ -491,8 +489,49 @@ def build_git_01() -> None:
         "из нескольких репозиториев. Часть II этой главы разберёт эту разницу подробно.",
     )}
 
+    <h2>Официальные ресурсы Git</h2>
+    <p>У проекта Git есть собственный сайт, справочник и учебная книга. Они отвечают
+    на разные вопросы, поэтому полезно сразу знать, куда идти за установщиком, точным
+    синтаксисом команды или цельным объяснением идеи.</p>
+
+    {comparison_table(
+        ["Ресурс", "Для чего он нужен"],
+        [
+            [
+                '<a href="https://git-scm.com/"><strong>Официальный сайт Git</strong></a>',
+                "Загрузки Git, сведения о проекте и ссылки на учебные материалы.",
+            ],
+            [
+                '<a href="https://git-scm.com/docs"><strong>Справочная документация Git</strong></a>',
+                "Точное описание отдельных команд: git init, git clone, git add, git commit, "
+                "git branch, git switch, git fetch, git pull и git push.",
+            ],
+            [
+                '<a href="https://git-scm.com/book/en/v2"><strong>Книга Pro Git</strong></a>',
+                "Последовательное объяснение модели Git. Это учебная книга, а не только перечень параметров команд.",
+            ],
+            [
+                '<a href="https://github.com/git/git"><strong>Git Source Code Mirror on GitHub</strong></a>',
+                "Зеркало исходного кода Git на GitHub. Сам Git не зависит от GitHub: размещение зеркала "
+                "показывает, что Git и GitHub остаются разными системами.",
+            ],
+        ],
+    )}
+
+    <p class="section-kicker">Логотип Git</p>
+    <p>Цветной знак на этой странице взят из официального набора Git без перерисовки
+    и изменения цвета. Git Logo by Jason Long, лицензия
+    <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+
     {official_sources([
-        ("Git", "https://git-scm.com/"),
+        ("Официальный сайт Git", "https://git-scm.com/"),
+        ("Справочная документация Git", "https://git-scm.com/docs"),
+        ("Книга Pro Git", "https://git-scm.com/book/en/v2"),
+        ("Git Source Code Mirror on GitHub", "https://github.com/git/git"),
+        ("Git logos", "https://git-scm.com/downloads/logos"),
+    ], adapted=False)}
+
+    {official_sources([
         ("Start your journey: What is GitHub?", "https://docs.github.com/en/get-started/start-your-journey/what-is-github"),
     ])}
 

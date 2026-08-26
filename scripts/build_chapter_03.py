@@ -94,8 +94,6 @@ def write(name: str, html_out: str) -> None:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=3,
-        baseline_page=27,
-        title="Ваша первая программа на Python",
         description="Как по-настоящему разговаривать с Python: файлы и их запуск, терминал и "
         "командные оболочки, PySH, интерактивный REPL, print()/input(), имена, ошибки и "
         "traceback, отладчик, Jupyter — и первый маленький проект.",
@@ -110,24 +108,24 @@ def build_opener() -> None:
         'letter-spacing:.03em">Технологии главы: официальные логотипы использованы для идентификации, '
         'без заявления о партнёрстве</span></div>',
         sections=[
-            ChapterSectionLink("3.1", "Создание и запуск программ на Python", "03-01-sozdanie-i-zapusk-programm.html", "27"),
-            ChapterSectionLink("3.2", "Терминал, shell и Python REPL", "03-06-terminal-shell-i-python-repl.html", ""),
-            ChapterSectionLink("3.3", "Семейство командных оболочек", "03-07-semejstvo-obolochek.html", ""),
-            ChapterSectionLink("3.4", "PySH: Python-first оболочка", "03-08-pysh.html", ""),
-            ChapterSectionLink("3.5", "Интерактивный режим Python (REPL)", "03-02-interaktivny-rezhim.html", "30"),
-            ChapterSectionLink("", "Ваша оболочка умеет считать", "03-02-interaktivny-rezhim.html#schitaet", "30"),
-            ChapterSectionLink("3.6", "REPL как инструмент исследования", "03-09-repl-kak-instrument.html", ""),
-            ChapterSectionLink("3.7", "Вывод данных с помощью Python", "03-03-vyvod-dannyh.html", "32"),
-            ChapterSectionLink("3.8", "input(): первый диалог", "03-10-input-i-dialog.html", ""),
-            ChapterSectionLink("3.9", "Имена и значения", "03-11-imena-i-znacheniya.html", ""),
-            ChapterSectionLink("3.10", "Комментарии и читаемый код", "03-12-kommentarii-i-stil.html", ""),
-            ChapterSectionLink("3.11", "Режим сценариев IDLE", "03-04-idle.html", "33"),
-            ChapterSectionLink("3.12", "Практика: выведите своё имя", "03-05-praktika-itogi.html", "36"),
-            ChapterSectionLink("3.13", "Ошибки, traceback и как их читать", "03-13-oshibki-i-traceback.html", ""),
-            ChapterSectionLink("3.14", "Лаборатории отладки", "03-14-debug-laboratorii.html", ""),
-            ChapterSectionLink("3.15", "Первый отладчик в IDE", "03-15-otladchik-v-ide.html", ""),
-            ChapterSectionLink("3.16", "Notebook и kernel", "03-16-notebook-i-kernel.html", ""),
-            ChapterSectionLink("3.17", "Мини-проект и итоги главы", "03-17-mini-proekt-i-itogi.html", "37"),
+            ChapterSectionLink("3.1", "Создание и запуск программ на Python", "03-01-sozdanie-i-zapusk-programm.html"),
+            ChapterSectionLink("3.2", "Терминал, shell и Python REPL", "03-06-terminal-shell-i-python-repl.html"),
+            ChapterSectionLink("3.3", "Семейство командных оболочек", "03-07-semejstvo-obolochek.html"),
+            ChapterSectionLink("3.4", "PySH: Python-first оболочка", "03-08-pysh.html"),
+            ChapterSectionLink("3.5", "Интерактивный режим Python (REPL)", "03-02-interaktivny-rezhim.html"),
+            ChapterSectionLink("", "Ваша оболочка умеет считать", "03-02-interaktivny-rezhim.html#schitaet"),
+            ChapterSectionLink("3.6", "REPL как инструмент исследования", "03-09-repl-kak-instrument.html"),
+            ChapterSectionLink("3.7", "Вывод данных с помощью Python", "03-03-vyvod-dannyh.html"),
+            ChapterSectionLink("3.8", "input(): первый диалог", "03-10-input-i-dialog.html"),
+            ChapterSectionLink("3.9", "Имена и значения", "03-11-imena-i-znacheniya.html"),
+            ChapterSectionLink("3.10", "Комментарии и читаемый код", "03-12-kommentarii-i-stil.html"),
+            ChapterSectionLink("3.11", "Режим сценариев IDLE", "03-04-idle.html"),
+            ChapterSectionLink("3.12", "Практика: выведите своё имя", "03-05-praktika-itogi.html"),
+            ChapterSectionLink("3.13", "Ошибки, traceback и как их читать", "03-13-oshibki-i-traceback.html"),
+            ChapterSectionLink("3.14", "Лаборатории отладки", "03-14-debug-laboratorii.html"),
+            ChapterSectionLink("3.15", "Первый отладчик в IDE", "03-15-otladchik-v-ide.html"),
+            ChapterSectionLink("3.16", "Notebook и kernel", "03-16-notebook-i-kernel.html"),
+            ChapterSectionLink("3.17", "Мини-проект и итоги главы", "03-17-mini-proekt-i-itogi.html"),
         ],
     )
     write("index.html", out)

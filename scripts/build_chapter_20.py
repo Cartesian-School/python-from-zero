@@ -134,8 +134,6 @@ def write(name: str, html_out: str) -> None:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=20,
-        baseline_page=445,
-        title="Разработка игр с Pygame",
         description="Введение в разработку игр — жанры, платформы, мобильный геймдев — и Pygame как инструмент "
         "для практики основных принципов GameDev: игровой цикл, время кадра, спрайты, столкновения и архитектура своей игры.",
         meta_items=[
@@ -145,14 +143,14 @@ def build_opener() -> None:
             "[[icon:practice]] 20 практик",
         ],
         sections=[
-            ChapterSectionLink("20.1", "Pygame и pygame-ce: что это и как установить", "20-01-chto-takoe-pygame.html", "445"),
-            ChapterSectionLink("", "Устанавливаем и импортируем Pygame", "20-01-chto-takoe-pygame.html#ustanovka", "446"),
-            ChapterSectionLink("20.2", "Создаём окно игры и первый игровой цикл", "20-02-igrovoj-ekran.html", "448"),
-            ChapterSectionLink("", "Фон и очистка кадра", "20-02-igrovoj-ekran.html#krasivyj", "450"),
-            ChapterSectionLink("20.3", "Рисуем первые игровые объекты", "20-03-personazhi.html", "452"),
-            ChapterSectionLink("20.4", "Управляем объектом с клавиатуры", "20-04-peremeshenie-klavishi.html", "457"),
-            ChapterSectionLink("", "События нажатия клавиш", "20-04-peremeshenie-klavishi.html#klavishi", "459"),
-            ChapterSectionLink("20.5", "Мини-проект: прыгающий мяч", "20-05-mini-proekt-myach-itogi.html", "462"),
+            ChapterSectionLink("20.1", "Pygame и pygame-ce: что это и как установить", "20-01-chto-takoe-pygame.html"),
+            ChapterSectionLink("", "Устанавливаем и импортируем Pygame", "20-01-chto-takoe-pygame.html#ustanovka"),
+            ChapterSectionLink("20.2", "Создаём окно игры и первый игровой цикл", "20-02-igrovoj-ekran.html"),
+            ChapterSectionLink("", "Фон и очистка кадра", "20-02-igrovoj-ekran.html#krasivyj"),
+            ChapterSectionLink("20.3", "Рисуем первые игровые объекты", "20-03-personazhi.html"),
+            ChapterSectionLink("20.4", "Управляем объектом с клавиатуры", "20-04-peremeshenie-klavishi.html"),
+            ChapterSectionLink("", "События нажатия клавиш", "20-04-peremeshenie-klavishi.html#klavishi"),
+            ChapterSectionLink("20.5", "Мини-проект: прыгающий мяч", "20-05-mini-proekt-myach-itogi.html"),
             # С 20.6 главу продолжают страницы, добавленные в цифровой версии книги —
             # у них нет соответствующей физической страницы бумажного макета, поэтому
             # page здесь намеренно не указывается (см. render_chapter_opener()).
