@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import re
 import sys
+from dataclasses import dataclass, field
+from html.parser import HTMLParser
 from pathlib import Path
-
-from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -44,6 +44,77 @@ FUTURE_COURSES = {
 }
 
 
+@dataclass
+class Element:
+    """Minimal element record for portable generated-HTML validation."""
+
+    tag: str
+    attrs: dict[str, str]
+    text_parts: list[str] = field(default_factory=list)
+    descendant_tags: set[str] = field(default_factory=set)
+
+    @property
+    def text(self) -> str:
+        return re.sub(r"\s+", " ", " ".join(self.text_parts)).strip()
+
+    def has_class(self, name: str) -> bool:
+        return name in self.attrs.get("class", "").split()
+
+
+class ContractHTMLParser(HTMLParser):
+    """Collect only the element contracts needed by this validator."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.elements: list[Element] = []
+        self.stack: list[Element] = []
+        self.document_text_parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        for ancestor in self.stack:
+            ancestor.descendant_tags.add(tag)
+        element = Element(tag=tag, attrs={key: value or "" for key, value in attrs})
+        self.elements.append(element)
+        self.stack.append(element)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        for ancestor in self.stack:
+            ancestor.descendant_tags.add(tag)
+        self.elements.append(
+            Element(tag=tag, attrs={key: value or "" for key, value in attrs})
+        )
+
+    def handle_endtag(self, tag: str) -> None:
+        for index in range(len(self.stack) - 1, -1, -1):
+            if self.stack[index].tag == tag:
+                del self.stack[index:]
+                return
+
+    def handle_data(self, data: str) -> None:
+        self.document_text_parts.append(data)
+        for element in self.stack:
+            element.text_parts.append(data)
+
+    @property
+    def text(self) -> str:
+        return re.sub(r"\s+", " ", " ".join(self.document_text_parts)).strip()
+
+    def find_all(self, tag: str, **attrs: str) -> list[Element]:
+        return [
+            element
+            for element in self.elements
+            if element.tag == tag
+            and all(element.attrs.get(key) == value for key, value in attrs.items())
+        ]
+
+
+def parse_html(source: str) -> ContractHTMLParser:
+    parser = ContractHTMLParser()
+    parser.feed(source)
+    parser.close()
+    return parser
+
+
 def require_tokens(text: str, tokens: list[str], context: str, errors: list[str]) -> None:
     for token in tokens:
         if token not in text:
@@ -77,32 +148,44 @@ def main() -> None:
             continue
         text = path.read_text(encoding="utf-8")
         html_by_name[filename] = text
-        soup = BeautifulSoup(text, "lxml")
+        document = parse_html(text)
         if CANONICAL_TITLE not in text:
             errors.append(f"{filename}: canonical chapter title is not visible in generated metadata/navigation")
         if filename == "index.html":
-            section_links = soup.select("a.section-item")
+            section_links = [
+                element
+                for element in document.find_all("a")
+                if element.has_class("section-item")
+            ]
             if len(section_links) != 15:
                 errors.append(f"index.html: expected 15 section links, got {len(section_links)}")
         else:
-            h1 = soup.find("h1")
-            if h1 is None or h1.get_text(" ", strip=True) != title:
+            headings = document.find_all("h1")
+            if len(headings) != 1 or headings[0].text != title:
                 errors.append(f"{filename}: h1 does not match PAGES title {title!r}")
-            active = soup.select(f'a.active[href="{filename}"]')
+            active = [
+                element
+                for element in document.find_all("a", href=filename)
+                if element.has_class("active")
+            ]
             if len(active) != 1:
                 errors.append(f"{filename}: own sidebar route must be active exactly once")
             for expected_href, _expected_title in PAGES:
-                if soup.select_one(f'a[href="{expected_href}"]') is None:
+                if not document.find_all("a", href=expected_href):
                     errors.append(f"{filename}: sidebar/navigation omits {expected_href}")
                     break
 
-        for anchor in soup.select("a[data-chapter-ref]"):
-            number = int(anchor["data-chapter-ref"])
+        for anchor in [
+            element
+            for element in document.find_all("a")
+            if "data-chapter-ref" in element.attrs
+        ]:
+            number = int(anchor.attrs["data-chapter-ref"])
             target = chapter(number)
-            if target.title not in anchor.get_text(" ", strip=True):
+            if target.title not in anchor.text:
                 errors.append(f"{filename}: chapter {number} cross-reference does not use canonical title")
             expected_href = f"../glava-{number:02d}/index.html"
-            if anchor.get("href") != expected_href:
+            if anchor.attrs.get("href") != expected_href:
                 errors.append(f"{filename}: chapter {number} cross-reference has wrong route")
 
     combined = "\n".join(html_by_name.values())
@@ -141,8 +224,8 @@ def main() -> None:
     if automation_text.count("argparse или другой parser") != 1:
         errors.append("24.8: CLI roadmap row must appear exactly once")
 
-    desktop_soup = BeautifulSoup(html_by_name.get("24-09-desktop-roadmap.html", ""), "lxml")
-    if desktop_soup.select_one('a[data-chapter-ref="16"]') is None:
+    desktop_document = parse_html(html_by_name.get("24-09-desktop-roadmap.html", ""))
+    if not desktop_document.find_all("a", **{"data-chapter-ref": "16"}):
         errors.append("24.9: Tkinter prerequisite must reference Chapter 16")
 
     require_tokens(html_by_name.get("24-11-portfolio.html", ""), [
@@ -160,22 +243,31 @@ def main() -> None:
         "исходный код", "issue tracker", "примечания к релизу",
     ], "24.13", errors)
 
-    future_soup = BeautifulSoup(html_by_name.get("24-14-sleduyushchie-kursy.html", ""), "lxml")
-    cards = future_soup.select("article[data-future-course]")
-    found_courses = {card.get("data-future-course") for card in cards}
+    future_document = parse_html(html_by_name.get("24-14-sleduyushchie-kursy.html", ""))
+    cards = [
+        element
+        for element in future_document.find_all("article")
+        if "data-future-course" in element.attrs
+    ]
+    found_courses = {card.attrs.get("data-future-course") for card in cards}
     if found_courses != FUTURE_COURSES:
         errors.append(f"24.14: future course set differs: {found_courses}")
     for card in cards:
-        status = card.get("data-course-status")
+        status = card.attrs.get("data-course-status")
         if status not in {"Скоро", "Готовится"}:
             errors.append(f"24.14: invalid status {status!r}")
-        if status not in card.get_text(" ", strip=True):
+        if status not in card.text:
             errors.append(f"24.14: status {status!r} is not visible text")
-        if card.find("a") is not None:
-            errors.append(f"24.14: future course {card.get('data-future-course')} has a fake link")
-    if re.search(r"(?i)(записаться|купить курс|оплатить|enroll|checkout)", future_soup.get_text(" ", strip=True)):
+        if "a" in card.descendant_tags:
+            errors.append(
+                f"24.14: future course {card.attrs.get('data-future-course')} has a fake link"
+            )
+    if re.search(
+        r"(?i)(записаться|купить курс|оплатить|enroll|checkout)",
+        future_document.text,
+    ):
         errors.append("24.14: fake enrollment or purchase wording found")
-    require_tokens(future_soup.get_text(" ", strip=True), [
+    require_tokens(future_document.text, [
         "декораторы", "контекстные менеджеры", "статическая типизация",
         "сборка пакетов", "контейнеры", "наблюдаемость",
     ], "24.14", errors)
