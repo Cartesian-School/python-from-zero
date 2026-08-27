@@ -27,6 +27,12 @@ echo "==> Validating projects/python/safesort/ upstream sync"
 echo "==> Validating generated Chapter 23 academic contracts"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_outputs.py"
 
+echo "==> Validating data/chapter-24-official-sources.json"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter24_sources.py"
+
+echo "==> Validating generated Chapter 24 roadmap contracts"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter24_outputs.py"
+
 echo "==> Validating Chapter 23 notebooks and graders"
 if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
   "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter23_practices.py" --portable

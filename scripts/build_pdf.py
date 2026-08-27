@@ -190,6 +190,35 @@ code.inline { background: var(--color-bg-surface); padding: 1px 5px; border-radi
 .notebook-card .nc-url { font-family: 'DejaVu Sans Mono', monospace; font-size: 9pt; color: var(--color-text-muted); }
 .practice-inline-status { display: none; }
 
+/* ---------- Print-safe roadmap tables and future-course cards ---------- */
+div[id^="marker-page-24-"] .compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 8.8pt;
+  line-height: 1.35;
+}
+div[id^="marker-page-24-"] .compare-table thead { display: table-header-group; }
+div[id^="marker-page-24-"] .compare-table tr { break-inside: avoid; }
+div[id^="marker-page-24-"] .compare-table th,
+div[id^="marker-page-24-"] .compare-table td {
+  padding: 5pt 6pt;
+  border-bottom: 1px solid var(--color-border-default);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+div[id^="marker-page-24-"] .compare-table th {
+  font-family: 'DejaVu Sans', sans-serif;
+  font-size: 8pt;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+  background: var(--color-bg-surface);
+}
+div[id^="marker-page-24-"] article[data-future-course] { break-inside: avoid-page; }
+
 /* ---------- Projects appendix ---------- */
 .project-entry { break-before: page; }
 .project-entry .project-hero { width: 100%; height: 62mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }

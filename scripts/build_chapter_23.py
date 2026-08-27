@@ -15,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from chapter_metadata import chapter
 from site_lib import (
     ChapterSectionLink,
     NavItem,
@@ -6031,7 +6032,12 @@ def build_hw_06() -> None:
         lede="Файлы и Tkinter вместе — но чтение и запись вынесены в функции, которые ничего не знают об интерфейсе.",
         body_html=body,
         sidebar_groups=sidebar("23-hw-06-zametki.html"),
-        nav=PageNav(prev_href="23-hw-05-temperatura.html", prev_label="Температура", next_href="../glava-24/index.html", next_label="Глава 24: Что дальше?"),
+        nav=PageNav(
+            prev_href="23-hw-05-temperatura.html",
+            prev_label="Температура",
+            next_href="../glava-24/index.html",
+            next_label=f"Глава 24: {chapter(24).title}",
+        ),
     )
     write("23-hw-06-zametki.html", out)
 

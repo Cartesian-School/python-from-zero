@@ -11,6 +11,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from build_chapter_24 import PAGES as CHAPTER_24_PAGES
+from chapter_metadata import chapter
 from site_lib import NavItem, PageNav, SidebarGroup, render_page
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -142,7 +144,12 @@ def build() -> None:
         lede="Быстрый способ найти, в какой главе рассматривается нужный термин.",
         body_html=body,
         sidebar_groups=sidebar_groups,
-        nav=PageNav(prev_href="chapters/glava-24/24-03-chto-izuchat-dalshe-itogi.html", prev_label="Глава 24: Что дальше?", next_href=None, next_label=None),
+        nav=PageNav(
+            prev_href=f"chapters/glava-24/{CHAPTER_24_PAGES[-1][0]}",
+            prev_label=f"Глава 24: {chapter(24).title}",
+            next_href=None,
+            next_label=None,
+        ),
     )
     OUT.write_text(out, encoding="utf-8")
     print(f"Записано: {OUT.relative_to(ROOT)}")

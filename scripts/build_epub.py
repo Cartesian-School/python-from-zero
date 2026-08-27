@@ -153,6 +153,28 @@ def resolve_svg_css_vars(html_fragment: str) -> str:
     return fix_svg_case(html_fragment)
 
 
+class CaseSafeEpubHtml(epub.EpubHtml):
+    """Preserve case-sensitive SVG names after EbookLib serializes XHTML.
+
+    EbookLib parses ``EpubHtml.content`` with lxml's HTML parser inside
+    :meth:`EpubHtml.get_content`.  That second HTML parse happens after our
+    normalizer and lowercases SVG foreign-content names again.  XHTML readers
+    treat ``viewBox`` and related SVG names as case-sensitive, so applying the
+    repair only before assigning ``item.content`` is insufficient: diagrams
+    fall back to SVG's 300x150 default viewport and are visibly clipped.
+
+    Repair the final serialized bytes returned to EbookLib's ZIP writer.  This
+    keeps EbookLib's template, metadata, stylesheet links, and spine handling
+    while ensuring the XHTML stored in the EPUB has valid SVG names.
+    """
+
+    def get_content(self, default=None) -> bytes:
+        serialized = super().get_content(default)
+        if not serialized:
+            return serialized
+        return fix_svg_case(serialized.decode("utf-8")).encode("utf-8")
+
+
 def extract_project(html_text: str) -> str:
     """Extracts .project-hero + .project-detail-body from a real, already-built
     site/projects/<slug>/index.html — same single-source-of-truth approach as
@@ -289,7 +311,7 @@ def build_item(rel_html_path: str, title: str, *, is_opener: bool) -> epub.EpubH
         rel_html_path,
     )
     file_name = rel_html_path.replace(".html", ".xhtml")
-    item = epub.EpubHtml(title=title, file_name=file_name, lang="ru")
+    item = CaseSafeEpubHtml(title=title, file_name=file_name, lang="ru")
     item.content = content
     if re.search(r"<svg\b", content):
         item.properties.append("svg")
@@ -309,7 +331,7 @@ def build_project_item(entry: dict) -> epub.EpubHtml:
     content = normalize_epub_content(
         extract_project(html_text), rel_html_path, file_name
     )
-    item = epub.EpubHtml(title=entry["title"], file_name=file_name, lang="ru")
+    item = CaseSafeEpubHtml(title=entry["title"], file_name=file_name, lang="ru")
     item.content = content
     if re.search(r"<svg\b", content):
         item.properties.append("svg")
