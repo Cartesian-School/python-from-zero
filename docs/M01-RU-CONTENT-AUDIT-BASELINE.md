@@ -32,6 +32,11 @@ python scripts/build_ru_content_audit_inventory.py
 It is stored in `manifest/ru_content_audit_inventory.json` and protected by
 `tests/test_ru_content_audit_inventory.py`.
 
+Checksums of generated HTML review surfaces are historical evidence bound to the
+frozen baseline. CI may regenerate delivery HTML before running pytest, so the
+determinism contract compares canonical source checksums and inventory structure
+without replacing those historical review-surface checksums.
+
 The baseline contains:
 
 | Review unit | Count |
