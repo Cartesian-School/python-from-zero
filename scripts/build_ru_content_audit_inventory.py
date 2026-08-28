@@ -258,12 +258,15 @@ def build_inventory() -> dict[str, Any]:
         ),
         (
             REPOSITORY_ROOT / "site" / "predmetnyj-ukazatel.html",
-            REPOSITORY_ROOT / "scripts" / "build_subject_index.py",
+            REPOSITORY_ROOT / "scripts" / "build_index.py",
             "subject_index",
         ),
     ]
     supplementary_units = [
-        _theory_unit(review_surface, source, kind)
+        {
+            **_theory_unit(review_surface, source, kind),
+            "canonical_source_sha256": _sha256(source),
+        }
         for review_surface, source, kind in supplementary_mapping
     ]
 

@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.cartesianschool.org/schemas/ru-content-review-record-1.0.0.json",
+  "title": "M01 Russian curriculum professorial review record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rubric_id",
+    "record_id",
+    "curriculum_id",
+    "language",
+    "unit",
+    "review_context",
+    "learning_outcomes",
+    "reviewers",
+    "criteria",
+    "findings",
+    "evidence",
+    "decision",
+    "status_history"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "rubric_id": {"const": "M01-RU-PROFESSORIAL-REVIEW-v1"},
+    "record_id": {"type": "string", "pattern": "^M01-RU-[A-Z0-9._:-]+-R[0-9]{3}$"},
+    "curriculum_id": {"const": "python-from-zero"},
+    "language": {"const": "ru"},
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inventory_ref", "kind", "title", "canonical_source_path", "baseline_source_sha256", "reviewed_source_sha256"],
+      "properties": {
+        "inventory_ref": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["chapter_opener", "theory_lesson", "front_matter", "subject_index", "notebook", "standalone_project"]},
+        "title": {"type": "string", "minLength": 1},
+        "canonical_source_path": {"type": "string", "minLength": 1},
+        "baseline_source_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewed_source_sha256": {"$ref": "#/$defs/sha256"},
+        "review_surface_path": {"type": ["string", "null"]},
+        "review_surface_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}
+      }
+    },
+    "review_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_commit", "review_commit", "started_at", "completed_at", "python_version"],
+      "properties": {
+        "baseline_commit": {"$ref": "#/$defs/git_sha"},
+        "review_commit": {"$ref": "#/$defs/git_sha"},
+        "started_at": {"type": "string", "format": "date-time"},
+        "completed_at": {"type": "string", "format": "date-time"},
+        "python_version": {"type": "string", "pattern": "^3\\.14(?:\\.[0-9]+)?$"}
+      }
+    },
+    "learning_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "assessment_evidence_refs"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^LO-[0-9]{2}$"},
+          "statement": {"type": "string", "minLength": 20},
+          "assessment_evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "reviewers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reviewer_id", "display_name", "reviewer_type", "roles", "attestation", "reviewed_at"],
+        "properties": {
+          "reviewer_id": {"type": "string", "minLength": 1},
+          "display_name": {"type": "string", "minLength": 1},
+          "reviewer_type": {"enum": ["human", "ai_assistant"]},
+          "roles": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["subject_matter_reviewer", "methodology_reviewer", "technical_verifier", "final_approver", "assistant_analyst"]}
+          },
+          "attestation": {"type": "string", "minLength": 20},
+          "reviewed_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["criterion_id", "score", "rationale", "evidence_refs"],
+        "properties": {
+          "criterion_id": {"type": "string", "pattern": "^(SM|PD|CO|PA)[0-9]{2}$"},
+          "score": {"type": "integer", "minimum": 0, "maximum": 4},
+          "rationale": {"type": "string", "minLength": 20},
+          "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "severity", "domain", "criterion_ids", "description", "evidence_refs", "required_action", "status", "resolution"],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^F-[0-9]{3}$"},
+          "severity": {"enum": ["blocker", "major", "minor", "suggestion"]},
+          "domain": {"enum": ["subject_matter", "pedagogy", "coherence", "practice_assessment"]},
+          "criterion_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "description": {"type": "string", "minLength": 20},
+          "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "required_action": {"type": "string", "minLength": 20},
+          "status": {"enum": ["open", "resolved", "accepted_risk"]},
+          "resolution": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["evidence_id", "type", "summary", "locator", "result"],
+        "properties": {
+          "evidence_id": {"type": "string", "pattern": "^E-[0-9]{3}$"},
+          "type": {"enum": ["source_inspection", "official_reference", "code_execution", "notebook_execution", "test_result", "cross_reference", "review_note", "diff"]},
+          "summary": {"type": "string", "minLength": 20},
+          "locator": {"type": "string", "minLength": 1},
+          "result": {"enum": ["pass", "fail", "informational"]},
+          "sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rationale", "decided_by", "decided_at"],
+      "properties": {
+        "status": {"enum": ["not_started", "in_review", "needs_rework", "reviewed", "approved"]},
+        "rationale": {"type": "string", "minLength": 20},
+        "decided_by": {"type": "string", "minLength": 1},
+        "decided_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "status_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "changed_by", "changed_at", "reason"],
+        "properties": {
+          "from": {"enum": ["not_started", "in_review", "needs_rework", "reviewed", "approved"]},
+          "to": {"enum": ["not_started", "in_review", "needs_rework", "reviewed", "approved"]},
+          "changed_by": {"type": "string", "minLength": 1},
+          "changed_at": {"type": "string", "format": "date-time"},
+          "reason": {"type": "string", "minLength": 20}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "git_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+  }
+}
