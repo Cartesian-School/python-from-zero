@@ -28,15 +28,28 @@ class NotebookBuilder:
     def __init__(self) -> None:
         self._cells: list = []
 
-    def md(self, text: str) -> "NotebookBuilder":
-        self._cells.append(nbf.v4.new_markdown_cell(text))
+    def md(self, text: str, *, cell_id: str | None = None) -> NotebookBuilder:
+        """Append a Markdown cell, optionally with a stable delivery identifier."""
+
+        cell = nbf.v4.new_markdown_cell(text)
+        if cell_id is not None:
+            cell["id"] = cell_id
+        self._cells.append(cell)
         return self
 
-    def code(self, text: str, *, raises: bool = False) -> "NotebookBuilder":
+    def code(
+        self,
+        text: str,
+        *,
+        raises: bool = False,
+        cell_id: str | None = None,
+    ) -> NotebookBuilder:
         """raises=True marks a cell that is EXPECTED to raise (e.g. a "типичная
         ошибка" demo). nbclient's standard "raises-exception" cell tag makes it
         capture the traceback as output and continue, instead of halting the run."""
         cell = nbf.v4.new_code_cell(text)
+        if cell_id is not None:
+            cell["id"] = cell_id
         if raises:
             cell["metadata"]["tags"] = ["raises-exception"]
         self._cells.append(cell)

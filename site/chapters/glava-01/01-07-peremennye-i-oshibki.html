@@ -50,6 +50,14 @@
     <p class="lede">Один правильный мысленный образ переменной — и первая спокойная встреча с сообщением об ошибке, задолго до того, как оно застанет вас врасплох.</p>
 
 
+
+    <div class="callout callout-info">
+      <div class="cs-icon-emblem cs-icon-emblem--success"><svg class="cs-icon cs-icon--success" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-success"></use></svg></div>
+      <div>
+        <div class="callout-title">После этого раздела вы сможете</div>
+        <div class="callout-body"><ul><li>объяснить присваивание как связывание имени со значением, а не помещение значения в «коробку»;</li><li>предсказать результат повторного присваивания одному имени;</li><li>отличить сообщение о синтаксической ошибке от traceback ошибки времени выполнения и исправить пример.</li></ul></div>
+      </div>
+    </div>
     <h2 id="peremennye">Первые переменные: как Python на самом деле их хранит</h2>
     <p>Уже в следующей главе вы начнёте активно пользоваться переменными. Один маленький, но
     важный мысленный образ стоит освоить прямо сейчас — он убережёт от путаницы позже.</p>
@@ -100,24 +108,26 @@
       <div class="code-label"><span>oshibka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>print(&quot;Hello&quot;</code></pre>
     </div>
-    <p>В этом коде не хватает закрывающей скобки. Если выполнить такую строку, Python не
-    угадывает, что вы имели в виду, — вместо этого он останавливается и печатает подробное
-    сообщение об ошибке, которое называется <strong>traceback</strong> («трассировка»): в нём
-    указано, в какой строке произошла проблема и какого рода она была (в данном случае —
-    незакрытая скобка).</p>
+    <p>В этом коде не хватает закрывающей скобки. Python не может построить корректную программу
+    и сообщает о <strong>SyntaxError</strong>, указывая место, где обнаружил проблему. Это
+    синтаксическая ошибка до начала выполнения, поэтому обычной строки
+    <code class="inline">Traceback (most recent call last)</code> здесь, как правило, нет.
+    <strong>Traceback</strong> появляется, когда выполнение уже началось и исключение дошло до
+    среды запуска без обработки; с таким примером вы встретитесь в главе 3.</p>
 
 
     <div class="callout callout-warning">
       <div class="cs-icon-emblem cs-icon-emblem--warning"><svg class="cs-icon cs-icon--warning" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
       <div>
         <div class="callout-title">Типичная ошибка новичка</div>
-        <div class="callout-body">Увидев длинный текст ошибки, легко запаниковать и решить, что «что-то сломалось навсегда». На самом деле traceback — это не угроза, а подсказка: он почти всегда прямо указывает, в какой строке искать проблему.</div>
+        <div class="callout-body">Увидев сообщение об ошибке, легко решить, что «что-то сломалось навсегда». На самом деле это диагностическая информация. Для SyntaxError сначала прочитайте последнюю строку и посмотрите на указатель места ошибки; для исключения времени выполнения прочитайте последнюю строку traceback и затем найдите последнюю строку своего кода.</div>
       </div>
     </div>
 
-    <p>Полезная привычка при виде ошибки — прочитать <strong>последнюю строку</strong>
-    traceback: там обычно кратко написано, что именно пошло не так. Всё, что выше, — это путь,
-    которым Python дошёл до проблемы.</p>
+    <p>Полезная привычка при виде любой ошибки — начать с <strong>последней строки</strong>: там
+    обычно названы тип и причина. Затем двигайтесь вверх и ищите строку собственного кода.
+    Указатель показывает место, где Python обнаружил проблему; настоящая причина иногда находится
+    чуть раньше, например у незакрытой скобки или кавычки.</p>
 
 
     <div class="exercise exercise-signal">
@@ -125,9 +135,18 @@
       <div>
       <div class="exercise-stars">★★ Самостоятельная задача</div>
       <div class="exercise-title">Debug Lab</div>
-      <p>В практике этого раздела найдёте специально сломанную строку кода. Прочитайте traceback, найдите строку с проблемой и исправьте её самостоятельно — так же, как в разделе «Типичная ошибка» предыдущей практики этой главы.</p>
+      <p>В практике этого раздела найдёте специально сломанную строку кода. Прочитайте сообщение SyntaxError, найдите место проблемы и исправьте её самостоятельно — так же, как в разделе «Типичная ошибка» предыдущей практики этой главы.</p>
       </div>
     </div>
+
+    <div class="exercise exercise-signal">
+      <div class="cs-icon-emblem cs-icon-emblem--practice"><svg class="cs-icon cs-icon--practice" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg></div>
+      <div>
+      <div class="exercise-stars">★★ Самостоятельная задача</div>
+      <div class="exercise-title">Проверьте себя</div>
+      <p>Предскажите вывод: <code class="inline">name = "Анна"</code>, затем <code class="inline">name = "Олег"</code>, затем <code class="inline">print(name)</code>. После этого объясните, почему незакрытая скобка даёт SyntaxError до выполнения программы.</p>
+      </div>
+    </div><details class="callout callout-tip"><summary><strong>Показать ответ и критерии</strong></summary><p>Будет выведено <code class="inline">Олег</code>: имя <code class="inline">name</code> было повторно связано с новым строковым объектом. Незакрытая скобка нарушает грамматику, поэтому Python не может завершить разбор исходного кода и не переходит к выполнению инструкций.</p></details>
 
     <div class="section-nav"><a href="01-02-python-eto-veselo.html"><div class="dir">← Назад</div><div class="lbl">Python — это весело!</div></a><a href="01-03-kak-poluchit-maksimum.html" class="next"><div class="dir">Далее →</div><div class="lbl">Как получить максимум от книги</div></a></div>
   </article>

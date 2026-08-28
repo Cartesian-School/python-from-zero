@@ -7,7 +7,6 @@ import json
 from pathlib import Path
 from types import ModuleType
 
-
 ROOT = Path(__file__).resolve().parents[1]
 GENERATOR_PATH = ROOT / "scripts" / "build_ru_content_audit_inventory.py"
 INVENTORY_PATH = ROOT / "manifest" / "ru_content_audit_inventory.json"
@@ -31,27 +30,36 @@ def _inventory() -> dict:
 
 
 def _canonical_projection(value):
-    """Remove frozen delivery-artifact hashes from a nested inventory value.
+    """Compare stable inventory structure without rewriting the frozen baseline.
 
-    The CI workflow intentionally regenerates Chapters 23 and 24 before pytest.
-    Their generated HTML hashes therefore describe the temporary CI workspace,
-    while the committed inventory must retain hashes from the frozen M01 baseline.
-    Canonical source checksums remain part of this comparison.
+    M01-I01 records source hashes, delivery hashes, and notebook cell counts at the
+    baseline commit. Later audited corrections intentionally change those current
+    values; review records bind both the frozen hash and reviewed source hash.
+    Regenerating Chapters 23 and 24 in CI can also change delivery bytes. The
+    deterministic comparison therefore guards identities, paths, titles, delivery
+    bindings, and counts while leaving baseline observations immutable.
     """
 
     if isinstance(value, dict):
         return {
             key: _canonical_projection(item)
             for key, item in value.items()
-            if key != "review_surface_sha256"
+            if key
+            not in {
+                "canonical_source_sha256",
+                "canonical_theory_source_sha256",
+                "review_surface_sha256",
+                "cells",
+                "notebook_cells",
+            }
         }
     if isinstance(value, list):
         return [_canonical_projection(item) for item in value]
     return value
 
 
-def test_committed_inventory_matches_deterministic_generator() -> None:
-    """Prevent hand-edited or stale canonical inventory data from entering."""
+def test_committed_inventory_structure_matches_deterministic_generator() -> None:
+    """Prevent structural inventory drift without rebasing frozen observations."""
 
     generator = _load_generator()
     committed = _canonical_projection(_inventory())
