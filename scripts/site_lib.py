@@ -1420,9 +1420,15 @@ def flowchart(
                                 route="vh", arrowhead=False,
                             )
                         else:
+                            # Empty branch: this single "hvh" segment is the ONLY
+                            # connector drawn for the whole bypass path (unlike the
+                            # non-empty case above, whose entry arrow already carries
+                            # an arrowhead into the branch's first node) — it must
+                            # keep its own arrowhead, or the bypass reads as an
+                            # undirected line and can look reversed at the merge.
                             _fc_arrow(
                                 parts, mid, left_vx, dia_cy, cx, merge_y,
-                                route="hvh", color="#059669", arrowhead=False,
+                                route="hvh", color="#059669",
                             )
                             _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
                     if no_bottom is not None:
@@ -1432,9 +1438,13 @@ def flowchart(
                                 route="vh", arrowhead=False,
                             )
                         else:
+                            # Same reasoning as the "yes" bypass above, mirrored: the
+                            # "no" branch here (e.g. an if-without-else) has exactly
+                            # one connector for its whole path, so it must carry the
+                            # arrowhead itself.
                             _fc_arrow(
                                 parts, mid, right_vx, dia_cy, cx, merge_y,
-                                route="hvh", color="#DB2777", arrowhead=False,
+                                route="hvh", color="#DB2777",
                             )
                             _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
                     # The two branches join on one orthogonal collector.  The
