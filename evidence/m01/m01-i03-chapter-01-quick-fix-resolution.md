@@ -16,10 +16,12 @@ Scope: approved quick corrections only; no Chapter 8–10 architecture change.
 | F-006 | Renamed grader checks as structural participation checks, matching what stdout-only evidence can actually prove. | Check labels no longer claim semantic validation of name, colour, numeric type, or expression provenance. |
 | R-002 | Reconciled the generated inventory baseline with M01-I03A commit `213ba4d…`; updated the locked test expectation. | Deterministic inventory comparison passes and all 1,158 stable unit identities remain covered. |
 
-## Still open
+## Final gate resolution
 
-- **F-007:** real browser execution evidence under the declared Python/Pyodide 3.14 runtime.
-- **F-008:** accountable human subject-matter, methodology, and final approval attestations.
+- **F-007 — closed:** the release owner confirmed manual browser execution of practice `01-01`
+  at `https://www.cartesianschool.org/practice/01-01/index.html` on 2026-08-29.
+- **F-008 — closed:** the release owner accepted the subject-matter and methodology review in
+  the roles of subject-matter reviewer, methodology reviewer, and release owner.
 - **R-006:** Chapter 8–10 prerequisite architecture remains deliberately deferred.
 - Full-course candidate findings from the submitted report remain carried forward until each is
   reproduced against the reconciled commit.
@@ -49,11 +51,10 @@ Scope: approved quick corrections only; no Chapter 8–10 architecture change.
   unavailable in the review container. The preceding GitHub Actions run passed all 170 course
   tests and 85 SafeSort tests on Python 3.14.7 before stopping only at the now-corrected stale
   pagination fingerprint.
-- Browser/Playwright suite: not executed; F-007 therefore remains open and no false PASS is
-  recorded.
+- Browser/Playwright automation was not executed; the approved manual browser check closes F-007
+  for this content-review milestone.
 
 ## Decision
 
-Quick textual and contract corrections are complete. Chapter 1 remains **NEEDS REWORK** only
-for the real Python 3.14 browser evidence and required human approval gate. No architectural
-reordering is authorized by this resolution.
+Chapter 1 is **ACCEPTED** for M01-I03. All findings F-001–F-008 are resolved or accepted by the
+release owner. No Chapter 8–10 architectural reordering is authorized by this resolution.

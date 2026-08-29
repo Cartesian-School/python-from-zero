@@ -8,7 +8,11 @@ Scope: Chapter 1 opener, seven theory lessons, notebook `01-01`, and its grader.
 
 ## Decision
 
-**NEEDS REWORK.** Chapter 1 is fundamentally sound, welcoming, and suitable for a true
+> **Final status (2026-08-29): ACCEPTED.** The pilot verdict below records the state at the
+> review baseline. Approved corrections resolved F-001–F-006, and the final acceptance in
+> `m01-i03-final-acceptance.md` closes F-007 and F-008.
+
+**NEEDS REWORK (pilot verdict).** Chapter 1 is fundamentally sound, welcoming, and suitable for a true
 beginner, but it cannot pass the binding approval gate while the findings below remain open.
 This is an AI-assisted pilot review, not the required human subject-matter, methodology, and
 final approval.
