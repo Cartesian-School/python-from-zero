@@ -54,10 +54,16 @@ async function waitForServer(url, timeoutMs = 15000) {
 const PRACTICE_MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest', 'practice_manifest.json'), 'utf-8'));
 const PROJECTS_MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest', 'projects_manifest.json'), 'utf-8')).projects;
 const COVERAGE_MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest', 'coverage_manifest.json'), 'utf-8'));
+const BOOK_PAGINATION = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'book-pagination.json'), 'utf-8'));
 const TOTAL_LESSONS = Object.keys(PRACTICE_MANIFEST).length;
+const TOTAL_CHAPTERS = COVERAGE_MANIFEST.chapters.filter((chapter) => chapter.kind === 'chapter').length;
+const TOTAL_PROJECTS = PROJECTS_MANIFEST.length;
+const TOTAL_PAGES = BOOK_PAGINATION.total_pages;
 
 const SAMPLE_LESSONS = ['01-01', '03-01', '05-05', '10-05', '15-01', '17-05', '22-02', '23-03'];
 const HERO_VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [768, 1024], [430, 932], [390, 844], [360, 800]];
+const COURSE_EXPERIENCE_VIEWPORTS = HERO_VIEWPORTS;
+const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика в браузере', 'Классика и современность', 'Настоящие проекты'];
 
 (async () => {
   log('Building dist/...');
@@ -153,6 +159,117 @@ const HERO_VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [76
     }
 
     // =========================================================================
+    // COURSE EXPERIENCE — overview metrics + connected four-stage pathway
+    // =========================================================================
+    log('Course experience: asymmetric metrics, connected learning path, responsive containment');
+    for (const [width, height] of COURSE_EXPERIENCE_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const consoleErrors = [];
+      page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+      page.on('pageerror', (error) => consoleErrors.push(error.message));
+      await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(850);
+
+      const result = await page.evaluate(() => {
+        const rectsOf = (selector) => [...document.querySelectorAll(selector)].map((element) => {
+          const rect = element.getBoundingClientRect();
+          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
+        });
+        const noPairOverlaps = (rects) => rects.every((a, index) => rects.slice(index + 1).every((b) =>
+          !(a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1)
+        ));
+        const containedHorizontally = (rects) => rects.every((rect) => rect.left >= -1 && rect.right <= window.innerWidth + 1);
+        const metricNodes = [...document.querySelectorAll('.about-stat')];
+        const stageNodes = [...document.querySelectorAll('.course-stage')];
+        const metricValues = Object.fromEntries(metricNodes.map((node) => [
+          node.querySelector('.lbl').textContent.trim(),
+          node.querySelector('.num').textContent.trim(),
+        ]));
+        const desktopRail = getComputedStyle(document.querySelector('.course-path__rail--desktop')).display;
+        const mobileRail = getComputedStyle(document.querySelector('.course-path__rail--mobile')).display;
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          metricCount: metricNodes.length,
+          metricValues,
+          metricsContained: containedHorizontally(rectsOf('.about-stat')),
+          metricsDoNotOverlap: noPairOverlaps(rectsOf('.about-stat')),
+          stageCount: stageNodes.length,
+          stageTitles: stageNodes.map((node) => node.querySelector('h3').textContent.trim()),
+          stagesContained: containedHorizontally(rectsOf('.course-stage__content')),
+          stagesDoNotOverlap: noPairOverlaps(rectsOf('.course-stage__content')),
+          coherentIconCount: document.querySelectorAll('.course-stage__icon svg[viewBox="0 0 64 64"]').length,
+          oldFeatureGridCount: document.querySelectorAll('.feature-grid, .feature').length,
+          desktopRailVisible: desktopRail !== 'none',
+          mobileRailVisible: mobileRail !== 'none',
+          routeBasePresent: !!document.querySelector('.course-path__base'),
+        };
+      });
+
+      await page.locator('.course-path').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(750);
+      const pathwayRevealed = await page.locator('.course-path').evaluate((node) =>
+        getComputedStyle(node).opacity === '1' && node.getBoundingClientRect().height > 0
+      );
+
+      const viewport = `${width}x${height}`;
+      ok(`${viewport}: course experience has no horizontal overflow`, !result.overflow);
+      ok(`${viewport}: four source-derived metric nodes are present`, result.metricCount === 4);
+      ok(`${viewport}: metric values match chapter, practice, project, and pagination sources`,
+        result.metricValues['Главы'] === String(TOTAL_CHAPTERS) &&
+        result.metricValues['Практических заданий'] === String(TOTAL_LESSONS) &&
+        result.metricValues['Готовых проектов'] === String(TOTAL_PROJECTS) &&
+        result.metricValues['Страниц в книге'] === String(TOTAL_PAGES));
+      ok(`${viewport}: metrics are contained and do not collide`, result.metricsContained && result.metricsDoNotOverlap);
+      ok(`${viewport}: four learning stages preserve their ordered concepts`,
+        result.stageCount === 4 && JSON.stringify(result.stageTitles) === JSON.stringify(COURSE_STAGE_TITLES));
+      ok(`${viewport}: stages are contained and do not collide`, result.stagesContained && result.stagesDoNotOverlap);
+      ok(`${viewport}: all four stages use the coherent local SVG family`, result.coherentIconCount === 4);
+      ok(`${viewport}: generic feature-card grid is absent`, result.oldFeatureGridCount === 0);
+      ok(`${viewport}: the pathway has the correct responsive orientation`,
+        width > 900 ? result.desktopRailVisible && !result.mobileRailVisible : !result.desktopRailVisible && result.mobileRailVisible);
+      ok(`${viewport}: route and staged entrance render completely`, result.routeBasePresent && pathwayRevealed);
+      ok(`${viewport}: course experience produced no console errors`, consoleErrors.length === 0);
+      await page.close();
+    }
+
+    log('Course experience: stage hover activates its route segment');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
+      const segment = page.locator('.course-path__segment--2');
+      const before = await segment.evaluate((node) => getComputedStyle(node).stroke);
+      await page.locator('.course-stage--practice').hover();
+      await page.waitForTimeout(220);
+      const after = await segment.evaluate((node) => getComputedStyle(node).stroke);
+      ok('practice hover brightens the corresponding route segment', before !== after);
+      await page.close();
+    }
+
+    log('Course experience: prefers-reduced-motion disables continuous and entrance motion');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+      await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
+      const reduced = await page.evaluate(() => {
+        const selectors = ['.about-stat', '.about-stats__signal', '.course-path__signal', '.course-stage__node i', '.stage-icon__cursor'];
+        return {
+          animations: selectors.map((selector) => getComputedStyle(document.querySelector(selector)).animationName),
+          revealsVisible: [...document.querySelectorAll('.experience-reveal')].every((node) => getComputedStyle(node).opacity === '1'),
+          stageCount: document.querySelectorAll('.course-stage').length,
+        };
+      });
+      ok('reduced motion: continuous metric, route, node, and icon animations are disabled', reduced.animations.every((name) => name === 'none'));
+      ok('reduced motion: all content remains visible and complete', reduced.revealsVisible && reduced.stageCount === 4);
+      await page.close();
+    }
+
+    if (process.env.EXPERIENCE_ONLY === '1') {
+      await browser.close();
+      console.log(`\n[homepage] EXPERIENCE RESULT: ${failures === 0 ? 'PASS' : `FAIL (${failures} check(s) failed)`}`);
+      if (failures > 0) process.exitCode = 1;
+      return;
+    }
+
+    // =========================================================================
     // PRACTICE CATALOG
     // =========================================================================
     log('Practice catalog: renders, count derives from manifest, grouping, sample links');
@@ -164,8 +281,10 @@ const HERO_VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [76
       ok(`Practice catalog renders exactly ${TOTAL_LESSONS} lesson rows (manifest count, not hardcoded)`, rowCount === TOTAL_LESSONS);
 
       const groupCount = await page.locator('.practice-chapter-group').count();
-      const expectedGroups = new Set(Object.keys(PRACTICE_MANIFEST).map((id) => id.split('-')[0])).size;
-      ok(`Practice catalog groups into ${expectedGroups} chapters with practice`, groupCount === expectedGroups);
+      const groupChapters = await page.locator('.practice-chapter-group').evaluateAll((groups) => groups.map((group) => Number(group.dataset.chapter)));
+      const expectedChapters = COVERAGE_MANIFEST.chapters.filter((chapter) => chapter.kind === 'chapter').map((chapter) => chapter.number);
+      ok(`Practice catalog keeps one group for all ${TOTAL_CHAPTERS} chapters, including theory-only chapters`,
+        groupCount === TOTAL_CHAPTERS && JSON.stringify(groupChapters) === JSON.stringify(expectedChapters));
 
       for (const lessonId of SAMPLE_LESSONS) {
         const row = page.locator(`.practice-lesson-row[data-lesson-id="${lessonId}"]`);

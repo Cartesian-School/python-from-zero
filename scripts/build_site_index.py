@@ -330,39 +330,177 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
   </div>
 </section>
 
-<div class="home-section panel-canvas" id="o-kurse">
-  <div class="kicker-label">Python с нуля</div>
-  <h2>О курсе</h2>
-  <div class="about-grid">
-    <div class="about-copy">
-      <p>«Python с нуля» — бесплатный интерактивный курс программирования на Python 3.14 для тех, кто раньше не
-      писал код. {TOTAL_CHAPTERS} главы проведут вас от первого <code class="inline">print()</code> до собственных
-      игр, GUI-приложений и сайта на Flask.</p>
-      <p>Каждый раздел — это связка теории на сайте и практики: {TOTAL_LESSONS} практических заданий, которые можно
-      выполнить прямо в браузере или локально, плюс {TOTAL_PROJECTS} готовых мини-проектов с открытым исходным
-      кодом.</p>
-      <p>Автор курса — Siergej Sobolewski, Software &amp; AI Engineer, основатель Cartesian School.</p>
-    </div>
-    <div class="about-stats">
-      <div class="about-stat"><div class="num">{TOTAL_CHAPTERS}</div><div class="lbl">Главы</div></div>
-      <div class="about-stat"><div class="num">{TOTAL_LESSONS}</div><div class="lbl">Практических заданий</div></div>
-      <div class="about-stat"><div class="num">{TOTAL_PROJECTS}</div><div class="lbl">Готовых проектов</div></div>
-      <div class="about-stat"><div class="num">{TOTAL_PAGES}</div><div class="lbl">Страниц в книге</div></div>
-    </div>
+<section class="course-experience" aria-label="О курсе и формат обучения">
+  <div class="course-experience__geometry" aria-hidden="true">
+    <span class="course-experience__axis course-experience__axis--x"></span>
+    <span class="course-experience__axis course-experience__axis--y"></span>
+    <span class="course-experience__point course-experience__point--a"></span>
+    <span class="course-experience__point course-experience__point--b"></span>
+    <span class="course-experience__point course-experience__point--c"></span>
   </div>
-</div>
 
-<div class="home-section panel-surface">
-  <div class="kicker-label">Формат</div>
-  <h2>Как устроен курс</h2>
-  <p class="sub">Каждый раздел — это связка из трёх частей.</p>
-  <div class="feature-grid">
-    <div class="feature"><div class="fi">[[icon:note]]</div><h3>Теория на сайте</h3><p>Понятное объяснение с примерами, диаграммами и разбором типичных ошибок.</p></div>
-    <div class="feature"><div class="fi">[[icon:practice]]</div><h3>Практика в браузере</h3><p>Интерактивный ноутбук к каждому разделу прямо на странице — эксперименты, задания, самостоятельная практика.</p></div>
-    <div class="feature"><div class="fi">[[icon:compare]]</div><h3>Классика и современность</h3><p>Где это важно — классический приём и современный Python 3.14 рядом, с честным сравнением.</p></div>
-    <div class="feature"><div class="fi">[[icon:game]]</div><h3>Настоящие проекты</h3><p>Крестики-нолики, Змейка, космический шутер, веб-сайт на Flask — с полным рабочим кодом.</p></div>
+  <div class="home-section course-overview" id="o-kurse">
+    <div class="course-section-heading experience-reveal">
+      <div class="kicker-label">Python с нуля · система обучения</div>
+      <h2>О курсе</h2>
+      <p class="course-section-lead">Последовательная инженерная траектория: от первой команды до программ,
+      которыми можно пользоваться.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-copy experience-reveal">
+        <p>«Python с нуля» — бесплатный интерактивный курс программирования на Python 3.14 для тех, кто раньше не
+        писал код. {TOTAL_CHAPTERS} главы проведут вас от первого <code class="inline">print()</code> до собственных
+        игр, GUI-приложений и сайта на Flask.</p>
+        <p>Каждый раздел соединяет теорию на сайте и практику: {TOTAL_LESSONS} практических заданий можно выполнить
+        прямо в браузере или локально, а {TOTAL_PROJECTS} готовых мини-проектов доступны с открытым исходным кодом.</p>
+
+        <ul class="about-highlights" aria-label="Главные свойства курса">
+          <li><span class="about-highlight__mark" aria-hidden="true">01</span><span>Объяснение и код работают как одна учебная система</span></li>
+          <li><span class="about-highlight__mark" aria-hidden="true">02</span><span>Для большинства тем практика начинается в браузере — без установки Python</span></li>
+          <li><span class="about-highlight__mark" aria-hidden="true">03</span><span>Финальная точка каждой темы — проверяемый рабочий результат</span></li>
+        </ul>
+
+        <div class="about-author">
+          <span class="about-author__monogram" aria-hidden="true">CS</span>
+          <p><strong>Siergej Sobolewski</strong><span>Software &amp; AI Engineer · основатель Cartesian School</span></p>
+        </div>
+      </div>
+
+      <div class="about-stats experience-reveal" aria-label="Курс в цифрах">
+        <svg class="about-stats__routes" viewBox="0 0 600 430" preserveAspectRatio="none" aria-hidden="true">
+          <path class="about-stats__route" d="M48 184H202V113H358" />
+          <path class="about-stats__route" d="M202 184V315H338" />
+          <path class="about-stats__route" d="M338 315H534V242" />
+          <path class="about-stats__signal" d="M48 184H202V113H358" />
+          <circle cx="202" cy="184" r="4" />
+          <circle cx="202" cy="113" r="4" />
+          <circle cx="338" cy="315" r="4" />
+        </svg>
+
+        <div class="about-stat about-stat--chapters">
+          <span class="about-stat__code">CURRICULUM / 01</span>
+          <div class="num">{TOTAL_CHAPTERS}</div><div class="lbl">Главы</div>
+          <span class="about-stat__detail">от синтаксиса к архитектуре</span>
+        </div>
+        <div class="about-stat about-stat--pages">
+          <span class="about-stat__code">BOOK / PDF</span>
+          <div class="num">{TOTAL_PAGES}</div><div class="lbl">Страниц в книге</div>
+        </div>
+        <div class="about-stat about-stat--projects">
+          <span class="about-stat__code">BUILD / SHIP</span>
+          <div class="num">{TOTAL_PROJECTS}</div><div class="lbl">Готовых проектов</div>
+        </div>
+        <div class="about-stat about-stat--practice">
+          <span class="about-stat__code">REPL / PRACTICE</span>
+          <div class="num">{TOTAL_LESSONS}</div><div class="lbl">Практических заданий</div>
+          <span class="about-stat__detail">в браузере и локально</span>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="course-experience__bridge" aria-hidden="true"><span></span></div>
+
+  <div class="home-section course-format" aria-labelledby="course-format-title">
+    <div class="course-section-heading experience-reveal">
+      <div class="kicker-label">Формат · четыре этапа</div>
+      <h2 id="course-format-title">Как устроен курс</h2>
+      <p class="sub">Каждая тема проходит один маршрут: понять идею, проверить её в браузере, сравнить подходы
+      и собрать рабочий проект.</p>
+    </div>
+
+    <div class="course-path experience-reveal" aria-label="Путь обучения: теория, практика, сравнение и проекты">
+      <svg class="course-path__rail course-path__rail--desktop" viewBox="0 0 1120 108" preserveAspectRatio="none" aria-hidden="true">
+        <path class="course-path__base" d="M70 54H1050" />
+        <path class="course-path__segment course-path__segment--1" d="M70 54H315" />
+        <path class="course-path__segment course-path__segment--2" d="M315 54H560" />
+        <path class="course-path__segment course-path__segment--3" d="M560 54H805" />
+        <path class="course-path__segment course-path__segment--4" d="M805 54H1050" />
+        <path class="course-path__signal" d="M70 54H1050" />
+      </svg>
+      <svg class="course-path__rail course-path__rail--mobile" viewBox="0 0 52 760" preserveAspectRatio="none" aria-hidden="true">
+        <path class="course-path__base" d="M26 34V726" />
+        <path class="course-path__signal" d="M26 34V726" />
+      </svg>
+
+      <ol class="course-path__stages">
+        <li class="course-stage course-stage--theory">
+          <span class="course-stage__node" aria-hidden="true"><i></i></span>
+          <article class="course-stage__content">
+            <div class="course-stage__meta"><span>01</span><span>Понять</span></div>
+            <div class="course-stage__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <path class="stage-icon__frame" d="M15 9h25l9 9v37H15zM40 9v10h9" />
+                <path class="stage-icon__line stage-icon__line--a" d="M23 29h18M23 36h18M23 43h11" />
+                <circle class="stage-icon__point" cx="22" cy="20" r="2.5" />
+                <path class="stage-icon__diagram" d="M22 20h10l5 5" />
+              </svg>
+            </div>
+            <h3>Теория на сайте</h3>
+            <p>Понятное объяснение с примерами, диаграммами и разбором типичных ошибок.</p>
+            <span class="course-stage__output">Сформировать модель</span>
+          </article>
+        </li>
+
+        <li class="course-stage course-stage--practice">
+          <span class="course-stage__node" aria-hidden="true"><i></i></span>
+          <article class="course-stage__content">
+            <div class="course-stage__meta"><span>02</span><span>Проверить</span></div>
+            <div class="course-stage__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect class="stage-icon__frame" x="9" y="12" width="46" height="40" rx="5" />
+                <path class="stage-icon__bar" d="M9 22h46" />
+                <circle cx="16" cy="17" r="1.5" /><circle cx="21" cy="17" r="1.5" />
+                <path class="stage-icon__prompt" d="M18 32l6 5-6 5M29 42h10" />
+                <path class="stage-icon__cursor" d="M41 31v12" />
+              </svg>
+            </div>
+            <h3>Практика в браузере</h3>
+            <p>Интерактивный ноутбук к каждому разделу прямо на странице: эксперименты, задания и самостоятельная практика.</p>
+            <span class="course-stage__output">Получить обратную связь</span>
+          </article>
+        </li>
+
+        <li class="course-stage course-stage--compare">
+          <span class="course-stage__node" aria-hidden="true"><i></i></span>
+          <article class="course-stage__content">
+            <div class="course-stage__meta"><span>03</span><span>Сравнить</span></div>
+            <div class="course-stage__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect class="stage-icon__frame stage-icon__column stage-icon__column--left" x="8" y="11" width="21" height="42" rx="4" />
+                <rect class="stage-icon__frame stage-icon__column stage-icon__column--right" x="35" y="11" width="21" height="42" rx="4" />
+                <path class="stage-icon__line" d="M14 23h9M14 30h7M41 23h9M41 30h7" />
+                <path class="stage-icon__swap" d="M23 42h18m-4-4 4 4-4 4" />
+              </svg>
+            </div>
+            <h3>Классика и современность</h3>
+            <p>Где это важно — классический приём и современный Python 3.14 рядом, с честным сравнением.</p>
+            <span class="course-stage__output">Выбрать осознанно</span>
+          </article>
+        </li>
+
+        <li class="course-stage course-stage--projects">
+          <span class="course-stage__node" aria-hidden="true"><i></i></span>
+          <article class="course-stage__content">
+            <div class="course-stage__meta"><span>04</span><span>Собрать</span></div>
+            <div class="course-stage__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect class="stage-icon__frame" x="8" y="13" width="48" height="38" rx="5" />
+                <path class="stage-icon__bar" d="M8 23h48" />
+                <circle class="stage-icon__status" cx="48" cy="18" r="2" />
+                <path class="stage-icon__rocket" d="M26 43c5-12 12-15 18-17-1 7-4 14-16 18l-2-1zm3-8-6-1-4 4 7 2m10-2 1 7-4 4-2-7" />
+              </svg>
+            </div>
+            <h3>Настоящие проекты</h3>
+            <p>Крестики-нолики, Змейка, космический шутер и веб-сайт на Flask — с полным рабочим кодом.</p>
+            <span class="course-stage__output">Запустить результат</span>
+          </article>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
 
 <div class="home-section panel-canvas" id="glavy">
   <div class="kicker-label">Ваш путь по курсу</div>
@@ -454,6 +592,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 
 {NAV_SCRIPT_TAG}
 <script src="/assets/js/hero.js" defer></script>
+<script src="/assets/js/experience.js" defer></script>
 <script src="/assets/js/progress.js" defer></script>
 </body>
 </html>
