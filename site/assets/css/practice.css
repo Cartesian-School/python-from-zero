@@ -1,6 +1,24 @@
 /* Cartesian School — interactive practice page (first-party Pyodide runner).
    Reuses design tokens from theory.css — see that file's :root block. */
 
+/* theory.css disables JetBrains Mono's operator ligatures (!=, ==, <=, >=,
+   ->) for `code, pre, .mono`, but the live CodeMirror editor and the
+   notebook's own output/input panes below are plain <div>s with their own
+   classes, so that rule never reaches them. This is the highest-stakes
+   spot for the ligature confusion of all: a learner typing != into the
+   editor would watch it visually collapse into ≠ as they type, which is
+   exactly the "where is that symbol on my keyboard?" trap a beginner
+   course must not set. Same reset, scoped to every JetBrains-Mono surface
+   defined further down this file. */
+.cm-editor, .cm-content,
+.nb-exec-count, .nb-output-stdout, .nb-output-result, .nb-output-stderr,
+.nb-error-message, .nb-input-field, .nb-cell-markdown code,
+.practice-version-label, .practice-fs-notice code {
+  font-variant-ligatures: none;
+  -webkit-font-variant-ligatures: none;
+  font-feature-settings: "calt" 0, "liga" 0;
+}
+
 .practice-header {
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);

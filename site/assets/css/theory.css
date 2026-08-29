@@ -117,8 +117,19 @@ h1, h2, h3, h4, .display {
   color: var(--color-text-primary);
 }
 
+/* JetBrains Mono ships built-in "calt" ligatures for operator sequences
+   like !=, ==, <=, >=, ->. Left enabled, the browser silently redraws the
+   literal two-character token != as a single glyph that reads as ≠ (and
+   similarly for the others) -- the underlying text a learner would copy or
+   paste is still the correct, literal Python source, but what they SEE does
+   not match what they must TYPE on a keyboard. For a beginner course this
+   is actively confusing, so ligatures are disabled everywhere code is
+   rendered. */
 code, pre, .mono {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-ligatures: none;
+  -webkit-font-variant-ligatures: none;
+  font-feature-settings: "calt" 0, "liga" 0;
 }
 
 a { color: var(--color-brand-blue); transition: color var(--duration-fast) var(--ease-standard); }
