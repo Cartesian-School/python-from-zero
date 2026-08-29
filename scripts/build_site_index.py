@@ -186,16 +186,149 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
   {mobile_nav_links("o-kurse")}
 </nav>
 
-<div class="home-hero">
-  <div class="kicker">Python 3.14 · Бесплатный интерактивный курс</div>
-  <h1>Python с нуля: программирование, графика, приложения и игры</h1>
-  <p>{TOTAL_CHAPTERS} главы, {TOTAL_LESSONS} практических заданий, {TOTAL_PROJECTS} готовых мини-проектов — от первой строки
-    кода до собственных игр и приложений. Теория здесь, практика — прямо в браузере.</p>
-  <div class="home-cta">
-    <a class="btn btn-primary" href="/chapters/glava-01/index.html">Начать с главы 1 →</a>
-    <a class="btn btn-ghost" href="/front-matter/vvedenie.html">Как устроена книга</a>
+<section class="home-hero" aria-labelledby="course-hero-title">
+  <div class="home-hero__inner">
+    <div class="home-hero__content">
+      <div class="kicker">
+        <img src="/assets/img/brand/python-logo-mark.svg" width="25" height="30" alt="" aria-hidden="true" />
+        <span>Python 3.14 · Бесплатный интерактивный курс</span>
+      </div>
+      <h1 id="course-hero-title">Python с нуля: программирование, графика, приложения и игры</h1>
+      <p>{TOTAL_CHAPTERS} главы, {TOTAL_LESSONS} практических заданий, {TOTAL_PROJECTS} готовых мини-проектов — от первой строки
+        кода до собственных игр и приложений. Теория здесь, практика — прямо в браузере.</p>
+      <div class="home-cta">
+        <a class="btn btn-primary" href="/chapters/glava-01/index.html">Начать с главы 1 →</a>
+        <a class="btn btn-ghost" href="/front-matter/vvedenie.html">Как устроена книга</a>
+      </div>
+    </div>
+
+    <div class="hero-system" aria-hidden="true">
+      <div class="hero-system__grid"></div>
+      <div class="hero-system__backdrop">
+        <span class="hero-system__prompt">&gt;&gt;&gt;</span>
+        <span class="hero-token hero-token--def">def</span>
+        <span class="hero-token hero-token--py">.py</span>
+        <span class="hero-token hero-token--range">range()</span>
+        <span class="hero-token hero-token--lambda">lambda</span>
+      </div>
+
+      <div class="hero-system__plane">
+        <svg class="hero-connectors hero-connectors--desktop" viewBox="0 0 620 520" preserveAspectRatio="none">
+          <g class="hero-axes">
+            <path d="M50 466H585" />
+            <path d="M50 466V54" />
+            <path d="M578 461L585 466L578 471" />
+            <path d="M45 61L50 54L55 61" />
+            <text x="589" y="471">x</text>
+            <text x="43" y="45">y</text>
+          </g>
+          <g class="hero-connector-lines">
+            <path id="hero-route-code" d="M310 244V164H353" />
+            <path id="hero-route-graph" d="M310 244H260V154" />
+            <path id="hero-route-app" d="M310 244H440V343" />
+            <path id="hero-route-game" d="M310 244H180V353" />
+          </g>
+          <g class="hero-connector-signals">
+            <path class="hero-signal hero-signal--code" d="M310 244V164H353" />
+            <path class="hero-signal hero-signal--graph" d="M310 244H260V154" />
+            <path class="hero-signal hero-signal--app" d="M310 244H440V343" />
+            <path class="hero-signal hero-signal--game" d="M310 244H180V353" />
+          </g>
+          <g class="hero-route-nodes">
+            <circle cx="310" cy="164" r="4" />
+            <circle cx="260" cy="244" r="4" />
+            <circle cx="440" cy="244" r="4" />
+            <circle cx="180" cy="244" r="4" />
+          </g>
+        </svg>
+
+        <svg class="hero-connectors hero-connectors--mobile" viewBox="0 0 360 430" preserveAspectRatio="none">
+          <g class="hero-axes">
+            <path d="M18 302H344" />
+            <path d="M18 302V24" />
+            <text x="347" y="307">x</text>
+            <text x="12" y="18">y</text>
+          </g>
+          <g class="hero-connector-lines">
+            <path d="M180 194V130" />
+            <path d="M180 194H295V145" />
+            <path d="M180 194H85V322" />
+            <path d="M180 194H275V322" />
+          </g>
+          <g class="hero-route-nodes">
+            <circle cx="180" cy="130" r="4" />
+            <circle cx="295" cy="194" r="4" />
+            <circle cx="85" cy="194" r="4" />
+            <circle cx="275" cy="194" r="4" />
+          </g>
+        </svg>
+
+        <div class="hero-core">
+          <span class="hero-core__orbit"></span>
+          <span class="hero-core__mark"><img src="/assets/img/brand/python-logo-mark.svg" width="40" height="48" alt="" /></span>
+          <span class="hero-core__name">Python</span>
+          <span class="hero-core__runtime">runtime 3.14</span>
+        </div>
+
+        <div class="hero-module hero-module--code">
+          <div class="hero-module__head">
+            <span class="hero-module__label"><i></i>Code</span>
+            <span>square.py</span>
+          </div>
+          <pre><span class="syntax-prompt">&gt;&gt;&gt;</span> <span class="syntax-keyword">def</span> square(x):
+<span class="syntax-prompt">...</span>     <span class="syntax-keyword">return</span> x ** 2
+<span class="syntax-prompt">&gt;&gt;&gt;</span> square(5)
+<span class="syntax-result">25</span><span class="hero-code-cursor">▌</span></pre>
+        </div>
+
+        <div class="hero-module hero-module--graph">
+          <div class="hero-module__head">
+            <span class="hero-module__label"><i></i>Graph</span>
+            <span>f(x)</span>
+          </div>
+          <svg class="hero-plot" viewBox="0 0 210 94">
+            <g class="hero-plot__grid">
+              <path d="M8 16H204M8 39H204M8 62H204M8 85H204M32 7V88M76 7V88M120 7V88M164 7V88" />
+            </g>
+            <path class="hero-plot__axis" d="M8 80H204M22 88V7" />
+            <path class="hero-plot__curve" d="M9 69C40 67 49 18 82 23C111 27 119 72 146 67C168 63 177 29 203 16" />
+            <path class="hero-plot__vector" d="M111 53L146 36M139 35L146 36L143 43" />
+            <circle class="hero-plot__point hero-plot__point--a" cx="82" cy="23" r="3.5" />
+            <circle class="hero-plot__point hero-plot__point--b" cx="146" cy="67" r="3.5" />
+          </svg>
+        </div>
+
+        <div class="hero-module hero-module--app">
+          <div class="hero-module__head">
+            <span class="hero-module__label"><i></i>App</span>
+            <span class="hero-app-status"><b></b>running</span>
+          </div>
+          <div class="hero-app-ui">
+            <div class="hero-app-ui__chart">
+              <span style="--bar: .42"></span><span style="--bar: .72"></span><span style="--bar: .56"></span><span style="--bar: .88"></span>
+            </div>
+            <div class="hero-app-ui__panel">
+              <span></span><span></span><b>run()</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-module hero-module--game">
+          <div class="hero-module__head">
+            <span class="hero-module__label"><i></i>Game</span>
+            <span>score 0250</span>
+          </div>
+          <svg class="hero-game" viewBox="0 0 210 76">
+            <path class="hero-game__trajectory" d="M18 58H72V38H126V18H190" />
+            <g class="hero-game__target"><circle cx="181" cy="18" r="10" /><circle cx="181" cy="18" r="3" /></g>
+            <g class="hero-game__sprite"><path d="M35 51L53 58L35 65L39 58Z" /><path d="M31 55H20M31 61H25" /></g>
+            <rect class="hero-game__collision" x="126" y="47" width="24" height="18" rx="2" />
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <div class="home-section panel-canvas" id="o-kurse">
   <div class="kicker-label">Python с нуля</div>
@@ -320,6 +453,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </div>
 
 {NAV_SCRIPT_TAG}
+<script src="/assets/js/hero.js" defer></script>
 <script src="/assets/js/progress.js" defer></script>
 </body>
 </html>
