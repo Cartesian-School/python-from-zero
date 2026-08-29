@@ -46,17 +46,18 @@ PAGINATION_OUT = ROOT / "data" / "book-pagination.json"
 # the standard reproducible-builds boundary supported by FontTools itself.
 SOURCE_DATE_EPOCH = "0"
 
-FONT_DIR = ROOT / "book" / "fonts" / "dejavu"
+FONT_DIR = ROOT / "book" / "fonts"
 FONT_FILES = {
-    "DejaVuSerif.ttf": "8cb29f7db250ebb2551a6ce2c1e0bfd5a0eb520e9e233370db0493e82e1f36f7",
-    "DejaVuSerif-Bold.ttf": "aac3f559445d23f0f567a243f91f3f6ad6cb4b5cafa1521a3479fffe0637f0bd",
-    "DejaVuSerif-Italic.ttf": "d843bf414381dd64b89e6c7c954075657b74168521f02b30e11d308558eda1d2",
-    "DejaVuSerif-BoldItalic.ttf": "ed336a3d81f5a2d6a3d12c16dda400b28ba7304792254fc9e96c0d6835fbeab2",
-    "DejaVuSans.ttf": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
-    "DejaVuSans-Bold.ttf": "a4c5bc453ca281d90ea079e596da7ae0dfeb5777497c29ec254e76d97ff6f890",
-    "DejaVuSans-Oblique.ttf": "e2f09289f4276309a36b9a93e5a0ac64957ef3eb7158151b243d41f667151ee4",
-    "DejaVuSansMono.ttf": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8",
-    "DejaVuSansMono-Bold.ttf": "0d3c03d1b667192f91223660a3163325cf83132662fe4d9f7d6e596bf7a995c2",
+    "dejavu/DejaVuSerif.ttf": "8cb29f7db250ebb2551a6ce2c1e0bfd5a0eb520e9e233370db0493e82e1f36f7",
+    "dejavu/DejaVuSerif-Bold.ttf": "aac3f559445d23f0f567a243f91f3f6ad6cb4b5cafa1521a3479fffe0637f0bd",
+    "dejavu/DejaVuSerif-Italic.ttf": "d843bf414381dd64b89e6c7c954075657b74168521f02b30e11d308558eda1d2",
+    "dejavu/DejaVuSerif-BoldItalic.ttf": "ed336a3d81f5a2d6a3d12c16dda400b28ba7304792254fc9e96c0d6835fbeab2",
+    "dejavu/DejaVuSans.ttf": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
+    "dejavu/DejaVuSans-Bold.ttf": "a4c5bc453ca281d90ea079e596da7ae0dfeb5777497c29ec254e76d97ff6f890",
+    "dejavu/DejaVuSans-Oblique.ttf": "e2f09289f4276309a36b9a93e5a0ac64957ef3eb7158151b243d41f667151ee4",
+    "dejavu/DejaVuSansMono.ttf": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8",
+    "dejavu/DejaVuSansMono-Bold.ttf": "0d3c03d1b667192f91223660a3163325cf83132662fe4d9f7d6e596bf7a995c2",
+    "noto-emoji/NotoColorEmoji-subset.ttf": "aa4e21491e8c2f7747099f762d0e89b3421098135f246c7f33093e185ee77cbc",
 }
 
 BOOK_TITLE = "Python с нуля"
@@ -67,15 +68,16 @@ BOOK_DESCRIPTION = "Книга для начинающих: Python 3.14, гра�
 SITE_URL_DISPLAY = "cartesianschool.org"
 
 PRINT_CSS = """
-@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif.ttf'); font-style: normal; font-weight: 400; }
-@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-Bold.ttf'); font-style: normal; font-weight: 700; }
-@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-Italic.ttf'); font-style: italic; font-weight: 400; }
-@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/DejaVuSerif-BoldItalic.ttf'); font-style: italic; font-weight: 700; }
-@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans.ttf'); font-style: normal; font-weight: 400; }
-@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans-Bold.ttf'); font-style: normal; font-weight: 700; }
-@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/DejaVuSans-Oblique.ttf'); font-style: italic; font-weight: 400; }
-@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/DejaVuSansMono.ttf'); font-style: normal; font-weight: 400; }
-@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/DejaVuSansMono-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSerif.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSerif-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSerif-Italic.ttf'); font-style: italic; font-weight: 400; }
+@font-face { font-family: 'DejaVu Serif'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSerif-BoldItalic.ttf'); font-style: italic; font-weight: 700; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSans.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSans-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSans-Oblique.ttf'); font-style: italic; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSansMono.ttf'); font-style: normal; font-weight: 400; }
+@font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSansMono-Bold.ttf'); font-style: normal; font-weight: 700; }
+@font-face { font-family: 'Noto Color Emoji'; src: url('__FONT_DIR_URI__/noto-emoji/NotoColorEmoji-subset.ttf'); font-style: normal; font-weight: 100 900; }
 @page {
   size: 152mm 229mm;
   margin: 24mm 20mm 26mm 20mm;
@@ -105,7 +107,7 @@ PRINT_CSS = """
   --spacing-sm: 6px; --spacing-md: 12px; --spacing-lg: 18px; --spacing-xl: 24px; --spacing-2xl: 32px; --spacing-3xl: 48px; --spacing-4xl: 64px;
 }
 * { box-sizing: border-box; }
-body { font-family: 'DejaVu Serif', Georgia, serif; font-size: 13.8pt; line-height: 1.95; color: var(--color-text-primary); }
+body { font-family: 'DejaVu Serif', 'Noto Color Emoji', serif; font-size: 13.8pt; line-height: 1.95; color: var(--color-text-primary); }
 h1, h2, h3 { font-family: 'DejaVu Sans', sans-serif; color: var(--navy-900); break-after: avoid; }
 h1 { font-size: 25pt; margin: 0 0 15pt; string-set: chaptitle content(); }
 h2 { font-size: 18pt; margin: 28pt 0 11pt; }

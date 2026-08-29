@@ -34,9 +34,23 @@ Scope: approved quick corrections only; no Chapter 8–10 architecture change.
 - Python compilation: PASS for modified Python sources.
 - Notebook JSON parsing: PASS.
 - SEO validation: PASS for 1,146 pages, sitemap, and robots.
+- Canonical PDF rebuild: PASS; 4,529 physical pages, SHA-256
+  `b5cb5a301b31e3cfd43083aaeb9cbf7c1068707742e43e3f23a89a30bdfd3bde`.
+- PDF portability: PASS; the required emoji fallback is repository-pinned and checksum-locked,
+  so rendering no longer depends on host-installed fallback fonts.
+- PDF semantic extraction: PASS for the reviewed Chapter 1 targets (`pypdf` 6.16.1).
+- PDF determinism: PASS; two independent renders produced identical PDF and pagination hashes.
+- PDF visual inspection: PASS for pages 18, 22, 24, 26, and 39 (learning outcomes,
+  algorithm, interpreter levels, and PEP correction); no clipping, overlap, or broken glyphs.
 - `git diff --check`: PASS.
-- Browser/Playwright suite: not executed because project dependencies are not installed in the
-  review workspace; no false PASS is recorded.
+- Full site build: PASS, including all manifest, source, notebook/grader, navigation, catalog,
+  pagination, and SEO validators.
+- Local nongraphical test selection: 156 PASS; 14 graphical tests require `xvfb-run`, which is
+  unavailable in the review container. The preceding GitHub Actions run passed all 170 course
+  tests and 85 SafeSort tests on Python 3.14.7 before stopping only at the now-corrected stale
+  pagination fingerprint.
+- Browser/Playwright suite: not executed; F-007 therefore remains open and no false PASS is
+  recorded.
 
 ## Decision
 
