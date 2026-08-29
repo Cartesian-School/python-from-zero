@@ -1193,7 +1193,14 @@ def _fc_label(parts: list[str], x: float, y: float, text: str, color: str, *, an
     )
 
 
-def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "НЕТ", caption: str = "") -> str:
+def flowchart(
+    steps: list[dict],
+    *,
+    yes_label: str = "ДА",
+    no_label: str = "НЕТ",
+    caption: str = "",
+    straight_branches: bool = False,
+) -> str:
     """Recursive top-down flowchart with conventional shape semantics —
     the single reusable primitive behind every algorithm/control-flow
     diagram in Chapter 9. Each step is a dict:
@@ -1254,14 +1261,16 @@ def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "Н
                 nl = step.get("no_label", no_label)
 
                 if yes_steps:
-                    _fc_arrow(parts, mid, left_vx, dia_cy, left_x, branch_top, curve=True, color="#059669")
-                    _fc_label(parts, (left_vx + left_x) / 2 - 4, (dia_cy + branch_top) / 2 - 8, yl, "#059669")
+                    _fc_arrow(parts, mid, left_vx, dia_cy, left_x, branch_top, curve=not straight_branches, color="#059669")
+                    yes_label_offset = 24 if straight_branches else 4
+                    _fc_label(parts, (left_vx + left_x) / 2 - yes_label_offset, (dia_cy + branch_top) / 2 - 12, yl, "#059669")
                     yes_bottom = render(yes_steps, left_x, branch_top)
                 else:
                     yes_bottom = dia_cy
                 if no_steps:
-                    _fc_arrow(parts, mid, right_vx, dia_cy, right_x, branch_top, curve=True, color="#DB2777")
-                    _fc_label(parts, (right_vx + right_x) / 2 + 4, (dia_cy + branch_top) / 2 - 8, nl, "#DB2777")
+                    _fc_arrow(parts, mid, right_vx, dia_cy, right_x, branch_top, curve=not straight_branches, color="#DB2777")
+                    no_label_offset = 24 if straight_branches else 4
+                    _fc_label(parts, (right_vx + right_x) / 2 + no_label_offset, (dia_cy + branch_top) / 2 - 12, nl, "#DB2777")
                     no_bottom = render(no_steps, right_x, branch_top)
                 else:
                     no_bottom = dia_cy
@@ -1283,15 +1292,15 @@ def flowchart(steps: list[dict], *, yes_label: str = "ДА", no_label: str = "Н
                     merge_y = max(continuing + [dia_bottom]) + _FC_MERGE_GAP
                     if yes_bottom is not None:
                         if yes_steps:
-                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=True)
+                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=not straight_branches)
                         else:
-                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=True, color="#059669")
+                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=not straight_branches, color="#059669")
                             _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
                     if no_bottom is not None:
                         if no_steps:
-                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=True)
+                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=not straight_branches)
                         else:
-                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=True, color="#DB2777")
+                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=not straight_branches, color="#DB2777")
                             _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
                     y = merge_y
                     prev_bottom = merge_y

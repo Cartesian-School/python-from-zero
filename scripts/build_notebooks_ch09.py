@@ -308,8 +308,8 @@ print(action, has_branch)''')
 
 def build_09() -> None:
     nb = NotebookBuilder()
-    nb.md("# 09-09 · == против =, сравнение строк\n\nПрактика к разделу "
-          "[«== против =, и сравнение строк»](../../site/chapters/glava-09/09-09-ravno-i-sravnenie-strok.html).")
+    nb.md("# 09-09 · Чем отличаются = и ==, и как сравнивать строки\n\nПрактика к разделу "
+          "[«Чем отличаются = и ==, и как сравнивать строки»](../../site/chapters/glava-09/09-09-ravno-i-sravnenie-strok.html).")
     nb.md("## Цель\n\nНе путать = и ==, освоить != и сравнение строк.")
     nb.md("## Рабочий пример")
     nb.code('''name = "Anna"
