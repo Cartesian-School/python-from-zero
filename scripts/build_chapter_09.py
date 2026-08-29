@@ -39,7 +39,7 @@ PAGES = [
     ("09-08-tri-struktury-i-vetvlenie.html", "Три структуры алгоритма и ветвление"),
     ("09-01-istina-ili-lozh.html", "Истина или ложь"),
     ("09-02-sravnenie-i-reshenie.html", "Сравниваем и принимаем решение"),
-    ("09-09-ravno-i-sravnenie-strok.html", "== против =, и сравнение строк"),
+    ("09-09-ravno-i-sravnenie-strok.html", "Чем отличаются = и ==, и как сравнивать строки"),
     ("09-10-cepochki-sravnenij.html", "Цепочки сравнений"),
     ("09-11-truthiness-i-none.html", "Truthiness и None"),
     ("09-03-if-inache.html", "Если это произошло — выполни команду!"),
@@ -114,7 +114,7 @@ def build_opener() -> None:
             ChapterSectionLink("9.2", "Три структуры алгоритма и ветвление", "09-08-tri-struktury-i-vetvlenie.html"),
             ChapterSectionLink("9.3", "Истина или ложь", "09-01-istina-ili-lozh.html"),
             ChapterSectionLink("9.4", "Сравниваем и принимаем решение", "09-02-sravnenie-i-reshenie.html"),
-            ChapterSectionLink("9.5", "== против =, и сравнение строк", "09-09-ravno-i-sravnenie-strok.html"),
+            ChapterSectionLink("9.5", "Чем отличаются = и ==, и как сравнивать строки", "09-09-ravno-i-sravnenie-strok.html"),
             ChapterSectionLink("9.6", "Цепочки сравнений", "09-10-cepochki-sravnenij.html"),
             ChapterSectionLink("9.7", "Truthiness и None", "09-11-truthiness-i-none.html"),
             ChapterSectionLink("9.8", "Если это произошло — выполни команду!", "09-03-if-inache.html"),
@@ -340,11 +340,17 @@ def build_08() -> None:
         ("Нужно повторить действие несколько раз?", "Повторение — глава 10"),
     ], title="Какая структура нужна?")}
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:24px 0">
-      <div>{seq_diagram}</div>
-      <div>{branch_diagram}</div>
-      <div>{repeat_diagram}</div>
-    </div>
+    <h3>Последовательность</h3>
+    <p>Команды выполняются одна за другой, без выбора и возврата назад.</p>
+    {seq_diagram}
+
+    <h3>Ветвление</h3>
+    <p>Логический вопрос выбирает один из двух путей; после выполнения ветки пути сходятся.</p>
+    {branch_diagram}
+
+    <h3>Повторение</h3>
+    <p>После действия логический вопрос решает: повторить действие или завершить цикл.</p>
+    {repeat_diagram}
 
     <h2>Когда одной последовательности не хватает</h2>
     <p>Простой линейный алгоритм — «выйти из дома, идти гулять» — прекрасно работает, пока в
@@ -395,10 +401,14 @@ def build_08() -> None:
 # ---------------------------------------------------------------------------
 
 def build_01() -> None:
-    cards = state_cards([
-        ("TRUE", "✓ условие выполнено", "#059669"),
-        ("FALSE", "✗ условие не выполнено", "#DB2777"),
-    ])
+    bool_diagram = decision_diamond_diagram(
+        "Условие выполнено?",
+        yes_label="Да",
+        no_label="Нет",
+        yes_result="True",
+        no_result="False",
+        caption="Логический вопрос всегда даёт один из двух результатов: True или False",
+    )
 
     body = f"""
     <p>Мы выяснили: программа отвечает на вопросы «да» или «нет» значениями
@@ -407,7 +417,7 @@ def build_01() -> None:
 
     <h2>bool — логический тип с двумя значениями</h2>
     <p>Тип <code class="inline">bool</code> имеет ровно два возможных значения:</p>
-    {cards}
+    {bool_diagram}
     <p>Обратите внимание: <code class="inline">True</code> и <code class="inline">False</code>
     пишутся с заглавной буквы — это ключевые слова Python, а не обычный текст.</p>
     {code_block("bool.py", "is_sunny = True\nis_raining = False\nprint(is_sunny, type(is_sunny))\n# True <class 'bool'>\n")}
@@ -459,24 +469,20 @@ def build_01() -> None:
 # ---------------------------------------------------------------------------
 
 def build_02() -> None:
-    machine_true = flowchart(
-        [
-            {"kind": "start", "label": "СТАРТ"},
-            {"kind": "input", "label": "Значения: 5 и 3"},
-            {"kind": "process", "label": "Сравнение: 5 > 3"},
-            {"kind": "output", "label": "Результат: True"},
-            {"kind": "end", "label": "КОНЕЦ"},
-        ],
+    machine_true = decision_diamond_diagram(
+        "5 > 3?",
+        yes_label="Да",
+        no_label="Нет",
+        yes_result="True",
+        no_result="False",
         caption="5 > 3 — сравнение выполнилось УСПЕШНО и дало True",
     )
-    machine_false = flowchart(
-        [
-            {"kind": "start", "label": "СТАРТ"},
-            {"kind": "input", "label": "Значения: 2 и 3"},
-            {"kind": "process", "label": "Сравнение: 2 > 3"},
-            {"kind": "output", "label": "Результат: False"},
-            {"kind": "end", "label": "КОНЕЦ"},
-        ],
+    machine_false = decision_diamond_diagram(
+        "2 > 3?",
+        yes_label="Да",
+        no_label="Нет",
+        yes_result="True",
+        no_result="False",
         caption="2 > 3 — сравнение ТОЖЕ выполнилось успешно, просто дало False",
     )
     nl_ge = comparison_number_line(axis_lo=0, axis_hi=30, lo_bound=18, lo_inclusive=True, caption="age >= 18 — закрашенная точка: 18 включено")
@@ -563,7 +569,7 @@ def build_02() -> None:
         "прямая, чтобы увидеть их границы.",
         body_html=body,
         sidebar_groups=sidebar("09-02-sravnenie-i-reshenie.html"),
-        nav=PageNav(prev_href="09-01-istina-ili-lozh.html", prev_label="Истина или ложь", next_href="09-09-ravno-i-sravnenie-strok.html", next_label="== против =, и сравнение строк"),
+        nav=PageNav(prev_href="09-01-istina-ili-lozh.html", prev_label="Истина или ложь", next_href="09-09-ravno-i-sravnenie-strok.html", next_label="Чем отличаются = и =="),
     )
     write("09-02-sravnenie-i-reshenie.html", out)
 
@@ -573,8 +579,10 @@ def build_02() -> None:
 # ---------------------------------------------------------------------------
 
 def build_09() -> None:
+    eq = '<span style="color:#5B24F9;font-family:\'JetBrains Mono\',monospace;font-weight:800">=</span>'
+    eqeq = '<span style="color:#5B24F9;font-family:\'JetBrains Mono\',monospace;font-weight:800">==</span>'
     eq_cvm = classic_vs_modern(
-        "= — присваивание, == — сравнение",
+        "Два разных оператора: = и ==",
         "= (один знак) — ПРИСВАИВАНИЕ",
         'name = "Anna"\n\n# смысл: связать имя name\n# со значением "Anna".\n# Ничего не сравнивается!',
         "== (два знака) — СРАВНЕНИЕ",
@@ -585,9 +593,15 @@ def build_09() -> None:
         "Python сразу сообщит об ошибке синтаксиса — присваивание нельзя использовать как "
         "условие, так что эта конкретная ошибка, к счастью, не проходит незамеченной.",
     )
+    eq_cvm = (
+        eq_cvm
+        .replace("Два разных оператора: = и ==", f"Два разных оператора: {eq} и {eqeq}")
+        .replace("= (один знак) — ПРИСВАИВАНИЕ", f"{eq} (один знак) — ПРИСВАИВАНИЕ")
+        .replace("== (два знака) — СРАВНЕНИЕ", f"{eqeq} (два знака) — СРАВНЕНИЕ")
+    )
 
     body = f"""
-    <h2>= — это не ==</h2>
+    <h2>{eq} — это не то же самое, что {eqeq}</h2>
     <p>Этот раздел заслуживает отдельного внимания — путаница между одиночным и двойным
     «равно» встречается постоянно.</p>
     {eq_cvm}
@@ -635,17 +649,21 @@ def build_09() -> None:
     )}
     """
     out = render_page(
-        page_title="== против =, и сравнение строк",
+        page_title="Чем отличаются = и ==, и как сравнивать строки",
         description="Разница между присваиванием (=) и сравнением (==), оператор !=, сравнение строк и нормализация ввода.",
         depth=2,
-        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 9", "index.html"), ("== против =", "")],
+        breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 9", "index.html"), ("Разница между = и ==", "")],
         kicker="Глава 9 · Выполняй мою команду!",
-        h1="== против =, и сравнение строк",
+        h1="Чем отличаются = и ==, и как сравнивать строки",
         lede="Одна из самых частых ошибок новичков — и как строки из главы 8 участвуют в "
         "условиях.",
         body_html=body,
         sidebar_groups=sidebar("09-09-ravno-i-sravnenie-strok.html"),
         nav=PageNav(prev_href="09-02-sravnenie-i-reshenie.html", prev_label="Сравниваем и решаем", next_href="09-10-cepochki-sravnenij.html", next_label="Цепочки сравнений"),
+    )
+    out = out.replace(
+        "<h1>Чем отличаются = и ==, и как сравнивать строки</h1>",
+        f"<h1>Чем отличаются {eq} и {eqeq}, и как сравнивать строки</h1>",
     )
     write("09-09-ravno-i-sravnenie-strok.html", out)
 
@@ -792,6 +810,7 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="Сначала решаем задачу как схему — потом переводим на Python",
+        straight_branches=True,
     )
     if_flow = flowchart(
         [
@@ -802,6 +821,7 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="Первый if — при False блок просто пропускается, выполнение идёт дальше",
+        straight_branches=True,
     )
     if_else_flow = flowchart(
         [
@@ -811,6 +831,7 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="if/else: два пути — один из них выполнится обязательно, и оба сходятся дальше",
+        straight_branches=True,
     )
 
     body = f"""
