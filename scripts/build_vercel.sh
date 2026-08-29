@@ -62,6 +62,9 @@ else
   "${PYTHON}" "${ROOT_DIR}/scripts/validate_pagination.py"
 fi
 
+echo "==> Validating diagram conventions (Chapters 1-24)"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_diagram_conventions.py"
+
 rm -rf "${DIST_DIR}"
 mkdir -p "${DIST_DIR}"
 mkdir -p "${DIST_DIR}/book/pdf"

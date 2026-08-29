@@ -810,7 +810,6 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="Сначала решаем задачу как схему — потом переводим на Python",
-        straight_branches=True,
     )
     if_flow = flowchart(
         [
@@ -821,7 +820,6 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="Первый if — при False блок просто пропускается, выполнение идёт дальше",
-        straight_branches=True,
     )
     if_else_flow = flowchart(
         [
@@ -831,7 +829,6 @@ def build_03() -> None:
             {"kind": "end", "label": "КОНЕЦ"},
         ],
         caption="if/else: два пути — один из них выполнится обязательно, и оба сходятся дальше",
-        straight_branches=True,
     )
 
     body = f"""
