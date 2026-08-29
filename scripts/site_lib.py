@@ -1271,6 +1271,8 @@ def _fc_arrow(
     color: str = "#B9A0FC",
     route: str = "auto",
     arrowhead: bool = True,
+    mid_x: float | None = None,
+    mid_y: float | None = None,
 ) -> None:
     """Draw an arrow using only orthogonal (horizontal/vertical) segments.
 
@@ -1279,6 +1281,12 @@ def _fc_arrow(
     vertically and enters horizontally, ``hvh`` enters horizontally, and
     ``vhv`` enters vertically.  Curves and diagonal shortcuts are forbidden
     for course block diagrams.
+
+    For ``hvh``/``vhv``, the turn point defaults to the arithmetic midpoint
+    between the two endpoints, but callers that need the elbow to clear a
+    specific x (``hvh``) or y (``vhv``) — e.g. routing a branch OUT and away
+    from a shape's edge before turning back in, instead of cutting straight
+    across it — may pass ``mid_x``/``mid_y`` explicitly.
     """
     if x1 == x2 and y1 == y2:
         return
@@ -1299,11 +1307,11 @@ def _fc_arrow(
     elif route == "vh":
         path = f"M{x1},{y1} V{y2} H{x2}"
     elif route == "hvh":
-        mid_x = (x1 + x2) / 2
-        path = f"M{x1},{y1} H{mid_x} V{y2} H{x2}"
+        mx = mid_x if mid_x is not None else (x1 + x2) / 2
+        path = f"M{x1},{y1} H{mx} V{y2} H{x2}"
     elif route == "vhv":
-        mid_y = (y1 + y2) / 2
-        path = f"M{x1},{y1} V{mid_y} H{x2} V{y2}"
+        my = mid_y if mid_y is not None else (y1 + y2) / 2
+        path = f"M{x1},{y1} V{my} H{x2} V{y2}"
     else:
         raise ValueError(f"unknown orthogonal route: {route}")
     parts.append(
@@ -1421,16 +1429,30 @@ def flowchart(
                             )
                         else:
                             # Empty branch: this single "hvh" segment is the ONLY
-                            # connector drawn for the whole bypass path (unlike the
-                            # non-empty case above, whose entry arrow already carries
-                            # an arrowhead into the branch's first node) — it must
-                            # keep its own arrowhead, or the bypass reads as an
-                            # undirected line and can look reversed at the merge.
+                            # connector drawn for the whole bypass path. It stays
+                            # arrowhead=False like every other segment feeding the
+                            # merge collector below — the junction dot drawn at
+                            # (cx, merge_y) is what marks "flows meet here", and the
+                            # one arrow leaving that dot toward the next block is the
+                            # only arrowhead this junction needs.
+                            # Route the elbow OUT through left_x (the same offset a
+                            # non-empty branch's node column would sit at) instead of
+                            # the plain midpoint: the plain midpoint sits INSIDE the
+                            # vertex (between it and center), so the line cuts back
+                            # toward the diamond immediately instead of bulging away
+                            # from it first — reads as backward routing regardless of
+                            # any arrowhead.
+                            track(left_x, left_x, merge_y)
                             _fc_arrow(
                                 parts, mid, left_vx, dia_cy, cx, merge_y,
-                                route="hvh", color="#059669",
+                                route="hvh", color="#059669", mid_x=left_x,
+                                arrowhead=False,
                             )
-                            _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
+                            # Label sits over the vertex->left_x exit segment, the
+                            # same placement convention as the non-empty branch case
+                            # above (label right next to the diamond, not out at the
+                            # far merge collector).
+                            _fc_label(parts, (left_vx + left_x) / 2, dia_cy - 12, yl, "#059669")
                     if no_bottom is not None:
                         if no_steps:
                             _fc_arrow(
@@ -1438,18 +1460,28 @@ def flowchart(
                                 route="vh", arrowhead=False,
                             )
                         else:
-                            # Same reasoning as the "yes" bypass above, mirrored: the
-                            # "no" branch here (e.g. an if-without-else) has exactly
-                            # one connector for its whole path, so it must carry the
-                            # arrowhead itself.
+                            # Same reasoning as the "yes" bypass above, mirrored: stays
+                            # arrowhead=False, and routes OUT through right_x before
+                            # turning down and back in, instead of cutting inward
+                            # across the diamond's own footprint.
+                            track(right_x, right_x, merge_y)
                             _fc_arrow(
                                 parts, mid, right_vx, dia_cy, cx, merge_y,
-                                route="hvh", color="#DB2777",
+                                route="hvh", color="#DB2777", mid_x=right_x,
+                                arrowhead=False,
                             )
-                            _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
-                    # The two branches join on one orthogonal collector.  The
-                    # next iteration draws exactly one vertical arrow from the
-                    # collector into the following block.
+                            # Same placement convention as the "yes" bypass above.
+                            _fc_label(parts, (right_vx + right_x) / 2, dia_cy - 12, nl, "#DB2777")
+                    # The two branches join on one orthogonal collector. Mark the
+                    # junction explicitly with a small filled dot — otherwise an
+                    # unmarked T-meeting of two undecorated lines reads as
+                    # ambiguous/reversed, especially on the side that bulged out
+                    # and back in. The next iteration draws exactly one vertical
+                    # arrow from this dot into the following block; that is the
+                    # only arrowhead this junction needs.
+                    parts.append(
+                        f'<circle cx="{cx}" cy="{merge_y}" r="4.5" fill="#B9A0FC"/>'
+                    )
                     y = merge_y + _FC_GAP_Y
                     prev_bottom = merge_y
             else:
