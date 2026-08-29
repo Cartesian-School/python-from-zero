@@ -377,7 +377,8 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
     min_width_style = f"min-width:{total_w}px;" if n >= 5 else ""
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px;{min_width_style}">'
+        f'role="img" data-diagram="process-flow" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px;{min_width_style}">'
     ]
     parts.append(
         "<defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' "
@@ -390,8 +391,8 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
         y = 10
         cx = x + box_w / 2
         parts.append(
-            f'<rect x="{x}" y="{y}" width="{box_w}" height="{box_h}" rx="14" '
-            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+            f'<rect x="{x}" y="{y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>'
         )
         title_top = y + top_pad
         title_tspans = "".join(
@@ -437,7 +438,8 @@ def timeline_diagram(events: list[tuple[str, str]], *, caption: str = "") -> str
     total_w = 640
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="timeline" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     if n > 1:
         parts.append(
@@ -524,10 +526,11 @@ def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str =
     total_h = branches_y + box_h + 10
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="block-diagram" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     parts.append(
-        f'<rect x="{root_x}" y="{root_top}" width="{root_w}" height="{root_h}" rx="14" '
+        f'<rect x="{root_x}" y="{root_top}" width="{root_w}" height="{root_h}" rx="4" '
         f'fill="#5B24F9"/>'
     )
     root_cx = total_w / 2
@@ -540,17 +543,28 @@ def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str =
         f'<text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" '
         f'font-size="16" fill="#fff">{root_tspans}</text>'
     )
+    branch_centres = [branches_x_offset + i * (box_w + gap) + box_w / 2 for i in range(n)]
+    bus_y = root_bottom + 27
+    if branch_centres:
+        parts.append(
+            f'<line x1="{root_cx}" y1="{root_bottom}" x2="{root_cx}" y2="{bus_y}" '
+            f'stroke="#5B24F9" stroke-width="2.5"/>'
+        )
+        parts.append(
+            f'<line x1="{min(branch_centres)}" y1="{bus_y}" x2="{max(branch_centres)}" y2="{bus_y}" '
+            f'stroke="#5B24F9" stroke-width="2.5"/>'
+        )
+    branch_fills = ("#EDE9FE", "#DBEAFE", "#DCFCE7", "#FEF3C7", "#FCE7F3")
     for i, (title, sub) in enumerate(branches):
         x = branches_x_offset + i * (box_w + gap)
         cx = x + box_w / 2
         parts.append(
-            f'<path d="M{root_cx},{root_bottom} C{root_cx},{(root_bottom + branches_y) / 2} '
-            f'{cx},{(root_bottom + branches_y) / 2} {cx},{branches_y}" '
+            f'<path d="M{cx},{bus_y} V{branches_y}" '
             f'fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrow)"/>'
         )
         parts.append(
-            f'<rect x="{x}" y="{branches_y}" width="{box_w}" height="{box_h}" rx="14" '
-            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+            f'<rect x="{x}" y="{branches_y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="{branch_fills[i % len(branch_fills)]}" stroke="#5B24F9" stroke-width="2"/>'
         )
         title_lines = _wrap_svg_text(title, max_chars=20, max_lines=2)
         title_top = branches_y + 26
@@ -584,13 +598,13 @@ def branch_diagram(root: str, branches: list[tuple[str, str]], *, caption: str =
 
 def name_value_diagram(name: str, value_repr: str, *, caption: str = "") -> str:
     """Маленькая диаграмма «имя указывает на значение» (не «коробка с данными»)."""
-    svg = f"""<svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" role="img"
+    svg = f"""<svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="reference-diagram"
       aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:400px">
       <defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
         orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"/></marker></defs>
       <text x="10" y="52" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#0D0230">{html.escape(name)}</text>
       <line x1="95" y1="45" x2="220" y2="45" stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrow2)"/>
-      <rect x="230" y="15" width="160" height="60" rx="12" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>
+      <rect x="230" y="15" width="160" height="60" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>
       <text x="310" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#0D0230">{html.escape(value_repr)}</text>
     </svg>"""
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -628,7 +642,8 @@ def namespace_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="reference-diagram" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     parts.append(
         "<defs><marker id='arrowns' viewBox='0 0 10 10' refX='9' refY='5' "
@@ -653,8 +668,8 @@ def namespace_diagram(
             f'stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrowns)"/>'
         )
         parts.append(
-            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>'
         )
         value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
         value_top = cy - (len(value_lines) - 1) * 9 + 5
@@ -670,8 +685,8 @@ def namespace_diagram(
         y = top_pad + n * row_h + j * (row_h + 14) + (14 if n else 0)
         cy = y + box_h / 2
         parts.append(
-            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="none" stroke="#B9A0FC" stroke-width="1.5" stroke-dasharray="6,5"/>'
+            f'<rect x="{box_x}" y="{y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="#F3F4F6" stroke="#B9A0FC" stroke-width="2" stroke-dasharray="6,5"/>'
         )
         value_lines = _wrap_svg_text(" ".join(value_repr.split()), max_chars=16, max_lines=2)
         value_top = cy - (len(value_lines) - 1) * 9 + 5
@@ -839,13 +854,15 @@ def decision_diamond_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs><marker id='arrowdd' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
         "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
     ]
     parts.append(
-        f'<polygon points="{cx},{dia_top} {right_v[0]},{dia_cy} {cx},{dia_bottom} {left_v[0]},{dia_cy}" '
-        f'fill="#5B24F9"/>'
+        f'<polygon data-flow-shape="decision" '
+        f'points="{cx},{dia_top} {right_v[0]},{dia_cy} {cx},{dia_bottom} {left_v[0]},{dia_cy}" '
+        f'fill="#5B24F9" stroke="#3B0FBF" stroke-width="2"/>'
     )
     q_first_y = dia_cy - (len(q_lines) - 1) * 10 + 5
     q_tspans = "".join(
@@ -856,15 +873,15 @@ def decision_diamond_diagram(
         f'font-size="15" fill="#fff">{q_tspans}</text>'
     )
     parts.append(
-        f'<path d="M{left_v[0]},{left_v[1]} L{left_cx},{boxes_y}" fill="none" stroke="#059669" '
+        f'<path d="M{left_v[0]},{left_v[1]} H{left_cx} V{boxes_y}" fill="none" stroke="#059669" '
         f'stroke-width="2.5" marker-end="url(#arrowdd)"/>'
     )
     parts.append(
-        f'<path d="M{right_v[0]},{right_v[1]} L{right_cx},{boxes_y}" fill="none" stroke="#DB2777" '
+        f'<path d="M{right_v[0]},{right_v[1]} H{right_cx} V{boxes_y}" fill="none" stroke="#DB2777" '
         f'stroke-width="2.5" marker-end="url(#arrowdd)"/>'
     )
-    mid_left = ((left_v[0] + left_cx) / 2 - 14, (left_v[1] + boxes_y) / 2)
-    mid_right = ((right_v[0] + right_cx) / 2 + 14, (right_v[1] + boxes_y) / 2)
+    mid_left = ((left_v[0] + left_cx) / 2, left_v[1] - 12)
+    mid_right = ((right_v[0] + right_cx) / 2, right_v[1] - 12)
     parts.append(
         f'<text x="{mid_left[0]}" y="{mid_left[1]}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
         f'font-weight="700" font-size="13" fill="#059669">{html.escape(yes_label)}</text>'
@@ -873,10 +890,16 @@ def decision_diamond_diagram(
         f'<text x="{mid_right[0]}" y="{mid_right[1]}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
         f'font-weight="700" font-size="13" fill="#DB2777">{html.escape(no_label)}</text>'
     )
-    for x, cxb, result, color in ((left_x, left_cx, yes_result, "#059669"), (right_x, right_cx, no_result, "#DB2777")):
+    for x, cxb, result, color, fill in (
+        (left_x, left_cx, yes_result, "#059669", "#DCFCE7"),
+        (right_x, right_cx, no_result, "#DB2777", "#FCE7F3"),
+    ):
+        skew = 18
+        x1 = x + box_w
         parts.append(
-            f'<rect x="{x}" y="{boxes_y}" width="{box_w}" height="{box_h}" rx="14" '
-            f'fill="#FAFAFC" stroke="{color}" stroke-width="1.5"/>'
+            f'<polygon data-flow-shape="input-output" '
+            f'points="{x + skew},{boxes_y} {x1},{boxes_y} {x1 - skew},{boxes_y + box_h} {x},{boxes_y + box_h}" '
+            f'fill="{fill}" stroke="{color}" stroke-width="2"/>'
         )
         r_lines = _wrap_svg_text(" ".join(result.split()), max_chars=20, max_lines=3)
         r_first_y = boxes_y + box_h / 2 - (len(r_lines) - 1) * 9 + 5
@@ -911,7 +934,8 @@ def elif_ladder_diagram(steps: list[tuple[str, str]], *, else_label: str = "", c
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs><marker id='arrowel' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
         "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
     ]
@@ -922,7 +946,9 @@ def elif_ladder_diagram(steps: list[tuple[str, str]], *, else_label: str = "", c
         left_v = (dia_cx - dia_w / 2, cy)
         right_v = (dia_cx + dia_w / 2, cy)
         parts.append(
-            f'<polygon points="{dia_cx},{top} {right_v[0]},{cy} {dia_cx},{bottom} {left_v[0]},{cy}" fill="#5B24F9"/>'
+            f'<polygon data-flow-shape="decision" '
+            f'points="{dia_cx},{top} {right_v[0]},{cy} {dia_cx},{bottom} {left_v[0]},{cy}" '
+            f'fill="#5B24F9" stroke="#3B0FBF" stroke-width="2"/>'
         )
         c_lines = _wrap_svg_text(" ".join(cond.split()), max_chars=17, max_lines=2)
         c_first_y = cy - (len(c_lines) - 1) * 9 + 5
@@ -943,9 +969,13 @@ def elif_ladder_diagram(steps: list[tuple[str, str]], *, else_label: str = "", c
             f'<text x="{(right_v[0] + box_x) / 2}" y="{cy - 10}" text-anchor="middle" '
             f'font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#059669">True</text>'
         )
+        result_top = cy - box_h / 2
+        result_skew = 16
         parts.append(
-            f'<rect x="{box_x}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/>'
+            f'<polygon data-flow-shape="input-output" '
+            f'points="{box_x + result_skew},{result_top} {box_x + box_w},{result_top} '
+            f'{box_x + box_w - result_skew},{result_top + box_h} {box_x},{result_top + box_h}" '
+            f'fill="#DCFCE7" stroke="#059669" stroke-width="2"/>'
         )
         r_lines = _wrap_svg_text(" ".join(result.split()), max_chars=20, max_lines=2)
         r_first_y = cy - (len(r_lines) - 1) * 9 + 5
@@ -976,8 +1006,9 @@ def elif_ladder_diagram(steps: list[tuple[str, str]], *, else_label: str = "", c
             f'<tspan x="{dia_cx}" y="{el_first_y + li * 18}">{html.escape(line)}</tspan>' for li, line in enumerate(el_lines)
         )
         parts.append(
-            f'<rect x="{dia_cx - box_w / 2}" y="{y}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5" stroke-dasharray="5 4"/>'
+            f'<rect data-flow-shape="process" x="{dia_cx - box_w / 2}" y="{y}" '
+            f'width="{box_w}" height="{box_h}" rx="2" fill="#EDE9FE" '
+            f'stroke="#5B24F9" stroke-width="2" stroke-dasharray="5 4"/>'
         )
         parts.append(
             f'<text text-anchor="middle" font-family="\'JetBrains Mono\', monospace" font-size="13" '
@@ -1017,7 +1048,8 @@ def comparison_number_line(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="number-line" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs><marker id='arrownc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
         "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
     ]
@@ -1136,27 +1168,38 @@ def _fc_draw_node(parts: list[str], kind: str, label: str, cx: float, top: float
     cy = top + h / 2
     if kind in ("start", "end"):
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
-        parts.append(f'<rect x="{cx - w/2}" y="{top}" width="{w}" height="{h}" rx="{h/2}" fill="#0D0230"/>')
+        parts.append(
+            f'<rect data-flow-shape="terminator" x="{cx - w/2}" y="{top}" width="{w}" height="{h}" '
+            f'rx="{h/2}" fill="#0D0230" stroke="#5B24F9" stroke-width="2"/>'
+        )
         color, family, weight, size = "#fff", "Sora, sans-serif", "700", 14
     elif kind == "process":
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=22, max_lines=2)
-        parts.append(f'<rect x="{cx - w/2}" y="{top}" width="{w}" height="{h}" rx="10" fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>')
+        parts.append(
+            f'<rect data-flow-shape="process" x="{cx - w/2}" y="{top}" width="{w}" height="{h}" '
+            f'rx="2" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>'
+        )
         color, family, weight, size = "#0D0230", "'JetBrains Mono', monospace", "600", 13
     elif kind in ("input", "output"):
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=20, max_lines=2)
         skew = _FC_IO_SKEW
         x0, x1 = cx - w / 2, cx + w / 2
         points = f"{x0 + skew},{top} {x1},{top} {x1 - skew},{top + h} {x0},{top + h}"
-        fill = "#EDE9FE" if kind == "input" else "#DCFCE7"
-        stroke = "#5B24F9" if kind == "input" else "#059669"
-        parts.append(f'<polygon points="{points}" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>')
+        fill = "#DBEAFE" if kind == "input" else "#DCFCE7"
+        stroke = "#2563EB" if kind == "input" else "#059669"
+        parts.append(
+            f'<polygon data-flow-shape="input-output" points="{points}" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>'
+        )
         color, family, weight, size = "#0D0230", "'JetBrains Mono', monospace", "600", 13
     elif kind == "decision":
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=15, max_lines=3)
         top_v, right_v, bot_v, left_v = (cx, top), (cx + w / 2, cy), (cx, top + h), (cx - w / 2, cy)
         parts.append(
-            f'<polygon points="{top_v[0]},{top_v[1]} {right_v[0]},{right_v[1]} '
-            f'{bot_v[0]},{bot_v[1]} {left_v[0]},{left_v[1]}" fill="#5B24F9"/>'
+            f'<polygon data-flow-shape="decision" '
+            f'points="{top_v[0]},{top_v[1]} {right_v[0]},{right_v[1]} '
+            f'{bot_v[0]},{bot_v[1]} {left_v[0]},{left_v[1]}" '
+            f'fill="#5B24F9" stroke="#3B0FBF" stroke-width="2"/>'
         )
         color, family, weight, size = "#fff", "Sora, sans-serif", "700", 13
     else:
@@ -1171,19 +1214,54 @@ def _fc_draw_node(parts: list[str], kind: str, label: str, cx: float, top: float
     )
 
 
-def _fc_arrow(parts: list[str], mid: str, x1: float, y1: float, x2: float, y2: float, *, color: str = "#B9A0FC", curve: bool = False) -> None:
+def _fc_arrow(
+    parts: list[str],
+    mid: str,
+    x1: float,
+    y1: float,
+    x2: float,
+    y2: float,
+    *,
+    color: str = "#B9A0FC",
+    route: str = "auto",
+) -> None:
+    """Draw an arrow using only orthogonal (horizontal/vertical) segments.
+
+    ``route`` controls the first and last segment when endpoints are not
+    aligned: ``hv`` leaves horizontally and enters vertically, ``vh`` leaves
+    vertically and enters horizontally, ``hvh`` enters horizontally, and
+    ``vhv`` enters vertically.  Curves and diagonal shortcuts are forbidden
+    for course block diagrams.
+    """
+    if x1 == x2 and y1 == y2:
+        return
+
     marker = _fc_marker_ref(mid, color)
-    if curve:
-        mid_y = (y1 + y2) / 2
-        parts.append(
-            f'<path d="M{x1},{y1} C{x1},{mid_y} {x2},{mid_y} {x2},{y2}" fill="none" '
-            f'stroke="{color}" stroke-width="2.5" marker-end="url(#{marker})"/>'
-        )
-    else:
+    if x1 == x2 or y1 == y2:
         parts.append(
             f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" '
             f'stroke-width="2.5" marker-end="url(#{marker})"/>'
         )
+        return
+
+    if route == "auto":
+        route = "vhv"
+    if route == "hv":
+        path = f"M{x1},{y1} H{x2} V{y2}"
+    elif route == "vh":
+        path = f"M{x1},{y1} V{y2} H{x2}"
+    elif route == "hvh":
+        mid_x = (x1 + x2) / 2
+        path = f"M{x1},{y1} H{mid_x} V{y2} H{x2}"
+    elif route == "vhv":
+        mid_y = (y1 + y2) / 2
+        path = f"M{x1},{y1} V{mid_y} H{x2} V{y2}"
+    else:
+        raise ValueError(f"unknown orthogonal route: {route}")
+    parts.append(
+        f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2.5" '
+        f'stroke-linejoin="miter" marker-end="url(#{marker})"/>'
+    )
 
 
 def _fc_label(parts: list[str], x: float, y: float, text: str, color: str, *, anchor: str = "middle") -> None:
@@ -1199,7 +1277,6 @@ def flowchart(
     yes_label: str = "ДА",
     no_label: str = "НЕТ",
     caption: str = "",
-    straight_branches: bool = False,
 ) -> str:
     """Recursive top-down flowchart with conventional shape semantics —
     the single reusable primitive behind every algorithm/control-flow
@@ -1261,16 +1338,14 @@ def flowchart(
                 nl = step.get("no_label", no_label)
 
                 if yes_steps:
-                    _fc_arrow(parts, mid, left_vx, dia_cy, left_x, branch_top, curve=not straight_branches, color="#059669")
-                    yes_label_offset = 24 if straight_branches else 4
-                    _fc_label(parts, (left_vx + left_x) / 2 - yes_label_offset, (dia_cy + branch_top) / 2 - 12, yl, "#059669")
+                    _fc_arrow(parts, mid, left_vx, dia_cy, left_x, branch_top, route="hv", color="#059669")
+                    _fc_label(parts, (left_vx + left_x) / 2, dia_cy - 12, yl, "#059669")
                     yes_bottom = render(yes_steps, left_x, branch_top)
                 else:
                     yes_bottom = dia_cy
                 if no_steps:
-                    _fc_arrow(parts, mid, right_vx, dia_cy, right_x, branch_top, curve=not straight_branches, color="#DB2777")
-                    no_label_offset = 24 if straight_branches else 4
-                    _fc_label(parts, (right_vx + right_x) / 2 + no_label_offset, (dia_cy + branch_top) / 2 - 12, nl, "#DB2777")
+                    _fc_arrow(parts, mid, right_vx, dia_cy, right_x, branch_top, route="hv", color="#DB2777")
+                    _fc_label(parts, (right_vx + right_x) / 2, dia_cy - 12, nl, "#DB2777")
                     no_bottom = render(no_steps, right_x, branch_top)
                 else:
                     no_bottom = dia_cy
@@ -1292,15 +1367,15 @@ def flowchart(
                     merge_y = max(continuing + [dia_bottom]) + _FC_MERGE_GAP
                     if yes_bottom is not None:
                         if yes_steps:
-                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, curve=not straight_branches)
+                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, route="vh")
                         else:
-                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, curve=not straight_branches, color="#059669")
+                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, route="hvh", color="#059669")
                             _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
                     if no_bottom is not None:
                         if no_steps:
-                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, curve=not straight_branches)
+                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, route="vh")
                         else:
-                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, curve=not straight_branches, color="#DB2777")
+                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, route="hvh", color="#DB2777")
                             _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
                     y = merge_y
                     prev_bottom = merge_y
@@ -1321,7 +1396,8 @@ def flowchart(
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1421,7 +1497,8 @@ def condition_cascade(
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1482,7 +1559,8 @@ def loop_preview_diagram(*, action_label: str, question_label: str, caption: str
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1552,7 +1630,8 @@ def for_loop_flowchart(source_label: str, item_label: str, body_label: str, *, c
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1595,7 +1674,10 @@ def while_loop_flowchart(init_label: str, condition_label: str, body_label: str,
     body_x = dia_right + 130
     body_h = _fc_node_height("process", body_label)
     body_top = dia_cy - body_h - 6
-    _fc_arrow(parts, mid, dia_right, dia_cy, body_x - _FC_PROC_W / 2, body_top + body_h / 2, color="#059669")
+    _fc_arrow(
+        parts, mid, dia_right, dia_cy, body_x - _FC_PROC_W / 2, body_top + body_h / 2,
+        color="#059669", route="hvh",
+    )
     _fc_label(parts, (dia_right + body_x - _FC_PROC_W / 2) / 2, dia_cy - 16, "ДА", "#059669")
     _fc_draw_node(parts, "process", body_label, body_x, body_top)
     body_cy = body_top + body_h / 2
@@ -1627,7 +1709,8 @@ def while_loop_flowchart(init_label: str, condition_label: str, body_label: str,
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1719,7 +1802,8 @@ def break_continue_flowchart(kind: str, loop_label: str, condition_label: str, *
     width, height = max_x - min_x, max_y_bottom
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1815,7 +1899,8 @@ def loop_else_flowchart(source_label: str, item_label: str, found_label: str, ac
     width, height = max_x - min_x, max_y
     svg = (
         f'<svg viewBox="{min_x} 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{width:.0f}px">'
+        f'role="img" data-diagram="flowchart" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{width:.0f}px">'
         f'{_fc_arrow_defs(mid)}{"".join(parts)}</svg>'
     )
     cap = f'<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">{html.escape(caption)}</figcaption>' if caption else ""
@@ -1947,8 +2032,9 @@ def number_line_diagram(
     """A horizontal number line from lo to hi with labeled tick marks —
     used for floor/ceil/trunc and negative floor-division explanations.
     marks: list of (position, label).
-    jumps: optional list of (from, to, label) drawn as a curved arrow above
-    the line — for addition/subtraction ("start at 3, move 4, arrive at 7")."""
+    jumps: optional list of (from, to, label) drawn as an orthogonal arrow
+    above the line — for addition/subtraction ("start at 3, move 4, arrive
+    at 7")."""
     total_w = 640
     pad = 40
     usable = total_w - 2 * pad
@@ -1961,7 +2047,8 @@ def number_line_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="number-line" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     parts.append(
         "<defs><marker id='arrownl' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
@@ -1981,8 +2068,9 @@ def number_line_diagram(
         mid = (x1 + x2) / 2
         arc_h = y - 34
         parts.append(
-            f'<path d="M{x1},{y - 8} Q{mid},{arc_h} {x2},{y - 8}" fill="none" '
-            f'stroke="#5B24F9" stroke-width="2.5" marker-end="url(#arrownl)"/>'
+            f'<path d="M{x1},{y - 8} V{arc_h} H{x2} V{y - 8}" fill="none" '
+            f'stroke="#5B24F9" stroke-width="2.5" stroke-linejoin="miter" '
+            f'marker-end="url(#arrownl)"/>'
         )
         parts.append(
             f'<text x="{mid}" y="{arc_h - 8}" text-anchor="middle" font-family="JetBrains Mono, monospace" '
@@ -2639,7 +2727,8 @@ def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> s
     total_h = target_y + target_h + 10
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="block-diagram" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     parts.append(
         "<defs><marker id='arrowc' viewBox='0 0 10 10' refX='9' refY='5' "
@@ -2647,12 +2736,14 @@ def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> s
         "<path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
     )
     target_cx = total_w / 2
+    source_centres = [sources_x_offset + i * (box_w + gap) + box_w / 2 for i in range(n)]
+    bus_y = sources_y + box_h + 50
     for i, label in enumerate(sources):
         x = sources_x_offset + i * (box_w + gap)
         cx = x + box_w / 2
         parts.append(
-            f'<rect x="{x}" y="{sources_y}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+            f'<rect x="{x}" y="{sources_y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>'
         )
         label_lines = _wrap_svg_text(label, max_chars=18, max_lines=2)
         label_top = sources_y + box_h / 2 - (len(label_lines) - 1) * 8 + 4
@@ -2664,12 +2755,21 @@ def converge_diagram(sources: list[str], target: str, *, caption: str = "") -> s
             f'font-size="13" fill="#0D0230">{label_tspans}</text>'
         )
         parts.append(
-            f'<path d="M{cx},{sources_y + box_h} C{cx},{(sources_y + box_h + target_y) / 2} '
-            f'{target_cx},{(sources_y + box_h + target_y) / 2} {target_cx},{target_y}" '
-            f'fill="none" stroke="#B9A0FC" stroke-width="2.5" marker-end="url(#arrowc)"/>'
+            f'<line x1="{cx}" y1="{sources_y + box_h}" x2="{cx}" y2="{bus_y}" '
+            f'stroke="#B9A0FC" stroke-width="2.5"/>'
+        )
+    if source_centres:
+        parts.append(
+            f'<line x1="{min(source_centres)}" y1="{bus_y}" x2="{max(source_centres)}" y2="{bus_y}" '
+            f'stroke="#B9A0FC" stroke-width="2.5"/>'
+        )
+        parts.append(
+            f'<path d="M{target_cx},{bus_y} V{target_y}" fill="none" stroke="#5B24F9" '
+            f'stroke-width="2.5" marker-end="url(#arrowc)"/>'
         )
     parts.append(
-        f'<rect x="{target_x}" y="{target_y}" width="{target_w}" height="{target_h}" rx="14" fill="#5B24F9"/>'
+        f'<rect x="{target_x}" y="{target_y}" width="{target_w}" height="{target_h}" rx="4" '
+        f'fill="#5B24F9" stroke="#3B0FBF" stroke-width="2"/>'
     )
     target_first_line_y = target_y + target_h / 2 - (len(target_lines) - 1) * target_line_h / 2 + 5
     target_tspans = "".join(
@@ -3351,7 +3451,8 @@ def shallow_copy_diagram(outer_a_label: str, outer_b_label: str, inner_items: li
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="reference-diagram" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs><marker id='arrowsc' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
         "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#B9A0FC'/></marker></defs>"
     ]
@@ -3370,16 +3471,17 @@ def shallow_copy_diagram(outer_a_label: str, outer_b_label: str, inner_items: li
         cx = x + slot_w / 2
         for y, color in ((outer_a_y, "#5B24F9"), (outer_b_y, "#DB2777")):
             parts.append(
-                f'<rect x="{x}" y="{y}" width="{slot_w}" height="{slot_h}" rx="10" '
-                f'fill="#FAFAFC" stroke="{color}" stroke-width="1.5"/>'
+                f'<rect x="{x}" y="{y}" width="{slot_w}" height="{slot_h}" rx="4" '
+                f'fill="{"#EDE9FE" if color == "#5B24F9" else "#FCE7F3"}" '
+                f'stroke="{color}" stroke-width="2"/>'
             )
             parts.append(
                 f'<text x="{cx}" y="{y + slot_h / 2 + 5}" text-anchor="middle" '
                 f'font-family="\'JetBrains Mono\', monospace" font-size="12" fill="#0D0230">[{i}]</text>'
             )
         parts.append(
-            f'<rect x="{x}" y="{inner_y}" width="{slot_w}" height="{slot_h}" rx="10" '
-            f'fill="#E7DEFF" stroke="#0D0230" stroke-width="1.5"/>'
+            f'<rect x="{x}" y="{inner_y}" width="{slot_w}" height="{slot_h}" rx="4" '
+            f'fill="#DCFCE7" stroke="#059669" stroke-width="2"/>'
         )
         parts.append(
             f'<text x="{cx}" y="{inner_y + slot_h / 2 + 5}" text-anchor="middle" '
@@ -3387,13 +3489,13 @@ def shallow_copy_diagram(outer_a_label: str, outer_b_label: str, inner_items: li
             f'fill="#0D0230">{html.escape(str(inner_items[i]))}</text>'
         )
         parts.append(
-            f'<path d="M{cx - 8},{outer_a_y + slot_h} C{cx - 8},{(outer_a_y + slot_h + inner_y) / 2} '
-            f'{cx - 6},{(outer_a_y + slot_h + inner_y) / 2} {cx - 4},{inner_y}" '
+            f'<path d="M{cx - 8},{outer_a_y + slot_h} V{(outer_a_y + slot_h + inner_y) / 2} '
+            f'H{cx - 4} V{inner_y}" '
             f'fill="none" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrowsc)"/>'
         )
         parts.append(
-            f'<path d="M{cx + 8},{outer_b_y + slot_h} C{cx + 8},{(outer_b_y + slot_h + inner_y) / 2} '
-            f'{cx + 6},{(outer_b_y + slot_h + inner_y) / 2} {cx + 4},{inner_y}" '
+            f'<path d="M{cx + 8},{outer_b_y + slot_h} V{(outer_b_y + slot_h + inner_y) / 2} '
+            f'H{cx + 4} V{inner_y}" '
             f'fill="none" stroke="#DB2777" stroke-width="2" marker-end="url(#arrowsc)"/>'
         )
     parts.append("</svg>")
@@ -3471,7 +3573,7 @@ def call_flow_diagram(
 ) -> str:
     """The signature Chapter 13 visual: two columns — the CALLER's statements
     top-to-bottom on the left (with the call itself highlighted), the
-    FUNCTION's body statements on the right — connected by two curved
+    FUNCTION's body statements on the right — connected by two orthogonal
     arrows: one from the call site INTO the function (green, "вызов"), one
     from the end of the function body back to the statement right after the
     call (pink, "возврат"). Makes concrete that a call does not just "run
@@ -3505,7 +3607,8 @@ def call_flow_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="control-flow" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs>"
         "<marker id='arrowcfg' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' "
         "orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#059669'/></marker>"
@@ -3526,12 +3629,12 @@ def call_flow_diagram(
     left_cx = left_x + box_w / 2
     for i, (label, ly) in enumerate(zip(left_steps, left_ys)):
         is_call = i == call_idx
-        fill = "#5B24F9" if is_call else "#FAFAFC"
+        fill = "#5B24F9" if is_call else "#EDE9FE"
         fg = "#fff" if is_call else "#0D0230"
         stroke = "#5B24F9"
         parts.append(
-            f'<rect x="{left_x}" y="{ly}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>'
+            f'<rect x="{left_x}" y="{ly}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>'
         )
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=24, max_lines=2)
         first_y = ly + box_h / 2 - (len(lines) - 1) * 9 + 5
@@ -3551,8 +3654,8 @@ def call_flow_diagram(
     right_cx = right_x + box_w / 2
     for i, (label, ry) in enumerate(zip(function_steps, right_ys)):
         parts.append(
-            f'<rect x="{right_x}" y="{ry}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#059669" stroke-width="1.5"/>'
+            f'<rect x="{right_x}" y="{ry}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="#DCFCE7" stroke="#059669" stroke-width="2"/>'
         )
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=24, max_lines=2)
         first_y = ry + box_h / 2 - (len(lines) - 1) * 9 + 5
@@ -3571,10 +3674,11 @@ def call_flow_diagram(
             )
     call_right = (left_x + box_w, call_y + box_h / 2)
     func_top = (right_x, right_ys[0] + box_h / 2) if right_ys else (right_x, call_y + box_h / 2)
+    call_mid_x = (call_right[0] + func_top[0]) / 2
     parts.append(
-        f'<path d="M{call_right[0]},{call_right[1]} C{(call_right[0] + func_top[0]) / 2},{call_right[1]} '
-        f'{(call_right[0] + func_top[0]) / 2},{func_top[1]} {func_top[0]},{func_top[1]}" '
-        f'fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowcfg)"/>'
+        f'<path d="M{call_right[0]},{call_right[1]} H{call_mid_x} V{func_top[1]} H{func_top[0]}" '
+        f'fill="none" stroke="#059669" stroke-width="2.5" stroke-linejoin="miter" '
+        f'marker-end="url(#arrowcfg)"/>'
     )
     parts.append(
         f'<text x="{(call_right[0] + func_top[0]) / 2}" y="{min(call_right[1], func_top[1]) - 10}" '
@@ -3585,9 +3689,9 @@ def call_flow_diagram(
         func_bottom = (right_x, right_ys[-1] + box_h)
         after_left = (left_x, left_ys[call_idx + 1] + box_h / 2)
         parts.append(
-            f'<path d="M{func_bottom[0]},{func_bottom[1]} C{(func_bottom[0] + after_left[0]) / 2},{func_bottom[1]} '
-            f'{(func_bottom[0] + after_left[0]) / 2},{after_left[1]} {after_left[0]},{after_left[1]}" '
-            f'fill="none" stroke="#DB2777" stroke-width="2.5" marker-end="url(#arrowcfp)"/>'
+            f'<path d="M{func_bottom[0]},{func_bottom[1]} H{(func_bottom[0] + after_left[0]) / 2} '
+            f'V{after_left[1]} H{after_left[0]}" fill="none" stroke="#DB2777" '
+            f'stroke-width="2.5" stroke-linejoin="miter" marker-end="url(#arrowcfp)"/>'
         )
         parts.append(
             f'<text x="{(func_bottom[0] + after_left[0]) / 2}" y="{max(func_bottom[1], after_left[1]) + 18}" '
@@ -3619,17 +3723,18 @@ def call_stack_diagram(frames: list[str], *, caption: str = "") -> str:
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="stack-diagram" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     cx = 20 + box_w / 2
     for i, frame in enumerate(reversed(frames)):
         y = top_pad + i * box_h
         is_top = i == 0
-        fill = "#5B24F9" if is_top else "#FAFAFC"
+        fill = "#5B24F9" if is_top else "#EDE9FE"
         fg = "#fff" if is_top else "#0D0230"
         parts.append(
-            f'<rect x="20" y="{y}" width="{box_w}" height="{box_h}" rx="10" '
-            f'fill="{fill}" stroke="#5B24F9" stroke-width="1.5"/>'
+            f'<rect x="20" y="{y}" width="{box_w}" height="{box_h}" rx="4" '
+            f'fill="{fill}" stroke="#5B24F9" stroke-width="2"/>'
         )
         lines = _wrap_svg_text(" ".join(frame.split()), max_chars=22, max_lines=2)
         first_y = y + box_h / 2 - (len(lines) - 1) * 9 + 5
@@ -3704,16 +3809,16 @@ def class_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="uml-class" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
     ]
     x = 10
     parts.append(
-        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="14" '
-        f'fill="#FAFAFC" stroke="#5B24F9" stroke-width="1.5"/>'
+        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="2" '
+        f'fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/>'
     )
     parts.append(
-        f'<path d="M{x},14 a14,14 0 0 1 14,-14 h{box_w - 28} a14,14 0 0 1 14,14 v{header_h - 14} '
-        f'h-{box_w} z" fill="#5B24F9"/>'
+        f'<rect x="{x}" y="0" width="{box_w}" height="{header_h}" rx="0" fill="#5B24F9"/>'
     )
     parts.append(
         f'<text x="{x + box_w / 2}" y="{header_h / 2 + 6}" text-anchor="middle" '
@@ -3812,16 +3917,16 @@ def object_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="display:block;width:100%;height:auto">'
+        f'role="img" data-diagram="uml-object" aria-label="{html.escape(caption)}" '
+        f'style="display:block;width:100%;height:auto">'
     ]
     x = 10
     parts.append(
-        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="14" '
-        f'fill="#FAFAFC" stroke="#DB2777" stroke-width="1.5"/>'
+        f'<rect x="{x}" y="0" width="{box_w}" height="{total_h}" rx="2" '
+        f'fill="#FCE7F3" stroke="#DB2777" stroke-width="2"/>'
     )
     parts.append(
-        f'<path d="M{x},14 a14,14 0 0 1 14,-14 h{box_w - 28} a14,14 0 0 1 14,14 v{header_h - 14} '
-        f'h-{box_w} z" fill="#DB2777"/>'
+        f'<rect x="{x}" y="0" width="{box_w}" height="{header_h}" rx="0" fill="#DB2777"/>'
     )
     header_text = f"{instance_label} : {class_name}"
     parts.append(
@@ -3895,7 +4000,8 @@ def relationship_diagram(
 
     parts = [
         f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-        f'role="img" aria-label="{html.escape(caption)}" style="width:100%;height:auto;max-width:{total_w}px">'
+        f'role="img" data-diagram="uml-relationship" aria-label="{html.escape(caption)}" '
+        f'style="width:100%;height:auto;max-width:{total_w}px">'
         "<defs>"
         "<marker id='arrowrelis' viewBox='0 0 14 12' refX='13' refY='6' markerWidth='16' markerHeight='14' "
         "orient='auto-start-reverse'><path d='M1,1 L13,6 L1,11 z' fill='#FAFAFC' stroke='#5B24F9' "
@@ -3906,10 +4012,11 @@ def relationship_diagram(
         "orient='auto-start-reverse'><path d='M1,5 L8,1 L15,5 L8,9 z' fill='#059669'/></marker>"
         "</defs>"
     ]
-    for lx, label in ((left_x, from_label), (right_x, to_label)):
+    for box_index, (lx, label) in enumerate(((left_x, from_label), (right_x, to_label))):
+        box_fill = "#EDE9FE" if box_index == 0 else "#DCFCE7"
         parts.append(
-            f'<rect x="{lx}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="12" '
-            f'fill="#FAFAFC" stroke="#0D0230" stroke-width="1.5"/>'
+            f'<rect x="{lx}" y="{cy - box_h / 2}" width="{box_w}" height="{box_h}" rx="2" '
+            f'fill="{box_fill}" stroke="#0D0230" stroke-width="2"/>'
         )
         lines = _wrap_svg_text(" ".join(label.split()), max_chars=20, max_lines=2)
         first_y = cy - (len(lines) - 1) * 10 + 6
@@ -4056,10 +4163,10 @@ def file_cursor_diagram(
 
 
 _PIPELINE_STYLES = {
-    "memory": ("#DB2777", "dashed", "#6B6B7D"),
-    "file": ("#B45309", "solid", "#92603A"),
-    "object": ("#5B24F9", "solid", "#6B6B7D"),
-    "plain": ("#0D0230", "solid", "#6B6B7D"),
+    "memory": ("#DB2777", "dashed", "#6B6B7D", "#FCE7F3"),
+    "file": ("#B45309", "solid", "#92603A", "#FEF3C7"),
+    "object": ("#5B24F9", "solid", "#6B6B7D", "#EDE9FE"),
+    "plain": ("#0D0230", "solid", "#6B6B7D", "#E5E7EB"),
 }
 
 
@@ -4088,7 +4195,7 @@ def pipeline_diagram(nodes: list[dict], *, caption: str = "") -> str:
         title = node.get("title", "")
         rows = node.get("rows") or []
         note = node.get("note", "")
-        color, border_style, row_color = _PIPELINE_STYLES.get(kind, _PIPELINE_STYLES["plain"])
+        color, border_style, row_color, background = _PIPELINE_STYLES.get(kind, _PIPELINE_STYLES["plain"])
         if i > 0:
             note_html = (
                 f'<div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;'
@@ -4106,8 +4213,8 @@ def pipeline_diagram(nodes: list[dict], *, caption: str = "") -> str:
             for row in rows
         )
         parts.append(
-            f'<div style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:14px;'
-            f'background:var(--color-bg-canvas,#fff);border:2px {border_style} {color};text-align:center">'
+            f'<div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;'
+            f'border-radius:4px;background:{background};border:2px {border_style} {color};text-align:center">'
             f'<div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;font-size:15px;'
             f'color:{color}">{html.escape(title)}</div>'
             + (f'<div style="margin-top:8px;display:flex;flex-direction:column;gap:3px">{rows_html}</div>' if rows_html else "")
@@ -4146,8 +4253,8 @@ def file_state_diagram(
             for line in lines
         ) or '<div style="font-family:\'JetBrains Mono\',monospace;font-size:13.5px;color:#B9A0FC;font-style:italic">(пустой файл)</div>'
         return (
-            f'<div style="flex:1 1 200px;min-width:180px;padding:14px 18px;border-radius:14px;'
-            f'background:var(--color-bg-canvas,#fff);border:2px solid #B45309">'
+            f'<div data-diagram-node="file-state" style="flex:1 1 200px;min-width:180px;padding:14px 18px;'
+            f'border-radius:4px;background:#FEF3C7;border:2px solid #B45309">'
             f'<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;'
             f'text-transform:uppercase;color:#B45309;margin-bottom:8px">{html.escape(label)}</div>'
             f'{content}</div>'
