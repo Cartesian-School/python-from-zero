@@ -1224,6 +1224,7 @@ def _fc_arrow(
     *,
     color: str = "#B9A0FC",
     route: str = "auto",
+    arrowhead: bool = True,
 ) -> None:
     """Draw an arrow using only orthogonal (horizontal/vertical) segments.
 
@@ -1237,10 +1238,11 @@ def _fc_arrow(
         return
 
     marker = _fc_marker_ref(mid, color)
+    marker_attr = f' marker-end="url(#{marker})"' if arrowhead else ""
     if x1 == x2 or y1 == y2:
         parts.append(
             f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" '
-            f'stroke-width="2.5" marker-end="url(#{marker})"/>'
+            f'stroke-width="2.5"{marker_attr}/>'
         )
         return
 
@@ -1260,7 +1262,7 @@ def _fc_arrow(
         raise ValueError(f"unknown orthogonal route: {route}")
     parts.append(
         f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2.5" '
-        f'stroke-linejoin="miter" marker-end="url(#{marker})"/>'
+        f'stroke-linejoin="miter"{marker_attr}/>'
     )
 
 
@@ -1367,17 +1369,32 @@ def flowchart(
                     merge_y = max(continuing + [dia_bottom]) + _FC_MERGE_GAP
                     if yes_bottom is not None:
                         if yes_steps:
-                            _fc_arrow(parts, mid, left_x, yes_bottom, cx, merge_y, route="vh")
+                            _fc_arrow(
+                                parts, mid, left_x, yes_bottom, cx, merge_y,
+                                route="vh", arrowhead=False,
+                            )
                         else:
-                            _fc_arrow(parts, mid, left_vx, dia_cy, cx, merge_y, route="hvh", color="#059669")
+                            _fc_arrow(
+                                parts, mid, left_vx, dia_cy, cx, merge_y,
+                                route="hvh", color="#059669", arrowhead=False,
+                            )
                             _fc_label(parts, cx - 46, (dia_cy + merge_y) / 2, yl, "#059669")
                     if no_bottom is not None:
                         if no_steps:
-                            _fc_arrow(parts, mid, right_x, no_bottom, cx, merge_y, route="vh")
+                            _fc_arrow(
+                                parts, mid, right_x, no_bottom, cx, merge_y,
+                                route="vh", arrowhead=False,
+                            )
                         else:
-                            _fc_arrow(parts, mid, right_vx, dia_cy, cx, merge_y, route="hvh", color="#DB2777")
+                            _fc_arrow(
+                                parts, mid, right_vx, dia_cy, cx, merge_y,
+                                route="hvh", color="#DB2777", arrowhead=False,
+                            )
                             _fc_label(parts, cx + 46, (dia_cy + merge_y) / 2, nl, "#DB2777")
-                    y = merge_y
+                    # The two branches join on one orthogonal collector.  The
+                    # next iteration draws exactly one vertical arrow from the
+                    # collector into the following block.
+                    y = merge_y + _FC_GAP_Y
                     prev_bottom = merge_y
             else:
                 if prev_bottom is not None:
