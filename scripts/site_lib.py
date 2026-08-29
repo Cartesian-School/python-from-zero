@@ -357,7 +357,12 @@ def flow_diagram(steps: list[tuple[str, str]], *, caption: str = "") -> str:
     wrapped = [
         (
             _wrap_svg_text(" ".join(title.split()), max_chars=title_max_chars, max_lines=title_max_lines),
-            _wrap_svg_text(" ".join(sub.split()), max_chars=sub_max_chars, max_lines=sub_max_lines),
+            _wrap_svg_text(
+                " ".join(sub.split()),
+                max_chars=sub_max_chars,
+                max_lines=sub_max_lines,
+                hard_split_long_words=True,
+            ),
         )
         for title, sub in steps
     ]
@@ -464,7 +469,9 @@ def timeline_diagram(events: list[tuple[str, str]], *, caption: str = "") -> str
     return f'<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto">{svg}{cap}</figure>'
 
 
-def _wrap_svg_text(text: str, max_chars: int, max_lines: int = 3) -> list[str]:
+def _wrap_svg_text(
+    text: str, max_chars: int, max_lines: int = 3, *, hard_split_long_words: bool = False
+) -> list[str]:
     """Greedy word-wrap for SVG <text>, which never wraps on its own.
 
     Wraps the full text first (as many lines as it takes, each up to
@@ -473,11 +480,50 @@ def _wrap_svg_text(text: str, max_chars: int, max_lines: int = 3) -> list[str]:
     greedy pass finishes would cut off the last word or two of otherwise
     short text — this two-pass order keeps every word that legitimately
     fits within max_lines.
+
+    hard_split_long_words: a whitespace-delimited token longer than
+    max_chars — a code literal like ['python','python','code'] or a path
+    like Cartesian-School/safesort, neither of which contains a space for
+    the greedy pass to break on — is normally still accepted onto its own
+    oversized line unconditionally (the character budget is only a proxy
+    for the box's real pixel width, and most callers' boxes have enough
+    slack that an over-budget word still fits — hard-splitting those would
+    needlessly mangle words that were never actually overflowing). Pass
+    True only at a call site whose box is known to have no such slack —
+    where max_chars is a tight fit — to hard-split the token instead: each
+    cut prefers the last punctuation break (',' '/' '.' '-' '_') in the
+    second half of the max_chars window, e.g. splitting
+    ['python','python','code'] after the second comma rather than through
+    the middle of 'code', and falls back to a raw character cut only when
+    no such break point exists.
     """
-    words = text.split()
+    break_chars = (",", "/", ".", "-", "_")
+
+    def hard_split(word: str) -> list[str]:
+        chunks: list[str] = []
+        while len(word) > max_chars:
+            window = word[:max_chars]
+            cut = max((window.rfind(c) for c in break_chars), default=-1)
+            if cut < max_chars // 2:
+                cut = max_chars - 1  # no good punctuation break — raw cut
+            chunks.append(word[: cut + 1])
+            word = word[cut + 1 :]
+        chunks.append(word)
+        return chunks
+
     lines: list[str] = []
     current = ""
-    for word in words:
+    for word in text.split():
+        if hard_split_long_words and len(word) > max_chars:
+            # An oversized word's hard-split pieces are pushed straight into
+            # `lines`, bypassing the space-joining logic below entirely —
+            # two pieces of the SAME original word must never be rejoined
+            # with a space, which would corrupt the code/URL they came from.
+            if current:
+                lines.append(current)
+                current = ""
+            lines.extend(hard_split(word))
+            continue
         candidate = f"{current} {word}".strip()
         if len(candidate) <= max_chars or not current:
             current = candidate
