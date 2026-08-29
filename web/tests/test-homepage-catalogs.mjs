@@ -1,11 +1,11 @@
-// Regression coverage for the homepage's three generated catalogs: the
-// Practice catalog (manifest/practice_manifest.json, 122 entries), the
-// Projects catalog (manifest/projects_manifest.json, 12 real projects), and
+// Regression coverage for the homepage hero and three generated catalogs: the
+// Practice catalog (manifest/practice_manifest.json, 493 entries), the
+// Projects catalog (manifest/projects_manifest.json, 13 real projects), and
 // the Course Journey roadmap (manifest/coverage_manifest.json, 24 chapters).
 //
 // scripts/validate_site_catalogs.py already proves every rendered entry
 // maps 1:1 onto its source-of-truth manifest, with no missing/duplicate/
-// wrong-route entries, across ALL 122/12/24 items — this suite instead
+// wrong-route entries, across ALL 493/13/24 items — this suite instead
 // exercises the actual rendered UI in a real browser: interactive sampling
 // of representative lessons/projects, the progress-aggregation script
 // (site/assets/js/progress.js) against seeded localStorage state, the
@@ -57,6 +57,7 @@ const COVERAGE_MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest',
 const TOTAL_LESSONS = Object.keys(PRACTICE_MANIFEST).length;
 
 const SAMPLE_LESSONS = ['01-01', '03-01', '05-05', '10-05', '15-01', '17-05', '22-02', '23-03'];
+const HERO_VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [768, 1024], [430, 932], [390, 844], [360, 800]];
 
 (async () => {
   log('Building dist/...');
@@ -70,6 +71,86 @@ const SAMPLE_LESSONS = ['01-01', '03-01', '05-05', '10-05', '15-01', '17-05', '2
   try {
     await waitForServer(`${base}/index.html`);
     const browser = await chromium.launch();
+
+    // =========================================================================
+    // HOMEPAGE HERO
+    // =========================================================================
+    log('Homepage hero: Python identity, computational domains, routes, and responsive containment');
+    for (const [width, height] of HERO_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const consoleErrors = [];
+      page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+      page.on('pageerror', (error) => consoleErrors.push(error.message));
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(1100);
+
+      const result = await page.evaluate(() => {
+        const box = (selector) => {
+          const rect = document.querySelector(selector).getBoundingClientRect();
+          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
+        };
+        const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+        const system = box('.hero-system');
+        const content = box('.home-hero__content');
+        const cta = box('.home-cta');
+        const moduleBoxes = [...document.querySelectorAll('.hero-module')].map((module) => {
+          const rect = module.getBoundingClientRect();
+          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
+        });
+        const logo = document.querySelector('.home-hero .kicker img');
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          logoLoaded: logo.complete && logo.naturalWidth > 0,
+          logoSrc: logo.getAttribute('src'),
+          kicker: document.querySelector('.home-hero .kicker').innerText.trim(),
+          moduleCount: moduleBoxes.length,
+          modulesContained: moduleBoxes.every((rect) => rect.left >= system.left - 6 && rect.right <= system.right + 6 && rect.top >= system.top - 6 && rect.bottom <= system.bottom + 6),
+          contentSystemOverlap: overlaps(content, system),
+          systemBelowCta: system.top >= cta.bottom - 1,
+          oldDecorationPresent: getComputedStyle(document.querySelector('.home-hero'), '::after').content.includes('</>'),
+          startHref: document.querySelector('.home-cta .btn-primary').getAttribute('href'),
+          bookHref: document.querySelector('.home-cta .btn-ghost').getAttribute('href'),
+        };
+      });
+
+      const viewport = `${width}x${height}`;
+      ok(`${viewport}: no horizontal overflow`, !result.overflow);
+      ok(`${viewport}: local Python logo is loaded`, result.logoLoaded && result.logoSrc === '/assets/img/brand/python-logo-mark.svg');
+      ok(`${viewport}: eyebrow preserves Python 3.14 course identity`, result.kicker === 'PYTHON 3.14 · БЕСПЛАТНЫЙ ИНТЕРАКТИВНЫЙ КУРС');
+      ok(`${viewport}: CODE / GRAPH / APP / GAME modules are present and contained`, result.moduleCount === 4 && result.modulesContained);
+      ok(`${viewport}: old </> decoration is absent`, !result.oldDecorationPresent);
+      ok(`${viewport}: hero produced no console errors`, consoleErrors.length === 0);
+      if (width >= 1200) ok(`${viewport}: text and computational plane do not collide`, !result.contentSystemOverlap);
+      if (width <= 1100) ok(`${viewport}: text-first layout places the plane below the CTAs`, result.systemBelowCta);
+      ok(`${viewport}: CTA routes are unchanged`, result.startHref === '/chapters/glava-01/index.html' && result.bookHref === '/front-matter/vvedenie.html');
+      await page.close();
+    }
+
+    log('Homepage hero: reduced-motion keeps the complete illustration static');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      const reduced = await page.evaluate(() => {
+        const selectors = ['.hero-system__grid', '.hero-system__prompt', '.hero-signal', '.hero-core__orbit', '.hero-code-cursor', '.hero-game__sprite'];
+        return {
+          animations: selectors.map((selector) => getComputedStyle(document.querySelector(selector)).animationName),
+          modulesVisible: [...document.querySelectorAll('.hero-module')].every((module) => module.getBoundingClientRect().width > 0),
+          graphComplete: getComputedStyle(document.querySelector('.hero-plot__curve')).strokeDashoffset === '0px',
+        };
+      });
+      ok('reduced motion: all continuous decorative animations are disabled', reduced.animations.every((name) => name === 'none'));
+      ok('reduced motion: the full four-domain illustration remains visible', reduced.modulesVisible);
+      ok('reduced motion: graph remains in its completed static state', reduced.graphComplete);
+      await page.close();
+    }
+
+    if (process.env.HERO_ONLY === '1') {
+      await browser.close();
+      console.log(`\n[homepage] HERO RESULT: ${failures === 0 ? 'PASS' : `FAIL (${failures} check(s) failed)`}`);
+      if (failures > 0) process.exitCode = 1;
+      return;
+    }
 
     // =========================================================================
     // PRACTICE CATALOG
