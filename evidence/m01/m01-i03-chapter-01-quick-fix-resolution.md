@@ -1,7 +1,7 @@
 # M01-I03 — Chapter 1 quick-fix resolution
 
-Resolution date: 2026-08-29  
-Approved review baseline: `213ba4d51b75837eee3d6fd5333910226284944a`  
+Resolution date: 2026-08-29
+Approved review baseline: `213ba4d51b75837eee3d6fd5333910226284944a`
 Scope: approved quick corrections only; no Chapter 8–10 architecture change.
 
 ## Resolved findings

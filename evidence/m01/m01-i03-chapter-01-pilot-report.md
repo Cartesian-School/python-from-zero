@@ -1,9 +1,9 @@
 # M01-I03 — pilot full subject-matter and methodology review of Chapter 1
 
-Review date: 2026-08-29  
-Repository: `Cartesian-School/python-from-zero`  
-Review commit: `213ba4d51b75837eee3d6fd5333910226284944a`  
-Rubric: `M01-RU-PROFESSORIAL-REVIEW-v1`  
+Review date: 2026-08-29
+Repository: `Cartesian-School/python-from-zero`
+Review commit: `213ba4d51b75837eee3d6fd5333910226284944a`
+Rubric: `M01-RU-PROFESSORIAL-REVIEW-v1`
 Scope: Chapter 1 opener, seven theory lessons, notebook `01-01`, and its grader.
 
 ## Decision
