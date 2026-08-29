@@ -21,7 +21,7 @@ from typing import Any
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = REPOSITORY_ROOT / "manifest" / "ru_content_audit_inventory.json"
 BASELINE_BRANCH = "main"
-BASELINE_COMMIT = "929a69d13acc0e22a47eeb46c6a2146f33c7e732"
+BASELINE_COMMIT = "213ba4d51b75837eee3d6fd5333910226284944a"
 REVIEW_STATUS = "not_started"
 
 

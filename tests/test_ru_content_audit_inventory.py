@@ -59,13 +59,13 @@ def test_committed_inventory_matches_deterministic_generator() -> None:
     assert committed == generated
 
 
-def test_inventory_covers_the_complete_frozen_baseline() -> None:
-    """Lock the observed M01-I01 baseline counts until a deliberate re-baseline."""
+def test_inventory_covers_the_complete_reconciled_baseline() -> None:
+    """Lock the M01-I03A reconciled baseline and its complete curriculum counts."""
 
     inventory = _inventory()
     assert inventory["baseline"] == {
         "branch": "main",
-        "commit_sha": "929a69d13acc0e22a47eeb46c6a2146f33c7e732",
+        "commit_sha": "213ba4d51b75837eee3d6fd5333910226284944a",
     }
     assert inventory["counts"]["chapters"] == 24
     assert inventory["counts"]["chapter_openers"] == 24
