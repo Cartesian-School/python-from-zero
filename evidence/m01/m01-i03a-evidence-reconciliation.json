@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "work_item": "M01-I03A",
+  "generated_at": "2026-08-29T05:06:58Z",
+  "repository": "Cartesian-School/python-from-zero",
+  "review_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+  "review_tree": "2f8197572cb53ed92facdeab9b771394db972d50",
+  "inventory_declared_baseline": "929a69d13acc0e22a47eeb46c6a2146f33c7e732",
+  "inventory_sha256": "1410b6087bc7752621df4479049dbb5f51fc8fb363a214c4859206706135cf53",
+  "pdf": {
+    "path": "book/pdf/готовая книга.pdf",
+    "size_bytes": 13192139,
+    "pages": 4529,
+    "producer": "WeasyPrint 69.0",
+    "page_size_points": "430.866 x 649.134",
+    "sha256": "595f903e4e95e11d44d71269bed438c4626e3a32667fe9ce4df93413ba3d945b",
+    "decision": "canonical_for_review_commit"
+  },
+  "corrected_pdf": {
+    "path": "book/pdf/готовая книга.pdf",
+    "size_bytes": 13215785,
+    "pages": 4529,
+    "producer": "WeasyPrint 69.0",
+    "sha256": "b5cb5a301b31e3cfd43083aaeb9cbf7c1068707742e43e3f23a89a30bdfd3bde",
+    "pagination_sha256": "3eefde447e7023daba875254ac00c945f153f985350fc95274dab697520c959c",
+    "decision": "post_fix_candidate_bit_reproducible"
+  },
+  "superseded_pdf_claim": {
+    "reported_path": "book/pdf/готовая книга.pdf",
+    "reported_size_bytes": 3274393,
+    "reported_pages": 714,
+    "reported_sha256": "2ed02842d3db97ece0952f5f53670ac00943c1299930b0d5ceae373bbaf2b9b2",
+    "decision": "historical_artifact_not_present_at_review_commit"
+  },
+  "site": {
+    "sitemap_path": "site/sitemap.xml",
+    "sitemap_url_count": 666,
+    "sitemap_sha256": "3d344c9b910a6355a8e5c6929bfc002c26476c99b23719e48391d045cdfa04a0"
+  },
+  "findings": [
+    {
+      "finding": "R-001",
+      "source": "book/pdf/готовая книга.pdf",
+      "evidence": "pdfinfo reports 4529 pages; local SHA-256 and byte size reproduced at the review commit",
+      "severity": "blocker_resolved",
+      "decision": "The 4529-page PDF is the canonical artifact for this review commit; the 714-page hash identifies a different historical artifact.",
+      "correction": "Keep commit, byte size, page count, and SHA-256 together in every future publication report.",
+      "acceptance_test": "sha256sum equals 595f903e4e95e11d44d71269bed438c4626e3a32667fe9ce4df93413ba3d945b and pdfinfo reports 4529 pages"
+    },
+    {
+      "finding": "R-002",
+      "source": "manifest/ru_content_audit_inventory.json#/baseline/commit_sha",
+      "evidence": "Inventory declares 929a69d13acc0e22a47eeb46c6a2146f33c7e732 while the review commit is 213ba4d51b75837eee3d6fd5333910226284944a.",
+      "severity": "major",
+      "decision": "resolved_after_approval",
+      "correction": "Regenerate the inventory on the approved review baseline without changing stable unit identifiers.",
+      "acceptance_test": "Inventory baseline equals the chosen review commit and all unit hashes reproduce from that commit.",
+      "resolution_evidence": "Inventory baseline now equals 213ba4d51b75837eee3d6fd5333910226284944a; 1,158 stable unit identifiers remain present and inventory contract tests pass."
+    },
+    {
+      "finding": "R-003",
+      "source": "scripts/build_chapter_01.py and manifest chapter 1",
+      "evidence": "Canonical generator SHA-256 and all eight Chapter 1 review-surface SHA-256 values reproduce exactly.",
+      "severity": "pass",
+      "decision": "accepted",
+      "correction": "none",
+      "acceptance_test": "Recompute hashes and compare with the inventory."
+    },
+    {
+      "finding": "R-004",
+      "source": "scripts/build_chapter_01.py: algorithm definition",
+      "evidence": "The text says a recipe always leads to one result and omits a termination boundary.",
+      "severity": "major",
+      "decision": "confirmed",
+      "correction": "Use a finite, unambiguous step-sequence definition that allows input-dependent and randomized outcomes.",
+      "acceptance_test": "Forbidden deterministic phrase absent; finite/termination boundary present."
+    },
+    {
+      "finding": "R-005",
+      "source": "scripts/build_chapter_01.py: Python 3 transition callout",
+      "evidence": "PEP 3100 is described as the complete list of reasons for the Python 3 transition.",
+      "severity": "minor",
+      "decision": "confirmed",
+      "correction": "Use PEP 3000 and What's New in Python 3.0 for rationale and user-visible changes; bound PEP 3100 to miscellaneous plans.",
+      "acceptance_test": "No complete-rationale claim remains for PEP 3100."
+    },
+    {
+      "finding": "R-006",
+      "source": "Chapter 8 theory sequence compared with Chapters 9 and 10",
+      "evidence": "The submitted report identifies uses of truthiness, in, and for before their formal introduction.",
+      "severity": "high_candidate",
+      "decision": "deferred_architectural_decision",
+      "correction": "Do not reorder yet; construct a dependency matrix and compare targeted section rewrites against moving the chapter.",
+      "acceptance_test": "A separately approved architecture decision eliminates every forward prerequisite without breaking navigation."
+    },
+    {
+      "finding": "R-007",
+      "source": "submitted full-course report: remaining findings",
+      "evidence": "Claims about chapter 2 metadata, practice-ID gaps, Chapter 4/5 duplication, Chapter 23 title, Tkinter browser labels, PySH sessions, counters, random.random(), SyntaxWarning, and marketing metrics have locators but not a commit-bound evidence bundle.",
+      "severity": "unverified_mixed",
+      "decision": "carried_forward_not_approved",
+      "correction": "Reproduce each claim against the review commit and classify defect, intentional stable-ID gap, editorial option, or accepted risk.",
+      "acceptance_test": "Each claim has a commit-bound source path, exact excerpt or machine result, decision, and independent acceptance test."
+    }
+  ],
+  "stage_decision": "accepted",
+  "authorization_record": "Quick Chapter 1 fixes and push to feat/m01-i03-chapter-01-audit-fixes were subsequently approved by the user; Chapter 8-10 reordering remains unauthorized and deferred."
+}

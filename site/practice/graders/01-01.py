@@ -20,7 +20,7 @@ checks = [
         "passed": bool(_zadanie) and _zadanie.get("ok", False),
     },
     {
-        "name": "Задание ★: выведено минимум 3 строки (имя, цвет, число)",
+        "name": "Задание ★: структурная проверка участия — выведено минимум 3 непустые строки",
         "passed": len(_zadanie_lines) >= 3,
     },
     {
@@ -28,7 +28,7 @@ checks = [
         "passed": bool(_samost) and _samost.get("ok", False),
     },
     {
-        "name": "Самостоятельная практика: что-то выведено на экран",
+        "name": "Самостоятельная практика: структурная проверка участия — есть непустой вывод",
         "passed": len(_samost_lines) >= 1,
     },
     {
@@ -36,7 +36,7 @@ checks = [
         "passed": bool(_dopolnitelnaya) and _dopolnitelnaya.get("ok", False),
     },
     {
-        "name": "Дополнительная задача ★★★: одна строка вывода с тремя значениями через print(a, b, c)",
+        "name": "Дополнительная задача ★★★: структурная проверка — одна строка минимум с тремя полями",
         "passed": len(_dop_lines) == 1 and len(_dop_lines[0].split()) >= 3,
     },
 ]
