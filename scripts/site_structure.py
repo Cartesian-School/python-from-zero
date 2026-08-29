@@ -24,6 +24,18 @@ SITE_DIR = ROOT / "site"
 # the bare apex (cartesianschool.org), or localhost.
 SITE_ORIGIN = "https://www.cartesianschool.org"
 
+LEGACY_CHAPTER_23_REDIRECTS = {
+    f"/chapters/glava-23/23-{number:02d}-{slug}.html"
+    for number, slug in (
+        (1, "kalkulyator"),
+        (2, "generator-istorij"),
+        (3, "kamen-nozhnicy-bumaga"),
+        (4, "otskakivayushij-myach"),
+        (5, "temperatura"),
+        (6, "fajly-tkinter-itogi"),
+    )
+}
+
 _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
 _DESC_RE = re.compile(r'<meta\s+name="description"\s+content="(.*?)"\s*/?>', re.S)
 _LANG_RE = re.compile(r'<html[^>]*\blang="([^"]*)"')

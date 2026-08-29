@@ -55,6 +55,9 @@ else
   "${PYTHON}" "${ROOT_DIR}/scripts/validate_chapter_titles.py"
 fi
 
+echo "==> Validating editorial structure and unique practice ownership"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_editorial_structure.py"
+
 echo "==> Validating canonical PDF pagination"
 if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then
   "${PYTHON}" "${ROOT_DIR}/scripts/validate_pagination.py" --portable

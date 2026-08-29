@@ -116,7 +116,7 @@
     done = Math.min(done, total);
     var pct = total > 0 ? Math.round((done / total) * 100) : 0;
     var headline = summary.querySelector(".jp-detail");
-    if (headline) headline.textContent = done + " из " + total + " практических заданий выполнено";
+    if (headline) headline.textContent = "Выполнено " + done + " из " + total;
     var fill = summary.querySelector(".jp-bar-fill");
     if (fill) fill.style.width = pct + "%";
     var pctEl = summary.querySelector(".jp-pct");

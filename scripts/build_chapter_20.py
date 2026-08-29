@@ -25,6 +25,7 @@ from site_lib import (
     object_diagram,
     pipeline_diagram,
     practice_card,
+    practice_revisit_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -41,14 +42,6 @@ PAGES = [
     ("20-03-personazhi.html", "Первые игровые объекты"),
     ("20-04-peremeshenie-klavishi.html", "Управление с клавиатуры"),
     ("20-05-mini-proekt-myach-itogi.html", "Мини-проект: прыгающий мяч"),
-    ("20-06-mir-gejmdeva.html", "Как устроена разработка игр"),
-    ("20-07-zhanry-igr.html", "Жанры и игровые механики"),
-    ("20-08-dvizhok-ili-biblioteka.html", "Библиотека, фреймворк, движок"),
-    ("20-09-platformy-desktop-konsoli.html", "Компьютеры и консоли"),
-    ("20-10-platformy-veb-oblako.html", "Веб, XR, облако"),
-    ("20-11-mobilnyj-vvod.html", "Сенсорный ввод"),
-    ("20-12-mobilnyj-ekran.html", "Экран мобильной игры"),
-    ("20-13-mobilnyj-realnost.html", "Ограничения мобильных игр"),
     ("20-14-igrovoj-cikl.html", "Игровой цикл"),
     ("20-15-fps-i-vremya-kadra.html", "FPS и время кадра"),
     ("20-16-delta-time.html", "Delta time"),
@@ -64,6 +57,14 @@ PAGES = [
     ("20-26-arhitektura-class-game.html", "Структура игры: класс Game"),
     ("20-27-proizvoditelnost.html", "FPS и бюджет кадра"),
     ("20-28-otladka-igr.html", "Отладка игр"),
+    ("20-06-mir-gejmdeva.html", "Индустрия · Как устроена разработка игр"),
+    ("20-07-zhanry-igr.html", "Индустрия · Жанры и игровые механики"),
+    ("20-08-dvizhok-ili-biblioteka.html", "Индустрия · Библиотека, фреймворк, движок"),
+    ("20-09-platformy-desktop-konsoli.html", "Индустрия · Компьютеры и консоли"),
+    ("20-10-platformy-veb-oblako.html", "Индустрия · Веб, XR, облако"),
+    ("20-11-mobilnyj-vvod.html", "Индустрия · Сенсорный ввод"),
+    ("20-12-mobilnyj-ekran.html", "Индустрия · Экран мобильной игры"),
+    ("20-13-mobilnyj-realnost.html", "Индустрия · Ограничения мобильных игр"),
     ("20-29-upakovka-desktop.html", "Настольная версия игры"),
     ("20-30-publikatsiya-veb.html", "Игра в браузере"),
     ("20-31-mobilnye-konsolnye-sborki.html", "Android, iOS, консоли"),
@@ -144,24 +145,13 @@ def build_opener() -> None:
         ],
         sections=[
             ChapterSectionLink("20.1", "Pygame и pygame-ce: что это и как установить", "20-01-chto-takoe-pygame.html"),
-            ChapterSectionLink("", "Устанавливаем и импортируем Pygame", "20-01-chto-takoe-pygame.html#ustanovka"),
+            ChapterSectionLink("20.1a", "Устанавливаем и импортируем Pygame", "20-01-chto-takoe-pygame.html#ustanovka"),
             ChapterSectionLink("20.2", "Создаём окно игры и первый игровой цикл", "20-02-igrovoj-ekran.html"),
-            ChapterSectionLink("", "Фон и очистка кадра", "20-02-igrovoj-ekran.html#krasivyj"),
+            ChapterSectionLink("20.2a", "Фон и очистка кадра", "20-02-igrovoj-ekran.html#krasivyj"),
             ChapterSectionLink("20.3", "Рисуем первые игровые объекты", "20-03-personazhi.html"),
             ChapterSectionLink("20.4", "Управляем объектом с клавиатуры", "20-04-peremeshenie-klavishi.html"),
-            ChapterSectionLink("", "События нажатия клавиш", "20-04-peremeshenie-klavishi.html#klavishi"),
+            ChapterSectionLink("20.4a", "События нажатия клавиш", "20-04-peremeshenie-klavishi.html#klavishi"),
             ChapterSectionLink("20.5", "Мини-проект: прыгающий мяч", "20-05-mini-proekt-myach-itogi.html"),
-            # С 20.6 главу продолжают страницы, добавленные в цифровой версии книги —
-            # у них нет соответствующей физической страницы бумажного макета, поэтому
-            # page здесь намеренно не указывается (см. render_chapter_opener()).
-            ChapterSectionLink("20.6", "Как устроена разработка игр", "20-06-mir-gejmdeva.html"),
-            ChapterSectionLink("20.7", "Жанры игр и игровые механики", "20-07-zhanry-igr.html"),
-            ChapterSectionLink("20.8", "Библиотека, фреймворк или движок: где находится Pygame", "20-08-dvizhok-ili-biblioteka.html"),
-            ChapterSectionLink("20.9", "Игровые платформы: компьютеры, консоли и портативные устройства", "20-09-platformy-desktop-konsoli.html"),
-            ChapterSectionLink("20.10", "Веб-игры, XR и облачный гейминг", "20-10-platformy-veb-oblako.html"),
-            ChapterSectionLink("20.11", "Мобильные игры: сенсорный ввод и виртуальное управление", "20-11-mobilnyj-vvod.html"),
-            ChapterSectionLink("20.12", "Экран мобильной игры: ориентация, пропорции и High-DPI", "20-12-mobilnyj-ekran.html"),
-            ChapterSectionLink("20.13", "Ограничения мобильных игр: батарея, память и жизненный цикл", "20-13-mobilnyj-realnost.html"),
             ChapterSectionLink("20.14", "Как работает игровой цикл: ввод, обновление и отрисовка", "20-14-igrovoj-cikl.html"),
             ChapterSectionLink("20.15", "FPS и время кадра", "20-15-fps-i-vremya-kadra.html"),
             ChapterSectionLink("20.16", "Delta time: движение независимо от FPS", "20-16-delta-time.html"),
@@ -177,12 +167,20 @@ def build_opener() -> None:
             ChapterSectionLink("20.26", "Структура небольшой игры: класс Game", "20-26-arhitektura-class-game.html"),
             ChapterSectionLink("20.27", "Производительность: FPS и бюджет кадра", "20-27-proizvoditelnost.html"),
             ChapterSectionLink("20.28", "Как отлаживать игры", "20-28-otladka-igr.html"),
+            ChapterSectionLink("20.A1", "Индустрия: как устроена разработка игр", "20-06-mir-gejmdeva.html"),
+            ChapterSectionLink("20.A2", "Индустрия: жанры игр и игровые механики", "20-07-zhanry-igr.html"),
+            ChapterSectionLink("20.A3", "Индустрия: библиотека, фреймворк или движок", "20-08-dvizhok-ili-biblioteka.html"),
+            ChapterSectionLink("20.A4", "Индустрия: компьютеры, консоли и портативные устройства", "20-09-platformy-desktop-konsoli.html"),
+            ChapterSectionLink("20.A5", "Индустрия: веб-игры, XR и облачный гейминг", "20-10-platformy-veb-oblako.html"),
+            ChapterSectionLink("20.A6", "Индустрия: мобильный ввод", "20-11-mobilnyj-vvod.html"),
+            ChapterSectionLink("20.A7", "Индустрия: экран мобильной игры", "20-12-mobilnyj-ekran.html"),
+            ChapterSectionLink("20.A8", "Индустрия: ограничения мобильных игр", "20-13-mobilnyj-realnost.html"),
             ChapterSectionLink("20.29", "Собираем настольную версию игры", "20-29-upakovka-desktop.html"),
             ChapterSectionLink("20.30", "Запускаем Pygame-игру в браузере", "20-30-publikatsiya-veb.html"),
             ChapterSectionLink("20.31", "Что реально возможно на Android, iOS и консолях", "20-31-mobilnye-konsolnye-sborki.html"),
             ChapterSectionLink("20.32", "Профессии в разработке игр и портфолио", "20-32-karyera-v-gejmdeve.html"),
             ChapterSectionLink("20.33", "Финальный проект: «Прыгающий мяч» с архитектурой Game", "20-33-finalnyj-proekt-myach-pro.html"),
-            ChapterSectionLink("", "Итоги главы", "20-33-finalnyj-proekt-myach-pro.html#itogi"),
+            ChapterSectionLink("20.33a", "Итоги главы", "20-33-finalnyj-proekt-myach-pro.html#itogi"),
         ],
     )
     write("index.html", out)
@@ -228,7 +226,7 @@ def build_01() -> None:
     )}
     {code_block("import_pygame.py", "import pygame\n\npygame.init()   # в проектах этой книги мы начинаем настройку Pygame с этого вызова\n")}
 
-    {local_required_card(
+    {practice_revisit_card(
         "20-02",
         "Практика: установка и первый импорт",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -512,7 +510,7 @@ def build_05() -> None:
         "коротком проекте.",
         body_html=body,
         sidebar_groups=sidebar("20-05-mini-proekt-myach-itogi.html"),
-        nav=PageNav(prev_href="20-04-peremeshenie-klavishi.html", prev_label="Управление с клавиатуры", next_href="20-06-mir-gejmdeva.html", next_label="Как устроена разработка игр"),
+        nav=PageNav(prev_href="20-04-peremeshenie-klavishi.html", prev_label="Управление с клавиатуры", next_href="20-14-igrovoj-cikl.html", next_label="Игровой цикл"),
     )
     write("20-05-mini-proekt-myach-itogi.html", out)
 
@@ -608,7 +606,7 @@ def build_06() -> None:
         "роли, масштаб и путь от идеи до релиза.",
         body_html=body,
         sidebar_groups=sidebar("20-06-mir-gejmdeva.html"),
-        nav=PageNav(prev_href="20-05-mini-proekt-myach-itogi.html", prev_label="Мини-проект: прыгающий мяч", next_href="20-07-zhanry-igr.html", next_label="Жанры и игровые механики"),
+        nav=PageNav(prev_href="20-28-otladka-igr.html", prev_label="Отладка игр", next_href="20-07-zhanry-igr.html", next_label="Жанры и игровые механики"),
     )
     write("20-06-mir-gejmdeva.html", out)
 
@@ -1133,7 +1131,7 @@ def build_13() -> None:
         "о публикации Pygame-игры в App Store и Google Play.",
         body_html=body,
         sidebar_groups=sidebar("20-13-mobilnyj-realnost.html"),
-        nav=PageNav(prev_href="20-12-mobilnyj-ekran.html", prev_label="Экран мобильной игры", next_href="20-14-igrovoj-cikl.html", next_label="Игровой цикл"),
+        nav=PageNav(prev_href="20-12-mobilnyj-ekran.html", prev_label="Экран мобильной игры", next_href="20-29-upakovka-desktop.html", next_label="Настольная версия игры"),
     )
     write("20-13-mobilnyj-realnost.html", out)
 
@@ -1212,7 +1210,7 @@ def build_14() -> None:
         "ввод, обновить состояние, нарисовать кадр.",
         body_html=body,
         sidebar_groups=sidebar("20-14-igrovoj-cikl.html"),
-        nav=PageNav(prev_href="20-13-mobilnyj-realnost.html", prev_label="Ограничения мобильных игр", next_href="20-15-fps-i-vremya-kadra.html", next_label="FPS и время кадра"),
+        nav=PageNav(prev_href="20-05-mini-proekt-myach-itogi.html", prev_label="Мини-проект: прыгающий мяч", next_href="20-15-fps-i-vremya-kadra.html", next_label="FPS и время кадра"),
     )
     write("20-14-igrovoj-cikl.html", out)
 
@@ -2280,7 +2278,7 @@ def build_28() -> None:
         "игра просто ведёт себя не так, как ожидалось.",
         body_html=body,
         sidebar_groups=sidebar("20-28-otladka-igr.html"),
-        nav=PageNav(prev_href="20-27-proizvoditelnost.html", prev_label="FPS и бюджет кадра", next_href="20-29-upakovka-desktop.html", next_label="Настольная версия игры"),
+        nav=PageNav(prev_href="20-27-proizvoditelnost.html", prev_label="FPS и бюджет кадра", next_href="20-06-mir-gejmdeva.html", next_label="Как устроена разработка игр"),
     )
     write("20-28-otladka-igr.html", out)
 
@@ -2351,7 +2349,7 @@ def build_29() -> None:
         "операционную систему, на которой сам запущен.",
         body_html=body,
         sidebar_groups=sidebar("20-29-upakovka-desktop.html"),
-        nav=PageNav(prev_href="20-28-otladka-igr.html", prev_label="Отладка игр", next_href="20-30-publikatsiya-veb.html", next_label="Игра в браузере"),
+        nav=PageNav(prev_href="20-13-mobilnyj-realnost.html", prev_label="Ограничения мобильных игр", next_href="20-30-publikatsiya-veb.html", next_label="Игра в браузере"),
     )
     write("20-29-upakovka-desktop.html", out)
 

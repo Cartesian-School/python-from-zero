@@ -39,6 +39,7 @@ from site_lib import (
     number_line_diagram,
     precedence_ladder,
     practice_card,
+    practice_revisit_card,
     rectangle_grid_diagram,
     render_chapter_opener,
     render_page,
@@ -106,7 +107,17 @@ def build_opener() -> None:
         "операторы и их приоритет, перевод формул из математики в код, модуль math "
         "(корни, геометрия, тригонометрия, логарифмы), модуль random "
         "(псевдослучайность, seed, воспроизводимость) и отладка вычислений.",
-        meta_items=["[[icon:timer]] ~4 часа", "[[icon:code]] math и random в деталях", "[[icon:practice]] 21 практика"],
+        meta_items=["[[icon:timer]] ~4 часа", "[[icon:code]] math и random в деталях", "[[icon:practice]] 20 практик"],
+        intro_html=callout(
+            "info",
+            "Как проходить эту главу после главы 4",
+            "Разделы 5.1–5.7 — контролируемое закрепление арифметики: они добавляют язык "
+            "выражений, пограничные случаи и порядок вычислений. Если диагностические задания "
+            "даются без ошибок, переходите к формулам в 5.8–5.9 и новому материалу "
+            "<code class=\"inline\">math</code>/<code class=\"inline\">random</code> с 5.10. "
+            "Глава 4 отвечает на вопрос «как представлены числа», а эта глава — «как строить "
+            "надёжные вычисления».",
+        ),
         sections=[
             ChapterSectionLink("5.1", "Выражения и основные операции", "05-01-osnovnye-operacii.html"),
             ChapterSectionLink("5.2", "Деление с остатком", "05-07-delenie-s-ostatkom.html"),
@@ -534,7 +545,7 @@ def build_03_assignment_precedence() -> None:
         "приходится вспоминать правила приоритета.",
     )}
 
-{practice_card(
+{practice_revisit_card(
         "05-02",
         "Практика: присваивание и порядок вычислений",
         "Тот же ноутбук, что и в разделе «Степени и корни» — он охватывает и эту тему",

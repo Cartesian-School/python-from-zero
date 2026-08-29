@@ -306,6 +306,19 @@ def practice_card(lesson_id: str, title: str, sub: str, practice_href: str) -> s
     </script>"""
 
 
+def practice_revisit_card(lesson_id: str, title: str, sub: str, practice_href: str) -> str:
+    """Link an already introduced practice without presenting it as new progress."""
+    return f"""
+    <div class="notebook-card notebook-card-revisit">
+      <div>
+        <div class="nc-title">Повторное применение · {html.escape(title)}</div>
+        <div class="nc-sub">{html.escape(sub)} Это то же задание {html.escape(lesson_id)};
+        повторное открытие не добавляет новую практику к счётчику прогресса.</div>
+      </div>
+      <a class="nc-btn" href="{html.escape(practice_href)}">Вернуться к практике →</a>
+    </div>"""
+
+
 def local_required_card(lesson_id: str, title: str, sub: str, practice_href: str) -> str:
     """Like practice_card(), but for lessons whose canonical code (e.g. `import
     turtle`) cannot run in the browser (Pyodide has no turtle/tkinter — see

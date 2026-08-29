@@ -60,7 +60,7 @@ ALLOWED_ALWAYS = set("→★↓↑←↔❯✓✗☐↺↻●■⇄▷▼☰")
 # scripts/build_*.py content; do NOT widen this to a pattern/heuristic.
 DATA_ALLOWLIST: dict[str, list[str]] = {
     "build_chapter_03.py": [
-        "PySH 0.8.2 | Python 3.13.5",
+        "PySH 0.8.2 | Python 3.14.7",
         "┌─🐍 astra@soi",
     ],
     "build_chapter_04.py": ["\U0001F36C" * 17],

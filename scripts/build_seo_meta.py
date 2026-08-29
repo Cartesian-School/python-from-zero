@@ -30,7 +30,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from site_structure import SITE_ORIGIN, PageRecord, iter_pages
+from site_structure import LEGACY_CHAPTER_23_REDIRECTS, SITE_ORIGIN, PageRecord, iter_pages
 
 MARKER_START = "<!-- cartesian:seo-meta:start -->"
 MARKER_END = "<!-- cartesian:seo-meta:end -->"
@@ -100,7 +100,7 @@ def _seo_block(page: PageRecord, all_pages: list[PageRecord]) -> str:
 
     parts = [MARKER_START]
     parts.append(f'<link rel="canonical" href="{html.escape(page.canonical_url)}" />')
-    if page.kind == "practice":
+    if page.kind == "practice" or page.url_path in LEGACY_CHAPTER_23_REDIRECTS:
         parts.append('<meta name="robots" content="noindex, follow" />')
     parts.append(f'<meta property="og:type" content="{og_type}" />')
     parts.append(f'<meta property="og:site_name" content="{html.escape(SITE_NAME)}" />')

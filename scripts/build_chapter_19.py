@@ -27,6 +27,7 @@ from site_lib import (
     object_diagram,
     pipeline_diagram,
     practice_card,
+    practice_revisit_card,
     icon_label,
     render_chapter_opener,
     render_page,
@@ -359,7 +360,7 @@ def build_01() -> None:
     <p><code class="inline">random</code> понадобится для случайного положения яблока (глава 5),
     <code class="inline">turtle</code> — для самой графики.</p>
 
-    {local_required_card(
+    {practice_revisit_card(
         "19-02",
         "Практика: начинаем собирать игру",
         "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -608,7 +609,7 @@ def build_05() -> None:
     )}
     {image_figure(f"{IMG}/snake-basic-full-game.png", "Реальное окно: игровое поле с надписью «Счёт: 30» вверху, змейка из трёх сегментов", "Реальное окно: obnovit_tablo() перерисовывает счёт после каждого съеденного яблока.", width=380)}
 
-    {local_required_card(
+    {practice_revisit_card(
         "19-06",
         "Практика: табло и поедание яблок",
         "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",

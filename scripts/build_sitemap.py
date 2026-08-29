@@ -17,14 +17,17 @@ from xml.sax.saxutils import escape
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from site_structure import SITE_DIR, iter_pages
+from site_structure import LEGACY_CHAPTER_23_REDIRECTS, SITE_DIR, iter_pages
 
 EXCLUDED_KINDS = {"practice", "other"}
 OUT_PATH = SITE_DIR / "sitemap.xml"
 
 
 def main() -> None:
-    pages = [p for p in iter_pages() if p.kind not in EXCLUDED_KINDS]
+    pages = [
+        p for p in iter_pages()
+        if p.kind not in EXCLUDED_KINDS and p.url_path not in LEGACY_CHAPTER_23_REDIRECTS
+    ]
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',

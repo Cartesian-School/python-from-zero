@@ -34,6 +34,7 @@ from site_lib import (
     local_required_card,
     math_inline,
     practice_card,
+    practice_revisit_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -212,7 +213,7 @@ def build_01_pristupaem() -> None:
         "</strong> черепашек — у каждой будет своё собственное состояние, независимое от остальных.",
     )}
 
-{local_required_card(
+{practice_revisit_card(
         "06-02",
         "Практика: начинаем с настройки экрана",
         "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -742,7 +743,7 @@ def build_05_sokraschennye() -> None:
 {oformlenie}
 {code_block("oformlenie_kod.py", 'artist.pencolor("purple")   # цвет линии\nartist.pensize(6)            # толщина линии\n')}
 
-{local_required_card(
+{practice_revisit_card(
         "06-04",
         "Практика: включает практику с короткими командами",
         "Тот же ноутбук, что и в разделе «Мини-проекты: фигуры» — он охватывает и эту тему",

@@ -29,6 +29,7 @@ from site_lib import (
     object_diagram,
     pipeline_diagram,
     practice_card,
+    practice_revisit_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -424,7 +425,7 @@ def build_01() -> None:
         'root.title("Рисовалка")\n',
     )}
 
-    {local_required_card(
+    {practice_revisit_card(
         "18-02",
         "Практика: начинаем собирать рисовалку",
         "Модуль tkinter открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",

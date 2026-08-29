@@ -477,7 +477,9 @@ def build_08_pysh() -> None:
       </div>
     </div>
 
-    <p>PySH — это реальная, установленная на этом компьютере программа, и все примеры на этой
+    <p><strong>Этот раздел необязателен.</strong> PySH — нишевый инструмент, автором которого
+    является автор этого курса; для прохождения книги он не нужен. Это реальная, установленная
+    на этом компьютере программа, и все примеры на этой
     странице — настоящий, проверенный вывод именно этой установки, а не выдуманный текст.</p>
 
 {image_figure(
@@ -532,11 +534,11 @@ def build_08_pysh() -> None:
 
 {code_block(
         "Терминал — реальная сессия PySH",
-        "🐍 PySH 0.8.2 | Python 3.13.5 | GPL-2.0-only\n"
+        "🐍 PySH 0.8.2 | Python 3.14.7 | GPL-2.0-only\n"
         "System: Debian GNU/Linux 13 | Kernel 6.12.101 | 11th Gen Intel Core i3-1115G4 | RAM 19 GiB\n"
         "Type 'exit' or press Ctrl+D to quit.\n"
         "┌─🐍 astra@soi ─ [~/Projects/Python_001] ─ git:feat/curriculum-v2-chapter-03\n"
-        "│  py3.13 · uv0.11.24 · ruff0.15.20 · rust1.85.0 · node26.3.1 · npm11.16.0\n"
+        "│  py3.14 · uv0.11.24 · ruff0.15.20 · rust1.85.0 · node26.3.1 · npm11.16.0\n"
         "└─❯ ",
         lang="text",
     )}
@@ -602,7 +604,7 @@ def build_08_pysh() -> None:
         "Реальная сессия",
         "└─❯ #py\n"
         "PySH Python Command Execution Layer | GPL-2.0-only\n"
-        "Python 3.13.5\n"
+        "Python 3.14.7\n"
         "Type #help for commands, Ctrl+D or #exit to return to PySH.\n\n"
         ">>> 2 + 2\n4\n"
         ">>> print(\"Привет, PySH!\")\nПривет, PySH!\n"

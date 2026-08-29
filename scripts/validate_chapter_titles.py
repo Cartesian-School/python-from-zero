@@ -110,7 +110,7 @@ def validate() -> list[str]:
         (
             node
             for node in homepage.select(".about-stat")
-            if text(node.select_one(".lbl")) == "Страниц в книге"
+            if text(node.select_one(".lbl")) == "Страниц в PDF-макете"
         ),
         None,
     )
@@ -277,7 +277,7 @@ def validate_portable() -> list[str]:
     expected_total = int(page_data["total_pages"])
     if (
         f'<div class="num">{expected_total}</div>'
-        '<div class="lbl">Страниц в книге</div>'
+        '<div class="lbl">Страниц в PDF-макете</div>'
         not in homepage
     ):
         errors.append("homepage exact book total differs from generated pagination")

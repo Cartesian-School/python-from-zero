@@ -38,6 +38,7 @@ from site_lib import (
     exercise,
     local_required_card,
     practice_card,
+    practice_revisit_card,
     render_chapter_opener,
     render_page,
     summary_box,
@@ -332,7 +333,7 @@ def build_02_grafika() -> None:
         "на итоговый рисунок, в разделе «speed, tracer и update».",
     )}
 
-{local_required_card(
+{practice_revisit_card(
         "07-01",
         "Практика: включает настройку графики черепашки",
         "Тот же ноутбук, что и в разделе «Экран как система» — он охватывает и эту тему",
@@ -544,7 +545,7 @@ def build_03_figury() -> None:
         "окружность превращается в многоугольник.",
     )}
 
-{local_required_card(
+{practice_revisit_card(
         "07-03",
         "Практика: заливка, окружности и точки",
         "Модуль turtle открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -1589,7 +1590,7 @@ def build_08_napravlenie() -> None:
         "приводит к неожиданным результатам.",
     )}
 
-{local_required_card(
+{practice_revisit_card(
         "07-07",
         "Практика: включает практику с направлением рисования",
         "Тот же ноутбук, что и в разделе «Окружность в квадрате» — он охватывает и эту тему",

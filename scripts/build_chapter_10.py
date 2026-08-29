@@ -144,7 +144,7 @@ def two_up(left_html: str, right_html: str) -> str:
 def build_opener() -> None:
     out = render_chapter_opener(
         chapter_num=10,
-        description="Циклы for и while как третья структура алгоритма после ветвления из главы 9, "
+        description="Систематическое изучение циклов for и while после ветвления из главы 9, "
         "range() и enumerate() без мифов, break/continue/loop-else, вложенные циклы, отладка "
         "типичных ошибок циклов — и наконец-то настоящая автоматизация всех фигур из глав 6-7.",
         meta_items=["[[icon:timer]] ~5 часов", "[[icon:loop]] for / while", "[[icon:practice]] 24 практики"],
@@ -313,7 +313,7 @@ def build_10_01() -> None:
     """
     out = render_page(
         page_title="Повторение и первый цикл for",
-        description="Повторение как третья структура алгоритма, терминология цикла, первый for и его канонический flowchart.",
+        description="Систематизация повторения как третьей структуры алгоритма, терминология цикла и канонический flowchart for.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 10", "index.html"), ("Циклы for", "")],
         kicker="Глава 10 · Немного автоматизации!",

@@ -31,6 +31,7 @@ from site_lib import (
     path_anatomy_diagram,
     pipeline_diagram,
     practice_card,
+    practice_revisit_card,
     relationship_diagram,
     render_chapter_opener,
     render_page,
@@ -506,7 +507,7 @@ def build_03() -> None:
 
     <p>Официальная документация: <a href="https://developer.mozilla.org/ru/docs/Web/CSS">MDN — CSS</a>.</p>
 
-    {practice_card(
+    {practice_revisit_card(
         "22-02",
         "Практика: структура HTML и стили CSS",
         "Интерактивный ноутбук прямо в браузере — Python 3.14 через Pyodide, без установки",
@@ -683,6 +684,9 @@ def build_05() -> None:
         'if __name__ == "__main__":\n'
         "    app.run(debug=True)\n",
     )}
+    <p><code class="inline">debug=True</code> допустим только при локальной разработке.
+    Не публикуйте приложение с этим режимом: риск и безопасный запуск разобраны в разделе
+    22.34.</p>
     {callout(
         "tip",
         "@app.route(\"/\") — декоратор маршрута",

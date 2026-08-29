@@ -23,6 +23,7 @@ from site_lib import (
     object_diagram,
     pipeline_diagram,
     practice_card,
+    practice_revisit_card,
     relationship_diagram,
     render_chapter_opener,
     render_page,
@@ -500,7 +501,7 @@ def build_05() -> None:
     )}
     {image_figure(f"{IMG}/15-score-after-hit.png", "Реальное окно: верхняя полоса интерфейса со счётом 100 слева и числом жизней справа на тёмном фоне", "Финальная версия выделяет счёт и жизни в отдельную HUD-полосу поверху (раздел 21.12) — то же табло, просто отделённое от игрового поля.", width=320)}
 
-    {local_required_card(
+    {practice_revisit_card(
         "21-03",
         "Практика: включает вывод счёта",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -644,7 +645,7 @@ def build_07() -> None:
         "обратно в игру.",
     )}
 
-    {local_required_card(
+    {practice_revisit_card(
         "21-06",
         "Практика: включает финальный экран",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",
@@ -1714,7 +1715,7 @@ def build_23() -> None:
         "объектов, которые это сделали одновременно.",
     )}
 
-    {local_required_card(
+    {practice_revisit_card(
         "21-08",
         "Практика: найдите и исправьте ошибку",
         "Pygame открывает нативное окно Python — выполните локально в VS Code, PyCharm или Jupyter",

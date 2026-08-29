@@ -136,7 +136,7 @@ def validate(*, portable: bool = False) -> list[str]:
 
     homepage = HOMEPAGE_PATH.read_text(encoding="utf-8")
     if not re.search(
-        rf'<div class="num">{total_pages}</div><div class="lbl">Страниц в книге</div>',
+        rf'<div class="num">{total_pages}</div><div class="lbl">Страниц в PDF-макете</div>',
         homepage,
     ):
         errors.append("homepage exact total-page statistic drift")

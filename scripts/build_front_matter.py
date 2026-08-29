@@ -83,12 +83,12 @@ def build_o_tehnicheskom_recenzente() -> None:
 
     out = render_page(
         active_section="o-kurse",
-        page_title="О техническом рецензенте",
-        description="Технический рецензент издания «Python с нуля».",
+        page_title="Статус технической проверки",
+        description="Автоматическая верификация кода книги; независимый технический рецензент пока не назначен.",
         depth=1,
         breadcrumb=[("Python с нуля", "../index.html"), ("О техническом рецензенте", "")],
         kicker="Вводные материалы",
-        h1="О техническом рецензенте",
+        h1="Статус технической проверки",
         lede="",
         body_html=body,
         sidebar_groups=SIDEBAR,

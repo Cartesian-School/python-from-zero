@@ -51,8 +51,9 @@
 
 
     <h2>Мини-проект — счётчик слов</h2>
-    <p>Считаем, сколько слов в тексте и сколько раз встречается каждое — с помощью
-    <code class="inline">split()</code> (раздел 8.10) и подсчёта в цикле (раздел 8.13):</p>
+    <p>Считаем общее количество слов с помощью <code class="inline">split()</code>
+    (раздел 8.10). Частоты отдельных слов потребуют словаря из главы 11 и появятся в
+    расширенной версии проекта позже:</p>
 
     <div class="code-block">
       <div class="code-label"><span>schetchik_slov.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
@@ -60,25 +61,15 @@
 words = text.lower().split()
 
 <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span><span class="tok-str">Всего слов: </span>{<span class="tok-fn">len</span>(words)}<span class="tok-str">&quot;</span>)
-
-schetchik = {}
-<span class="tok-kw">for</span> word <span class="tok-kw">in</span> words:
-    schetchik[word] = schetchik.get(word, <span class="tok-num">0</span>) + <span class="tok-num">1</span>
-
-<span class="tok-kw">for</span> word, count <span class="tok-kw">in</span> schetchik.items():
-    <span class="tok-fn">print</span>(<span class="tok-str">f&quot;</span>{word}<span class="tok-str">: </span>{count}<span class="tok-str">&quot;</span>)
 <span class="tok-com"># ввод: &quot;кот и пёс и кот&quot;</span>
-<span class="tok-com"># Всего слов: 5</span>
-<span class="tok-com"># кот: 2</span>
-<span class="tok-com"># и: 2</span>
-<span class="tok-com"># пёс: 1</span></code></pre>
+<span class="tok-com"># Всего слов: 5</span></code></pre>
     </div>
 
     <div class="callout callout-info">
       <div class="cs-icon-emblem cs-icon-emblem--launch"><svg class="cs-icon cs-icon--launch" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg></div>
       <div>
         <div class="callout-title">Забегаем вперёд</div>
-        <div class="callout-body">Словарь <code class="inline">schetchik</code> — структура «слово → сколько раз встретилось», подробно разберём в главе 11. Сейчас достаточно понимать: <code class="inline">.get(word, 0)</code> возвращает текущий счётчик слова (или 0, если слово встретилось впервые), а мы прибавляем к нему единицу.</div>
+        <div class="callout-body">Версия «слово → число повторений» намеренно отложена до главы 11: сначала нужно освоить условия, циклы и словари. Здесь проект использует только уже введённые операции со строками.</div>
       </div>
     </div>
 
@@ -105,8 +96,8 @@ ochishchennyj = text
 
     <div class="exercise">
       <div class="exercise-stars">★★ Самостоятельная задача</div>
-      <div class="exercise-title">Самое частое слово</div>
-      <p>Расширьте счётчик слов: найдите слово с максимальным count и выведите его отдельной строкой «Самое частое слово: ...». Подсказка — переберите словарь schetchik.items() и запоминайте текущего лидера.</p>
+      <div class="exercise-title">Непустые слова</div>
+      <p>Введите предложение с несколькими пробелами и убедитесь, что split() возвращает только слова. Выведите список слов и их общее количество.</p>
     </div>
 
 

@@ -51,6 +51,21 @@ def lesson_title_short(entry: dict) -> str:
     return t.split(" · ", 1)[-1] if " · " in t else t
 
 
+def ru_practice_count(count: int) -> str:
+    """Return a grammatically correct Russian practice-task counter."""
+    last_two = count % 100
+    last = count % 10
+    if 11 <= last_two <= 14:
+        noun = "практических заданий"
+    elif last == 1:
+        noun = "практическое задание"
+    elif 2 <= last <= 4:
+        noun = "практических задания"
+    else:
+        noun = "практических заданий"
+    return f"{count} {noun}"
+
+
 def mode_of(entry: dict) -> str:
     backend = entry.get("backend")
     if backend == "browser-pyodide":
@@ -93,7 +108,12 @@ def build_roadmap() -> str:
         href = chapter_href(num)
         entries = lessons_by_chapter.get(num, [])
         lesson_ids_csv = ",".join(lid for lid, _ in entries)
-        meta = f"{len(entries)} практических заданий" if entries else "теория — без практики"
+        if entries:
+            meta = ru_practice_count(len(entries))
+        elif num == 2:
+            meta = "практика на вашем компьютере"
+        else:
+            meta = "теория — без практики"
         card_body = f"""<div class="jn-card-top">
           <span class="jn-num">Глава {num}</span>
         </div>
@@ -141,7 +161,7 @@ def build_practice_catalog() -> str:
       <summary class="pcg-summary">
         <div>
           <div class="pcg-title">Глава {num} · {chapter_title_short(chapter)}</div>
-          <div class="pcg-meta">{len(entries)} практических заданий</div>
+          <div class="pcg-meta">{ru_practice_count(len(entries))}</div>
         </div>
         <div class="pcg-progress">
           <div class="pcg-bar-track"><div class="pcg-bar-fill"></div></div>
@@ -189,7 +209,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <div class="home-hero">
   <div class="kicker">Python 3.14 · Бесплатный интерактивный курс</div>
   <h1>Python с нуля: программирование, графика, приложения и игры</h1>
-  <p>{TOTAL_CHAPTERS} главы, {TOTAL_LESSONS} практических заданий, {TOTAL_PROJECTS} готовых мини-проектов — от первой строки
+  <p>{TOTAL_CHAPTERS} главы, {ru_practice_count(TOTAL_LESSONS)}, {TOTAL_PROJECTS} готовых мини-проектов — от первой строки
     кода до собственных игр и приложений. Теория здесь, практика — прямо в браузере.</p>
   <div class="home-cta">
     <a class="btn btn-primary" href="/chapters/glava-01/index.html">Начать с главы 1 →</a>
@@ -205,7 +225,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
       <p>«Python с нуля» — бесплатный интерактивный курс программирования на Python 3.14 для тех, кто раньше не
       писал код. {TOTAL_CHAPTERS} главы проведут вас от первого <code class="inline">print()</code> до собственных
       игр, GUI-приложений и сайта на Flask.</p>
-      <p>Каждый раздел — это связка теории на сайте и практики: {TOTAL_LESSONS} практических заданий, которые можно
+      <p>Каждый раздел — это связка теории на сайте и практики: {ru_practice_count(TOTAL_LESSONS)}, которые можно
       выполнить прямо в браузере или локально, плюс {TOTAL_PROJECTS} готовых мини-проектов с открытым исходным
       кодом.</p>
       <p>Автор курса — Siergej Sobolewski, Software &amp; AI Engineer, основатель Cartesian School.</p>
@@ -214,7 +234,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
       <div class="about-stat"><div class="num">{TOTAL_CHAPTERS}</div><div class="lbl">Главы</div></div>
       <div class="about-stat"><div class="num">{TOTAL_LESSONS}</div><div class="lbl">Практических заданий</div></div>
       <div class="about-stat"><div class="num">{TOTAL_PROJECTS}</div><div class="lbl">Готовых проектов</div></div>
-      <div class="about-stat"><div class="num">{TOTAL_PAGES}</div><div class="lbl">Страниц в книге</div></div>
+      <div class="about-stat"><div class="num">{TOTAL_PAGES}</div><div class="lbl">Страниц в PDF-макете</div></div>
     </div>
   </div>
 </div>
@@ -242,7 +262,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
       <div class="jp-headline">Ваш прогресс</div>
       <div class="jp-pct">0%</div>
     </div>
-    <div class="jp-detail">0 из {TOTAL_LESSONS} практических заданий выполнено</div>
+    <div class="jp-detail">Выполнено 0 из {TOTAL_LESSONS}</div>
     <div class="jp-bar-track"><div class="jp-bar-fill"></div></div>
     <div class="jp-stats-row">
       <span class="jp-stat"><strong class="jp-stat-completed-chapters">0</strong> из {TOTAL_CHAPTERS} глав завершено</span>
@@ -257,7 +277,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <div class="home-section panel-surface" id="praktika">
   <div class="kicker-label">Практика</div>
   <h2>Практика</h2>
-  <p class="sub">{TOTAL_LESSONS} практических заданий по {CHAPTERS_WITH_PRACTICE} главам — выполняйте прямо в
+  <p class="sub">{ru_practice_count(TOTAL_LESSONS)} по {CHAPTERS_WITH_PRACTICE} главам — выполняйте прямо в
   браузере или локально, без установки чего-либо для большинства уроков.</p>
 
   <div class="practice-summary">
@@ -302,7 +322,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
     </a>
     <a class="reference-card" href="/front-matter/o-tehnicheskom-recenzente.html">
       <span class="ri">[[icon:search]]</span>
-      <div><div class="rt">О техническом рецензенте</div><div class="rs">Кто проверял код и объяснения книги</div></div>
+      <div><div class="rt">Статус технической проверки</div><div class="rs">Автоматическая проверка кода; независимый рецензент пока не назначен</div></div>
     </a>
     <a class="reference-card" href="{PDF_HREF}">
       <span class="ri">[[icon:file]]</span>
