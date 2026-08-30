@@ -25,16 +25,24 @@ import sys
 from importlib.metadata import version
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+ROOT = Path(__file__).resolve().parent.parent
+FONTCONFIG_POLICY_PATH = ROOT / "book" / "fonts" / "pdf-fontconfig.conf"
+
+# Pango initializes Fontconfig while WeasyPrint constructs the document font
+# configuration.  Set the canonical policy before importing WeasyPrint so a
+# mutable system emoji face can never enter layout or PDF serialization.
+os.environ["FONTCONFIG_FILE"] = str(FONTCONFIG_POLICY_PATH)
+
+sys.path.insert(0, str(ROOT / "scripts"))
 
 import build_epub as be
 from bs4 import BeautifulSoup
 from chapter_metadata import chapters
+from fontTools.ttLib import TTFont
 from pypdf import PdfReader, PdfWriter
 from weasyprint import HTML
 from weasyprint import __version__ as WEASYPRINT_VERSION
 
-ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = ROOT / "book" / "pdf" / "готовая книга.pdf"
 COVER_PDF = ROOT / "design" / "exports" / "cover_concept_v1.pdf"
@@ -45,8 +53,30 @@ PAGINATION_OUT = ROOT / "data" / "book-pagination.json"
 # otherwise identical renders contain different embedded font bytes.  This is
 # the standard reproducible-builds boundary supported by FontTools itself.
 SOURCE_DATE_EPOCH = "0"
+FONTCONFIG_POLICY_SHA256 = (
+    "57e99dae5e8f972aa80f477a539913f2a39804ed7607553072a87e38d82cbaff"
+)
 
 FONT_DIR = ROOT / "book" / "fonts"
+EMOJI_FONT_FILE = "noto-emoji/NotoColorEmoji-subset.ttf"
+EMOJI_FONT_FAMILY = "Cartesian Noto Color Emoji"
+EMOJI_CODEPOINTS = frozenset(
+    {
+        0x2139,
+        0x26A0,
+        0x26D4,
+        0x2705,
+        0x274C,
+        0x1F36C,
+        0x1F381,
+        0x1F388,
+        0x1F389,
+        0x1F40D,
+        0x1F4C4,
+        0x1F4DA,
+        0x1F536,
+    }
+)
 FONT_FILES = {
     "dejavu/DejaVuSerif.ttf": "8cb29f7db250ebb2551a6ce2c1e0bfd5a0eb520e9e233370db0493e82e1f36f7",
     "dejavu/DejaVuSerif-Bold.ttf": "aac3f559445d23f0f567a243f91f3f6ad6cb4b5cafa1521a3479fffe0637f0bd",
@@ -57,7 +87,7 @@ FONT_FILES = {
     "dejavu/DejaVuSans-Oblique.ttf": "e2f09289f4276309a36b9a93e5a0ac64957ef3eb7158151b243d41f667151ee4",
     "dejavu/DejaVuSansMono.ttf": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8",
     "dejavu/DejaVuSansMono-Bold.ttf": "0d3c03d1b667192f91223660a3163325cf83132662fe4d9f7d6e596bf7a995c2",
-    "noto-emoji/NotoColorEmoji-subset.ttf": "aa4e21491e8c2f7747099f762d0e89b3421098135f246c7f33093e185ee77cbc",
+    EMOJI_FONT_FILE: "294f31aa8ea76e2d7e1df7f5035f04c07f777a5b7e2d2507a28719aebbff2c8a",
 }
 
 BOOK_TITLE = "Python с нуля"
@@ -77,7 +107,7 @@ PRINT_CSS = """
 @font-face { font-family: 'DejaVu Sans'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSans-Oblique.ttf'); font-style: italic; font-weight: 400; }
 @font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSansMono.ttf'); font-style: normal; font-weight: 400; }
 @font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSansMono-Bold.ttf'); font-style: normal; font-weight: 700; }
-@font-face { font-family: 'Noto Color Emoji'; src: url('__FONT_DIR_URI__/noto-emoji/NotoColorEmoji-subset.ttf'); font-style: normal; font-weight: 100 900; }
+@font-face { font-family: 'Cartesian Noto Color Emoji'; src: url('__FONT_DIR_URI__/noto-emoji/NotoColorEmoji-subset.ttf'); font-style: normal; font-weight: 100 900; }
 @page {
   size: 152mm 229mm;
   margin: 24mm 20mm 26mm 20mm;
@@ -107,7 +137,7 @@ PRINT_CSS = """
   --spacing-sm: 6px; --spacing-md: 12px; --spacing-lg: 18px; --spacing-xl: 24px; --spacing-2xl: 32px; --spacing-3xl: 48px; --spacing-4xl: 64px;
 }
 * { box-sizing: border-box; }
-body { font-family: 'DejaVu Serif', 'Noto Color Emoji', serif; font-size: 13.8pt; line-height: 1.95; color: var(--color-text-primary); }
+body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 13.8pt; line-height: 1.95; color: var(--color-text-primary); }
 h1, h2, h3 { font-family: 'DejaVu Sans', sans-serif; color: var(--navy-900); break-after: avoid; }
 h1 { font-size: 25pt; margin: 0 0 15pt; string-set: chaptitle content(); }
 h2 { font-size: 18pt; margin: 28pt 0 11pt; }
@@ -357,7 +387,54 @@ def validate_font_files() -> list[dict[str, str]]:
         records.append(
             {"file": str(font_path.relative_to(ROOT)), "sha256": actual_sha256}
         )
+
+    # Fontconfig/Pango resolves faces by their internal family name.  Reusing
+    # the system-wide "Noto Color Emoji" name lets an installed 11 MB face win
+    # over this pinned 20 KB subset, silently changing pagination and PDF bytes.
+    # The repository-owned family name and exact cmap are therefore part of the
+    # canonical renderer contract, not merely descriptive font metadata.
+    emoji_font = TTFont(FONT_DIR / EMOJI_FONT_FILE)
+    try:
+        family_names = {
+            record.toUnicode()
+            for record in emoji_font["name"].names
+            if record.nameID in {1, 16}
+        }
+        if family_names != {EMOJI_FONT_FAMILY}:
+            raise RuntimeError(
+                "PDF emoji font family drift: "
+                f"expected {EMOJI_FONT_FAMILY!r}, got {sorted(family_names)!r}"
+            )
+        actual_codepoints = frozenset(emoji_font.getBestCmap())
+        if actual_codepoints != EMOJI_CODEPOINTS:
+            raise RuntimeError(
+                "PDF emoji subset cmap drift: "
+                f"expected {sorted(EMOJI_CODEPOINTS)!r}, "
+                f"got {sorted(actual_codepoints)!r}"
+            )
+        if len(emoji_font.getGlyphOrder()) != len(EMOJI_CODEPOINTS) + 1:
+            raise RuntimeError("PDF emoji subset contains unexpected glyph records")
+    finally:
+        emoji_font.close()
     return records
+
+
+def validate_fontconfig_policy() -> dict[str, str]:
+    """Bind Fontconfig's external-font rejection policy to the build contract."""
+    if not FONTCONFIG_POLICY_PATH.is_file():
+        raise RuntimeError(
+            f"required PDF Fontconfig policy is missing: {FONTCONFIG_POLICY_PATH}"
+        )
+    actual_sha256 = hashlib.sha256(FONTCONFIG_POLICY_PATH.read_bytes()).hexdigest()
+    if actual_sha256 != FONTCONFIG_POLICY_SHA256:
+        raise RuntimeError(
+            "PDF Fontconfig policy drift: "
+            f"expected {FONTCONFIG_POLICY_SHA256}, got {actual_sha256}"
+        )
+    return {
+        "file": str(FONTCONFIG_POLICY_PATH.relative_to(ROOT)),
+        "sha256": actual_sha256,
+    }
 
 
 def build_projects_appendix() -> str:
@@ -455,6 +532,11 @@ def source_fingerprint(full_html: str, font_records: list[dict[str, str]]) -> st
     digest.update(normalized_html.encode("utf-8"))
     digest.update(b"\0cover\0")
     digest.update(COVER_PDF.read_bytes())
+    fontconfig_policy = validate_fontconfig_policy()
+    digest.update(b"\0fontconfig-policy\0")
+    digest.update(fontconfig_policy["file"].encode())
+    digest.update(b"\0")
+    digest.update(fontconfig_policy["sha256"].encode())
     for record in font_records:
         digest.update(b"\0font\0")
         digest.update(record["file"].encode())
@@ -527,6 +609,7 @@ def write_pagination_metadata(
         "render_engine": f"WeasyPrint {WEASYPRINT_VERSION}",
         "pdf_writer": f"pypdf {version('pypdf')}",
         "source_date_epoch": int(SOURCE_DATE_EPOCH),
+        "fontconfig_policy": validate_fontconfig_policy(),
         "page_format": {
             "width_mm": round(first_width * 25.4 / 72, 3),
             "height_mm": round(first_height * 25.4 / 72, 3),
@@ -590,6 +673,7 @@ def main() -> None:
     os.environ["SOURCE_DATE_EPOCH"] = SOURCE_DATE_EPOCH
     if not COVER_PDF.is_file():
         raise RuntimeError(f"cover PDF is missing: {COVER_PDF}")
+    validate_fontconfig_policy()
     font_records = validate_font_files()
     full_html, chapter_markers, page_markers, project_marker = build_full_html()
 
