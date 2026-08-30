@@ -275,10 +275,18 @@ def validate_portable() -> list[str]:
             errors.append(f"chapter {key}: homepage practice-group title drift")
 
     expected_total = int(page_data["total_pages"])
+    pages_metric_start = homepage.find('<div class="about-stat about-stat--pages">')
+    pages_metric_end = homepage.find(
+        '<div class="about-stat about-stat--projects">', pages_metric_start
+    )
+    pages_metric = (
+        homepage[pages_metric_start:pages_metric_end]
+        if pages_metric_start >= 0 and pages_metric_end > pages_metric_start
+        else ""
+    )
     if (
-        f'<div class="num">{expected_total}</div>'
-        '<div class="lbl">Страниц в книге</div>'
-        not in homepage
+        f'<div class="num">{expected_total}</div>' not in pages_metric
+        or '<div class="lbl">Страниц в книге</div>' not in pages_metric
     ):
         errors.append("homepage exact book total differs from generated pagination")
 

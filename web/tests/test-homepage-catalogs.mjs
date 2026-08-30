@@ -273,7 +273,7 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
       ok(`${viewport}: metric entrance completes in a stable final position`, result.metricLayout.every((metric) => metric.stable));
       ok(`${viewport}: metric route SVG preserves its valid viewBox`, result.metricRoutesValid);
       if (width <= 700) {
-        ok(`${viewport}: mobile constellation keeps 24 and 493 wide while 4555 and 13 remain compact`,
+        ok(`${viewport}: mobile constellation keeps chapter/practice cards wide while page/project cards remain compact`,
           Math.abs(result.metricWidths['about-stat--chapters'] - result.metricWidths['about-stat--practice']) <= 1 &&
           result.metricWidths['about-stat--practice'] > result.metricWidths['about-stat--pages'] * 1.8 &&
           Math.abs(result.metricWidths['about-stat--pages'] - result.metricWidths['about-stat--projects']) <= 1);
@@ -331,8 +331,9 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
           glowAnimations: cards.map((card) => getComputedStyle(card, '::before').animationName),
         };
       });
-      ok('metric entrance order follows 24, 4555, 13, 493',
-        JSON.stringify(motion.cardStarts.map((event) => event.metric)) === JSON.stringify(['24', '4555', '13', '493']));
+      const expectedMetricOrder = [TOTAL_CHAPTERS, TOTAL_PAGES, TOTAL_PROJECTS, TOTAL_LESSONS].map(String);
+      ok('metric entrance order follows chapter, pagination, project, and practice sources',
+        JSON.stringify(motion.cardStarts.map((event) => event.metric)) === JSON.stringify(expectedMetricOrder));
       ok('metric entrance uses the configured 620ms duration and exact 80ms stagger',
         JSON.stringify(motionConfig.map((config) => config.delay)) === JSON.stringify(['0s', '0.08s', '0.16s', '0.24s']) &&
         motionConfig.every((config) => config.duration === '0.62s'));
