@@ -459,7 +459,7 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
           introPortraitOverlap: overlaps(intro, portrait),
           bodyPortraitOverlap: overlaps(body, portrait),
           mobileOrder: intro.bottom <= portrait.top + 1 && portrait.bottom <= body.top + 1,
-          portraitLoaded: portraitImage.complete && portraitImage.naturalWidth === 680 && portraitImage.naturalHeight === 850,
+          portraitLoaded: portraitImage.complete && portraitImage.naturalWidth === 456 && portraitImage.naturalHeight === 570,
           portraitSrc: portraitImage.getAttribute('src'),
           portraitCurrentSrc: portraitImage.currentSrc,
           webpSrc: document.querySelector('.author-portrait source[type="image/webp"]').getAttribute('srcset'),

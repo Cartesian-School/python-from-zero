@@ -536,7 +536,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
         <div class="author-portrait__canvas">
           <picture>
             <source srcset="/assets/img/author/siergej-sobolewski.webp" type="image/webp">
-            <img src="/assets/img/author/siergej-sobolewski.jpg" width="680" height="850"
+            <img src="/assets/img/author/siergej-sobolewski.jpg" width="456" height="570"
                  alt="Siergej Sobolewski — инженер системного программного обеспечения и AI"
                  loading="lazy" decoding="async">
           </picture>
