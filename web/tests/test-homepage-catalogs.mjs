@@ -467,6 +467,7 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
           portraitHeight: portraitImageRect.height,
           bioWidth: bio.getBoundingClientRect().width,
           bioFontSize: parseFloat(getComputedStyle(bio.querySelector('p')).fontSize),
+          do178cPresent: sectionText.includes('DO-178C'),
           bioProductsPresent: ['GuardBSD', 'AstraDesk', 'AeroNerve', 'PySH', 'ECLI'].every((product) => sectionText.includes(product)),
           domainCount: domainRects.length,
           domainsUseTwoColumns: Math.abs(domainRects[0].top - domainRects[1].top) <= 1 && Math.abs(domainRects[0].left - domainRects[1].left) > 20,
@@ -496,6 +497,7 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
         Math.abs(result.portraitRatio - 0.8) <= 0.005);
       ok(`${viewport}: portrait remains substantial without consuming the viewport`, result.portraitHeight >= 270 && result.portraitHeight <= height * 0.7);
       ok(`${viewport}: biography measure and reading size remain controlled`, result.bioWidth <= 760.5 && result.bioFontSize >= 13.5);
+      ok(`${viewport}: visible safety-critical biography explicitly represents DO-178C`, result.do178cPresent);
       ok(`${viewport}: GuardBSD, AstraDesk, AeroNerve, PySH, and ECLI are represented`, result.bioProductsPresent);
       ok(`${viewport}: five engineering domains use the correct responsive architecture`,
         result.domainCount === 5 && (width <= 600 ? result.domainsUseOneColumn : result.domainsUseTwoColumns));

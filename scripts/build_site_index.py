@@ -565,8 +565,9 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
         <div class="author-bio" aria-label="Профессиональная биография">
           <p class="author-bio__lead author-reveal author-reveal--bio">Более двух десятилетий инженерной практики —
           от embedded, radar и avionics до операционных систем, cloud-native инфраструктуры и production AI/ML.</p>
-          <p class="author-reveal author-reveal--bio">Опыт охватывает low-level engineering, safety-critical software,
-          embedded-системы, разработку операционных систем и инженерных платформ с контролируемыми границами отказа.</p>
+          <p class="author-reveal author-reveal--bio">Опыт охватывает low-level engineering, safety-critical разработку,
+          включая инженерные практики и процессы DO-178C, embedded-системы, разработку операционных систем
+          и инженерных платформ с контролируемыми границами отказа.</p>
           <p class="author-reveal author-reveal--bio">В AI и инфраструктуре: RAG, IBM watsonx, Kubernetes, DevOps,
           observability и управляемые agentic-системы, где результат должен быть воспроизводимым и проверяемым.</p>
           <p class="author-reveal author-reveal--bio">Автор GuardBSD, AstraDesk, AeroNerve, PySH, ECLI и Cartesian School
