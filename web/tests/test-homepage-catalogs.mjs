@@ -63,6 +63,7 @@ const TOTAL_PAGES = BOOK_PAGINATION.total_pages;
 const SAMPLE_LESSONS = ['01-01', '03-01', '05-05', '10-05', '15-01', '17-05', '22-02', '23-03'];
 const HERO_VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [768, 1024], [430, 932], [390, 844], [360, 800]];
 const COURSE_EXPERIENCE_VIEWPORTS = HERO_VIEWPORTS;
+const AUTHOR_PROFILE_VIEWPORTS = HERO_VIEWPORTS;
 const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика в браузере', 'Классика и современность', 'Настоящие проекты'];
 
 (async () => {
@@ -412,6 +413,232 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
       ok('reduced motion: metric cards, numbers, and glows are immediately static',
         reduced.metricStatic && reduced.glowAnimations.every((name) => name === 'none'));
       ok('reduced motion: all content remains visible and complete', reduced.revealsVisible && reduced.stageCount === 4);
+      await page.close();
+    }
+
+    // =========================================================================
+    // SIGNATURE AUTHOR PROFILE — real portrait + Cartesian systems drawing
+    // =========================================================================
+    log('Author profile: real local portrait, editorial hierarchy, domains, and responsive containment');
+    for (const [width, height] of AUTHOR_PROFILE_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const consoleErrors = [];
+      page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+      page.on('pageerror', (error) => consoleErrors.push(error.message));
+      await page.goto(`${base}/index.html#avtor`, { waitUntil: 'networkidle' });
+      await page.locator('.author-profile__name').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(1500);
+
+      const result = await page.evaluate(() => {
+        const rectOf = (element) => {
+          const rect = element.getBoundingClientRect();
+          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height };
+        };
+        const overlaps = (a, b) => a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1;
+        const section = document.querySelector('.author-profile');
+        const intro = rectOf(document.querySelector('.author-profile__intro'));
+        const portrait = rectOf(document.querySelector('.author-portrait'));
+        const portraitImage = document.querySelector('.author-portrait img');
+        const portraitImageRect = rectOf(portraitImage);
+        const body = rectOf(document.querySelector('.author-profile__body'));
+        const name = document.querySelector('.author-profile__name');
+        const nameRange = document.createRange();
+        nameRange.selectNodeContents(name);
+        const domainRects = [...document.querySelectorAll('.author-domain')].map(rectOf);
+        const affiliationRects = [...document.querySelectorAll('.author-affiliation')].map(rectOf);
+        const bio = document.querySelector('.author-bio');
+        const glaeron = document.querySelector('.author-affiliation a');
+        const sectionText = section.textContent;
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          sectionOverflow: section.scrollWidth > section.clientWidth + 1,
+          name: name.textContent.trim(),
+          nameLineCount: nameRange.getClientRects().length,
+          role: document.querySelector('.author-profile__role').textContent.trim(),
+          specializations: [...document.querySelectorAll('.author-profile__specialization span')].map((node) => node.textContent.trim()),
+          introPortraitOverlap: overlaps(intro, portrait),
+          bodyPortraitOverlap: overlaps(body, portrait),
+          mobileOrder: intro.bottom <= portrait.top + 1 && portrait.bottom <= body.top + 1,
+          portraitLoaded: portraitImage.complete && portraitImage.naturalWidth === 456 && portraitImage.naturalHeight === 570,
+          portraitSrc: portraitImage.getAttribute('src'),
+          portraitCurrentSrc: portraitImage.currentSrc,
+          webpSrc: document.querySelector('.author-portrait source[type="image/webp"]').getAttribute('srcset'),
+          portraitRatio: portraitImageRect.width / portraitImageRect.height,
+          portraitHeight: portraitImageRect.height,
+          bioWidth: bio.getBoundingClientRect().width,
+          bioFontSize: parseFloat(getComputedStyle(bio.querySelector('p')).fontSize),
+          do178cPresent: sectionText.includes('DO-178C'),
+          bioProductsPresent: ['GuardBSD', 'AstraDesk', 'AeroNerve', 'PySH', 'ECLI'].every((product) => sectionText.includes(product)),
+          domainCount: domainRects.length,
+          domainsUseTwoColumns: Math.abs(domainRects[0].top - domainRects[1].top) <= 1 && Math.abs(domainRects[0].left - domainRects[1].left) > 20,
+          domainsUseOneColumn: domainRects.every((rect) => Math.abs(rect.left - domainRects[0].left) <= 1),
+          affiliationsUseTwoColumns: Math.abs(affiliationRects[0].top - affiliationRects[1].top) <= 1 && Math.abs(affiliationRects[0].left - affiliationRects[1].left) > 20,
+          affiliationsUseOneColumn: affiliationRects[1].top > affiliationRects[0].bottom,
+          glaeronHref: glaeron.href,
+          glaeronTarget: glaeron.target,
+          glaeronRel: glaeron.rel,
+          metadataCount: document.querySelectorAll('.author-metadata > div').length,
+          framePathCount: document.querySelectorAll('.author-portrait__frame path').length,
+          fakeFaceOverlayCount: document.querySelectorAll('.author-portrait picture svg, .author-portrait picture canvas').length,
+          revealed: section.classList.contains('is-profile-revealed') && [...section.querySelectorAll('.author-reveal')].every((node) => getComputedStyle(node).opacity === '1'),
+        };
+      });
+
+      const viewport = `${width}x${height}`;
+      ok(`${viewport}: author section has no document or local horizontal overflow`, !result.overflow && !result.sectionOverflow);
+      ok(`${viewport}: author identity, role, and four specializations are explicit`,
+        result.name === 'Siergej Sobolewski' &&
+        result.role === 'Founder & CEO · Senior Systems & AI Engineer' &&
+        JSON.stringify(result.specializations) === JSON.stringify(['AI/ML', 'Embedded Systems', 'Radar & Avionics', 'High-Assurance Engineering']));
+      ok(`${viewport}: author name remains a readable one- or two-line anchor`, result.nameLineCount >= 1 && result.nameLineCount <= 2);
+      ok(`${viewport}: optimized local WebP/JPEG portrait sources load at the canonical 4:5 dimensions`,
+        result.portraitLoaded && result.portraitSrc === '/assets/img/author/siergej-sobolewski.jpg' &&
+        result.webpSrc === '/assets/img/author/siergej-sobolewski.webp' && result.portraitCurrentSrc.endsWith('/assets/img/author/siergej-sobolewski.webp') &&
+        Math.abs(result.portraitRatio - 0.8) <= 0.005);
+      ok(`${viewport}: portrait remains substantial without consuming the viewport`, result.portraitHeight >= 270 && result.portraitHeight <= height * 0.7);
+      ok(`${viewport}: biography measure and reading size remain controlled`, result.bioWidth <= 760.5 && result.bioFontSize >= 13.5);
+      ok(`${viewport}: visible safety-critical biography explicitly represents DO-178C`, result.do178cPresent);
+      ok(`${viewport}: GuardBSD, AstraDesk, AeroNerve, PySH, and ECLI are represented`, result.bioProductsPresent);
+      ok(`${viewport}: five engineering domains use the correct responsive architecture`,
+        result.domainCount === 5 && (width <= 600 ? result.domainsUseOneColumn : result.domainsUseTwoColumns));
+      ok(`${viewport}: affiliations use the correct responsive architecture`, width <= 600 ? result.affiliationsUseOneColumn : result.affiliationsUseTwoColumns);
+      ok(`${viewport}: Glaeron CTA is external and opener-safe`,
+        result.glaeronHref === 'https://www.glaeron.com/' && result.glaeronTarget === '_blank' &&
+        result.glaeronRel.includes('noopener') && result.glaeronRel.includes('noreferrer'));
+      ok(`${viewport}: technical frame and four-field metadata rail are complete without a face overlay`,
+        result.framePathCount === 5 && result.metadataCount === 4 && result.fakeFaceOverlayCount === 0);
+      ok(`${viewport}: staged entrance completes with all content visible`, result.revealed);
+      ok(`${viewport}: author section produced no console errors`, consoleErrors.length === 0);
+      if (width > 900) ok(`${viewport}: editorial columns do not collide`, !result.introPortraitOverlap && !result.bodyPortraitOverlap);
+      if (width <= 900) ok(`${viewport}: mobile/tablet reading order is intro, portrait, biography`, result.mobileOrder);
+      await page.close();
+    }
+
+    log('Author profile: entrance timing is staged once and releases portrait/text transforms');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.locator('.author-profile').evaluate((section) => {
+        window.__authorMotionEvents = [];
+        section.addEventListener('animationstart', (event) => {
+          if (!event.animationName.startsWith('author-')) return;
+          window.__authorMotionEvents.push({
+            animation: event.animationName,
+            target: event.target.className.baseVal || event.target.className || event.target.tagName,
+            time: performance.now(),
+          });
+        });
+      });
+      await page.locator('.author-profile__name').scrollIntoViewIfNeeded();
+      await page.waitForSelector('.author-profile.is-profile-entering');
+      const entering = await page.evaluate(() => {
+        const config = (selector) => {
+          const style = getComputedStyle(document.querySelector(selector));
+          return { delay: style.animationDelay, duration: style.animationDuration, name: style.animationName, iterations: style.animationIterationCount };
+        };
+        return {
+          eyebrow: config('.author-profile__eyebrow'),
+          name: config('.author-profile__name'),
+          role: config('.author-profile__role'),
+          portrait: config('.author-portrait'),
+          firstDomain: config('.author-domain:nth-child(1)'),
+          lastDomain: config('.author-domain:nth-child(5)'),
+          metadata: config('.author-metadata'),
+          frame: config('.author-portrait__outline'),
+          signal: config('.author-portrait__signal'),
+        };
+      });
+      ok('author entrance uses the specified 100/180/260/320ms opening sequence',
+        entering.eyebrow.delay === '0.1s' && entering.name.delay === '0.18s' &&
+        entering.role.delay === '0.26s' && entering.portrait.delay === '0.32s');
+      ok('engineering domains stagger from 650ms to 970ms and metadata starts at 900ms',
+        entering.firstDomain.delay === '0.65s' && entering.lastDomain.delay === '0.97s' && entering.metadata.delay === '0.9s');
+      ok('portrait frame draws once and the technical signal traverses once',
+        entering.frame.name === 'author-frame-draw' && entering.frame.delay === '0.42s' && entering.frame.duration === '0.8s' &&
+        entering.signal.name === 'author-frame-signal' && entering.signal.iterations === '1');
+      await page.waitForTimeout(1500);
+      const settled = await page.evaluate(() => {
+        const section = document.querySelector('.author-profile');
+        const portrait = document.querySelector('.author-portrait');
+        const image = portrait.querySelector('img');
+        return {
+          revealed: section.classList.contains('is-profile-revealed') && !section.classList.contains('is-profile-entering'),
+          allEntranceAnimationsReleased: [...section.querySelectorAll('.author-reveal')].every((node) => getComputedStyle(node).animationName === 'none' && getComputedStyle(node).transform === 'none'),
+          portraitStable: getComputedStyle(portrait).animationName === 'none' && getComputedStyle(portrait).transform === 'none' && getComputedStyle(image).animationName === 'none',
+          ambientGlow: getComputedStyle(section, '::after').animationName,
+          ambientNodes: [...section.querySelectorAll('.author-profile__ambient-node')].map((node) => getComputedStyle(node).animationName),
+          eventNames: window.__authorMotionEvents.map((event) => event.animation),
+        };
+      });
+      ok('one-shot entrance reaches its stable released state', settled.revealed && settled.allEntranceAnimationsReleased);
+      ok('portrait and text remain stationary after entrance', settled.portraitStable);
+      ok('post-entrance ambient motion is restricted to the glow and sparse nodes',
+        settled.ambientGlow === 'author-ambient-glow' && settled.ambientNodes.every((name) => name === 'author-node-breathe'));
+      ok('frame draw and signal animations each start exactly once',
+        settled.eventNames.filter((name) => name === 'author-frame-draw').length === 3 &&
+        settled.eventNames.filter((name) => name === 'author-frame-signal').length === 1);
+      await page.close();
+    }
+
+    log('Author profile: fine-pointer hover is restrained and does not translate the portrait');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html#avtor`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(1500);
+      const portrait = page.locator('.author-portrait');
+      const before = await portrait.evaluate((node) => ({
+        top: node.getBoundingClientRect().top,
+        left: node.getBoundingClientRect().left,
+        stroke: getComputedStyle(node.querySelector('.author-portrait__corners')).stroke,
+      }));
+      await portrait.hover();
+      await page.waitForTimeout(450);
+      const hovered = await portrait.evaluate((node) => {
+        const matrix = new DOMMatrixReadOnly(getComputedStyle(node.querySelector('img')).transform);
+        return {
+          top: node.getBoundingClientRect().top,
+          left: node.getBoundingClientRect().left,
+          scale: matrix.a,
+          stroke: getComputedStyle(node.querySelector('.author-portrait__corners')).stroke,
+        };
+      });
+      const domain = page.locator('.author-domain').first();
+      const lineBefore = await domain.evaluate((node) => parseFloat(getComputedStyle(node, '::after').width));
+      await domain.hover();
+      await page.waitForTimeout(320);
+      const lineAfter = await domain.evaluate((node) => parseFloat(getComputedStyle(node, '::after').width));
+      const glaeron = page.locator('.author-affiliation a');
+      const ctaBefore = await glaeron.evaluate((node) => getComputedStyle(node).color);
+      await glaeron.hover();
+      await page.waitForTimeout(240);
+      const ctaAfter = await glaeron.evaluate((node) => getComputedStyle(node).color);
+      ok('portrait hover scale is visible and capped at 1.01', hovered.scale > 1 && hovered.scale <= 1.01);
+      ok('portrait frame strengthens without translating the portrait',
+        before.stroke !== hovered.stroke && Math.abs(before.top - hovered.top) <= 0.2 && Math.abs(before.left - hovered.left) <= 0.2);
+      ok('domain line extends and Glaeron CTA gains a clear hover state', lineAfter > lineBefore && ctaBefore !== ctaAfter);
+      await page.close();
+    }
+
+    log('Author profile: prefers-reduced-motion renders the complete static system immediately');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+      await page.goto(`${base}/index.html#avtor`, { waitUntil: 'networkidle' });
+      const reduced = await page.evaluate(() => {
+        const section = document.querySelector('.author-profile');
+        const animationSelectors = ['.author-profile__name', '.author-portrait', '.author-portrait__outline', '.author-portrait__signal', '.author-profile__ambient-node'];
+        return {
+          revealed: section.classList.contains('is-profile-revealed'),
+          animations: animationSelectors.map((selector) => getComputedStyle(document.querySelector(selector)).animationName),
+          contentVisible: [...section.querySelectorAll('.author-reveal')].every((node) => getComputedStyle(node).opacity === '1' && getComputedStyle(node).transform === 'none'),
+          frameComplete: ['.author-portrait__outline', '.author-portrait__corners', '.author-portrait__route'].every((selector) => parseFloat(getComputedStyle(document.querySelector(selector)).strokeDashoffset) === 0),
+          portraitStatic: getComputedStyle(document.querySelector('.author-portrait img')).transform === 'none',
+          domainCount: section.querySelectorAll('.author-domain').length,
+          metadataCount: section.querySelectorAll('.author-metadata > div').length,
+        };
+      });
+      ok('reduced motion: entrance, frame, signal, glow, and node animations are disabled', reduced.animations.every((name) => name === 'none'));
+      ok('reduced motion: profile is immediately visible with a complete static frame', reduced.revealed && reduced.contentVisible && reduced.frameComplete && reduced.portraitStatic);
+      ok('reduced motion: all domains and metadata remain complete', reduced.domainCount === 5 && reduced.metadataCount === 4);
       await page.close();
     }
 
