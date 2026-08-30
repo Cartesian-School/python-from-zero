@@ -380,21 +380,29 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 
         <div class="about-stat about-stat--chapters">
           <span class="about-stat__code">CURRICULUM / 01</span>
-          <div class="num">{TOTAL_CHAPTERS}</div><div class="lbl">Главы</div>
-          <span class="about-stat__detail">от синтаксиса к архитектуре</span>
+          <div class="about-stat__number-zone"><div class="num">{TOTAL_CHAPTERS}</div></div>
+          <div class="about-stat__copy">
+            <div class="lbl">Главы</div>
+            <span class="about-stat__detail">от синтаксиса к архитектуре</span>
+          </div>
         </div>
         <div class="about-stat about-stat--pages">
           <span class="about-stat__code">BOOK / PDF</span>
-          <div class="num">{TOTAL_PAGES}</div><div class="lbl">Страниц в книге</div>
+          <div class="about-stat__number-zone"><div class="num">{TOTAL_PAGES}</div></div>
+          <div class="about-stat__copy"><div class="lbl">Страниц в книге</div></div>
         </div>
         <div class="about-stat about-stat--projects">
           <span class="about-stat__code">BUILD / SHIP</span>
-          <div class="num">{TOTAL_PROJECTS}</div><div class="lbl">Готовых проектов</div>
+          <div class="about-stat__number-zone"><div class="num">{TOTAL_PROJECTS}</div></div>
+          <div class="about-stat__copy"><div class="lbl">Готовых проектов</div></div>
         </div>
         <div class="about-stat about-stat--practice">
           <span class="about-stat__code">REPL / PRACTICE</span>
-          <div class="num">{TOTAL_LESSONS}</div><div class="lbl">Практических заданий</div>
-          <span class="about-stat__detail">в браузере и локально</span>
+          <div class="about-stat__number-zone"><div class="num">{TOTAL_LESSONS}</div></div>
+          <div class="about-stat__copy">
+            <div class="lbl">Практических заданий</div>
+            <span class="about-stat__detail">в браузере и локально</span>
+          </div>
         </div>
       </div>
     </div>

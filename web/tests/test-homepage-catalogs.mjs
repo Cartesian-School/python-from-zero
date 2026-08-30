@@ -168,31 +168,74 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
       page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
       page.on('pageerror', (error) => consoleErrors.push(error.message));
       await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
-      await page.waitForTimeout(850);
+      await page.locator('.about-stats').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(1000);
 
       const result = await page.evaluate(() => {
-        const rectsOf = (selector) => [...document.querySelectorAll(selector)].map((element) => {
+        const rectOf = (element) => {
           const rect = element.getBoundingClientRect();
-          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
-        });
+          return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height };
+        };
+        const rectsOf = (selector) => [...document.querySelectorAll(selector)].map(rectOf);
         const noPairOverlaps = (rects) => rects.every((a, index) => rects.slice(index + 1).every((b) =>
           !(a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1)
         ));
         const containedHorizontally = (rects) => rects.every((rect) => rect.left >= -1 && rect.right <= window.innerWidth + 1);
+        const containedBy = (outer, inner) =>
+          inner.left >= outer.left - 1 && inner.right <= outer.right + 1 &&
+          inner.top >= outer.top - 1 && inner.bottom <= outer.bottom + 1;
         const metricNodes = [...document.querySelectorAll('.about-stat')];
         const stageNodes = [...document.querySelectorAll('.course-stage')];
         const metricValues = Object.fromEntries(metricNodes.map((node) => [
           node.querySelector('.lbl').textContent.trim(),
           node.querySelector('.num').textContent.trim(),
         ]));
+        const metricLayout = metricNodes.map((node) => {
+          const card = rectOf(node);
+          const codeNode = node.querySelector('.about-stat__code');
+          const numberZoneNode = node.querySelector('.about-stat__number-zone');
+          const numberNode = node.querySelector('.num');
+          const copyNode = node.querySelector('.about-stat__copy');
+          const labelNode = node.querySelector('.lbl');
+          const detailNode = node.querySelector('.about-stat__detail');
+          const code = rectOf(codeNode);
+          const numberZone = rectOf(numberZoneNode);
+          const number = rectOf(numberNode);
+          const copy = rectOf(copyNode);
+          const contentRects = [code, number, copy];
+          if (detailNode) contentRects.push(rectOf(detailNode));
+          return {
+            modifier: [...node.classList].find((name) => name.startsWith('about-stat--')),
+            cardWidth: card.width,
+            codeNumberGap: number.top - code.bottom,
+            numberCopyGap: copy.top - number.bottom,
+            centerDeltaX: Math.abs((number.left + number.right - numberZone.left - numberZone.right) / 2),
+            centerDeltaY: Math.abs((number.top + number.bottom - numberZone.top - numberZone.bottom) / 2),
+            contentContained: contentRects.every((rect) => containedBy(card, rect)),
+            fontSizes: {
+              code: parseFloat(getComputedStyle(codeNode).fontSize),
+              number: parseFloat(getComputedStyle(numberNode).fontSize),
+              label: parseFloat(getComputedStyle(labelNode).fontSize),
+              detail: detailNode ? parseFloat(getComputedStyle(detailNode).fontSize) : null,
+            },
+            stable: node.classList.contains('is-metric-revealed') && getComputedStyle(node).transform === 'none',
+          };
+        });
+        const metricWidths = Object.fromEntries(metricLayout.map((metric) => [metric.modifier, metric.cardWidth]));
+        const metricFontSizes = Object.fromEntries(metricLayout.map((metric) => [metric.modifier, metric.fontSizes.number]));
         const desktopRail = getComputedStyle(document.querySelector('.course-path__rail--desktop')).display;
         const mobileRail = getComputedStyle(document.querySelector('.course-path__rail--mobile')).display;
+        const routes = document.querySelector('.about-stats__routes');
         return {
           overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
           metricCount: metricNodes.length,
           metricValues,
+          metricLayout,
+          metricWidths,
+          metricFontSizes,
           metricsContained: containedHorizontally(rectsOf('.about-stat')),
           metricsDoNotOverlap: noPairOverlaps(rectsOf('.about-stat')),
+          metricRoutesValid: !!routes && routes.viewBox.baseVal.width === 600 && routes.viewBox.baseVal.height === 430,
           stageCount: stageNodes.length,
           stageTitles: stageNodes.map((node) => node.querySelector('h3').textContent.trim()),
           stagesContained: containedHorizontally(rectsOf('.course-stage__content')),
@@ -220,6 +263,26 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
         result.metricValues['Готовых проектов'] === String(TOTAL_PROJECTS) &&
         result.metricValues['Страниц в книге'] === String(TOTAL_PAGES));
       ok(`${viewport}: metrics are contained and do not collide`, result.metricsContained && result.metricsDoNotOverlap);
+      ok(`${viewport}: metric micro-label, centered number, and lower-copy zones are separated`,
+        result.metricLayout.every((metric) => metric.codeNumberGap >= 8 && metric.numberCopyGap >= 8 &&
+          metric.centerDeltaX <= 1 && metric.centerDeltaY <= 1));
+      ok(`${viewport}: all metric content remains inside its card`, result.metricLayout.every((metric) => metric.contentContained));
+      ok(`${viewport}: metric typography resolves to the refined 10/14/11px hierarchy`,
+        result.metricLayout.every((metric) => metric.fontSizes.code === 10 && metric.fontSizes.label === 14 &&
+          (metric.fontSizes.detail === null || metric.fontSizes.detail === 11)));
+      ok(`${viewport}: metric entrance completes in a stable final position`, result.metricLayout.every((metric) => metric.stable));
+      ok(`${viewport}: metric route SVG preserves its valid viewBox`, result.metricRoutesValid);
+      if (width <= 700) {
+        ok(`${viewport}: mobile constellation keeps chapter/practice cards wide while page/project cards remain compact`,
+          Math.abs(result.metricWidths['about-stat--chapters'] - result.metricWidths['about-stat--practice']) <= 1 &&
+          result.metricWidths['about-stat--practice'] > result.metricWidths['about-stat--pages'] * 1.8 &&
+          Math.abs(result.metricWidths['about-stat--pages'] - result.metricWidths['about-stat--projects']) <= 1);
+        ok(`${viewport}: mobile number hierarchy remains differentiated`,
+          result.metricFontSizes['about-stat--chapters'] === 48 &&
+          result.metricFontSizes['about-stat--practice'] === 44 &&
+          result.metricFontSizes['about-stat--pages'] === 36 &&
+          result.metricFontSizes['about-stat--projects'] === 36);
+      }
       ok(`${viewport}: four learning stages preserve their ordered concepts`,
         result.stageCount === 4 && JSON.stringify(result.stageTitles) === JSON.stringify(COURSE_STAGE_TITLES));
       ok(`${viewport}: stages are contained and do not collide`, result.stagesContained && result.stagesDoNotOverlap);
@@ -229,6 +292,86 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
         width > 900 ? result.desktopRailVisible && !result.mobileRailVisible : !result.desktopRailVisible && result.mobileRailVisible);
       ok(`${viewport}: route and staged entrance render completely`, result.routeBasePresent && pathwayRevealed);
       ok(`${viewport}: course experience produced no console errors`, consoleErrors.length === 0);
+      await page.close();
+    }
+
+    log('Course experience: metric cards enter in order and release transform ownership');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => {
+        window.__metricMotionEvents = [];
+        document.querySelectorAll('.about-stat').forEach((card) => {
+          card.addEventListener('animationstart', (event) => {
+            if (event.animationName !== 'course-metric-enter' && event.animationName !== 'course-metric-number-settle') return;
+            window.__metricMotionEvents.push({
+              animation: event.animationName,
+              metric: card.querySelector('.num').textContent.trim(),
+              target: event.target.classList.contains('num') ? 'number' : 'card',
+              time: performance.now(),
+            });
+          });
+        });
+      });
+      await page.locator('.about-stats').scrollIntoViewIfNeeded();
+      await page.waitForSelector('.about-stat--chapters.is-metric-entering');
+      const motionConfig = await page.locator('.about-stat').evaluateAll((cards) => cards.map((card) => ({
+        delay: getComputedStyle(card).animationDelay,
+        duration: getComputedStyle(card).animationDuration,
+      })));
+      await page.waitForTimeout(1150);
+      const motion = await page.evaluate(() => {
+        const cards = [...document.querySelectorAll('.about-stat')];
+        const cardStarts = window.__metricMotionEvents.filter((event) => event.animation === 'course-metric-enter' && event.target === 'card');
+        const numberStarts = window.__metricMotionEvents.filter((event) => event.animation === 'course-metric-number-settle' && event.target === 'number');
+        return {
+          cardStarts,
+          numberStarts,
+          cardsStable: cards.every((card) => card.classList.contains('is-metric-revealed') && getComputedStyle(card).animationName === 'none' && getComputedStyle(card).transform === 'none'),
+          glowAnimations: cards.map((card) => getComputedStyle(card, '::before').animationName),
+        };
+      });
+      const expectedMetricOrder = [TOTAL_CHAPTERS, TOTAL_PAGES, TOTAL_PROJECTS, TOTAL_LESSONS].map(String);
+      ok('metric entrance order follows chapter, pagination, project, and practice sources',
+        JSON.stringify(motion.cardStarts.map((event) => event.metric)) === JSON.stringify(expectedMetricOrder));
+      ok('metric entrance uses the configured 620ms duration and exact 80ms stagger',
+        JSON.stringify(motionConfig.map((config) => config.delay)) === JSON.stringify(['0s', '0.08s', '0.16s', '0.24s']) &&
+        motionConfig.every((config) => config.duration === '0.62s'));
+      ok('each metric number runs exactly one settle animation',
+        motion.numberStarts.length === 4 && new Set(motion.numberStarts.map((event) => event.metric)).size === 4);
+      ok('cards release entrance transforms while ambient motion remains on the glow only',
+        motion.cardsStable && motion.glowAnimations.every((name) => name === 'course-metric-glow-drift'));
+      await page.close();
+    }
+
+    log('Course experience: metric hover is restrained and returns to a stable position');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
+      await page.waitForTimeout(1000);
+      const card = page.locator('.about-stat--chapters');
+      const before = await card.evaluate((node) => ({
+        top: node.getBoundingClientRect().top,
+        border: getComputedStyle(node).borderColor,
+        label: getComputedStyle(node.querySelector('.lbl')).color,
+        numberFilter: getComputedStyle(node.querySelector('.num')).filter,
+      }));
+      await card.hover();
+      await page.waitForTimeout(300);
+      const hovered = await card.evaluate((node) => ({
+        top: node.getBoundingClientRect().top,
+        border: getComputedStyle(node).borderColor,
+        label: getComputedStyle(node.querySelector('.lbl')).color,
+        numberFilter: getComputedStyle(node.querySelector('.num')).filter,
+      }));
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(300);
+      const restoredTop = await card.evaluate((node) => node.getBoundingClientRect().top);
+      const lift = before.top - hovered.top;
+      ok('metric hover lift is visible and no greater than 2px', lift >= 1 && lift <= 2.1);
+      ok('metric hover refines border, label, and number emphasis',
+        before.border !== hovered.border && before.label !== hovered.label && before.numberFilter !== hovered.numberFilter);
+      ok('metric card returns to its stable zero-offset position after hover', Math.abs(before.top - restoredTop) <= 0.2);
       await page.close();
     }
 
@@ -251,13 +394,23 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
       await page.goto(`${base}/index.html#o-kurse`, { waitUntil: 'networkidle' });
       const reduced = await page.evaluate(() => {
         const selectors = ['.about-stat', '.about-stats__signal', '.course-path__signal', '.course-stage__node i', '.stage-icon__cursor'];
+        const cards = [...document.querySelectorAll('.about-stat')];
         return {
           animations: selectors.map((selector) => getComputedStyle(document.querySelector(selector)).animationName),
+          glowAnimations: cards.map((card) => getComputedStyle(card, '::before').animationName),
+          metricStatic: cards.every((card) => {
+            const cardStyle = getComputedStyle(card);
+            const numberStyle = getComputedStyle(card.querySelector('.num'));
+            return cardStyle.opacity === '1' && cardStyle.transform === 'none' && cardStyle.transitionDuration === '0s' &&
+              numberStyle.animationName === 'none' && numberStyle.transform === 'none' && numberStyle.transitionDuration === '0s';
+          }),
           revealsVisible: [...document.querySelectorAll('.experience-reveal')].every((node) => getComputedStyle(node).opacity === '1'),
           stageCount: document.querySelectorAll('.course-stage').length,
         };
       });
       ok('reduced motion: continuous metric, route, node, and icon animations are disabled', reduced.animations.every((name) => name === 'none'));
+      ok('reduced motion: metric cards, numbers, and glows are immediately static',
+        reduced.metricStatic && reduced.glowAnimations.every((name) => name === 'none'));
       ok('reduced motion: all content remains visible and complete', reduced.revealsVisible && reduced.stageCount === 4);
       await page.close();
     }
