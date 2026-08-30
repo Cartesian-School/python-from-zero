@@ -8,16 +8,52 @@
   if (!root) return;
 
   var reveals = Array.prototype.slice.call(root.querySelectorAll(".experience-reveal"));
+  var metricGroup = root.querySelector(".about-stats");
+  var metricCards = Array.prototype.slice.call(root.querySelectorAll(".about-stat"));
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var revealObserver = null;
   var visibilityObserver = null;
+  var metricAnimationHandlers = new Map();
 
   root.classList.add("is-enhanced");
 
-  function revealAll() {
+  function finishMetricEntrance(card) {
+    var handler = metricAnimationHandlers.get(card);
+    if (handler) card.removeEventListener("animationend", handler);
+    metricAnimationHandlers.delete(card);
+    card.classList.remove("is-metric-entering");
+    card.classList.add("is-metric-revealed");
+  }
+
+  function revealMetricsImmediately() {
+    metricCards.forEach(finishMetricEntrance);
+  }
+
+  function startMetricEntrance() {
+    if (reducedMotion.matches) {
+      revealMetricsImmediately();
+      return;
+    }
+
+    metricCards.forEach(function (card) {
+      if (card.classList.contains("is-metric-entering") || card.classList.contains("is-metric-revealed")) return;
+
+      var handler = function (event) {
+        if (event.target !== card || event.animationName !== "course-metric-enter") return;
+        finishMetricEntrance(card);
+      };
+      metricAnimationHandlers.set(card, handler);
+      card.addEventListener("animationend", handler);
+      card.classList.add("is-metric-entering");
+    });
+  }
+
+  function revealAll(immediateMetrics) {
     reveals.forEach(function (element) {
       element.classList.add("is-revealed");
     });
+    if (immediateMetrics) revealMetricsImmediately();
+    else startMetricEntrance();
   }
 
   function disconnectObservers() {
@@ -31,7 +67,7 @@
     disconnectObservers();
 
     if (!("IntersectionObserver" in window)) {
-      revealAll();
+      revealAll(true);
       root.classList.add("is-in-view");
       return;
     }
@@ -40,6 +76,7 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-revealed");
+        if (entry.target === metricGroup) startMetricEntrance();
         revealObserver.unobserve(entry.target);
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
@@ -57,7 +94,7 @@
   function syncMotionMode() {
     if (reducedMotion.matches) {
       disconnectObservers();
-      revealAll();
+      revealAll(true);
       root.classList.add("is-in-view");
     } else {
       startObservers();
