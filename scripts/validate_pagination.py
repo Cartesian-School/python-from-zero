@@ -199,9 +199,18 @@ def validate(*, portable: bool = False) -> list[str]:
             errors.append(f"chapter {item.number}: website opener pagination drift")
 
     homepage = HOMEPAGE_PATH.read_text(encoding="utf-8")
-    if not re.search(
-        rf'<div class="num">{total_pages}</div><div class="lbl">Страниц в книге</div>',
-        homepage,
+    pages_metric_start = homepage.find('<div class="about-stat about-stat--pages">')
+    pages_metric_end = homepage.find(
+        '<div class="about-stat about-stat--projects">', pages_metric_start
+    )
+    pages_metric = (
+        homepage[pages_metric_start:pages_metric_end]
+        if pages_metric_start >= 0 and pages_metric_end > pages_metric_start
+        else ""
+    )
+    if (
+        f'<div class="num">{total_pages}</div>' not in pages_metric
+        or '<div class="lbl">Страниц в книге</div>' not in pages_metric
     ):
         errors.append("homepage exact total-page statistic drift")
 
