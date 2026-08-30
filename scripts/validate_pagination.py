@@ -40,6 +40,24 @@ def flatten_outline_items(reader: Any, items):
             yield item
 
 
+def embedded_content_font_families(reader: Any) -> set[str]:
+    """Return normalized BaseFont families used after the external cover page."""
+    families: set[str] = set()
+    subset_prefix = re.compile(r"^[A-Z]{6}\+")
+    for page in reader.pages[1:]:
+        resources = page.get("/Resources")
+        if not resources:
+            continue
+        fonts = resources.get_object().get("/Font")
+        if not fonts:
+            continue
+        for reference in fonts.get_object().values():
+            base_font = reference.get_object().get("/BaseFont")
+            if base_font:
+                families.add(subset_prefix.sub("", str(base_font).lstrip("/")))
+    return families
+
+
 def validate(*, portable: bool = False) -> list[str]:
     errors: list[str] = []
     metadata = json.loads(PAGINATION_PATH.read_text(encoding="utf-8"))
@@ -78,6 +96,22 @@ def validate(*, portable: bool = False) -> list[str]:
     if metadata.get("pdf_sha256") != actual_pdf_sha256:
         errors.append("pagination sidecar belongs to a different PDF SHA-256")
 
+    fontconfig_policy = metadata.get("fontconfig_policy")
+    if not isinstance(fontconfig_policy, dict):
+        errors.append("pagination Fontconfig policy record is missing")
+    else:
+        policy_file = fontconfig_policy.get("file")
+        expected_policy_sha256 = fontconfig_policy.get("sha256")
+        policy_path = (ROOT / policy_file).resolve() if isinstance(policy_file, str) else None
+        if (
+            policy_path is None
+            or not policy_path.is_relative_to(ROOT.resolve())
+            or not policy_path.is_file()
+        ):
+            errors.append("pagination Fontconfig policy file is missing or outside the repository")
+        elif hashlib.sha256(policy_path.read_bytes()).hexdigest() != expected_policy_sha256:
+            errors.append("pagination Fontconfig policy SHA-256 drift")
+
     reader = None
     compact_toc = ""
     outlines: dict[str, set[int]] = {}
@@ -91,11 +125,41 @@ def validate(*, portable: bool = False) -> list[str]:
 
         if metadata.get("source_date_epoch") != int(build_pdf.SOURCE_DATE_EPOCH):
             errors.append("build renderer SOURCE_DATE_EPOCH contract drift")
+        canonical_fontconfig_policy = build_pdf.validate_fontconfig_policy()
+        if fontconfig_policy != canonical_fontconfig_policy:
+            errors.append("pagination Fontconfig policy drift")
         reader = PdfReader(str(PDF_PATH))
         if len(reader.pages) != total_pages:
             errors.append(
                 f"physical PDF has {len(reader.pages)} pages, metadata has {total_pages}"
             )
+
+        embedded_families = embedded_content_font_families(reader)
+        allowed_families = {
+            "DejaVu-Serif",
+            "DejaVu-Serif-Bold",
+            "DejaVu-Serif-Italic",
+            "DejaVu-Sans",
+            "DejaVu-Sans-Bold",
+            "DejaVu-Sans-Mono",
+            "DejaVu-Sans-Mono-Bold",
+            "DejaVu-Sans-Mono-Oblique",
+            "Cartesian-Noto-Color-Emoji",
+            "Cartesian-Noto-Color-Emoji-Bold",
+            "Cartesian-Noto-Color-Emoji-Oblique",
+        }
+        unexpected_families = sorted(embedded_families - allowed_families)
+        if unexpected_families:
+            errors.append(
+                "physical PDF contains fonts outside the repository-owned content set: "
+                + ", ".join(unexpected_families)
+            )
+        if not any(
+            family == "Cartesian-Noto-Color-Emoji"
+            or family.startswith("Cartesian-Noto-Color-Emoji-")
+            for family in embedded_families
+        ):
+            errors.append("physical PDF lacks the pinned Cartesian emoji subset")
 
         toc_text = "\n".join(
             (reader.pages[index].extract_text() or "") for index in range(3, 7)
