@@ -22,8 +22,8 @@
 20. **Final PDF page count:** 4535 physical pages (24 chapters + subject index), validated by `validate_book.py` (4535 pages, metadata present, 1221 bookmarks, uniform page size) and `validate_pagination.py` (PDF/TOC/site consistent).
 21. **pytest result:** 177 passed, 0 failed.
 22. **M01 completeness validator result:** `PASS: review contract valid; records=258; inventory_units=1158` (258 = 91 Batch A + 167 Batch B; `--require-complete-scope` for `--chapters 5 6 7 8` confirms 0 missing units).
-23. **GitHub Actions result:** Pending — to be confirmed once pushed and PR opened.
-24. **Vercel result:** `bash scripts/build_vercel.sh` passed locally in full (practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green); live Vercel preview to be confirmed once PR is opened.
+23. **GitHub Actions result:** PASS — `validate` check green on PR #79 (run 33600936152).
+24. **Vercel result:** PASS — both `Vercel` (deployment completed) and `Vercel Preview Comments` checks green on PR #79; `bash scripts/build_vercel.sh` also passed locally in full (practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green).
 25. **PR URL:** https://github.com/Cartesian-School/python-from-zero/pull/79
 
 ---
