@@ -1,10 +1,10 @@
 # M01 -- Russian technical terminology register
 
-Scope covered: Chapters 2-12 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12); to be extended by each later batch
+Scope covered: Chapters 2-16 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12; Batch D: 13-16); to be extended by each later batch
 
 Policy: Prefer the term a working Russian-speaking Python developer would actually say and immediately understand. Do not mechanically translate every English term, and do not force a Russian gloss after a term is already established.
 
-This register is additive: later batches (Chapters 5-24) extend it with new terms
+This register is additive: later batches (Chapters 17-24) extend it with new terms
 as they are encountered, and revisit an existing entry only when a batch finds a real,
 evidenced inconsistency -- not to relitigate an already-settled decision without cause.
 
@@ -64,6 +64,21 @@ evidenced inconsistency -- not to relitigate an already-settled decision without
 | comprehension (list/set/dict) | comprehension (генератор списков / словаря / множества) | генератор списков (specifically for list comprehension, an established Russian rendering) | introducing comprehension syntax before the equivalent explicit loop -- the course consistently shows the loop-with-append() version first, then the comprehension as a compact alternative, at every one of its three introductions (11-04 preview, 11-22 full treatment, and again contrasted in 11-04's classic-vs-modern block) | 11 |
 | decomposition | декомпозиция | -- | -- | 12 |
 | refactoring | рефакторинг | -- | conflating refactoring with 'making the code work' -- the course correctly and precisely defines it as improving structure WITHOUT changing behavior, demonstrated by showing the hardcoded and data-driven quiz versions behave identically for the same input | 12 |
+| parameter vs argument | параметр (в определении) / аргумент (в вызове) | -- | using 'параметр' and 'аргумент' interchangeably -- casual Russian-language material often blurs them, but the course draws the distinction precisely and consistently | 13 |
+| LEGB (scope resolution order) | LEGB (left as the English acronym; each letter explained in Russian) | Local -> Enclosing -> Global -> Builtins (spelled out in the elif_ladder_diagram) | inventing a Russian acronym or translating the letters -- 'LEGB' is the term working Python developers actually use and search for | 13 |
+| closure | замыкание | -- | 'закрытие' (a literal but semantically wrong calque -- reads as 'closing', not the functional-programming concept) | 13 |
+| keyword-only / positional-only parameters | параметры только по имени (keyword-only) / только по позиции (positional-only) | -- | translating 'keyword-only'/'positional-only' into a single unclear Russian phrase without keeping the English term visible -- the syntax markers (bare * and /) are themselves language-agnostic and readers will meet the English names in real documentation | 13 |
+| pure function vs side effect | чистая функция / побочный эффект | -- | 'сайд-эффект' (an unnecessary Runglish loanword when a precise, established Russian term already exists) | 13 |
+| self (not a keyword) | self (left as code; explicitly described as convention, not a reserved word) | -- | presenting 'self' as a Python keyword or reserved word -- it is an ordinary parameter name that happens to be universal convention | 14 |
+| encapsulation | инкапсуляция | -- | presenting Python's __name mangling as 'true privacy' -- the course explicitly and correctly debunks this ('в Python нет настоящей приватности на уровне языка') | 14 |
+| composition (HAS-A) vs inheritance (IS-A) | композиция (HAS-A) / наследование (IS-A) | -- | translating HAS-A/IS-A into Russian -- the course correctly keeps these as bare English mnemonics since they are the standard OOP vocabulary a developer will meet in any language's documentation | 14 |
+| duck typing | duck typing (left as the English term; described via the 'если это выглядит как утка...' idiom) | -- | 'утиная типизация' as the primary form without keeping 'duck typing' visible -- both should appear, since 'duck typing' is what appears in real error discussions and interviews | 14 |
+| dunder / special methods | специальные методы (дандер-методы as an accepted colloquial variant) | дандер-методы (from 'double underscore'; used colloquially in the Russian-speaking Python community) | 'магические методы' (a widely-seen but discouraged calque of 'magic methods' -- the course correctly avoids implying anything mystical about a well-defined protocol) | 14 |
+| dataclass | dataclass (left as code/the decorator name; described as 'класс-данные' or 'класс для хранения данных') | -- | implying @dataclass produces something other than a normal class -- the course explicitly and correctly debunks this misconception | 14 |
+| serialization / deserialization | сериализация / десериализация | -- | using only informal phrasing ('сохранить в файл') without the precise terms -- the course explicitly introduces the precise vocabulary via a dedicated callout | 15 |
+| current working directory (CWD) | текущая рабочая директория (CWD as an accepted bare acronym) | CWD (used bare after first introduction, matching real tooling/documentation) | conflating CWD with 'the folder where the script file lives' -- the course dedicates an entire section and a Debug Lab specifically to correcting this exact misconception | 15 |
+| event-driven programming | событийно-ориентированное программирование | -- | describing mainloop()/the event loop as the program 'freezing' or 'waiting idly' -- the course explicitly and repeatedly corrects this exact misconception | 16 |
+| widget | виджет | -- | 'элемент управления' as the primary term -- 'виджет' is what Russian-speaking Tkinter/GUI developers actually say and is used consistently by the course itself | 16 |
 
 ## Rationale and evidence per term
 
@@ -498,3 +513,123 @@ Standard, correct developer term, introduced with the course's single clearest a
 - **Evidence:** scripts/build_chapter_12.py:12-16-viktorina (explicitly labeled 'самый важный архитектурный урок главы')
 - **First-use guidance:** Always demonstrate BEFORE/AFTER code producing identical behavior when introducing refactoring, as the course does, to make the 'behavior unchanged' part of the definition concrete rather than asserted.
 - **Affected chapters:** 12
+
+### parameter vs argument -> параметр (в определении) / аргумент (в вызове)
+
+build_chapter_13.py §13.4 explicitly teaches the distinction with a comparison table ('Параметр -- в определении... Аргумент -- в вызове...') and a converge_diagram showing the argument value flowing into the parameter name. Verified the course maintains this precise usage throughout Chapter 13 rather than using the terms interchangeably, which is the single most common terminology slip in Russian-language beginner material on functions.
+
+- **Evidence:** scripts/build_chapter_13.py:13-02-zachem-funkcii
+- **First-use guidance:** Introduce both terms together with the definition/call-site contrast, exactly as the course does -- never introduce one without immediately contrasting it with the other.
+- **Affected chapters:** 13
+
+### LEGB (scope resolution order) -> LEGB (left as the English acronym; each letter explained in Russian)
+
+build_chapter_13.py §13.12 introduces LEGB as a bare acronym via an elif_ladder_diagram (L -> E -> G -> B, each with a one-line Russian gloss), then walks through UnboundLocalError as a direct consequence of the model. Verified the course never attempts a Russian translation of the acronym itself -- correct, since 'LEGB' is the term a Russian-speaking developer would encounter in documentation, Stack Overflow, and job interviews.
+
+- **Evidence:** scripts/build_chapter_13.py:13-05-globalnye-lokalnye
+- **First-use guidance:** Keep 'LEGB' as a bare acronym; explain each letter in Russian but never replace the acronym itself.
+- **Affected chapters:** 13
+
+### closure -> замыкание
+
+build_chapter_13.py §13.13 uses 'замыкание' correctly and consistently for the nested-function-retains-enclosing-state concept (make_greeter/greet_anna example), explicitly flagging it as a term to recognize now with full treatment deferred to decorators later. 'Замыкание' is the standard, unambiguous Russian term used in Russian-language Python documentation and courses -- verified no confusion with the unrelated literal sense of 'closing'.
+
+- **Evidence:** scripts/build_chapter_13.py:13-16-vlozhennye-funkcii-nonlocal
+- **First-use guidance:** Introduce 'замыкание' at first mention of a nested function outliving its enclosing call; note explicitly that full treatment (decorators) comes later, exactly as the course already does.
+- **Affected chapters:** 13
+
+### keyword-only / positional-only parameters -> параметры только по имени (keyword-only) / только по позиции (positional-only)
+
+build_chapter_13.py §13.9 teaches the bare-* and bare-/ syntax with a three-zone capability_map ('только позиционно' / 'позиционно ИЛИ по имени' / 'только по имени'). Verified the course keeps the English technical names present alongside the Russian description rather than replacing them outright, which matters because these exact English terms appear in Python's own error messages and PEP 570 documentation.
+
+- **Evidence:** scripts/build_chapter_13.py:13-14-positional-only-keyword-only
+- **First-use guidance:** Always pair the Russian descriptive phrase with the English term in parentheses on first use, since the English term is what appears in real tracebacks and docs.
+- **Affected chapters:** 13
+
+### pure function vs side effect -> чистая функция / побочный эффект
+
+build_chapter_13.py §13.11 defines both terms precisely (побочный эффект = функция меняет что-то ВНЕ своего возвращаемого результата; чистая функция = результат зависит только от аргументов) and explicitly frames both as legitimate function roles rather than one being universally superior. Verified this framing avoids the common overcorrection of presenting side effects as always-bad.
+
+- **Evidence:** scripts/build_chapter_13.py:13-15-funkcii-vhod-vyhod
+- **First-use guidance:** Introduce 'побочный эффект' before 'чистая функция' (effect first, then its absence), matching the course's own sequencing, and explicitly state both are legitimate.
+- **Affected chapters:** 13
+
+### self (not a keyword) -> self (left as code; explicitly described as convention, not a reserved word)
+
+build_chapter_13.py §14.3 and §14.5 both explicitly call out 'self -- это не ключевое слово' (self is not a keyword) -- a callout box states it works even with a different parameter name but that using anything else would confuse every other Python reader. Verified this is factually correct (self is convention, not syntax) and the course states it twice for emphasis without contradiction.
+
+- **Evidence:** scripts/build_chapter_14.py:14-05-self-i-svyazyvanie-metodov
+- **First-use guidance:** State explicitly on first use that self is a naming convention, not a language keyword -- this is a common beginner misconception worth pre-empting.
+- **Affected chapters:** 14
+
+### encapsulation -> инкапсуляция
+
+build_chapter_14.py §14.10 defines encapsulation precisely as hiding state behind methods that can validate new values, then correctly explains that _name and __name are conventions/name-mangling rather than language-enforced access control (schet._Konto__balans is shown working). Verified this avoids the widespread beginner-course error of claiming Python has 'private' attributes.
+
+- **Evidence:** scripts/build_chapter_14.py:14-10-inkapsulyatsiya
+- **First-use guidance:** Always pair 'инкапсуляция' with the explicit disclaimer that Python enforces this by convention (name mangling), not by language-level access control.
+- **Affected chapters:** 14
+
+### composition (HAS-A) vs inheritance (IS-A) -> композиция (HAS-A) / наследование (IS-A)
+
+build_chapter_14.py §14.13 and §14.15 both use the HAS-A/IS-A test as the practical way to choose between the two relationships (Uchastnik HAS-A turtle.Turtle, Sobaka IS-A Zhivotnoe), reinforced by relationship_diagram calls with style='has-a'/'is-a'. Verified the course explicitly warns against using inheritance just to 'borrow' methods without a genuine IS-A relationship -- correct OOP design guidance.
+
+- **Evidence:** scripts/build_chapter_14.py:14-13-kompozitsiya
+- **First-use guidance:** Introduce the HAS-A/IS-A question as the practical test before naming which relationship (composition or inheritance) applies -- matches the course's own sequencing.
+- **Affected chapters:** 14
+
+### duck typing -> duck typing (left as the English term; described via the 'если это выглядит как утка...' idiom)
+
+build_chapter_14.py §14.19 introduces the concept through the full English idiom and its literal Russian translation, then explicitly and correctly states 'полиморфизм не требует наследования' (polymorphism does not require inheritance) as the key misconception it corrects. Verified this term is genuinely bilingual in real Russian-language Python usage, so keeping both forms visible is the right call.
+
+- **Evidence:** scripts/build_chapter_14.py:14-19-duck-typing
+- **First-use guidance:** Present the idiom in both languages on first use; do not silently drop the English 'duck typing' after the initial introduction.
+- **Affected chapters:** 14
+
+### dunder / special methods -> специальные методы (дандер-методы as an accepted colloquial variant)
+
+build_chapter_14.py §14.21 consistently uses 'специальные методы' as the primary Russian term and explains the double-underscore ('дандер', double underscore) etymology explicitly, never using 'магические методы'. Verified this is the more precise and increasingly standard choice in Russian-language Python material, since these methods follow a documented protocol rather than being 'magic'.
+
+- **Evidence:** scripts/build_chapter_14.py:14-21-spetsialnye-metody
+- **First-use guidance:** Use 'специальные методы' as the default; 'дандер-методы' may appear as a secondary colloquial gloss, but never 'магические методы'.
+- **Affected chapters:** 14
+
+### dataclass -> dataclass (left as code/the decorator name; described as 'класс-данные' or 'класс для хранения данных')
+
+build_chapter_14.py §14.23 explicitly names and corrects two beginner misconceptions in one callout: '"dataclass -- это не настоящий класс" или "в dataclass нельзя писать методы" -- Оба неверны' (both are wrong). Verified @dataclass is accurately described as an ordinary class decorator that only adds generated __init__/__repr__/__eq__, with methods and properties working exactly as in any other class.
+
+- **Evidence:** scripts/build_chapter_14.py:14-23-dataclasses
+- **First-use guidance:** Keep '@dataclass'/'dataclass' as code, glossed as 'класс-данные'; explicitly state it remains a normal class on first use.
+- **Affected chapters:** 14
+
+### serialization / deserialization -> сериализация / десериализация
+
+build_chapter_15.py §15.24 defines both terms precisely in a dedicated callout ('Сериализация -- превращение структуры Python... в представление, которое можно сохранить или передать... Десериализация -- восстановление структуры данных обратно') before the JSON/CSV sections that use the concept repeatedly. Verified both Russian terms are the standard, unambiguous ones used throughout Russian-language software engineering material.
+
+- **Evidence:** scripts/build_chapter_15.py:15-24-kak-vybrat-format
+- **First-use guidance:** Introduce both terms together, before the first concrete format (JSON), exactly as the course does.
+- **Affected chapters:** 15
+
+### current working directory (CWD) -> текущая рабочая директория (CWD as an accepted bare acronym)
+
+build_chapter_15.py §15.7 states the distinction as a callout ('CWD -- это НЕ "папка со скриптом"') and reinforces it with Debug Lab 2, showing a FileNotFoundError that results from confusing CWD with the script's own directory. Verified this is one of the most common real-world path bugs, and the course's terminology and worked example are both accurate.
+
+- **Evidence:** scripts/build_chapter_15.py:15-07-tekushaya-rabochaya-directoriya
+- **First-use guidance:** Introduce 'текущая рабочая директория' with its acronym CWD together, and immediately contrast it with 'папка со скриптом' to pre-empt the standard confusion.
+- **Affected chapters:** 15
+
+### event-driven programming -> событийно-ориентированное программирование
+
+build_chapter_16.py §16.1 and §16.9-16.10 introduce 'событийно-ориентированное программирование' as the term for GUI control flow, contrasted directly against the sequential terminal model, with repeated explicit callouts that mainloop() is 'не "замирание", а цикл обработки событий' (not freezing, but an event-processing loop). Verified the term and its contrast with sequential execution are both accurate and consistently reinforced across the chapter's opening and closing sections.
+
+- **Evidence:** scripts/build_chapter_16.py:16-09-ot-terminala-k-gui
+- **First-use guidance:** Introduce the term by direct contrast with the terminal's sequential model (глава 1-15), not in isolation -- matches the course's own §16.9 structure.
+- **Affected chapters:** 16
+
+### widget -> виджет
+
+build_chapter_16.py §16.2 and §16.11 define 'виджет' as any visible/interactive interface object and build a whole dedicated section around the widget tree (each widget has a parent/master except the root). Verified the course uses 'виджет' as a fully naturalized loanword throughout the chapter without ever reaching for a native-Russian paraphrase, matching real Russian-language Tkinter/GUI-framework usage.
+
+- **Evidence:** scripts/build_chapter_16.py:16-02-metki-knopki-pack
+- **First-use guidance:** Use 'виджет' from first mention without translation; the course's own definition ('любой видимый/интерактивный элемент интерфейса') can serve as the one-line gloss on first use.
+- **Affected chapters:** 16

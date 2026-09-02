@@ -129,13 +129,12 @@ krug.radius = <span class="tok-num">5</span></code></pre>
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code>Traceback (most recent call last):
-  File "bez_setter.py", line 11, in <module>
-    krug.radius = 5
-AttributeError: property 'radius' of 'Krug' object has no setter</code></pre>
+        line-height:1.7"><code>>>> krug.radius = 5
+>>> print(krug.radius)
+5</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Без декоратора <code class="inline">@radius.setter</code> вторая функция <code class="inline">radius</code> — это отдельный обычный метод <code class="inline">radius(self, value)</code>, который просто ЗАМЕНИЛ собой property сверху (то же имя!). Property без setter доступно только для чтения — отсюда и ошибка при попытке присвоить значение.</p>
+        <p>Ошибки не будет — и это как раз самое коварное. Без декоратора <code class="inline">@radius.setter</code> вторая функция <code class="inline">radius</code> — это отдельный обычный метод, который просто ЗАМЕНИЛ собой property сверху (то же имя в теле класса!). После этого <code class="inline">Krug.radius</code> — уже не property, а обычная функция, и <code class="inline">krug.radius = 5</code> просто создаёт атрибут ЭКЗЕМПЛЯРА <code class="inline">radius</code>, молча затеняя и метод, и всю проверку из §14.11 — печатается число <code class="inline">5</code>, а не результат getter'а.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
