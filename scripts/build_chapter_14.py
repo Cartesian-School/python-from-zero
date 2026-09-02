@@ -1125,16 +1125,18 @@ def build_11() -> None:
         'krug = Krug(10)\n'
         "krug.radius = 5\n",
         [
-            "Traceback (most recent call last):",
-            '  File "bez_setter.py", line 11, in <module>',
-            "    krug.radius = 5",
-            "AttributeError: property 'radius' of 'Krug' object has no setter",
+            ">>> krug.radius = 5",
+            ">>> print(krug.radius)",
+            "5",
         ],
-        "Без декоратора <code class=\"inline\">@radius.setter</code> вторая функция "
-        "<code class=\"inline\">radius</code> — это отдельный обычный метод "
-        "<code class=\"inline\">radius(self, value)</code>, который просто ЗАМЕНИЛ собой "
-        "property сверху (то же имя!). Property без setter доступно только для чтения — "
-        "отсюда и ошибка при попытке присвоить значение.",
+        "Ошибки не будет — и это как раз самое коварное. Без декоратора "
+        "<code class=\"inline\">@radius.setter</code> вторая функция "
+        "<code class=\"inline\">radius</code> — это отдельный обычный метод, который просто "
+        "ЗАМЕНИЛ собой property сверху (то же имя в теле класса!). После этого "
+        "<code class=\"inline\">Krug.radius</code> — уже не property, а обычная функция, и "
+        "<code class=\"inline\">krug.radius = 5</code> просто создаёт атрибут ЭКЗЕМПЛЯРА "
+        "<code class=\"inline\">radius</code>, молча затеняя и метод, и всю проверку из "
+        "§14.11 — печатается число <code class=\"inline\">5</code>, а не результат getter'а.",
         "s_setter.py",
         "    @radius.setter\n"
         "    def radius(self, value):\n"
@@ -2054,7 +2056,7 @@ def build_23() -> None:
         "    tovary: list = []   # похоже на ловушку из раздела 14.8!\n",
         [
             "Traceback (most recent call last):",
-            "ValueError: mutable default <class 'list'> for field tovary is not allowed",
+            "ValueError: mutable default <class 'list'> for field tovary is not allowed: use default_factory",
         ],
         "Python <code class=\"inline\">dataclasses</code> УМЫШЛЕННО запрещает изменяемое "
         "значение по умолчанию прямо в аннотации — это тот же самый риск общего списка на все "

@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-14/14-11-property.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="property: вычисляемые атрибуты — Python с нуля — Cartesian School" />
-<meta property="og:description" content="@property, @x.setter, вычисляемые атрибуты, проверка при присваивании; Debug Lab: property без setter." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-14/14-11-property.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="property: вычисляемые атрибуты — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="@property, @x.setter, вычисляемые атрибуты, проверка при присваивании; Debug Lab: property без setter." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"property: вычисляемые атрибуты — Python с нуля — Cartesian School","description":"@property, @x.setter, вычисляемые атрибуты, проверка при присваивании; Debug Lab: property без setter.","url":"https://www.cartesianschool.org/chapters/glava-14/14-11-property.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -129,13 +114,12 @@ krug.radius = <span class="tok-num">5</span></code></pre>
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code>Traceback (most recent call last):
-  File "bez_setter.py", line 11, in <module>
-    krug.radius = 5
-AttributeError: property 'radius' of 'Krug' object has no setter</code></pre>
+        line-height:1.7"><code>>>> krug.radius = 5
+>>> print(krug.radius)
+5</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Без декоратора <code class="inline">@radius.setter</code> вторая функция <code class="inline">radius</code> — это отдельный обычный метод <code class="inline">radius(self, value)</code>, который просто ЗАМЕНИЛ собой property сверху (то же имя!). Property без setter доступно только для чтения — отсюда и ошибка при попытке присвоить значение.</p>
+        <p>Ошибки не будет — и это как раз самое коварное. Без декоратора <code class="inline">@radius.setter</code> вторая функция <code class="inline">radius</code> — это отдельный обычный метод, который просто ЗАМЕНИЛ собой property сверху (то же имя в теле класса!). После этого <code class="inline">Krug.radius</code> — уже не property, а обычная функция, и <code class="inline">krug.radius = 5</code> просто создаёт атрибут ЭКЗЕМПЛЯРА <code class="inline">radius</code>, молча затеняя и метод, и всю проверку из §14.11 — печатается число <code class="inline">5</code>, а не результат getter'а.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
