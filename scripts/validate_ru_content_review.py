@@ -531,6 +531,72 @@ def discover_review_records(directory: Path) -> list[Path]:
     return sorted(directory.glob("*.json")) if directory.is_dir() else []
 
 
+def scope_inventory_refs(
+    inventory: dict[str, Any],
+    chapters: set[int] | None,
+    kinds: set[str] | None,
+) -> set[str]:
+    """Return every inventory_ref that falls within a chapters/kinds scope filter.
+
+    ``chapters`` restricts to those chapter numbers (supplementary units are
+    included only when ``chapters`` is None, since they are not chapter-scoped).
+    ``kinds`` restricts to those unit kinds. Either filter left as ``None``
+    means "no restriction on that axis".
+    """
+
+    index = build_inventory_index(inventory)
+    refs: set[str] = set()
+    for ref, unit in index.items():
+        if kinds and unit["kind"] not in kinds:
+            continue
+        if ref.startswith("supplementary:"):
+            if chapters:
+                continue
+            refs.add(ref)
+            continue
+        # ref shape: "chapter:NN:<section>:<id>"
+        chapter_number = int(ref.split(":")[1])
+        if chapters and chapter_number not in chapters:
+            continue
+        refs.add(ref)
+    return refs
+
+
+def check_scope_completeness(
+    inventory: dict[str, Any],
+    record_paths: list[Path],
+    chapters: set[int] | None,
+    kinds: set[str] | None,
+) -> list[str]:
+    """Fail unless every in-scope inventory unit has at least one review record.
+
+    A unit "has" a record when some discovered/supplied record's
+    ``unit.inventory_ref`` names it, regardless of that record's own
+    validation outcome (an invalid record for a unit is reported separately
+    by ``validate_review_record``; this check only answers "does a record
+    exist for this unit at all").
+    """
+
+    required = scope_inventory_refs(inventory, chapters, kinds)
+    covered: set[str] = set()
+    for path in record_paths:
+        try:
+            record = _read_json(path)
+        except (json.JSONDecodeError, OSError):
+            continue
+        ref = record.get("unit", {}).get("inventory_ref") if isinstance(record, dict) else None
+        if isinstance(ref, str):
+            covered.add(ref)
+
+    missing = sorted(required - covered)
+    if not missing:
+        return []
+    return [
+        f"scope completeness: {len(missing)}/{len(required)} in-scope inventory unit(s) "
+        f"have no review record: {missing}"
+    ]
+
+
 def main() -> None:
     """Validate contract documents and zero or more review records."""
 
@@ -544,6 +610,30 @@ def main() -> None:
         "--require-records",
         action="store_true",
         help="Fail when no review records are supplied or discovered",
+    )
+    parser.add_argument(
+        "--chapters",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Restrict --require-complete-scope to these chapter numbers (default: whole curriculum)",
+    )
+    parser.add_argument(
+        "--kinds",
+        nargs="*",
+        default=None,
+        choices=["chapter_opener", "theory_lesson", "front_matter", "subject_index", "notebook", "standalone_project"],
+        help="Restrict --require-complete-scope to these unit kinds (default: all kinds)",
+    )
+    parser.add_argument(
+        "--require-complete-scope",
+        action="store_true",
+        help=(
+            "Fail unless every inventory unit in the --chapters/--kinds scope "
+            "(default: the whole curriculum) has at least one discovered/supplied "
+            "review record. Use with --chapters to gate one batch's completeness "
+            "without requiring every other chapter to already be reviewed."
+        ),
     )
     args = parser.parse_args()
 
@@ -559,6 +649,11 @@ def main() -> None:
         record = _read_json(path)
         for error in validate_review_record(record, rubric, inventory):
             errors.append(f"{path}: {error}")
+
+    if args.require_complete_scope:
+        chapters = set(args.chapters) if args.chapters else None
+        kinds = set(args.kinds) if args.kinds else None
+        errors.extend(check_scope_completeness(inventory, record_paths, chapters, kinds))
 
     if errors:
         for error in errors:

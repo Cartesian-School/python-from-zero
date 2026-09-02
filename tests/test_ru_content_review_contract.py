@@ -306,3 +306,54 @@ def test_needs_rework_record_with_open_finding_passes() -> None:
         },
     ]
     assert _errors(record) == []
+
+
+def test_scope_completeness_passes_when_every_scoped_unit_has_a_record(tmp_path: Path) -> None:
+    """A batch's --chapters scope is complete once every unit in it has a record."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+
+    # Chapter 3 has exactly 10 canonical notebooks; stub a minimal record for
+    # each so the scope is fully covered (check_scope_completeness only reads
+    # unit.inventory_ref, so a minimal stub is sufficient here).
+    refs = validator.scope_inventory_refs(inventory, {3}, {"notebook"})
+    assert len(refs) == 10
+    paths = []
+    for i, ref in enumerate(sorted(refs)):
+        path = tmp_path / f"stub-{i}.json"
+        path.write_text(json.dumps({"unit": {"inventory_ref": ref}}), encoding="utf-8")
+        paths.append(path)
+
+    errors = validator.check_scope_completeness(inventory, paths, {3}, {"notebook"})
+    assert errors == []
+
+
+def test_scope_completeness_reports_every_missing_unit(tmp_path: Path) -> None:
+    """An incomplete batch names every uncovered unit rather than failing silently."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+    record = _approved_record()
+    path = tmp_path / "chapter_03_practice_03-01-r001.json"
+    path.write_text(json.dumps(record), encoding="utf-8")
+
+    # Chapter 3 has 10 canonical notebooks; covering only one must fail loudly
+    # and name the other nine so a human is never left to count JSON files.
+    errors = validator.check_scope_completeness(inventory, [path], {3}, {"notebook"})
+    assert len(errors) == 1
+    assert "chapter:03:practice:03-02" in errors[0]
+    assert "chapter:03:practice:03-10" in errors[0]
+    assert "chapter:03:practice:03-01" not in errors[0]
+
+
+def test_scope_completeness_ignores_out_of_scope_chapters() -> None:
+    """Chapters outside --chapters must never block a batch's own completeness gate."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+
+    # No records at all, and a chapter number that does not exist: the scope
+    # is legitimately empty, so nothing in it can be missing coverage.
+    errors = validator.check_scope_completeness(inventory, [], {9999}, None)
+    assert errors == []

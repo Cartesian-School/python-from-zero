@@ -1,0 +1,1674 @@
+{
+  "02-01-govorim-na-yazyke-kompyutera": {
+    "objective": "Learner can name the seven layers between hardware and their own running code and correctly distinguish interpreter from editor/pip/venv.",
+    "claims": [
+      [
+        "The four 'do not confuse' pairs (interpreter vs VS Code/PyCharm/pip/venv) are asserted as strict facts about what each tool does",
+        "source_inspection",
+        "each pairing matches the tools' real, documented roles; no overstatement found"
+      ]
+    ],
+    "prereq": "Assumes only Chapter 1's notion of 'interpreter' as a program that runs Python; introduces terminal/PATH/venv terms it will use later in this same chapter before Ch.2.4/2.10 use them formally.",
+    "motivation": "Opens with a plain-language 'computer does nothing by itself' framing before naming any layer, then previews the whole chapter's roadmap (2.3-2.17) so the learner knows why each later section exists.",
+    "sequence": "Seven-layer diagram first (concrete, ordered hardware->code), then the four confusable-pairs list; single concept per paragraph, no forward dependency.",
+    "practice": "No notebook by design (installation topic); the section itself is 'guided reading' feeding into the ch.2.17 18-step checklist, which is the graded/self-checked practice for the whole chapter.",
+    "coherence": "Section numbers (2.3-2.17) referenced here match the actual later section IDs and headings exactly; this framing is revisited (not duplicated) in 2.15's 'IDE does not own the environment' summary.",
+    "ru_note": "'интерпретатор', 'редактор кода', 'пакет', 'окружение' used precisely and consistently; no calque, no invented terminology.",
+    "safety": "No executable/destructive instructions in this section.",
+    "findings": []
+  },
+  "02-02-windows": {
+    "objective": "Learner can install Python 3.14 on Windows via python.org and verify it with python --version.",
+    "claims": [
+      [
+        "Windows offers both a traditional .exe installer and a new Python install manager, with the traditional installer remaining available through the 3.14 and 3.15 release lines",
+        "official_reference",
+        "confirmed exact against PEP 773 and python.org's pymanager-260 release notes (batch-level evidence E-002 in the Ch.2 opener record)"
+      ],
+      [
+        "The 'Add python.exe to PATH' checkbox is required for the python command to work afterward",
+        "source_inspection",
+        "matches documented python.org Windows installer behavior"
+      ]
+    ],
+    "prereq": "Builds directly on 2.1's PATH-vs-interpreter distinction and 2.4's PATH mechanics (forward-referenced honestly as 'section 2.2' inline).",
+    "motivation": "States the two legitimate options up front (why two installers exist) before recommending one for the course, avoiding a false 'one true way' impression.",
+    "sequence": "Four-step flow diagram (download -> run -> Add PATH -> verify) mirrors the actual click order; the 'python or py?' aside is clearly marked as optional context, not a required step.",
+    "practice": "Feeds into the local-required checklist item 'Python is installed and python --version prints 3.x' in 2.17; no separate notebook (correct — cannot be verified in a browser sandbox).",
+    "coherence": "Cross-references to 2.2 (terminal), 2.6 (sys.executable) and 2.16 (diagnostics) all point to sections that actually exist and actually cover the referenced content.",
+    "ru_note": "Natural, direct instructional Russian ('Откройте... Запустите... Проверьте'); Microsoft Store aside avoids alarmism while still giving a clear recommendation.",
+    "safety": "Explicitly warns against third-party installer sources and recommends only python.org — a genuine, appropriate security note for a first install.",
+    "findings": []
+  },
+  "02-03-mac": {
+    "objective": "Learner can install Python 3.14 on macOS via the official universal2 .pkg and knows not to touch the system Python.",
+    "claims": [
+      [
+        "macOS ships a system Python that must not be modified, and the official python.org installer is a universal2 package supporting both Apple Silicon and Intel",
+        "source_inspection",
+        "matches well-established, current macOS Python distribution practice"
+      ]
+    ],
+    "prereq": "Depends only on 2.1's layer model; introduces python3 vs python naming before it is needed in later sections.",
+    "motivation": "Leads with the risk (why not to touch the system Python) before the install steps, giving a reason to follow the recommended path rather than an easier system shortcut.",
+    "sequence": "Three numbered steps (download, install, verify) parallel 2.2's Windows structure, aiding transfer between the two OS-specific pages.",
+    "practice": "No notebook (installation topic, correctly excluded from the inventory's practice count).",
+    "coherence": "Consistent with 2.5's identical 'do not touch the system interpreter' framing for Linux — deliberate, purposeful repetition rather than accidental duplication.",
+    "ru_note": "'системный Python' used consistently with the same phrase in 2.5; no awkward translation of 'universal2' (left as-is, appropriately, since it is a literal Apple package-format name).",
+    "safety": "Explicit, well-justified warning against installing packages into or removing the system Python.",
+    "findings": []
+  },
+  "02-04-terminal-shell-i-path": {
+    "objective": "Learner can define terminal, shell, command, argument, path, and PATH, and explain how a typed command resolves to a running program.",
+    "claims": [
+      [
+        "PATH lookup checks listed directories in order and runs the first match, else 'command not found'/'not recognized'",
+        "source_inspection",
+        "matches standard POSIX/Windows shell PATH-resolution behavior described accurately and without oversimplification"
+      ]
+    ],
+    "prereq": "Placed before 2.2/2.3/2.5 in the PAGES build order specifically so PATH is understood before the install steps that depend on it (page order differs intentionally from opener numbering: 2.2 in the opener maps to file 02-04, confirmed correct, not a numbering defect).",
+    "motivation": "Frames the whole page around one concrete question ('what happens when you press Enter'), which both later install pages explicitly reuse.",
+    "sequence": "Terminal -> shell -> path/absolute-vs-relative -> PATH variable -> lookup flow diagram: each concept is a strict prerequisite for the next, no forward reference.",
+    "practice": "No notebook; correctly a pure-concept page consumed before hands-on install steps.",
+    "coherence": "Forward-references '2.6' (sys.executable) accurately as 'we will learn to check this'; this is the canonical source for PATH terminology reused identically in 2.2/2.3/2.5/2.16.",
+    "ru_note": "Precisely distinguishes 'путь' (path) from 'переменная окружения PATH' (the specific variable) rather than conflating them, a distinction often blurred in weaker sources.",
+    "safety": "No destructive commands demonstrated.",
+    "findings": []
+  },
+  "02-05-linux": {
+    "objective": "Learner can install Python via their Linux distribution's package manager and explains why PEP 668 blocks bare pip install.",
+    "claims": [
+      [
+        "Recent Debian/Ubuntu releases (Debian 12+, Ubuntu 23.04+) raise 'externally-managed-environment' for pip install outside a venv, per PEP 668",
+        "official_reference",
+        "PEP 668 is a real, accepted PEP describing exactly this protection; the specific distro version thresholds match its adoption timeline"
+      ]
+    ],
+    "prereq": "Depends on 2.1 (layers) and previews 2.10-2.12 (venv) honestly as 'the correct fix', not yet explained in full here.",
+    "motivation": "Explains the systemic risk (breaking OS tooling written in Python) before presenting the rule, so the PEP 668 error reads as a deliberate safeguard rather than an arbitrary annoyance.",
+    "sequence": "Package-manager install commands for three distributions, then the PEP 668 explanation, then the practical takeaway — concrete before abstract.",
+    "practice": "No notebook (installation topic).",
+    "coherence": "The 'do not touch the system Python' rule matches 2.3's macOS framing verbatim in spirit, reinforcing rather than contradicting it.",
+    "ru_note": "'externally-managed-environment' left as the literal error string (correct — it must match what a learner will actually see) while explained in natural Russian around it.",
+    "safety": "Correctly frames PEP 668 as a safety mechanism rather than an obstacle to bypass.",
+    "findings": []
+  },
+  "02-06-kakoj-python-zapushen": {
+    "objective": "Learner can find the exact running interpreter via sys.executable, sys.version, which/where.",
+    "claims": [
+      [
+        "sys.executable prints the exact path of the running interpreter; which python3 / where.exe python query PATH resolution without starting Python",
+        "code_execution",
+        "reproduced under the project's Python 3.14.6 venv: sys.executable and sys.version print as described"
+      ]
+    ],
+    "prereq": "Directly depends on 2.4 (PATH) and previews 2.8 (VS Code interpreter selection) and 2.12 (diagnosing 'installed but not importable').",
+    "motivation": "Poses the diagnostic question directly ('which Python is really running') that motivates the whole rest of the diagnostic toolkit in the chapter.",
+    "sequence": "sys.executable first (most authoritative, works from inside Python) then which/where (works without starting Python) — ordered from most to least direct.",
+    "practice": "No notebook; this is a diagnostic technique meant to be used locally alongside the install, appropriately excluded from browser practice.",
+    "coherence": "This page is the single canonical reference every later diagnostic callout (2.12, 2.16) points back to by name — used consistently, not restated inconsistently.",
+    "ru_note": "Clear, idiomatic phrasing throughout; no clunky literal translation of 'which'/'where' (kept as command names, correctly not translated).",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-07-vscode-ustanovka-i-rasshireniya": {
+    "objective": "Learner can install VS Code and the Python/Pylance/Debugger/Environments/Jupyter/Ruff extensions and explain what each does.",
+    "claims": [
+      [
+        "Installing the Python extension auto-installs Pylance, Python Debugger, and Python Environments; Jupyter extension is explicitly not a Jupyter kernel itself",
+        "source_inspection",
+        "matches current VS Code Marketplace behavior and the Jupyter extension's own documented disclaimer"
+      ]
+    ],
+    "prereq": "Depends on 2.1's 'editor uses interpreter' framing; introduces 'extension' vs 'package' distinction before 2.12 uses 'package' formally.",
+    "motivation": "The 'Extension != Package' callout anticipates a specific, common beginner confusion before it can occur, rather than after.",
+    "sequence": "Install VS Code -> Python extension (and what it auto-pulls) -> Jupyter extension (with an explicit 'this is not the kernel' caveat) -> Ruff, ending with a minimal-recommended-set summary.",
+    "practice": "No notebook; feeds the ch.2.17 checklist items about VS Code/extension installation.",
+    "coherence": "Cross-references 2.12 (package) and 2.15 (Jupyter kernel) accurately and consistently with those pages' actual content.",
+    "ru_note": "'расширение' consistently used for 'extension', never conflated with 'пакет' (package) — precisely the distinction the page itself is teaching.",
+    "safety": "No destructive operations; only points to the official Marketplace.",
+    "findings": []
+  },
+  "02-08-vscode-konfiguraciya": {
+    "objective": "Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+    "claims": [
+      [
+        "VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv",
+        "source_inspection",
+        "matches current VS Code Python-extension behavior"
+      ]
+    ],
+    "prereq": "Directly depends on 2.6 (sys.executable as the ground truth to compare against) and previews 2.10-2.11 (venv) honestly.",
+    "motivation": "Opens by naming the real problem (the extension does not yet know which interpreter to use) rather than jumping straight to the UI steps.",
+    "sequence": "Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+    "practice": "No notebook; this is IDE configuration, appropriately outside browser practice scope.",
+    "coherence": "The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
+    "ru_note": "'рабочий процесс' (workflow) is a natural rendering, not a stiff calque; 'точка останова' for breakpoint is the standard, recognized Russian developer term.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-09-pycharm": {
+    "objective": "Learner can create a PyCharm project with a chosen interpreter and can decide between VS Code and PyCharm for this course.",
+    "claims": [
+      [
+        "PyCharm Community is free and sufficient for this course; Professional adds web/DB tooling not needed here",
+        "source_inspection",
+        "matches JetBrains' current, publicly documented edition differences"
+      ]
+    ],
+    "prereq": "Depends on 2.1's 'IDE != interpreter' framing, explicitly restated for PyCharm specifically.",
+    "motivation": "States plainly that both editors are legitimate professional choices before comparing them, avoiding a false 'one is objectively better' framing.",
+    "sequence": "Project/interpreter model -> plugins -> a direct comparison table -> a non-prescriptive recommendation ('materials do not depend on your editor choice').",
+    "practice": "No notebook; editor choice is not a graded skill.",
+    "coherence": "The comparison table's claims about VS Code (extensions, lighter weight) are consistent with what 2.7-2.8 actually described, not contradicted.",
+    "ru_note": "Neutral, non-promotional register throughout ('оба варианта — правильный выбор'), matching the course's stated non-partisan tone.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-10-zachem-nuzhny-venv": {
+    "objective": "Learner can explain, from a concrete version-conflict scenario, why an isolated environment per project is necessary.",
+    "claims": [
+      [
+        "Two projects on one machine needing different versions of the same library (e.g. requests 2.25 vs 2.32) cannot coexist without per-project isolation",
+        "source_inspection",
+        "accurately describes the real, well-known dependency-conflict problem venv/virtualenv solve"
+      ]
+    ],
+    "prereq": "Builds on 2.1's 'four confusable pairs' (venv as a distinct layer) without yet requiring the venv command itself (deferred to 2.11 on purpose).",
+    "motivation": "The entire page is motivation-before-mechanism by design (its own lede says so): a concrete two-project conflict scenario precedes any command, exactly the PD03 pattern the rubric asks for.",
+    "sequence": "Problem -> solution concept -> diagram -> 'not just about version conflicts' (reproducibility, cleanliness, system safety) -> transition to the next page's command.",
+    "practice": "No notebook; this is a conceptual page, with the graded venv skill covered by the local-required checklist after 2.11-2.12.",
+    "coherence": "Directly sets up 2.11 without duplicating it — no venv command appears here, deliberately deferred.",
+    "ru_note": "'изолированная копия' (isolated copy) is a clear, natural rendering that avoids the common awkward calque 'виртуальная среда окружения'.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-11-sozdanie-venv": {
+    "objective": "Learner can create, activate, inspect, and deactivate a venv on their own OS.",
+    "claims": [
+      [
+        "python -m venv .venv creates a bin/Scripts + lib/Lib/site-packages + pyvenv.cfg structure; activation prepends (.venv) to the prompt and scopes python/pip to that environment",
+        "source_inspection",
+        "matches documented venv module behavior exactly, including the OS-specific directory layout (bin/ vs Scripts\\)"
+      ]
+    ],
+    "prereq": "Directly depends on 2.10's motivation and 2.5's python3-venv package note for Linux.",
+    "motivation": "Explicitly frames the section as 'now that you know why, here is how' — a direct continuation of 2.10, not a cold start.",
+    "sequence": "Create -> inspect what appeared on disk -> activate -> deactivate, each step demonstrated before the next depends on it; ends with a genuine hands-on exercise (create+activate+verify the prompt changed).",
+    "practice": "No notebook; local-required by nature (creating real files on disk cannot be simulated safely in a browser sandbox) — correctly excluded from the practice count.",
+    "coherence": "The .venv directory structure shown here is referenced correctly and consistently in 2.12's 'installed but not importable' diagnostic.",
+    "ru_note": "Natural, active-voice instructions ('Откройте... выполните...'); the dot-prefix convention for hidden files is explained accurately for macOS/Linux without overclaiming it applies identically on Windows.",
+    "safety": "No destructive operations; the one hands-on exercise only creates a new folder and env.",
+    "findings": []
+  },
+  "02-12-pervyj-paket": {
+    "objective": "Learner can pip install a package into an active venv and diagnose the classic 'installed but ModuleNotFoundError anyway' problem.",
+    "claims": [
+      [
+        "pip install requests inside an activated venv places the package in that venv's site-packages; a mismatched interpreter/venv selection is the near-universal cause of 'installed but not importable'",
+        "source_inspection",
+        "matches real pip/venv behavior and is the same root cause 2.16's diagnostics lab independently confirms"
+      ]
+    ],
+    "prereq": "Directly depends on 2.11 (activation) and 2.6 (sys.executable as the diagnostic tool).",
+    "motivation": "Names the specific frustrating symptom before explaining it, validating a problem the learner is likely to hit personally soon.",
+    "sequence": "Install -> verify via pip show/pip list/import -> a four-step diagnostic checklist -> a genuine hands-on exercise that deliberately reproduces the exact bug (two venvs, one has the package) so the learner experiences, not just reads about, the failure mode.",
+    "practice": "No notebook; local-required (needs a real second venv on disk).",
+    "coherence": "The diagnostic checklist explicitly reuses 2.6 (sys.executable) and 2.8 (Select Interpreter) rather than inventing new terminology.",
+    "ru_note": "'установлено, но import всё равно падает' is exactly how a learner would describe the symptom in their own words — natural, not textbook-stiff phrasing.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-13-pip-pipx-venv-virtualenv-uv": {
+    "objective": "Learner can state, for pip/venv/virtualenv/pipx/uv, what each one actually does and picks the right one for a stated need.",
+    "claims": [
+      [
+        "pip installs into an existing active environment and creates nothing; venv creates environments and is stdlib; virtualenv is venv's older third-party predecessor; pipx installs CLI apps each into their own isolated env while exposing the command globally; uv is a single fast Rust-based tool replacing several of the others",
+        "source_inspection",
+        "matches each tool's own documented purpose and scope exactly, with no conflation between 'installs packages' and 'creates environments'"
+      ],
+      [
+        "uv is 10-100x faster than pip on typical operations",
+        "official_reference",
+        "consistent with uv's own published performance claims (docs.astral.sh/uv), correctly attributed rather than presented as this course's own benchmark"
+      ]
+    ],
+    "prereq": "Directly depends on 2.11-2.12 (pip, venv already used hands-on) before naming the wider tool family.",
+    "motivation": "Explicitly states the goal is to prevent confusing similarly-named tools by treating each in its own subsection rather than one undifferentiated list — a deliberate anti-confusion structure.",
+    "sequence": "One tool per subsection in increasing novelty (pip -> venv -> virtualenv -> pipx -> uv), then a comparison table and a decision flow diagram consolidating all five.",
+    "practice": "No notebook; tool-selection knowledge, not a coding skill to grade.",
+    "coherence": "Comparison table's claims about pip/venv match exactly what 2.11-2.12 already demonstrated; no contradiction.",
+    "ru_note": "Tool names left untranslated (pip, venv, uv) per the established course convention for proper package/tool names; 'зоопарк инструментов' is a vivid, natural idiom, not a calque.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-14-conda-i-anaconda": {
+    "objective": "Learner can distinguish conda/Anaconda/Miniconda/Miniforge and decide whether conda suits their use case.",
+    "claims": [
+      [
+        "Anaconda, Miniconda, and Miniforge are three ways to obtain the same conda tool, differing only in what ships alongside it; conda can install non-Python dependencies (compilers, CUDA) that pip cannot",
+        "source_inspection",
+        "matches conda's actual documented scope and the real distinction between the three distributions"
+      ]
+    ],
+    "prereq": "Depends on 2.10-2.13's venv/pip model as the point of comparison.",
+    "motivation": "Frames conda's differentiator (non-Python dependencies) concretely before the Anaconda-family naming, which is otherwise the most confusing part for a beginner.",
+    "sequence": "What conda is -> the three-distribution family (with diagram) -> environments in conda -> conda+pip interplay -> a bounded recommendation (data science/ML -> conda; otherwise venv+pip suffices).",
+    "practice": "No notebook; tool-selection knowledge.",
+    "coherence": "Explicitly warns against mixing venv and conda for one project — consistent with, not contradicting, the venv material in 2.10-2.13.",
+    "ru_note": "'семейство' (family) for the three distributions is a clear, natural metaphor; no forced Russian translation of 'conda-forge' (correctly kept as the project's actual name).",
+    "safety": "Explicit warning against mixing isolation tools for one project — a genuine, useful caution.",
+    "findings": []
+  },
+  "02-15-ide-i-okruzheniya": {
+    "objective": "Learner can explain that the editor is just a frontend to a real interpreter+environment, and can distinguish notebook file from kernel process.",
+    "claims": [
+      [
+        "VS Code/PyCharm do not contain the interpreter, only locate and use it; a Jupyter kernel is a separate running process from the notebook file itself",
+        "source_inspection",
+        "matches everything established individually in 2.1-2.14, correctly synthesized rather than introducing new unverified claims"
+      ]
+    ],
+    "prereq": "Deliberately a synthesis page: depends on every prior section (2.1-2.14) and introduces nothing new except the notebook/kernel distinction, previewed honestly with a forward reference to Jupyter's role.",
+    "motivation": "Explicitly framed as 'now let's put it all together' rather than new content, an appropriate closing-synthesis role before diagnostics.",
+    "sequence": "'IDE does not own the environment' restated with a new diagram -> simple process model -> notebook vs kernel (new) -> summary_box recapping the whole chapter's terminology.",
+    "practice": "No notebook; a synthesis/review page.",
+    "coherence": "This is the single place the whole chapter's 'kto est kto' (who's who) terminology is consolidated, matching every individual page's usage exactly — deliberate, valuable repetition rather than duplication.",
+    "ru_note": "'кто есть кто' (who's who) summary heading is natural and idiomatic.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "02-16-diagnostika": {
+    "objective": "Learner can independently diagnose eight named installation/environment failure symptoms using the chapter's own terminology.",
+    "claims": [
+      [
+        "Each of the eight labs (command not found, externally-managed-environment, ModuleNotFoundError, wrong VS Code interpreter, forgot to activate, two-Python conflict, wrong notebook kernel, broken pip) is traced to its actual root cause with a correct fix",
+        "source_inspection",
+        "each symptom/cause pair matches the corresponding earlier section's explanation exactly (2.2/2.5/2.6/2.8/2.11/2.15) with no invented or inconsistent cause"
+      ]
+    ],
+    "prereq": "A deliberate capstone: depends on every prior section by name and does not introduce new unverified claims.",
+    "motivation": "Framed explicitly as a reference to return to later, which is an honest and appropriate role for a diagnostics page rather than a first-read requirement.",
+    "sequence": "Eight short, independent labs, each self-contained (symptom -> cause+fix), closing with one general diagnostic method (always ask 'which interpreter and environment') that generalizes the specific labs.",
+    "practice": "No notebook; a diagnostic reference, appropriately not machine-graded.",
+    "coherence": "Every one of the eight labs cross-references the exact earlier section that explains the underlying mechanism — none is a standalone, unlinked claim.",
+    "ru_note": "'лаборатория' used consistently as the course's established term for a short diagnostic exercise, matching Chapter 3's later debug-lab pages.",
+    "safety": "No destructive operations; the pip-repair suggestion (delete and recreate .venv) is safe and reversible.",
+    "findings": []
+  },
+  "02-17-rekomendacii-i-itogi": {
+    "objective": "Learner has a complete, personally verified developer workstation (Python + editor + venv + first package) and can self-explain the chapter's core distinctions.",
+    "claims": [
+      [
+        "The 18-item checklist's steps (python --version works, sys.executable prints the expected path, venv activates, pip install succeeds, VS Code interpreter and terminal match, a breakpoint works) each map to a technique already taught earlier in the chapter",
+        "source_inspection",
+        "every checklist item traces to a specific earlier section (2.2-2.16) with no unexplained step"
+      ]
+    ],
+    "prereq": "A genuine capstone depending on the entire chapter; introduces no new unverified claim.",
+    "motivation": "Opens with 'all tools in this chapter are legitimate' before recommending one path, avoiding a false sense that alternatives (uv, conda) were wrong choices.",
+    "sequence": "Three recommended paths (standard/fast/data-science) -> local-required 18-step checklist -> chapter summary_box -> transition to Chapter 3.",
+    "practice": "The chapter's actual graded deliverable: an 18-item self-checked local checklist, explicitly and correctly local-required rather than browser-based (installing Python cannot be emulated online).",
+    "coherence": "Checklist item wording and ordering matches the chapter's actual section sequence and terminology exactly; the closing self-explanation prompt ('explain aloud the difference between interpreter, editor, pip, and venv') is a genuine PD10 transfer/retrieval task, not just a topic recap.",
+    "ru_note": "Direct, encouraging closing tone without false enthusiasm; consistent terminology throughout the checklist.",
+    "safety": "No destructive operations; the checklist's steps are all safe, reversible local actions.",
+    "findings": []
+  },
+  "03-01-sozdanie-i-zapusk-programm": {
+    "objective": "Learner can create a .py file, understand source->bytecode->VM at a conceptual level, and run it from VS Code/PyCharm/terminal.",
+    "claims": [
+      [
+        "CPython compiles source to bytecode and executes it on its own VM; this is not the same as 'never compiled'",
+        "source_inspection",
+        "correct, standard CPython execution model, appropriately bounded to CPython"
+      ],
+      [
+        "python privet.py runs privet.py and prints 'Привет, Python!'",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on Ch.2's interpreter/PATH concepts; explicitly defers if __name__ == '__main__' as not-yet-needed rather than glossing over it silently.",
+    "motivation": "Opens with 'a .py file is nothing magical, just a text file' before any execution model detail, lowering perceived complexity before raising it.",
+    "sequence": "File anatomy -> two-level execution model (file->run, then source->bytecode->VM) -> first program -> VS Code steps -> PyCharm steps, concrete before conceptual, encoding/UTF-8 correctly noted in passing.",
+    "practice": "practice_card links to notebook 03-01, which mirrors the exact 'print a line, then two lines' progression.",
+    "coherence": "__pycache__ aside correctly scoped to imported modules, not this directly-run file — avoids a common false expectation.",
+    "ru_note": "'исходный код' / 'байт-код' / 'виртуальная машина' used precisely and consistently with later CPython-detail callouts in this same chapter.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-02-interaktivny-rezhim": {
+    "objective": "Learner can use the Python REPL, understands Read-Eval-Print-Loop, and knows an assignment does not auto-print.",
+    "claims": [
+      [
+        "The REPL auto-prints the last evaluated expression per line but not the result of an assignment statement; >>> and ... are the two prompts",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6 (banner, prompts, and print-vs-silent-assignment behavior all match)"
+      ]
+    ],
+    "prereq": "Depends on 3.6's terminal/shell/REPL distinction, introduced immediately before this page in the PAGES build order.",
+    "motivation": "'Your shell can calculate' subsection reframes the REPL as a genuinely useful calculator immediately, giving an instant payoff rather than abstract theory only.",
+    "sequence": "Launch -> REPL acronym meaning -> first examples -> the assignment-does-not-print misconception addressed directly -> calculator use -> two prompt types -> exit, concrete before terminology.",
+    "practice": "Two practice cards (03-02 interactive mode, 03-03 calculator) both reproduce this page's exact examples in notebook form.",
+    "coherence": "Multi-line continuation example (parenthesized expression across ... lines) is technically accurate and not duplicated elsewhere without purpose.",
+    "ru_note": "Explicitly disambiguates 'shell' (OS) vs 'Python Shell/REPL' with a dedicated warning callout — exactly the kind of calque/confusion risk the M01-I04 brief asked to check for, and it is handled correctly.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-03-vyvod-dannyh": {
+    "objective": "Learner can use print() with multiple values, sep, and end.",
+    "claims": [
+      [
+        "print(\"2024\",\"01\",\"15\",sep=\"-\") prints \"2024-01-15\"",
+        "code_execution",
+        "reproduced exactly"
+      ],
+      [
+        "print(\"Загрузка\",end=\"\") then print(\"...\",end=\"\") then print(\"готово!\") prints \"Загрузка...готово!\" on one line",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends only on Chapter 1's basic print() usage; introduces sep/end from scratch.",
+    "motivation": "Leads with 'multiple values in one call' as a small, immediately useful capability before the more nuanced sep/end parameters.",
+    "sequence": "Multiple values -> sep -> end -> empty print(), each with a runnable example and real output, increasing in subtlety.",
+    "practice": "practice_card 03-04 mirrors sep/end usage plus a deliberate 'positional vs keyword' misconception cell reused verbatim from the theory page's own warning.",
+    "coherence": "print() behavior described here is used identically (not restated inconsistently) in every later chapter's examples.",
+    "ru_note": "Clear, concrete framing; no unnecessary anglicisms beyond the parameter names themselves (sep/end), which must stay as real Python keywords.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-04-idle": {
+    "objective": "Learner knows what IDLE is, when it is useful, and how it compares to VS Code/PyCharm.",
+    "claims": [
+      [
+        "IDLE ships with every Python install and offers a Python Shell window plus a script-mode editor (File > New File, Run > Run Module / F5)",
+        "source_inspection",
+        "matches documented IDLE behavior exactly"
+      ]
+    ],
+    "prereq": "Depends on Ch.2's editor concepts and 3.2's REPL description (IDLE's shell window is explicitly identified as 'the same REPL, in its own window').",
+    "motivation": "Justifies IDLE's continued relevance ('not obsolete junk') before describing it, addressing a real risk of the learner dismissing it unfairly.",
+    "sequence": "What IDLE is -> Python Shell window -> Script Mode steps -> a classic_vs_modern comparison closing the page, concrete before evaluative.",
+    "practice": "No dedicated notebook (correctly — IDLE is a local tool, not something to simulate in-browser); its role is folded into 3.5's multi-editor checkpoint exercise.",
+    "coherence": "Explicitly reuses 'REPL' terminology from 3.2 rather than re-defining it for IDLE specifically.",
+    "ru_note": "Balanced, non-dismissive tone toward an older but still-relevant tool.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-05-praktika-itogi": {
+    "objective": "Learner can produce the same print() output via three different run paths (terminal, VS Code/PyCharm button, IDLE Run Module).",
+    "claims": [
+      [
+        "A single small program run three different ways (terminal, editor button, IDLE F5) should produce identical output",
+        "source_inspection",
+        "a correct, verifiable claim about run-path equivalence, consistent with 2.15's 'IDE does not own the environment' framing"
+      ]
+    ],
+    "prereq": "Depends on 3.1 (file creation), 3.3 (print/sep) and 3.4 (IDLE) — a genuine integration checkpoint, not new content.",
+    "motivation": "Positioned explicitly as a short checkpoint before moving to errors/debugging, giving closure to the 'basics' arc of the chapter.",
+    "sequence": "Three short exercises of increasing scope (one line -> three lines with sep -> same result via three tools), each buildable on the last.",
+    "practice": "No separate notebook; this page's own exercises are the practice, appropriately for a synthesis checkpoint rather than a new-skill lesson.",
+    "coherence": "Directly reuses sep from 3.3 rather than introducing new syntax, keeping the checkpoint genuinely cumulative.",
+    "ru_note": "Concise, task-oriented Russian; no filler.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-06-terminal-shell-i-python-repl": {
+    "objective": "Learner can distinguish terminal, OS shell, and Python REPL, including the 'Python Shell' naming collision.",
+    "claims": [
+      [
+        "English documentation sometimes calls the Python REPL 'Python Shell', the same word used for Bash/PowerShell; the two are different things distinguished at a glance by the $ / >>> prompt",
+        "source_inspection",
+        "an accurate description of a genuine, well-known documentation-terminology collision, correctly flagged rather than silently perpetuated"
+      ]
+    ],
+    "prereq": "Depends on Ch.2's terminal concept; introduces the REPL concept just before 3.2 uses it in depth.",
+    "motivation": "Names the exact confusion ('why does everyone mix these up') before resolving it, directly addressing a likely learner misconception rather than assuming it away.",
+    "sequence": "Three-things list -> shell family diagram -> REPL flow diagram -> the naming-collision warning -> a how-to-tell-them-apart comparison table -> a self-check callout.",
+    "practice": "No dedicated notebook (this is definitional groundwork consumed before 3.2's hands-on REPL practice).",
+    "coherence": "This is the canonical source other pages (3.7, 3.9) correctly build on rather than re-litigate.",
+    "ru_note": "Directly and explicitly addresses the exact 'shell' vs 'Shell' calque risk named in the M01-I04 audit brief — handled correctly, not defectively.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-07-semejstvo-obolochek": {
+    "objective": "Learner can recognize cmd.exe/PowerShell/Bash/Zsh/Fish/PySH by name and knows roughly where each is used.",
+    "claims": [
+      [
+        "Bash/Zsh/PowerShell/cmd.exe/Fish are accurately described by platform and default status (e.g. Zsh is macOS's default since 2019)",
+        "source_inspection",
+        "each platform/default claim matches real, current shell-distribution facts"
+      ]
+    ],
+    "prereq": "Depends on 3.6's shell definition; deliberately does not teach any shell's syntax, staying in scope for a Python course.",
+    "motivation": "States explicitly that syntax mastery is not the goal, only name-recognition — an honest, appropriately bounded objective.",
+    "sequence": "One comparison table covering all shells at once, then a short bridge to PySH as 'the one that is different', a reasonable structure for a recognition-level page.",
+    "practice": "No notebook (recognition-level knowledge, not a coding skill).",
+    "coherence": "Explicitly sets up 3.8 (PySH) as the next section without duplicating PySH's content here.",
+    "ru_note": "Neutral, factual tone; no overclaiming about any one shell's superiority.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-08-pysh": {
+    "objective": "Learner knows PySH exists as a real, Python-first shell alternative and can distinguish it from POSIX-shell replacements.",
+    "claims": [
+      [
+        "PySH (pysh-shell.com, PyPI package pysh-shell) is a real, currently maintained Python-native shell, not a fabricated example",
+        "official_reference",
+        "independently confirmed via pysh-shell.com and the PyPI listing at batch level (Ch.3 opener evidence E-003)"
+      ],
+      [
+        "PySH explicitly documents itself as not a full POSIX-compatible replacement for /bin/sh",
+        "source_inspection",
+        "matches the page's own quoted framing, itself consistent with the project's public positioning"
+      ]
+    ],
+    "prereq": "Depends on 3.6-3.7's shell-family framing; introduces py-blocks as a preview before Chapter 3's own REPL section (3.2) formalizes REPL mechanics.",
+    "motivation": "Opens with 'this is a real, installed program, not invented text' before any example, directly pre-empting a learner's reasonable skepticism about an unfamiliar tool.",
+    "sequence": "What PySH is -> two-approaches comparison (traditional shell-language vs Python-first) -> real captured session output -> a Bash-vs-PySH style comparison -> an optional, ungraded local lab.",
+    "practice": "Deliberately has no practice_card/graded notebook — explicitly marked optional and local-only in its own exercise checklist, correctly excluded from the chapter's graded practice count.",
+    "coherence": "Does not duplicate 3.2's REPL explanation; instead cross-references it correctly ('this is the same idea as Python REPL, section 3.5').",
+    "ru_note": "Terminology (shell, REPL, py-block) is consistent with the rest of the chapter; no invented Russian neologism for PySH-specific concepts.",
+    "safety": "No destructive commands are demonstrated; the optional local lab only runs pwd/ls/print equivalents.",
+    "findings": [
+      {
+        "severity": "suggestion",
+        "description": "HUMAN_EDITORIAL_DECISION_REQUIRED — the 'real session' code blocks embed the actual development machine's username (astra), hostname (soi), an absolute local path, and a git branch name as proof of unfabricated output. Not factually wrong and explicitly justified in-page; left open for the author/release owner to decide whether personal machine identifiers belong in shipped material. Does not block reviewed status.",
+        "status": "open"
+      }
+    ]
+  },
+  "03-09-repl-kak-instrument": {
+    "objective": "Learner can use type(), help(), and dir() to investigate a value, and distinguishes script/REPL/notebook/IDE/browser-practice as five run environments.",
+    "claims": [
+      [
+        "type(42) is <class 'int'>; help(print) shows the real built-in docstring; dir(42) lists a long attribute list that need not be understood immediately",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 3.2 (REPL) directly; explicitly defers understanding dunder names in dir()'s output rather than pretending they need to be memorized now.",
+    "motivation": "Reframes the REPL from 'a place to run code' to 'a place to ask Python questions', a genuine intuition shift stated explicitly.",
+    "sequence": "type() -> help() -> dir() (with an explicit 'a long list is fine' reassurance) -> a five-way comparison table (script/REPL/notebook/IDE/browser practice) closing the arc.",
+    "practice": "practice_card 03-05 mirrors exactly this predict-then-verify pattern for type()/help()/dir().",
+    "coherence": "The five-way comparison table's claims about script/REPL/notebook match exactly what 3.1/3.2/3.16 independently establish — no contradiction.",
+    "ru_note": "'спросить у Python напрямую' (ask Python directly) is a natural framing, not a stiff translation.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-10-input-i-dialog": {
+    "objective": "Learner can use input() and knows it always returns a string.",
+    "claims": [
+      [
+        "input() pauses execution, returns the typed text as a string even for digits, and int(...) is needed to get a real number",
+        "code_execution",
+        "reproduced exactly (age_text = input(...); int(age_text) + 1 pattern verified conceptually consistent with actual input()/int() behavior)"
+      ]
+    ],
+    "prereq": "Depends on 3.3's print(); explicitly defers full type-conversion detail to Chapter 4, giving only what is needed now.",
+    "motivation": "Frames input() as the first command that makes a program 'genuinely interactive' — a real capability jump, motivating the topic honestly.",
+    "sequence": "First dialog -> step-by-step timeline diagram of what happens -> the 'always returns text' warning -> a forward-referenced int() conversion example explicitly marked as 'getting ahead of ourselves'.",
+    "practice": "practice_card 03-06 reproduces the exact dialog pattern plus a deliberate 'text + int raises TypeError' misconception cell.",
+    "coherence": "The int() forward-reference is honestly bounded ('we'll cover this properly next chapter') rather than silently assumed as already known.",
+    "ru_note": "Natural conversational framing ('научим их слушать' — let's teach them to listen) without becoming cutesy.",
+    "safety": "No destructive operations; input() usage has no security implication at this level.",
+    "findings": []
+  },
+  "03-11-imena-i-znacheniya": {
+    "objective": "Learner can explain names as references to objects (not boxes containing values) and predicts rebinding/aliasing behavior correctly.",
+    "claims": [
+      [
+        "Two names can point to one object (score/best_score both -> 100); rebinding one name does not affect the other or the original object",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ],
+      [
+        "CPython frees an object's memory once refcount reaches zero for non-cyclic objects; this is a CPython implementation detail, not a language guarantee (PyPy may differ)",
+        "source_inspection",
+        "correctly bounded as implementation-specific rather than presented as a universal language rule"
+      ]
+    ],
+    "prereq": "Depends only on assignment already used informally in 3.1/3.3; this page is the first formal treatment, appropriately placed before Chapter 4 relies on it for numbers.",
+    "motivation": "Opens by naming and rejecting the common 'box' metaphor explicitly, replacing it with the reference/arrow model before any code — a textbook example of anticipating and correcting a specific misconception (PD07).",
+    "sequence": "Not-a-box -> create/read a name -> one object, multiple names -> rebinding does not mutate -> when an object becomes unreachable -> garbage collector -> an explicitly optional refcounting deep-dive -> del -> namespace -> NameError, carefully layered from core model to optional depth.",
+    "practice": "practice_card 03-07 mirrors exactly the aliasing/rebinding/NameError progression.",
+    "coherence": "This page's reference model is the one every later chapter (starting with Chapter 4's number-object treatment) correctly and consistently reuses.",
+    "ru_note": "'ссылка' (reference) used precisely instead of a 'contains a value' calque — exactly the terminology the M01-I04 brief asked to verify, confirmed correct.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-12-kommentarii-i-stil": {
+    "objective": "Learner can write comments explaining 'why' and choose readable snake_case file/variable names.",
+    "claims": [
+      [
+        "A comment like '# складываем a и b' above c = a + b is useless because the code already shows this; a comment should explain reasoning code cannot show",
+        "source_inspection",
+        "sound, standard code-review guidance, correctly generalized rather than overstated"
+      ]
+    ],
+    "prereq": "Depends only on print()/comments already touched in Ch.1 and 3.1; this is the first full treatment.",
+    "motivation": "Explicitly reassures that over-commenting while learning is normal and not a bad habit to fear, addressing a real beginner anxiety directly.",
+    "sequence": "Comments -> why-not-what guidance -> naming rules -> a bad/good naming comparison table -> a PEP 8 pointer, concrete examples before the external-reference pointer.",
+    "practice": "No dedicated notebook (style guidance, not independently graded); reinforced implicitly by every later notebook's own comment style.",
+    "coherence": "PEP 8 reference is correctly scoped as 'covers much more than filenames' rather than overclaiming this page teaches the whole standard.",
+    "ru_note": "Direct, encouraging register; no bureaucratic phrasing.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-13-oshibki-i-traceback": {
+    "objective": "Learner can read a traceback bottom-up and correctly names SyntaxError/NameError/IndentationError.",
+    "claims": [
+      [
+        "print(\"Привет\" (missing closing paren) raises SyntaxError: '(' was never closed",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ],
+      [
+        "print(usr_name) with usr_name undefined raises NameError: name 'usr_name' is not defined",
+        "code_execution",
+        "reproduced exactly"
+      ],
+      [
+        "An unexpectedly indented line outside any block raises IndentationError: unexpected indent",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends on 3.11's name model for NameError's explanation; introduces indentation-as-syntax honestly with a forward reference to the loops/conditionals chapter.",
+    "motivation": "Opens with 'red text is not a reason to panic, it is data' — directly reframing a common emotional blocker before the technical content.",
+    "sequence": "Three error types with real reproduced tracebacks -> anatomy diagram (read bottom-up) -> a general fix workflow, concrete examples before the generalizing diagram.",
+    "practice": "practice_card 03-08 reproduces the NameError scenario exactly, including the identical typo pattern (usr_name vs user_name).",
+    "coherence": "Directly reuses 3.11's NameError explanation rather than re-deriving it, and correctly forward-references the not-yet-taught indentation topic.",
+    "ru_note": "'traceback' left untranslated per established course convention (matches every other chapter's usage); 'трассировка' used only as the descriptive noun, not forcing an awkward full translation.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-14-debug-laboratorii": {
+    "objective": "Learner applies predict->run->fix->explain to five short broken-code labs.",
+    "claims": [
+      [
+        "Each of the five labs' predicted symptom (unterminated string, NameError from a typo, IndentationError, silently-wrong-but-valid output, ModuleNotFoundError from wrong interpreter) matches what the shown code actually produces",
+        "code_execution",
+        "each of the five labs' claimed symptom was independently reproduced and matches (unterminated string literal, NameError, IndentationError, incorrect-but-valid print target, and the Chapter 2 interpreter-mismatch scenario referenced by name)"
+      ]
+    ],
+    "prereq": "Depends on 3.13 (error types) and Ch.2.16 (interpreter mismatch) for lab 5, both correctly cross-referenced.",
+    "motivation": "Frames the five labs as deliberately broken code to practice a repeatable method, not just five isolated facts to memorize.",
+    "sequence": "Five self-contained labs of increasing subtlety, from an obvious syntax slip to a 'runs fine but wrong result' logic bug — genuine difficulty progression.",
+    "practice": "practice_card 03-09 reproduces the SyntaxError-hunting pattern from labs 1-3.",
+    "coherence": "Lab 5 correctly and explicitly cross-references Chapter 2's interpreter/venv diagnostics rather than re-explaining them from scratch.",
+    "ru_note": "Lab framing ('Предскажите... Запустите... Исправление... Почему') is consistent across all five, giving a recognizable, reusable structure.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-15-otladchik-v-ide": {
+    "objective": "Learner can set a breakpoint and use Step Over/Continue in VS Code or PyCharm to inspect variable state.",
+    "claims": [
+      [
+        "A breakpoint pauses execution before the marked line runs; Variables panel shows only names already bound at that point; Step Over advances one line",
+        "source_inspection",
+        "matches documented, standard debugger behavior in both VS Code and PyCharm"
+      ]
+    ],
+    "prereq": "Depends on 3.11's name/value model (what 'a variable's current value' means) and 3.1's run mechanics.",
+    "motivation": "States the debugger's advantage over print()-based debugging explicitly and concretely (pause + inspect vs scatter-and-rerun) before the step-by-step instructions.",
+    "sequence": "One shared example for both IDEs -> VS Code steps -> PyCharm button-name equivalents via a comparison table -> a closing 'main idea' callout.",
+    "practice": "No dedicated notebook (a debugger requires a real IDE, not browser-executable); appropriately excluded from the practice count.",
+    "coherence": "Comparison table correctly maps equivalent actions across the two IDEs already introduced in Ch.2.7-2.9, without contradiction.",
+    "ru_note": "'точка останова' (breakpoint) is the standard, professionally recognized Russian developer term, not an awkward transliteration.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-16-notebook-i-kernel": {
+    "objective": "Learner can distinguish a notebook file from its kernel process, understands state persists across cells, and knows this course's browser practice runs on real Pyodide Python.",
+    "claims": [
+      [
+        "A kernel is a separate running process from the .ipynb file; cell execution order (not visual order) determines what state exists; Pyodide is a real CPython build compiled to WebAssembly, with real limitations (e.g. no native GUI, so tkinter does not work there)",
+        "source_inspection",
+        "each claim matches documented Jupyter/Pyodide architecture accurately, with the tkinter-in-browser limitation correctly and specifically bounded"
+      ]
+    ],
+    "prereq": "Depends on 2.15's IDE/kernel preview and 3.2's REPL state model; this is the first full treatment of state persistence.",
+    "motivation": "Directly explains what the learner has already been using (the course's own browser practice) rather than treating it as an unexplained black box — a strong, concrete motivation.",
+    "sequence": "Notebook vs kernel definitions -> state-persists-across-cells demonstration -> the 'run order matters, not display order' warning -> how the course's own browser practice is built (Pyodide) -> its honest limitation (no tkinter).",
+    "practice": "No dedicated notebook for this meta-topic; its content is implicitly demonstrated by every notebook the learner has already used.",
+    "coherence": "Correctly cross-references Chapter 2's earlier, lighter kernel mention (2.15) as 'we said we'd come back to this' rather than duplicating it verbatim.",
+    "ru_note": "'ядро' (kernel) is the standard, correctly established Russian Jupyter term, used consistently with 2.15.",
+    "safety": "Honestly discloses the browser sandbox's real limitations rather than overselling it as fully equivalent to a local interpreter.",
+    "findings": []
+  },
+  "03-17-mini-proekt-i-itogi": {
+    "objective": "Learner can compose input()/assignment/print() into one complete small program (a terminal business card).",
+    "claims": [
+      [
+        "The business-card program, using only input(), assignment, and print(), produces the shown formatted output",
+        "code_execution",
+        "the program's structure (three input() calls, then formatted print() lines with a border) was verified to produce exactly the claimed output shape"
+      ]
+    ],
+    "prereq": "A genuine capstone: depends only on tools already taught in this chapter (input, names, print/sep/end), with no undisclosed new syntax.",
+    "motivation": "Explicitly states the project deliberately avoids conditionals/loops (not yet taught), framing the constraint honestly rather than pretending it is a design choice unrelated to curriculum sequencing.",
+    "sequence": "Working example -> expected output -> a 'why only these tools' callout -> an open-ended styling challenge exercise, concrete before creative-extension.",
+    "practice": "practice_card 03-10 mirrors the exact business-card structure with a real input()-based version.",
+    "coherence": "The closing summary_box correctly and completely recaps every topic actually covered in Chapter 3, with no item claimed that was not taught.",
+    "ru_note": "Warm but not saccharine closing tone; consistent terminology throughout the recap.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "03-01": {
+    "objective": "Learner runs print() to produce output and fixes a Python-2-style print statement.",
+    "claims": [
+      [
+        "print \"Привет\" (no parens) raises a SyntaxError under Python 3.14, correctly tagged raises-exception",
+        "code_execution",
+        "reproduced exactly: SyntaxError, matching Python 3's print()-as-function behavior"
+      ]
+    ],
+    "prereq": "Uses only print(), already introduced in Chapter 1 and reused from 03-01 theory.",
+    "motivation": "The 'typical mistake' cell deliberately shows the Python-2 print statement failing, connecting to the theory page's own historical note about Python 2/3.",
+    "sequence": "Working example -> two small experiments (edit text, add a line) -> the Python-2 mistake+fix -> a starred basic task -> an independent two-line task.",
+    "practice": "Starter/task cells contain no solution; the 'Решение' (fix) cell for the Python-2 mistake is clearly separated after the broken cell, not shown alongside it.",
+    "coherence": "Matches theory page 03-01's own print()-usage examples one-to-one.",
+    "ru_note": "Task wording is unambiguous ('выведите три строки: имя, город, число').",
+    "safety": "No destructive operations.",
+    "grader": "Grader (03-01.py) checks the two graded cells ran without error and each produced the minimum expected number of non-empty output lines (>=3 and >=2) — a structural check appropriate since exact personal content (name/city/number) cannot be predicted; does not leak the solution and rejects a truly empty/erroring attempt.",
+    "findings": []
+  },
+  "03-02": {
+    "objective": "Learner observes that a Jupyter cell auto-prints its last expression like a Python REPL, and that assignment does not print.",
+    "claims": [
+      [
+        "2+2 alone in a cell prints 4 without print(); name='Cartesian' alone prints nothing",
+        "code_execution",
+        "matches actual Jupyter/IPython last-expression display semantics, consistent with the theory page's REPL claim"
+      ]
+    ],
+    "prereq": "Depends on 3.2 theory (REPL) covered immediately before this notebook in the practice_card order.",
+    "motivation": "The 'typical mistake' cell directly targets the exact misconception the theory page calls out (expecting assignment to print).",
+    "sequence": "Auto-print observation -> multiple bare expressions in one cell (only last auto-prints) -> print() as the general-purpose tool -> the assignment misconception -> fix -> a starred task combining three explicit print() calls.",
+    "practice": "No solution leaked ahead of the task cell; the fix cell for the assignment misconception is clearly separated.",
+    "coherence": "Matches theory page 03-02 one-to-one, including the exact 1+1/2+2/3+3 example.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Not directly inspected in this batch (no anomaly found in the earlier full grader sweep of this chapter's expected-value checks); the notebook's own structure gives no reason to expect a validity issue given the consistent pattern verified across the other nine.",
+    "findings": []
+  },
+  "03-03": {
+    "objective": "Learner uses Python as a calculator (+,-,*,/) and verifies operator precedence.",
+    "claims": [
+      [
+        "10/2 returns 5.0 (float), matching Chapter 3/4's 'division always returns float' rule; 3.5*60==210.0 and (a+b+c)/3 for a,b,c=8,9,10 gives 9.0",
+        "code_execution",
+        "reproduced exactly: 10/2==5.0, 3.5*60==210.0, (8+9+10)/3==9.0"
+      ]
+    ],
+    "prereq": "Depends only on basic arithmetic; correctly forward-references full division-operator detail to Chapter 4 rather than over-explaining now.",
+    "motivation": "Frames the whole notebook as 'a calculator you already have', an immediately tangible payoff.",
+    "sequence": "Basic operators -> the /-always-float experiment (with an explicit predict-first prompt) -> precedence check -> a starred real-world task (minutes in 3.5 hours) with a self-verifying assert -> an average-of-three challenge.",
+    "practice": "The assert-based self-check cell is a strong design choice: the learner gets immediate, unambiguous feedback without needing the external grader for that step.",
+    "coherence": "Matches theory page 03-03 (03-02-interaktivny-rezhim.html#schitaet) one-to-one, including the exact precedence example.",
+    "ru_note": "Clear, concrete task wording (minutes in three and a half hours).",
+    "safety": "No destructive operations.",
+    "grader": "Grader (03-03.py) keys off the assert cell's own success/output rather than duplicating the check — a legitimate design that avoids re-implementing the same validation twice and correctly treats an unhandled AssertionError as a fail.",
+    "findings": []
+  },
+  "03-04": {
+    "objective": "Learner uses print()'s sep and end parameters correctly, including as keyword-only arguments.",
+    "claims": [
+      [
+        "print(\"2024\",\"01\",\"15\",sep=\"-\") -> \"2024-01-15\"; print(\"Загрузка\",end=\"\") then print(\"...\",end=\"\") then print(\"готово!\") -> one line \"Загрузка...готово!\"",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends on 03-04 theory (this chapter) and basic print() from earlier notebooks.",
+    "motivation": "The 'typical mistake' cell (print('a','b','-') vs sep='-') directly targets a real, common beginner confusion between positional and keyword arguments named explicitly in the theory page.",
+    "sequence": "Multiple values -> sep -> end -> the starred task combining sep=' · ' (which doubles as the chapter's own 'output your name' practice) -> the positional/keyword mistake+fix -> an independent table-formatting task.",
+    "practice": "Fix cell for the sep-vs-positional mistake is clearly separated after the broken cell; no leaked answers in starter cells.",
+    "coherence": "Matches theory page 03-03 (vyvod-dannyh) precisely, including the sep=' · ' example that also serves as the chapter 3.12/3.5 checkpoint deliverable.",
+    "ru_note": "Task wording is precise about which separator string to use.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (03-04.py) checks that the required separator character literally appears in the output line (' · ' and ' — ' respectively) — an appropriately strict structural check for a formatting-focused task, without over-constraining the personal content (name/city/number).",
+    "findings": []
+  },
+  "03-05": {
+    "objective": "Learner predicts, then verifies, type()/help()/dir() results.",
+    "claims": [
+      [
+        "type(42) is int, type('42') is str, type(10/2) is float; len(dir(42))>0",
+        "code_execution",
+        "reproduced exactly, including the / -> float rule consistent with 03-03"
+      ]
+    ],
+    "prereq": "Depends on 03-09 theory (REPL as investigation tool), reusing type()/help()/dir() introduced there.",
+    "motivation": "Every experiment is explicitly framed as 'predict before you run', reinforcing the retrieval-practice pattern used across the chapter.",
+    "sequence": "type() basics -> predict-then-check for a string and for a division result -> the dir(42) length sanity check (deliberately not asking to interpret every name) -> a starred three-type task -> a help(print) exploration task.",
+    "practice": "No solution leaked; the dir() misconception callout ('a long list is fine, you don't need to understand every name yet') correctly manages cognitive load rather than demanding premature mastery.",
+    "coherence": "Matches theory page 03-09 one-to-one.",
+    "ru_note": "Encouraging, low-pressure framing around the intentionally overwhelming dir() output.",
+    "safety": "No destructive operations; help()/dir() are safe, read-only introspection.",
+    "grader": "Not directly inspected in this batch; the earlier full-sweep of expected-value strings across this chapter's graders found no anomaly, and this notebook's task (three print(type(...)) calls) has a fully predictable, checkable output shape consistent with the other verified graders.",
+    "findings": []
+  },
+  "03-06": {
+    "objective": "Learner uses input() and confirms it always returns a string.",
+    "claims": [
+      [
+        "input() returns a string even for digit input; str+int without conversion raises TypeError; int(text)+1 works after conversion",
+        "code_execution",
+        "matches actual input()/int() behavior and is consistent with the theory page's forward-referenced conversion example"
+      ]
+    ],
+    "prereq": "Depends on 03-10 theory; explicitly hedges the int() conversion as 'preview, full detail next chapter'.",
+    "motivation": "Uses a pre-filled 'pretend this was typed' cell first for reliability before the real interactive input() cell, a sound design for a browser-graded environment.",
+    "sequence": "Simulated dialog -> real input() dialog -> type-check on the returned string -> the str+int mistake (correctly tagged raises-exception) -> the int()-conversion fix -> a starred greeting-formatting task.",
+    "practice": "No leaked solution; the mistake cell's failure is the intended, tagged outcome, not an authoring bug.",
+    "coherence": "Matches theory page 03-10 one-to-one, including the exact age-conversion example.",
+    "ru_note": "Task wording specifies the exact greeting format expected, reducing ambiguity for a personalized-input task.",
+    "safety": "No destructive operations; input() collects only a display name, no sensitive data implied.",
+    "grader": "Grader (03-06.py) checks for the presence of 'Привет' in the real-input cell's output and 'Рады знакомству' in the task cell's output — an appropriately loose structural check given the task is personalized (real typed name cannot be predicted).",
+    "findings": []
+  },
+  "03-07": {
+    "objective": "Learner creates names, observes aliasing/rebinding, and reads a NameError.",
+    "claims": [
+      [
+        "city and town both point to the same string; reassigning city does not change town; referencing favourite_city before assignment raises NameError",
+        "code_execution",
+        "reproduced exactly, matching the reference/aliasing model from theory page 03-11"
+      ]
+    ],
+    "prereq": "Depends directly on 03-11 theory (names as references, not boxes), the notebook's central concept.",
+    "motivation": "The two aliasing experiments are placed immediately after the working example, letting the learner observe the reference model rather than only reading about it.",
+    "sequence": "Create+read -> aliasing (two names, one value) -> rebinding-does-not-affect-the-alias -> the NameError mistake (ordering) -> fix -> a three-name printing task.",
+    "practice": "No leaked solution; NameError cell is correctly tagged raises-exception and the fix is separated.",
+    "coherence": "Matches theory page 03-11 one-to-one, including the exact city/town example and variable names.",
+    "ru_note": "'указывает на' (points to) used consistently instead of 'содержит' (contains), matching the theory page's precise reference terminology.",
+    "safety": "No destructive operations.",
+    "grader": "Not directly inspected in this batch; no anomaly found in the earlier full-sweep, and the task (print three named values) has a fully predictable, checkable output shape.",
+    "findings": []
+  },
+  "03-08": {
+    "objective": "Learner reads a NameError traceback and fixes a typo causing it.",
+    "claims": [
+      [
+        "print(usr_name) raises NameError; the same typo pattern (scroe vs score) is fixed in the graded task",
+        "code_execution",
+        "reproduced exactly; independently re-verified in this batch (also checked during the original Batch A pilot)"
+      ]
+    ],
+    "prereq": "Depends on 03-13 theory (traceback anatomy).",
+    "motivation": "Explicitly reassures the learner before showing the error ('do not be afraid of red text').",
+    "sequence": "Warm-up -> worked NameError example -> a guided typo-fix experiment -> the graded typo-fix task, difficulty held constant but responsibility shifted from guided to independent.",
+    "practice": "Confirmed in the original Batch A spot-check: starter contains the same bug pattern as the worked example, not the answer; solution cell is clearly separated after the task.",
+    "coherence": "Matches theory page 03-13's NameError example exactly.",
+    "ru_note": "Clear, encouraging task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (03-08.py) checks that the worked-example cell genuinely errored and that the solution cell ran clean and printed '100' — verified in the original Batch A pilot to correctly reject an unfixed attempt and correctly accept the fix; re-confirmed in this batch.",
+    "findings": []
+  },
+  "03-09": {
+    "objective": "Learner reads SyntaxError messages and fixes missing parentheses/quotes.",
+    "claims": [
+      [
+        "Missing ')' raises SyntaxError: '(' was never closed; missing closing quote raises SyntaxError: unterminated string literal",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 03-14 theory (debug labs) for the missing-bracket/quote error patterns.",
+    "motivation": "Warm-up cell mirrors 03-08's pattern, giving a consistent ritual across the two error-focused notebooks.",
+    "sequence": "Missing paren -> fix -> missing quote (a second, distinct experiment) -> fix -> a combined task requiring both fixes at once, a genuine difficulty increase over the single-error notebooks.",
+    "practice": "No leaked solution; each broken cell is tagged raises-exception and its fix is separated.",
+    "coherence": "Matches the exact error text produced by Python 3.14 for both bracket and quote errors, and is consistent with 03-13's traceback-reading guidance.",
+    "ru_note": "Clear task wording, explicitly naming both errors to fix.",
+    "safety": "No destructive operations.",
+    "grader": "Not directly inspected in this batch; no anomaly found in the earlier full-sweep, and the exact expected string ('Готово!') is fully deterministic for this fixed task.",
+    "findings": []
+  },
+  "03-10": {
+    "objective": "Learner composes input()/print() into the chapter's business-card mini-project and personalizes its formatting.",
+    "claims": [
+      [
+        "The card program with pre-filled values produces the shown bordered output; the real input()-based version behaves identically for real typed values",
+        "code_execution",
+        "the fixed-value version's output structure was verified to match the shown example exactly"
+      ]
+    ],
+    "prereq": "A genuine capstone depending on every tool taught in Chapter 3 (input, names, print/sep/end); introduces no new syntax.",
+    "motivation": "Provides a safe, pre-filled version first (for reliable grading) before the real input()-driven version, mirroring 03-06's sound design pattern.",
+    "sequence": "Pre-filled card -> real input() card -> add a fourth line (language) -> an open styling challenge, concrete before creative-extension.",
+    "practice": "No leaked solution; the styling challenge is genuinely open-ended (multiple valid outputs), appropriately checked structurally rather than by exact match.",
+    "coherence": "Matches theory page 03-17's mini-project exactly.",
+    "ru_note": "Encouraging, creative-extension framing for the final challenge.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (03-10.py) checks structural markers ('====','Имя:') for the personalized card and a minimum line count for the four-line extension — an appropriate structural check for a personalized, free-text task; does not require an exact literal match that a real name/city could never satisfy.",
+    "findings": []
+  },
+  "04-01-chisla-i-peremennye": {
+    "objective": "Learner can explain that a mathematical number and its computer representation are related but not identical, and applies the name-as-reference model to numbers.",
+    "claims": [
+      [
+        "age=10; age=age+1 rebinds age to a new object 11 rather than mutating the int 10 in place, matching the reference model from Ch.3",
+        "code_execution",
+        "reproduced conceptually exactly: ints are immutable and += creates a new object"
+      ]
+    ],
+    "prereq": "Directly depends on Chapter 3's name/reference model (03-11), explicitly and correctly re-applied here rather than re-derived from scratch.",
+    "motivation": "Opens with the human-vs-machine number gap (10, 3.14, 1/3, infinity) before any code, motivating why representation matters at all.",
+    "sequence": "Concept -> names point to number objects -> immutability demonstrated via age=age+1 -> an id()-based hands-on suggestion to see the object actually change.",
+    "practice": "practice_card 04-01 mirrors the immutability demonstration exactly.",
+    "coherence": "Correctly forward-references float precision (4.10-4.11) as 'we'll cover this later' rather than glossing over the human/machine gap prematurely.",
+    "ru_note": "'неизменяемые' (immutable) used precisely and consistently with Chapter 3's model.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-06-int-glubzhe": {
+    "objective": "Learner knows int has arbitrary precision (bounded by memory, not a fixed bit width), and reviews immutability with two named references.",
+    "claims": [
+      [
+        "10**100 is a 101-digit int Python handles natively; Python int is 'arbitrary precision limited by available resources', not literally unlimited",
+        "code_execution",
+        "reproduced exactly; the 'arbitrary, resource-bounded, not literally unlimited' framing is technically precise, avoiding the common overclaim of infinite size"
+      ],
+      [
+        "id(256) vs id(257) small-int-caching is explicitly flagged as a CPython implementation detail, not something to rely on",
+        "source_inspection",
+        "correctly bounded — matches the rubric's own explicit concern about CPython-specific optimizations being mistaken for language guarantees"
+      ]
+    ],
+    "prereq": "Depends on 04-01's immutability introduction; explicitly defers full bool detail to the conditions chapter.",
+    "motivation": "Contrasts Python's arbitrary-precision int against fixed-width ints in other languages, giving a concrete point of comparison for why this matters.",
+    "sequence": "Big numbers -> precise 'arbitrary vs unlimited' wording -> immutability review with two names -> the CPython-caching caveat -> bool-as-int aside (clearly marked as a fact to know, not a style to imitate) -> underscores -> augmented assignment.",
+    "practice": "practice_card 04-06 mirrors the big-number and immutability experiments exactly.",
+    "coherence": "Correctly and explicitly warns against using id() caching as a teaching trick — a genuinely careful, self-aware pedagogical choice.",
+    "ru_note": "Precise distinction between 'произвольная точность' and 'неограниченный размер' (arbitrary precision vs unlimited size).",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-07-sistemy-schisleniya": {
+    "objective": "Learner can convert between decimal/binary/octal/hex using literals, bin()/oct()/hex(), and int(x, base).",
+    "claims": [
+      [
+        "bin(10)=='0b1010', oct(10)=='0o12', hex(10)=='0xa'; int('1010',2)==10, int('FF',16)==255",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends only on basic int knowledge; introduces positional-notation concept from scratch with a place-value diagram.",
+    "motivation": "Lists concrete, real uses for hex (colors, byte patterns, network protocols, Unicode) before the mechanics, motivating why a beginner should care.",
+    "sequence": "Four systems table -> place-value diagram for one worked example -> why-hex-matters -> bin/oct/hex() -> the reverse (int with base) -> a round-trip verification exercise.",
+    "practice": "practice_card 04-07 mirrors the round-trip conversion pattern with the learner's own birth year.",
+    "coherence": "Consistent with 04-22's later int('FF') without a base as a deliberately staged 'missing base' error lab.",
+    "ru_note": "Standard, correct Russian names for each base ('десятичная', 'двоичная', 'восьмеричная', 'шестнадцатеричная').",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-02-kommentarii": {
+    "objective": "Learner uses comments and named variables (e.g. distance_km) to keep numeric code's meaning from being lost.",
+    "claims": [
+      [
+        "A bare number like 120 with only a trailing comment for its unit is more fragile than baking the unit into the name (distance_km); Python itself has no concept of units",
+        "source_inspection",
+        "an accurate, well-scoped observation, correctly not overclaiming that naming alone is a complete solution (explicitly deferred to future type/structure topics)"
+      ]
+    ],
+    "prereq": "Builds on Chapter 3's comment guidance (03-12), applied specifically to numeric/unit ambiguity rather than repeating the general comment rules.",
+    "motivation": "Uses a concrete VAT-rate example to show comments explaining 'why this number', directly extending 03-12's why-not-what guidance into a numeric context.",
+    "sequence": "The unit-ambiguity problem -> naming as a partial fix -> comments for formulas/assumptions -> a closing note that this pattern recurs 'in literally every section of this chapter'.",
+    "practice": "practice_card 04-02 mirrors the distance/price renaming and VAT-comment exercises exactly.",
+    "coherence": "Deliberately avoids re-teaching general comment syntax already covered in 03-12 — purposeful, non-duplicative repetition.",
+    "ru_note": "Natural phrasing throughout, no forced terminology.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-08-operatory": {
+    "objective": "Learner knows the full arithmetic operator set (+,-,*,/,//,%,**) and unary +/-.",
+    "claims": [
+      [
+        "1000*15/100==150.0 discount, 1000-150.0==850.0 final price",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends only on basic arithmetic already used informally in Chapter 3's calculator notebook.",
+    "motivation": "Table format gives immediate reference value before the worked discount example applies it to a real scenario.",
+    "sequence": "Full operator table -> unary +/- (with an honest note that unary + is rarely used) -> one applied real-world example (discount calculation).",
+    "practice": "practice_card 04-08 mirrors the operator table and the discount-calculation task.",
+    "coherence": "Sets up 04-09 (precedence) and 04-10 (division family) without pre-empting their more detailed treatment.",
+    "ru_note": "Standard Russian operator names used consistently with later sections.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-09-poryadok-operacij": {
+    "objective": "Learner predicts operator precedence correctly and knows when parentheses aid readability.",
+    "claims": [
+      [
+        "2+3*4==14, not 20; (2+3)*4==20",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends on 04-08's operator list; scoped explicitly as 'only what's needed for this chapter's arithmetic', not the full official precedence table.",
+    "motivation": "Opens with the classic 14-vs-20 ambiguity as a concrete hook before the abstract precedence ladder.",
+    "sequence": "One motivating example -> precedence ladder diagram -> an explicit note this is a partial table -> a 'always fine to add parentheses' style recommendation.",
+    "practice": "practice_card 04-09 mirrors the exact precedence-prediction pattern, including a rearrange-to-get-19 challenge.",
+    "coherence": "Correctly labeled as a partial table with a pointer to the full official 'Operator precedence' reference for later.",
+    "ru_note": "Direct, low-jargon explanation.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-10-delenie-i-ostatok": {
+    "objective": "Learner distinguishes /, //, % and correctly predicts floor-division/modulo for negative numbers.",
+    "claims": [
+      [
+        "17/5==3.4, 17//5==3, 17%5==2, divmod(17,5)==(3,2); -7//3==-3 (not -2), -7%3==2 — floor division rounds toward negative infinity, a fixed language definition, not a bug",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6, including the negative-number case, which is the specific historical risk item the M01-I04 brief asked to re-check"
+      ]
+    ],
+    "prereq": "Depends on 04-08's operator introduction; this is the deep-dive on the division family specifically.",
+    "motivation": "Uses a concrete 17-candies-among-5-children scenario before any operator, giving intuition before formalism (PD03 exemplar).",
+    "sequence": "Candy scenario -> divmod() -> an explicitly marked 'a bit deeper' optional subsection on negative floor division, with a number-line diagram -> the language-definition explanation (not accidental behavior).",
+    "practice": "practice_card 04-10 mirrors the candy-division pattern with an apples/baskets variant plus the negative-number prediction experiment.",
+    "coherence": "Directly reused, correctly and without contradiction, in 04-22's debugging lab 6 (predict -7//3 and -7%3).",
+    "ru_note": "Clear, precise wording distinguishing 'целочисленное деление' (floor division) from ordinary division.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-11-stepeni": {
+    "objective": "Learner uses ** / pow() for exponentiation (including modular pow) and abs() for magnitude.",
+    "claims": [
+      [
+        "2**10==1024==pow(2,10); pow(2,10,1000)==24, equivalent to (2**10)%1000 but efficient for large numbers; abs(-7)==7",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends only on basic operators (04-08); introduces pow()'s three-argument form as an explicitly optional, deeper topic.",
+    "motivation": "Frames abs() as a tool that 'will be useful in literally every future chapter', giving forward-looking motivation for a small function.",
+    "sequence": "Basic exponentiation -> optional modular-pow subsection (clearly marked deeper/optional) -> abs().",
+    "practice": "practice_card 04-11 mirrors exponentiation and abs() with a square-area application.",
+    "coherence": "Correctly notes modular exponentiation's relevance to cryptography without claiming to teach cryptography — an appropriately bounded aside.",
+    "ru_note": "Clear, concrete Russian throughout.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-03-vidy-chisel": {
+    "objective": "Learner can name Python's three built-in numeric types (int/float/complex) vs the two stdlib exact-arithmetic helpers (Decimal/Fraction) and knows which need import.",
+    "claims": [
+      [
+        "int/float/complex literals need no import; Decimal and Fraction are ordinary classes from the decimal/fractions stdlib modules and require import",
+        "source_inspection",
+        "an accurate and pedagogically important distinction, correctly and explicitly called out with a warning callout"
+      ]
+    ],
+    "prereq": "Builds on 04-01 (int) and previews float/Decimal/Fraction/complex before their dedicated sections, appropriately as an orientation map rather than teaching their content early.",
+    "motivation": "Explicitly framed as 'the big picture before the details', a deliberate orientation page before five deep-dive sections.",
+    "sequence": "Three built-in types diagram -> two stdlib-helper types diagram -> the built-in-vs-import warning -> a promise of a final decision map at chapter end.",
+    "practice": "No dedicated notebook practice_card is listed separately from 04-03's own practice_card, which correctly exercises type() across all three built-in types plus a huge-int check.",
+    "coherence": "Sets up, without duplicating, every one of the five deep-dive sections that follow (04-12 through 04-18).",
+    "ru_note": "Precise, correct terminology distinguishing built-in literal types from stdlib classes.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-12-float-osnovy": {
+    "objective": "Learner can write ordinary and scientific-notation float literals and knows / always returns float.",
+    "claims": [
+      [
+        "2.0 is float despite representing a whole number; 1e6==1000000.0, 2.5e-3==0.0025; 10/2==5.0 (float), not 5",
+        "code_execution",
+        "reproduced exactly"
+      ]
+    ],
+    "prereq": "Depends on 04-03's type map; deliberately deferred float-precision detail (0.1+0.2) to the very next section rather than mixing concerns.",
+    "motivation": "States plainly that float has two literal forms before precision issues are discussed, keeping this section's scope narrow and clear.",
+    "sequence": "Ordinary notation -> scientific notation -> the /-always-float rule, each a single clean idea before the next section's deeper complication.",
+    "practice": "practice_card 04-12 mirrors scientific notation and the /-returns-float check.",
+    "coherence": "Deliberately narrow scope sets up 04-13 (precision) cleanly without pre-empting it.",
+    "ru_note": "Clear, correct Russian.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-13-pochemu-01-02": {
+    "objective": "Learner can explain why 0.1+0.2 != 0.3 as a binary-approximation issue common to all languages, not a Python bug.",
+    "claims": [
+      [
+        "0.1+0.2==0.30000000000000004; this occurs in JavaScript/Java/C/C++ too, not a Python-specific bug",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6; the cross-language claim is a well-established, correct fact about IEEE 754 binary floating point"
+      ],
+      [
+        "(0.1).as_integer_ratio() reveals the exact stored binary fraction; 0.5+0.25==0.75 is exact because both terms are exact powers of two, while 1.1+2.2!=3.3",
+        "code_execution",
+        "reproduced exactly, including the exact-vs-inexact contrast that correctly shows the issue is not 'all float math is wrong', only non-power-of-two decimals"
+      ]
+    ],
+    "prereq": "Depends on 04-12's float introduction; this is the dedicated deep-dive the prior section deliberately deferred to.",
+    "motivation": "Uses a 1/3-in-decimal analogy (an infinitely repeating decimal humans already accept) before the binary explanation, a strong, concrete PD03 intuition bridge.",
+    "sequence": "The famous surprise -> analogy -> IEEE 754 binary64 structure (explicitly marked as not-to-memorize) -> as_integer_ratio()/hex() to show the exact stored value -> a closing 'this is a precise, explainable approximation, not randomness' takeaway.",
+    "practice": "practice_card 04-13 mirrors as_integer_ratio() and the 0.5+0.25 exact-vs-1.1+2.2 inexact contrast exactly.",
+    "coherence": "Directly and correctly reused, without restatement drift, in 04-14 (comparison), 04-16 (Decimal-from-float pitfall), and 04-22 (debugging lab 3/4).",
+    "ru_note": "Precise, non-alarmist framing ('это не баг Python') addressing a genuine, common misconception directly.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-14-sravnenie-float": {
+    "objective": "Learner replaces == with math.isclose() for float comparisons and understands relative vs fixed-threshold tolerance.",
+    "claims": [
+      [
+        "0.1+0.2==0.3 is False; isclose(0.1+0.2,0.3) is True; isclose uses a relative tolerance, so isclose(1000.0001,1000.0002) is True while isclose(0.0001,0.0002) is False despite an identical absolute difference",
+        "code_execution",
+        "reproduced exactly, including the relative-vs-absolute-tolerance contrast, which correctly warns against a naive fixed-threshold check"
+      ]
+    ],
+    "prereq": "Directly depends on 04-13's precision explanation.",
+    "motivation": "Opens by showing the broken == comparison fail before introducing the fix, giving a concrete reason to adopt the new tool.",
+    "sequence": "Broken comparison -> isclose() fix -> a warning against home-made absolute-tolerance checks -> a relative-tolerance demonstration proving why.",
+    "practice": "practice_card 04-14 mirrors the exact broken-comparison-to-isclose() fix pattern.",
+    "coherence": "Directly builds on, and does not contradict, 04-13's explanation.",
+    "ru_note": "Clear, precise Russian; 'допуск' (tolerance) used consistently and correctly.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-15-okruglenie": {
+    "objective": "Learner distinguishes round() (banker's rounding), math.floor/ceil/trunc, and their different behavior for negative numbers.",
+    "claims": [
+      [
+        "round(2.5)==2 and round(3.5)==4 (round-half-to-even, a deliberate statistical convention, not a bug); floor(-2.3)==-3, ceil(-2.3)==-2, trunc(-2.3)==-2 — floor and trunc differ for negative numbers though they often coincide for positive ones",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 04-13's float-precision framing (rounding surprises are related but distinct); introduces floor/ceil/trunc from scratch.",
+    "motivation": "Names the round-half-to-even surprise directly and immediately explains its statistical rationale, pre-empting a 'this is broken' reaction.",
+    "sequence": "round() -> the .5-boundary surprise with explicit explanation -> floor/ceil/trunc -> a number-line diagram specifically for the negative case, where the three functions genuinely diverge.",
+    "practice": "practice_card 04-15 mirrors the round-half-to-even prediction and the floor/ceil/trunc negative-number prediction exactly.",
+    "coherence": "Consistent with, and does not contradict, 04-04's separate int()-truncates-toward-zero rule (a distinct but related concept, correctly not conflated).",
+    "ru_note": "'округление до чётного' (round-half-to-even / banker's rounding) is the correct, standard Russian statistical term.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-16-decimal": {
+    "objective": "Learner uses Decimal for exact money arithmetic and knows to construct it from a string, not a float.",
+    "claims": [
+      [
+        "Decimal('0.1')+Decimal('0.2')==Decimal('0.3') exactly; Decimal(19.99) inherits float's stored imprecision (a long non-round digit string) while Decimal('19.99') does not, because the float approximation already happened before Decimal ever saw it",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6; this is the single most safety-critical claim in the chapter for real financial code and it checks out precisely"
+      ]
+    ],
+    "prereq": "Directly depends on 04-13's float-precision explanation as the motivating problem Decimal solves.",
+    "motivation": "States the money-specific stakes (small float errors compounding) before introducing the tool, a clear, high-value motivation.",
+    "sequence": "The precision problem restated for money -> the critical string-vs-float construction difference (with a clear 'why' explanation) -> a worked purchase example -> a float-vs-Decimal comparison table -> an explicit 'do not replace every float with Decimal' caution against overcorrection.",
+    "practice": "practice_card 04-16 mirrors the string-vs-float Decimal construction contrast and a purchase-total task exactly.",
+    "coherence": "Directly and correctly reused in 04-22's debugging lab 4 and lab 9 (choosing the right numeric type for money).",
+    "ru_note": "Precise, careful Russian distinguishing 'десятичная точность' from 'двоичное приближение'.",
+    "safety": "This is the chapter's clearest financial-correctness lesson and is technically exact — genuinely important for SM07 (security/reliability of numeric choices).",
+    "findings": []
+  },
+  "04-17-fraction": {
+    "objective": "Learner uses Fraction for exact rational arithmetic and, again, knows to construct from a string/ints rather than a float.",
+    "claims": [
+      [
+        "Fraction(1,3)+Fraction(1,6)==Fraction(1,2) exactly; Fraction('0.1')==Fraction(1,10) while Fraction(0.1) inherits the same float-approximation problem as Decimal(0.1)",
+        "code_execution",
+        "reproduced exactly, correctly generalizing the same string-vs-float lesson from 04-16 to a second exact-arithmetic type rather than re-deriving it from scratch"
+      ]
+    ],
+    "prereq": "Directly depends on 04-16's string-vs-float construction lesson, explicitly reused rather than restated as new content.",
+    "motivation": "Explicitly frames Fraction as 'another exact tool, same underlying issue' rather than a wholly new concept, an efficient use of prior learning.",
+    "sequence": "Basic construction -> exact arithmetic -> the string-vs-float repeat lesson -> a three-way float/Decimal/Fraction comparison table -> a decision-map diagram closing the numeric-precision arc that began in 04-13.",
+    "practice": "practice_card 04-17 mirrors exact-arithmetic and the string-vs-float contrast exactly.",
+    "coherence": "Deliberate, purposeful repetition of the 04-16 lesson (explicitly acknowledged as 'the same logic as Decimal') rather than accidental duplication.",
+    "ru_note": "Consistent, correct terminology ('точная дробь', 'рациональное число').",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-18-kompleksnye-chisla": {
+    "objective": "Learner can use complex numbers' real/imag/abs() and knows their realistic application domains.",
+    "claims": [
+      [
+        "3+4j has .real==3.0, .imag==4.0, abs()==5.0 (vector length); Python uses j for the imaginary unit (an engineering convention distinct from math's i, to avoid clashing with electrical current notation)",
+        "code_execution",
+        "reproduced exactly; the j-vs-i rationale is a correct, well-known engineering convention, accurately explained rather than presented as an arbitrary Python quirk"
+      ]
+    ],
+    "prereq": "Depends on 04-03's type map; introduces complex from scratch as the last of the three built-in types.",
+    "motivation": "Explicitly reassures that complex numbers are rare in typical application code before listing the real domains where they matter (electrical engineering, signal processing, control systems, physics), avoiding a false 'you must master this' pressure.",
+    "sequence": "Basic construction -> real/imag/abs() -> a complex-plane diagram -> realistic application domains -> cmath as the complex-aware sibling of math.",
+    "practice": "practice_card 04-18 mirrors real/imag/abs() with a 5+12j Pythagorean-triple variant.",
+    "coherence": "Correctly scoped as the last built-in numeric type from 04-03's map, completing that section's promise.",
+    "ru_note": "Correct, standard Russian terminology ('действительная часть', 'мнимая часть').",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-04-preobrazovanie-tipov": {
+    "objective": "Learner uses int()/float()/str() correctly and knows int() truncates toward zero rather than rounding.",
+    "claims": [
+      [
+        "int(3.99)==3 (truncation, not rounding); int(-3.9)==-3 (toward zero, not 'down' in the floor sense); int('десять') raises ValueError; f-strings avoid manual str() wrapping",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 04-01 (numbers) and Chapter 3 (comments/style for the classic_vs_modern f-string comparison); reuses 04-07's base-conversion int(x, base) without re-deriving it.",
+    "motivation": "Directly and correctly contrasts int()'s truncation with round() (deferred to 04-15) via an explicit warning callout, pre-empting a likely conflation.",
+    "sequence": "Basic conversions -> the truncation-not-rounding warning (with a negative-number twist) -> text-to-number -> the not-every-string-parses warning -> a reused base-conversion recap -> a classic-concatenation-vs-f-string comparison.",
+    "practice": "practice_card 04-04 mirrors the truncation-direction experiment and int('десять')-raises-ValueError exactly.",
+    "coherence": "Explicitly and correctly cross-references 04-03 (int with base) rather than re-teaching it.",
+    "ru_note": "Precise distinction between 'усечение' (truncation) and 'округление' (rounding) — exactly the kind of terminological precision the M01-I04 audit dimension asks to verify.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-19-modul-math": {
+    "objective": "Learner navigates math's organized capability groups (constants, roots, rounding, integer math, geometry, trig) rather than memorizing an alphabetical list.",
+    "claims": [
+      [
+        "math.pi, math.sqrt(16)==4.0, math.isqrt(16)==4 (int), math.factorial(5)==120, math.gcd(12,18)==6, math.lcm(4,6)==12, math.hypot(3,4)==5.0==math.dist((0,0),(3,4))",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 04-11 (pow/abs) and 04-06/04-07 (int operations) as the base this module extends; explicitly defers trigonometry mastery ('fine to return to this later').",
+    "motivation": "Organizes the module by capability group rather than alphabetically specifically to aid navigation and retention, a deliberate pedagogical structuring choice.",
+    "sequence": "Import+one example -> a capability map diagram -> constants -> roots -> integer math -> geometry -> trigonometry (explicitly marked skippable), narrow-to-broad within each group.",
+    "practice": "practice_card 04-19 mirrors sqrt/factorial/gcd and a hypot()-based triangle task.",
+    "coherence": "Correctly distinguishes sqrt() (float) from isqrt() (int) — a precise, useful distinction some sources blur.",
+    "ru_note": "Clear, functional Russian organized by purpose rather than a dry function list.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-20-random-i-secrets": {
+    "objective": "Learner uses random for games/simulations and secrets for anything security-sensitive, and knows why the two must not be swapped.",
+    "claims": [
+      [
+        "random is optimized for speed/statistical quality, not unpredictability against an attacker, and must not be used for passwords/tokens/session keys; secrets.token_hex() is the correct, cryptographically strong alternative",
+        "official_reference",
+        "matches Python's own documented random/secrets module guidance exactly; this is the specific historical risk item ('random.random() description') the M01-I04 brief explicitly asked to re-check, and it is verified correct, not a residual defect"
+      ]
+    ],
+    "prereq": "Depends only on basic function calls; introduces random.seed() for reproducibility before the security warning.",
+    "motivation": "The security warning is given its own explicit, visually distinct subsection (not buried in prose), correctly signaling its importance.",
+    "sequence": "Basic random usage -> seed() for reproducibility -> a decision diagram (random vs secrets) -> the explicit security warning -> secrets.token_hex() as the concrete correct alternative.",
+    "practice": "practice_card 04-20 mirrors seeded random.randint/choice for determinism in the demo cells, and secrets.token_hex() (correctly unseeded, since secrets has no seed concept) for the graded task.",
+    "coherence": "This is the canonical, correct treatment of a topic the M01-I04 brief flagged by name as historically risky — confirmed resolved.",
+    "ru_note": "Direct, unambiguous safety language ('не генерируйте пароли и токены модулем random').",
+    "safety": "This section IS the chapter's dedicated security-boundary lesson and is technically accurate and appropriately emphatic (SM07 exemplar).",
+    "findings": []
+  },
+  "04-21-statistics-i-inf-nan": {
+    "objective": "Learner uses statistics.mean/median/mode/pstdev and correctly recognizes/handles inf and nan.",
+    "claims": [
+      [
+        "mean([85,90,78,92,88])==86.6, median(...)==88; float('nan')==float('nan') is False (IEEE 754-defined behavior, not a Python bug); math.isnan()/isinf()/isfinite() are the correct way to test these states",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on 04-19's math module familiarity for isnan/isinf/isfinite; introduces statistics from scratch.",
+    "motivation": "Explicitly scopes ambition ('not turning this into a statistics course') before showing the small, genuinely useful subset covered.",
+    "sequence": "statistics basics -> mode/stdev as an explicitly optional deeper subsection -> inf/nan definitions -> the nan!=nan surprise with its IEEE 754 justification -> the correct isnan/isinf/isfinite checks -> a real-world-relevance closing note.",
+    "practice": "practice_card 04-21 mirrors mean/median and the nan self-inequality experiment exactly.",
+    "coherence": "Correctly cross-references the same IEEE 754 standard introduced in 04-13's float-precision discussion rather than treating nan/inf as unrelated trivia.",
+    "ru_note": "Clear, precise Russian ('не число' for nan is the standard, correct rendering).",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-22-chislovye-oshibki": {
+    "objective": "Learner distinguishes genuine exceptions from valid-but-surprising numeric results and applies the chapter's tools to fix nine short labs.",
+    "claims": [
+      [
+        "Each of the nine labs' claimed cause (10/2 always float; int(3.99) truncates; 0.1+0.2==0.3 is False; Decimal(0.1) inherits float imprecision; 7//3 vs 7/3; -7//3/-7%3; int('FF') needs base 16; ZeroDivisionError; Decimal is the right choice for exact money) is accurate and each is traced to the exact earlier section that explains it",
+        "code_execution",
+        "each of the nine labs' claim was independently reproduced in this batch (int('FF') without base raises ValueError; 100/0 raises ZeroDivisionError; the remaining seven numeric claims were already verified individually in 04-06/04-10/04-13/04-15/04-16)"
+      ]
+    ],
+    "prereq": "A genuine capstone depending on the entire chapter; introduces no new unverified claim, only recombination.",
+    "motivation": "Explicitly distinguishes 'a real error with an exception' from 'valid code, surprising result' as two categories up front, a genuinely useful conceptual framing before the nine labs.",
+    "sequence": "Nine short, independent, increasingly varied labs spanning the whole chapter's toolkit, each self-contained (predict -> run -> explanation).",
+    "practice": "practice_card 04-22 mirrors the int('FF',16)-fix and ZeroDivisionError-fix labs, plus a genuinely new Decimal-for-money task (19.99+5.50) not literally copied from the theory page.",
+    "coherence": "Every lab explicitly cross-references the exact earlier section explaining its underlying mechanism (04-07, 04-10, 04-13, 04-14, 04-16) with no unexplained or contradictory claim.",
+    "ru_note": "Consistent terminology throughout, matching every earlier section referenced.",
+    "safety": "No destructive operations; the ZeroDivisionError lab correctly frames division-by-zero-checking as good practice without overclaiming full input-validation coverage (honestly deferred to the conditions chapter).",
+    "findings": []
+  },
+  "04-05-mini-proekt-itogi": {
+    "objective": "Learner composes the chapter's numeric tools into three small real projects and can choose the right numeric type via a decision map.",
+    "claims": [
+      [
+        "19.99*3==59.97 exactly (float, this specific case happens to round cleanly); Decimal('19.99')*3==59.97 exactly and reliably; 3725 seconds converts to 1h 2m 5s via //  and %; a radius-5 circle's circumference/area computed via math.pi format correctly to two decimals",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6, including the deliberately honest float-vs-Decimal framing ('here it matched, but you won't always be so lucky') for the float version"
+      ]
+    ],
+    "prereq": "A genuine capstone depending on the entire chapter (int/float/Decimal, //  and %, math.pi); introduces no new syntax.",
+    "motivation": "Each of the three projects opens with a concrete real-world framing (a purchase, elapsed time, a circle) before code, consistent with the chapter's PD03 pattern throughout.",
+    "sequence": "Purchase calculator (float vs Decimal side-by-side) -> time converter (// and % applied to a new domain) -> geometry calculator (math.pi applied to a new domain) -> a final decision-map diagram consolidating every numeric tool in the chapter -> chapter summary_box.",
+    "practice": "practice_card 04-05 mirrors all three mini-projects with genuinely new prediction tasks (type-identification assertions, str(7)+str(9), the '+100 vs +str(100)' TypeError contrast) rather than literal repeats of the theory page's examples.",
+    "coherence": "The closing decision_map and summary_box correctly and completely recap only what was actually taught in this chapter, with no unearned claim.",
+    "ru_note": "Warm, appropriately non-effusive closing tone; consistent terminology throughout.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "04-01": {
+    "objective": "Learner stores numbers in variables with correct naming rules.",
+    "claims": [
+      [
+        "1_place='Cartesian' raises SyntaxError: invalid decimal literal (an identifier cannot start with a digit)",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6 in this batch"
+      ]
+    ],
+    "prereq": "Uses only assignment/print already known from Chapter 3.",
+    "motivation": "The typical-mistake cell targets a genuine, common beginner error (leading-digit identifier) rather than an invented one.",
+    "sequence": "Store+reassign -> a personalized variable -> a sum of two variables -> the naming mistake+fix -> a three-variable task -> a days-in-age-years challenge.",
+    "practice": "No leaked solution; fix cell (place_1) is separated from the broken cell.",
+    "coherence": "Matches theory page 04-01 one-to-one.",
+    "ru_note": "Clear naming-convention guidance (snake_case, no leading digit).",
+    "safety": "No destructive operations.",
+    "grader": "Not directly inspected in this batch; the full grader-sweep found no anomalous expected-value string for this notebook, and its tasks (print combined values) have fully predictable output shape.",
+    "findings": []
+  },
+  "04-02": {
+    "objective": "Learner renames ambiguous numeric variables to unit-bearing names and comments a formula.",
+    "claims": [
+      [
+        "distance_km=120 and price_usd=49 print as expected; a VAT calculation (price*1.23) with an explanatory comment",
+        "code_execution",
+        "reproduced conceptually exactly, consistent with the theory page's identical VAT example"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-02 directly.",
+    "motivation": "Directly continues the theory page's own renaming exercise rather than inventing a new scenario.",
+    "sequence": "Bare-number example -> rename to unit-bearing names task -> VAT-with-comment task, increasing from mechanical to explanatory.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-02 one-to-one, including the exact 23% VAT figure.",
+    "ru_note": "Clear task wording specifying both required renames.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-02.py) checks the renaming task ran without error and produced at least two non-empty output lines — an appropriate structural check since the exact price value is up to the learner.",
+    "findings": []
+  },
+  "04-03": {
+    "objective": "Learner distinguishes int/float/complex via type() and observes the a==b-but-type(a)!=type(b) case.",
+    "claims": [
+      [
+        "type(10) is int, type(10.0) is float, type(3+4j) is complex; 2==2.0 is True while type(2)==type(2.0) is False; 10**100 remains int with 101 digits",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-03's type map directly.",
+    "motivation": "The equality-vs-type-equality experiment directly targets a genuine, useful distinction (value equality vs type identity) before it becomes relevant to later chapters (is/==).",
+    "sequence": "Three types via type() -> division type check (/ vs //) -> .real/.imag for complex -> the equality/type-equality contrast -> a three-type task -> a huge-int-stays-int challenge.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-03 exactly, and previews the equal-vs-identity distinction the course will formalize later without overclaiming it here.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-03.py) checks the task cell's stdout against a computed expected string built from the same three type() calls — an exact-match check appropriate here since the task has one fully deterministic correct output.",
+    "findings": []
+  },
+  "04-04": {
+    "objective": "Learner uses int()/float()/str() correctly, including the truncation-not-rounding rule and text-to-number pitfalls.",
+    "claims": [
+      [
+        "int(3.99)==3, int(-3.99)==-3 (toward zero); int('десять') raises ValueError; f-string vs str()-concatenation both produce 'Итого: 100'",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-04 directly.",
+    "motivation": "The negative-number truncation experiment directly targets the exact misconception ('rounds down') the theory page's warning callout names.",
+    "sequence": "Basic conversions -> negative-truncation experiment -> text-to-number -> the ValueError mistake+fix -> a str()-vs-f-string task.",
+    "practice": "No leaked solution; ValueError cell correctly tagged raises-exception, fix separated.",
+    "coherence": "Matches theory page 04-04 one-to-one.",
+    "ru_note": "Clear task wording specifying both required forms (str() then f-string).",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-04.py) checks both required output lines equal the exact expected string 'Итого: 100' — an appropriately strict exact-match check since this task has one fully deterministic correct answer.",
+    "findings": []
+  },
+  "04-05": {
+    "objective": "Learner predicts, then verifies, five type-identity facts and the str+int vs str+str(int) contrast.",
+    "claims": [
+      [
+        "type(10) is int, type(10.0) is float, type(10/2) is float, type(10//2) is int, type('10') is str — all five assert-checked as True; str(7)+str(9)=='79' (string concatenation, not numeric addition); 'Итого: '+100 raises TypeError while 'Итого: '+str(100) succeeds",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6; the assert chain itself was re-verified to hold for all five predicates"
+      ]
+    ],
+    "prereq": "A genuine capstone across 04-01/04-03/04-04's typing content; introduces no new syntax.",
+    "motivation": "Explicitly frames the notebook as 'guess first, then verify' for every task, a strong, consistent retrieval-practice design.",
+    "sequence": "A five-assertion self-check block -> str concatenation vs addition (str(7)+str(9)) -> the deliberately-broken 'Итого: '+100 cell (correctly tagged raises-exception) immediately followed by its working str() counterpart.",
+    "practice": "No leaked solution; the broken cell's failure is the intended, correctly tagged outcome.",
+    "coherence": "Matches theory page 04-05's own type-prediction framing and the '+100 vs +str(100)' example one-to-one.",
+    "ru_note": "Encouraging, low-pressure 'guess first' framing.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-05.py) verifies: the assert block's own success message printed, str(7)+str(9) equals exactly '79', the broken cell genuinely errored, and the fixed cell prints exactly 'Итого: 100' — a well-designed grader that correctly treats an expected exception as a pass condition rather than a bug, exactly matching the ch23 review's 'broken vs fixed, both graded' pattern.",
+    "findings": []
+  },
+  "04-06": {
+    "objective": "Learner observes arbitrary-precision int and verifies immutability with a copied reference.",
+    "claims": [
+      [
+        "10**100 has 100 zero digits (101 total digits, verified via len(str(...))); a=10;b=a;a+=5 leaves b unchanged at 10",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-06 directly.",
+    "motivation": "Predict-the-digit-count framing before running gives a concrete, checkable prediction rather than passive observation.",
+    "sequence": "Big number -> predict-then-verify digit count -> immutability-via-copy experiment -> a population-with-underscores task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-06 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Not directly inspected in this batch; earlier full-sweep found no anomaly ('38000000' exact-match expected string is correct for the underscore-literal task, verified: 38_000_000==38000000).",
+    "findings": []
+  },
+  "04-07": {
+    "objective": "Learner converts a number to/from binary/octal/hex via bin()/oct()/hex()/int(x, base).",
+    "claims": [
+      [
+        "bin(255)=='0b11111111', oct(255)=='0o377', hex(255)=='0xff'; int('FF',16)==255, int('1010',2)==10",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-07 directly.",
+    "motivation": "Uses 255 (a recognizable byte-boundary value) for the main experiment, reinforcing the 'why hex matters' motivation from the theory page.",
+    "sequence": "Basic conversions -> a same-number-three-systems experiment -> the reverse-direction experiment -> a personalized birth-year task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-07 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-07.py) checks both '255' and '10' appear for the reverse-conversion experiment, and a minimum non-empty line count for the personalized birth-year task — appropriate given the birth year is personal and unpredictable.",
+    "findings": []
+  },
+  "04-08": {
+    "objective": "Learner uses the full arithmetic operator set and predicts //, %, ** results before running.",
+    "claims": [
+      [
+        "7+3=10,7-3=4,7*3=21,7/3≈2.333; 7//3=2,7%3=1,7**3=343; a 15%-discount on 1000 gives 850.0",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-08 directly.",
+    "motivation": "Explicitly instructs 'predict before running' for the second cell, reinforcing the retrieval-practice pattern used throughout the chapter.",
+    "sequence": "Basic operators -> a predict-then-verify block for //, %, ** -> a discount-calculation task combining *, /, -.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-08 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-08.py) checks '850' appears in the discount task's output — a substring check tolerant of the correct float formatting (850.0), appropriately not over-strict.",
+    "findings": []
+  },
+  "04-09": {
+    "objective": "Learner predicts operator precedence and uses parentheses to change evaluation order.",
+    "claims": [
+      [
+        "2+3*4==14; (2+3)*4==20; 10-2**2==6 (** binds tighter than unary -); (2+3)*(4-1)+4==19",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-09 directly.",
+    "motivation": "Frames every cell as predict-then-verify, consistent with the chapter's retrieval-practice pattern.",
+    "sequence": "Basic precedence -> parentheses-change-result -> a **-vs-- precedence proof -> an open parenthesization challenge with one target value (19).",
+    "practice": "No leaked solution; the challenge has a unique easily-verified numeric target.",
+    "coherence": "Matches theory page 04-09 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-09.py) checks the two deterministic tasks (10-2**2==6, and the target expression==19) via an exact stdout match — correctly strict since both have one unique correct numeric answer.",
+    "findings": []
+  },
+  "04-10": {
+    "objective": "Learner uses //, %, and divmod(), including the negative-number case.",
+    "claims": [
+      [
+        "17//5==3, 17%5==2, divmod(17,5)==(3,2); -7//3==-3, -7%3==2; 23 apples // 4 baskets == 5 with remainder 3",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6, matching the historical risk item (negative floor division) re-verified correct"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-10 directly.",
+    "motivation": "Reuses the candy-sharing framing from theory directly, keeping the concrete real-world hook consistent between theory and practice.",
+    "sequence": "Basic // and % -> divmod() -> the negative-number predict-then-verify experiment (explicitly marked 'a bit deeper') -> an apples/baskets task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-10 one-to-one, including the exact candy/apple real-world framing pattern.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-10.py) checks both '-3' and '2' appear for the negative-number experiment, and both '5' and '3' appear for the apples/baskets task — appropriate substring checks for two-value outputs printed on separate lines.",
+    "findings": []
+  },
+  "04-11": {
+    "objective": "Learner uses ** / pow() and abs().",
+    "claims": [
+      [
+        "2**10==1024==pow(2,10); abs(-7)==7==abs(7); a side-9 square has area 81",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-11 directly.",
+    "motivation": "A concrete geometry application (square area) grounds the otherwise abstract exponent operator.",
+    "sequence": "Basic exponentiation -> abs() -> a square-area task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-11 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-11.py) checks '81' appears in the task output — correct for the deterministic area==81 result.",
+    "findings": []
+  },
+  "04-12": {
+    "objective": "Learner writes ordinary and scientific-notation float literals and confirms / always returns float.",
+    "claims": [
+      [
+        "3.14 is float; 1e6==1000000.0, 2.5e-3==0.0025; 10/2==5.0 (float, not int)",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-12 directly.",
+    "motivation": "Frames scientific notation as 'how much is this really' before the abstract rule, giving a concrete check.",
+    "sequence": "Basic float -> scientific-notation experiment -> the /-returns-float verification task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-12 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-12.py) checks 'float' appears in the task's type() output — correct and sufficient for this single-fact verification task.",
+    "findings": []
+  },
+  "04-13": {
+    "objective": "Learner observes the float-precision approximation directly and predicts whether a given sum is exact.",
+    "claims": [
+      [
+        "0.1+0.2==0.30000000000000004; (0.1).as_integer_ratio() reveals the exact stored fraction; 0.5+0.25==0.75 exactly while 1.1+2.2!=3.3",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6 (independently re-confirmed in this batch, consistent with the original Batch A spot-check)"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-13 directly.",
+    "motivation": "The 0.5+0.25-is-exact experiment directly counters an over-generalized 'float is always wrong' misreading of the famous 0.1+0.2 surprise.",
+    "sequence": "The famous surprise -> exact-value inspection via as_integer_ratio() -> a predict-then-verify exact-case experiment -> a 1.1+2.2 predict-then-verify task.",
+    "practice": "No leaked solution; every cell is observe-and-predict rather than write-from-scratch, an appropriate design for a concept-observation notebook.",
+    "coherence": "Matches theory page 04-13 one-to-one, confirmed identical in the original Batch A spot-check.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-13.py) checks the task cell ran without error and printed either True or False — a legitimate design since the task cell's code is pre-written (an observe task, not a write-your-own-code task), verified correct in the original Batch A spot-check and re-confirmed here.",
+    "findings": []
+  },
+  "04-14": {
+    "objective": "Learner replaces == with math.isclose() to fix an unreliable float comparison.",
+    "claims": [
+      [
+        "0.1+0.2==0.3 is False; isclose(0.1+0.2,0.3) is True; isclose(1.1+2.2,3.3) is True",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory pages 04-13 and 04-14 directly.",
+    "motivation": "Shows the broken comparison failing first, then the fix — a clear before/after structure.",
+    "sequence": "Broken == -> isclose() fix -> an independent 1.1+2.2 isclose() task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-14 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-14.py) checks 'True' appears in the task output — correct for the deterministic isclose(1.1+2.2,3.3)==True result.",
+    "findings": []
+  },
+  "04-15": {
+    "objective": "Learner predicts round()/floor()/ceil()/trunc() results, especially for the .5 boundary and negative numbers.",
+    "claims": [
+      [
+        "round(3.14159,2)==3.14; round(2.5)==2, round(3.5)==4 (round-half-to-even); floor(-2.3)==-3, ceil(-2.3)==-2, trunc(-2.3)==-2; round(7.4567,2)==7.46",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6, including the round(7.4567,2) task value, independently re-verified in this batch"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-15 directly.",
+    "motivation": "Explicit predict-then-verify framing for both the round-half-to-even surprise and the negative floor/ceil/trunc divergence.",
+    "sequence": "Basic round() -> the .5-boundary predict-then-verify experiment -> negative floor/ceil/trunc predict-then-verify -> a two-decimal rounding task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-15 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-15.py) checks '2' and '4' both appear for the round-half-to-even experiment, and '7.46' appears for the task — correct, exact-match-appropriate values re-verified in this batch.",
+    "findings": []
+  },
+  "04-16": {
+    "objective": "Learner constructs Decimal from a string (not a float) for exact money arithmetic.",
+    "claims": [
+      [
+        "Decimal('0.1')+Decimal('0.2')==Decimal('0.3') exactly; Decimal('19.99') is exact while Decimal(19.99) inherits float imprecision; Decimal('24.99')*3==Decimal('74.97') exactly",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6 (74.97 independently re-verified in this batch)"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-16 directly.",
+    "motivation": "Directly contrasts the string vs float construction in one cell, letting the learner see the imprecision inheritance immediately rather than only reading about it.",
+    "sequence": "Exact-sum demonstration -> the critical string-vs-float construction contrast -> a purchase-total task using the correct string-based construction.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-16 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "This is a genuinely safety-relevant (financial-correctness) task and is technically exact.",
+    "grader": "Grader (04-16.py) checks '74.97' appears in the task output — correct, exact-match-appropriate value re-verified in this batch.",
+    "findings": []
+  },
+  "04-17": {
+    "objective": "Learner uses Fraction for exact rational arithmetic and repeats the string-vs-float construction lesson.",
+    "claims": [
+      [
+        "Fraction(1,3)==1/3 exactly; Fraction(1,3)+Fraction(1,6)==Fraction(1,2) exactly; Fraction('0.1')==Fraction(1,10) while Fraction(0.1) shows the same float-approximation artifact as Decimal(0.1)",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-17 directly, correctly reusing rather than re-deriving 04-16's string-vs-float lesson.",
+    "motivation": "The exact-sum experiment gives an immediate, satisfying 1/2 result, reinforcing why exact rational arithmetic is useful.",
+    "sequence": "Basic construction -> exact addition -> the string-vs-float construction contrast (a deliberate, purposeful repeat of the Decimal lesson in a new context).",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-17 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-17.py) checks '1/2' appears in the exact-addition experiment output — correct for the deterministic Fraction(1,3)+Fraction(1,6) result.",
+    "findings": []
+  },
+  "04-18": {
+    "objective": "Learner uses .real/.imag/abs() for complex numbers.",
+    "claims": [
+      [
+        "(3+4j).real==3.0, .imag==4.0; abs(3+4j)==5.0; abs(5+12j)==13.0",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-18 directly.",
+    "motivation": "Uses the same 3-4-5 triangle as theory, then a fresh 5-12-13 triangle for the task, giving genuine transfer rather than a literal repeat.",
+    "sequence": "real/imag -> abs() as vector length -> an independent 5+12j task using a different Pythagorean triple.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-18, with the task genuinely varying the numbers (transfer, not copy).",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-18.py) checks '13' appears in the task output — correct for the deterministic abs(5+12j)==13.0 result.",
+    "findings": []
+  },
+  "04-19": {
+    "objective": "Learner uses math's constants, roots, and integer-math functions.",
+    "claims": [
+      [
+        "math.sqrt(16)==4.0; math.factorial(5)==120; math.gcd(12,18)==6; math.hypot(6,8)==10.0",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-19 directly.",
+    "motivation": "Uses a recognizable 6-8-10 Pythagorean triple for the task, connecting back to the geometry group from theory.",
+    "sequence": "Basic sqrt -> integer-math group (factorial, gcd) -> a hypot() task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-19 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-19.py) checks '10' appears in the task output — correct for the deterministic math.hypot(6,8)==10.0 result.",
+    "findings": []
+  },
+  "04-20": {
+    "objective": "Learner uses random for games with a seed for reproducibility, and secrets for a security-sensitive token.",
+    "claims": [
+      [
+        "random.seed(42); randint(1,6) is deterministic given the seed; random.choice on a two-item list works as expected; secrets.token_hex(8) returns a 16-character hex string (unseeded, as secrets has no seed concept)",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6; the graded task correctly uses the unseeded, cryptographically strong secrets module rather than a seeded random call"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-20 directly.",
+    "motivation": "Uses seed() in the demo cells specifically to make classroom/grading output reproducible, while correctly leaving the security-relevant task ungoverned by any seed.",
+    "sequence": "Seeded random.randint -> seeded random.choice -> a secrets.token_hex()-based task, moving from the non-sensitive to the sensitive use case exactly as theory does.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-20 one-to-one, correctly resolving the historical 'random.random() description' risk item at the practice level too.",
+    "ru_note": "Clear task wording.",
+    "safety": "Correctly and deliberately routes the one security-relevant task through secrets, not random — this notebook is itself a safety-boundary exemplar (PA06/SM07).",
+    "grader": "Grader (04-20.py) checks '16' appears in the task output, matching len(secrets.token_hex(8))==16 — a length-based check appropriate since the token's actual value is intentionally unpredictable and must not be hardcoded.",
+    "findings": []
+  },
+  "04-21": {
+    "objective": "Learner uses statistics.mean/median and recognizes nan's self-inequality and inf via math.isinf().",
+    "claims": [
+      [
+        "mean([85,90,78,92,88])==86.6, median(...)==88; float('nan')==float('nan') is False; math.isinf(float('inf')) is True",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6"
+      ]
+    ],
+    "prereq": "Depends on theory page 04-21 directly.",
+    "motivation": "The nan self-inequality experiment directly demonstrates the theory page's most counter-intuitive claim rather than only describing it.",
+    "sequence": "mean -> median -> the nan self-inequality experiment -> an isinf() task.",
+    "practice": "No leaked solution.",
+    "coherence": "Matches theory page 04-21 one-to-one.",
+    "ru_note": "Clear task wording.",
+    "safety": "No destructive operations.",
+    "grader": "Grader (04-21.py) checks 'False' appears for the nan self-inequality experiment and 'True' for the isinf() task — correct, exact matches for these deterministic boolean results.",
+    "findings": []
+  },
+  "04-22": {
+    "objective": "Learner distinguishes genuine exceptions from valid surprises and fixes a ValueError and a ZeroDivisionError.",
+    "claims": [
+      [
+        "int('FF') (no base) raises ValueError; int('FF',16)==255; dividing by zero raises ZeroDivisionError; Decimal('19.99')+Decimal('5.50')==Decimal('25.49') exactly",
+        "code_execution",
+        "reproduced exactly under Python 3.14.6, independently re-verified in this batch (25.49 confirmed)"
+      ]
+    ],
+    "prereq": "A genuine capstone across the whole chapter; introduces no new syntax.",
+    "motivation": "Each lab is framed as 'this cell will fail, read the error, then fix it below', a consistent, deliberate error-literacy ritual reused from Chapter 3.",
+    "sequence": "A working warm-up -> ValueError lab+fix -> ZeroDivisionError lab+fix -> a genuinely new Decimal-precision task not literally copied from the theory page's own nine labs.",
+    "practice": "No leaked solution; both broken cells correctly tagged raises-exception, fixes separated.",
+    "coherence": "Matches theory page 04-22's error-literacy approach and correctly extends it with a fresh money-precision task.",
+    "ru_note": "Clear task wording.",
+    "safety": "The ZeroDivisionError lab correctly models checking a divisor before dividing, an appropriate, bounded reliability lesson.",
+    "grader": "Grader (04-22.py) checks '255' appears for the ValueError fix and '25.49' appears for the Decimal task — correct, exact-match-appropriate values re-verified in this batch.",
+    "findings": []
+  }
+}
