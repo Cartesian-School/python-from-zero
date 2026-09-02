@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH16-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:16:theory:index",
+    "kind": "chapter_opener",
+    "title": "Создаём классные приложения с Tkinter",
+    "canonical_source_path": "scripts/build_chapter_16.py",
+    "baseline_source_sha256": "371a0921b9767cb8b8934d3462d115ed507391ecdd112bfe3d14ba5d4a7e8457",
+    "reviewed_source_sha256": "371a0921b9767cb8b8934d3462d115ed507391ecdd112bfe3d14ba5d4a7e8457",
+    "review_surface_path": "site/chapters/glava-16/index.html",
+    "review_surface_sha256": "d6d4c6eaf37bc5ba0fdc37addc866cf1ebe20bd9a5cb3e780374e4913bf68eb7"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "336ce5aed62322591d3cc84da1d158f324968fb0",
+    "started_at": "2026-09-02T13:19:43+00:00",
+    "completed_at": "2026-09-02T13:19:43+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can build a Tkinter window with widgets, correctly distinguish event-driven from sequential execution, and lay out forms using pack()/grid() (including adaptive weight/sticky) without mixing geometry managers in one parent.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can use dialogs (messagebox/filedialog) correctly by checking their actual return values, use after() instead of time.sleep() to avoid freezing the interface, and structure a real application as a class combining validated input, pure domain logic, and JSON-based settings persistence.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch D assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_16.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py (under xvfb-run where the chapter uses turtle/tkinter), independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T13:19:43+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "All 33 theory lessons were read in full and every executable/numeric claim (root.quit() vs destroy(), the missing-@setter-equivalent PhotoImage garbage-collection gotcha, grid-weight distribution arithmetic, format_time, calculate_tip, the late-binding-lambda trap, temperature conversion, timer tick/running logic, to-do list filtering) was independently re-executed under Python 3.14.6 and found correct -- zero defects found in this chapter, an unusually clean result for a GUI-framework chapter.",
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python-3.14-specific and Tkinter/Tcl-specific behaviors (Scale.get() returning float, Combobox readonly semantics, filedialog's empty-string-not-None cancellation return, dataclass-adjacent late-binding closure behavior) verified against the actual installed 3.14.6 interpreter and Tk toolkit under xvfb.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "событийно-ориентированное программирование, виджет, callback/command/event all used precisely and consistently, matching real Russian-language Tkinter usage; three new terminology register entries added.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises the event model/mainloop, the widget tree, tk/ttk, layout (pack/grid/place), Tk variables, choice widgets, dialogs, Toplevel, focus/accessibility, after()/timers, validation, architecture, and persistent settings; full-chapter reading confirms every promised topic is delivered in the stated order.",
+      "evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "This chapter has no random/reproducibility-dependent claims; not applicable beyond confirming its absence.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "The opener states the chapter's scope (event model, widgets, layout, dialogs, timers, validation, architecture) as concrete, checkable topics.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Assumes Chapter 13's function-as-object model (for command=), Chapter 14's object/composition model (for App HAS-A root), and Chapter 15's JSON persistence (for settings) -- all explicitly and correctly cross-referenced rather than silently assumed.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Opens by explicitly contrasting sequential terminal execution (Chapters 1-15) with event-driven GUI execution before any widget syntax, consistent with the course's concept-before-syntax pedagogy.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "33 sections are chunked into clear sub-arcs (setup/first widgets -> event model concepts -> widget families/layout -> choice widgets/indicators -> dialogs/windows -> responsiveness/validation -> architecture -> mini-projects -> debugging/quality) rather than one undifferentiated list.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "16-31's Tip Calculator Pro closes the chapter's main arc with genuine transfer (evolving 16-08's foundation through validation, ttk, menu, and settings persistence via an explicit V1-V8 capability map) rather than a topic recap.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Chapter 13's function-as-object model, Chapter 14's composition (HAS-A), and Chapter 15's JSON+pathlib persistence pattern are all explicitly and correctly reused verbatim (16-25/16-31), not re-derived or re-explained inconsistently.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references (16-08->16-31's promised full evolution, 16-22->16-28's applied timer pattern, 16-23->16-27's validator-choice contrast) were checked and verified accurate once the referenced sections were themselves reviewed.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "16-27 explicitly and correctly explains why it reuses parse_number rather than validate_positive_amount from 16-23 (temperatures can be negative) -- a genuine, verified design justification rather than silent inconsistency.",
+      "evidence_refs": [
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 33 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_16.py in full (3074 lines, 33 lesson-builder functions plus opener) covering the event model, widget tree, tk/ttk, layout, Tk variables, choice/indicator widgets, dialogs, Toplevel, focus/accessibility, after()/timers, validation, architecture, and mini-projects.",
+      "locator": "scripts/build_chapter_16.py:1-3074",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every numeric/behavioral claim across all 33 sections independently re-executed under the project's .venv Python 3.14.6 (including headless Tk widget construction under xvfb for the notebooks); zero defects found.",
+      "locator": ".venv/bin/python3 and xvfb-run .venv/bin/python (interactive and notebook verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "All PAGES entries resolve to real, populated lesson-builder functions; all referenced screenshot assets (26 PNG files under site/assets/img/chapter-16/output/) verified present and correctly named against every image_figure() call in the source.",
+      "locator": "scripts/build_chapter_16.py:62-97; site/assets/img/chapter-16/output/",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "16-27's choice of parse_number over validate_positive_amount verified as a genuine, correct design decision (negative Celsius temperatures are valid; a positive-only validator would incorrectly reject them).",
+      "locator": "scripts/build_chapter_16.py:16-23-validatsiya-vvoda; scripts/build_chapter_16.py:16-27-mini-proekt-konverter-temperatur",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable/numeric claim verified against real Python 3.14.6 execution (including headless Tk under xvfb), all 32 notebooks and 12 graders for this chapter independently re-executed and re-verified, zero defects found; no blocker/major/minor findings open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T13:19:43+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "M01-I04 Batch D opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}

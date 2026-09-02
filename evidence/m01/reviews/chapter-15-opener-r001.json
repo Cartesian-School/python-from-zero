@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH15-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:15:theory:index",
+    "kind": "chapter_opener",
+    "title": "Python и файлы",
+    "canonical_source_path": "scripts/build_chapter_15.py",
+    "baseline_source_sha256": "1e6ebac252fb34cd9a0efc80993f47f5c4898fda70c4888f002fc5c7994fdf9a",
+    "reviewed_source_sha256": "1e6ebac252fb34cd9a0efc80993f47f5c4898fda70c4888f002fc5c7994fdf9a",
+    "review_surface_path": "site/chapters/glava-15/index.html",
+    "review_surface_sha256": "987bb40237f5372345d908a40435a673845bc1dad6e557ece6ea940ab5699019"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "336ce5aed62322591d3cc84da1d158f324968fb0",
+    "started_at": "2026-09-02T13:19:43+00:00",
+    "completed_at": "2026-09-02T13:19:43+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can construct and inspect paths with pathlib.Path, correctly distinguish absolute/relative paths and CWD from the script's own directory, and read/write text and binary files safely with explicit UTF-8 encoding using with.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can choose an appropriate serialization format (JSON vs CSV vs plain text), use the json/csv modules correctly instead of naive string splitting, and apply a safe-save (temp-file-then-replace) pattern within a sandboxed working directory.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch D assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_15.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py (under xvfb-run where the chapter uses turtle/tkinter), independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T13:19:43+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 3,
+      "rationale": "One factual defect was found and fixed during this batch: F-015 (MINOR, 15-25) had a stale JSONDecodeError text for a trailing-comma case that Python 3.13+ now reports with a more specific message. Every other claim across all 31 sections (cursor/seek/tell sequences, encoding/decoding byte counts, CSV parsing, streaming-analyzer counts) was independently re-executed under Python 3.14.6 and found correct.",
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python-3.14-specific behaviors (the current, more specific JSONDecodeError wording for the fixed defect above, exact UnicodeDecodeError/FileNotFoundError/IsADirectoryError text, universal-newlines text-mode behavior) verified against the actual installed 3.14.6 interpreter.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "текущая рабочая директория (CWD), сериализация/десериализация used precisely and consistently; two new terminology register entries added for this chapter's most decision-worthy vocabulary.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises files/persistence, paths/pathlib/CWD, the file object/cursor/with, text vs bytes/encoding, folders/errors, JSON/CSV, and safe file handling; full-chapter reading confirms every promised topic is delivered in the stated order.",
+      "evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "This chapter has no random/reproducibility-dependent claims; not applicable beyond confirming its absence.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "The opener states the chapter's scope (paths, files, encoding, JSON/CSV, safety) as concrete, checkable topics.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Assumes only Chapter 14's object model (for Path and file objects) and Chapter 11's dict/list (for JSON structures); every new term is introduced before being relied on.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Opens with 'where do variables go when the program ends' -- a concrete, motivating question -- before any open()/Path syntax, consistent with the course's problem-first pedagogy.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "31 sections are chunked into clear sub-arcs (why files -> paths/CWD/pathlib -> the file object/cursor/modes/encoding -> folders/search/errors -> big files/format choice -> JSON/CSV -> safety -> browser vs disk) rather than one undifferentiated list.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "15-29's leaderboard mini-project closes the JSON/CSV block with genuine transfer (a full load->mutate->sort->save pipeline) rather than a topic recap.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Chapter 14's object model is explicitly and correctly reused for Path and the file object (15-08, 15-11); Chapter 14's asdict()/dataclass Player is directly reused in 15-26 without re-teaching.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references (15-24->15-25/15-27, 15-25->16-25's forward reference) were checked; the 16-25 forward reference was independently verified accurate once Chapter 16 was itself reviewed.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "15-07's CWD-is-not-script-folder distinction is correctly and consistently reused as the basis for 15-10's BASE_DIR pattern and 16-31's settings-path discussion, not silently re-derived.",
+      "evidence_refs": [
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 31 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_15.py in full (2799 lines, 31 lesson-builder functions plus opener) covering files/persistence, paths/pathlib/CWD, the file object/cursor/modes/encoding, folders/search/errors, big files, format choice, JSON/CSV, and safe file handling.",
+      "locator": "scripts/build_chapter_15.py:1-2799",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every numeric/behavioral claim across all 31 sections independently re-executed under the project's .venv Python 3.14.6, including all cursor/seek/tell sequences, encoding byte counts, and the streaming analyzer's line/word/char/byte counts; found one defect (F-015, now fixed), all else correct.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "All PAGES entries resolve to real, populated lesson-builder functions; the 15-25->16-25 forward reference (settings persistence reused unmodified in the GUI chapter) was independently verified accurate once Chapter 16 was reviewed.",
+      "locator": "scripts/build_chapter_15.py:54-87; scripts/build_chapter_16.py:16-25-klass-prilozheniya-i-nastrojki",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "15-07's CWD distinction verified as the basis reused (without contradiction) by 15-10's BASE_DIR pattern and 16-31's settings-path discussion.",
+      "locator": "scripts/build_chapter_15.py:15-07-tekushaya-rabochaya-directoriya; scripts/build_chapter_16.py:16-31-tip-calculator-pro",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable/numeric claim verified against real Python 3.14.6 execution, all 30 notebooks and 28 graders for this chapter independently re-executed and re-verified, one confirmed defect (F-015) found and fixed; no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T13:19:43+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "M01-I04 Batch D opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}
