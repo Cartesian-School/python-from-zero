@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
+import subprocess
 from pathlib import Path
 from types import ModuleType
-
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_PATH = ROOT / "scripts" / "validate_ru_content_review.py"
@@ -33,6 +34,14 @@ def _documents() -> tuple[dict, dict, dict]:
         json.loads(path.read_text(encoding="utf-8"))
         for path in (RUBRIC_PATH, INVENTORY_PATH, SCHEMA_PATH)
     )
+
+
+def _head_commit() -> str:
+    """Return the current HEAD commit SHA, for tests that need a real, git-resolvable commit."""
+
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True
+    ).stdout.strip()
 
 
 def _approved_record() -> dict:
@@ -102,7 +111,7 @@ def _approved_record() -> dict:
         },
         "review_context": {
             "baseline_commit": inventory["baseline"]["commit_sha"],
-            "review_commit": "a" * 40,
+            "review_commit": _head_commit(),
             "started_at": "2026-08-28T10:00:00+00:00",
             "completed_at": "2026-08-28T12:00:00+00:00",
             "python_version": "3.14.2",
@@ -306,3 +315,116 @@ def test_needs_rework_record_with_open_finding_passes() -> None:
         },
     ]
     assert _errors(record) == []
+
+
+def test_scope_completeness_passes_when_every_scoped_unit_has_a_record(tmp_path: Path) -> None:
+    """A batch's --chapters scope is complete once every unit in it has a record."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+
+    # Chapter 3 has exactly 10 canonical notebooks; stub a minimal record for
+    # each so the scope is fully covered (check_scope_completeness only reads
+    # unit.inventory_ref, so a minimal stub is sufficient here).
+    refs = validator.scope_inventory_refs(inventory, {3}, {"notebook"})
+    assert len(refs) == 10
+    paths = []
+    for i, ref in enumerate(sorted(refs)):
+        path = tmp_path / f"stub-{i}.json"
+        path.write_text(json.dumps({"unit": {"inventory_ref": ref}}), encoding="utf-8")
+        paths.append(path)
+
+    errors = validator.check_scope_completeness(inventory, paths, {3}, {"notebook"})
+    assert errors == []
+
+
+def test_scope_completeness_reports_every_missing_unit(tmp_path: Path) -> None:
+    """An incomplete batch names every uncovered unit rather than failing silently."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+    record = _approved_record()
+    path = tmp_path / "chapter_03_practice_03-01-r001.json"
+    path.write_text(json.dumps(record), encoding="utf-8")
+
+    # Chapter 3 has 10 canonical notebooks; covering only one must fail loudly
+    # and name the other nine so a human is never left to count JSON files.
+    errors = validator.check_scope_completeness(inventory, [path], {3}, {"notebook"})
+    assert len(errors) == 1
+    assert "chapter:03:practice:03-02" in errors[0]
+    assert "chapter:03:practice:03-10" in errors[0]
+    assert "chapter:03:practice:03-01" not in errors[0]
+
+
+def test_scope_completeness_ignores_out_of_scope_chapters() -> None:
+    """Chapters outside --chapters must never block a batch's own completeness gate."""
+
+    validator = _load_validator()
+    _rubric, inventory, _schema = _documents()
+
+    # No records at all, and a chapter number that does not exist: the scope
+    # is legitimately empty, so nothing in it can be missing coverage.
+    errors = validator.check_scope_completeness(inventory, [], {9999}, None)
+    assert errors == []
+
+
+def test_review_commit_binding_passes_for_a_real_commit_and_matching_source() -> None:
+    """A record whose review_commit genuinely contains the reviewed bytes must pass."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    path = "notebooks/chapter-03/03-01-first-program.ipynb"
+    actual_sha256 = subprocess.run(
+        ["git", "show", f"{head}:{path}"], cwd=ROOT, capture_output=True, check=True
+    ).stdout
+
+    error = validator.verify_review_commit_binding(
+        head, path, hashlib.sha256(actual_sha256).hexdigest(), repository_root=ROOT
+    )
+    assert error is None
+
+
+def test_review_commit_binding_rejects_unknown_commit() -> None:
+    """An unresolvable review_commit must fail loudly, not be silently skipped."""
+
+    validator = _load_validator()
+    error = validator.verify_review_commit_binding(
+        "a" * 40,
+        "notebooks/chapter-03/03-01-first-program.ipynb",
+        "b" * 64,
+        repository_root=ROOT,
+    )
+    assert error is not None
+    assert "unknown commit or path" in error
+
+
+def test_review_commit_binding_rejects_checksum_mismatch() -> None:
+    """A real commit/path with the wrong declared checksum must fail loudly."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    error = validator.verify_review_commit_binding(
+        head,
+        "notebooks/chapter-03/03-01-first-program.ipynb",
+        "0" * 64,
+        repository_root=ROOT,
+    )
+    assert error is not None
+    assert "does not match the bytes" in error
+
+
+def test_review_commit_binding_passes_when_reviewed_diverges_from_baseline() -> None:
+    """A corrected unit (reviewed != baseline) must still pass when review_commit
+    genuinely contains the corrected bytes -- exactly the F-002/F-003/F-004 shape."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    path = "scripts/build_chapter_02.py"
+    current_bytes = (ROOT / path).read_bytes()
+    current_sha256 = hashlib.sha256(current_bytes).hexdigest()
+    # The frozen baseline hash predates this batch's corrections and must differ
+    # from the current reviewed hash for this scenario to be meaningful.
+    assert current_sha256 != "415977026a143d9e8424b683097982421ed0990f8fa1ca78a44b7f344cfecbe1"
+
+    error = validator.verify_review_commit_binding(head, path, current_sha256, repository_root=ROOT)
+    assert error is None

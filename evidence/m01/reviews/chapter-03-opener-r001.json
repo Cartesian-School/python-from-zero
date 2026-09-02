@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH03-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:03:theory:index",
+    "kind": "chapter_opener",
+    "title": "Ваша первая программа на Python",
+    "canonical_source_path": "scripts/build_chapter_03.py",
+    "baseline_source_sha256": "5bbf7ad87f372511f04de10394d1c93a37334435cec49836176f8f4635ac0664",
+    "reviewed_source_sha256": "5bbf7ad87f372511f04de10394d1c93a37334435cec49836176f8f4635ac0664",
+    "review_surface_path": "site/chapters/glava-03/index.html",
+    "review_surface_sha256": "de281f44a9b09e83fab8a0b88e7f7ca304fb91281bb8dec61e61ec0af6fe312e"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f5672a68d362a150b6fb3df461c55eb7843ca418",
+    "started_at": "2026-09-02T00:00:00+00:00",
+    "completed_at": "2026-09-02T00:00:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "After Chapter 3 the learner can create and run a .py file, use the Python REPL and print()/input(), and correctly read SyntaxError/NameError/IndentationError tracebacks.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can explain names as references to objects rather than boxes, predict rebinding behavior, and distinguish script/REPL/notebook/IDE and terminal/shell/Python-REPL.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch A assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_003.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), verified two external claims (PEP 773 Windows installer timeline; pysh-shell.com/PyPI pysh-shell authenticity) via web search, and confirmed the canonical source sha256 matches the frozen M01 baseline exactly (no drift since baseline).",
+      "reviewed_at": "2026-09-02T00:00:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Every factual claim was checked: CPython's compile-to-bytecode-then-execute model, __pycache__ behavior, refcounting bounded correctly as a CPython detail (not a language guarantee, with PyPy noted as a counterexample), and the REPL Read-Eval-Print-Loop mechanics all read as correct on full inspection.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "REPL banner text, traceback wording ('was never closed' for unterminated parens, current-style caret markers) and name/rebinding semantics were reproduced exactly under a real Python 3.14.6 interpreter with no discrepancy from the chapter's claims.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "The chapter carefully separates 'shell' (OS command interpreter) from 'Python Shell/REPL' (a common English-documentation collision) with an explicit warning callout, and consistently uses 'ссылка' (reference) rather than 'переменная содержит значение' for the name-binding model established in Chapter 3.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises file execution, terminal/shell/REPL, the shell family, PySH, REPL tools, print()/input(), names, comments, IDLE, tracebacks, debugging, notebook/kernel and a mini-project; full reading confirms all 17 promised topics are delivered with working examples.",
+      "evidence_refs": [
+        "E-001",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "The one third-party tool claim in the chapter (PySH: real project, real PyPI package, real license/version framing) is independently confirmed via the project's own site and PyPI listing rather than taken on faith.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Section 3.17's summary_box states observable outcomes (distinguish terminal/shell/REPL, use print()/input(), read three named exception types, use a debugger) rather than a vague topic list.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "The chapter explicitly defers int()/type conversion detail to Chapter 4 and only uses concepts already established in Chapter 1-2 (interpreter, PATH) or introduced earlier in this same chapter before relying on them (e.g. names before NameError, print before input).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "3.1 motivates the file/interpreter model with a cooking-recipe analogy before any syntax; 3.9's name-vs-box discussion opens with the misconception directly before the correct model, which is the recommended predict-explain sequence.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "The refcounting/cyclic-GC deep dive is explicitly marked optional ('можно спокойно пропустить') and chunked as a clearly delimited aside, preventing it from raising cognitive load for the core lesson.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "3.17 closes with a genuine mini-project (terminal business-card program) that requires composing input()/print()/naming from the whole chapter, plus a full retrieval-style summary_box.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "The name/reference/rebinding terminology introduced here is reused identically and extended (not contradicted) in Chapter 4's number-object sections, confirmed during the same batch read.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Internal references to Chapter 2 (PATH, sys.executable, venv) and forward references to later chapters (lists, functions) are accurate and appropriately hedged ('мы вернёмся позже').",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "The terminal/shell/REPL distinction is deliberately restated at increasing precision across 3.2, 3.3 and 3.6 rather than duplicated verbatim, each time adding new information (shell family, then REPL-as-tool).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "All 17 section identifiers, the sidebar practice list (03-01..03-10), and PAGES ordering are internally consistent with no ID collision or mismatched title.",
+      "evidence_refs": [
+        "E-004"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_03.py in full (1866 lines, 17 lesson-builder functions) covering file execution, terminal/shell/REPL, the shell family, PySH, REPL exploration, print()/input(), names-as-references, comments/style, IDLE, tracebacks, debug labs, the IDE debugger, notebook/kernel, and the mini-project.",
+      "locator": "scripts/build_chapter_03.py:1-1866",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Reproduced the chapter's REPL/name-binding/error claims under the project's own Python 3.14.6 venv: SyntaxError '(' was never closed, NameError for an undefined name, IndentationError for unexpected indent, and augmented-assignment/rebinding behavior all match the text exactly.",
+      "locator": ".venv/bin/python3 (3.14.6) ad hoc REPL session reproducing broken.py/broken2.py/broken3.py from build_chapter_03.py",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "pysh-shell.com and PyPI confirm PySH ('PySH — Python Automation Platform', package pysh-shell, pip install pysh-shell) is a real, currently maintained project matching the chapter's description and installation instructions, not a fabricated tool.",
+      "locator": "https://www.pysh-shell.com/ ; https://pypi.org/project/pysh-shell/",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "All 18 ChapterSectionLink entries in build_opener() resolve to real lesson-builder functions with matching headings; the 10 practice_card() references (03-01..03-10) map one-to-one onto the 10 notebooks in notebooks/chapter-03/ with no gap or duplicate.",
+      "locator": "scripts/build_chapter_03.py:45-129 ; notebooks/chapter-03/",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "The PySH 'real session' code_block in 03-08-pysh.html embeds the actual development machine's username (astra), hostname (soi), and a git branch name (feat/curriculum-v2-chapter-03) as part of demonstrating unfabricated output. This is not factually wrong and is explicitly justified in-page as an authenticity measure, but is noted here as a suggestion-level observation for the human release gate: an author may want to decide deliberately whether personal machine identifiers belong in publicly shipped course material, rather than have that decision made silently by a future edit. Not scored against any chapter_opener criterion because the content lives in a theory_lesson (03-08), not in this opener unit; recorded here for traceability and carried into the batch narrative report as F-001 (suggestion, not fixed).",
+      "locator": "scripts/build_chapter_03.py:533-542",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable claim verified against real Python 3.14.6 execution, two external claims independently confirmed, no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED, which this AI-only pass cannot grant.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T05:20:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T00:00:00+00:00",
+      "reason": "M01-I04 Batch A opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T00:00:00+00:00",
+      "reason": "Initial pass scored all 14 applicable chapter_opener criteria with unit-specific evidence."
+    },
+    {
+      "from": "reviewed",
+      "to": "needs_rework",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T05:20:00+00:00",
+      "reason": "Course-wide repagination (triggered by the Chapter 2 corrections) changed this opener's rendered review surface (page-number labels only) across this batch's review; canonical source content for this chapter is unaffected."
+    },
+    {
+      "from": "needs_rework",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T05:20:00+00:00",
+      "reason": "Re-verification opened after the shared-source/pagination refresh."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T05:20:00+00:00",
+      "reason": "Checksums refreshed and content re-confirmed unaffected; all 14 criteria remain valid."
+    }
+  ]
+}

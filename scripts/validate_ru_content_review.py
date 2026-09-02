@@ -12,11 +12,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 import sys
 from collections.abc import Iterable
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+
+FUTURE_TIMESTAMP_TOLERANCE = timedelta(minutes=5)
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -73,16 +76,95 @@ def _is_hex(value: Any, length: int) -> bool:
     )
 
 
+def _git_available(repository_root: Path) -> bool:
+    """Return true when ``repository_root`` is inside a working git repository."""
+
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            cwd=repository_root,
+            capture_output=True,
+            timeout=10,
+            check=False,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False
+    return result.returncode == 0
+
+
+def verify_review_commit_binding(
+    review_commit: Any,
+    canonical_source_path: Any,
+    reviewed_source_sha256: Any,
+    *,
+    repository_root: Path = REPOSITORY_ROOT,
+) -> str | None:
+    """Return an error message unless ``review_commit`` provably contains the
+    exact bytes hashing to ``reviewed_source_sha256`` at ``canonical_source_path``.
+
+    Returns ``None`` (no error) when the check cannot be performed because this
+    checkout is not a git working tree at all -- a genuine environment
+    limitation, not evidence of a bad record. An unknown commit or path, or a
+    checksum mismatch, is always a hard failure when git *is* available.
+    """
+
+    if not _is_hex(review_commit, GIT_SHA_LENGTH):
+        return "review_context.review_commit must be a lowercase 40-character Git SHA"
+    if not isinstance(canonical_source_path, str) or not canonical_source_path:
+        return None  # already reported elsewhere as a missing/invalid source path
+    if not _is_hex(reviewed_source_sha256, SHA256_LENGTH):
+        return None  # already reported elsewhere as an invalid checksum
+
+    if not _git_available(repository_root):
+        return None
+
+    try:
+        result = subprocess.run(
+            ["git", "show", f"{review_commit}:{canonical_source_path}"],
+            cwd=repository_root,
+            capture_output=True,
+            timeout=30,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return None
+
+    if result.returncode != 0:
+        return (
+            f"review_commit {review_commit} does not contain "
+            f"{canonical_source_path} (unknown commit or path in this repository)"
+        )
+
+    digest = hashlib.sha256(result.stdout).hexdigest()
+    if digest != reviewed_source_sha256:
+        return (
+            f"unit.reviewed_source_sha256 does not match the bytes of "
+            f"{canonical_source_path} at review_commit {review_commit} "
+            f"(git blob hashes to {digest})"
+        )
+    return None
+
+
 def _valid_timestamp(value: Any) -> bool:
     """Accept an ISO-8601 timestamp with an explicit UTC offset."""
 
     if not isinstance(value, str):
         return False
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value)
     except ValueError:
         return False
     return parsed.tzinfo is not None
+
+
+def _is_future_timestamp(value: Any, *, tolerance: timedelta = FUTURE_TIMESTAMP_TOLERANCE) -> bool:
+    """Return true when a valid timestamp lies more than ``tolerance`` ahead of now.
+
+    Assumes ``_valid_timestamp(value)`` is already true; callers check that first.
+    """
+
+    parsed = datetime.fromisoformat(str(value))
+    return parsed > datetime.now(UTC) + tolerance
 
 
 def _text(value: Any, minimum: int = 1) -> bool:
@@ -306,6 +388,15 @@ def validate_review_record(
         elif unit.get("reviewed_source_sha256") != _sha256(source_path):
             errors.append("unit.reviewed_source_sha256 does not match the current source file")
 
+        binding_error = verify_review_commit_binding(
+            context.get("review_commit"),
+            expected_unit["canonical_source_path"],
+            unit.get("reviewed_source_sha256"),
+            repository_root=repository_root,
+        )
+        if binding_error:
+            errors.append(binding_error)
+
     if not _is_hex(unit.get("baseline_source_sha256"), SHA256_LENGTH):
         errors.append("unit.baseline_source_sha256 must be a lowercase SHA-256")
     if not _is_hex(unit.get("reviewed_source_sha256"), SHA256_LENGTH):
@@ -322,11 +413,13 @@ def validate_review_record(
     for field in ("started_at", "completed_at"):
         if not _valid_timestamp(context.get(field)):
             errors.append(f"review_context.{field} must be an ISO-8601 timestamp with timezone")
+        elif _is_future_timestamp(context.get(field)):
+            errors.append(f"review_context.{field} is in the future beyond clock-skew tolerance")
     if _valid_timestamp(context.get("started_at")) and _valid_timestamp(
         context.get("completed_at")
     ):
-        started = datetime.fromisoformat(context["started_at"].replace("Z", "+00:00"))
-        completed = datetime.fromisoformat(context["completed_at"].replace("Z", "+00:00"))
+        started = datetime.fromisoformat(context["started_at"])
+        completed = datetime.fromisoformat(context["completed_at"])
         if completed < started:
             errors.append("review_context.completed_at cannot precede started_at")
 
@@ -441,6 +534,7 @@ def validate_review_record(
 
     transitions = rubric["allowed_status_transitions"]
     previous_to: str | None = None
+    previous_changed_at: datetime | None = None
     for position, transition in enumerate(history):
         if not isinstance(transition, dict):
             errors.append("every status transition must be an object")
@@ -456,6 +550,13 @@ def validate_review_record(
         previous_to = destination
         if not _valid_timestamp(transition.get("changed_at")):
             errors.append("every status transition needs a valid changed_at")
+        elif _is_future_timestamp(transition.get("changed_at")):
+            errors.append(f"status transition {position} changed_at is in the future beyond clock-skew tolerance")
+        else:
+            changed_at = datetime.fromisoformat(transition["changed_at"])
+            if previous_changed_at is not None and changed_at < previous_changed_at:
+                errors.append("status_history entries must be chronologically ordered by changed_at")
+            previous_changed_at = changed_at
         if not _text(transition.get("reason"), 20):
             errors.append("every status transition needs a substantive reason")
 
@@ -469,6 +570,12 @@ def validate_review_record(
         errors.append("decision.decided_by must identify a declared reviewer")
     if not _valid_timestamp(decision.get("decided_at")):
         errors.append("decision.decided_at must be a valid timestamp")
+    elif _is_future_timestamp(decision.get("decided_at")):
+        errors.append("decision.decided_at is in the future beyond clock-skew tolerance")
+    elif previous_changed_at is not None:
+        decided_at = datetime.fromisoformat(decision["decided_at"])
+        if decided_at < previous_changed_at:
+            errors.append("decision.decided_at cannot precede the last status_history entry")
     if not _text(decision.get("rationale"), 20):
         errors.append("decision.rationale must be substantive")
 
@@ -531,6 +638,72 @@ def discover_review_records(directory: Path) -> list[Path]:
     return sorted(directory.glob("*.json")) if directory.is_dir() else []
 
 
+def scope_inventory_refs(
+    inventory: dict[str, Any],
+    chapters: set[int] | None,
+    kinds: set[str] | None,
+) -> set[str]:
+    """Return every inventory_ref that falls within a chapters/kinds scope filter.
+
+    ``chapters`` restricts to those chapter numbers (supplementary units are
+    included only when ``chapters`` is None, since they are not chapter-scoped).
+    ``kinds`` restricts to those unit kinds. Either filter left as ``None``
+    means "no restriction on that axis".
+    """
+
+    index = build_inventory_index(inventory)
+    refs: set[str] = set()
+    for ref, unit in index.items():
+        if kinds and unit["kind"] not in kinds:
+            continue
+        if ref.startswith("supplementary:"):
+            if chapters:
+                continue
+            refs.add(ref)
+            continue
+        # ref shape: "chapter:NN:<section>:<id>"
+        chapter_number = int(ref.split(":")[1])
+        if chapters and chapter_number not in chapters:
+            continue
+        refs.add(ref)
+    return refs
+
+
+def check_scope_completeness(
+    inventory: dict[str, Any],
+    record_paths: list[Path],
+    chapters: set[int] | None,
+    kinds: set[str] | None,
+) -> list[str]:
+    """Fail unless every in-scope inventory unit has at least one review record.
+
+    A unit "has" a record when some discovered/supplied record's
+    ``unit.inventory_ref`` names it, regardless of that record's own
+    validation outcome (an invalid record for a unit is reported separately
+    by ``validate_review_record``; this check only answers "does a record
+    exist for this unit at all").
+    """
+
+    required = scope_inventory_refs(inventory, chapters, kinds)
+    covered: set[str] = set()
+    for path in record_paths:
+        try:
+            record = _read_json(path)
+        except (json.JSONDecodeError, OSError):
+            continue
+        ref = record.get("unit", {}).get("inventory_ref") if isinstance(record, dict) else None
+        if isinstance(ref, str):
+            covered.add(ref)
+
+    missing = sorted(required - covered)
+    if not missing:
+        return []
+    return [
+        (f"scope completeness: {len(missing)}/{len(required)} in-scope inventory unit(s) "
+        f"have no review record: {missing}")
+    ]
+
+
 def main() -> None:
     """Validate contract documents and zero or more review records."""
 
@@ -544,6 +717,30 @@ def main() -> None:
         "--require-records",
         action="store_true",
         help="Fail when no review records are supplied or discovered",
+    )
+    parser.add_argument(
+        "--chapters",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Restrict --require-complete-scope to these chapter numbers (default: whole curriculum)",
+    )
+    parser.add_argument(
+        "--kinds",
+        nargs="*",
+        default=None,
+        choices=["chapter_opener", "theory_lesson", "front_matter", "subject_index", "notebook", "standalone_project"],
+        help="Restrict --require-complete-scope to these unit kinds (default: all kinds)",
+    )
+    parser.add_argument(
+        "--require-complete-scope",
+        action="store_true",
+        help=(
+            "Fail unless every inventory unit in the --chapters/--kinds scope "
+            "(default: the whole curriculum) has at least one discovered/supplied "
+            "review record. Use with --chapters to gate one batch's completeness "
+            "without requiring every other chapter to already be reviewed."
+        ),
     )
     args = parser.parse_args()
 
@@ -559,6 +756,11 @@ def main() -> None:
         record = _read_json(path)
         for error in validate_review_record(record, rubric, inventory):
             errors.append(f"{path}: {error}")
+
+    if args.require_complete_scope:
+        chapters = set(args.chapters) if args.chapters else None
+        kinds = set(args.kinds) if args.kinds else None
+        errors.extend(check_scope_completeness(inventory, record_paths, chapters, kinds))
 
     if errors:
         for error in errors:
