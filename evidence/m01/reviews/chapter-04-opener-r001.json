@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH04-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:04:theory:index",
+    "kind": "chapter_opener",
+    "title": "Python любит числа",
+    "canonical_source_path": "scripts/build_chapter_04.py",
+    "baseline_source_sha256": "48c160b731a6683a356124c76dc158771132ede5d7d4596b110783eaeb04c804",
+    "reviewed_source_sha256": "48c160b731a6683a356124c76dc158771132ede5d7d4596b110783eaeb04c804",
+    "review_surface_path": "site/chapters/glava-04/index.html",
+    "review_surface_sha256": "8b8a152a1f4ee78b48c5b7e2638397679c6bdaed75d8400276253873d27f96df"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "ab7f5388fbe38faaf1c9dbc3ec73d7fa07782f42",
+    "started_at": "2026-09-02T00:00:00+00:00",
+    "completed_at": "2026-09-02T00:00:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "After Chapter 4 the learner can choose among int/float/Decimal/Fraction/complex for a given problem, explain why 0.1+0.2 != 0.3, and compare floats with math.isclose() instead of ==.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can use math, random, secrets and statistics correctly, including knowing that random() must not be used for passwords or tokens.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch A assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_004.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), verified two external claims (PEP 773 Windows installer timeline; pysh-shell.com/PyPI pysh-shell authenticity) via web search, and confirmed the canonical source sha256 matches the frozen M01 baseline exactly (no drift since baseline).",
+      "reviewed_at": "2026-09-02T00:00:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Every arithmetic, rounding, precision, Decimal/Fraction-from-float, and statistics claim in the chapter was independently executed and matched exactly; no factual error found across 22 lessons.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "All numeric examples were reproduced under the project's declared Python 3.14.6, including version-sensitive floor-division and banker's-rounding behavior, with identical results.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "The chapter precisely distinguishes int/float/complex as built-in literal types from Decimal/Fraction as stdlib classes requiring import, and correctly labels CPython small-int caching and refcounting-adjacent id() behavior as an implementation detail not to rely on.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises number bases, operators/precedence, division/modulo, powers, float precision, Decimal, Fraction, complex, math, random/secrets, statistics and three mini-projects; every promised topic is present with working, verified examples.",
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "The chapter's normative claims (IEEE 754 binary64, PEP 8 reference, random vs secrets security boundary) are all traceable to well-established stdlib/standard behavior verified by direct execution rather than assumed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "04-05's summary_box lists observable outcomes (choose the right numeric type, explain 0.1+0.2, round/floor/ceil/trunc correctly) plus a decision_map the learner can reuse in future chapters.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Every new numeric tool (Decimal, Fraction, complex, random/secrets, statistics) is explicitly introduced with import and rationale before use; nothing relies on later-chapter concepts (conditionals, functions).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "04-10 motivates //  and % with a concrete '17 candies among 5 children' scenario before the operators are formalized, and 04-13 motivates float imprecision with a 1/3-in-decimal analogy before IEEE 754 detail.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Deeper material (refcounting-style CPython caching caveat, IEEE 754 binary64 layout, pow() modular arithmetic) is explicitly marked optional/skippable and visually separated from the core path.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "04-22's nine debugging labs and 04-05's three mini-projects (purchase calculator, time converter, geometry calculator) require transferring the whole chapter's tools to new, previously unseen problems, closing with a reusable decision_map.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "The name/reference/immutability model from Chapter 3 is explicitly and correctly re-applied to numbers ('age = age + 1 rebinds, does not mutate') rather than re-defined inconsistently.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-references to Chapter 3 (names, immutability) and forward references to later chapters (mutable list behavior, conditionals) are accurate and appropriately bounded as 'not yet covered'.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "The 'float vs Decimal vs Fraction' comparison is deliberately repeated with increasing detail across 04-14/04-15/04-16 and consolidated once more in the final decision_map, each repetition adding new information rather than duplicating text.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "All 22 section identifiers and their sidebar/practice-card IDs (04-01..04-22) are internally consistent with the notebook filenames in notebooks/chapter-04/, with no gap or collision.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_04.py in full (1749 lines, 22 lesson-builder functions) covering number representation, int, number bases, comments, operators, precedence, division/modulo, powers, the numeric-type map, float basics and precision, float comparison, rounding, Decimal, Fraction, complex/cmath, type conversion, math, random/secrets, statistics/inf/nan, numeric debugging, and three mini-projects.",
+      "locator": "scripts/build_chapter_04.py:1-1749",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Reproduced every numerically sensitive claim in the chapter under Python 3.14.6: 19.99*3 == 59.97, 0.1+0.2 == 0.30000000000000004, round(2.5)==2 and round(3.5)==4 (banker's rounding), Decimal(19.99) inherits float imprecision while Decimal('19.99') does not, Fraction(0.1) shows the exact binary ratio, -7//3==-3 and -7%3==2, int(-3.9)==-3, statistics.mean/median on [85,90,78,92,88] give 86.6/88, (0.1).as_integer_ratio(), 0.5+0.25==0.75 (True) and 1.1+2.2==3.3 (False) all match the text exactly with no discrepancy.",
+      "locator": ".venv/bin/python3 (3.14.6) ad hoc session reproducing every numbered code_block in build_chapter_04.py",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "All 22 ChapterSectionLink entries resolve to real lesson-builder functions; the random/secrets section (04-20) correctly bounds random() as non-cryptographic and directs security-sensitive use to secrets.token_hex(), matching the historical M01 risk item about random.random() description with no residual defect found.",
+      "locator": "scripts/build_chapter_04.py:1366-1423",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "notebook_execution",
+      "summary": "Spot-checked notebooks 03-08 (traceback-nameerror) and 04-13 (pochemu-01-02) plus their graders (site/practice/graders/03-08.py, 04-13.py): predict-run-fix structure is intact, no cell reveals the solution ahead of the task cell, and both graders check meaningful, non-trivial outcomes rather than superficial output shape.",
+      "locator": "notebooks/chapter-03/03-08-traceback-nameerror.ipynb ; notebooks/chapter-04/04-13-pochemu-01-02.ipynb ; site/practice/graders/03-08.py ; site/practice/graders/04-13.py",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable claim verified against real Python 3.14.6 execution, two external claims independently confirmed, no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED, which this AI-only pass cannot grant.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T00:00:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T00:00:00+00:00",
+      "reason": "M01-I04 Batch A opened formal professorial review of Chapter 4 against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T00:00:00+00:00",
+      "reason": "All 14 applicable chapter_opener criteria scored >= 3 with evidence; zero unresolved blocker/major/minor findings."
+    }
+  ]
+}
