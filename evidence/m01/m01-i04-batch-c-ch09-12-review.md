@@ -1,7 +1,7 @@
 # M01-I04 — Batch C: Chapters 9-12 professorial review report
 
 1. **Branch:** `audit/m01-i04-ch09-12`
-2. **Head SHA:** (recorded after this evidence commit — see git log; content-fix commit `7752098`, regression-fix commit `8fa95f5`)
+2. **Head SHA:** `2cd924d8d6cf249f7d12cbe9dd9b4dcfa3da476d`
 3. **Chapters reviewed:** 9, 10, 11, 12
 4. **Exact inventory count (Chapters 9-12):** 181 units (81 theory lessons + 4 chapter openers + 96 notebooks + 0 standalone projects)
 5. **Theory lesson count:** 81 (plus 4 chapter openers, reviewed separately per the established chapter-opener record pattern)
