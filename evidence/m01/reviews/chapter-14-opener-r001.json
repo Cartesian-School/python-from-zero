@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH14-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:14:theory:index",
+    "kind": "chapter_opener",
+    "title": "Создаём объекты реального мира",
+    "canonical_source_path": "scripts/build_chapter_14.py",
+    "baseline_source_sha256": "c1962dd01eb63844b499a7c9d335c71eb38a97adedf884dacc3576276cf29410",
+    "reviewed_source_sha256": "c1962dd01eb63844b499a7c9d335c71eb38a97adedf884dacc3576276cf29410",
+    "review_surface_path": "site/chapters/glava-14/index.html",
+    "review_surface_sha256": "2c2c497cd12eec3e21d76848e2cecbe3a2984e734ab8571128a9fc780b2d67df"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "336ce5aed62322591d3cc84da1d158f324968fb0",
+    "started_at": "2026-09-02T13:19:43+00:00",
+    "completed_at": "2026-09-02T13:19:43+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can define classes with __init__/self, distinguish instance from class attributes, and apply encapsulation and property to protect an object's state.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can choose correctly between composition (HAS-A) and inheritance (IS-A), apply super()/method overriding, explain polymorphism and duck typing, and use dataclasses and special methods appropriately.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch D assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_14.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py (under xvfb-run where the chapter uses turtle/tkinter), independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T13:19:43+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 3,
+      "rationale": "Two factual defects were found and fixed during this batch: F-013 (MAJOR, 14-11) claimed a missing @radius.setter raises AttributeError when the code shown actually silently overwrites the property with no error at all; F-014 (MINOR, 14-23) had a truncated dataclass ValueError text. Every other claim across all 27 sections was independently re-executed under Python 3.14.6 and found correct.",
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python-3.14-specific behaviors (exact TypeError/AttributeError text for self-binding and __init__ mistakes, dataclass field validation, __eq__/__hash__ interaction) verified against the actual installed 3.14.6 interpreter; the two defects above were themselves caught by this exact verification process.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "self, инкапсуляция, композиция/наследование (HAS-A/IS-A), duck typing, специальные методы (not магические методы), dataclass all used precisely and consistently; six new terminology register entries added for this chapter's OOP vocabulary decisions.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises class/self/__init__, instance vs class attributes, encapsulation/property, composition, inheritance/super(), polymorphism/duck typing, special methods, dataclasses, and model-design judgment; full-chapter reading confirms every promised topic is delivered in the stated order.",
+      "evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "This chapter has no random/reproducibility-dependent claims; not applicable beyond confirming its absence.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "The opener states the chapter's scope (classes, self, encapsulation, composition/inheritance, polymorphism, special methods, dataclasses, design judgment) as concrete, checkable topics.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Assumes only Chapter 13's functions and the object model informally used since Chapter 6; every new term is introduced via an already-familiar object (turtle, string, list) before formal definition.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Opens with type(artist)/type('Python')/type([1,2,3]) -- objects the learner has used since Chapter 1 -- before any new class-definition syntax, consistent with the course's familiar-first pedagogy.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "28 sections are chunked into clear sub-arcs (basics -> encapsulation/property -> composition -> inheritance/polymorphism -> special methods/dataclasses -> design judgment -> mini-projects) rather than one undifferentiated list.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "14-26's Turtle race v2 mini-project closes the chapter with genuine transfer (a Gonka class composing multiple Uchastnik objects) rather than a topic recap.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Chapter 13's function-as-object model is explicitly and correctly reused for self/command callbacks; Chapter 11's aliasing concept is correctly reused for the mutable-class-attribute trap (14-08).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references (14-09's forward reference to 14-21's __eq__ fix, 14-15's forward reference to 14-16's super() fix) were checked and verified accurate once the referenced sections were themselves reviewed.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "14-08 explicitly and correctly cross-references Chapter 13's mutable-default-argument trap as 'the same underlying principle' rather than silently repeating unrelated material -- verified this parallel is technically accurate.",
+      "evidence_refs": [
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 28 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_14.py in full (2361 lines, 27 lesson-builder functions plus opener) covering classes, self/__init__, attributes, encapsulation/property, composition, inheritance/super(), polymorphism/duck typing, special methods, dataclasses, and design judgment.",
+      "locator": "scripts/build_chapter_14.py:1-2361",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every numeric/behavioral claim across all 27 sections independently re-executed under the project's .venv Python 3.14.6; found two defects (F-013 major, F-014 minor, both now fixed), all else correct.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "All PAGES entries resolve to real, populated lesson-builder functions; forward references (14-09->14-21, 14-15->14-16, 14-04->14-13) verified accurate.",
+      "locator": "scripts/build_chapter_14.py:56-85",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "14-08's cross-reference to Chapter 13's mutable-default-argument trap verified as the same underlying mechanism (a mutable object created once and shared across contexts).",
+      "locator": "scripts/build_chapter_13.py:13-04-argumenty; scripts/build_chapter_14.py:14-08-lovushka-obshchego-atributa",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable/numeric claim verified against real Python 3.14.6 execution, all 26 notebooks and 24 graders for this chapter independently re-executed and re-verified, two confirmed defects (F-013, F-014) found and fixed; no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T13:19:43+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "M01-I04 Batch D opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T13:19:43+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}

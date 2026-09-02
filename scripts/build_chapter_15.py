@@ -2188,7 +2188,7 @@ def build_25() -> None:
         'import json\n'
         'with open("nastroyki.json", "r", encoding="utf-8") as f:\n'
         "    data = json.load(f)\n",
-        ["Traceback (most recent call last):", "json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes"],
+        ["Traceback (most recent call last):", "json.decoder.JSONDecodeError: Illegal trailing comma before end of object: line 1 column 17 (char 16)"],
         "Наличие файла не означает, что его содержимое — корректный JSON: файл мог быть "
         "повреждён, отредактирован вручную или записан с ошибкой в другом месте программы. "
         "<code class=\"inline\">json.JSONDecodeError</code> — сигнал именно об этом, а не о "
