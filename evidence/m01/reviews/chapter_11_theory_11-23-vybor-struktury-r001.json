@@ -1,0 +1,372 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-11-THEORY-11-23-VYBOR-STRUKTURY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:11:theory:11-23-vybor-struktury",
+    "kind": "theory_lesson",
+    "title": "Как выбрать правильную структуру",
+    "canonical_source_path": "scripts/build_chapter_11.py",
+    "baseline_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "reviewed_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "review_surface_path": "site/chapters/glava-11/11-23-vybor-struktury.html",
+    "review_surface_sha256": "4f866137a76d4c39fc045a3c4ded9d2eb84f199c0734ab7e64e2e02833954e32"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "77520981126fb2aa783fd9091b56dd922af148dc",
+    "started_at": "2026-09-02T10:36:00+00:00",
+    "completed_at": "2026-09-02T10:36:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Learner uses a complete decision map (with mutability/hashability tables) to choose between list/tuple/set/frozenset/dict, understands collection truthiness, and learns the mutate-during-iteration pitfall.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-02T10:36:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- No terminology issues.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Learner uses a complete decision map (with mutability/hashability tables) to choose between list/tuple/set/frozenset/dict, understands collection truthiness, and learns the mutate-during-iteration pitfall.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive operations.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive operations.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Learner uses a complete decision map (with mutability/hashability tables) to choose between list/tuple/set/frozenset/dict, understands collection truthiness, and learns the mutate-during-iteration pitfall.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Synthesizes every collection type covered in this chapter into one complete decision map (extending 11-11's provisional version, as promised there); collection truthiness (extending Chapter 9's general truthiness rule to collections) and the mutate-during-iteration pitfall are new.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Explicitly recommends `if items:` over `if len(items) > 0:` as more idiomatic Python style — accurate, real developer convention, not an arbitrary preference.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Mutability table -> hashability table (matching 11-19's) -> full decision map (fulfilling 11-11's promise) -> collection truthiness table and example -> mutate-during-iteration pitfall with a corrected, genuinely-demonstrative example and safe alternatives (new list, comprehension, iterate a copy).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Mutability table -> hashability table (matching 11-19's) -> full decision map (fulfilling 11-11's promise) -> collection truthiness table and example -> mutate-during-iteration pitfall with a corrected, genuinely-demonstrative example and safe alternatives (new list, comprehension, iterate a copy).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Mutability table -> hashability table (matching 11-19's) -> full decision map (fulfilling 11-11's promise) -> collection truthiness table and example -> mutate-during-iteration pitfall with a corrected, genuinely-demonstrative example and safe alternatives (new list, comprehension, iterate a copy).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Mutability table -> hashability table (matching 11-19's) -> full decision map (fulfilling 11-11's promise) -> collection truthiness table and example -> mutate-during-iteration pitfall with a corrected, genuinely-demonstrative example and safe alternatives (new list, comprehension, iterate a copy).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- 11-23 notebook (pre-existing) mirrors the decision-map classification tasks; does not reproduce the mutation-during-iteration example, so it was unaffected by the F-009 defect.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- 11-23 notebook (pre-existing) mirrors the decision-map classification tasks; does not reproduce the mutation-during-iteration example, so it was unaffected by the F-009 defect.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- 11-23 notebook (pre-existing) mirrors the decision-map classification tasks; does not reproduce the mutation-during-iteration example, so it was unaffected by the F-009 defect.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- No terminology issues.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Correctly and completely fulfills 11-11's deferred promise of a full decision map.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Correctly and completely fulfills 11-11's deferred promise of a full decision map.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Correctly and completely fulfills 11-11's deferred promise of a full decision map.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- verified via code_execution: confirmed for all four empty forms and their non-empty counterparts; Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- verified via code_execution: CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- 11-23 notebook (pre-existing) mirrors the decision-map classification tasks; does not reproduce the mutation-during-iteration example, so it was unaffected by the F-009 defect.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive operations.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "The mutate-during-iteration warning example (`items=[1,2,3,4]`, removing even numbers while iterating) happened to still produce the 'naively expected' output [1,3], since the specific values chosen meant the skipped element (index-shifted past) was itself odd and would have been kept anyway — the example failed to visibly demonstrate the danger it was meant to illustrate, undermining the callout's persuasiveness.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Replaced the example data with items=[2,4,6,8] (all even, all matching the removal condition), which now visibly leaves [4,8] behind despite every element supposedly being removed — genuinely demonstrates the pitfall. Verified via direct execution."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Learner uses a complete decision map (with mutability/hashability tables) to choose between list/tuple/set/frozenset/dict, understands collection truthiness, and learns the mutate-during-iteration pitfall.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Empty collections ([], (), set(), {}) are falsy; non-empty ones are truthy, regardless of their contents -- confirmed for all four empty forms and their non-empty counterparts",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Removing items from a list WHILE iterating it with a for loop skips some elements due to index-shifting -- CONFIRMED DEFECT (F-009, resolved): the original example `items=[1,2,3,4]` removing evens happened to still print the 'naively correct-looking' [1,3], failing to visibly demonstrate the described danger; replaced with `items=[2,4,6,8]`, which visibly leaves [4,8] behind despite every element matching the removal condition — now genuinely demonstrates the pitfall",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Synthesizes every collection type covered in this chapter into one complete decision map (extending 11-11's provisional version, as promised there); collection truthiness (extending Chapter 9's general truthiness rule to collections) and the mutate-during-iteration pitfall are new. | motivation=Explicitly recommends `if items:` over `if len(items) > 0:` as more idiomatic Python style — accurate, real developer convention, not an arbitrary preference. | sequence=Mutability table -> hashability table (matching 11-19's) -> full decision map (fulfilling 11-11's promise) -> collect",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "Coherence: Correctly and completely fulfills 11-11's deferred promise of a full decision map.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Russian technical-language check: No terminology issues.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive operations.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T10:36:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:11:theory:11-23-vybor-struktury against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

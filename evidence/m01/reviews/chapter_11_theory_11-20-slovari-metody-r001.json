@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-11-THEORY-11-20-SLOVARI-METODY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:11:theory:11-20-slovari-metody",
+    "kind": "theory_lesson",
+    "title": "Методы словарей",
+    "canonical_source_path": "scripts/build_chapter_11.py",
+    "baseline_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "reviewed_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "review_surface_path": "site/chapters/glava-11/11-20-slovari-metody.html",
+    "review_surface_sha256": "275fdd3e9dc27ed0d560eb08567c283740f8faf494889986579a8d9956bdbfce"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "77520981126fb2aa783fd9091b56dd922af148dc",
+    "started_at": "2026-09-02T10:36:00+00:00",
+    "completed_at": "2026-09-02T10:36:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Learner uses pop()/popitem(), update(), setdefault(), the keys()/values()/items() view objects, dict insertion-order guarantee, and the in-checks-keys-not-values caution.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-02T10:36:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- No terminology issues after the error-message fix.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Learner uses pop()/popitem(), update(), setdefault(), the keys()/values()/items() view objects, dict insertion-order guarantee, and the in-checks-keys-not-values caution.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive operations.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive operations.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Learner uses pop()/popitem(), update(), setdefault(), the keys()/values()/items() view objects, dict insertion-order guarantee, and the in-checks-keys-not-values caution.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Builds directly on 11-08's dict basics; pop()/popitem()/update()/setdefault(), the view-object semantics of keys()/values()/items(), and the ordered-dict language guarantee are all new.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Explicitly and precisely distinguishes keys()/values()/items() as 'live views', not plain lists, with a clear operational consequence (wrap in list(...) if a real list is needed) rather than treating the distinction as a technicality.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- pop()/popitem() -> update() -> setdefault() with a direct forward reference to its full use in 11-24's word-frequency project -> keys/values/items as live views -> insertion-order guarantee -> in-checks-keys-not-values caution -> hashable-keys requirement (paired with 11-19's set treatment).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- pop()/popitem() -> update() -> setdefault() with a direct forward reference to its full use in 11-24's word-frequency project -> keys/values/items as live views -> insertion-order guarantee -> in-checks-keys-not-values caution -> hashable-keys requirement (paired with 11-19's set treatment).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- pop()/popitem() -> update() -> setdefault() with a direct forward reference to its full use in 11-24's word-frequency project -> keys/values/items as live views -> insertion-order guarantee -> in-checks-keys-not-values caution -> hashable-keys requirement (paired with 11-19's set treatment).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- pop()/popitem() -> update() -> setdefault() with a direct forward reference to its full use in 11-24's word-frequency project -> keys/values/items as live views -> insertion-order guarantee -> in-checks-keys-not-values caution -> hashable-keys requirement (paired with 11-19's set treatment).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- 11-20 notebook (pre-existing) mirrors pop/update/setdefault/views tasks.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- 11-20 notebook (pre-existing) mirrors pop/update/setdefault/views tasks.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- 11-20 notebook (pre-existing) mirrors pop/update/setdefault/views tasks.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- No terminology issues after the error-message fix.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Directly and correctly forward-references 11-24's setdefault()-based word-frequency algorithm, which is delivered as promised.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Directly and correctly forward-references 11-24's setdefault()-based word-frequency algorithm, which is delivered as promised.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Directly and correctly forward-references 11-24's setdefault()-based word-frequency algorithm, which is delivered as promised.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- verified via code_execution: confirmed both; counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- verified via code_execution: confirmed; Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- verified via source_inspection: accurate; matches documented CPython/language-spec behavior since 3.7; {['x','y']: 1} raises TypeError under Python 3.14 -- verified via code_execution: CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- 11-20 notebook (pre-existing) mirrors pop/update/setdefault/views tasks.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive operations.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "The hashable-dict-key error example's comment claimed the same stale error text as the 11-19 finding ('TypeError: unhashable type: \\'list\\'') for a dict-literal construction, but Python 3.14 actually raises 'TypeError: cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')' for this exact code.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Corrected the comment in scripts/build_chapter_11.py to the verified-accurate Python 3.14 error text: \"cannot use 'list' as a dict key (unhashable type: 'list')\"."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Learner uses pop()/popitem(), update(), setdefault(), the keys()/values()/items() view objects, dict insertion-order guarantee, and the in-checks-keys-not-values caution.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "student.pop('age') removes and returns the age value; popitem() removes the LAST-inserted pair -- confirmed both",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "counts.setdefault(word,0) followed by counts[word]+=1 correctly initializes a first-seen word to 0 then increments it -- confirmed",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "Python 3.7+ dicts guarantee insertion order as an official language guarantee, not an implementation accident -- accurate; matches documented CPython/language-spec behavior since 3.7",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "{['x','y']: 1} raises TypeError under Python 3.14 -- CONFIRMED DEFECT (F-008b, resolved): same stale-error-message issue as 11-19 — the actual Python 3.14 message is 'cannot use \\'list\\' as a dict key (unhashable type: \\'list\\')', longer and more specific than the originally-quoted short form",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Builds directly on 11-08's dict basics; pop()/popitem()/update()/setdefault(), the view-object semantics of keys()/values()/items(), and the ordered-dict language guarantee are all new. | motivation=Explicitly and precisely distinguishes keys()/values()/items() as 'live views', not plain lists, with a clear operational consequence (wrap in list(...) if a real list is needed) rather than treating the distinction as a technicality. | sequence=pop()/popitem() -> update() -> setdefault() with a direct forward reference to its full use in 11-24's word-frequency project -> keys/valu",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Directly and correctly forward-references 11-24's setdefault()-based word-frequency algorithm, which is delivered as promised.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: No terminology issues after the error-message fix.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive operations.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T10:36:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:11:theory:11-20-slovari-metody against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

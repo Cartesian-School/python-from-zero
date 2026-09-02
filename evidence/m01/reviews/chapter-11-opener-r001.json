@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH11-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:11:theory:index",
+    "kind": "chapter_opener",
+    "title": "Очень много информации!",
+    "canonical_source_path": "scripts/build_chapter_11.py",
+    "baseline_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "reviewed_source_sha256": "e6e22090524c09b47c3a8ef8f6b80afe2aa877c82a541c0090d8dc5524437c98",
+    "review_surface_path": "site/chapters/glava-11/index.html",
+    "review_surface_sha256": "cc436bc37e1e95aaff899cffa9242fa2a3a7db9ec54786a7cd983a8b5d29a3f6"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "77520981126fb2aa783fd9091b56dd922af148dc",
+    "started_at": "2026-09-02T09:00:00+00:00",
+    "completed_at": "2026-09-02T10:36:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can create, index, slice, and mutate lists; distinguish aliasing from copying (including the shallow-copy nuance); and use tuples for immutable, unpackable records.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can use sets (including full Venn-diagram algebra and hashability), dicts (including nested structures and nine core methods), comprehensions, and a complete decision map to choose the right collection for a scenario.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch C assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_11.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py, independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T10:36:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 3,
+      "rationale": "Three defects were found and fixed during this batch: F-008a/F-008b (MINOR, two stale hashability error-message quotes) and F-009 (MINOR, a mutate-during-iteration example that failed to visibly demonstrate its own point); every other claim, including all set-algebra, shallow/deep-copy, and comprehension results, was independently re-executed under Python 3.14.6 and confirmed correct.",
+      "evidence_refs": [
+        "E-001",
+        "E-002",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "All list/tuple/set/dict method behavior (sort()-returns-None, append-vs-extend, shallow-copy sharing, dict insertion-order guarantee since 3.7) verified against the actual Python 3.14.6 interpreter.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Precise terminology throughout (изменяемость/неизменяемость extended from string to list/tuple, aliasing, поверхностная копия, хешируемость); register entries added for all of these, extending rather than contradicting the Batch B string-immutability entry.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises list/tuple/set/dict fundamentals, mutability/aliasing/copying, comprehensions, structure-selection, debugging, and multiple mini-projects; all delivered with no gap once the three content defects were fixed.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "All grader-relied-upon claims (set operations, dict method results, comprehension outputs) independently re-executed and match exactly; the two hashability-error corrections were independently verified against live Python 3.14.6 error text.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Concrete, checkable scope (build a contact book, count word frequency, choose the right structure for a scenario) rather than vague aspirations.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Assumes only Chapters 1-10; every new term (aliasing, shallow copy, hashability) is introduced before use, and the chapter's own decision map is explicitly labeled provisional (11-11) until completed (11-23).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Opens with a concrete pain point (500 separate score_N variables) before introducing collections as the solution.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "27 sections chunked into clear sub-arcs (lists -> mutability/aliasing/copying -> tuples -> sets -> dicts -> nested structures/comprehensions -> structure selection -> debugging -> mini-projects).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "11-24's 14-named-bug catalog and the closing 11-10 toolkit recap, plus an evidence-based bridge to Chapter 12 functions (citing specific duplicated code across the chapter's own projects), provide genuine consolidation.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Terminology used identically across all 27 sections; correctly extends the Batch A/B mutability register rather than restating it inconsistently.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references verified to point to sections that exist and contain the referenced content.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "The [[0]*3]*3 trap and the aliasing converge-diagram idiom are explicitly and correctly reused between 11-04 and 11-16 rather than being independently reinvented.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 27 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_11.py in full (2282 lines, 26 lesson-builder functions plus opener) covering lists, slicing, mutability, append/extend/insert, remove/pop/clear/del, list operations, loops+lists, aliasing, copying, tuples, zip, sets, set algebra, dicts, dict methods, nested structures, comprehensions, structure selection, debugging, and multiple mini-projects.",
+      "locator": "scripts/build_chapter_11.py:1-2282 (post-fix)",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every behaviorally checkable claim (mutation, aliasing, shallow/deep copy, set algebra, dict methods, comprehensions, the two error-message corrections) independently re-executed under the project's .venv Python 3.14.6.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "All 26 canonical notebooks executed via scripts/run_notebook.py (2 local-required Turtle notebooks); all 26 graders' expected values independently re-verified against re-executed code.",
+      "locator": ".venv/bin/python scripts/run_notebook.py notebooks/chapter-11/*.ipynb",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "F-008a/F-008b/F-009 fixes verified: the corrected error-message text matches live Python 3.14.6 output exactly for set-literal and dict-literal unhashable-key construction; the replaced mutate-during-iteration example (items=[2,4,6,8]) now visibly demonstrates the described pitfall, unlike the original.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, all 26 notebooks executed and all 26 graders independently re-verified, three confirmed defects (F-008a, F-008b, F-009) found and fixed; no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T10:36:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T09:00:00+00:00",
+      "reason": "M01-I04 Batch C opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}

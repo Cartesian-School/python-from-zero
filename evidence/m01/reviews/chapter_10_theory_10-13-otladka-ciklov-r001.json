@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-10-THEORY-10-13-OTLADKA-CIKLOV-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:10:theory:10-13-otladka-ciklov",
+    "kind": "theory_lesson",
+    "title": "Отладка циклов",
+    "canonical_source_path": "scripts/build_chapter_10.py",
+    "baseline_source_sha256": "c9777659ba06464c41b68a7e45eb72b824d5b376b8b2aa9cbc5664009a48d094",
+    "reviewed_source_sha256": "c9777659ba06464c41b68a7e45eb72b824d5b376b8b2aa9cbc5664009a48d094",
+    "review_surface_path": "site/chapters/glava-10/10-13-otladka-ciklov.html",
+    "review_surface_sha256": "fca887f2859031e245b7fc60f871b7c9529b0976de77de30f2ca1ef324fe81e2"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "77520981126fb2aa783fd9091b56dd922af148dc",
+    "started_at": "2026-09-02T10:36:00+00:00",
+    "completed_at": "2026-09-02T10:36:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Learner recognizes 10 named categories of loop bugs (infinite loops, off-by-one, indentation, counter-reset-in-loop, break/continue misuse, variable shadowing, and more) and applies manual trace-table debugging.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-02T10:36:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- No terminology issues.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Learner recognizes 10 named categories of loop bugs (infinite loops, off-by-one, indentation, counter-reset-in-loop, break/continue misuse, variable shadowing, and more) and applies manual trace-table debugging.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Explicit, correctly-placed warning against running intentionally-hanging example code.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Explicit, correctly-placed warning against running intentionally-hanging example code.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Learner recognizes 10 named categories of loop bugs (infinite loops, off-by-one, indentation, counter-reset-in-loop, break/continue misuse, variable shadowing, and more) and applies manual trace-table debugging.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Synthesizes every loop-related bug pattern introduced piecemeal earlier in the chapter (10-03's infinite loop, 10-04's continue-before-update, 10-09's range() exclusivity) into one named, comprehensive catalog; the specific taxonomy (10 numbered bug types) and the manual trace-table method are new organizing tools.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Explicitly instructs the reader NOT to run the intentionally-infinite-loop examples, correctly anticipating and preventing a real risk (a learner copy-pasting a demonstrably-hanging example into a live cell).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- 10 named bugs with code+explanation each -> manual trace-table method -> dedicated off-by-one deep-dive with range() diagrams and a boundary-case checklist -> loop-variable-persists-after-for behavior -> variable-naming/shadowing advice -> brief mutate-while-iterating preview (correctly deferred in full to Chapter 11).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- 10 named bugs with code+explanation each -> manual trace-table method -> dedicated off-by-one deep-dive with range() diagrams and a boundary-case checklist -> loop-variable-persists-after-for behavior -> variable-naming/shadowing advice -> brief mutate-while-iterating preview (correctly deferred in full to Chapter 11).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- 10 named bugs with code+explanation each -> manual trace-table method -> dedicated off-by-one deep-dive with range() diagrams and a boundary-case checklist -> loop-variable-persists-after-for behavior -> variable-naming/shadowing advice -> brief mutate-while-iterating preview (correctly deferred in full to Chapter 11).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- 10 named bugs with code+explanation each -> manual trace-table method -> dedicated off-by-one deep-dive with range() diagrams and a boundary-case checklist -> loop-variable-persists-after-for behavior -> variable-naming/shadowing advice -> brief mutate-while-iterating preview (correctly deferred in full to Chapter 11).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- 10-17 notebook (find-the-bug) and 10-18 notebook (off-by-one counting) both draw from this page.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- 10-17 notebook (find-the-bug) and 10-18 notebook (off-by-one counting) both draw from this page.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- 10-17 notebook (find-the-bug) and 10-18 notebook (off-by-one counting) both draw from this page.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- No terminology issues.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Correctly defers the mutate-during-iteration pitfall to Chapter 11, where it receives full treatment — avoids a premature, under-explained mention.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Correctly defers the mutate-during-iteration pitfall to Chapter 11, where it receives full treatment — avoids a premature, under-explained mention.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Correctly defers the mutate-during-iteration pitfall to Chapter 11, where it receives full treatment — avoids a premature, under-explained mention.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- verified via code_execution: confirmed; `for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- verified via code_execution: confirmed (also independently verified in the main theory read); Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- verified via code_execution: confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- 10-17 notebook (find-the-bug) and 10-18 notebook (off-by-one counting) both draw from this page.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Explicit, correctly-placed warning against running intentionally-hanging example code.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Learner recognizes 10 named categories of loop bugs (infinite loops, off-by-one, indentation, counter-reset-in-loop, break/continue misuse, variable shadowing, and more) and applies manual trace-table debugging.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "range(1,10) yields 1..9, not 10 — an off-by-one trap if 10 was intended -- confirmed",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`for n in range(5): pass` followed by print(n) prints 4, the loop variable's last value, not an error -- confirmed (also independently verified in the main theory read)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Accessing the loop variable after iterating an EMPTY sequence raises NameError, since the loop body never ran -- confirmed: NameError: name 'm' is not defined for `for m in []: pass; print(m)`",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Synthesizes every loop-related bug pattern introduced piecemeal earlier in the chapter (10-03's infinite loop, 10-04's continue-before-update, 10-09's range() exclusivity) into one named, comprehensive catalog; the specific taxonomy (10 numbered bug types) and the manual trace-table method are new organizing tools. | motivation=Explicitly instructs the reader NOT to run the intentionally-infinite-loop examples, correctly anticipating and preventing a real risk (a learner copy-pasting a demonstrably-hanging example into a live cell). | sequence=10 named bugs with code+explanati",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Correctly defers the mutate-during-iteration pitfall to Chapter 11, where it receives full treatment — avoids a premature, under-explained mention.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: No terminology issues.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Explicit, correctly-placed warning against running intentionally-hanging example code.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T10:36:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:10:theory:10-13-otladka-ciklov against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T10:36:00+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}
