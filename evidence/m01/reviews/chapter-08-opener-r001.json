@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH08-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:08:theory:index",
+    "kind": "chapter_opener",
+    "title": "Играем с буквами и словами",
+    "canonical_source_path": "scripts/build_chapter_08.py",
+    "baseline_source_sha256": "7c7649cd01c7ea847837fd2c52d3b0f4a7383e79f5ad04dac32095b5361dc749",
+    "reviewed_source_sha256": "7c7649cd01c7ea847837fd2c52d3b0f4a7383e79f5ad04dac32095b5361dc749",
+    "review_surface_path": "site/chapters/glava-08/index.html",
+    "review_surface_sha256": "094275ac5df6cdf488b51411a7e293004a1ef263736d89321f2bbebdef35877a"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "d86ab31ed73658c275f90850f631d074d2d0b131",
+    "started_at": "2026-09-02T06:00:00+00:00",
+    "completed_at": "2026-09-02T06:41:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can index, slice, and iterate strings; use in/not in and bounded truthiness correctly; and explain why strings are immutable.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can use string methods, formatting (f-strings), and input() together to build small validation/text-processing mini-projects (password/email check, word counter).",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch B assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_08.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py, independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T06:41:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 3,
+      "rationale": "Two defects were found and fixed during this batch: F-006 (MINOR, an unlabeled ternary forward-reference in the 08-22 e-mail check) and F-007 (MAJOR, three stale notebooks missing their own builder's input_setup() mock); every other claim in the chapter, including all string/slice/format-spec/count() results, was independently re-executed under Python 3.14.6 and found correct.",
+      "evidence_refs": [
+        "E-001",
+        "E-002",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "All string-method and f-string format-spec behavior (find/index/-1-vs-ValueError, :.2f/:,/:.1%, slicing) verified against the actual Python 3.14.6 interpreter.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Precise terminology throughout (индекс, срез, последовательность, неизменяемость, экранирование); == vs is correctly deferred to Chapter 14 with plain descriptive language rather than premature 'идентичность' jargon; register entries added for all of these.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises string creation, indexing/slicing, methods, truthiness/membership, formatting, and five mini-projects; all delivered with no gap once the two content defects were fixed.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "All grader-relied-upon claims (count() results, slice results, format-spec outputs, dict-frequency counts) independently re-executed and match exactly.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Concrete, checkable scope (parse a filename, validate a password/email, count words) rather than vague aspirations.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "HIGH-PRIORITY dependency review: this is the chapter targeted by the batch's Chapter 8 prerequisite-order check (for/while/in/truthiness/collections are formally taught starting Chapter 9-11). Every forward reference found (in/truthiness at 08-05, for-loop at 08-18, if at 08-17, any()+genexpr at 08-22, dict+.get() at 08-23) is explicitly labeled 'Забегаем вперёд' and appropriately bounded — see the Chapter 8 dependency matrix in the batch report. The one exception found (the unlabeled ternary at 08-22) was fixed (F-006).",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "08-05's truthiness section is correctly and narrowly bounded to strings, with an explicit forward-reference disclaimer rather than an over-general claim — directly resolving the historically-flagged truthiness risk area.",
+      "evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "23 sections chunked into clear sub-arcs (creation/quotes -> indexing/slicing -> methods -> truthiness/membership -> formatting/input -> five mini-projects) with deliberate reuse-not-repeat labeling (e.g. 08-06 not re-disclaiming the for-loop already covered at 08-18).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "08-20 (debugging) and the five closing mini-projects (08-21 through 08-23) provide genuine, varied transfer rather than a topic recap.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Terminology (индекс, срез, метод, неизменяемость) used identically across all 23 sections; new register entries verified consistent with prior-chapter usage.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references (e.g. 08-22's 'раздел 8.11', 'раздел 8.12' references) verified to point to sections that exist and contain the referenced content.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "The for-loop forward reference introduced thoroughly at 08-18 is correctly relied upon (not re-disclaimed) by every subsequent for-loop use in the chapter (08-06, 08-22, 08-23) — economical, non-repetitive labeling confirmed by direct comparison across all instances.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 23 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_08.py in full (1717 lines, 23 lesson-builder functions plus opener) covering string creation, quotes/concatenation, indexing, methods, truthiness/comparison, formatting, input(), escaping, raw/multiline strings, len(), slicing, immutability, search/parse methods, composition-check methods, iteration, unicode, debugging, and five mini-projects.",
+      "locator": "scripts/build_chapter_08.py:1-1717 (post-fix)",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every behaviorally checkable claim (indexing/slicing, count()/find()/index(), is*() methods, f-string format specs, truthiness/comparison, the ternary-removal fix's before/after equivalence) independently re-executed under the project's .venv Python 3.14.6.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "review_note",
+      "summary": "HIGH-PRIORITY Chapter 8 dependency/prerequisite review: full pass through the chapter's actual reading order tracing every use of for/while/in/truthiness/collections against where each is formally taught; produced the Chapter 8 dependency matrix in the batch report. Found one unlabeled forward reference (ternary expression at 08-22), fixed as F-006; all other forward references confirmed properly labeled.",
+      "locator": "M01-I04 Batch B report, Chapter 8 dependency matrix",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "All 18 canonical notebooks executed via scripts/run_notebook.py; found and fixed F-007 (08-07/08-09/08-10 missing their builder's input_setup() mock, causing StdinNotImplementedError); all 18 graders' expected values independently re-verified against re-executed code.",
+      "locator": ".venv/bin/python scripts/run_notebook.py notebooks/chapter-08/*.ipynb",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "F-005/F-006/F-007 fixes verified: the removed ternary in 08-22 produces behaviorally identical output to the original for both a valid email and a string with no '@'; the three patched notebooks (08-07/08-09/08-10) now execute cleanly end to end with all pre-existing cell ids/content preserved byte-for-byte.",
+      "locator": ".venv/bin/python3 / scripts/run_notebook.py (interactive verification, this session)",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, all 18 notebooks executed and all 18 graders independently re-verified, the HIGH-PRIORITY Chapter 8 dependency/prerequisite review completed with an explicit dependency matrix, two confirmed defects (F-006, F-007) found and fixed; no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T06:41:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:00:00+00:00",
+      "reason": "M01-I04 Batch B opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:41:00+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}

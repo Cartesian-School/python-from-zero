@@ -1,6 +1,6 @@
 # M01 -- Russian technical terminology register
 
-Scope covered: Chapters 2-4 (Batch A); to be extended by each later batch
+Scope covered: Chapters 2-8 (Batch A: 2-4; Batch B: 5-8); to be extended by each later batch
 
 Policy: Prefer the term a working Russian-speaking Python developer would actually say and immediately understand. Do not mechanically translate every English term, and do not force a Russian gloss after a term is already established.
 
@@ -34,6 +34,21 @@ evidenced inconsistency -- not to relitigate an already-settled decision without
 | IDE / editor | редактор кода / IDE (contextual) | среда разработки (for 'IDE' when spelled out) | treating VS Code and PyCharm's roles as identical to 'the interpreter' -- the course explicitly and repeatedly guards against this conflation ('IDE does not own the environment') | 2 |
 | breakpoint | точка останова | -- | 'брейкпоинт' as the primary term (real usage exists but 'точка останова' is the more broadly recognized, professionally standard Russian term and is what the course correctly uses) | 2, 3 |
 | kernel (Jupyter) | ядро | -- | conflating 'ядро' (kernel, the running process) with 'notebook' (the file) | 2, 3 |
+| expression vs statement | выражение / инструкция | оператор (only for `x = 5 + 3` style, never as a synonym for 'операция') | using 'выражение' and 'инструкция' interchangeably -- the course draws a precise, correct distinction between them | 5 |
+| operator precedence | приоритет операторов | -- | 'порядок операций' as the primary term (acceptable as an occasional gloss, but 'приоритет' is what Python developers say) | 5 |
+| associativity | ассоциативность | -- | -- | 5 |
+| truthiness | истинность | 'ложность' only as the direct negation, not as a standalone primary term | stating a general 'every non-empty value is True' rule before the generalizing type (list, dict, etc.) is taught -- the course correctly scopes the claim to strings only and explicitly marks the general rule as a Chapter 9 forward reference | 8 |
+| immutability (string) | неизменяемость | неизменяемый (adjective, applied to a specific type: 'строки неизменяемы') | 'срез — это всегда копия' stated without qualification -- true for strings (immutable) but the course is careful to scope this claim to strings and note lists differ later | 8 |
+| membership (in / not in) | in / not in (left as code, described with the verb 'содержит' / 'входит') | проверка вхождения | 'принадлежность' as a free-standing noun -- the course never uses this abstract noun for string membership, preferring concrete verb phrasing ('содержится ли одна строка внутри другой', 'входит ли ... в ...'), which reads more naturally in Russian and is what a working developer would say | 8 |
+| index | индекс | -- | -- | 8 |
+| slice | срез | -- | 'срез — это всегда копия' as an unqualified universal claim -- correct for the built-in sequence type covered so far (str), but the course should keep this scoped when mutable sequences are introduced later | 8 |
+| sequence (string as a sequence of characters) | последовательность (символов) | -- | -- | 8 |
+| escape sequence | экранирование | служебная последовательность (for \n, \t specifically) | -- | 8 |
+| raw string | raw-строка | -- | translating 'raw' (e.g. 'сырая строка') -- 'raw-строка' is the term Python developers actually use in Russian | 8 |
+| f-string | f-строка | форматированная строковая литеральная запись (only as a one-time formal gloss, never as the primary working term) | -- | 8 |
+| equality vs identity (== vs is) | == сравнивает значение, is сравнивает объект (descriptive phrasing, not the noun 'идентичность') | -- | introducing the formal noun 'идентичность' before Chapter 14, where `is` is formally taught -- the course correctly uses plain descriptive language ('is проверяет, один ли это объект в памяти') instead | 8 |
+| heading (turtle graphics) | курс | направление (as an occasional plain-language gloss) | 'заголовок' -- a false-friend calque of 'heading' in its document-heading sense, which would be actively misleading here | 6, 7 |
+| seed (random module) | seed (left as code; described with 'воспроизводимость') | зерно (unused by the course; would be an unnecessary and unfamiliar calque) | translating 'seed' to 'зерно' or similar -- no working Russian-speaking Python developer says this; 'seed' is used bare, exactly as in English-language code and documentation | 5 |
 
 ## Rationale and evidence per term
 
@@ -228,3 +243,123 @@ Standard, correct Russian Jupyter term; the course explicitly and correctly sepa
 - **Evidence:** scripts/build_chapter_02.py:02-15-ide-i-okruzheniya; scripts/build_chapter_03.py:03-16-notebook-i-kernel
 - **First-use guidance:** None needed.
 - **Affected chapters:** 2, 3
+
+### expression vs statement -> выражение / инструкция
+
+Chapter 5 introduces a precise, professionally correct distinction: an expression (выражение) always has a value and can be substituted wherever a value is expected; a statement (инструкция, e.g. assignment) does not. The course uses this to explain, correctly, why `print(x = 5)` is an error while `print(x == 5)` is valid. This is exactly the terminology a working Python developer would use.
+
+- **Evidence:** scripts/build_chapter_05.py:05-01-osnovnye-operacii (callout 'Выражение — не то же самое, что команда (statement)')
+- **First-use guidance:** Introduce both terms together, in contrast, the first time an assignment statement is shown next to a bare expression -- exactly as Chapter 5 does.
+- **Affected chapters:** 5
+
+### operator precedence -> приоритет операторов
+
+Standard, universally understood Russian developer term; the course builds a full precedence ladder (**, unary +/-, */,//,%, +/-) and uses it consistently across every arithmetic lesson in Chapter 5.
+
+- **Evidence:** scripts/build_chapter_05.py:05-09-unarnye-operatory, 05-03-prisvaivanie-poryadok (precedence_ladder diagrams)
+- **First-use guidance:** None needed -- already the default term.
+- **Affected chapters:** 5
+
+### associativity -> ассоциативность
+
+Standard term, correctly used to explain the one real trap in this area: `**` is right-associative (2 ** 3 ** 2 == 512, not 64) while most other operators are left-associative. Verified correct by direct execution.
+
+- **Evidence:** scripts/build_chapter_05.py:05-10-associativnost
+- **First-use guidance:** Introduce with a worked left-associative example (subtraction) before the right-associative exception (**), matching the course's order.
+- **Affected chapters:** 5
+
+### truthiness -> истинность
+
+Chapter 8 correctly bounds this claim to strings specifically (bool("") == False, bool(" ") == True since a space is non-empty) and explicitly labels the general boolean-coercion rule as material for Chapter 9's full `if`. This is exactly the kind of scope discipline the audit was asked to check for and found done correctly.
+
+- **Evidence:** scripts/build_chapter_08.py:08-05-istina-lozh (section 'Пустая строка — это «ложь»')
+- **First-use guidance:** When truthiness is introduced for a new type in a later chapter, follow the same pattern: state the rule for that type only, and cross-reference rather than re-generalize prematurely.
+- **Affected chapters:** 8
+
+### immutability (string) -> неизменяемость
+
+Extends the int/float immutability entries from the Batch A register to strings. The course gives a correct mechanical explanation (word[0] = 'B' raises TypeError; the fix is to build a new string via concatenation) and correctly frames it as a deliberate language design choice rather than a limitation, with an explicit forward pointer to mutable lists in a later chapter.
+
+- **Evidence:** scripts/build_chapter_08.py:08-15-neizmenyaemost
+- **First-use guidance:** Pair every immutability claim with the concrete TypeError a learner will actually see, as the course does, rather than stating the rule abstractly.
+- **Affected chapters:** 8
+
+### membership (in / not in) -> in / not in (left as code, described with the verb 'содержит' / 'входит')
+
+The course consistently prefers operational, verb-based Russian ('X содержит Y', 'Y входит в X') over the abstract noun 'принадлежность', which would read as an unnecessary calque-flavored formalism at this level. This is a correct, deliberate register choice, not an omission.
+
+- **Evidence:** scripts/build_chapter_08.py:08-05-istina-lozh ('Оператор in проверяет, содержится ли одна строка внутри другой'); 08-22-mini-proekt-parol-i-email
+- **First-use guidance:** Keep using verb phrasing for membership checks through at least Chapter 10; introduce 'принадлежность' as a noun only if a later chapter's register specifically calls for formal set-theory language.
+- **Affected chapters:** 8
+
+### index -> индекс
+
+Standard term, used correctly and consistently for both positive (0-based) and negative (-1-based, from the end) string indexing, with diagrams.
+
+- **Evidence:** scripts/build_chapter_08.py:08-03-indeksy-srezy
+- **First-use guidance:** None needed.
+- **Affected chapters:** 8
+
+### slice -> срез
+
+Standard, correct term for [start:stop:step] notation; the course's slice diagrams and all worked slice examples (word[:3], word[-3:], word[::2], word[::-1]) verified correct by direct execution.
+
+- **Evidence:** scripts/build_chapter_08.py:08-14-srezy-stroki
+- **First-use guidance:** None needed beyond the existing diagrams.
+- **Affected chapters:** 8
+
+### sequence (string as a sequence of characters) -> последовательность (символов)
+
+Correct, standard framing of a string as an ordered sequence of characters, used to motivate indexing/slicing/iteration together as one coherent idea rather than three unrelated features.
+
+- **Evidence:** scripts/build_chapter_08.py:08-01-stroki ('строка — это последовательность символов')
+- **First-use guidance:** Introduce at the very first mention of what a string 'is', before indexing -- as the course does.
+- **Affected chapters:** 8
+
+### escape sequence -> экранирование
+
+Standard Russian developer term for backslash escapes; correctly paired with repr() as the tool for seeing escape sequences 'as written in code' rather than their rendered effect.
+
+- **Evidence:** scripts/build_chapter_08.py:08-11-ekranirovanie
+- **First-use guidance:** Introduce repr() in the same breath as escaping, as the course does -- the two ideas reinforce each other.
+- **Affected chapters:** 8
+
+### raw string -> raw-строка
+
+The course correctly keeps 'raw' untranslated as a hybrid English-Russian compound, which matches real developer usage, and correctly demonstrates raw strings solving the Windows-path backslash-escaping problem with a direct equality check.
+
+- **Evidence:** scripts/build_chapter_08.py:08-12-mnogostrochnye-i-raw-stroki
+- **First-use guidance:** None needed.
+- **Affected chapters:** 8
+
+### f-string -> f-строка
+
+'f-строка' is the universal term Russian-speaking Python developers use; the course correctly presents it as the modern preferred choice after showing %-formatting and .format() as historical context, and all f-string format-spec examples (:.2f, :,  :.1%, alignment) verified correct by execution.
+
+- **Evidence:** scripts/build_chapter_08.py:08-06-formatirovanie-strok
+- **First-use guidance:** None needed.
+- **Affected chapters:** 8
+
+### equality vs identity (== vs is) -> == сравнивает значение, is сравнивает объект (descriptive phrasing, not the noun 'идентичность')
+
+The course draws the == vs is line precisely and correctly for strings, explicitly defers full treatment of `is` to Chapter 14, and avoids introducing identity-related jargon before it is needed. This matches this register's general policy of not front-loading vocabulary a learner cannot yet ground in taught concepts.
+
+- **Evidence:** scripts/build_chapter_08.py:08-05-istina-lozh (callout '== сравнивает значение, is сравнивает объект')
+- **First-use guidance:** When Chapter 14 formally introduces `is`, this register should gain a dedicated 'identity / идентичность' entry; until then keep using the descriptive phrasing established here.
+- **Affected chapters:** 8
+
+### heading (turtle graphics) -> курс
+
+The course correctly picks the navigation/aviation sense of 'курс' (heading, as in a ship's or aircraft's course) rather than the false-friend calque 'заголовок'. This is the single highest-value terminology decision in the Turtle graphics chapters (6-7), and it is made correctly and used consistently across dozens of examples and diagrams.
+
+- **Evidence:** scripts/build_chapter_06.py:06-10-napravlenie-i-ugol; scripts/build_chapter_07.py (circle()/clone() sections referencing heading throughout)
+- **First-use guidance:** Always pair 'курс' with a concrete degree value and a compass-style diagram on first use per chapter, as the course does, since the term alone is somewhat abstract for a beginner.
+- **Affected chapters:** 6, 7
+
+### seed (random module) -> seed (left as code; described with 'воспроизводимость')
+
+The course correctly leaves 'seed' untranslated as a bare code-level term and builds the surrounding explanation around 'воспроизводимость' (reproducibility) as the Russian concept being taught. All seeded-random examples used by the automated graders (random.seed(1)->randint(1,10)==3, seed(3)->sample(range(1,6),k=3)==[2,5,4], seed(5)->randint(1,100)==80) were independently re-verified against the actual Python 3.14 random module and are correct.
+
+- **Evidence:** scripts/build_chapter_05.py:05-20-seed
+- **First-use guidance:** None needed -- 'seed' should stay bare/untranslated throughout the course.
+- **Affected chapters:** 5
