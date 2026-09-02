@@ -26,7 +26,7 @@
 22. **M01 completeness validator result:** `PASS: review contract valid; records=236; inventory_units=1158` when invoked against this batch's own 236 record files with `--chapters 13 14 15 16 --require-complete-scope` (0 missing units for this batch's scope). See item 19 for the separate, pre-existing, out-of-scope Chapter 2-8 staleness surfaced only by the whole-directory default-discovery form of the same command.
 23. **GitHub Actions result:** Pending — to be confirmed once pushed and PR opened.
 24. **Vercel result:** `bash scripts/build_vercel.sh` passed locally in full (practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green); live Vercel preview to be confirmed once PR is opened.
-25. **PR URL:** Pending — to be opened after this commit is pushed.
+25. **PR URL:** https://github.com/Cartesian-School/python-from-zero/pull/81
 
 ---
 
