@@ -25,7 +25,7 @@
 22. **M01 completeness validator result:** `PASS: review contract valid; records=439; inventory_units=1158` (439 = 258 prior [Batch A + Batch B] + 181 new Batch C; `--require-complete-scope` for `--chapters 9 10 11 12` confirms 0 missing units; the run also re-validates and confirms all 258 prior records now pass again after the regression fix in item 19).
 23. **GitHub Actions result:** Pending — to be confirmed once pushed and PR opened.
 24. **Vercel result:** `bash scripts/build_vercel.sh` passed locally in full (practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green); live Vercel preview to be confirmed once PR is opened.
-25. **PR URL:** Pending — to be opened after this commit is pushed.
+25. **PR URL:** https://github.com/Cartesian-School/python-from-zero/pull/80
 
 ---
 
