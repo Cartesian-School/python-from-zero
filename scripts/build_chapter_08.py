@@ -1503,7 +1503,7 @@ def build_22() -> None:
         'email = input("Ваш e-mail: ").strip()\n\n'
         'est_sobachka = "@" in email\n'
         'odna_sobachka = email.count("@") == 1\n'
-        'est_tochka_posle = "." in email[email.find("@"):] if est_sobachka else False\n\n'
+        'est_tochka_posle = "." in email[email.find("@"):]\n\n'
         'pohozhe_na_email = est_sobachka and odna_sobachka and est_tochka_posle\n'
         'print(f"Похоже на e-mail: {pohozhe_na_email}")\n'
         '# ввод: "ada@cartesianschool.org"\n'

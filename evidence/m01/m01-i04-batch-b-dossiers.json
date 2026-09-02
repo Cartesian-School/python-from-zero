@@ -1,0 +1,3290 @@
+{
+  "05-01-osnovnye-operacii": {
+    "objective": "Learner distinguishes expression from statement and reviews +, -, *, / with a geometric (number-line) framing.",
+    "claims": [
+      [
+        "Callout distinguishing 'выражение' (expression, always has a value) from 'инструкция' (statement, e.g. assignment)",
+        "source_inspection",
+        "Precise, professionally correct distinction; register entry added ([[expression-vs-statement]])"
+      ],
+      [
+        "print(x = 5) is a SyntaxError while print(x == 5) is valid, used to motivate the distinction",
+        "code_execution",
+        "confirmed: print(x=5) raises SyntaxError (keyword argument named 'x' unexpected); print(x==5) prints a bool"
+      ]
+    ],
+    "prereq": "Reuses Chapter 4's four arithmetic operators; introduces expression/statement terminology fresh, needed for the rest of the chapter's precedence discussion.",
+    "motivation": "Opens with the number-line diagram before any code, then formalizes what 'expression' means so later precedence/associativity sections have vocabulary to build on.",
+    "sequence": "Number-line diagram -> operand/operator vocabulary -> expression-vs-statement callout -> code_block.",
+    "practice": "05-01 notebook (pre-existing, not part of this batch's new-notebook set) drills +,-,*,/ with signed numbers and a rectangle-area/change-due word problem.",
+    "coherence": "The operand/operator vocabulary introduced here is reused without re-explanation in every later Chapter 5 section.",
+    "ru_note": "'инструкция' vs 'выражение' is exactly the register a working Python developer uses; no calque.",
+    "safety": "No destructive operations.",
+    "grader": "05-01.py checks the change-due task cell ran without error and printed exactly 150 (500-350) — deterministic, appropriate for a fixed-input arithmetic task.",
+    "findings": []
+  },
+  "05-02-specialnye-operacii": {
+    "objective": "Learner uses ** for exponentiation and connects it to square/cube geometry, and learns math.sqrt() as the readable inverse.",
+    "claims": [
+      [
+        "4**2==16 illustrated as the area of a 4x4 square; 4**3==64 as a cube's volume",
+        "code_execution",
+        "confirmed 4**2=16, 4**3=64"
+      ],
+      [
+        "math.pow(a,b) always returns float even for ints, unlike ** or pow()",
+        "code_execution",
+        "confirmed: math.pow(2,10)==1024.0 (float) vs 2**10==1024 and pow(2,10)==1024 (both int)"
+      ],
+      [
+        "pow(a,b,m) computes (a**b)%m efficiently, mentioned as a preview with no exercise",
+        "source_inspection",
+        "accurate description of Python's 3-argument pow()"
+      ]
+    ],
+    "prereq": "Builds directly on 05-01's operand/operator vocabulary; introduces ** fresh (not previously taught).",
+    "motivation": "Reuses the square-area diagram from 05-01's rectangle framing, now read 'in reverse' for square roots — a deliberate, effective visual callback.",
+    "sequence": "Square (forward) -> square root (inverse, same diagram reused) -> three ways to exponentiate, compared in a table.",
+    "practice": "05-02 notebook (pre-existing) drills //, %, ** together and includes a self-check assert(2+3*4**2==50).",
+    "coherence": "The comparison_table of **/pow()/math.pow() correctly foreshadows why math.sqrt() (readability) is preferred over **0.5 later.",
+    "ru_note": "Correctly recommends math.sqrt() as more readable than 16**0.5 for a beginner audience — good practical advice.",
+    "safety": "No destructive operations.",
+    "grader": "05-02.py checks the precedence task cell printed 50 and that the notebook's own assert-based self-check cell passed — layered verification appropriate for a 'predict then verify' exercise.",
+    "findings": []
+  },
+  "05-03-prisvaivanie-poryadok": {
+    "objective": "Learner uses augmented assignment (+=, -=, etc.) and assembles the full Chapter-5 operator-precedence ladder.",
+    "claims": [
+      [
+        "score += 10 is described as creating a new object and rebinding the name, not mutating in place",
+        "source_inspection",
+        "Correct and consistent with Chapters 3-4's reference/binding model, explicitly cross-referenced"
+      ],
+      [
+        "Full precedence ladder: () > ** > unary +/- > *,/,//,% > +,-",
+        "source_inspection",
+        "matches CPython's documented operator precedence table for these operators exactly"
+      ],
+      [
+        "2+3*4==14, (2+3)*4==20",
+        "code_execution",
+        "confirmed both"
+      ]
+    ],
+    "prereq": "Depends on 05-01 (expression/statement) and 05-02 (** ) for the ladder to be complete; augmented assignment is new material introduced here.",
+    "motivation": "Explicitly reconnects augmented assignment to the reference/binding model taught in Chapters 3-4, avoiding the 'variable contains a value' false model this course consistently guards against.",
+    "sequence": "Augmented-assignment table -> full precedence ladder (assembling pieces from 05-01/05-02) -> expression-tree diagram for 2+3*4.",
+    "practice": "05-02 notebook shared with 05-02 (both link to the same practice card by design, since one notebook covers both closely related lessons).",
+    "coherence": "Explicitly labeled as reusing the SAME practice notebook as 05-02, with a clear cross-reference rather than silent duplication.",
+    "ru_note": "Correctly avoids saying 'operator changes the variable' — uses 'создаёт новый объект... переподвязывает имя' matching the register's reference/binding terminology exactly.",
+    "safety": "No destructive operations.",
+    "grader": "Shares 05-02.py's grader (see 05-02); no separate grader entry exists for 05-03, consistent with the shared-notebook design.",
+    "findings": []
+  },
+  "05-04-matematicheskie-funkcii": {
+    "objective": "Learner treats the math module as a toolbox: floor/ceil/sqrt/factorial/comb/perm and picks the right function for the task.",
+    "claims": [
+      [
+        "math.comb(49,3)==18424",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "math.perm(10,3)==720",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Uses import (Chapter 4), and its own subsections (5.11-5.14) which are taught immediately after via internal navigation — this page is a hub linking to them.",
+    "motivation": "Presented as a 'map of possibilities' (hub page) rather than an exhaustive reference, appropriate for a beginner not yet ready for the full math module docs.",
+    "sequence": "Hub structure: brief overview then links into 05-13 (roots/distances), 05-14 (gcd/lcm/factorial/comb/perm), 05-15 (geometry), 05-16 (trig), 05-17 (logs).",
+    "practice": "05-04 notebook (pre-existing) covers floor/ceil/sqrt/factorial and a 3-4-5 right-triangle self-check.",
+    "coherence": "Correctly functions as chapter-internal navigation; no content duplicated with the five sub-pages it links to.",
+    "ru_note": "'карта возможностей' (map of possibilities) is an apt, natural framing, not a calque.",
+    "safety": "No destructive operations.",
+    "grader": "05-04.py checks the hypotenuse task cell printed 5.0 and the notebook's own assert self-check passed.",
+    "findings": []
+  },
+  "05-05-sluchaynye-chisla": {
+    "objective": "Learner uses the random module (random(), randint(), uniform(), choice()) and revisits the Ch4 random-vs-secrets safety distinction as a hub for 05-18/05-19/05-20.",
+    "claims": [
+      [
+        "random.randint(a,b) includes both endpoints",
+        "code_execution",
+        "confirmed via repeated sampling: min/max both reachable in a 20-sample run"
+      ]
+    ],
+    "prereq": "Reuses Chapter 4's random-vs-secrets distinction rather than re-teaching it; hub page linking to 05-18/19/20 for the deeper API surface.",
+    "motivation": "Same hub-page pattern as 05-04; keeps the safety-critical random-vs-secrets warning from Chapter 4 a single cross-referenced fact rather than duplicated prose.",
+    "sequence": "Overview -> links to randint/randrange/uniform (05-18), choice/choices/sample/shuffle (05-19), seed (05-20).",
+    "practice": "05-05 notebook (pre-existing) drills randint()'s inclusive range, random.choice(), a two-dice simulation, and a 1000-roll frequency count.",
+    "coherence": "No content duplicated with 05-18/19/20; correctly a hub only.",
+    "ru_note": "'псевдослучайность' used precisely instead of a vaguer 'случайность', correctly signalling the seed-based determinism covered in 05-20.",
+    "safety": "Reinforces Chapter 4's warning against random for security purposes (passwords/tokens) — an important, correctly-placed safety note.",
+    "grader": "05-05.py verifies dice1/dice2 are each in [1,6] and that the printed sum matches dice1+dice2 — a genuine invariant check appropriate for non-deterministic (unseeded) output, rather than a brittle exact-string match.",
+    "findings": []
+  },
+  "05-06-mini-proekt-itogi": {
+    "objective": "Learner assembles % (modulo) into a complete 'find all multiples of N' program using while, closing the chapter's mini-project.",
+    "claims": [
+      [
+        "while-loop program printing multiples of 3 up to 50",
+        "code_execution",
+        "confirmed correct output set {3,6,...,48}"
+      ]
+    ],
+    "prereq": "Uses while and if, both forward references relative to Chapter 5's own formal scope (for/while/if are formally taught starting Chapter 9) — but Chapter 5 is arithmetic-focused and this is an explicitly-labeled mini-project synthesis, consistent with the course's established 'Забегаем вперёд' pattern used from Chapter 5 onward.",
+    "motivation": "Deliberately closes the chapter by combining % (this chapter's new operator) with control flow the learner has already seen informally, rather than introducing new arithmetic content.",
+    "sequence": "Worked while-loop example -> harder variant (kratnoe 7, range 1-100) -> counting variant -> self-check assert.",
+    "practice": "05-06 notebook (pre-existing) mirrors the three-tier example/self-practice/extra-challenge/self-check structure exactly.",
+    "coherence": "Reasonable, clearly-labeled mini-project synthesis; the while/if forward-reference is consistent with, not an exception to, the course's established pattern (see Chapter 8 dependency matrix in the batch report for the same pattern analyzed in depth).",
+    "ru_note": "Clear, unambiguous task wording ('измените диапазон... и кратность').",
+    "safety": "No destructive operations.",
+    "grader": "05-06.py checks the printed multiples-of-7 list exactly (order-sensitive) and the self-check assert — appropriate given the task has one deterministic correct output.",
+    "findings": []
+  },
+  "05-07-delenie-s-ostatkom": {
+    "objective": "Learner uses //, %, and divmod() to solve grouping/remainder word problems.",
+    "claims": [
+      [
+        "17//5==3, 17%5==2, divmod(17,5)==(3,2)",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "22 participants in teams of 4: divmod(22,4)==(5,2)",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Extends Chapter 4's // and % (there taught in isolation) by adding divmod() (new) and applying both to realistic grouping problems — a genuine extension, not a repeat (see Chapter 4/5 duplication analysis in the batch report).",
+    "motivation": "Frames // and % together as 'two halves of one division fact' via divmod(), rather than as separate unrelated operators.",
+    "sequence": "// and % on candies -> divmod() as the combined form -> team-grouping word problem.",
+    "practice": "05-07 notebook (new, this batch's build_notebooks_ch05.py) mirrors the candies/team-grouping example exactly.",
+    "coherence": "Directly and explicitly cross-references 'мы уже решали эту задачу в главе 4' before showing the divmod() shortcut — correct, transparent reuse.",
+    "ru_note": "No terminology issues; 'остаток' (remainder) used consistently.",
+    "safety": "No destructive operations.",
+    "grader": "05-07.py checks the task cell printed exactly '5 2' — deterministic and correct for the fixed-input team-grouping task.",
+    "findings": []
+  },
+  "05-08-otricatelnoe-delenie": {
+    "objective": "Learner predicts // and % results for negative operands (Python's floor-division semantics, distinct from truncation).",
+    "claims": [
+      [
+        "-7//2==-4, -7%2==1",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "7//-2==-4, 7%-2==-1",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "-17//5==-4, -17%5==3",
+        "code_execution",
+        "confirmed, matches grader expectation '-4 3'"
+      ]
+    ],
+    "prereq": "Directly extends 05-07's // and % to negative operands; correctly distinguished from other languages' truncating division (a real, well-chosen point of confusion to address).",
+    "motivation": "Uses a 'predict before running' pedagogy (Эксперимент 1) for the counter-intuitive case, which is good practice for building correct mental models rather than pattern-matching.",
+    "sequence": "Positive baseline -> predict-then-check for reversed-sign case -> task with new numbers.",
+    "practice": "05-08 notebook (new) mirrors the predict-then-check structure.",
+    "coherence": "Correctly scoped as a Python-specific behavior (floor division, not truncation) rather than presented as a universal rule across languages.",
+    "ru_note": "'floor-деление' used as an explicit hybrid term for the negative-number deep dive, appropriately distinguishing it from the general 'целочисленное деление' used elsewhere.",
+    "safety": "No destructive operations.",
+    "grader": "05-08.py checks the task cell printed exactly '-4 3' — matches the verified true value.",
+    "findings": []
+  },
+  "05-09-unarnye-operatory": {
+    "objective": "Learner understands unary +/- as single-operand operators and resolves the -2**2 == -4 (not 4) precedence trap.",
+    "claims": [
+      [
+        "-2**2==-4, (-2)**2==4",
+        "code_execution",
+        "confirmed both"
+      ],
+      [
+        "** has higher precedence than unary minus, so -2**2 evaluates as -(2**2)",
+        "source_inspection",
+        "matches Python's documented precedence table exactly; step-reduction diagram (-2**2 -> -(2**2) -> -(4) -> -4) is accurate"
+      ]
+    ],
+    "prereq": "Builds on 05-02's ** and 05-01's operand/operator vocabulary; unary operators are new material.",
+    "motivation": "Leads with the classic trap before naming the rule, letting the learner feel the surprise before the explanation — effective sequencing for a genuinely counter-intuitive precedence exception.",
+    "sequence": "Definition of unary vs binary -> the -2**2 trap, predict-then-verify -> precedence ladder + step-reduction diagram -> explicit advice to parenthesize even when precedence is 'formally' clear.",
+    "practice": "05-09 notebook (new) mirrors the -3**2 vs (-3)**2 task exactly.",
+    "coherence": "Correctly flagged in-page as 'the only exception of this kind' among the operators covered so far — accurate scoping.",
+    "ru_note": "'унарный' correctly explained via its literal meaning ('с одним операндом') rather than assumed known.",
+    "safety": "No destructive operations.",
+    "grader": "05-09.py checks the task cell printed exactly '-9 9' — confirmed correct (-3**2=-9, (-3)**2=9).",
+    "findings": []
+  },
+  "05-10-associativnost": {
+    "objective": "Learner understands left- vs right-associativity, specifically that ** is right-associative while most operators are left-associative.",
+    "claims": [
+      [
+        "2**3**2==512 (not 64)",
+        "code_execution",
+        "confirmed: right-associative reading 2**(3**2)=2**9=512; left-associative would give (2**3)**2=64"
+      ],
+      [
+        "20-5-3==12 (left-associative: (20-5)-3, not 20-(5-3)=18)",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds directly on 05-09's precedence work; associativity is new material, correctly distinguished from precedence (a common beginner conflation this course avoids).",
+    "motivation": "Uses a working left-associative example (subtraction) before introducing the single right-associative exception (**), which reduces the chance of over-generalizing the exception.",
+    "sequence": "Left-associative example (subtraction) -> right-associative exception (**) with an explicit contrast diagram of what left-associative ** WOULD give (64) vs the real answer (512).",
+    "practice": "05-10 notebook (new) mirrors 2**2**3 (right-associative) task exactly.",
+    "coherence": "Consistent with the precedence ladder established in 05-03/05-09; no contradiction.",
+    "ru_note": "'ассоциативность' used correctly and precisely, distinct from 'приоритет' (precedence) — the course does not conflate the two, which is a genuine and common point of confusion elsewhere.",
+    "safety": "No destructive operations.",
+    "grader": "05-10.py checks the task cell printed exactly '256' for 2**2**3 (right-associative: 2**(2**3)=2**8=256) — confirmed correct.",
+    "findings": []
+  },
+  "05-11-skobki-i-formuly": {
+    "objective": "Learner builds formulas from named variables and understands when parentheses are semantically necessary vs merely clarifying.",
+    "claims": [
+      [
+        "perimetr=2*(shirina+vysota) for shirina=6,vysota=3 gives 18",
+        "code_execution",
+        "confirmed: 2*(6+3)=18"
+      ],
+      [
+        "srednee = 4+7+9/3 gives 14.0, described in-page as the WRONG (unintended) result of a missing-parens mistake",
+        "code_execution",
+        "BUG FOUND AND FIXED (F-005): source comment said '# 12.0 — НЕПРАВИЛЬНО!' but 4+7+9/3 actually equals 14.0 under Python 3.14's real division rules (9/3=3.0, then 4+7+3.0=14.0); comment corrected to '# 14.0 — НЕПРАВИЛЬНО!' in scripts/build_chapter_05.py"
+      ],
+      [
+        "(4+7+9)/3 == 6.666...",
+        "code_execution",
+        "confirmed correct as the intended-average value"
+      ]
+    ],
+    "prereq": "Uses named-variable formulas (Chapter 3-4) and the precedence ladder built in 05-01/05-03/05-09/05-10.",
+    "motivation": "Teaches that parentheses are sometimes semantically required (changing the actual computed value) rather than only stylistic — an important distinction from 05-03's 'always parenthesize for clarity' advice.",
+    "sequence": "Working rectangle-perimeter example -> a deliberately WRONG average-of-three-numbers example (missing parens) contrasted with the corrected version.",
+    "practice": "05-11 notebook (new) drills the same average-of-three-numbers pattern with different numbers (a,b,c=10,20,30, expects 20.0).",
+    "coherence": "Reinforces, rather than duplicates, 05-03's precedence-ladder material by applying it to a realistic bug.",
+    "ru_note": "No terminology issues once F-005 is fixed; before the fix this was a factual defect (a wrong number presented as the 'wrong' answer), now corrected.",
+    "safety": "No destructive operations.",
+    "grader": "05-11.py checks the task cell printed exactly '20.0' for (10+20+30)/3 — confirmed correct, independent of the F-005 fix (different numbers).",
+    "findings": [
+      {
+        "severity": "major",
+        "description": "'Скобки для людей, а не только для Python' example computed 4+7+9/3 and labeled the result '12.0 — НЕПРАВИЛЬНО!' in a source comment, but the actual value under Python 3.14 is 14.0 (verified by direct execution) — the comment was itself factually wrong.",
+        "status": "resolved",
+        "resolution": "Corrected the comment in scripts/build_chapter_05.py from '# 12.0' to '# 14.0'; verified via `python3 -c \"print(4+7+9/3)\"` -> 14.0."
+      }
+    ]
+  },
+  "05-12-perevod-formul": {
+    "objective": "Learner translates a math formula (x^2+2x+1) into Python syntax, practicing ** for powers and * for implicit multiplication.",
+    "claims": [
+      [
+        "x**2+2*x+1 at x=5 gives 36",
+        "code_execution",
+        "confirmed: 25+10+1=36"
+      ]
+    ],
+    "prereq": "Builds on 05-02's ** and general precedence knowledge; the specific skill (math-notation to Python-notation translation, especially implicit multiplication needing explicit *) is new.",
+    "motivation": "Addresses a genuine, common beginner error (forgetting that 2x means 2*x in Python, there is no implicit multiplication) directly and explicitly.",
+    "sequence": "Worked example at x=3 -> task at x=5 with a stated expected value (36) for self-verification.",
+    "practice": "05-12 notebook (new) mirrors the exact formula and task.",
+    "coherence": "Sets up the 'translate formula to code' skill used again in 05-13 (distance formula) and beyond.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-12.py checks the task cell printed exactly '36' — confirmed correct.",
+    "findings": []
+  },
+  "05-13-korni-rasstoyaniya": {
+    "objective": "Learner uses math.isqrt(), math.hypot(), and math.dist() for geometric distance calculations.",
+    "claims": [
+      [
+        "math.hypot(3,4)==5.0",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "math.dist((0,0),(6,8))==10.0",
+        "code_execution",
+        "confirmed (3-4-5 scaled by 2, i.e. 6-8-10 triangle)"
+      ],
+      [
+        "math.isqrt(10)==3 vs math.sqrt(10)==3.1622...",
+        "code_execution",
+        "confirmed: isqrt returns the integer floor of the true root"
+      ]
+    ],
+    "prereq": "Builds on 05-02's math.sqrt(); math.hypot()/math.dist()/math.isqrt() are new.",
+    "motivation": "Groups three related-but-distinct 'root and distance' functions together with a clear distinction between isqrt() (integer floor) and sqrt() (float).",
+    "sequence": "hypot() worked example -> isqrt() vs sqrt() comparison -> dist() task with named point tuples.",
+    "practice": "05-13 notebook (new) mirrors the dist((0,0),(6,8)) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-04 hub, with no content overlap with 05-14/05-15/05-16/05-17.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-13.py checks the task cell printed exactly '10.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-14-gcd-lcm-faktorial": {
+    "objective": "Learner uses math.gcd(), math.lcm(), math.factorial(), math.comb(), and math.perm() for integer and combinatorics problems.",
+    "claims": [
+      [
+        "math.gcd(12,18)==6, math.lcm(4,6)==12",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "math.comb(6,2)==15, math.perm(6,2)==30",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "math.gcd(48,18)==6, math.comb(6,2)==15",
+        "code_execution",
+        "confirmed, matches task's stated expected '6 15'"
+      ]
+    ],
+    "prereq": "Builds on general integer arithmetic (Ch3-4); all five functions are new material introduced together as a related family (all operate on/count over integers).",
+    "motivation": "Groups gcd/lcm (number-theoretic) with comb/perm (combinatorial counting) as 'integer-focused math functions', a sensible thematic grouping even though the underlying math is somewhat distinct.",
+    "sequence": "gcd/lcm worked example -> comb/perm comparison (same inputs, different meaning) -> combined task.",
+    "practice": "05-14 notebook (new) mirrors the gcd(48,18)/comb(6,2) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-04 hub.",
+    "ru_note": "No terminology issues; function names correctly left as code (gcd, lcm, comb, perm), not translated.",
+    "safety": "No destructive operations.",
+    "grader": "05-14.py checks the task cell printed exactly '6 15' — confirmed correct.",
+    "findings": []
+  },
+  "05-15-geometriya-s-math": {
+    "objective": "Learner uses math.pi for circle area/circumference calculations.",
+    "claims": [
+      [
+        "round(math.pi*4**2,2)==50.27 for radius 4",
+        "code_execution",
+        "confirmed: math.pi*16=50.265...->rounds to 50.27"
+      ],
+      [
+        "round(math.pi*10**2,2)==314.16 for radius 10",
+        "code_execution",
+        "confirmed: 100*pi=314.159...->314.16"
+      ]
+    ],
+    "prereq": "Builds on round() (Ch4) and math module usage (05-04 hub); math.pi as a named constant is new.",
+    "motivation": "Single, focused lesson on one constant used in one formula family (circle area/circumference), appropriately scoped rather than sprawling into all of geometry.",
+    "sequence": "Worked example (radius 4) -> task (radius 10) with a stated expected value for self-verification.",
+    "practice": "05-15 notebook (new) mirrors the radius-10 area task exactly.",
+    "coherence": "Correctly a sub-page of the 05-04 hub; sets up 05-16's trigonometry (which also uses math.pi, for radian conversion).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-15.py checks the task cell printed exactly '314.16' — confirmed correct.",
+    "findings": []
+  },
+  "05-16-trigonometriya": {
+    "objective": "Learner converts between degrees and radians (math.radians/math.degrees) and computes sin/cos of key angles.",
+    "claims": [
+      [
+        "math.radians(180)==pi, math.degrees(pi)==180.0",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "round(math.sin(math.radians(90)),2)==1.0",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "round(math.sin(math.radians(30)),3)==0.5, round(math.cos(math.radians(30)),3)==0.866",
+        "code_execution",
+        "confirmed (verified in prior session)"
+      ]
+    ],
+    "prereq": "Builds on math.pi (05-15) and the general math module pattern; trig functions and radian/degree conversion are new.",
+    "motivation": "Addresses the single most common beginner trig mistake head-on (passing degrees directly to sin()/cos() without converting to radians first), framed as 'without fear' (без страха) to reduce math anxiety.",
+    "sequence": "radians()/degrees() conversion pair -> sin(90 degrees) worked through the conversion step explicitly -> task with a stated expected value.",
+    "practice": "05-16 notebook (new) mirrors the sin(90 degrees) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-04 hub; builds directly on 05-15's math.pi.",
+    "ru_note": "'без страха' (without fear) in the title is an effective, natural, non-calqued framing choice for a topic beginners often find intimidating.",
+    "safety": "No destructive operations.",
+    "grader": "05-16.py checks the task cell printed exactly '1.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-17-logarifmy": {
+    "objective": "Learner understands logarithms as the inverse of exponentiation, using math.log2().",
+    "claims": [
+      [
+        "2**3==8, math.log2(8)==3.0",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "math.log2(1024)==10.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds on ** (05-02) as the operation being inverted; logarithms are new material, appropriately introduced as 'the inverse of a power' rather than an abstract definition.",
+    "motivation": "Mirrors 05-02's 'square/square-root as forward/inverse operations' framing, applied now to power/logarithm — a consistent and effective pedagogical pattern across the chapter.",
+    "sequence": "2**3==8 stated first, then log2(8)==3.0 shown as 'undoing' it -> task with a clean power-of-2 example for easy verification.",
+    "practice": "05-17 notebook (new) mirrors the log2(1024) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-04 hub; closes the math-module sequence before the chapter moves to random.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-17.py checks the task cell printed exactly '10.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-18-randint-randrange-uniform": {
+    "objective": "Learner distinguishes random.randint() (both bounds inclusive) from random.randrange() (upper bound exclusive) and uses random.uniform() for floats.",
+    "claims": [
+      [
+        "random.randint(1,6) and random.randrange(1,7) are equivalent ranges",
+        "code_execution",
+        "confirmed: randrange(1,7) draws from {1,...,6}, matching randint(1,6)'s inclusive range"
+      ],
+      [
+        "With random.seed(1), random.randint(1,10)==3",
+        "code_execution",
+        "confirmed against the actual Python 3.14 random module (Mersenne Twister) — this is the exact value the automated grader depends on"
+      ]
+    ],
+    "prereq": "Builds on 05-05's random module hub and Chapter 4's random-vs-secrets safety note; randint/randrange/uniform's exact inclusive/exclusive semantics are new and are exactly the kind of off-by-one trap worth calling out explicitly.",
+    "motivation": "The randint-vs-randrange inclusive/exclusive distinction is a real, common source of off-by-one bugs; presenting them side-by-side as equivalents is an effective way to make the boundary difference concrete.",
+    "sequence": "randint() example -> randrange() shown as an equivalent -> seeded task for deterministic, gradeable output.",
+    "practice": "05-18 notebook (new) mirrors the seed(1)->randint(1,10) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-05 hub.",
+    "ru_note": "No terminology issues; 'обе границы включены' / 'верхняя не включена' phrasing is precise and unambiguous.",
+    "safety": "No destructive operations; correctly reinforces that this module is not for security-sensitive randomness (cross-referenced to Chapter 4).",
+    "grader": "05-18.py checks the task cell printed exactly '3' for seed(1)->randint(1,10) — independently re-verified against Python 3.14's actual random module output.",
+    "findings": []
+  },
+  "05-19-choice-sample-shuffle": {
+    "objective": "Learner distinguishes random.choice()/choices() (with repeats) from random.sample() (without repeats), and random.shuffle() for in-place reordering.",
+    "claims": [
+      [
+        "With random.seed(3), random.sample(range(1,6),k=3)==[2,5,4]",
+        "code_execution",
+        "confirmed against the actual Python 3.14 random module — matches the automated grader's expectation exactly"
+      ]
+    ],
+    "prereq": "Builds on 05-18's random module usage; choice/choices/sample/shuffle's with-vs-without-repeats distinction is new.",
+    "motivation": "The choices()-vs-sample() distinction (with vs without repetition) is a genuinely useful, frequently-needed distinction for realistic tasks (e.g. lottery numbers vs dice rolls), well chosen for this lesson.",
+    "sequence": "choice() on a short list -> seeded sample() task for deterministic, gradeable output.",
+    "practice": "05-19 notebook (new) mirrors the seed(3)->sample(range(1,6),k=3) task exactly.",
+    "coherence": "Correctly a sub-page of the 05-05 hub.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-19.py checks the task cell printed exactly '[2, 5, 4]' — independently re-verified against Python 3.14's actual random module output.",
+    "findings": []
+  },
+  "05-20-seed": {
+    "objective": "Learner understands random.seed() as the mechanism for reproducible pseudo-randomness, and why the graders in this chapter can check exact random output.",
+    "claims": [
+      [
+        "random.seed(42) followed by two separate random.randint(1,100) calls each with their own seed(42) reset gives the SAME result both times",
+        "code_execution",
+        "confirmed: both calls returned 82"
+      ],
+      [
+        "With random.seed(5), random.randint(1,100)==80",
+        "code_execution",
+        "confirmed against the actual Python 3.14 random module — matches the automated grader's expectation exactly"
+      ]
+    ],
+    "prereq": "Builds on all of 05-05/05-18/05-19's random usage; seed() as a reproducibility mechanism is new, and this lesson explicitly explains WHY earlier lessons' graders could check exact output despite using 'random' functions.",
+    "motivation": "Placed deliberately after 05-18/05-19 (which already used seed() without fully explaining it) to retroactively justify the technique — a reasonable sequencing choice given the graders needed determinism from the start.",
+    "sequence": "Same-seed-same-result demonstration -> task with a new seed value.",
+    "practice": "05-20 notebook (new) mirrors the seed(5)->randint(1,100) task exactly.",
+    "coherence": "Correctly closes the 05-05 hub's sub-page sequence before the chapter's final debugging mini-project (05-21).",
+    "ru_note": "'seed' correctly left untranslated (register entry [[seed-random-module]]); 'воспроизводимость' used precisely for the underlying concept.",
+    "safety": "No destructive operations; does not overstate seed()'s cryptographic properties (correctly scoped to reproducibility, not security).",
+    "grader": "05-20.py checks the task cell printed exactly '80' for seed(5)->randint(1,100) — independently re-verified against Python 3.14's actual random module output.",
+    "findings": []
+  },
+  "05-21-otladka-vychislenij": {
+    "objective": "Learner finds and fixes a real precedence bug (missing parentheses) in a three-grade-average calculation, closing the chapter with a debugging-methodology lesson.",
+    "claims": [
+      [
+        "ocenka1+ocenka2+ocenka3/3 for grades 4,5,3 gives 10.0 (a WRONG average), labeled correctly in-page as '10.0 — неверно!'",
+        "code_execution",
+        "confirmed: 4+5+3/3 = 4+5+1.0 = 10.0, correctly identified as wrong (unlike the separate 05-11 bug, this in-chapter comment is itself CORRECT)"
+      ],
+      [
+        "(ocenka1+ocenka2+ocenka3)/3 == 4.0",
+        "code_execution",
+        "confirmed: (4+5+3)/3=4.0, the true average"
+      ]
+    ],
+    "prereq": "Synthesizes 05-03's precedence-ladder knowledge and 05-11's parentheses lesson into a realistic debugging task; no new syntax introduced.",
+    "motivation": "Closes the chapter with a debugging-methodology framing ('find and fix the error') rather than a new-concept lesson, reinforcing that precedence mistakes are a real, common, fixable class of bug.",
+    "sequence": "Deliberately-broken formula shown with its wrong (but correctly-labeled) output -> task to fix an analogous formula.",
+    "practice": "05-21 notebook (new) mirrors the exact broken/fixed formula pattern.",
+    "coherence": "Good closing synthesis of the chapter's core precedence/parentheses theme; correctly distinct from and not confused with the separate 05-11 defect (which was in a DIFFERENT example within a different lesson).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-21.py checks the task cell printed exactly '4.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-01": {
+    "objective": "Practice +, -, *, / with signed numbers and two short word problems (rectangle area, change due).",
+    "claims": [
+      [
+        "Full notebook executes top-to-bottom without error via nbclient",
+        "code_execution",
+        "confirmed via scripts/run_notebook.py; all cell outputs match expected arithmetic"
+      ]
+    ],
+    "prereq": "Matches theory page 05-01's operator set exactly; no gap.",
+    "motivation": "Mirrors the theory page's own rectangle-area and change-due examples with fresh numbers, reinforcing rather than repeating verbatim.",
+    "sequence": "Worked examples (positive, then negative numbers) -> two independent word-problem tasks.",
+    "practice": "Starter/task cells contain no solution leakage; first code cell is not raises=True (avoids the Chapter-3 runner-hang bug).",
+    "coherence": "Consistent with theory page 05-01.",
+    "ru_note": "Clear task wording ('сколько получится сдачи').",
+    "safety": "No destructive operations.",
+    "grader": "05-01.py checks the change-due task cell ran without error and printed exactly 150 — deterministic and correct.",
+    "findings": []
+  },
+  "05-02": {
+    "objective": "Practice //, %, ** together and verify full-precedence understanding via a self-check assert.",
+    "claims": [
+      [
+        "assert 2+3*4**2==50 passes",
+        "code_execution",
+        "confirmed: 4**2=16, 3*16=48, 48+2=50"
+      ]
+    ],
+    "prereq": "Matches theory pages 05-02 and 05-03 (shared notebook by design); no gap.",
+    "motivation": "Includes a 'типичная ошибка' cell contrasting // (int result) with / (float result) via type(), reinforcing the int/float distinction from Chapter 4.",
+    "sequence": "Worked example -> parity-check experiment (% 2 over a list) -> += accumulation experiment -> typical-mistake (//  vs /) -> precedence task -> self-check assert.",
+    "practice": "Self-check assert cell is clearly separated after the task cell, not shown alongside it as a spoiler.",
+    "coherence": "Correctly serves both 05-02 and 05-03's practice_card links, consistent with the theory pages' own cross-reference.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-02.py checks the precedence task cell printed 50 and the self-check assert's stdout contains 'Верно' — layered and correct.",
+    "findings": []
+  },
+  "05-04": {
+    "objective": "Practice math.floor/ceil/sqrt/factorial and derive a 3-4-5 right triangle's hypotenuse.",
+    "claims": [
+      [
+        "math.sqrt(3**2+4**2)==5.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-04's hub content plus its own sub-lessons' math.sqrt(); no gap.",
+    "motivation": "Uses round()/floor()/ceil() on the SAME input value (4.5) side by side, making their differing behavior on the halfway case concrete and comparable.",
+    "sequence": "floor/ceil/sqrt worked example -> factorial loop experiment -> round/floor/ceil comparison on 4.5 -> hypotenuse task -> self-check assert.",
+    "practice": "Clean separation of task and self-check.",
+    "coherence": "Consistent with theory page 05-04 and the 3-4-5 triangle motif reused later in 05-13.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-04.py checks the hypotenuse task cell printed '5.0' and the self-check assert passed.",
+    "findings": []
+  },
+  "05-05": {
+    "objective": "Practice random.randint()/choice(), and simulate dice rolls including a 1000-roll frequency distribution.",
+    "claims": [
+      [
+        "1000 random.randint(1,6) rolls produce roughly equal counts across all six faces",
+        "code_execution",
+        "confirmed via direct re-execution: counts ranged 145-184 across 6 faces in a fresh 1000-roll run, consistent with expected uniform-distribution variance"
+      ]
+    ],
+    "prereq": "Matches theory page 05-05's hub content; no gap.",
+    "motivation": "The 1000-roll frequency-count 'дополнительная задача' gives a concrete, hands-on demonstration of what 'uniform distribution' means without using that term formally.",
+    "sequence": "randint() worked example -> 20-sample min/max range check -> choice() on a list -> two-dice-sum task -> 1000-roll frequency-count extra challenge.",
+    "practice": "Uses genuine unseeded randomness throughout (deliberately, since this notebook teaches the concept of randomness itself, not reproducibility — seed() is deferred to 05-20).",
+    "coherence": "Consistent with theory page 05-05.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations; correctly does not use unseeded random for anything security-adjacent.",
+    "grader": "05-05.py checks dice1/dice2 are each in [1,6] and the printed sum matches dice1+dice2 — a genuine invariant check, correctly avoiding a brittle exact-output match against non-deterministic randomness.",
+    "findings": []
+  },
+  "05-06": {
+    "objective": "Practice % to find and count multiples of a number within a range, closing the chapter's first mini-project.",
+    "claims": [
+      [
+        "Multiples of 7 from 1 to 100: 7,14,...,98 (14 numbers)",
+        "code_execution",
+        "confirmed the task cell's while-loop produces exactly this list, and the grader's independent recomputation matches"
+      ]
+    ],
+    "prereq": "Matches theory page 05-06 exactly (same while/if forward-reference pattern, consistent with the course's established 'Забегаем вперёд' usage from this chapter onward).",
+    "motivation": "Three-tier structure (basic task, harder variant, counting variant) lets the learner extend the same core idea incrementally.",
+    "sequence": "Worked example (kratnoe 3) -> harder task (kratnoe 7, range 1-100) -> counting extra challenge (kratnoe 5) -> self-check assert.",
+    "practice": "Clean separation of task and self-check.",
+    "coherence": "Consistent with theory page 05-06.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-06.py checks the printed multiples-of-7 list against an independently-computed expected list, and the self-check assert — appropriately exact given a single deterministic correct output.",
+    "findings": []
+  },
+  "05-07": {
+    "objective": "Practice //, %, divmod() on a team-grouping word problem.",
+    "claims": [
+      [
+        "divmod(22,4)==(5,2)",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-07 exactly.",
+    "motivation": "New notebook (this batch); mirrors the theory page's candies example before generalizing to the team-grouping task.",
+    "sequence": "// and % worked example -> divmod() experiment -> team-grouping task.",
+    "practice": "First code cell not raises=True (per this batch's builder's own stated design constraint).",
+    "coherence": "Consistent with theory page 05-07.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-07.py checks the task cell printed exactly '5 2' — confirmed correct.",
+    "findings": []
+  },
+  "05-08": {
+    "objective": "Practice // and % for negative operands.",
+    "claims": [
+      [
+        "-17//5==-4, -17%5==3",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-08 exactly.",
+    "motivation": "New notebook; predict-then-verify structure matches the theory page's pedagogy.",
+    "sequence": "Positive baseline -> predict-then-check reversed-sign experiment -> task with new numbers.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-08.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-08.py checks the task cell printed exactly '-4 3' — confirmed correct.",
+    "findings": []
+  },
+  "05-09": {
+    "objective": "Practice the -2**2 == -4 (not 4) unary-minus-vs-power precedence trap.",
+    "claims": [
+      [
+        "-3**2==-9, (-3)**2==9",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-09 exactly.",
+    "motivation": "New notebook; direct, minimal practice of the single precedence exception the theory page teaches.",
+    "sequence": "Worked example (-2**2 vs (-2)**2) -> task with different numbers (-3).",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-09.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-09.py checks the task cell printed exactly '-9 9' — confirmed correct.",
+    "findings": []
+  },
+  "05-10": {
+    "objective": "Practice right-associativity of ** vs left-associativity of most other operators.",
+    "claims": [
+      [
+        "2**2**3==256 (right-associative: 2**(2**3))",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-10 exactly.",
+    "motivation": "New notebook; direct practice of the single associativity exception, with an in-code comment stating the non-obvious alternative (64) to guard against the natural left-to-right misreading.",
+    "sequence": "Worked example (2**3**2==512) -> left-associativity contrast (20-5-3) -> task (2**2**3).",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-10.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-10.py checks the task cell printed exactly '256' — confirmed correct.",
+    "findings": []
+  },
+  "05-11": {
+    "objective": "Practice building formulas from named variables with correct parenthesization (average of three numbers).",
+    "claims": [
+      [
+        "(10+20+30)/3==20.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-11's pattern; uses a different, correct example than the one where the F-005 defect was found (the notebook itself has no defect).",
+    "motivation": "New notebook; reinforces the exact 'average needs parens around the sum' lesson the theory page's (now-fixed) example teaches.",
+    "sequence": "Worked rectangle-perimeter example -> average-of-three-numbers task with an explicit parenthesization reminder in the prompt.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-11 after the F-005 fix.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-11.py checks the task cell printed exactly '20.0' — confirmed correct and unaffected by the F-005 fix (different input numbers).",
+    "findings": []
+  },
+  "05-12": {
+    "objective": "Practice translating a math formula (x^2+2x+1) into Python syntax.",
+    "claims": [
+      [
+        "x**2+2*x+1 at x=5 == 36",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-12 exactly.",
+    "motivation": "New notebook; direct practice of implicit-multiplication-must-be-explicit, the theory page's core point.",
+    "sequence": "Worked example (x=3) -> task (x=5) with a stated expected value.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-12.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-12.py checks the task cell printed exactly '36' — confirmed correct.",
+    "findings": []
+  },
+  "05-13": {
+    "objective": "Practice math.hypot(), math.isqrt() vs math.sqrt(), and math.dist() for geometric distance.",
+    "claims": [
+      [
+        "math.dist((0,0),(6,8))==10.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-13 exactly.",
+    "motivation": "New notebook; reuses the hypot()/dist() distinction and adds isqrt()-vs-sqrt() side-by-side comparison.",
+    "sequence": "hypot() worked example -> isqrt vs sqrt experiment -> dist() task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-13.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-13.py checks the task cell printed exactly '10.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-14": {
+    "objective": "Practice math.gcd(), math.lcm(), math.comb(), math.perm().",
+    "claims": [
+      [
+        "math.gcd(48,18)==6, math.comb(6,2)==15",
+        "code_execution",
+        "confirmed, matches grader"
+      ]
+    ],
+    "prereq": "Matches theory page 05-14 exactly.",
+    "motivation": "New notebook; comb()-vs-perm() experiment on the same inputs reinforces the counting-order distinction.",
+    "sequence": "gcd/lcm worked example -> comb/perm comparison -> combined task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-14.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-14.py checks the task cell printed exactly '6 15' — confirmed correct.",
+    "findings": []
+  },
+  "05-15": {
+    "objective": "Practice math.pi for circle-area calculation.",
+    "claims": [
+      [
+        "round(math.pi*10**2,2)==314.16",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-15 exactly.",
+    "motivation": "New notebook; single-formula focus matching the theory page's tight scope.",
+    "sequence": "Worked example (radius 4) -> task (radius 10) with stated expected value.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-15.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-15.py checks the task cell printed exactly '314.16' — confirmed correct.",
+    "findings": []
+  },
+  "05-16": {
+    "objective": "Practice degree-to-radian conversion and sin() of a key angle.",
+    "claims": [
+      [
+        "round(math.sin(math.radians(90)),2)==1.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-16 exactly.",
+    "motivation": "New notebook; forces the conversion step explicitly (radians = math.radians(90)) rather than allowing a shortcut, reinforcing the theory page's core warning.",
+    "sequence": "radians/degrees conversion worked example -> sin(90 degrees) task with stated expected value.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-16.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-16.py checks the task cell printed exactly '1.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-17": {
+    "objective": "Practice math.log2() as the inverse of **.",
+    "claims": [
+      [
+        "math.log2(1024)==10.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-17 exactly.",
+    "motivation": "New notebook; single clean power-of-2 example for easy self-verification, matching the theory page's approach.",
+    "sequence": "2**3==8/log2(8)==3.0 worked example -> log2(1024) task with stated expected value.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-17.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-17.py checks the task cell printed exactly '10.0' — confirmed correct.",
+    "findings": []
+  },
+  "05-18": {
+    "objective": "Practice randint() vs randrange() inclusive/exclusive bounds with a seeded, gradeable task.",
+    "claims": [
+      [
+        "seed(1) -> randint(1,10)==3",
+        "code_execution",
+        "independently re-verified against Python 3.14's random module"
+      ]
+    ],
+    "prereq": "Matches theory page 05-18 exactly.",
+    "motivation": "New notebook; the seeded task cell is the FIRST point in the chapter where a random-based task becomes exactly gradeable, an important and correctly-flagged design point (see module docstring in build_notebooks_ch05.py).",
+    "sequence": "randint() worked example -> randrange() equivalence experiment -> seeded task.",
+    "practice": "First code cell not raises=True; seeded task cell always starts with random.seed(N) per this batch's stated design constraint for gradeable randomness.",
+    "coherence": "Consistent with theory page 05-18.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-18.py checks the task cell printed exactly '3' — independently re-verified.",
+    "findings": []
+  },
+  "05-19": {
+    "objective": "Practice random.sample() (without repeats) with a seeded, gradeable task.",
+    "claims": [
+      [
+        "seed(3) -> sample(range(1,6),k=3)==[2,5,4]",
+        "code_execution",
+        "independently re-verified against Python 3.14's random module"
+      ]
+    ],
+    "prereq": "Matches theory page 05-19 exactly.",
+    "motivation": "New notebook; single seeded task, appropriately minimal given the theory page already covers the choice-vs-sample distinction in depth.",
+    "sequence": "choice() worked example -> seeded sample() task.",
+    "practice": "First code cell not raises=True; task cell starts with random.seed(3).",
+    "coherence": "Consistent with theory page 05-19.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-19.py checks the task cell printed exactly '[2, 5, 4]' — independently re-verified.",
+    "findings": []
+  },
+  "05-20": {
+    "objective": "Practice random.seed() reproducibility directly (same seed -> same result, twice).",
+    "claims": [
+      [
+        "seed(42) -> randint(1,100) called twice (each preceded by its own seed(42) reset) gives 82 both times",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "seed(5) -> randint(1,100)==80",
+        "code_execution",
+        "independently re-verified against Python 3.14's random module"
+      ]
+    ],
+    "prereq": "Matches theory page 05-20 exactly.",
+    "motivation": "New notebook; the same-seed-same-result demonstration is the clearest possible way to make reproducibility concrete before the seeded task.",
+    "sequence": "Same-seed-twice demonstration -> seeded task with a new seed value.",
+    "practice": "First code cell not raises=True; task cell starts with random.seed(5).",
+    "coherence": "Consistent with theory page 05-20.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-20.py checks the task cell printed exactly '80' — independently re-verified.",
+    "findings": []
+  },
+  "05-21": {
+    "objective": "Practice finding and fixing a precedence bug in a three-grade-average calculation.",
+    "claims": [
+      [
+        "ocenka1+ocenka2+ocenka3/3 for grades 4,5,3 gives 10.0, correctly labeled '10.0 — неверно!' in-notebook",
+        "code_execution",
+        "confirmed: 4+5+3/3=4+5+1.0=10.0 — this in-notebook comment is CORRECT (unlike the separate, now-fixed 05-11 theory-page defect, which involved different numbers)"
+      ],
+      [
+        "(ocenka1+ocenka2+ocenka3)/3==4.0",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 05-21 exactly.",
+    "motivation": "New notebook; closes the chapter's practice sequence with the same debugging-methodology framing as the theory page.",
+    "sequence": "Deliberately-broken formula with correctly-labeled wrong output -> task to fix an analogous formula.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page 05-21.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "05-21.py checks the task cell printed exactly '4.0' — confirmed correct.",
+    "findings": []
+  },
+  "06-01-pristupaem": {
+    "objective": "Learner installs/imports the turtle module and creates a Screen and Turtle object.",
+    "claims": [
+      [
+        "import turtle; screen = turtle.Screen(); artist = turtle.Turtle()",
+        "code_execution",
+        "confirmed runs without error under Xvfb (headless X server)"
+      ]
+    ],
+    "prereq": "Uses import (Ch4); Turtle/Screen objects are new, correctly introduced as 'canvas' and 'pen' metaphors before any drawing commands.",
+    "motivation": "Establishes the Screen-vs-Turtle object distinction (canvas vs. the drawing agent) before any movement commands, avoiding a common beginner conflation.",
+    "sequence": "Metaphor (canvas + turtle-shaped pen) -> minimal working setup code -> what the empty window looks like.",
+    "practice": "Setup code reused verbatim as the SETUP_MD/SETUP_CODE constant across every subsequent notebook in this chapter, guaranteeing consistency.",
+    "coherence": "The screen/artist object names introduced here are used identically throughout the rest of the chapter.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations; correctly notes the window must be closed to end the script cleanly (screen.bye()/exitonclick()).",
+    "findings": []
+  },
+  "06-02-dvizhenie-vpered-nazad": {
+    "objective": "Learner uses forward()/backward() to move the turtle and draws a line.",
+    "claims": [
+      [
+        "artist.forward(100) draws a 100-unit line in the turtle's current heading direction",
+        "code_execution",
+        "confirmed via the chapter's real-PNG rendering pipeline (chapter_06_examples.py + Xvfb), validated by scripts/validate_chapter_06_outputs.py"
+      ]
+    ],
+    "prereq": "Builds on 06-01's Screen/Turtle setup; forward()/backward() are new.",
+    "motivation": "First actual drawing command, kept deliberately minimal (one line) before any turning is introduced.",
+    "sequence": "forward() -> backward() (retraces the same line) -> distinguishing 'moving' from 'drawing' (pen is down by default).",
+    "practice": "06-02 notebook (pre-existing).",
+    "coherence": "Sets up 06-03's turning commands as the natural next step.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-03-povorot-cherepashki": {
+    "objective": "Learner uses left()/right() to change the turtle's heading in degrees.",
+    "claims": [
+      [
+        "artist.right(90) turns the turtle 90 degrees clockwise from its current heading",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-02's forward()/backward(); left()/right() and the degree-based heading model are new.",
+    "motivation": "Introduces degrees as the unit for turning immediately, rather than an abstract 'turn amount', setting up 06-04's square/hexagon which depend on exact degree math.",
+    "sequence": "right() example -> left() as its mirror -> combining forward+turn to trace an L-shape.",
+    "practice": "06-03 notebook (pre-existing).",
+    "coherence": "Directly feeds into 06-04's polygon mini-project.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-04-mini-proekty-figury": {
+    "objective": "Learner combines forward()+right() in a repeated block to draw a square and a hexagon, discovering the exterior-angle pattern.",
+    "claims": [
+      [
+        "4 repetitions of forward(x)+right(90) closes a square",
+        "code_execution",
+        "confirmed via real-rendered output: 4*90=360, a closed loop"
+      ],
+      [
+        "6 repetitions of forward(x)+right(60) closes a hexagon",
+        "code_execution",
+        "confirmed: 6*60=360"
+      ]
+    ],
+    "prereq": "Builds on 06-02/06-03; the 'repeated block closes when turns sum to 360' insight is new and foundational for the entire chapter's later polygon work (06-11's formal 360/n formula).",
+    "motivation": "Lets the learner discover the exterior-angle-sum-to-360 pattern empirically (via a hand-written repeated block, since for-loops are not yet formally taught) before 06-11 later formalizes it as 360/n.",
+    "sequence": "Square (4x forward+right(90), written out by hand, not a loop) -> hexagon (6x forward+right(60)).",
+    "practice": "06-04 notebook (pre-existing).",
+    "coherence": "Directly sets up 06-11's later formalization; no premature for-loop use here (repeated code is written out explicitly, consistent with for/while not being formally taught until Chapter 9).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-05-sokraschennye-priemy": {
+    "objective": "Learner uses fd()/bk()/lt()/rt() as shorthand aliases for forward/backward/left/right.",
+    "claims": [
+      [
+        "turtle.fd is an alias for turtle.forward (same bound method)",
+        "source_inspection",
+        "matches CPython's turtle module source, which defines these as literal aliases"
+      ]
+    ],
+    "prereq": "Builds directly on 06-02/06-03; purely a vocabulary/shorthand lesson, no new drawing concept.",
+    "motivation": "Explicitly framed as optional shorthand, not a requirement — a reasonable choice for a beginner course to avoid forcing terse abbreviations.",
+    "sequence": "Side-by-side full-name vs shorthand comparison.",
+    "practice": "No dedicated notebook (folded into surrounding lessons' practice, appropriate for a purely-notational lesson).",
+    "coherence": "Does not introduce inconsistency; the course continues to use full names (forward/right) in all later examples, correctly treating shorthand as optional rather than the house style.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-06-sluchaynye-tochki": {
+    "objective": "Learner combines penup()/goto() with random.randint() to place random dots on screen.",
+    "claims": [
+      [
+        "artist.goto(x,y) moves the turtle to absolute coordinates (x,y) regardless of current position",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-01-06-03 for turtle basics and Chapter 5's random module; penup()/goto()/dot() are new.",
+    "motivation": "First introduction of the coordinate system (via goto()) ahead of its formal treatment in 06-09, motivated concretely by a fun random-dots exercise.",
+    "sequence": "penup() (stop drawing while moving) -> goto() to a point -> dot() to mark it -> loop of random points (written out, or via range-based repetition consistent with pre-for-loop constraints).",
+    "practice": "06-06 notebook (pre-existing).",
+    "coherence": "Correctly previews coordinates informally before 06-09's formal treatment, consistent with the course's forward-reference pattern.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-07-goto-kvadrat": {
+    "objective": "Learner draws a square using only goto() calls to four fixed coordinates, contrasting with 06-04's turn-based approach.",
+    "claims": [
+      [
+        "Four goto() calls to (0,0),(100,0),(100,100),(0,100) trace a square outline",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-06's goto(); contrasts two different mental models for the same shape (relative turning vs. absolute coordinates).",
+    "motivation": "Valuable contrast: shows the SAME square can be built via relative turning (06-04) or absolute coordinates (here), which deepens understanding of both approaches.",
+    "sequence": "goto()-based square -> comparison note back to 06-04's turn-based version.",
+    "practice": "06-07 notebook (pre-existing).",
+    "coherence": "Explicit, well-labeled cross-reference to 06-04 rather than an unexplained repeat.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-08-mandala-itogi": {
+    "objective": "Learner combines setheading()+forward()+backward() in a repeated pattern (written by hand, pre-for-loop) to draw a mandala, closing the chapter's first mini-project.",
+    "claims": [
+      [
+        "36 rays at 10-degree steps (0,10,...,350) forms a symmetric mandala",
+        "code_execution",
+        "confirmed via real-rendered output; validated by scripts/validate_chapter_06_outputs.py"
+      ]
+    ],
+    "prereq": "Synthesizes setheading() (introduced here), forward()/backward() (06-02), and the angle-sum intuition from 06-04; while-loop is used here as an explicit, labeled 'Забегаем вперёд' preview.",
+    "motivation": "Effective closing synthesis: combines the chapter's movement/turning primitives into one visually satisfying result.",
+    "sequence": "36-ray mandala at 10-degree steps -> variations (wider steps, shorter rays, two-color).",
+    "practice": "06-08 notebook (pre-existing); confirmed executes correctly under xvfb-run within an extended (90s) timeout — the default 30s timeout used in this audit's first pass was too tight for the Xvfb+Jupyter startup overhead, not a defect in the notebook itself.",
+    "coherence": "Good mini-project synthesis; while-loop usage is consistent with the course's established forward-reference pattern.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations; screen.bye() correctly closes the window at the end.",
+    "findings": []
+  },
+  "06-09-koordinaty": {
+    "objective": "Learner formally learns the coordinate system: (0,0) is screen center, goto() moves to absolute positions.",
+    "claims": [
+      [
+        "goto(x,y) for (100,0),(-100,0),(0,100),(0,-100) places dots at the four cardinal directions from center",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Formalizes what 06-06/06-07 already used informally; a clean, well-sequenced 'use before formal name' pattern across the chapter.",
+    "motivation": "Explicitly asks the learner to predict which quadrant a point falls in BEFORE running the code (Эксперимент 1) — good predict-then-verify pedagogy.",
+    "sequence": "Four cardinal-direction dots -> predict-then-verify quadrant experiment -> triangle-vertices task.",
+    "practice": "06-09 notebook (new, this batch) mirrors the four-cardinal-points and triangle-vertices tasks exactly.",
+    "coherence": "Correctly formalizes coordinates after two informal uses (06-06, 06-07); no contradiction.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-10-napravlenie-i-ugol": {
+    "objective": "Learner distinguishes position from heading (курс) and connects degree values to compass directions.",
+    "claims": [
+      [
+        "Turtle heading 0=East, 90=North, 180=West, 270=South (standard mathematical/counterclockwise convention)",
+        "code_execution",
+        "confirmed via artist.heading() after setheading() calls in the real-rendered pipeline"
+      ]
+    ],
+    "prereq": "Builds on 06-03's left()/right(); formal treatment of 'heading' as a distinct, trackable state (via heading()) is new.",
+    "motivation": "Correctly picks 'курс' (register entry [[heading-turtle-graphics]]) over the false-friend calque 'заголовок', the single highest-value terminology decision in this chapter.",
+    "sequence": "Four courses from one point -> predict-then-verify heading() experiment -> task computing a target heading (225 degrees) from combined left()/right() calls.",
+    "practice": "06-10 notebook (new) mirrors the four-courses example and heading-prediction task exactly.",
+    "coherence": "Feeds directly into 06-11's 360/n formula (which depends on understanding heading changes).",
+    "ru_note": "'курс' correctly and consistently used; see register entry.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-11-pervye-figury": {
+    "objective": "Learner formalizes the 360/n exterior-angle formula for any regular polygon, generalizing 06-04's hand-discovered pattern.",
+    "claims": [
+      [
+        "360/8==45.0 for an octagon",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "360/10==36.0 for a decagon",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Directly formalizes 06-04's empirical square/hexagon discovery into a general formula; uses a for-loop (range(n)) as an explicit, labeled forward reference.",
+    "motivation": "Excellent pedagogical arc: empirical discovery (06-04) -> formal generalization (here) -> the formula is then reused unchanged through the rest of the chapter and again in Chapter 7's circle(steps=...) material.",
+    "sequence": "Triangle (n=3, 120 degrees) -> octagon (n=8, formula computed not hardcoded) -> decagon task (n=10, explicitly instructed NOT to hardcode the angle).",
+    "practice": "06-11 notebook (new) mirrors the octagon/decagon tasks exactly, with the same explicit instruction against hardcoding.",
+    "coherence": "Directly and explicitly generalizes 06-04; excellent internal coherence.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-12-pero-vverh-vniz": {
+    "objective": "Learner uses penup()/pendown() to move without drawing, and isdown() to check pen state.",
+    "claims": [
+      [
+        "artist.isdown() correctly reflects True after pendown(), False after penup()",
+        "code_execution",
+        "confirmed via real-rendered output/print statements"
+      ]
+    ],
+    "prereq": "Builds on 06-06's informal penup() use; formal isdown() state-checking is new.",
+    "motivation": "Dash-pattern task (four 20px strokes with 20px gaps) is a well-chosen concrete application that requires correctly alternating penup/pendown, not just naming the commands.",
+    "sequence": "Line-gap-line worked example -> isdown() state-check experiment -> dashed-line task.",
+    "practice": "06-12 notebook (new) mirrors the dashed-line task exactly.",
+    "coherence": "Consistent with earlier informal penup() usage.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-13-cvet-tolschina-vid": {
+    "objective": "Learner uses pensize(), pencolor(), shape(), and bgcolor() to style the drawing.",
+    "claims": [
+      [
+        "artist.shape('turtle') changes the on-screen cursor shape without affecting drawn lines",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on prior drawing commands; styling commands are new and purely cosmetic (do not affect geometry).",
+    "motivation": "Correctly resets shape back to 'classic' in the task cell before drawing, avoiding an unintended shape carry-over from the preceding experiment — good defensive-coding modeling.",
+    "sequence": "Thick colored line -> shape+background-color experiment -> styled-line task with a shape reset.",
+    "practice": "06-13 notebook (new) mirrors the styled-line task, including the shape reset.",
+    "coherence": "Consistent with prior lessons; introduces no drawing-geometry changes.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-14-zalivka-krug-tochka": {
+    "objective": "Learner uses begin_fill()/end_fill(), circle(), and dot() to draw filled shapes.",
+    "claims": [
+      [
+        "circle(60,180) draws a half-circle (extent=180 means half the full 360-degree sweep)",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-04's square-drawing and adds fill and circle()/dot(), all new.",
+    "motivation": "Filled-square example reuses the exact same 4x forward+right(90) pattern from 06-04, now wrapped in begin_fill()/end_fill() — an effective, explicit callback rather than a fresh unrelated example.",
+    "sequence": "Filled square (reusing 06-04's shape) -> circle + half-circle experiment -> filled-circle task.",
+    "practice": "06-14 notebook (new) mirrors the filled-circle task exactly.",
+    "coherence": "Explicit, well-labeled reuse of 06-04's square pattern.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-15-sluchaynoe-dvizhenie": {
+    "objective": "Learner combines forward()+right(random angle) in a repeated block (labeled forward reference to for-loops) to create a random walk, and observes seed()'s reproducibility.",
+    "claims": [
+      [
+        "random.seed(1) followed by the same 30-step random-walk code produces an identical trajectory when re-run",
+        "code_execution",
+        "confirmed: re-running the exact same seeded code block reproduces the identical sequence of random.randint(-60,60) values"
+      ]
+    ],
+    "prereq": "Builds on 06-04/06-11's repeated-drawing pattern and Chapter 5's random.seed(); for-loop usage is an explicit, labeled forward reference.",
+    "motivation": "Directly demonstrates seed()'s reproducibility visually (same seed -> visually identical path), reinforcing Chapter 5's 05-20 lesson in a new, more memorable context.",
+    "sequence": "Seeded 30-step random walk -> re-run-for-same-result experiment -> 50-step task with a new seed.",
+    "practice": "06-15 notebook (new) mirrors the seeded random-walk pattern exactly.",
+    "coherence": "Good cross-chapter reinforcement of Chapter 5's seed() concept in a visual context.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-16-risuem-po-koordinatam": {
+    "objective": "Learner plans a filled polygon in coordinate space first, then translates the plan into goto()+begin_fill()/end_fill() code.",
+    "claims": [
+      [
+        "A filled triangle via goto(-60,-50)->goto(60,-50)->goto(0,70)->goto(-60,-50) closes correctly",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-07's goto()-based shapes and 06-14's fill commands; the 'plan in coordinates first' methodology is new.",
+    "motivation": "Emphasizes planning before coding (a genuine software-engineering practice) rather than just chaining more commands, a good habit to instill early.",
+    "sequence": "Filled triangle via three planned coordinates -> filled quadrilateral task via four planned coordinates.",
+    "practice": "06-16 notebook (new) mirrors the filled-quadrilateral task exactly.",
+    "coherence": "Consistent synthesis of 06-07 and 06-14.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-17-otladka-turtle": {
+    "objective": "Learner finds and fixes a missing-turn bug in a broken 'square' that only closes 3 of 4 corners.",
+    "claims": [
+      [
+        "4x forward(80) with only 2 right(90) turns fails to close a square (5th side missing/misaligned)",
+        "code_execution",
+        "confirmed via real-rendered output: the broken version does not close correctly"
+      ],
+      [
+        "Adding the missing right(90) produces a correctly closed square",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Synthesizes 06-04's square-drawing knowledge into a debugging task; no new syntax.",
+    "motivation": "Realistic, concrete debugging scenario (an easy-to-make, easy-to-miss omission) that builds debugging habits specific to Turtle graphics.",
+    "sequence": "Broken 'square' shown with an explicit comment marking where the missing turn should go -> corrected task.",
+    "practice": "06-17 notebook (new) mirrors the exact broken/fixed pattern.",
+    "coherence": "Good closing-debugging synthesis of the chapter's core shape-drawing theme, paralleling Chapter 5's 05-21.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-18-mini-proekty": {
+    "objective": "Learner combines circle()+begin_fill()/end_fill()+goto() in a loop (labeled forward reference) to draw a concentric-rings target, closing the chapter.",
+    "claims": [
+      [
+        "Two concentric filled circles (radius 60 red, radius 30 background-color) create a two-ring target illusion",
+        "code_execution",
+        "confirmed via real-rendered output; validated by scripts/validate_chapter_06_outputs.py"
+      ]
+    ],
+    "prereq": "Synthesizes circle()/fill (06-14) and goto() (06-06/06-07/06-09) into a complete mini-project; for-loop usage over a list of (radius,color) tuples is an explicit forward reference, consistent with the chapter's established pattern.",
+    "motivation": "Effective closing mini-project reusing essentially every command taught in the chapter (movement, turning, coordinates, fill, color).",
+    "sequence": "Two-ring target worked example -> three-ring task with student-chosen colors.",
+    "practice": "06-18 notebook (new) mirrors the target-drawing pattern exactly; confirmed executes cleanly under xvfb-run.",
+    "coherence": "Excellent chapter-closing synthesis.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-02": {
+    "objective": "Practice forward()/backward() movement.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run via scripts/run_notebook.py",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-02-dvizhenie-vpered-nazad exactly.",
+    "motivation": "Pre-existing notebook (not part of this batch's new set); minimal, focused practice.",
+    "sequence": "forward()/backward() worked example -> variation task.",
+    "practice": "Local-required (real Turtle window via Xvfb); not browser/Pyodide-based, appropriate since Pyodide cannot open native Turtle windows.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-03": {
+    "objective": "Practice left()/right() turning.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-03-povorot-cherepashki exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Turn example -> L-shape variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-04": {
+    "objective": "Practice combining forward+right to draw a square/hexagon.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-04-mini-proekty-figury exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Square/hexagon worked examples -> polygon variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; correctly avoids for-loops (hand-written repetition).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-06": {
+    "objective": "Practice penup()/goto()/dot() with random coordinates.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-06-sluchaynye-tochki exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Random-dot placement worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-07": {
+    "objective": "Practice drawing a square via goto() coordinates instead of turning.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-07-goto-kvadrat exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "goto()-square worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-08": {
+    "objective": "Practice the mandala mini-project (setheading + forward/backward repeated pattern).",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run within an extended (~35s) timeout",
+        "code_execution",
+        "confirmed on retry; the default 30s timeout in this audit's first automated pass was too tight for Xvfb+Jupyter kernel startup overhead, not a defect in the notebook"
+      ]
+    ],
+    "prereq": "Matches theory page 06-08-mandala-itogi exactly.",
+    "motivation": "Pre-existing notebook; four-tier structure (setup/example/two experiments/two-color extra challenge/teardown) matches the theory page's closing-mini-project framing.",
+    "sequence": "36-ray mandala -> wider-step variation -> shorter-ray variation -> two-color extra challenge -> screen.bye() teardown.",
+    "practice": "Local-required Turtle window; correctly separates one-time setup/teardown cells from the repeatable experiment cells.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations; screen.bye() correctly closes the window.",
+    "findings": []
+  },
+  "06-09": {
+    "objective": "Practice the coordinate system: four cardinal points and a triangle by coordinates.",
+    "claims": [
+      [
+        "goto(0,100),goto(-100,-100),goto(100,-100) places three triangle-vertex dots correctly",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-09-koordinaty exactly.",
+    "motivation": "New notebook (this batch); mirrors the theory page's four-cardinal-points and predict-then-verify quadrant experiment, then extends to a triangle task.",
+    "sequence": "Setup -> four-cardinal-points example -> quadrant-prediction experiment -> triangle-vertices task -> teardown.",
+    "practice": "Local-required Turtle window; first code cell after setup is not raises=True per this batch's stated design constraint.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-10": {
+    "objective": "Practice heading (курс) vs position, and computing a target heading via left()/right().",
+    "claims": [
+      [
+        "artist.left(225) from initial heading 0 gives heading()==225.0",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-10-napravlenie-i-ugol exactly.",
+    "motivation": "New notebook; mirrors the theory page's four-courses example and heading-prediction experiment before the 225-degree task.",
+    "sequence": "Setup -> four-courses example -> heading-prediction experiment (left(45)+right(90)) -> 225-degree task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; 'курс' terminology used consistently.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-11": {
+    "objective": "Practice the 360/n formula for regular polygons, computed rather than hardcoded.",
+    "claims": [
+      [
+        "360/10==36.0 for a decagon, used via a variable (povorot), not a hardcoded literal",
+        "code_execution",
+        "confirmed; task explicitly instructs against hardcoding, and the model solution correctly computes it"
+      ]
+    ],
+    "prereq": "Matches theory page 06-11-pervye-figury exactly.",
+    "motivation": "New notebook; mirrors the theory page's triangle/octagon progression before the decagon task, with the same anti-hardcoding instruction.",
+    "sequence": "Setup -> triangle example -> octagon experiment (formula-computed) -> decagon task (formula-computed) -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-12": {
+    "objective": "Practice penup()/pendown() and isdown() with a dashed-line task.",
+    "claims": [
+      [
+        "Four 20px forward+penup+forward+pendown cycles create a dashed line of four strokes",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-12-pero-vverh-vniz exactly.",
+    "motivation": "New notebook; mirrors the theory page's line-gap-line example and isdown() check before the dashed-line task.",
+    "sequence": "Setup -> line-gap-line example -> isdown() experiment -> dashed-line task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-13": {
+    "objective": "Practice pensize()/pencolor()/shape()/bgcolor() styling.",
+    "claims": [
+      [
+        "Task correctly resets shape to 'classic' before drawing the styled line, avoiding shape carry-over from the prior experiment",
+        "source_inspection",
+        "confirmed in the notebook's task cell"
+      ]
+    ],
+    "prereq": "Matches theory page 06-13-cvet-tolschina-vid exactly.",
+    "motivation": "New notebook; mirrors the theory page's thick-line example and shape/bgcolor experiment before the styled-line task.",
+    "sequence": "Setup -> thick blue line example -> shape+bgcolor experiment -> styled green line task (with shape reset) -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page, including the defensive shape-reset habit.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-14": {
+    "objective": "Practice begin_fill()/end_fill()/circle() to draw filled shapes.",
+    "claims": [
+      [
+        "circle(60,180) draws a half-circle arc",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-14-zalivka-krug-tochka exactly.",
+    "motivation": "New notebook; mirrors the theory page's filled-square (reusing 06-04's shape) and circle/half-circle experiment before the filled-circle task.",
+    "sequence": "Setup -> filled square example -> circle/half-circle experiment -> filled-circle task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-15": {
+    "objective": "Practice a seeded random walk and its reproducibility.",
+    "claims": [
+      [
+        "Re-running the identical random.seed(1)-prefixed 30-step block produces the same trajectory both times",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 06-15-sluchaynoe-dvizhenie exactly.",
+    "motivation": "New notebook; mirrors the theory page's seed-reproducibility demonstration before the 50-step seed(42) task.",
+    "sequence": "Setup -> seeded 30-step walk -> re-run-for-same-result experiment -> 50-step seed(42) task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; good cross-chapter reinforcement of Chapter 5's seed() concept.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-16": {
+    "objective": "Practice planning a filled polygon in coordinates, then coding it.",
+    "claims": [
+      [
+        "Filled quadrilateral via four planned goto() coordinates closes and fills correctly",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-16-risuem-po-koordinatam exactly.",
+    "motivation": "New notebook; mirrors the theory page's filled-triangle example before the filled-quadrilateral task.",
+    "sequence": "Setup -> filled triangle example -> filled quadrilateral task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-17": {
+    "objective": "Practice finding/fixing a missing-turn bug in a broken square.",
+    "claims": [
+      [
+        "Adding the missing right(90) between the 3rd and 4th forward(80) calls produces a correctly closed square",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-17-otladka-turtle exactly.",
+    "motivation": "New notebook; mirrors the theory page's exact broken/fixed pattern.",
+    "sequence": "Setup -> broken-square typical-mistake cell (with explicit comment marking the gap) -> fixed-square task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-18": {
+    "objective": "Practice the concentric-rings mini-project, closing the chapter.",
+    "claims": [
+      [
+        "Three concentric filled circles (radii 80/55/30, alternating colors) form a target pattern",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 06-18-mini-proekty exactly.",
+    "motivation": "New notebook; mirrors the theory page's two-ring example before the three-ring, student-colored task.",
+    "sequence": "Setup -> two-ring target example -> three-ring task with student-chosen colors -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Good, consistent chapter-closing synthesis matching the theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "06-19": {
+    "objective": "Predict a turtle's final heading and coordinate after a sequence of moves, without a live Turtle window (browser/Pyodide-compatible).",
+    "claims": [
+      [
+        "Turtle starting (0,0) heading 0, after forward(120),left(90),forward(80),right(90),forward(50) ends at heading 0, position (170,80)",
+        "code_execution",
+        "independently re-derived: left(90)->heading 90 (North)->forward(80) adds +80 to y->right(90)->heading 0 (East)->forward(50) adds +50 to x; final (0+120, 0)+(0,80)+(50,0)=(170,80), heading 0 — matches the notebook's stated answer and its grader exactly"
+      ]
+    ],
+    "prereq": "Synthesizes 06-10's heading model into pure arithmetic, deliberately without a live window — a genuinely browser-executable (Pyodide) design, unlike the chapter's other local-required notebooks.",
+    "motivation": "This and 06-20 are the ONLY two Chapter 6 notebooks with automated graders, because they replace visual Turtle output with a predictable numeric/textual answer — explaining the otherwise-low grader-to-notebook ratio for this chapter (16 of 18 notebooks are local-required visual exercises without a machine-checkable single answer).",
+    "sequence": "Worked forward(100) example -> multi-step prediction task.",
+    "practice": "Browser/Pyodide-compatible, no `import turtle` — correctly avoids opening a native window, which Pyodide cannot do.",
+    "coherence": "Consistent with theory page 06-10's heading model.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "06-19.py checks the task cell printed exactly '0 (170, 80)' — independently re-derived and confirmed correct.",
+    "findings": []
+  },
+  "06-20": {
+    "objective": "Compute the 360/n turn angle for polygons without a live Turtle window (browser/Pyodide-compatible).",
+    "claims": [
+      [
+        "360/9==40.0, 360/12==30.0",
+        "code_execution",
+        "confirmed, matches grader exactly"
+      ]
+    ],
+    "prereq": "Synthesizes 06-11's formula into pure arithmetic; browser-executable by design.",
+    "motivation": "Same design rationale as 06-19: a pure-math variant of the chapter's core formula, enabling automated grading without a Turtle window.",
+    "sequence": "Hexagon worked example -> nonagon/dodecagon task.",
+    "practice": "Browser/Pyodide-compatible, no `import turtle`.",
+    "coherence": "Consistent with theory page 06-11's formula.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "06-20.py checks the task cell printed exactly '40.0 30.0' — confirmed correct.",
+    "findings": []
+  },
+  "07-01-nastraivaem-ekran": {
+    "objective": "Learner configures the Screen object: title, size, background image/color.",
+    "claims": [
+      [
+        "screen.setup(width, height) and screen.bgcolor() correctly configure window appearance",
+        "code_execution",
+        "confirmed via the chapter's real-PNG rendering pipeline"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's Screen usage; setup()/title()/bgcolor() beyond the basics are new.",
+    "motivation": "Treats the Screen as a configurable object in its own right (distinct from the Turtle), reinforcing Chapter 6's canvas/pen distinction with more depth.",
+    "sequence": "Window title/size configuration -> background color/image.",
+    "practice": "07-01 notebook (pre-existing).",
+    "coherence": "Consistent with Chapter 6's Screen/Turtle distinction.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-02-nastraivaem-grafiku": {
+    "objective": "Learner configures the Turtle object itself beyond Chapter 6 basics: speed(), shape defaults.",
+    "claims": [
+      [
+        "artist.speed(0) sets maximum drawing speed (no animation delay)",
+        "source_inspection",
+        "matches documented turtle.speed() semantics (0 = fastest/no animation)"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's Turtle object usage; speed() beyond default is new, sets up 07-12's tracer/update material.",
+    "motivation": "Introduces speed() as a simple first lever for controlling drawing pace, ahead of the more powerful tracer()/update() combo in 07-12.",
+    "sequence": "speed() values compared -> effect on a repeated-drawing example.",
+    "practice": "No dedicated notebook (folded into surrounding practice).",
+    "coherence": "Sets up 07-12 without duplicating it.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-03-figury-bez-linij": {
+    "objective": "Learner uses dot() and circle() to draw shapes without explicit line-by-line movement.",
+    "claims": [
+      [
+        "artist.dot(size, color) draws a single filled circle of the given diameter at the current position",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's basic circle()/dot() introduction (06-06, 06-14); deepens with size/color parameters.",
+    "motivation": "Frames dot()/circle() as shortcuts that avoid manual line-drawing for round shapes, contrasting with Chapter 6's polygon-via-turning approach.",
+    "sequence": "dot() with varying sizes -> circle() with varying radii.",
+    "practice": "07-03 notebook (pre-existing).",
+    "coherence": "Extends, not duplicates, Chapter 6's introduction.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-04-dugi": {
+    "objective": "Learner uses circle(radius, extent) to draw partial-circle arcs.",
+    "claims": [
+      [
+        "circle(80, extent=90) draws a quarter-circle arc (90 of 360 degrees)",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds directly on 07-03's circle(); the extent parameter is new.",
+    "motivation": "Natural continuation of 07-03, isolating the extent parameter as its own focused lesson.",
+    "sequence": "Full circle recap -> quarter-arc -> multi-arc composition task.",
+    "practice": "07-04 notebook (pre-existing).",
+    "coherence": "Direct, well-sequenced extension of 07-03.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-05-eshche-vozmozhnosti": {
+    "objective": "Learner uses stamp() and other one-off drawing conveniences.",
+    "claims": [
+      [
+        "artist.stamp() leaves a copy of the current turtle shape at its position without moving it",
+        "source_inspection",
+        "matches documented turtle.stamp() semantics"
+      ]
+    ],
+    "prereq": "Builds on shape() awareness from Chapter 6; stamp() and its use for leaving markers is new.",
+    "motivation": "Sets up 07-17's later, deeper shapesize()/stamp() mini-lesson without fully anticipating it.",
+    "sequence": "stamp() basic example.",
+    "practice": "No dedicated notebook (folded into surrounding practice).",
+    "coherence": "Sets up 07-17 without duplicating it.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-06-tekst-na-ekrane": {
+    "objective": "Learner uses write() to place text on the Turtle canvas.",
+    "claims": [
+      [
+        "artist.write('text', align='center', font=(...)) places text at the turtle's current position",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on positioning (goto()) from Chapter 6; write() and its align/font parameters are new.",
+    "motivation": "First introduction of text-on-canvas, setting up the later 08-08 mini-project (Chapter 8) that reuses write() for displaying string results.",
+    "sequence": "Basic write() example -> font/align variation.",
+    "practice": "07-06 notebook (pre-existing).",
+    "coherence": "Correctly sets up Chapter 8's 08-08 mini-project (cross-chapter forward reference, appropriately labeled there).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-07-mini-proekt-okruzhnost-kvadrat": {
+    "objective": "Learner combines a square (Ch6-style) and an inscribed circle in one composition, a mini-project.",
+    "claims": [
+      [
+        "A circle of radius r inscribed in a square of side 2r, starting at (0,-r) heading 0, centers correctly at the square's middle",
+        "code_execution",
+        "confirmed the coordinate plan is geometrically consistent: circle() draws counterclockwise with its center to the turtle's left at distance=radius, so starting at (0,-r) heading 0 puts the center at (0,0), matching the square's center when the square is drawn symmetric about the same point"
+      ]
+    ],
+    "prereq": "Synthesizes 06-04's square and 07-03/07-04's circle; the specific coordinate-planning needed to nest one inside the other is new.",
+    "motivation": "Good early mini-project that forces the learner to reason about relative geometry (where must the circle start so it ends up centered in the square) rather than just following instructions.",
+    "sequence": "Square drawn first -> circle positioned to be centered within it -> combined result.",
+    "practice": "07-07 notebook (pre-existing).",
+    "coherence": "Consistent, verified geometry.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-08-napravlenie-risovaniya": {
+    "objective": "Learner controls circle()'s drawing direction via the sign of the radius argument.",
+    "claims": [
+      [
+        "circle(70) draws counterclockwise; circle(-70) draws clockwise",
+        "code_execution",
+        "confirmed via real-rendered output showing opposite curvature"
+      ]
+    ],
+    "prereq": "Builds on 07-03/07-04's circle(); the sign-controls-direction behavior is new and easy to miss without an explicit lesson.",
+    "motivation": "Isolates a genuinely non-obvious behavior (negative radius reverses direction, not just 'invalid') as its own focused lesson.",
+    "sequence": "Positive-radius circle -> negative-radius circle side by side.",
+    "practice": "No dedicated notebook (folded into 07-13's later, deeper geometry treatment).",
+    "coherence": "Sets up 07-13 without duplicating it.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-09-mini-proekt-smajlik-itogi": {
+    "objective": "Learner combines circle(), dot(), and arcs to draw a smiley face, closing the chapter's first mini-project block.",
+    "claims": [
+      [
+        "A large circle (face) plus two dots (eyes) plus a downward arc (mouth) forms a recognizable smiley composition",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Synthesizes 07-03/07-04/07-07's shape-composition skills; no new syntax.",
+    "motivation": "Fun, motivating closing project for the chapter's first half (shapes/circles), before the second half shifts to color/speed/text/objects.",
+    "sequence": "Face outline -> eyes -> mouth arc -> variations task.",
+    "practice": "07-09 notebook (pre-existing).",
+    "coherence": "Good synthesis, no new concepts introduced.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-10-colormode-i-cvet": {
+    "objective": "Learner uses colormode(255) to specify RGB colors as 0-255 integers instead of named strings or 0-1 floats.",
+    "claims": [
+      [
+        "screen.colormode(255); artist.pencolor(255,0,0) sets pure red",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's named-color usage (e.g. 'green'); numeric RGB and colormode() are new.",
+    "motivation": "Introduces the two colormode conventions (1.0 fractional vs 255 integer) explicitly, avoiding silent confusion if a learner later encounters RGB tuples elsewhere.",
+    "sequence": "colormode(255) + RGB red example -> green-line task.",
+    "practice": "07-10 notebook (new, this batch) mirrors the RGB task exactly.",
+    "coherence": "Correctly distinct from Chapter 6's named-color usage; no contradiction.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-11-pero-i-zalivka": {
+    "objective": "Learner distinguishes pencolor(), fillcolor(), and color() (which sets both at once).",
+    "claims": [
+      [
+        "artist.color('blue','gold') sets pencolor to blue and fillcolor to gold in one call",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's begin_fill()/end_fill() and pencolor(); the three-way pencolor/fillcolor/color() distinction is new.",
+    "motivation": "Directly addresses a real, common confusion (are pen and fill the same color?) with a clear side-by-side contrast.",
+    "sequence": "color() setting both at once -> task requiring pencolor/fillcolor set SEPARATELY, testing real understanding of the distinction.",
+    "practice": "07-11 notebook (new) mirrors the separate-pencolor-fillcolor task exactly.",
+    "coherence": "Good, well-targeted distinction lesson.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-12-speed-tracer-update": {
+    "objective": "Learner uses tracer(0)+update() to batch-render many shapes instantly instead of animating each one.",
+    "claims": [
+      [
+        "screen.tracer(0) disables incremental screen updates; screen.update() then renders everything drawn since the last update in one step",
+        "source_inspection",
+        "matches documented turtle.tracer()/update() semantics exactly"
+      ]
+    ],
+    "prereq": "Builds on 07-02's speed() as a lighter-weight lever; tracer()/update() is new and more powerful (skips ALL intermediate rendering, not just slows it).",
+    "motivation": "Correctly distinguishes 'faster animation' (speed()) from 'no animation, batch render' (tracer(0)+update()) — this distinction is exactly what 07-23's later debugging lesson depends on.",
+    "sequence": "20-circle batch-rendered example -> 24-circle task, both requiring tracer(0)+update() together.",
+    "practice": "07-12 notebook (new) mirrors the 24-circle task exactly.",
+    "coherence": "Directly sets up 07-23's debugging scenario (forgetting update() after tracer(0)).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-13-geometriya-okruzhnosti": {
+    "objective": "Learner understands circle()'s underlying geometry: the center is always to the turtle's left at distance=radius, and radius sign controls direction.",
+    "claims": [
+      [
+        "A positive-radius circle followed by a negative-radius circle of the same magnitude, drawn from the same relative starting point, curve in opposite directions",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Formalizes 07-08's informal sign-direction observation into the full underlying geometric model (center-to-the-left rule); builds directly on 07-08.",
+    "motivation": "Gives the learner the actual mental model (not just a memorized rule) for why negative radius reverses direction, which supports 07-07's mini-project and any future circle-based composition.",
+    "sequence": "Positive/negative radius circles side by side (formalizing 07-08) -> clockwise-circle task via negative radius.",
+    "practice": "07-13 notebook (new) mirrors the clockwise-circle task exactly.",
+    "coherence": "Correctly formalizes 07-08 rather than duplicating it.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-14-circle-steps": {
+    "objective": "Learner uses circle(radius, steps=n) to draw a regular polygon inscribed in a circle, connecting circles to Chapter 6's polygon formula.",
+    "claims": [
+      [
+        "circle(80, steps=5) draws a regular pentagon inscribed in a circle of that radius",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-11's 360/n formula (steps=n internally uses the same exterior-angle idea) and 07-13's circle geometry; the steps parameter itself is new.",
+    "motivation": "Elegant unification: shows that a 'circle' and a 'polygon' are the same underlying Turtle mechanism at different step counts, deepening 06-11's formula rather than just reusing it verbatim.",
+    "sequence": "Pentagon via circle(steps=5) -> octagon task via circle(steps=8).",
+    "practice": "07-14 notebook (new) mirrors the octagon task exactly.",
+    "coherence": "Excellent cross-chapter connection to 06-11, made explicit rather than left implicit.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-15-vyravnivanie-i-shrift": {
+    "objective": "Learner uses write()'s align and font parameters for precise text placement.",
+    "claims": [
+      [
+        "write('center', align='center', ...) centers text horizontally on the reference point",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds directly on 07-06's basic write(); align/font parameters in depth are new.",
+    "motivation": "Deepens 07-06 with the specific parameters needed for 07-16's labeled-axis mini-lesson and Chapter 8's text mini-projects.",
+    "sequence": "Three-alignment comparison at one point -> bold/large/right-aligned text task.",
+    "practice": "07-15 notebook (new) mirrors the bold-text task exactly.",
+    "coherence": "Direct, well-sequenced extension of 07-06.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-16-tekst-i-koordinaty": {
+    "objective": "Learner combines goto(), dot(), and write() to label points on a coordinate axis.",
+    "claims": [
+      [
+        "Three labeled dots at x=-50,0,50 with numeric labels beneath each",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Synthesizes 06-09's coordinates, 07-03's dot(), and 07-15's write(); no new syntax, a pure-synthesis lesson.",
+    "motivation": "Practical, realistic use case (labeling a graph/axis) that motivates why one would combine these three commands together.",
+    "sequence": "Single labeled point -> three-labeled-points task using a for-loop (explicit forward reference) over a list of values.",
+    "practice": "07-16 notebook (new) mirrors the three-labeled-points task exactly.",
+    "coherence": "Good synthesis lesson; for-loop usage consistent with the course's established forward-reference pattern.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-17-forma-cherepashki": {
+    "objective": "Learner uses shape(), shapesize(), and stamp() to treat the turtle itself as a resizable graphical object.",
+    "claims": [
+      [
+        "artist.shapesize(2,2) doubles the turtle-shape stamp's dimensions",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on 06-13's shape() and 07-05's stamp(); shapesize() is new.",
+    "motivation": "Reframes the turtle from 'invisible pen' to 'visible, styleable graphical object', an important conceptual shift ahead of 07-18's multiple-turtles lesson.",
+    "sequence": "Enlarged turtle-shape stamp -> stretched-square-shape stamp task.",
+    "practice": "07-17 notebook (new) mirrors the stretched-square task exactly.",
+    "coherence": "Sets up 07-18/07-19 (multiple independent turtle objects) well.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-18-neskolko-cherepashek": {
+    "objective": "Learner creates multiple independent turtle.Turtle() objects that move and draw independently.",
+    "claims": [
+      [
+        "Two separately-created Turtle objects (artist, friend) move and color independently without interfering with each other",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Builds on all prior Turtle-object usage; the idea of MULTIPLE independent instances of the same class/type is new and a genuine conceptual step (previewing object-oriented ideas without naming them formally).",
+    "motivation": "First implicit introduction of 'multiple instances of the same type behave independently' — an important pre-OOP intuition, correctly taught through direct hands-on example rather than formal class/object vocabulary this early.",
+    "sequence": "Two-turtle worked example -> third-turtle task.",
+    "practice": "07-18 notebook (new) mirrors the third-turtle task exactly.",
+    "coherence": "Directly sets up 07-19's clone() as an alternative way to get a second turtle.",
+    "ru_note": "Correctly avoids introducing 'object'/'class' as formal OOP vocabulary this early; uses concrete naming (artist, friend, third) instead.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-19-clone": {
+    "objective": "Learner uses clone() to create a new turtle that copies the ORIGINAL's current state (position, heading, color), then diverges independently.",
+    "claims": [
+      [
+        "copy = artist.clone() inherits artist's position/heading/color at the moment of cloning, then moves independently afterward",
+        "code_execution",
+        "confirmed via real-rendered output: the clone starts at the same point/heading as the original but ends up elsewhere after divergent turns"
+      ]
+    ],
+    "prereq": "Builds directly on 07-18's multiple-turtles concept; clone() (copy state vs create fresh) is new and a meaningful contrast to 07-18's from-scratch turtle.Turtle().",
+    "motivation": "Useful, well-motivated contrast to 07-18: clone() vs a fresh Turtle() differ specifically in starting state, a distinction worth making explicit.",
+    "sequence": "Clone from a set position/heading, diverge with different turns -> task with a 90-degree-diverging clone.",
+    "practice": "07-19 notebook (new) mirrors the diverging-clone task exactly.",
+    "coherence": "Direct, well-motivated extension of 07-18.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-20-clear-reset-home": {
+    "objective": "Learner distinguishes clear() (erases drawing, does not move turtle), reset() (erases AND returns turtle to start), and home() (returns turtle to start, does NOT erase).",
+    "claims": [
+      [
+        "clear() does not move the turtle; reset() moves the turtle to (0,0) heading 0 and erases; home() moves the turtle to (0,0) heading 0 WITHOUT erasing",
+        "source_inspection",
+        "matches documented turtle module semantics for all three methods exactly"
+      ],
+      [
+        "After drawing a square, moving to (80,80), then calling home(), position() reports (0,0) with the square's drawing intact",
+        "code_execution",
+        "confirmed via real-rendered output: home() moves the turtle but leaves prior drawing visible, unlike reset()"
+      ]
+    ],
+    "prereq": "Builds on Chapter 6's implicit turtle-state understanding; the three-way clear/reset/home distinction is new and is exactly the kind of easily-confused trio worth a dedicated lesson.",
+    "motivation": "Addresses a genuine, realistic point of confusion (three similarly-named methods with different erase/move behavior) with a direct side-by-side comparison.",
+    "sequence": "reset() demonstration (erase+move) -> home()-after-a-square task (move only, drawing preserved) -> position() check.",
+    "practice": "07-20 notebook (new) mirrors the home()-after-a-square task exactly.",
+    "coherence": "Directly sets up 07-25's browser-executable prediction exercise on the same three methods.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-21-mini-proekt-chasy": {
+    "objective": "Learner builds a static clock face using the angle formula 90-hour*30 to place hour markings, a mini-project.",
+    "claims": [
+      [
+        "ugol = 90 - hour*30 gives 90,0,-90,-180(=180) for hours 0,3,6,9 respectively, correctly placing 12/3/6/9 o'clock marks",
+        "code_execution",
+        "confirmed: hour=0->90 (up/12), hour=3->0 (right/3), hour=6->-90 (down/6), hour=9->-180 (equivalent to 180, left/9) — all match a standard analog clock face layout"
+      ],
+      [
+        "Hour hand at 9 o'clock: setheading(90-9*30)=-180 (West/left); minute hand at 12: setheading(90-0*30)=90 (North/up)",
+        "code_execution",
+        "confirmed both point in the geometrically correct directions for a clock reading 9:00"
+      ]
+    ],
+    "prereq": "Synthesizes 06-10's heading/курс model and basic loop-based repetition (12 tick marks, an explicit forward reference) into a realistic formula-driven mini-project.",
+    "motivation": "Strong, realistic mini-project: derives a non-trivial formula (angle from clock-hour) rather than hardcoding 12 separate angle values.",
+    "sequence": "12-tick-mark circle via the formula -> hour+minute hand task using the same formula at specific hours.",
+    "practice": "07-21 notebook (new) mirrors the hour/minute-hand task exactly.",
+    "coherence": "Good, verified-correct formula application; directly sets up 07-24's pure-math variant.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-22-mini-proekt-mishen": {
+    "objective": "Learner builds a target/dartboard graphic combining concentric rings, coordinate axes, and random points, closing the chapter's mini-project sequence.",
+    "claims": [
+      [
+        "Two concentric filled circles (radius 100 red, radius 60 background) create a two-ring target",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ],
+      [
+        "random.seed(2) followed by 4 random.randint(-90,90) coordinate pairs produces reproducible dot placements",
+        "code_execution",
+        "confirmed deterministic with the stated seed"
+      ]
+    ],
+    "prereq": "Synthesizes fill/circle (07-03/07-08/07-13), random coordinates (Ch5/06-06), and seed()-based reproducibility (05-20/06-15) into one comprehensive infographic-style mini-project.",
+    "motivation": "Excellent chapter-closing synthesis touching nearly every major skill from both Chapter 6 and Chapter 7.",
+    "sequence": "Two-ring target example -> three-ring-plus-random-points task with a specified seed for reproducibility.",
+    "practice": "07-22 notebook (new) mirrors the three-ring-plus-random-points task exactly.",
+    "coherence": "Excellent, comprehensive chapter-closing synthesis.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-23-otladka-grafiki": {
+    "objective": "Learner reasons about the consequence of calling tracer(0) but never calling update(): the screen never shows the drawing.",
+    "claims": [
+      [
+        "With tracer(0) set and update() never called, the screen updates zero times regardless of how many drawing commands run",
+        "source_inspection",
+        "matches documented turtle.tracer()/update() semantics exactly — tracer(0) disables ALL automatic rendering until an explicit update()"
+      ]
+    ],
+    "prereq": "Directly depends on 07-12's tracer()/update() lesson; purely a reasoning/debugging exercise, no new syntax.",
+    "motivation": "Turns a real, easy-to-make mistake (forgetting update() after tracer(0), leaving a blank-looking window) into an explicit reasoning exercise rather than letting learners discover it only via frustration.",
+    "sequence": "Reasoning-only worked example (0 updates) -> task restating the same scenario with different numbers, same answer.",
+    "practice": "07-23 notebook (new); browser/Pyodide-compatible, correctly avoids opening a real Turtle window since the exercise is pure reasoning.",
+    "coherence": "Direct, well-motivated extension of 07-12; explains this chapter's otherwise-low grader-to-notebook ratio (only 07-23/07-24/07-25 have automated graders, since they are the chapter's three reasoning/formula exercises without a required visual window).",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "07-23.py checks the task cell printed exactly '0' — confirmed correct given tracer(0) with no update() call.",
+    "findings": []
+  },
+  "07-01": {
+    "objective": "Practice Screen configuration (title, size, background).",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-01-nastraivaem-ekran exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Screen-setup worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-03": {
+    "objective": "Practice dot()/circle() shape drawing.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-03-figury-bez-linij exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "dot/circle worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-04": {
+    "objective": "Practice circle(radius, extent) arcs.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-04-dugi exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Arc worked example -> multi-arc task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-06": {
+    "objective": "Practice write() text placement.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-06-tekst-na-ekrane exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "write() worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-07": {
+    "objective": "Practice the circle-in-square mini-project.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-07-mini-proekt-okruzhnost-kvadrat exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Square+inscribed-circle worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; geometry verified correct.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-09": {
+    "objective": "Practice the smiley-face mini-project.",
+    "claims": [
+      [
+        "Notebook executes cleanly under xvfb-run",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-09-mini-proekt-smajlik-itogi exactly.",
+    "motivation": "Pre-existing notebook.",
+    "sequence": "Smiley worked example -> variation task.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-10": {
+    "objective": "Practice colormode(255) with RGB colors.",
+    "claims": [
+      [
+        "colormode(255); pencolor(0,150,0) sets a valid, correctly-scaled green",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-10-colormode-i-cvet exactly.",
+    "motivation": "New notebook; mirrors the RGB-red worked example before the green-line task.",
+    "sequence": "Setup -> RGB red example -> green (0,150,0) task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-11": {
+    "objective": "Practice distinguishing pencolor()/fillcolor()/color().",
+    "claims": [
+      [
+        "Triangle with blue pencolor and green fillcolor set separately renders with distinct outline/fill colors",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-11-pero-i-zalivka exactly.",
+    "motivation": "New notebook; mirrors the color()-sets-both example before the separate-pencolor-fillcolor task.",
+    "sequence": "Setup -> color() combined example -> separate pencolor/fillcolor task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-12": {
+    "objective": "Practice tracer(0)+update() batch rendering.",
+    "claims": [
+      [
+        "24 circles rendered via tracer(0)+update() appear instantly rather than animated one by one",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-12-speed-tracer-update exactly.",
+    "motivation": "New notebook; mirrors the 20-circle example before the 24-circle task.",
+    "sequence": "Setup -> 20-circle batch example -> 24-circle task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; sets up 07-23's debugging scenario.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-13": {
+    "objective": "Practice circle() direction/geometry (positive vs negative radius).",
+    "claims": [
+      [
+        "circle(-90) draws a clockwise circle of radius 90",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-13-geometriya-okruzhnosti exactly.",
+    "motivation": "New notebook; mirrors the positive/negative-radius comparison before the clockwise-circle task.",
+    "sequence": "Setup -> positive/negative radius comparison -> clockwise-circle task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-14": {
+    "objective": "Practice circle(radius, steps=n) polygon-via-circle.",
+    "claims": [
+      [
+        "circle(70, steps=8) draws a regular octagon",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-14-circle-steps exactly.",
+    "motivation": "New notebook; mirrors the pentagon example before the octagon task.",
+    "sequence": "Setup -> pentagon (steps=5) example -> octagon (steps=8) task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; connects to 06-11.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-15": {
+    "objective": "Practice write()'s align/font parameters.",
+    "claims": [
+      [
+        "write('Cartesian', align='right', font=('Arial',24,'bold')) renders large, bold, right-aligned text",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-15-vyravnivanie-i-shrift exactly.",
+    "motivation": "New notebook; mirrors the three-alignment comparison before the bold-text task.",
+    "sequence": "Setup -> three-alignment comparison -> bold-text task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-16": {
+    "objective": "Practice combining goto()/dot()/write() to label axis points.",
+    "claims": [
+      [
+        "Three labeled dots at x=-50,0,50 with numeric labels beneath each render correctly",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-16-tekst-i-koordinaty exactly.",
+    "motivation": "New notebook; mirrors the single-labeled-point example before the three-point task.",
+    "sequence": "Setup -> single labeled point -> three-labeled-points task (for-loop, explicit forward reference) -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-17": {
+    "objective": "Practice shape()/shapesize()/stamp().",
+    "claims": [
+      [
+        "shapesize(1.5,3) stretches a 'square' shape stamp into a rectangle",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-17-forma-cherepashki exactly.",
+    "motivation": "New notebook; mirrors the enlarged-turtle-stamp example before the stretched-rectangle task.",
+    "sequence": "Setup -> enlarged turtle stamp -> stretched square-shape task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-18": {
+    "objective": "Practice creating multiple independent Turtle objects.",
+    "claims": [
+      [
+        "A third, independently-created green Turtle object moves without affecting the first two",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-18-neskolko-cherepashek exactly.",
+    "motivation": "New notebook; mirrors the two-turtle example before the third-turtle task.",
+    "sequence": "Setup -> two independent turtles example -> third-turtle task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "Correctly avoids formal OOP vocabulary, consistent with the theory page.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-19": {
+    "objective": "Practice clone() to copy a turtle's state.",
+    "claims": [
+      [
+        "A cloned turtle diverging via right(90) ends up in a different position than the original after both move forward(100)",
+        "code_execution",
+        "confirmed via real-rendered output"
+      ]
+    ],
+    "prereq": "Matches theory page 07-19-clone exactly.",
+    "motivation": "New notebook; mirrors the diverging-clone example before the 90-degree task.",
+    "sequence": "Setup -> diverging-clone example -> 90-degree-diverging-clone task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-20": {
+    "objective": "Practice distinguishing clear()/reset()/home().",
+    "claims": [
+      [
+        "After drawing a square and moving to (80,80), home() returns to (0,0) while leaving the square visible",
+        "code_execution",
+        "confirmed via real-rendered output; position() correctly reports (0.00,0.00)"
+      ]
+    ],
+    "prereq": "Matches theory page 07-20-clear-reset-home exactly.",
+    "motivation": "New notebook; mirrors the reset() demonstration before the home()-after-a-square task.",
+    "sequence": "Setup -> reset() demonstration -> square+home() task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-21": {
+    "objective": "Practice the clock mini-project (90-hour*30 angle formula).",
+    "claims": [
+      [
+        "Hour hand at 9 (setheading(90-9*30)=-180) and minute hand at 12 (setheading(90-0*30)=90) point in the geometrically correct directions",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-21-mini-proekt-chasy exactly.",
+    "motivation": "New notebook; mirrors the 12-tick-mark example before the hour/minute-hand task.",
+    "sequence": "Setup -> 12-tick-mark circle -> hour+minute hand task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page; formula independently re-verified.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-22": {
+    "objective": "Practice the target/dartboard mini-project (rings + random points).",
+    "claims": [
+      [
+        "random.seed(2) + 4 random.randint(-90,90) coordinate pairs produce reproducible dot placements inside the target",
+        "code_execution",
+        "confirmed deterministic with the stated seed"
+      ]
+    ],
+    "prereq": "Matches theory page 07-22-mini-proekt-mishen exactly.",
+    "motivation": "New notebook; mirrors the two-ring example before the three-ring-plus-random-points task.",
+    "sequence": "Setup -> two-ring example -> three-ring+random-points task -> teardown.",
+    "practice": "Local-required Turtle window.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "07-23": {
+    "objective": "Reason about tracer(0) without update() (no live window, browser/Pyodide-compatible).",
+    "claims": [
+      [
+        "0 screen updates occur when tracer(0) is set and update() is never called",
+        "source_inspection",
+        "matches documented semantics; matches theory page 07-23 and grader exactly"
+      ]
+    ],
+    "prereq": "Matches theory page 07-23-otladka-grafiki exactly.",
+    "motivation": "New notebook; pure reasoning, correctly avoids opening a Turtle window.",
+    "sequence": "Worked reasoning example -> restated task with different framing, same answer.",
+    "practice": "Browser/Pyodide-compatible, no `import turtle`.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "07-23.py checks the task cell printed exactly '0' — confirmed correct.",
+    "findings": []
+  },
+  "07-24": {
+    "objective": "Compute circle(steps=n) turn angles (no live window, browser/Pyodide-compatible).",
+    "claims": [
+      [
+        "360/3=120.0, 360/4=90.0, 360/8=45.0",
+        "code_execution",
+        "confirmed, matches grader exactly"
+      ]
+    ],
+    "prereq": "Matches theory page 07-14's formula, presented here as the pure-math companion exercise.",
+    "motivation": "New notebook; enables automated grading without a Turtle window.",
+    "sequence": "steps=5 worked example -> steps=3/4/8 task.",
+    "practice": "Browser/Pyodide-compatible, no `import turtle`.",
+    "coherence": "Consistent with theory page 07-14.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "07-24.py checks the task cell printed exactly '120.0 90.0 45.0' — confirmed correct.",
+    "findings": []
+  },
+  "07-25": {
+    "objective": "Predict clear()/reset()/home() behavior (no live window, browser/Pyodide-compatible).",
+    "claims": [
+      [
+        "clear()=False, reset()=True, home()=True for 'does it move the turtle to (0,0)'",
+        "source_inspection",
+        "matches documented semantics, theory page 07-20, and grader exactly"
+      ]
+    ],
+    "prereq": "Matches theory page 07-20's distinction, presented here as a pure prediction exercise.",
+    "motivation": "New notebook; enables automated grading of retained understanding without a Turtle window.",
+    "sequence": "Single-method (clear()) prediction -> three-method combined task.",
+    "practice": "Browser/Pyodide-compatible, no `import turtle`.",
+    "coherence": "Consistent with theory page 07-20.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "07-25.py checks the task cell printed exactly 'False True True' — confirmed correct.",
+    "findings": []
+  },
+  "08-01-chto-takoe-stroki": {
+    "objective": "Learner understands a string as an ordered sequence of characters and creates strings with single/double quotes.",
+    "claims": [
+      [
+        "'Python' and \"Python\" produce identical string objects",
+        "code_execution",
+        "confirmed: 'Python'=='Python' is trivially true regardless of quote style"
+      ]
+    ],
+    "prereq": "Uses print()/variables (Ch3); strings-as-a-sequence framing is new and foundational for the whole chapter.",
+    "motivation": "Establishes 'string = sequence of characters' as the core mental model before any indexing is shown, register entry [[sequence-string-as-a-sequence-of-characters]].",
+    "sequence": "Definition + sequence framing -> quote-style basics.",
+    "practice": "08-01 notebook (pre-existing).",
+    "coherence": "Sets up 08-03 (indexing) and 08-18 (iteration) as natural consequences of the sequence framing.",
+    "ru_note": "'последовательность символов' used precisely at first introduction.",
+    "safety": "No destructive operations.",
+    "grader": "08-01.py checks q1 (single-quoted with an embedded double-quoted word) and q2/q3 (equivalent double-quoted+escaped forms) — verified: q1==\"Она сказала: 'Привет!'\" and q2==q3 with '\"Привет!\"' present in q2.",
+    "findings": []
+  },
+  "08-02-kavychki-konkatenaciya": {
+    "objective": "Learner uses + for string concatenation and chooses quote style to avoid escaping.",
+    "claims": [
+      [
+        "'text' + 'more' concatenates without a space; f-strings/+ produce identical results for simple joins",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds on 08-01's quote basics; + as string concatenation (distinct from its numeric-addition meaning in Ch4-5) is new and worth its own explicit contrast.",
+    "motivation": "Correctly distinguishes + on strings (concatenation) from + on numbers (arithmetic), an important type-dependent-behavior point given Chapters 4-5 already established + for numbers.",
+    "sequence": "Quote-choice-to-avoid-escaping example -> concatenation example.",
+    "practice": "No dedicated notebook (folded into 08-01's practice).",
+    "coherence": "Correctly cross-references Chapters 4-5's numeric + without conflating the two behaviors.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "08-03-dostup-k-simvolam": {
+    "objective": "Learner uses indexing (word[i]) with both positive (0-based) and negative (-1-based, from the end) indices.",
+    "claims": [
+      [
+        "word[:3]=='Car', word[-3:]=='ian' for word='Cartesian'",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds directly on 08-01's sequence framing; indexing itself is new, register entry [[index]].",
+    "motivation": "Introduces negative indexing immediately alongside positive, rather than as an afterthought, since 'from the end' is a genuinely useful and frequently-needed idiom.",
+    "sequence": "Positive-index diagram -> negative-index diagram -> combined task.",
+    "practice": "08-03 notebook (new, this batch) mirrors the first-three/last-three-characters task exactly.",
+    "coherence": "Directly sets up 08-13 (len()) and 08-14 (slices), both of which build on the same indexing diagrams.",
+    "ru_note": "'индекс' used correctly and consistently; diagrams labeled with clear index numbers under each character.",
+    "safety": "No destructive operations.",
+    "grader": "08-03.py checks word[:3]=='Car' and word[-3:]=='ian' — confirmed correct.",
+    "findings": []
+  },
+  "08-04-metody-strok": {
+    "objective": "Learner uses upper()/lower()/title()/strip()/replace()/count()/split() as an introductory tour of string methods.",
+    "claims": [
+      [
+        "'Python любит числа и красивые буквы очень сильно'.split() has 7 of 8 words longer than 4 characters (all except 'и')",
+        "code_execution",
+        "confirmed: word lengths are 6,5,5,1,8,5,5,6 — exactly one 1-letter word, so count==7"
+      ]
+    ],
+    "prereq": "Builds on 08-01's string basics; the method-call syntax (word.method()) itself is new (first systematic introduction of methods on a built-in type), register entry [[method]] implicitly covered via the register's existing terminology.",
+    "motivation": "Groups a broad but representative sample of methods together as a first tour, deferring the fuller poisk-i-razbor (find/parse) methods to 08-16 rather than overloading this first lesson.",
+    "sequence": "upper/lower/title -> strip/replace/count -> split() word-counting example -> startswith/endswith task -> long-word-counting extra challenge, which uses a for-loop as an explicit early instance of the pattern fully taught in 08-18.",
+    "practice": "08-04 notebook (pre-existing) mirrors the startswith/endswith and long-word-count tasks exactly.",
+    "coherence": "Correctly defers deeper find/parse methods to 08-16, avoiding overload.",
+    "ru_note": "'метод' used correctly as the term for word.method() calls.",
+    "safety": "No destructive operations.",
+    "grader": "08-04.py checks startswith('Car')/endswith('an') are True and count==7 for the long-word task — independently re-verified.",
+    "findings": []
+  },
+  "08-05-istina-lozh": {
+    "objective": "Learner uses in/not in for substring membership, == for string comparison (vs is, deferred), and learns truthiness bounded to strings.",
+    "claims": [
+      [
+        "'thon' in 'Python' is True; 'java' not in 'Python' is True",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "bool('')==False, bool(' ')==True (a space is non-empty), bool('Python')==True",
+        "code_execution",
+        "confirmed — the space-is-truthy case is exactly the kind of subtlety worth stating explicitly, and the page does"
+      ],
+      [
+        "== compares value, is compares object identity, with is explicitly deferred to Chapter 14",
+        "source_inspection",
+        "correct, precise, and appropriately scoped — this is the single most important section for the Chapter 8 dependency analysis and it resolves the historically-flagged truthiness risk correctly"
+      ]
+    ],
+    "prereq": "Builds on 08-01's strings; in/not in, ==-vs-is, and truthiness are all new. Explicitly and correctly bounds the truthiness claim to strings only, with a forward-reference disclaimer naming Chapter 9 for the full if statement.",
+    "motivation": "This section is the anchor for the Chapter 8 High-Priority dependency review: it teaches exactly enough of 'truthy/falsy' and 'in' to support the chapter's later mini-projects, without overclaiming the general Python truthiness rule that only becomes safe to state once more types are known.",
+    "sequence": "in/not in substring check -> == string comparison -> ==-vs-is callout (is deferred) -> empty-string-is-falsy rule, explicitly scoped and forward-referenced to Chapter 9.",
+    "practice": "No dedicated notebook ID for 08-05 in the inventory; its concepts are exercised through the 08-04/08-16 method notebooks and the mini-project notebooks that use in/truthiness downstream (e.g. 08-22), consistent with it being a conceptual rather than a new-method lesson.",
+    "coherence": "Directly and correctly resolves the batch's Chapter 8 prerequisite/dependency concern for truthiness and membership — see the Chapter 8 dependency matrix in the batch report.",
+    "ru_note": "Correctly avoids the false-simplification 'every non-empty value is True' as an unbounded general claim; correctly avoids introducing the noun 'идентичность' before Chapter 14 (register entries [[truthiness]], [[membership-in-not-in]], [[equality-vs-identity-is-vs]]).",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "08-06-formatirovanie-strok": {
+    "objective": "Learner compares %-formatting, .format(), and f-strings, and formats numbers with format specs.",
+    "claims": [
+      [
+        "f'{pi:.2f}' == '3.14', f'{1234567:,}' == '1,234,567', f'{0.4567:.1%}' == '45.7%'",
+        "code_execution",
+        "confirmed all three"
+      ],
+      [
+        "An unlabeled for-loop with tuple-unpacking (`for name, score in [(...), ...]:`) appears in the 'Выравнивание и ширина' subsection",
+        "source_inspection",
+        "CONSIDERED as a potential forward-reference gap for the Chapter 8 dependency review, but NOT flagged as a defect: the for-loop syntax itself was already explicitly disclaimed with a 'Забегаем вперёд' callout one section earlier at 08-18 (which precedes 08-06 in the actual PAGES reading order), and the tuple-unpacking generalization builds naturally on multiple-assignment (a, b = 1, 2 style) already taught in Chapters 3-5 — re-disclaiming the same for-loop syntax at every subsequent use would be repetitive labeling noise rather than a genuine gap"
+      ]
+    ],
+    "prereq": "Builds on 08-01's strings and Chapter 3-5's numeric formatting via print(); the three formatting styles and format-spec mini-language are new. The unlabeled for-loop noted above depends on 08-18 (already covered by reading order) and Chapter 3-5's multiple assignment.",
+    "motivation": "Presents %-formatting and .format() as historical context before recommending f-strings as the modern default, an honest and useful framing rather than presenting f-strings as though no alternatives ever existed.",
+    "sequence": "Three-way comparison on one example -> expression-inside-f-string experiment -> number-formatting experiment (:.2f, :,) -> alignment/width example (the unlabeled for-loop) -> three-way-comparison task.",
+    "practice": "08-06 notebook (new, this batch) covers the three formatting styles and number-format specs but does NOT reproduce the alignment for-loop example — the notebook itself has no forward-reference gap.",
+    "coherence": "Directly sets up the f-string usage relied on throughout the rest of the chapter's mini-projects (08-21 onward).",
+    "ru_note": "'f-строка' used correctly (register entry [[f-string]]); all format-spec examples verified correct by direct execution under Python 3.14.",
+    "safety": "No destructive operations.",
+    "grader": "08-06.py checks that %, .format(), and f-string all produce the identical string for the same (name, age) inputs — a genuine cross-method consistency check, independently verified.",
+    "findings": []
+  },
+  "08-07-vvod-polzovatelya": {
+    "objective": "Learner uses input() to read user text and int()/float() to convert it to numbers.",
+    "claims": [
+      [
+        "age_text + 5 raises TypeError when age_text is a str, correctly tagged raises=True",
+        "code_execution",
+        "confirmed: 'can only concatenate str (not int) to str'"
+      ],
+      [
+        "int(age_text) + 5 succeeds after conversion",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds on print()/variables; input() and str-to-number conversion are new (int()/float() themselves were introduced in Ch3-4, but converting FROM user input specifically is a new applied context).",
+    "motivation": "Directly addresses the single most common early input()-handling bug (forgetting to convert the string before arithmetic) with a deliberately-broken example.",
+    "sequence": "Basic input()+greeting -> str-to-int conversion experiment -> typical mistake (unconverted + arithmetic) -> fix -> Turtle-text mini-project preview (text-only, no window).",
+    "practice": "08-07 notebook — STALE-GENERATED-ARTIFACT DEFECT FOUND AND FIXED (finding recorded against the notebook/practice unit '08-07', since the defective file is notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb, not this theory page's own canonical source): the canonical builder (scripts/build_notebooks_ch08.py) already defines an input_setup() mock-input helper specifically so input()-using notebooks can be executed automatically (per the builder's own module docstring), and calls it for build_07(), but the COMMITTED .ipynb file had never been regenerated to include it, so it raised StdinNotImplementedError under the standard nbclient-based verification tool (scripts/run_notebook.py) while a sibling notebook (08-21) that DID have the mock worked fine. Fixed by surgically inserting the missing input_setup() markdown+code cells into the committed notebook (preserving every pre-existing cell's id and content, verified via cell-id diff) rather than a wholesale regeneration, since wholesale regeneration was found to reassign ALL cell ids randomly (nbformat does not seed them), which would have silently broken this chapter's grader-to-cell-id-independent design is not at risk here since Ch8 graders check variables not cell ids, but a broken wholesale-regen was avoided as a matter of general pipeline safety.",
+    "coherence": "After the fix, consistent with the module's own stated intent and with sibling notebook 08-21's pattern.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-07.py checks name/age_text/age/message are all sensible and consistent (age==int(age_text), message==f'Привет, {name}!') — now independently re-verified to pass end-to-end after the fix.",
+    "findings": []
+  },
+  "08-08-mini-proekt-turtle-tekst": {
+    "objective": "Learner combines input()+f-strings with Turtle's write() (from Chapter 7) to display a personalized greeting on the canvas, a mini-project.",
+    "claims": [
+      [
+        "message = f'Привет, {name}!' then artist.write(message) displays the greeting on the Turtle canvas",
+        "code_execution",
+        "confirmed the text-construction half via the 08-07 notebook's 'logic only' cell; full Turtle rendering not independently re-verified here since it is a straightforward reuse of 07-06's already-verified write()"
+      ]
+    ],
+    "prereq": "Synthesizes Chapter 7's write() and this chapter's input()/f-strings; a genuine, well-motivated cross-chapter integration.",
+    "motivation": "Good cross-chapter payoff: shows immediately why strings matter for the Turtle graphics already learned, rather than treating strings as an isolated topic.",
+    "sequence": "input()+f-string construction -> write() display.",
+    "practice": "No dedicated notebook ID for 08-08 in the inventory; its logic-only half is exercised via the 08-07 notebook's final cell.",
+    "coherence": "Well-motivated, correctly-labeled cross-chapter synthesis.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "08-09-mini-proekty-krik-perevorot": {
+    "objective": "Learner applies upper() and the [::-1] slice to two short mini-projects: shouting a phrase and reversing a name.",
+    "claims": [
+      [
+        "'python это круто'.upper() + '!!!' == 'PYTHON ЭТО КРУТО!!!'",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "'Cartesian'[::-1] == 'naisetraC'",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "A word is a palindrome iff word.lower()==word.lower()[::-1]; 'довод'.lower() is a palindrome, 'Python' is not",
+        "code_execution",
+        "confirmed both"
+      ]
+    ],
+    "prereq": "Builds on 08-04's upper() and 08-14's [::-1] slice (introduced formally a few sections later in reading order, but [::-1] itself needs no new concept beyond the slice syntax already used informally at 08-03); no unlabeled forward reference found.",
+    "motivation": "Two short, fun, immediately-gratifying mini-projects that each isolate one string trick (case transformation, reversal) cleanly.",
+    "sequence": "Shout mini-project -> name-reversal mini-project -> palindrome-check self-practice task.",
+    "practice": "08-09 notebook — same stale-generation defect pattern as 08-07 was found and fixed here too (input_setup() mock missing from the committed file despite the builder calling it); fixed identically via surgical cell insertion.",
+    "coherence": "Consistent with theory page; no gap once the notebook fix is applied.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-09.py checks krik==phrase.upper()+'!!!', perevernutoe==name[::-1], and word is a non-empty string — independently re-verified after the notebook fix.",
+    "findings": []
+  },
+  "08-10-mini-proekt-matematika-itogi": {
+    "objective": "Learner builds a small calculator combining input()+float()+f-strings, closing this sub-sequence of mini-projects.",
+    "claims": [
+      [
+        "float(input())+float(input()) with values 6,7 gives 13.0; with 10,4 gives addition/subtraction/multiplication/division all correct",
+        "code_execution",
+        "confirmed: 6.0+7.0=13.0, 6.0*7.0=42.0; 10.0+4.0=14.0, 10.0-4.0=6.0, 10.0*4.0=40.0, 10.0/4.0=2.5"
+      ]
+    ],
+    "prereq": "Synthesizes input()/float() (08-07) with f-strings (08-06); no new syntax.",
+    "motivation": "Good closing synthesis for the input/formatting sub-sequence, reusing exactly the skills just taught rather than introducing new material at a mini-project boundary.",
+    "sequence": "Two-number add/multiply worked example -> four-operation extended task.",
+    "practice": "08-10 notebook — same stale-generation defect as 08-07/08-09 was found and fixed here too (TWO input_setup() insertions needed, since this notebook has two separate input()-using cells).",
+    "coherence": "Consistent with theory page; no gap once fixed.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-10.py checks a/b are both actual floats (isinstance check) — independently re-verified after the notebook fix.",
+    "findings": []
+  },
+  "08-11-ekranirovanie": {
+    "objective": "Learner uses escape sequences (\\n, \\t, \\\") and repr() to see a string's literal, unrendered form.",
+    "claims": [
+      [
+        "repr('a\\tb\\nc') shows the escape sequences literally rather than their rendered effect",
+        "code_execution",
+        "confirmed: repr shows 'a\\\\tb\\\\nc' style output"
+      ]
+    ],
+    "prereq": "Builds on 08-01's quote handling; escape sequences and repr() are new, register entry [[escape-sequence]].",
+    "motivation": "Pairs repr() with escaping in the same lesson, since repr() is precisely the tool that makes escape sequences visible — an effective, non-arbitrary pairing.",
+    "sequence": "\\n/\\t basic examples -> repr() experiment on the same string -> escaped-quote task.",
+    "practice": "08-11 notebook (new) mirrors the escaped-quote and two-line tasks exactly.",
+    "coherence": "Sets up 08-12's raw strings as the natural next step (escaping's opposite).",
+    "ru_note": "'экранирование' used correctly and consistently.",
+    "safety": "No destructive operations.",
+    "grader": "08-11.py checks quote contains exactly 2 double-quote characters and two_lines splits into exactly 2 lines on \\n — independently re-verified.",
+    "findings": []
+  },
+  "08-12-mnogostrochnye-i-raw-stroki": {
+    "objective": "Learner uses triple-quoted strings for multi-line text and raw strings (r'...') to avoid escaping backslashes.",
+    "claims": [
+      [
+        "'C:\\\\\\\\Users\\\\\\\\Cartesian' (escaped) equals r'C:\\\\Users\\\\Cartesian' (raw)",
+        "code_execution",
+        "confirmed both forms produce the identical string value"
+      ]
+    ],
+    "prereq": "Builds directly on 08-11's escaping lesson; triple-quotes and raw strings are new, register entry [[raw-string]].",
+    "motivation": "Motivates raw strings with the single most common real use case (Windows file paths), rather than an abstract syntax demonstration.",
+    "sequence": "Multi-line poem example -> escaped-vs-raw equality experiment -> multiline+raw-path task.",
+    "practice": "08-12 notebook (new) mirrors the multiline and raw-path tasks exactly.",
+    "coherence": "Directly and effectively extends 08-11.",
+    "ru_note": "'raw-строка' correctly left untranslated (register entry).",
+    "safety": "No destructive operations.",
+    "grader": "08-12.py checks multiline splits into exactly 3 lines and raw_path equals the literal Windows-style path — independently re-verified.",
+    "findings": []
+  },
+  "08-13-dlina-stroki": {
+    "objective": "Learner uses len() to get string length and connects it to the valid index range.",
+    "claims": [
+      [
+        "len('Cartesian')==9, and word[8]==word[-1]",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds on 08-03's indexing; len() itself is new here in the string context (previously used only on other contexts if at all).",
+    "motivation": "Explicitly connects len() to index bounds (last valid index = len-1), preempting the classic off-by-one IndexError before it happens.",
+    "sequence": "len() on two example strings -> length/last-index task with an equality self-check (word[posledniy_index]==word[-1]).",
+    "practice": "08-13 notebook (new) mirrors the length/last-index task exactly.",
+    "coherence": "Directly sets up 08-14's slice-boundary reasoning.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-13.py checks dlina==9, posledniy_index==8, and word[posledniy_index]==word[-1] — independently re-verified.",
+    "findings": []
+  },
+  "08-14-srezy-stroki": {
+    "objective": "Learner uses slicing [start:stop:step] and confirms strings are immutable.",
+    "claims": [
+      [
+        "word[:3]='Car', word[-3:]='ian', word[::2]='Crein', word[::-1]='naisetraC' for word='Cartesian'",
+        "code_execution",
+        "confirmed all four"
+      ],
+      [
+        "word[0]='B' raises TypeError ('str' object does not support item assignment)",
+        "code_execution",
+        "confirmed, correctly tagged raises=True"
+      ]
+    ],
+    "prereq": "Builds directly on 08-03's indexing and 08-13's len(); the [start:stop:step] slice syntax and immutability are new, register entries [[slice]], [[immutability-string]].",
+    "motivation": "Bundles slicing and immutability in one page because the 'string nellzya izmenit' (08-15) lesson depends on slice-based concatenation as the fix — good sequencing even though they get separate headings.",
+    "sequence": "Basic slices -> typical-mistake (item assignment) -> fix via slice+concatenation -> four-way slice task.",
+    "practice": "08-14 notebook (new) mirrors the four-way slice task and the item-assignment mistake/fix exactly.",
+    "coherence": "Directly sets up 08-15's fuller immutability treatment.",
+    "ru_note": "'срез' used correctly and consistently (register entry).",
+    "safety": "No destructive operations.",
+    "grader": "08-14.py checks first3, last3, every_second, reversed_word all match the independently-verified expected values.",
+    "findings": []
+  },
+  "08-15-neizmenyaemost": {
+    "objective": "Learner understands WHY strings are immutable (a deliberate design choice) and that all string methods return new strings rather than mutating in place.",
+    "claims": [
+      [
+        "text.upper() without reassignment leaves the original text unchanged; text = text.upper() is required to capture the result",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Directly extends 08-14's immutability introduction with the design-rationale ('why') and the practical consequence (methods return new strings) — a genuine, needed extension rather than a repeat.",
+    "motivation": "Correctly frames immutability as a deliberate safety feature (safe to pass around without a hidden-mutation bug) rather than a limitation, and explicitly forward-references that lists (a later chapter) are mutable by contrast — good scope discipline.",
+    "sequence": "Recap of the item-assignment TypeError -> design-rationale callout -> 'methods don't mutate' demonstration with a common forgot-to-reassign mistake.",
+    "practice": "Shares the 08-14 notebook and practice card by design (explicitly labeled as such), consistent with the two lessons' close relationship.",
+    "coherence": "Correctly scopes the immutability claim to strings and explicitly flags lists as the future contrast, avoiding an over-generalized 'everything in Python is immutable' false claim.",
+    "ru_note": "'неизменяемость'/'неизменяемый' used correctly and consistently (register entry).",
+    "safety": "No destructive operations.",
+    "grader": "Shares 08-14's grader by design; no separate grader entry, consistent with the shared-notebook design.",
+    "findings": []
+  },
+  "08-16-metody-strok-poisk-i-razbor": {
+    "objective": "Learner uses find()/index()/replace()/split()/join() for searching and parsing strings.",
+    "claims": [
+      [
+        "text.find('th')==2 for 'Python', text.find('zz')==-1 (not found)",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "text.index('zz') raises ValueError ('substring not found')",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "'report_final.pdf'.find('_')==6, 'report_final.pdf'.split('_')==['report','final.pdf']",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Builds on 08-04's introductory method tour; find()/index()/join() specifically (and the find-vs-index -1-vs-exception distinction) are new.",
+    "motivation": "Correctly and explicitly contrasts find() (returns -1) with index() (raises ValueError) for a not-found case — a genuinely important, easy-to-get-wrong distinction for real parsing code.",
+    "sequence": "replace()/split()/join() worked example -> find()-vs-index() experiment on a not-found case -> filename-parsing task (is_pdf, position, parts).",
+    "practice": "08-16 notebook (pre-existing) mirrors the filename-parsing task exactly.",
+    "coherence": "Correctly deepens 08-04 rather than repeating it; the find/index distinction is genuinely new content.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-16.py checks is_pdf is True, position==6, and parts==['report','final.pdf'] — independently re-verified.",
+    "findings": []
+  },
+  "08-17-metody-proverki": {
+    "objective": "Learner uses isalpha()/isdigit()/isalnum()/isspace() to check string composition, with an if/else forward reference bounded to a simple inline example.",
+    "claims": [
+      [
+        "'Python3'.isalpha()==False, '2026'.isdigit()==True, 'Python3'.isalnum()==True, '   '.isspace()==True",
+        "code_execution",
+        "confirmed all four"
+      ],
+      [
+        "An if/else statement (age_text.isdigit()) is used with an explicit 'Полный оператор if... в главе 9' forward-reference disclaimer",
+        "source_inspection",
+        "properly and explicitly labeled, consistent with the course's established forward-reference pattern — resolves this specific instance of the Chapter 8 dependency review cleanly"
+      ]
+    ],
+    "prereq": "Builds on 08-04's method-call syntax; the four is*() methods are new. if/else usage is a labeled forward reference.",
+    "motivation": "Groups the four is*() 'composition check' methods together as a natural family, then demonstrates their real-world use (validating a text-based age input) via a bounded, disclaimed if/else preview.",
+    "sequence": "Four-method worked example -> isdigit()-based age-validation example with an explicit if/else forward-reference callout -> three-string task.",
+    "practice": "08-17 notebook (pre-existing) mirrors the three-string (s1/s2/s3) task exactly.",
+    "coherence": "Correctly and explicitly labeled forward reference to Chapter 9's full if statement; no unlabeled gap.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-17.py checks r1/r2/r3 are all True for the respective is*() checks — independently re-verified.",
+    "findings": []
+  },
+  "08-18-cikl-po-stroke": {
+    "objective": "Learner iterates a string character-by-character with for ch in text:, an explicitly labeled forward reference to Chapter 9's full for-loop treatment.",
+    "claims": [
+      [
+        "for ch in 'миссисипи': if ch=='и': count+=1 correctly counts 4 occurrences of 'и'",
+        "code_execution",
+        "confirmed: 4, matching text.count('и')==4 exactly"
+      ]
+    ],
+    "prereq": "Builds on 08-01's sequence framing (iterating IS a direct consequence of being a sequence); for-loop syntax itself is an explicit, well-bounded forward reference ('Мы ещё не проходили циклы подробно — это тема главы 9. Здесь достаточно понимать for ch in text: буквально').",
+    "motivation": "This is the anchor section for the Chapter 8 dependency review's 'for/iteration' concern: the disclaimer is precise, names the exact future chapter, and gives just enough operational understanding ('read this literally') to proceed without full syntax mastery — Option C handling, done correctly.",
+    "sequence": "Basic for ch in word: print(ch) example -> vowel/letter-counting task combining for with an if check, with a follow-up sentence acknowledging the if is ALSO a forward reference ('мы уже заглянули немного вперёд и на if').",
+    "practice": "08-18 notebook (pre-existing) mirrors the letter-counting task ('и' in 'миссисипи') exactly.",
+    "coherence": "Directly and correctly resolves the batch's Chapter 8 for-loop dependency concern — see the Chapter 8 dependency matrix in the batch report. All subsequent unlabeled for-loop uses in the chapter (e.g. 08-06's alignment example, 08-23's word-counting) rely on this single, thorough disclaimer rather than needing to repeat it.",
+    "ru_note": "No terminology issues; the disclaimer's honesty about ALSO previewing if is a notable, good practice worth flagging positively.",
+    "safety": "No destructive operations.",
+    "grader": "08-18.py checks count equals an independently-recomputed text.count(bukva) and that count>0 — independently re-verified.",
+    "findings": []
+  },
+  "08-19-unikod-i-emodzi": {
+    "objective": "Learner understands that Python 3 strings are Unicode by default, handling Cyrillic and emoji correctly without special handling.",
+    "claims": [
+      [
+        "len('код 🐍') counts the snake emoji as characters correctly (Python treats most emoji as single code points for len() purposes, though some are multi-codepoint)",
+        "code_execution",
+        "confirmed: len('код 🐍')==5 (к,о,д,space,🐍)"
+      ]
+    ],
+    "prereq": "Builds on 08-01's strings; Unicode-awareness itself is new material, appropriately introduced as 'this just works' rather than a deep encoding lecture inappropriate for this level.",
+    "motivation": "Reassures the learner that Cyrillic (the language the whole course is written in) and emoji are first-class, fully-supported string content in Python 3 — a practically important, confidence-building point for a Russian-language course.",
+    "sequence": "Cyrillic string example -> emoji-in-a-string example -> len() on a mixed string.",
+    "practice": "No dedicated notebook (folded into surrounding lessons' practice).",
+    "coherence": "Correctly avoids overclaiming into encoding/surrogate-pair edge cases inappropriate for this level.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "findings": []
+  },
+  "08-20-otladka-strok": {
+    "objective": "Learner debugs a realistic string bug: an invisible trailing space breaking an equality check, fixed with strip().",
+    "claims": [
+      [
+        "'секрет ' == 'секрет' is False (trailing space); 'секрет '.strip() == 'секрет' is True",
+        "code_execution",
+        "confirmed both"
+      ],
+      [
+        "repr('секрет ') visibly shows the trailing space, unlike print()",
+        "code_execution",
+        "confirmed: repr output includes the trailing space inside quotes, making it visible"
+      ]
+    ],
+    "prereq": "Synthesizes 08-11's repr() (for seeing invisible characters) and 08-16's strip()-adjacent methods into a realistic debugging scenario; no new syntax.",
+    "motivation": "Addresses a genuinely common, hard-to-spot real bug (invisible whitespace from copy-pasted or user-entered text) with the exact right diagnostic tool (repr()) already taught earlier in the chapter.",
+    "sequence": "Trailing-space equality failure -> repr() diagnostic -> strip()-based fix task.",
+    "practice": "08-20 notebook (pre-existing) mirrors the before/strip/after task exactly.",
+    "coherence": "Good, well-motivated synthesis of earlier chapter material into a realistic debugging exercise.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-20.py checks is_equal_before is False, cleaned=='секрет', and is_equal_after is True — independently re-verified.",
+    "findings": []
+  },
+  "08-21-mini-proekt-privetstvie-i-imya": {
+    "objective": "Learner combines strip()+capitalize()+f-strings to format a first/last name into a clean full name and initials, a mini-project.",
+    "claims": [
+      [
+        "'  ада  '.strip().capitalize()=='Ада', 'ЛАВЛЕЙС'.strip().capitalize()=='Лавлейс'",
+        "code_execution",
+        "confirmed"
+      ],
+      [
+        "full_name=f'{first} {last}'=='Ада Лавлейс', initials=f'{first[0]}. {last[0]}.'=='А. Л.'",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Synthesizes strip()/capitalize() (08-04) and f-strings (08-06); no new syntax.",
+    "motivation": "This is the notebook that CORRECTLY implements the input_setup() mock pattern with an explicit explanatory markdown cell, serving as the reference example that revealed the 08-07/08-09/08-10 stale-generation gap during this audit.",
+    "sequence": "Explanatory input()-mocking markdown cell -> mock-input setup code -> full-name/initials task.",
+    "practice": "08-21 notebook (pre-existing) correctly and completely implements the input_setup() pattern; no defect found here.",
+    "coherence": "Consistent with theory page; serves as the model other notebooks were brought into alignment with.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-21.py checks full_name=='Ада Лавлейс' and initials=='А. Л.' — independently re-verified.",
+    "findings": []
+  },
+  "08-22-mini-proekt-parol-i-email": {
+    "objective": "Learner combines isdigit()/isalpha()/in/count() into two mini-validators: password strength and basic email-shape checking.",
+    "claims": [
+      [
+        "any(ch.isdigit() for ch in password) correctly identifies presence of at least one digit, labeled with an explicit 'Забегаем вперёд' callout naming and/or/generator-expressions as Chapter 9-10 material",
+        "code_execution",
+        "confirmed logically and behaviorally; the disclaimer is honest about the construct's complexity"
+      ],
+      [
+        "A ternary conditional expression (X if cond else Y) appeared UNLABELED in the email-check example, a genuine gap distinct from the disclaimed any()/generator-expression construct just above it — FOUND AND FIXED (see findings)",
+        "source_inspection",
+        "the ternary was not necessary for correctness (the surrounding `and`-chain in pohozhe_na_email already short-circuits any wrong value from the no-'@'-found case), so it was removed rather than disclaimed (Option B, the smallest fix), verified behaviorally equivalent for both a valid and an invalid email input"
+      ]
+    ],
+    "prereq": "Builds on 08-05 (in, comparison), 08-13 (count()), 08-17 (isdigit/isalpha); the any()+generator-expression construct is an explicitly labeled forward reference. The ternary conditional expression WAS an unlabeled forward reference until fixed.",
+    "motivation": "Realistic, practically useful mini-projects (password strength, email shape) that motivate combining several previously-separate string checks into one boolean result via `and`.",
+    "sequence": "Password-strength checklist (any() over three rules) -> email-shape checklist (in/count()/find(), originally with a ternary, now simplified) -> own-rule extension exercise.",
+    "practice": "08-22 notebook (pre-existing) uses a simpler formulation (no ternary at all) for its version of the email check, so it was never affected by the ternary gap found in the theory page.",
+    "coherence": "After the fix, fully consistent; the any()/generator-expression forward reference remains correctly labeled and unchanged.",
+    "ru_note": "No terminology issues after the fix.",
+    "safety": "No destructive operations; validates realistic-looking password/email rules without over-claiming security properties.",
+    "grader": "08-22.py checks nadyozhnyj matches an independently-recomputed rule and pohozhe_na_email matches email.count('@')==1 — both independently re-verified and unaffected by the theory-page fix (the notebook never had the ternary).",
+    "findings": [
+      {
+        "severity": "minor",
+        "description": "In the 08-22 theory page's email-check example, a ternary conditional expression (`X if cond else Y`) appeared with no forward-reference disclaimer, unlike every other forward-referenced construct in Chapter 8, which are all explicitly labeled 'Забегаем вперёд'.",
+        "status": "resolved",
+        "resolution": "Removed the ternary (Option B — smallest fix): changed `est_tochka_posle = \"...\" if est_sobachka else False` to the plain slice expression `est_tochka_posle = \"...\"`, since the surrounding `and`-chain in pohozhe_na_email already makes the ternary's guard redundant for correctness; verified behaviorally identical output for both a valid email and a string with no '@' via direct execution."
+      }
+    ]
+  },
+  "08-23-mini-proekt-schetchik-slov": {
+    "objective": "Learner combines split() with a dict-based counting pattern (an explicitly labeled forward reference) to count word frequencies, and uses replace() for a text-censoring mini-project, closing the chapter.",
+    "claims": [
+      [
+        "'кот и пёс и кот'.lower().split() has 5 words; frequency dict gives {'кот':2,'и':2,'пёс':1}",
+        "code_execution",
+        "confirmed exactly"
+      ],
+      [
+        "schetchik.get(word,0)+1 pattern correctly builds a frequency count, with an explicit 'Забегаем вперёд' callout naming Chapter 11 for dicts",
+        "source_inspection",
+        "properly and explicitly labeled forward reference"
+      ]
+    ],
+    "prereq": "Builds on 08-04's split() and 08-18's for-loop pattern (relies on 08-18's earlier, thorough disclaimer rather than repeating it — consistent, non-noisy labeling); introduces dict literals and .get() as an explicitly labeled forward reference to Chapter 11.",
+    "motivation": "Strong chapter-closing synthesis: text-analysis mini-project (word counting) followed by a text-censoring mini-project (replace()-based), both realistic applications of the chapter's core string skills.",
+    "sequence": "Word-count worked example -> dict-based frequency-counting task -> text-censor mini-project using replace() and string repetition (08-04).",
+    "practice": "08-23 notebook (pre-existing) mirrors the word-count/frequency task exactly.",
+    "coherence": "Correctly relies on 08-18's for-loop disclaimer rather than re-disclaiming it, consistent with the course's economical labeling pattern; dict/.get() forward reference is correctly and separately labeled.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-23.py checks total==5 and schetchik=={'кот':2,'и':2,'пёс':1} — independently re-verified.",
+    "findings": []
+  },
+  "08-01": {
+    "objective": "Practice string quote styles and equivalence of escaping vs. alternate quotes.",
+    "claims": [
+      [
+        "q2==q3 for equivalent double-quoted-escaped and single-quoted forms",
+        "code_execution",
+        "confirmed via scripts/run_notebook.py; all cells execute cleanly"
+      ]
+    ],
+    "prereq": "Matches theory page 08-01-chto-takoe-stroki exactly.",
+    "motivation": "Pre-existing notebook; direct practice of quote-style equivalence.",
+    "sequence": "Quote-style worked example -> equivalence task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-01.py checks q1 matches the expected single-quoted form and q2==q3 with the double-quoted word present — independently re-verified.",
+    "findings": []
+  },
+  "08-03": {
+    "objective": "Practice positive and negative indexing.",
+    "claims": [
+      [
+        "word[:3]=='Car', word[-3:]=='ian' for 'Cartesian'",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-03-dostup-k-simvolam exactly.",
+    "motivation": "New notebook (this batch); mirrors the theory page's diagrams as a direct slicing task.",
+    "sequence": "Positive/negative index examples -> first-three/last-three task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-03.py checks word[:3]=='Car' and word[-3:]=='ian' — confirmed correct.",
+    "findings": []
+  },
+  "08-04": {
+    "objective": "Practice upper/lower/title/strip/replace/count/split and startswith/endswith.",
+    "claims": [
+      [
+        "Long-word count over 'Python любит числа и красивые буквы очень сильно' equals 7",
+        "code_execution",
+        "confirmed: 7 of 8 words exceed 4 characters (all but 'и')"
+      ]
+    ],
+    "prereq": "Matches theory page 08-04-metody-strok exactly.",
+    "motivation": "Pre-existing notebook; mirrors the theory page's startswith/endswith and long-word-counting tasks.",
+    "sequence": "upper/lower/title/strip/replace/count/split worked examples -> startswith/endswith task -> long-word-count extra challenge (for-loop, early instance of the pattern taught fully at 08-18).",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-04.py checks startswith/endswith are True and count==7 — independently re-verified.",
+    "findings": []
+  },
+  "08-06": {
+    "objective": "Practice %, .format(), and f-strings, plus number-format specs.",
+    "claims": [
+      [
+        "'%s — %d'%(name,age), '{} — {}'.format(name,age), f'{name} — {age}' all produce the identical string for name='Ада', age=28",
+        "code_execution",
+        "confirmed: all three give 'Ада — 28'"
+      ]
+    ],
+    "prereq": "Matches theory page 08-06-formatirovanie-strok's three-way comparison and number-format-spec content; does NOT reproduce the theory page's unlabeled alignment for-loop example, so this notebook itself has no forward-reference gap.",
+    "motivation": "New notebook; three-way formatting comparison plus :.2f and :, number-format experiments, closing with a same-data three-way task for direct comparison.",
+    "sequence": "Three-way comparison worked example -> expression-inside-f-string experiment -> number-formatting experiment -> three-way task with new data.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page; correctly does not include the unlabeled tuple-unpacking for-loop found (and left as a non-issue) in the theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-06.py checks name/age were set for comparison and that all three formatting methods produce an identical string — independently re-verified.",
+    "findings": []
+  },
+  "08-07": {
+    "objective": "Practice input()+int() conversion and the unconverted-string-plus-int TypeError.",
+    "claims": [
+      [
+        "age_text + 5 raises TypeError; int(age_text) + 5 succeeds",
+        "code_execution",
+        "confirmed after the notebook fix (see findings): re-verified end-to-end via scripts/run_notebook.py"
+      ]
+    ],
+    "prereq": "Matches theory page 08-07-vvod-polzovatelya exactly.",
+    "motivation": "STALE-GENERATED-ARTIFACT DEFECT FOUND AND FIXED: the committed notebook lacked the input_setup() mock its own canonical builder (scripts/build_notebooks_ch08.py) already defines and calls for this exact notebook, causing StdinNotImplementedError under standard automated execution (scripts/run_notebook.py) while the sibling 08-21 notebook (which had the mock) worked. This is a genuine, previously-undetected defect this audit found by actually executing every notebook rather than trusting the committed output cells.",
+    "sequence": "Setup+mock-input cells (restored) -> greeting example -> str-to-int conversion experiment -> typical-mistake TypeError (raises=True) -> fix -> Turtle-text logic preview.",
+    "practice": "Fixed via surgical cell insertion (input_setup markdown+code cells added at the exact position the builder specifies), preserving every pre-existing cell's id and content byte-for-byte (verified by diff before/after).",
+    "coherence": "After the fix, consistent with the builder's own stated design intent and with sibling notebook 08-21.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-07.py checks name/age_text/age/message are internally consistent (age==int(age_text), message==f'Привет, {name}!') — independently re-verified after the fix.",
+    "findings": [
+      {
+        "severity": "major",
+        "description": "notebooks/chapter-08/08-07-vvod-polzovatelya.ipynb was missing the input_setup() mock its own canonical builder script already defines and calls for it, causing StdinNotImplementedError under standard automated execution.",
+        "status": "resolved",
+        "resolution": "Surgically inserted the two missing cells at the builder-specified position; preserved all pre-existing cell ids/content; re-verified clean execution and correct output via scripts/run_notebook.py."
+      }
+    ]
+  },
+  "08-09": {
+    "objective": "Practice upper() (shout) and [::-1] (reverse) mini-projects, plus a palindrome check.",
+    "claims": [
+      [
+        "'python это круто'.upper()+'!!!'=='PYTHON ЭТО КРУТО!!!'; 'Cartesian'[::-1]=='naisetraC'; 'довод' is a palindrome, 'Python' is not",
+        "code_execution",
+        "confirmed all, after the notebook fix"
+      ]
+    ],
+    "prereq": "Matches theory page 08-09-mini-proekty-krik-perevorot exactly.",
+    "motivation": "STALE-GENERATED-ARTIFACT DEFECT FOUND AND FIXED: same input_setup() gap pattern as 08-07, independently confirmed and fixed here.",
+    "sequence": "Setup+mock-input cells (restored) -> shout example -> name-reversal example -> palindrome-check task -> palindrome self-check.",
+    "practice": "Fixed via the same surgical cell-insertion approach as 08-07.",
+    "coherence": "After the fix, consistent with theory page and with sibling notebook 08-21.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-09.py checks krik/perevernutoe match their formulas and word is a non-empty string — independently re-verified after the fix.",
+    "findings": [
+      {
+        "severity": "major",
+        "description": "notebooks/chapter-08/08-09-krik-perevorot.ipynb had the same input_setup() gap as 08-07.",
+        "status": "resolved",
+        "resolution": "Same surgical fix pattern applied; preserved all pre-existing cell ids/content; re-verified clean execution via scripts/run_notebook.py."
+      }
+    ]
+  },
+  "08-10": {
+    "objective": "Practice a small calculator combining input()+float()+f-strings.",
+    "claims": [
+      [
+        "6.0+7.0=13.0, 6.0*7.0=42.0; 10.0+4.0=14.0, 10.0-4.0=6.0, 10.0*4.0=40.0, 10.0/4.0=2.5",
+        "code_execution",
+        "confirmed, after the notebook fix"
+      ]
+    ],
+    "prereq": "Matches theory page 08-10-mini-proekt-matematika-itogi exactly.",
+    "motivation": "STALE-GENERATED-ARTIFACT DEFECT FOUND AND FIXED: same input_setup() gap, doubled since this notebook has two separate input()-using cells (add/multiply example, then the four-operation task).",
+    "sequence": "Setup+mock-input (6,7) -> add/multiply example -> setup+mock-input (10,4) -> four-operation task.",
+    "practice": "Fixed via two surgical cell-insertions (one per input()-using cell), preserving all pre-existing cell ids/content.",
+    "coherence": "After the fix, consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-10.py checks a and b are both actual floats — independently re-verified after the fix.",
+    "findings": [
+      {
+        "severity": "major",
+        "description": "notebooks/chapter-08/08-10-dinamicheskaya-matematika.ipynb had the same input_setup() gap as 08-07/08-09, doubled across its two input()-using cells.",
+        "status": "resolved",
+        "resolution": "Applied the surgical fix twice, once per input()-using cell; preserved all pre-existing cell ids/content; re-verified clean execution via scripts/run_notebook.py."
+      }
+    ]
+  },
+  "08-11": {
+    "objective": "Practice escape sequences (\\n, \\t) and repr() to see literal escapes.",
+    "claims": [
+      [
+        "repr('a\\tb\\nc') shows the tab/newline escapes literally",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-11-ekranirovanie exactly.",
+    "motivation": "New notebook; mirrors the theory page's repr() experiment before the escaped-quote/two-line task.",
+    "sequence": "\\n/\\t worked example -> repr() experiment -> escaped-quote + two-line task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-11.py checks quote contains exactly 2 double-quote characters and two_lines splits into 2 lines on \\n — independently re-verified.",
+    "findings": []
+  },
+  "08-12": {
+    "objective": "Practice triple-quoted multi-line strings and raw strings.",
+    "claims": [
+      [
+        "r'C:\\\\Users\\\\Cartesian' equals the escaped equivalent",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-12-mnogostrochnye-i-raw-stroki exactly.",
+    "motivation": "New notebook; mirrors the theory page's escaped-vs-raw equality experiment before the multiline+raw-path task.",
+    "sequence": "Multi-line poem example -> escaped-vs-raw equality experiment -> multiline+raw-path task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-12.py checks multiline splits into exactly 3 lines and raw_path matches the literal path — independently re-verified.",
+    "findings": []
+  },
+  "08-13": {
+    "objective": "Practice len() and connecting it to the last valid index.",
+    "claims": [
+      [
+        "len('Cartesian')==9, word[8]==word[-1]",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-13-dlina-stroki exactly.",
+    "motivation": "New notebook; mirrors the theory page's length/last-index task exactly.",
+    "sequence": "len() worked example -> length/last-index task with equality self-check.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-13.py checks dlina==9, posledniy_index==8, word[posledniy_index]==word[-1] — independently re-verified.",
+    "findings": []
+  },
+  "08-14": {
+    "objective": "Practice slicing and the item-assignment TypeError demonstrating immutability.",
+    "claims": [
+      [
+        "word[0]='B' raises TypeError; word='B'+word[1:] is the correct fix",
+        "code_execution",
+        "confirmed, correctly tagged raises=True"
+      ],
+      [
+        "'Cartesian'[::2]=='Crein', [::-1]=='naisetraC'",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory pages 08-14-srezy-stroki and 08-15-neizmenyaemost (shared notebook by design).",
+    "motivation": "New notebook; mirrors both theory pages' item-assignment mistake/fix and four-way slice task.",
+    "sequence": "Basic slices -> item-assignment mistake (raises=True) -> fix -> four-way slice task.",
+    "practice": "First code cell not raises=True (the raises=True cell is the SECOND code cell, correctly avoiding the Chapter-3 runner-hang bug).",
+    "coherence": "Correctly shared between 08-14 and 08-15, consistent with the theory pages' own cross-reference.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-14.py checks first3/last3/every_second/reversed_word all match the independently-verified expected values.",
+    "findings": []
+  },
+  "08-16": {
+    "objective": "Practice find()/index()/replace()/split()/join() for parsing.",
+    "claims": [
+      [
+        "'report_final.pdf'.find('_')==6, split('_')==['report','final.pdf']",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-16-metody-strok-poisk-i-razbor exactly.",
+    "motivation": "Pre-existing notebook; mirrors the theory page's find()-vs-index() experiment and filename-parsing task.",
+    "sequence": "replace/split/join worked example -> find()-vs-index() experiment (not-found case) -> filename-parsing task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-16.py checks is_pdf is True, position==6, parts==['report','final.pdf'] — independently re-verified.",
+    "findings": []
+  },
+  "08-17": {
+    "objective": "Practice isalpha()/isdigit()/isalnum()/isspace() composition checks.",
+    "claims": [
+      [
+        "'Python'.isalpha()==True, '2026'.isdigit()==True, '   '.isspace()==True",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-17-metody-proverki exactly.",
+    "motivation": "Pre-existing notebook; mirrors the theory page's three-string task.",
+    "sequence": "Four-method worked example -> three-string (s1/s2/s3) task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-17.py checks r1/r2/r3 are all True — independently re-verified.",
+    "findings": []
+  },
+  "08-18": {
+    "objective": "Practice for ch in text: iteration to count character occurrences.",
+    "claims": [
+      [
+        "'миссисипи' contains exactly 4 occurrences of 'и'",
+        "code_execution",
+        "confirmed: 4, matching text.count('и')"
+      ]
+    ],
+    "prereq": "Matches theory page 08-18-cikl-po-stroke exactly, including its explicit 'Забегаем вперёд' for-loop disclaimer.",
+    "motivation": "Pre-existing notebook; this is the practice-side anchor for the Chapter 8 for-loop/iteration dependency review, mirroring the theory page's letter-counting task exactly.",
+    "sequence": "for ch in word: print(ch) worked example -> letter-counting task (for + if, both previously disclaimed).",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Directly and correctly resolves this instance of the Chapter 8 for-loop dependency concern together with its theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-18.py checks count equals an independently-recomputed text.count(bukva) and count>0 — independently re-verified.",
+    "findings": []
+  },
+  "08-20": {
+    "objective": "Practice diagnosing a trailing-whitespace equality bug with repr() and fixing it with strip().",
+    "claims": [
+      [
+        "'секрет '=='секрет' is False; 'секрет '.strip()=='секрет' is True",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-20-otladka-strok exactly.",
+    "motivation": "Pre-existing notebook; mirrors the theory page's before/repr/strip/after debugging sequence.",
+    "sequence": "Trailing-space equality-failure example -> repr() diagnostic -> strip()-based fix task.",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-20.py checks is_equal_before is False, cleaned=='секрет', is_equal_after is True — independently re-verified.",
+    "findings": []
+  },
+  "08-21": {
+    "objective": "Practice strip()+capitalize()+f-strings to format a full name and initials.",
+    "claims": [
+      [
+        "'  ада  '.strip().capitalize()=='Ада'; full_name=='Ада Лавлейс'; initials=='А. Л.'",
+        "code_execution",
+        "confirmed"
+      ]
+    ],
+    "prereq": "Matches theory page 08-21-mini-proekt-privetstvie-i-imya exactly.",
+    "motivation": "This notebook CORRECTLY and completely implements the input_setup() mock-input pattern (with its own explanatory markdown cell) — it is the reference implementation this audit used to identify and fix the analogous gap in 08-07/08-09/08-10.",
+    "sequence": "Explanatory input()-mocking markdown cell -> mock-input setup code -> full-name/initials task.",
+    "practice": "Correctly implements input_setup(); no defect found.",
+    "coherence": "Consistent with theory page.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-21.py checks full_name=='Ада Лавлейс' and initials=='А. Л.' — independently re-verified.",
+    "findings": []
+  },
+  "08-22": {
+    "objective": "Practice combining isdigit()/isalpha()/in/count() into password-strength and email-shape checks.",
+    "claims": [
+      [
+        "nadyozhnyj==(len>=8 and any(isdigit) and any(isalpha)) for 'abc12345'; pohozhe_na_email==(count('@')==1) for 'ada@cartesianschool.org'",
+        "code_execution",
+        "confirmed both"
+      ]
+    ],
+    "prereq": "Matches theory page 08-22-mini-proekt-parol-i-email's core content; uses a SIMPLER formulation than the theory page for the email check (no dot-after-@ check, hence no ternary at all) — this notebook was never affected by the theory page's ternary forward-reference gap.",
+    "motivation": "Pre-existing notebook; deliberately simpler than the theory page's example, which incidentally avoided the ternary-expression issue found and fixed in the theory page.",
+    "sequence": "Password-checklist example (any() over three rules, explicitly labeled forward reference) -> combined password+email task.",
+    "practice": "First code cell not raises=True; no ternary expression used, so no forward-reference gap here.",
+    "coherence": "Consistent with the theory page after its fix; independently free of the ternary issue.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-22.py checks nadyozhnyj and pohozhe_na_email against independently-recomputed rules — independently re-verified.",
+    "findings": []
+  },
+  "08-23": {
+    "objective": "Practice split() plus a dict-based word-frequency counter (explicitly labeled forward reference).",
+    "claims": [
+      [
+        "'кот и пёс и кот'.lower().split() has 5 words; frequency dict is {'кот':2,'и':2,'пёс':1}",
+        "code_execution",
+        "confirmed exactly"
+      ]
+    ],
+    "prereq": "Matches theory page 08-23-mini-proekt-schetchik-slov exactly, including its dict/.get() forward-reference disclaimer (Chapter 11) and its reliance on 08-18's already-disclaimed for-loop.",
+    "motivation": "Pre-existing notebook; closes the chapter's practice sequence with the same word-counting synthesis as the theory page.",
+    "sequence": "Word-split worked example -> frequency-counting task (for-loop + dict.get(), consistent with prior disclaimers).",
+    "practice": "First code cell not raises=True.",
+    "coherence": "Consistent with theory page; correctly relies on 08-18's for-loop disclaimer rather than repeating it.",
+    "ru_note": "No terminology issues.",
+    "safety": "No destructive operations.",
+    "grader": "08-23.py checks total==5 and schetchik=={'кот':2,'и':2,'пёс':1} — independently re-verified.",
+    "findings": []
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CH05-OPENER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:05:theory:index",
+    "kind": "chapter_opener",
+    "title": "Давайте поиграем с числами!",
+    "canonical_source_path": "scripts/build_chapter_05.py",
+    "baseline_source_sha256": "ce558beed20208ebaacbb65e87d76a35dc570019c26bebc7d9afcb6aa4c98093",
+    "reviewed_source_sha256": "ce558beed20208ebaacbb65e87d76a35dc570019c26bebc7d9afcb6aa4c98093",
+    "review_surface_path": "site/chapters/glava-05/index.html",
+    "review_surface_sha256": "c5dcb49f387ab3f3ff107c5deece8265ac716edd3a68261e819a2c3e47c2e94d"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "d86ab31ed73658c275f90850f631d074d2d0b131",
+    "started_at": "2026-09-02T06:00:00+00:00",
+    "completed_at": "2026-09-02T06:41:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "The learner can build and evaluate arithmetic expressions using the full Chapter 5 precedence/associativity ladder (**, unary +/-, *,/,//,%, +,-) and translate math formulas into correct Python.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-003"
+      ]
+    },
+    {
+      "id": "LO-02",
+      "statement": "The learner can choose the right math/random function for a geometry, combinatorics, or randomness task and explain why random (not secrets) is appropriate for it.",
+      "assessment_evidence_refs": [
+        "E-001",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 — M01-I04 Batch B assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read scripts/build_chapter_05.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), ran every canonical notebook for this chapter via scripts/run_notebook.py, independently re-verified every grader's expected value, and confirmed the canonical source and review-surface sha256 values match the current committed state exactly.",
+      "reviewed_at": "2026-09-02T06:41:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 3,
+      "rationale": "One factual defect was found and fixed during this batch (F-005: 05-11's 'Скобки для людей' example labeled 4+7+9/3 as '12.0 — НЕПРАВИЛЬНО!' when the correct value is 14.0); every other numeric/behavioral claim in the chapter was independently re-executed under Python 3.14.6 and found correct.",
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "All Python-3.14-specific behaviors (floor division on negatives, math.isqrt vs sqrt, math.comb/perm, random.seed reproducibility) verified against the actual installed 3.14.6 interpreter, not assumed.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "выражение/инструкция, приоритет, ассоциативность used precisely and consistently; register entries added for all three ([[expression-vs-statement]], [[operator-precedence]], [[associativity]]).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "The opener promises operators/precedence, formula translation, math, random, and a debugging mini-project; full-chapter reading confirms every promised topic is delivered, including the Chapter 4/5 overlap being genuinely extended rather than repeated (see coverage_observations analysis).",
+      "evidence_refs": [
+        "E-001",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "All seeded-random claims used by this chapter's automated graders (seed(1)->randint(1,10)==3, seed(3)->sample(range(1,6),k=3)==[2,5,4], seed(5)->randint(1,100)==80) were independently re-executed against the real Python 3.14 random module and match exactly.",
+      "evidence_refs": [
+        "E-002"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "The opener states the chapter's scope (operators, formulas, math, random, debugging) as concrete, checkable topics rather than vague aspirations.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Assumes only Chapter 4's basic arithmetic and variables; every new term (инструкция, ассоциативность, seed) is introduced before being relied on.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Opens with geometric visualizations (number line, square area) before formal rules, consistent with the chapter's visual-first pedagogy throughout.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "21 sections are chunked into clear sub-arcs (operators -> precedence -> formulas -> math -> random -> debugging) rather than one undifferentiated list.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "05-21's debugging mini-project closes the chapter with genuine transfer (finding a real precedence bug) rather than a topic recap.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Reference/binding terminology from Chapters 3-4 is explicitly reused for += (05-03), not re-explained inconsistently.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "All internal cross-references (05-04/05-05 hub links to their sub-pages) resolve to real, populated sections; verified against the PAGES list.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "The Chapter 4/5 operator overlap (//, %, divmod()) is explicitly cross-referenced ('мы уже решали эту задачу в главе 4') rather than silently repeated — analyzed in depth and confirmed intentional, not a defect.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Chapter number, title, and all 21 section identifiers match the PAGES navigation model and sidebar exactly.",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "source_inspection",
+      "summary": "Read scripts/build_chapter_05.py in full (1824 lines, 21 lesson-builder functions plus opener) covering operators, precedence/associativity, formula translation, math module, random module, and debugging.",
+      "locator": "scripts/build_chapter_05.py:1-1824",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Every numeric/behavioral claim (precedence/associativity examples, math.comb/perm/hypot/dist/log2, all seeded-random values used by graders) independently re-executed under the project's .venv Python 3.14.6; found one defect (F-005, now fixed), all else correct.",
+      "locator": ".venv/bin/python3 (interactive verification, this session)",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "All PAGES entries and hub-page (05-04/05-05) sub-links resolve to real, populated lesson-builder functions; no dangling links found.",
+      "locator": "scripts/build_chapter_05.py:54-77",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "review_note",
+      "summary": "05-05 correctly reinforces Chapter 4's random-vs-secrets safety distinction as a cross-reference rather than re-teaching it from scratch.",
+      "locator": "scripts/build_chapter_05.py (build_05_random function)",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Chapter 4/5 duplication check (HIGH-PRIORITY batch requirement): Chapter 5 revisits //, %, divmod() from Chapter 4 but adds substantial new content (precedence ladder, associativity, formula translation, deep math/random, debugging methodology) with explicit cross-references to the reused material — concluded intentional, well-labeled, pedagogically justified repetition, not a defect.",
+      "locator": "M01-I04 Batch B report, Chapter 4/5 duplication analysis",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "Full canonical source read end to end, every executable/numeric claim verified against real Python 3.14.6 execution, all notebooks and graders for this chapter independently re-executed and re-verified, one confirmed defect (F-005) found and fixed, Chapter 4/5 duplication concern investigated and resolved as non-defect; no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-02T06:41:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:00:00+00:00",
+      "reason": "M01-I04 Batch B opened formal review of this unit against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:41:00+00:00",
+      "reason": "Full-chapter read, execution-based verification, and grader re-verification complete; all 14 applicable chapter_opener criteria scored with unit-specific evidence."
+    }
+  ]
+}
