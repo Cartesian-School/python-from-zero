@@ -41,22 +41,29 @@
     "findings": []
   },
   "02-03-mac": {
-    "objective": "Learner can install Python 3.14 on macOS via the official universal2 .pkg and knows not to touch the system Python.",
+    "objective": "Learner installs Python on macOS via the official universal2 installer and understands the current (2026) system-Python model.",
     "claims": [
       [
-        "macOS ships a system Python that must not be modified, and the official python.org installer is a universal2 package supporting both Apple Silicon and Intel",
-        "source_inspection",
-        "matches well-established, current macOS Python distribution practice"
+        "Modern macOS ships /usr/bin/python3 as Apple-controlled developer tooling (part of Xcode / Command Line Tools for Xcode), usually older and incomplete relative to the current python.org release, and must never be modified or deleted; installing python.org's Python creates a second, coexisting installation",
+        "official_reference",
+        "MAJOR FINDING (discovered 2026-09-02, resolved same day): prior text implied the bare python command 'often does not exist or points to an obsolete system Python 2' as a normal current condition. Verified against the current official Python 3.14 macOS documentation (docs.python.org/3.14/using/mac.html), which describes /usr/bin/python3 as Apple-controlled Python 3 tooling tied to Xcode/CLT -- not a Python 2 concern -- and states explicitly it must never be modified or deleted. The historical Python-2-by-default macOS behavior (pre-Catalina, 2019) is real but was not labeled as historical in the prior text. Corrected to the current model, with Python 2 explicitly bounded as pre-2019 history; also fixed an unrelated mixed-script typo (\"скриptами\" -> \"скриптами\")."
       ]
     ],
     "prereq": "Depends only on 2.1's layer model; introduces python3 vs python naming before it is needed in later sections.",
-    "motivation": "Leads with the risk (why not to touch the system Python) before the install steps, giving a reason to follow the recommended path rather than an easier system shortcut.",
-    "sequence": "Three numbered steps (download, install, verify) parallel 2.2's Windows structure, aiding transfer between the two OS-specific pages.",
+    "motivation": "Leads with the risk (why not to touch Apple's Python) before the install steps, giving a reason to follow the recommended path rather than an easier system shortcut.",
+    "sequence": "Three numbered steps (download, install, verify) parallel 2.2's Windows structure, aiding transfer between the two OS-specific pages; the callout now correctly orders cause (Apple-controlled tooling) before consequence (do not touch it).",
     "practice": "No notebook (installation topic, correctly excluded from the inventory's practice count).",
-    "coherence": "Consistent with 2.5's identical 'do not touch the system interpreter' framing for Linux — deliberate, purposeful repetition rather than accidental duplication.",
-    "ru_note": "'системный Python' used consistently with the same phrase in 2.5; no awkward translation of 'universal2' (left as-is, appropriately, since it is a literal Apple package-format name).",
-    "safety": "Explicit, well-justified warning against installing packages into or removing the system Python.",
-    "findings": []
+    "coherence": "Consistent with 2.5's identical 'do not touch the system interpreter' framing for Linux -- deliberate, purposeful repetition rather than accidental duplication; now also consistent with 2.6's PATH-ordering diagnostic, which the corrected closing paragraph cross-references instead of a vaguer 'you probably typed the wrong command' framing.",
+    "ru_note": "'системный Python' retained as the general audience-facing term; new prose ('Apple-контролируемый') is a natural, precise rendering, not an awkward calque; typo \"скриptами\" corrected to \"скриптами\".",
+    "safety": "Explicit, well-justified warning against modifying or deleting Apple's /usr/bin/python3 -- now correctly sourced to docs.python.org rather than a generalized 'the OS might break' claim.",
+    "findings": [
+      {
+        "severity": "major",
+        "description": "Prior text presented '/usr/bin/python or python3 often points to an obsolete system Python 2' as a normal current macOS condition. Verified false against the current official Python 3.14 macOS documentation: modern macOS's /usr/bin/python3 is Apple-controlled Python 3 tooling (Xcode/Command Line Tools), not a Python-2 concern; the historical Python 2 default predates Catalina (2019). Also contained a mixed-script typo (\"скриptами\"). Corrected in scripts/build_chapter_02.py (section 2.3).",
+        "status": "resolved",
+        "resolution": "scripts/build_chapter_02.py section 2.3 rewritten to state the current model (Apple-controlled /usr/bin/python3 tied to Xcode/Command Line Tools, usually older/incomplete, never to be modified or deleted) as primary fact, with the historical Python 2 default explicitly bounded to pre-2019 macOS versions; fixed the closing diagnostic paragraph to reference PATH ordering (2.4) and sys.executable (2.6) instead of a vague warning; fixed the mixed-script typo. Chapter 2 regenerated; verified against docs.python.org/3.14/using/mac.html."
+      }
+    ]
   },
   "02-04-terminal-shell-i-path": {
     "objective": "Learner can define terminal, shell, command, argument, path, and PATH, and explain how a typed command resolves to a running program.",

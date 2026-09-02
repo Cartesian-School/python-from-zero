@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
+import subprocess
 from pathlib import Path
 from types import ModuleType
-
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_PATH = ROOT / "scripts" / "validate_ru_content_review.py"
@@ -33,6 +34,14 @@ def _documents() -> tuple[dict, dict, dict]:
         json.loads(path.read_text(encoding="utf-8"))
         for path in (RUBRIC_PATH, INVENTORY_PATH, SCHEMA_PATH)
     )
+
+
+def _head_commit() -> str:
+    """Return the current HEAD commit SHA, for tests that need a real, git-resolvable commit."""
+
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True
+    ).stdout.strip()
 
 
 def _approved_record() -> dict:
@@ -102,7 +111,7 @@ def _approved_record() -> dict:
         },
         "review_context": {
             "baseline_commit": inventory["baseline"]["commit_sha"],
-            "review_commit": "a" * 40,
+            "review_commit": _head_commit(),
             "started_at": "2026-08-28T10:00:00+00:00",
             "completed_at": "2026-08-28T12:00:00+00:00",
             "python_version": "3.14.2",
@@ -357,3 +366,65 @@ def test_scope_completeness_ignores_out_of_scope_chapters() -> None:
     # is legitimately empty, so nothing in it can be missing coverage.
     errors = validator.check_scope_completeness(inventory, [], {9999}, None)
     assert errors == []
+
+
+def test_review_commit_binding_passes_for_a_real_commit_and_matching_source() -> None:
+    """A record whose review_commit genuinely contains the reviewed bytes must pass."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    path = "notebooks/chapter-03/03-01-first-program.ipynb"
+    actual_sha256 = subprocess.run(
+        ["git", "show", f"{head}:{path}"], cwd=ROOT, capture_output=True, check=True
+    ).stdout
+
+    error = validator.verify_review_commit_binding(
+        head, path, hashlib.sha256(actual_sha256).hexdigest(), repository_root=ROOT
+    )
+    assert error is None
+
+
+def test_review_commit_binding_rejects_unknown_commit() -> None:
+    """An unresolvable review_commit must fail loudly, not be silently skipped."""
+
+    validator = _load_validator()
+    error = validator.verify_review_commit_binding(
+        "a" * 40,
+        "notebooks/chapter-03/03-01-first-program.ipynb",
+        "b" * 64,
+        repository_root=ROOT,
+    )
+    assert error is not None
+    assert "unknown commit or path" in error
+
+
+def test_review_commit_binding_rejects_checksum_mismatch() -> None:
+    """A real commit/path with the wrong declared checksum must fail loudly."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    error = validator.verify_review_commit_binding(
+        head,
+        "notebooks/chapter-03/03-01-first-program.ipynb",
+        "0" * 64,
+        repository_root=ROOT,
+    )
+    assert error is not None
+    assert "does not match the bytes" in error
+
+
+def test_review_commit_binding_passes_when_reviewed_diverges_from_baseline() -> None:
+    """A corrected unit (reviewed != baseline) must still pass when review_commit
+    genuinely contains the corrected bytes -- exactly the F-002/F-003/F-004 shape."""
+
+    validator = _load_validator()
+    head = _head_commit()
+    path = "scripts/build_chapter_02.py"
+    current_bytes = (ROOT / path).read_bytes()
+    current_sha256 = hashlib.sha256(current_bytes).hexdigest()
+    # The frozen baseline hash predates this batch's corrections and must differ
+    # from the current reviewed hash for this scenario to be meaningful.
+    assert current_sha256 != "415977026a143d9e8424b683097982421ed0990f8fa1ca78a44b7f344cfecbe1"
+
+    error = validator.verify_review_commit_binding(head, path, current_sha256, repository_root=ROOT)
+    assert error is None

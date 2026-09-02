@@ -1,13 +1,14 @@
 # M01-I04 — Batch A professorial review: Chapters 2–4
 
-Review date: 2026-09-02 (initial pass); completeness revision: 2026-09-02; external-freshness
-correction: 2026-09-02
+Review date: 2026-09-02 (initial pass, completeness revision, external-freshness correction,
+and provenance correction — four passes, one calendar day; see revision sections below for the
+real per-pass commit/timestamp trail).
 
 Branch: `audit/m01-i04-ch02-04`
 
-Review commit (external-freshness correction): `679e9516c1d37c4a6a1c59ff56d3f2305999cf11`
-
-Review commit (initial + completeness passes): `ab7f5388fbe38faaf1c9dbc3ec73d7fa07782f42`
+Review commit trail: `ab7f538` (initial + completeness passes) → `679e951` (PyCharm/VS Code
+source fix) → `8634259` (that fix's evidence) → `f5672a6` (macOS fix, current HEAD's source
+state; all 91 records' `review_context.review_commit` now point here).
 
 M01 baseline commit: `213ba4d51b75837eee3d6fd5333910226284944a`
 
@@ -96,14 +97,102 @@ version-sensitive assertion:
 - No other Chapter 2 claim was found to assert a current UI workflow or storage/product-tier
   fact in the specific way the two corrected claims did.
 
+## Third revision: F-004 (macOS), provenance correction, and a documented disagreement
+
+A third independent review found one more Chapter 2 defect and three process/provenance
+problems in how the second revision recorded its fixes.
+
+### F-004 (MAJOR, resolved) — outdated macOS system-Python guidance
+
+- Unit: `chapter:02:theory:02-03-mac`
+- Prior claim: the bare `python` command "часто вообще не существует или указывает на
+  устаревший системный Python 2" ("often does not exist at all, or points to an obsolete
+  system Python 2"), presented as a normal current condition. Also contained a mixed-script
+  typo, "скриptами".
+- Verified false against the **current official Python 3.14 macOS documentation**
+  (docs.python.org/3.14/using/mac.html): modern macOS's `/usr/bin/python3` is Apple-controlled
+  tooling shipped with Xcode / Command Line Tools for Xcode, "usually older and incomplete"
+  relative to python.org's release, and users "should never modify or attempt to delete" it —
+  it is Python 3 tooling, not a Python 2 concern. The historical Python-2-by-default behavior is
+  real but predates Catalina (2019) and was not labeled as historical in the prior text.
+- Fix: `scripts/build_chapter_02.py`, section 2.3, rewritten to state the current model as
+  primary fact (Apple-controlled `/usr/bin/python3` tied to Xcode/CLT → install python.org's
+  Python → use `python3` → verify via PATH ordering / `sys.executable`), with the Python 2
+  default explicitly bounded to "very old macOS versions (before Catalina, 2019)"; fixed the
+  typo.
+- Status: **resolved**. Chapter 2 regenerated; full publication pipeline re-run (see below).
+
+### Provenance corrections applied
+
+1. **Review-commit binding, made cryptographically real.** `scripts/validate_ru_content_review.py`
+   now exposes `verify_review_commit_binding()`, called for every record: it runs
+   `git show <review_commit>:<canonical_source_path>`, hashes the returned bytes, and requires
+   the result to equal `unit.reviewed_source_sha256` — a real commit that is missing the path (or
+   doesn't exist) fails loudly, and a real commit whose file content doesn't match the declared
+   checksum fails loudly. It degrades to a no-op only when this checkout is not a git working
+   tree at all (a genuine environment limitation), never as a way to skip an inconvenient check.
+   Four new tests exercise exactly the cases requested: valid binding passes; an unknown commit
+   fails; a real commit with a mismatched checksum fails; and a unit whose `reviewed_source_sha256`
+   diverges from its `baseline_source_sha256` (the F-002/F-003/F-004 shape) still passes when
+   `review_commit` genuinely contains the corrected bytes. All 91 records were then re-pointed at
+   `f5672a6` (the commit that actually contains the final, F-004-corrected `build_chapter_02.py`),
+   rather than at `679e951`, which predated that fix.
+2. **Timestamp truthfulness.** The prior correction pass used `2026-09-02T06:00:00+00:00` —
+   local Warsaw wall-clock time mislabeled with a UTC offset; the actual commit
+   (`8634259`, confirmed via `git show -s --format=%cI`) landed at `2026-09-02T06:56:49+02:00`,
+   i.e. `04:56:49Z`. All records in this batch now carry real, `git log`-consistent UTC
+   timestamps. The validator also gained a standing guard: `review_context.started_at`/
+   `completed_at`, every `status_history[].changed_at`, and `decision.decided_at` must not lie
+   more than 5 minutes ahead of the wall-clock time the validator runs at; `status_history`
+   entries and the final `decision.decided_at` must also be chronologically non-decreasing. A
+   record with a fabricated future timestamp, or an out-of-order history, now fails validation.
+3. **Frozen-inventory request — investigated, evidence-based disagreement, alternative
+   delivered.** The request to restore `manifest/ru_content_audit_inventory.json` to the
+   PR-base blob and add a test asserting canonical-source hashes equal `git show
+   <baseline_commit>:<path>` was **not implemented as specified**, because it contradicts
+   already-merged, currently-green `main`:
+   - Chapter 1's committed inventory hash (`55c1c4e5…`) matches its *current* file exactly, not
+     the baseline-commit (`213ba4d5`) content (`2cbf1b77…`) — the Chapter 1 pilot's own
+     already-merged fix advanced it.
+   - Chapter 9's committed inventory hash (`13311d61…`) likewise matches its current file, not
+     the baseline-commit content (`48c3bb1b…`) — predating this batch entirely.
+
+   Both are verifiable with `git show 213ba4d5:scripts/build_chapter_0{1,9}.py | sha256sum`
+   today. A test asserting "inventory hash == git-show-at-baseline-commit" would fail for these
+   two chapters right now, for reasons unrelated to this PR. `canonical_theory_source_sha256`
+   has never actually been pinned to `baseline.commit_sha`'s literal git history in this repo —
+   it tracks current approved content chapter-by-chapter as fixes land, while
+   `baseline.commit_sha` is a static scope-freeze label from M01-I01/I03A that was never bumped
+   afterward. Reverting the inventory while `build_chapter_02.py` carries three real corrections
+   would also just reintroduce the exact inconsistency
+   `test_committed_inventory_matches_deterministic_generator` exists to catch.
+
+   The inventory was therefore **regenerated forward** (consistent with the Chapter 1/9
+   precedent), and the underlying, legitimate goal — permanent, auditable before/after evidence
+   for a discovered defect, with no silent rebaselining — is delivered instead through each
+   fixed unit's own `findings[]` entry (`severity: major`, `status: resolved`, a substantive
+   `resolution` field) and honest `status_history` (`reviewed → needs_rework → in_review →
+   reviewed`, never collapsed back to a fresh two-entry chain), plus this report's explicit
+   before/after quotes and source citations. This was surfaced to the product owner before
+   implementation, with the evidence above, rather than silently substituted.
+
+### Publication rebuild (F-004)
+
+Same in-order sequence as the second revision: `scripts/build_chapter_02.py` →
+`scripts/build_book.py` (EPUB/PDF/pagination, PASS) → all 24 chapters regenerated → index/
+manifest/inventory regenerated → `bash scripts/build_vercel.sh` last. Physical page count
+unchanged at 4,535 (F-004's net text-length change did not cross a page boundary). A second,
+immediately-following `build_vercel.sh` run reported "SEO-мета: … изменено 0" — confirming the
+prior run's output was already fully idempotent before evidence records were touched.
+
 ## Decision
 
-**REVIEWED for all 91 units, no unresolved blocker/major/minor findings.** Two MAJOR findings
-(F-002, F-003) were discovered and resolved in this revision — the history is preserved in the
-affected records' `status_history`, not erased. One suggestion-level finding remains open by
-design (`HUMAN_EDITORIAL_DECISION_REQUIRED`, see [Findings](#findings)). This is an AI-assisted
-pass, not the human `subject_matter_reviewer`, `methodology_reviewer`, and `final_approver`
-attestation the binding rubric requires for `APPROVED`.
+**REVIEWED for all 91 units, no unresolved blocker/major/minor findings.** Three MAJOR findings
+(F-002, F-003, F-004) were discovered and resolved across this batch's revisions — the history
+is preserved in the affected records' `status_history`, not erased. One suggestion-level finding
+remains open by design (`HUMAN_EDITORIAL_DECISION_REQUIRED`, see [Findings](#findings)). This is
+an AI-assisted pass, not the human `subject_matter_reviewer`, `methodology_reviewer`, and
+`final_approver` attestation the binding rubric requires for `APPROVED`.
 
 ## Formal coverage table
 
@@ -306,11 +395,12 @@ notebook computations (not assumed correct). Findings:
   personal-environment disclosure, not a content defect — left **open, not silently changed**,
   for the product owner/author to decide.
 
-Two MAJOR findings (F-002, F-003 — see
+Three MAJOR findings were discovered and resolved: F-002 and F-003 (see
 [Second revision](#second-revision-two-major-findings-discovered-and-resolved-external-tool-freshness))
-were discovered and resolved in `chapter:02:theory:02-09-pycharm` and
-`chapter:02:theory:02-08-vscode-konfiguraciya` respectively. No blocker, major, or minor findings
-remain **unresolved** across any of the 91 units in Chapters 2–4.
+in `chapter:02:theory:02-09-pycharm` and `chapter:02:theory:02-08-vscode-konfiguraciya`; F-004
+(see [Third revision](#third-revision-f-004-macos-provenance-correction-and-a-documented-disagreement))
+in `chapter:02:theory:02-03-mac`. No blocker, major, or minor findings remain **unresolved**
+across any of the 91 units in Chapters 2–4.
 
 ## Baseline drift note (not a Chapter 2–4 defect)
 
@@ -406,12 +496,19 @@ This register is additive and is meant to be extended, not replaced, by Batches 
 
 ```text
 .venv/bin/python -m pytest tests/ -q
-173 passed
+177 passed
 ```
 
 ```text
 .venv/bin/python scripts/validate_ru_content_review.py --require-records --chapters 2 3 4 --require-complete-scope
 PASS: review contract valid; records=91; inventory_units=1158
+```
+
+```text
+# unscoped, whole-curriculum run: still correctly fails and names every unit
+# outside this batch (Chapter 1 included) -- the completeness gate is real
+.venv/bin/python scripts/validate_ru_content_review.py --require-records --require-complete-scope
+ERROR: scope completeness: 1067/1158 in-scope inventory unit(s) have no review record: [...]
 ```
 
 ```text
@@ -441,16 +538,21 @@ git diff --check "$(git merge-base origin/main HEAD)" HEAD
 Python 3.14.6
 ```
 
-External sources verified in this revision: `code.visualstudio.com/docs/python/environments`
-(VS Code interpreter-storage model); `jetbrains.com/help/pycharm/unified-pycharm.html` and
+External sources verified across this batch's revisions:
+`code.visualstudio.com/docs/python/environments` (VS Code interpreter-storage model);
+`jetbrains.com/help/pycharm/unified-pycharm.html` and
 `blog.jetbrains.com/pycharm/2025/04/{unified-pycharm,pycharm-2025-1}/` (PyCharm unified-product
-model).
+model); `docs.python.org/3.14/using/mac.html` (current macOS system-Python model).
 
-This revision **does** modify canonical chapter source (`scripts/build_chapter_02.py`, sections
-2.8 and 2.9 only) and, as a direct consequence, all 24 chapters' generated site output, the book
-PDF/EPUB, `data/book-pagination.json`, and `manifest/ru_content_audit_inventory.json` — see
-[Publication artifacts](#publication-artifacts-pagination-pdf-epub-impact) for the full,
-in-order regeneration trail. No other Chapter 2, 3, or 4 canonical source content was changed.
+Across all three revisions, canonical chapter source changed only in
+`scripts/build_chapter_02.py` (sections 2.3, 2.8, 2.9) — no other Chapter 2, 3, or 4 canonical
+source content was touched. As a direct, unavoidable consequence of this book's continuous
+pagination, all 24 chapters' generated site output, the book PDF/EPUB, and
+`data/book-pagination.json` were regenerated each time; `manifest/ru_content_audit_inventory.json`
+was regenerated forward (not restored to a frozen historical blob — see the documented
+disagreement in [Third revision](#third-revision-f-004-macos-provenance-correction-and-a-documented-disagreement)).
+Final physical PDF page count: **4,535** (unchanged since the second revision; F-004 did not
+cross a page boundary).
 
 ## Remaining human-approval requirements
 
@@ -465,15 +567,23 @@ does not block `reviewed`.
 
 Chapters 2–4 are in strong, publication-quality shape across all 91 individually tracked
 inventory units: technically accurate — verified both by real Python 3.14.6 execution across
-every theory lesson and every notebook, *and*, following external product-owner review, by
-checking every external-product claim in Chapter 2 against that product's own current official
-documentation rather than by source inspection alone — pedagogically well-sequenced, internally
-coherent with each other and with Chapter 1's name/reference model, and written in natural,
-professional Russian with no calque or machine-translation artifacts found. Two MAJOR findings
-(obsolete PyCharm edition model; false VS Code interpreter-storage claim) were discovered by
-external review, independently confirmed, and resolved in `scripts/build_chapter_02.py`, with
-the full book/site publication pipeline re-run and green. Formal M01 coverage remains complete
-(91/91, missing = 0, machine-verified) after the correction. One suggestion-level editorial note
+every theory lesson and every notebook, *and*, following three rounds of external product-owner
+review, by checking every external-product claim in Chapter 2 against that product's own
+current official documentation rather than by source inspection alone — pedagogically
+well-sequenced, internally coherent with each other and with Chapter 1's name/reference model,
+and written in natural, professional Russian with no calque or machine-translation artifacts
+found. Three MAJOR findings (obsolete PyCharm edition model; false VS Code interpreter-storage
+claim; outdated macOS system-Python guidance) were discovered by external review, independently
+confirmed against each product's own current official documentation, and resolved in
+`scripts/build_chapter_02.py`, with the full book/site publication pipeline re-run and green
+after each fix. The M01 review-record contract itself was strengthened during this process:
+`review_commit` is now cryptographically bound to the reviewed source bytes via real git history
+(not merely shape-checked), fabricated-future and out-of-order timestamps are now rejected, and
+one disagreement with a specific proposed mechanism (freezing the shared inventory file against
+its nominal baseline commit) was investigated, found to contradict already-merged precedent
+(Chapters 1 and 9), documented with evidence, and resolved with an alternative that delivers the
+same auditability goal without that regression. Formal M01 coverage remains complete (91/91,
+missing = 0, machine-verified) after all three corrections. One suggestion-level editorial note
 (F-001) is left open for the author/release owner. Unresolved blockers = 0, unresolved majors =
 0, unresolved minors = 0. Batch A is merge-ready pending product-owner sign-off; no rework is
 required before Batch B (Chapters 5–8).
