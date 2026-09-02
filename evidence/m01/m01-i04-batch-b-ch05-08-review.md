@@ -1,7 +1,7 @@
 # M01-I04 — Batch B: Chapters 5-8 professorial review report
 
 1. **Branch:** `audit/m01-i04-ch05-08`
-2. **Head SHA:** (recorded after final commit below — see git log)
+2. **Head SHA:** `ba5c280` (parent content-fix commit: `d86ab31`) — the branch's actual final Head SHA after pushing may be one small metadata commit ahead of this; see the PR for the exact tip.
 3. **Chapters reviewed:** 5, 6, 7, 8
 4. **Exact inventory count (Chapters 5-8):** 167 units (85 theory lessons + 4 chapter openers + 78 notebooks + 0 standalone projects)
 5. **Theory lesson count:** 85 (plus 4 chapter openers, reviewed separately per the established chapter-opener record pattern)
