@@ -1,10 +1,10 @@
 # M01 -- Russian technical terminology register
 
-Scope covered: Chapters 2-16 (Batch A: 2-4; Batch B: 5-8; Batch D: 13-16); to be extended by each later batch
+Scope covered: Chapters 2-16 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12; Batch D: 13-16); to be extended by each later batch
 
 Policy: Prefer the term a working Russian-speaking Python developer would actually say and immediately understand. Do not mechanically translate every English term, and do not force a Russian gloss after a term is already established.
 
-This register is additive: later batches (Chapters 5-24) extend it with new terms
+This register is additive: later batches (Chapters 17-24) extend it with new terms
 as they are encountered, and revisit an existing entry only when a batch finds a real,
 evidenced inconsistency -- not to relitigate an already-settled decision without cause.
 
@@ -49,6 +49,21 @@ evidenced inconsistency -- not to relitigate an already-settled decision without
 | equality vs identity (== vs is) | == сравнивает значение, is сравнивает объект (descriptive phrasing, not the noun 'идентичность') | -- | introducing the formal noun 'идентичность' before Chapter 14, where `is` is formally taught -- the course correctly uses plain descriptive language ('is проверяет, один ли это объект в памяти') instead | 8 |
 | heading (turtle graphics) | курс | направление (as an occasional plain-language gloss) | 'заголовок' -- a false-friend calque of 'heading' in its document-heading sense, which would be actively misleading here | 6, 7 |
 | seed (random module) | seed (left as code; described with 'воспроизводимость') | зерно (unused by the course; would be an unnecessary and unfamiliar calque) | translating 'seed' to 'зерно' or similar -- no working Russian-speaking Python developer says this; 'seed' is used bare, exactly as in English-language code and documentation | 5 |
+| condition | условие | -- | -- | 9 |
+| branching | ветвление | -- | -- | 9 |
+| truthiness (general rule, all types) | истинность | -- | treating the general rule (0/None/empty-collection are falsy, everything else truthy) as available before Chapter 9 -- the course correctly waits until enough types (numbers, None) exist to state it fully | 9 |
+| short-circuit evaluation | short-circuit (короткое замыкание) | короткое замыкание (as an explanatory gloss on first use) | presenting short-circuiting only as a performance optimization -- the course correctly and additionally frames it as a genuine safety technique (guarding against IndexError), which is the more important practical lesson at this level | 9 |
+| control flow | поток управления | -- | overclaiming implementation-level precision -- the course explicitly and correctly labels its own 'invisible pointer' explanation as a simplified mental model, not a claim about CPython internals | 9 |
+| loop vocabulary (loop/body/iteration/counter/accumulator) | цикл / тело цикла / итерация / счётчик / накопитель | -- | conflating 'счётчик' (counter, counts iterations) with 'накопитель' (accumulator, accumulates a result) -- the course correctly treats them as two distinct, precisely-named roles for loop state | 10 |
+| sentinel value | сентинел | сентинел-цикл (for the specific loop pattern) | translating 'sentinel' literally as 'часовой' or similar -- no working Russian-speaking Python developer uses this; the transliterated 'сентинел' is standard | 10 |
+| off-by-one error | off-by-one (ошибка на единицу) | ошибка на единицу (as a Russian gloss, used interchangeably once introduced) | -- | 9, 10 |
+| mutability (list vs tuple) | изменяемость / неизменяемость | -- | implying mutability depends on a value's content rather than its type -- the course explicitly and correctly states mutability is a property of the TYPE (all list are mutable, all tuple/str are not), preempting a natural but wrong generalization | 11 |
+| aliasing | aliasing (совместная ссылка) | совместная ссылка (as an explanatory gloss) | describing 'b = a' as 'copying' the list in any sense -- the course precisely and repeatedly states this creates a second NAME for the same object, not a second object | 11 |
+| shallow copy | поверхностная копия | -- | assuming .copy()/list(...)/[:]  produce a fully independent copy for nested structures -- the course correctly and explicitly demonstrates the shared-inner-list trap before introducing deepcopy as the fix | 11 |
+| hashability | хешируемость | -- | explaining hashability via hash-table implementation details at this level -- the course correctly keeps the explanation at the operational level (a hashable value cannot change unexpectedly while stored in a set/dict key) | 11 |
+| comprehension (list/set/dict) | comprehension (генератор списков / словаря / множества) | генератор списков (specifically for list comprehension, an established Russian rendering) | introducing comprehension syntax before the equivalent explicit loop -- the course consistently shows the loop-with-append() version first, then the comprehension as a compact alternative, at every one of its three introductions (11-04 preview, 11-22 full treatment, and again contrasted in 11-04's classic-vs-modern block) | 11 |
+| decomposition | декомпозиция | -- | -- | 12 |
+| refactoring | рефакторинг | -- | conflating refactoring with 'making the code work' -- the course correctly and precisely defines it as improving structure WITHOUT changing behavior, demonstrated by showing the hardcoded and data-driven quiz versions behave identically for the same input | 12 |
 | parameter vs argument | параметр (в определении) / аргумент (в вызове) | -- | using 'параметр' and 'аргумент' interchangeably -- casual Russian-language material often blurs them, but the course draws the distinction precisely and consistently | 13 |
 | LEGB (scope resolution order) | LEGB (left as the English acronym; each letter explained in Russian) | Local -> Enclosing -> Global -> Builtins (spelled out in the elif_ladder_diagram) | inventing a Russian acronym or translating the letters -- 'LEGB' is the term working Python developers actually use and search for | 13 |
 | closure | замыкание | -- | 'закрытие' (a literal but semantically wrong calque -- reads as 'closing', not the functional-programming concept) | 13 |
@@ -378,6 +393,126 @@ The course correctly leaves 'seed' untranslated as a bare code-level term and bu
 - **Evidence:** scripts/build_chapter_05.py:05-20-seed
 - **First-use guidance:** None needed -- 'seed' should stay bare/untranslated throughout the course.
 - **Affected chapters:** 5
+
+### condition -> условие
+
+Standard, precise term for the True/False-producing expression in if/while; the course correctly and repeatedly distinguishes 'condition is False' (a normal, successful outcome) from 'the program failed' -- an important distinction stated explicitly, not left implicit.
+
+- **Evidence:** scripts/build_chapter_09.py:09-02-sravnenie-i-reshenie (callout 'False -- тоже правильный ответ')
+- **First-use guidance:** Pair every new conditional construct with a reminder that a False condition is a normal outcome, not an error, as the course does at first introduction.
+- **Affected chapters:** 9
+
+### branching -> ветвление
+
+Standard term for the second of the three fundamental algorithm structures (sequence, branching, repetition); the course correctly introduces it at the algorithm/flowchart level, before any if syntax, so the concept is grounded before the keyword.
+
+- **Evidence:** scripts/build_chapter_09.py:09-08-tri-struktury-i-vetvlenie
+- **First-use guidance:** Introduce at the flowchart/algorithm level before syntax, as the course does, rather than defining it as 'what if does'.
+- **Affected chapters:** 9
+
+### truthiness (general rule, all types) -> истинность
+
+Extends and fulfills the promise made in the Batch B register's string-scoped [[truthiness]] entry ('when truthiness is introduced for a new type... cross-reference rather than re-generalize prematurely'). Chapter 9 correctly generalizes from Chapter 8's string-only rule to the full falsy/truthy table (0, None, empty collections vs. everything else), explicitly repeating the same 'bool("False") is True' caution rather than silently dropping it.
+
+- **Evidence:** scripts/build_chapter_09.py:09-11-truthiness-i-none
+- **First-use guidance:** When truthiness is extended again for a not-yet-covered type (e.g. custom objects, in a later OOP chapter), follow the same pattern: state the rule, then explicitly reconcile it with the general table established here.
+- **Affected chapters:** 9
+
+### short-circuit evaluation -> short-circuit (короткое замыкание)
+
+The course correctly glosses the English term with a literal Russian translation ('короткое замыкание') on first use, matching how a working Russian-speaking Python developer would name it, then uses 'short-circuit' bare afterward.
+
+- **Evidence:** scripts/build_chapter_09.py:09-17-short-circuit
+- **First-use guidance:** Gloss once at first use, then use bare, matching the course's own pattern for other English-technical-term-with-established-RU-gloss cases (cf. [[interpreter]]-era terms).
+- **Affected chapters:** 9
+
+### control flow -> поток управления
+
+Standard, correct Russian rendering; the course explicitly flags its own explanation as a simplified model rather than an implementation claim, an honest and appropriate scoping choice.
+
+- **Evidence:** scripts/build_chapter_09.py:09-13-neskolko-if-protiv-elif
+- **First-use guidance:** Keep the 'simplified model' disclaimer when this term is revisited with more precision in a later chapter on generators/coroutines.
+- **Affected chapters:** 9
+
+### loop vocabulary (loop/body/iteration/counter/accumulator) -> цикл / тело цикла / итерация / счётчик / накопитель
+
+The course introduces this five-term vocabulary set together, upfront, before writing a single loop, and then uses every term precisely and consistently for the rest of the chapter -- a well-designed terminology foundation rather than ad hoc naming.
+
+- **Evidence:** scripts/build_chapter_10.py:10-01-cikly-for (vocabulary table); 10-10-enumerate-i-nakoplenie (counter vs accumulator distinction)
+- **First-use guidance:** Introduce all five terms together as a set before the first loop example, as the course does, rather than defining them piecemeal as they happen to become relevant.
+- **Affected chapters:** 10
+
+### sentinel value -> сентинел
+
+The course correctly transliterates rather than translates this term, matching real developer usage, and gives it a precise operational definition (a value that signals 'no more data' rather than being real data itself) rather than assuming it's already known.
+
+- **Evidence:** scripts/build_chapter_10.py:10-11-poisk-filtr-summa (сентинел-цикл section)
+- **First-use guidance:** Always pair with a concrete worked example (e.g. summing numbers until 'stop' is entered) rather than defining it abstractly, as the course does.
+- **Affected chapters:** 10
+
+### off-by-one error -> off-by-one (ошибка на единицу)
+
+The course correctly identifies this as a named, recognized bug category (not just 'a mistake'), first introduced for condition boundaries in Chapter 9 and explicitly reused, not re-derived, for loop ranges in Chapter 10 -- good cross-chapter terminology consistency.
+
+- **Evidence:** scripts/build_chapter_09.py:09-21-proektirovanie-uslovij; scripts/build_chapter_10.py:10-13-otladka-ciklov (dedicated deep-dive section)
+- **First-use guidance:** Once introduced, treat as a known, reusable vocabulary item across any future boundary/range discussion rather than re-explaining it each time, as the course does.
+- **Affected chapters:** 9, 10
+
+### mutability (list vs tuple) -> изменяемость / неизменяемость
+
+Extends the Batch B register's string-immutability entry to list (mutable) and tuple (immutable, like str). The course gives a precise, explicit callout that mutability is type-level, not value-level -- a genuinely important clarification since a beginner might otherwise wonder whether a 'simple' list could be immutable.
+
+- **Evidence:** scripts/build_chapter_11.py:11-12-izmenyaem-spisok (callout 'Изменяемость -- свойство типа, а не конкретного значения')
+- **First-use guidance:** Pair every mutability claim with a concrete demonstration (index assignment succeeding for list, TypeError for str/tuple), as the course does, rather than stating the rule abstractly.
+- **Affected chapters:** 11
+
+### aliasing -> aliasing (совместная ссылка)
+
+The course gives an unusually precise and correct explanation: 'b = a' does not copy data, it makes a second name point to the same object -- directly extends Chapter 3's name/object model to the specific, consequential case of mutable objects with two names.
+
+- **Evidence:** scripts/build_chapter_11.py:11-16-ssylki-aliasing
+- **First-use guidance:** Always use a converge-diagram (two names, one object) rather than prose alone when introducing aliasing, as the course does -- the visual is more convincing than the sentence.
+- **Affected chapters:** 11
+
+### shallow copy -> поверхностная копия
+
+Standard, correct Russian rendering; the course demonstrates the shallow-copy nested-list trap with a verified, real failing example before presenting copy.deepcopy() as the targeted fix, rather than asserting the distinction abstractly.
+
+- **Evidence:** scripts/build_chapter_11.py:11-17-kopirovanie-spiskov
+- **First-use guidance:** Pair with a concrete before/after diagram showing the outer list is duplicated but inner lists are shared, as the course does.
+- **Affected chapters:** 11
+
+### hashability -> хешируемость
+
+Standard, correct term, introduced with a genuinely useful operational definition (why list can't be a set element or dict key) at exactly the right level of depth for this course stage, with a clear hashable/non-hashable capability-map reference.
+
+- **Evidence:** scripts/build_chapter_11.py:11-19-mnozhestva-operacii
+- **First-use guidance:** Keep the explanation operational (what breaks and why) rather than implementation-level, as the course does, until a later chapter on custom __hash__ methods if one exists.
+- **Affected chapters:** 11
+
+### comprehension (list/set/dict) -> comprehension (генератор списков / словаря / множества)
+
+The course's 'loop first, shortcut second' sequencing is applied consistently across list, set, and dict comprehensions, and is explicitly and correctly scoped ('not a universal replacement for loops with side effects') rather than presented as strictly superior.
+
+- **Evidence:** scripts/build_chapter_11.py:11-04-eshche-o-spiskah (preview); 11-22-preobrazovaniya-i-comprehensions (full treatment)
+- **First-use guidance:** Always show the equivalent explicit loop first, as the course does, before introducing comprehension syntax for a new collection type.
+- **Affected chapters:** 11
+
+### decomposition -> декомпозиция
+
+Standard, correct term for breaking a large task into small, testable steps; the course introduces it with a genuinely worked example (breaking 'build a guessing game' into 8 concrete steps) rather than defining it purely abstractly.
+
+- **Evidence:** scripts/build_chapter_12.py:12-07-chto-takoe-proekt
+- **First-use guidance:** Pair with a concrete worked decomposition example, as the course does, rather than a bare definition.
+- **Affected chapters:** 12
+
+### refactoring -> рефакторинг
+
+Standard, correct developer term, introduced with the course's single clearest and most important architectural lesson (representing quiz questions as data rather than hardcoded logic) as the motivating example -- genuinely well-chosen, not an arbitrary illustration.
+
+- **Evidence:** scripts/build_chapter_12.py:12-16-viktorina (explicitly labeled 'самый важный архитектурный урок главы')
+- **First-use guidance:** Always demonstrate BEFORE/AFTER code producing identical behavior when introducing refactoring, as the course does, to make the 'behavior unchanged' part of the definition concrete rather than asserted.
+- **Affected chapters:** 12
 
 ### parameter vs argument -> параметр (в определении) / аргумент (в вызове)
 
