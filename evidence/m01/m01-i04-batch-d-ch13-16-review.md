@@ -1,7 +1,7 @@
 # M01-I04 — Batch D: Chapters 13-16 professorial review report
 
 1. **Branch:** `audit/m01-i04-ch13-16`
-2. **Head SHA:** (recorded after this evidence commit — see git log; content-fix commit `83cd380`, SEO-restore commit `336ce5a`, inventory-refresh commit `6c61eb7`)
+2. **Head SHA:** `fe2fcde5df150e8bf9bb165471dad2a48f7905b0` (content-fix commit `83cd380`, SEO-restore commit `336ce5a`, inventory-refresh commit `6c61eb7`)
 3. **Chapters reviewed:** 13, 14, 15, 16
 4. **Exact inventory count (Chapters 13-16):** 236 units (121 theory units [117 lessons + 4 chapter openers] + 115 practice notebooks + 0 standalone projects)
 5. **Theory lesson count:** 117 (plus 4 chapter openers, reviewed separately per the established chapter-opener record pattern)
