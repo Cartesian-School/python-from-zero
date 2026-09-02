@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "work_item": "M01-I04",
-  "scope_covered": "Chapters 2-8 (Batch A: 2-4; Batch B: 5-8); to be extended by each later batch",
+  "scope_covered": "Chapters 2-12 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12); to be extended by each later batch",
   "generated_at": "2026-09-02T00:00:00+00:00",
   "policy": "Prefer the term a working Russian-speaking Python developer would actually say and immediately understand. Do not mechanically translate every English term, and do not force a Russian gloss after a term is already established.",
   "terms": [
@@ -430,6 +430,188 @@
       "evidence": "scripts/build_chapter_05.py:05-20-seed",
       "first_use_guidance": "None needed -- 'seed' should stay bare/untranslated throughout the course.",
       "affected_chapters": [5]
+    },
+    {
+      "english_term": "condition",
+      "preferred_ru": "условие",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Standard, precise term for the True/False-producing expression in if/while; the course correctly and repeatedly distinguishes 'condition is False' (a normal, successful outcome) from 'the program failed' -- an important distinction stated explicitly, not left implicit.",
+      "evidence": "scripts/build_chapter_09.py:09-02-sravnenie-i-reshenie (callout 'False -- тоже правильный ответ')",
+      "first_use_guidance": "Pair every new conditional construct with a reminder that a False condition is a normal outcome, not an error, as the course does at first introduction.",
+      "affected_chapters": [9]
+    },
+    {
+      "english_term": "branching",
+      "preferred_ru": "ветвление",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Standard term for the second of the three fundamental algorithm structures (sequence, branching, repetition); the course correctly introduces it at the algorithm/flowchart level, before any if syntax, so the concept is grounded before the keyword.",
+      "evidence": "scripts/build_chapter_09.py:09-08-tri-struktury-i-vetvlenie",
+      "first_use_guidance": "Introduce at the flowchart/algorithm level before syntax, as the course does, rather than defining it as 'what if does'.",
+      "affected_chapters": [9]
+    },
+    {
+      "english_term": "truthiness (general rule, all types)",
+      "preferred_ru": "истинность",
+      "accepted_variants": [],
+      "avoid": [
+        "treating the general rule (0/None/empty-collection are falsy, everything else truthy) as available before Chapter 9 -- the course correctly waits until enough types (numbers, None) exist to state it fully"
+      ],
+      "rationale": "Extends and fulfills the promise made in the Batch B register's string-scoped [[truthiness]] entry ('when truthiness is introduced for a new type... cross-reference rather than re-generalize prematurely'). Chapter 9 correctly generalizes from Chapter 8's string-only rule to the full falsy/truthy table (0, None, empty collections vs. everything else), explicitly repeating the same 'bool(\"False\") is True' caution rather than silently dropping it.",
+      "evidence": "scripts/build_chapter_09.py:09-11-truthiness-i-none",
+      "first_use_guidance": "When truthiness is extended again for a not-yet-covered type (e.g. custom objects, in a later OOP chapter), follow the same pattern: state the rule, then explicitly reconcile it with the general table established here.",
+      "affected_chapters": [9]
+    },
+    {
+      "english_term": "short-circuit evaluation",
+      "preferred_ru": "short-circuit (короткое замыкание)",
+      "accepted_variants": [
+        "короткое замыкание (as an explanatory gloss on first use)"
+      ],
+      "avoid": [
+        "presenting short-circuiting only as a performance optimization -- the course correctly and additionally frames it as a genuine safety technique (guarding against IndexError), which is the more important practical lesson at this level"
+      ],
+      "rationale": "The course correctly glosses the English term with a literal Russian translation ('короткое замыкание') on first use, matching how a working Russian-speaking Python developer would name it, then uses 'short-circuit' bare afterward.",
+      "evidence": "scripts/build_chapter_09.py:09-17-short-circuit",
+      "first_use_guidance": "Gloss once at first use, then use bare, matching the course's own pattern for other English-technical-term-with-established-RU-gloss cases (cf. [[interpreter]]-era terms).",
+      "affected_chapters": [9]
+    },
+    {
+      "english_term": "control flow",
+      "preferred_ru": "поток управления",
+      "accepted_variants": [],
+      "avoid": [
+        "overclaiming implementation-level precision -- the course explicitly and correctly labels its own 'invisible pointer' explanation as a simplified mental model, not a claim about CPython internals"
+      ],
+      "rationale": "Standard, correct Russian rendering; the course explicitly flags its own explanation as a simplified model rather than an implementation claim, an honest and appropriate scoping choice.",
+      "evidence": "scripts/build_chapter_09.py:09-13-neskolko-if-protiv-elif",
+      "first_use_guidance": "Keep the 'simplified model' disclaimer when this term is revisited with more precision in a later chapter on generators/coroutines.",
+      "affected_chapters": [9]
+    },
+    {
+      "english_term": "loop vocabulary (loop/body/iteration/counter/accumulator)",
+      "preferred_ru": "цикл / тело цикла / итерация / счётчик / накопитель",
+      "accepted_variants": [],
+      "avoid": [
+        "conflating 'счётчик' (counter, counts iterations) with 'накопитель' (accumulator, accumulates a result) -- the course correctly treats them as two distinct, precisely-named roles for loop state"
+      ],
+      "rationale": "The course introduces this five-term vocabulary set together, upfront, before writing a single loop, and then uses every term precisely and consistently for the rest of the chapter -- a well-designed terminology foundation rather than ad hoc naming.",
+      "evidence": "scripts/build_chapter_10.py:10-01-cikly-for (vocabulary table); 10-10-enumerate-i-nakoplenie (counter vs accumulator distinction)",
+      "first_use_guidance": "Introduce all five terms together as a set before the first loop example, as the course does, rather than defining them piecemeal as they happen to become relevant.",
+      "affected_chapters": [10]
+    },
+    {
+      "english_term": "sentinel value",
+      "preferred_ru": "сентинел",
+      "accepted_variants": [
+        "сентинел-цикл (for the specific loop pattern)"
+      ],
+      "avoid": [
+        "translating 'sentinel' literally as 'часовой' or similar -- no working Russian-speaking Python developer uses this; the transliterated 'сентинел' is standard"
+      ],
+      "rationale": "The course correctly transliterates rather than translates this term, matching real developer usage, and gives it a precise operational definition (a value that signals 'no more data' rather than being real data itself) rather than assuming it's already known.",
+      "evidence": "scripts/build_chapter_10.py:10-11-poisk-filtr-summa (сентинел-цикл section)",
+      "first_use_guidance": "Always pair with a concrete worked example (e.g. summing numbers until 'stop' is entered) rather than defining it abstractly, as the course does.",
+      "affected_chapters": [10]
+    },
+    {
+      "english_term": "off-by-one error",
+      "preferred_ru": "off-by-one (ошибка на единицу)",
+      "accepted_variants": [
+        "ошибка на единицу (as a Russian gloss, used interchangeably once introduced)"
+      ],
+      "avoid": [],
+      "rationale": "The course correctly identifies this as a named, recognized bug category (not just 'a mistake'), first introduced for condition boundaries in Chapter 9 and explicitly reused, not re-derived, for loop ranges in Chapter 10 -- good cross-chapter terminology consistency.",
+      "evidence": "scripts/build_chapter_09.py:09-21-proektirovanie-uslovij; scripts/build_chapter_10.py:10-13-otladka-ciklov (dedicated deep-dive section)",
+      "first_use_guidance": "Once introduced, treat as a known, reusable vocabulary item across any future boundary/range discussion rather than re-explaining it each time, as the course does.",
+      "affected_chapters": [9, 10]
+    },
+    {
+      "english_term": "mutability (list vs tuple)",
+      "preferred_ru": "изменяемость / неизменяемость",
+      "accepted_variants": [],
+      "avoid": [
+        "implying mutability depends on a value's content rather than its type -- the course explicitly and correctly states mutability is a property of the TYPE (all list are mutable, all tuple/str are not), preempting a natural but wrong generalization"
+      ],
+      "rationale": "Extends the Batch B register's string-immutability entry to list (mutable) and tuple (immutable, like str). The course gives a precise, explicit callout that mutability is type-level, not value-level -- a genuinely important clarification since a beginner might otherwise wonder whether a 'simple' list could be immutable.",
+      "evidence": "scripts/build_chapter_11.py:11-12-izmenyaem-spisok (callout 'Изменяемость -- свойство типа, а не конкретного значения')",
+      "first_use_guidance": "Pair every mutability claim with a concrete demonstration (index assignment succeeding for list, TypeError for str/tuple), as the course does, rather than stating the rule abstractly.",
+      "affected_chapters": [11]
+    },
+    {
+      "english_term": "aliasing",
+      "preferred_ru": "aliasing (совместная ссылка)",
+      "accepted_variants": [
+        "совместная ссылка (as an explanatory gloss)"
+      ],
+      "avoid": [
+        "describing 'b = a' as 'copying' the list in any sense -- the course precisely and repeatedly states this creates a second NAME for the same object, not a second object"
+      ],
+      "rationale": "The course gives an unusually precise and correct explanation: 'b = a' does not copy data, it makes a second name point to the same object -- directly extends Chapter 3's name/object model to the specific, consequential case of mutable objects with two names.",
+      "evidence": "scripts/build_chapter_11.py:11-16-ssylki-aliasing",
+      "first_use_guidance": "Always use a converge-diagram (two names, one object) rather than prose alone when introducing aliasing, as the course does -- the visual is more convincing than the sentence.",
+      "affected_chapters": [11]
+    },
+    {
+      "english_term": "shallow copy",
+      "preferred_ru": "поверхностная копия",
+      "accepted_variants": [],
+      "avoid": [
+        "assuming .copy()/list(...)/[:]  produce a fully independent copy for nested structures -- the course correctly and explicitly demonstrates the shared-inner-list trap before introducing deepcopy as the fix"
+      ],
+      "rationale": "Standard, correct Russian rendering; the course demonstrates the shallow-copy nested-list trap with a verified, real failing example before presenting copy.deepcopy() as the targeted fix, rather than asserting the distinction abstractly.",
+      "evidence": "scripts/build_chapter_11.py:11-17-kopirovanie-spiskov",
+      "first_use_guidance": "Pair with a concrete before/after diagram showing the outer list is duplicated but inner lists are shared, as the course does.",
+      "affected_chapters": [11]
+    },
+    {
+      "english_term": "hashability",
+      "preferred_ru": "хешируемость",
+      "accepted_variants": [],
+      "avoid": [
+        "explaining hashability via hash-table implementation details at this level -- the course correctly keeps the explanation at the operational level (a hashable value cannot change unexpectedly while stored in a set/dict key)"
+      ],
+      "rationale": "Standard, correct term, introduced with a genuinely useful operational definition (why list can't be a set element or dict key) at exactly the right level of depth for this course stage, with a clear hashable/non-hashable capability-map reference.",
+      "evidence": "scripts/build_chapter_11.py:11-19-mnozhestva-operacii",
+      "first_use_guidance": "Keep the explanation operational (what breaks and why) rather than implementation-level, as the course does, until a later chapter on custom __hash__ methods if one exists.",
+      "affected_chapters": [11]
+    },
+    {
+      "english_term": "comprehension (list/set/dict)",
+      "preferred_ru": "comprehension (генератор списков / словаря / множества)",
+      "accepted_variants": [
+        "генератор списков (specifically for list comprehension, an established Russian rendering)"
+      ],
+      "avoid": [
+        "introducing comprehension syntax before the equivalent explicit loop -- the course consistently shows the loop-with-append() version first, then the comprehension as a compact alternative, at every one of its three introductions (11-04 preview, 11-22 full treatment, and again contrasted in 11-04's classic-vs-modern block)"
+      ],
+      "rationale": "The course's 'loop first, shortcut second' sequencing is applied consistently across list, set, and dict comprehensions, and is explicitly and correctly scoped ('not a universal replacement for loops with side effects') rather than presented as strictly superior.",
+      "evidence": "scripts/build_chapter_11.py:11-04-eshche-o-spiskah (preview); 11-22-preobrazovaniya-i-comprehensions (full treatment)",
+      "first_use_guidance": "Always show the equivalent explicit loop first, as the course does, before introducing comprehension syntax for a new collection type.",
+      "affected_chapters": [11]
+    },
+    {
+      "english_term": "decomposition",
+      "preferred_ru": "декомпозиция",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Standard, correct term for breaking a large task into small, testable steps; the course introduces it with a genuinely worked example (breaking 'build a guessing game' into 8 concrete steps) rather than defining it purely abstractly.",
+      "evidence": "scripts/build_chapter_12.py:12-07-chto-takoe-proekt",
+      "first_use_guidance": "Pair with a concrete worked decomposition example, as the course does, rather than a bare definition.",
+      "affected_chapters": [12]
+    },
+    {
+      "english_term": "refactoring",
+      "preferred_ru": "рефакторинг",
+      "accepted_variants": [],
+      "avoid": [
+        "conflating refactoring with 'making the code work' -- the course correctly and precisely defines it as improving structure WITHOUT changing behavior, demonstrated by showing the hardcoded and data-driven quiz versions behave identically for the same input"
+      ],
+      "rationale": "Standard, correct developer term, introduced with the course's single clearest and most important architectural lesson (representing quiz questions as data rather than hardcoded logic) as the motivating example -- genuinely well-chosen, not an arbitrary illustration.",
+      "evidence": "scripts/build_chapter_12.py:12-16-viktorina (explicitly labeled 'самый важный архитектурный урок главы')",
+      "first_use_guidance": "Always demonstrate BEFORE/AFTER code producing identical behavior when introducing refactoring, as the course does, to make the 'behavior unchanged' part of the definition concrete rather than asserted.",
+      "affected_chapters": [12]
     }
   ]
 }

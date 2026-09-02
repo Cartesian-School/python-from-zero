@@ -1368,7 +1368,7 @@ def build_19() -> None:
     )}
 
     <h2>Хешируемость: почему в множестве нельзя хранить список</h2>
-    {code_block("hashability_error.py", "bad = {[1, 2], [3, 4]}\n# TypeError: unhashable type: 'list'\n")}
+    {code_block("hashability_error.py", "bad = {[1, 2], [3, 4]}\n# TypeError: cannot use 'list' as a set element (unhashable type: 'list')\n")}
     {callout(
         "info",
         "Элементы множества и ключи словаря должны быть достаточно «стабильными»",
@@ -1588,7 +1588,7 @@ def build_20() -> None:
     )}
 
     <h2>Ключи словаря тоже должны быть хешируемыми</h2>
-    {code_block("hashable_keys.py", '{["x", "y"]: 1}\n# TypeError: unhashable type: \'list\'\n')}
+    {code_block("hashable_keys.py", '{["x", "y"]: 1}\n# TypeError: cannot use \'list\' as a dict key (unhashable type: \'list\')\n')}
     <p>Тот же принцип хешируемости из §11.16 — список нельзя использовать как ключ словаря по
     той же причине, по которой его нельзя положить в множество.</p>
 
@@ -1888,11 +1888,11 @@ def build_23() -> None:
     <h2>Изменение коллекции во время перебора — ещё одна ловушка</h2>
     {code_block(
         "mutation_during_iteration.py",
-        "items = [1, 2, 3, 4]\n"
+        "items = [2, 4, 6, 8]\n"
         "for item in items:\n"
         "    if item % 2 == 0:\n"
         "        items.remove(item)\n"
-        "print(items)   # [1, 3] — а не [1, 3]... на самом деле результат неожиданный!\n",
+        "print(items)   # [4, 8] — а не [], хотя условие подходит КАЖДОМУ элементу!\n",
     )}
     {callout(
         "warning",
