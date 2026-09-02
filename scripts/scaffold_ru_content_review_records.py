@@ -25,8 +25,9 @@ import argparse
 import hashlib
 import json
 import sys
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_INVENTORY = REPOSITORY_ROOT / "manifest" / "ru_content_audit_inventory.json"

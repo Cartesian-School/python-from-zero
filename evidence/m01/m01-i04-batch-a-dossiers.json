@@ -131,40 +131,59 @@
     "findings": []
   },
   "02-08-vscode-konfiguraciya": {
-    "objective": "Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+    "objective": "Learner can select the correct interpreter for a VS Code project and knows how that choice is actually resolved (not a fabricated storage mechanism).",
     "claims": [
       [
-        "VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv",
-        "source_inspection",
-        "matches current VS Code Python-extension behavior"
+        "The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path",
+        "official_reference",
+        "MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussion, both confirming defaultInterpreterPath is a fallback the extension only reads, never writes on manual selection. Corrected to describe the current python-envs.pythonProjects mechanism and to state explicitly that manual selection does not create or change python.defaultInterpreterPath."
+      ],
+      [
+        "sys.executable (section 2.6) remains a valid, storage-mechanism-independent way to confirm which interpreter is actually active for a run",
+        "code_execution",
+        "unaffected by the correction; still accurate"
       ]
     ],
     "prereq": "Directly depends on 2.6 (sys.executable as the ground truth to compare against) and previews 2.10-2.11 (venv) honestly.",
     "motivation": "Opens by naming the real problem (the extension does not yet know which interpreter to use) rather than jumping straight to the UI steps.",
-    "sequence": "Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+    "sequence": "Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear.",
     "practice": "No notebook; this is IDE configuration, appropriately outside browser practice scope.",
-    "coherence": "The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
-    "ru_note": "'рабочий процесс' (workflow) is a natural rendering, not a stiff calque; 'точка останова' for breakpoint is the standard, recognized Russian developer term.",
+    "coherence": "The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one; the corrected debug callout at the end of the page now points back to sys.executable instead of a specific settings.json path claim that could not be honestly generalized.",
+    "ru_note": "'рабочая область' avoided in favor of the course's existing 'проект'/'workspace' pairing already used consistently elsewhere in Chapter 2; new prose ('запасной вариант' for fallback) is natural, non-calque Russian.",
     "safety": "No destructive operations.",
-    "findings": []
+    "findings": [
+      {
+        "severity": "major",
+        "description": "Prior text asserted VS Code 'usually writes' a manually selected interpreter into .vscode/settings.json via python.defaultInterpreterPath. Verified false against current official VS Code Python documentation: that setting is a read-only fallback from the extension's perspective; the current Python Environments extension stores the assignment via python-envs.pythonProjects instead. Corrected in scripts/build_chapter_02.py (section 2.8) to describe the documented current mechanism and explicitly state that manual selection does not write python.defaultInterpreterPath.",
+        "status": "resolved",
+        "resolution": "scripts/build_chapter_02.py section 2.8 rewritten to state that python.defaultInterpreterPath is a read-only fallback the extension never writes on manual selection, and to describe the current python-envs.pythonProjects mechanism instead; the debug callout at the end of the page now points to sys.executable rather than a specific settings.json path. Chapter 2 regenerated; verified against code.visualstudio.com/docs/python/environments."
+      }
+    ]
   },
   "02-09-pycharm": {
-    "objective": "Learner can create a PyCharm project with a chosen interpreter and can decide between VS Code and PyCharm for this course.",
+    "objective": "Learner can create a PyCharm project with a chosen interpreter and understands PyCharm's current (2026) product model when deciding between VS Code and PyCharm.",
     "claims": [
       [
-        "PyCharm Community is free and sufficient for this course; Professional adds web/DB tooling not needed here",
-        "source_inspection",
-        "matches JetBrains' current, publicly documented edition differences"
+        "Since PyCharm 2025.1, JetBrains unified the former Community and Professional editions into a single PyCharm product: core functionality (including Jupyter notebook support) is free for everyone, a paid Pro subscription unlocks additional advanced features, and every installation includes a free Pro trial period",
+        "official_reference",
+        "MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text taught the pre-2025.1 'Community (free) vs Professional (paid)' edition model as current fact. Independently verified against JetBrains' own official documentation (jetbrains.com/help/pycharm/unified-pycharm.html) and blog announcement (blog.jetbrains.com/pycharm/2025/04/unified-pycharm/), both confirming the edition split was retired starting with 2025.1 and fully completed by 2025.3. For a course published in 2026 this is materially outdated and was corrected to the current unified-product model, with a brief note that older materials may still reference the old edition names."
       ]
     ],
     "prereq": "Depends on 2.1's 'IDE != interpreter' framing, explicitly restated for PyCharm specifically.",
-    "motivation": "States plainly that both editors are legitimate professional choices before comparing them, avoiding a false 'one is objectively better' framing.",
-    "sequence": "Project/interpreter model -> plugins -> a direct comparison table -> a non-prescriptive recommendation ('materials do not depend on your editor choice').",
+    "motivation": "States plainly that both editors are legitimate professional choices before comparing them, avoiding a false 'one is objectively better' framing; now also states the current product/pricing model plainly before the comparison, avoiding an outdated impression of what 'free' includes.",
+    "sequence": "Project/interpreter model -> plugins -> a direct comparison table -> a non-prescriptive recommendation ('materials do not depend on your editor choice') -- the corrected product-model paragraph and its 'if you see Community/Professional in old material' callout are placed at the very top, before any workflow detail, so the outdated impression is corrected before it could form.",
     "practice": "No notebook; editor choice is not a graded skill.",
-    "coherence": "The comparison table's claims about VS Code (extensions, lighter weight) are consistent with what 2.7-2.8 actually described, not contradicted.",
-    "ru_note": "Neutral, non-promotional register throughout ('оба варианта — правильный выбор'), matching the course's stated non-partisan tone.",
+    "coherence": "The comparison table's claims about VS Code (extensions, lighter weight) are consistent with what 2.7-2.8 actually described, not contradicted; the table's PyCharm column now reads 'PyCharm (бесплатные возможности)' rather than an edition name that no longer exists.",
+    "ru_note": "Neutral, non-promotional register throughout, preserved; 'единый продукт' (unified product) and the brand name 'Pro' are used exactly as JetBrains' own current materials name them, avoiding an invented Russian term for the subscription tier.",
     "safety": "No destructive operations.",
-    "findings": []
+    "findings": [
+      {
+        "severity": "major",
+        "description": "Prior text taught the retired PyCharm Community/Professional edition model as current. Verified false against official JetBrains documentation and the 2025.1 unified-PyCharm announcement. Corrected in scripts/build_chapter_02.py (section 2.9) to describe the current unified product (free core, paid Pro subscription, free trial on install), with an explicit brief note for learners who encounter the old edition names in other materials.",
+        "status": "resolved",
+        "resolution": "scripts/build_chapter_02.py section 2.9 rewritten to describe the unified PyCharm product (free core including Jupyter, paid Pro subscription, free trial on install) as the primary, current model, with a brief note that older materials may still reference the retired Community/Professional edition names. The VS Code-comparison table's PyCharm column label was updated accordingly. Chapter 2 regenerated; verified against jetbrains.com/help/pycharm/unified-pycharm.html and the JetBrains 2025.1 announcement."
+      }
+    ]
   },
   "02-10-zachem-nuzhny-venv": {
     "objective": "Learner can explain, from a concrete version-conflict scenario, why an isolated environment per project is necessary.",

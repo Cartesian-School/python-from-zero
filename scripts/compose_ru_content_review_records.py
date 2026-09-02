@@ -48,7 +48,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from scaffold_ru_content_review_records import (  # noqa: E402
+from scaffold_ru_content_review_records import (
     DEFAULT_INVENTORY,
     DEFAULT_RUBRIC,
     build_skeleton,
@@ -199,6 +199,15 @@ def build_criteria(
 def build_findings(dossier: dict[str, Any], criterion_ids: set[str]) -> list[dict[str, Any]]:
     findings = []
     for i, f in enumerate(dossier.get("findings", []), start=1):
+        status = f.get("status", "open")
+        if status == "resolved":
+            required_action = "Resolved; see resolution."
+            resolution = f.get("resolution")
+            if not resolution or len(resolution.strip()) < 20:
+                raise ValueError(f"dossier finding marked resolved but has no substantive resolution: {f}")
+        else:
+            required_action = "Left open for human editorial decision; not a blocker for `reviewed` status."
+            resolution = None
         findings.append({
             "finding_id": f"F-{i:03d}",
             "severity": f["severity"],
@@ -206,9 +215,9 @@ def build_findings(dossier: dict[str, Any], criterion_ids: set[str]) -> list[dic
             "criterion_ids": [cid for cid in ("SM06", "SM07") if cid in criterion_ids] or [next(iter(criterion_ids))],
             "description": f["description"],
             "evidence_refs": ["E-001"],
-            "required_action": "Left open for human editorial decision; not a blocker for `reviewed` status.",
-            "status": f.get("status", "open"),
-            "resolution": None,
+            "required_action": required_action,
+            "status": status,
+            "resolution": resolution,
         })
     return findings
 
@@ -237,7 +246,6 @@ def compose_record(
     for finding in findings:
         finding["evidence_refs"] = [evidence[0]["evidence_id"]]
 
-    unit_local_id = unit["inventory_ref"].split(":")[-1]
     record_id = "M01-RU-" + unit["inventory_ref"].upper().replace(":", "-").replace("_", "-") + "-R001"
 
     outcome_evidence_refs = [e["evidence_id"] for e in evidence if e["type"] in {"code_execution", "notebook_execution", "test_result", "official_reference"}] or [evidence[0]["evidence_id"]]
@@ -245,8 +253,15 @@ def compose_record(
     reviewer = dict(REVIEWER)
     reviewer["reviewed_at"] = reviewed_at
 
-    findings_open_nonblocking = all(f["severity"] == "suggestion" for f in findings) if findings else True
-    decision_status = "reviewed" if findings_open_nonblocking else "needs_rework"
+    # A finding blocks `reviewed` only while it is an unresolved blocker/major/minor --
+    # a `resolved` major finding is exactly the "discovered, then fixed" history the
+    # M01 rubric's severity table asks for (severity is "must be resolved", not "must
+    # never have existed"), and a `suggestion` never blocks regardless of status.
+    blocking_open = any(
+        f["severity"] in {"blocker", "major", "minor"} and f["status"] != "resolved"
+        for f in findings
+    )
+    decision_status = "needs_rework" if blocking_open else "reviewed"
 
     skeleton.update({
         "record_id": record_id,

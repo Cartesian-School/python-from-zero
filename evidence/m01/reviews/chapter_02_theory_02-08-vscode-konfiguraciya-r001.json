@@ -9,24 +9,25 @@
     "kind": "theory_lesson",
     "title": "VS Code: интерпретатор и рабочий процесс",
     "canonical_source_path": "scripts/build_chapter_02.py",
-    "baseline_source_sha256": "415977026a143d9e8424b683097982421ed0990f8fa1ca78a44b7f344cfecbe1",
-    "reviewed_source_sha256": "415977026a143d9e8424b683097982421ed0990f8fa1ca78a44b7f344cfecbe1",
+    "baseline_source_sha256": "10dfb420dffdab9b6e2705fae522cff87e4394ba2e44b8fb36b2a6be540d730f",
+    "reviewed_source_sha256": "10dfb420dffdab9b6e2705fae522cff87e4394ba2e44b8fb36b2a6be540d730f",
     "review_surface_path": "site/chapters/glava-02/02-08-vscode-konfiguraciya.html",
-    "review_surface_sha256": "8567b2ad6d03c08ca36bcb6e3a487ca0a2524d88da8ee2556bfa9971bcbe7f12"
+    "review_surface_sha256": "ee411e5be64c2bb5ebc0a275289278ce411eff8db12ddc62749e24467bf2af1f"
   },
   "review_context": {
     "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
-    "review_commit": "ab7f5388fbe38faaf1c9dbc3ec73d7fa07782f42",
-    "started_at": "2026-09-02T00:00:00+00:00",
-    "completed_at": "2026-09-02T00:00:00+00:00",
+    "review_commit": "679e9516c1d37c4a6a1c59ff56d3f2305999cf11",
+    "started_at": "2026-09-02T06:00:00+00:00",
+    "completed_at": "2026-09-02T06:00:00+00:00",
     "python_version": "3.14.6"
   },
   "learning_outcomes": [
     {
       "id": "LO-01",
-      "statement": "Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+      "statement": "Learner can select the correct interpreter for a VS Code project and knows how that choice is actually resolved (not a fabricated storage mechanism).",
       "assessment_evidence_refs": [
-        "E-001"
+        "E-002",
+        "E-003"
       ]
     }
   ],
@@ -39,46 +40,49 @@
         "assistant_analyst"
       ],
       "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
-      "reviewed_at": "2026-09-02T00:00:00+00:00"
+      "reviewed_at": "2026-09-02T06:00:00+00:00"
     }
   ],
   "criteria": [
     {
       "criterion_id": "SM01",
       "score": 4,
-      "rationale": "Factual correctness -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Factual correctness -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussion, both",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "SM02",
       "score": 4,
-      "rationale": "Python 3.14 accuracy -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Python 3.14 accuracy -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussion, bot",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "SM03",
       "score": 4,
-      "rationale": "Terminological precision -- 'рабочий процесс' (workflow) is a natural rendering, not a stiff calque; 'точка останова' for breakpoint is the standard, recognized Russian developer term.",
+      "rationale": "Terminological precision -- 'рабочая область' avoided in favor of the course's existing 'проект'/'workspace' pairing already used consistently elsewhere in Chapter 2; new prose ('запасной вариант' for fallback) is natural, non-calque Russian.",
       "evidence_refs": [
-        "E-005"
+        "E-006"
       ]
     },
     {
       "criterion_id": "SM04",
       "score": 4,
-      "rationale": "Code/explanation alignment -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Code/explanation alignment -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussio",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "SM05",
       "score": 4,
-      "rationale": "Completeness for the declared learning outcome -- Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+      "rationale": "Completeness for the declared learning outcome -- Learner can select the correct interpreter for a VS Code project and knows how that choice is actually resolved (not a fabricated storage mechanism).",
       "evidence_refs": [
         "E-001"
       ]
@@ -88,7 +92,7 @@
       "score": 4,
       "rationale": "Current engineering practice -- No destructive operations.",
       "evidence_refs": [
-        "E-006"
+        "E-007"
       ]
     },
     {
@@ -96,21 +100,22 @@
       "score": 4,
       "rationale": "Security and reliability boundaries -- No destructive operations.",
       "evidence_refs": [
-        "E-006"
+        "E-007"
       ]
     },
     {
       "criterion_id": "SM08",
       "score": 4,
-      "rationale": "Claim traceability -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Claim traceability -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussion, both ",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PD01",
       "score": 4,
-      "rationale": "Measurable learning outcome -- Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+      "rationale": "Measurable learning outcome -- Learner can select the correct interpreter for a VS Code project and knows how that choice is actually resolved (not a fabricated storage mechanism).",
       "evidence_refs": [
         "E-001"
       ]
@@ -120,7 +125,8 @@
       "score": 4,
       "rationale": "Prerequisite alignment -- Directly depends on 2.6 (sys.executable as the ground truth to compare against) and previews 2.10-2.11 (venv) honestly.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -128,39 +134,44 @@
       "score": 4,
       "rationale": "Motivation and intuition before formalism -- Opens by naming the real problem (the extension does not yet know which interpreter to use) rather than jumping straight to the UI steps.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PD04",
       "score": 4,
-      "rationale": "Instructional sequence -- Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+      "rationale": "Instructional sequence -- Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PD05",
       "score": 4,
-      "rationale": "Cognitive load / chunking -- Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+      "rationale": "Cognitive load / chunking -- Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PD06",
       "score": 4,
-      "rationale": "Example progression -- Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+      "rationale": "Example progression -- Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PD07",
       "score": 4,
-      "rationale": "Misconceptions and typical errors -- Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear.",
+      "rationale": "Misconceptions and typical errors -- Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -168,7 +179,8 @@
       "score": 4,
       "rationale": "Active guided practice -- No notebook; this is IDE configuration, appropriately outside browser practice scope.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -176,7 +188,8 @@
       "score": 4,
       "rationale": "Independent task -- No notebook; this is IDE configuration, appropriately outside browser practice scope.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -184,39 +197,40 @@
       "score": 4,
       "rationale": "Consolidation and transfer -- No notebook; this is IDE configuration, appropriately outside browser practice scope.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "CO01",
       "score": 4,
-      "rationale": "Course-wide terminology consistency -- 'рабочий процесс' (workflow) is a natural rendering, not a stiff calque; 'точка останова' for breakpoint is the standard, recognized Russian developer term.",
+      "rationale": "Course-wide terminology consistency -- 'рабочая область' avoided in favor of the course's existing 'проект'/'workspace' pairing already used consistently elsewhere in Chapter 2; new prose ('запасной вариант' for fallback) is natural, non-calque Russian.",
       "evidence_refs": [
-        "E-005"
+        "E-006"
       ]
     },
     {
       "criterion_id": "CO02",
       "score": 4,
-      "rationale": "Cross-reference correctness -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
+      "rationale": "Cross-reference correctness -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one; the corrected debug callout at the end of the page now points back to sys.executable instead of a specific settings.json path claim that could not be honestly generalized.",
       "evidence_refs": [
-        "E-004"
+        "E-005"
       ]
     },
     {
       "criterion_id": "CO03",
       "score": 4,
-      "rationale": "Purposeful repetition -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
+      "rationale": "Purposeful repetition -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one; the corrected debug callout at the end of the page now points back to sys.executable instead of a specific settings.json path claim that could not be honestly generalized.",
       "evidence_refs": [
-        "E-004"
+        "E-005"
       ]
     },
     {
       "criterion_id": "CO04",
       "score": 4,
-      "rationale": "Theory-practice-project alignment -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
+      "rationale": "Theory-practice-project alignment -- The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one; the corrected debug callout at the end of the page now points back to sys.executable instead of a specific settings.json path claim that could not be honestly generalized.",
       "evidence_refs": [
-        "E-004"
+        "E-005"
       ]
     },
     {
@@ -224,23 +238,26 @@
       "score": 4,
       "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PA01",
       "score": 4,
-      "rationale": "Executable correctness -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Executable correctness -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussion, b",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
       "criterion_id": "PA02",
       "score": 4,
-      "rationale": "Expected-result correctness -- VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- verified via source_inspection: matches current VS Code Python-extension behavior",
+      "rationale": "Expected-result correctness -- The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- verified via official_reference: MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор в .vscode/settings.json' via python.defaultInterpreterPath. Independently verified against the official VS Code Python documentation (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project wiki/discussi",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -248,7 +265,8 @@
       "score": 4,
       "rationale": "Instruction clarity -- No notebook; this is IDE configuration, appropriately outside browser practice scope.",
       "evidence_refs": [
-        "E-002"
+        "E-002",
+        "E-003"
       ]
     },
     {
@@ -256,49 +274,73 @@
       "score": 4,
       "rationale": "Safe learner execution -- No destructive operations.",
       "evidence_refs": [
-        "E-006"
+        "E-007"
       ]
     }
   ],
-  "findings": [],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "Prior text asserted VS Code 'usually writes' a manually selected interpreter into .vscode/settings.json via python.defaultInterpreterPath. Verified false against current official VS Code Python documentation: that setting is a read-only fallback from the extension's perspective; the current Python Environments extension stores the assignment via python-envs.pythonProjects instead. Corrected in scripts/build_chapter_02.py (section 2.8) to describe the documented current mechanism and explicitly state that manual selection does not write python.defaultInterpreterPath.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "scripts/build_chapter_02.py section 2.8 rewritten to state that python.defaultInterpreterPath is a read-only fallback the extension never writes on manual selection, and to describe the current python-envs.pythonProjects mechanism instead; the debug callout at the end of the page now points to sys.executable rather than a specific settings.json path. Chapter 2 regenerated; verified against code.visualstudio.com/docs/python/environments."
+    }
+  ],
   "evidence": [
     {
       "evidence_id": "E-001",
       "type": "review_note",
-      "summary": "Learning objective and scope: Learner can select the correct interpreter for a VS Code project and knows where that choice is stored.",
+      "summary": "Learning objective and scope: Learner can select the correct interpreter for a VS Code project and knows how that choice is actually resolved (not a fabricated storage mechanism).",
       "locator": "dossier:objective",
       "result": "informational"
     },
     {
       "evidence_id": "E-002",
-      "type": "source_inspection",
-      "summary": "VS Code stores a project's chosen interpreter in .vscode/settings.json under python.defaultInterpreterPath, and its integrated terminal auto-activates the selected venv -- matches current VS Code Python-extension behavior",
+      "type": "official_reference",
+      "summary": "The Python extension's Select Interpreter workflow does NOT write a manual selection into python.defaultInterpreterPath -- that setting is read-only from the extension's perspective and only serves as a fallback used when no other environment is configured; the current Python Environments extension instead records a project's assigned environment in .vscode/settings.json under python-envs.pythonProjects, referencing an environment manager rather than a hardcoded path -- MAJOR FINDING (discovered 2026-09-02, resolved same day): the prior text incorrectly claimed 'VS Code обычно записывает выбор",
       "locator": "dossier:claims",
       "result": "pass"
     },
     {
       "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "sys.executable (section 2.6) remains a valid, storage-mechanism-independent way to confirm which interpreter is actually active for a run -- unaffected by the correction; still accurate",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
       "type": "review_note",
-      "summary": "Pedagogy: prereq=Directly depends on 2.6 (sys.executable as the ground truth to compare against) and previews 2.10-2.11 (venv) honestly. | motivation=Opens by naming the real problem (the extension does not yet know which interpreter to use) rather than jumping straight to the UI steps. | sequence=Select Interpreter -> User vs Workspace settings (with a diagram) -> integrated terminal auto-activation -> run/debug button — each new UI element introduced only once its purpose is clear. | practice=No notebook; this is IDE configuration, appropriately outside browser practice scope.",
+      "summary": "Pedagogy: prereq=Directly depends on 2.6 (sys.executable as the ground truth to compare against) and previews 2.10-2.11 (venv) honestly. | motivation=Opens by naming the real problem (the extension does not yet know which interpreter to use) rather than jumping straight to the UI steps. | sequence=Select Interpreter -> User vs Workspace settings (with a diagram) -> how the selection is actually resolved (corrected) -> integrated terminal auto-activation -> run/debug button -- each new UI element introduced only once its purpose is clear. | practice=No notebook; this is IDE configuration, appro",
       "locator": "dossier:pedagogy",
       "result": "informational"
     },
     {
-      "evidence_id": "E-004",
+      "evidence_id": "E-005",
       "type": "cross_reference",
-      "summary": "Coherence: The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one.",
+      "summary": "Coherence: The 'sys.executable should match the selected interpreter' check explicitly reuses 2.6's technique rather than inventing a new one; the corrected debug callout at the end of the page now points back to sys.executable instead of a specific settings.json path claim that could not be honestly generalized.",
       "locator": "dossier:coherence",
       "result": "pass"
     },
     {
-      "evidence_id": "E-005",
+      "evidence_id": "E-006",
       "type": "review_note",
-      "summary": "Russian technical-language check: 'рабочий процесс' (workflow) is a natural rendering, not a stiff calque; 'точка останова' for breakpoint is the standard, recognized Russian developer term.",
+      "summary": "Russian technical-language check: 'рабочая область' avoided in favor of the course's existing 'проект'/'workspace' pairing already used consistently elsewhere in Chapter 2; new prose ('запасной вариант' for fallback) is natural, non-calque Russian.",
       "locator": "dossier:ru_note",
       "result": "informational"
     },
     {
-      "evidence_id": "E-006",
+      "evidence_id": "E-007",
       "type": "review_note",
       "summary": "Safety/reliability boundary: No destructive operations.",
       "locator": "dossier:safety",
@@ -309,7 +351,7 @@
     "status": "reviewed",
     "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
     "decided_by": "ai-opus5-m01i04",
-    "decided_at": "2026-09-02T00:00:00+00:00"
+    "decided_at": "2026-09-02T06:00:00+00:00"
   },
   "status_history": [
     {
@@ -317,14 +359,35 @@
       "to": "in_review",
       "changed_by": "ai-opus5-m01i04",
       "changed_at": "2026-09-02T00:00:00+00:00",
-      "reason": "M01-I04 Batch A opened formal review of chapter:02:theory:02-08-vscode-konfiguraciya against the binding M01 rubric."
+      "reason": "M01-I04 Batch A opened formal review of this unit against the binding M01 rubric."
     },
     {
       "from": "in_review",
       "to": "reviewed",
       "changed_by": "ai-opus5-m01i04",
       "changed_at": "2026-09-02T00:00:00+00:00",
-      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+      "reason": "Initial pass scored all applicable criteria; the claim later found false in this unit was not yet independently checked against current external documentation."
+    },
+    {
+      "from": "reviewed",
+      "to": "needs_rework",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:00:00+00:00",
+      "reason": "MAJOR finding discovered: the VS Code interpreter-storage claim was false per current official documentation."
+    },
+    {
+      "from": "needs_rework",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:00:00+00:00",
+      "reason": "Canonical source corrected in scripts/build_chapter_02.py against the verified current official documentation; chapter regenerated."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-02T06:00:00+00:00",
+      "reason": "Corrected claim re-verified against official sources; finding marked resolved; all 27 criteria re-scored against the corrected text."
     }
   ]
 }

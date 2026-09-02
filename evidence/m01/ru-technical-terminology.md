@@ -228,4 +228,3 @@ Standard, correct Russian Jupyter term; the course explicitly and correctly sepa
 - **Evidence:** scripts/build_chapter_02.py:02-15-ide-i-okruzheniya; scripts/build_chapter_03.py:03-16-notebook-i-kernel
 - **First-use guidance:** None needed.
 - **Affected chapters:** 2, 3
-

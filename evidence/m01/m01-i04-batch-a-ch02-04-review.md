@@ -1,10 +1,13 @@
 # M01-I04 — Batch A professorial review: Chapters 2–4
 
-Review date: 2026-09-02 (initial pass); completeness revision: 2026-09-02
+Review date: 2026-09-02 (initial pass); completeness revision: 2026-09-02; external-freshness
+correction: 2026-09-02
 
 Branch: `audit/m01-i04-ch02-04`
 
-Review commit: `ab7f5388fbe38faaf1c9dbc3ec73d7fa07782f42`
+Review commit (external-freshness correction): `679e9516c1d37c4a6a1c59ff56d3f2305999cf11`
+
+Review commit (initial + completeness passes): `ab7f5388fbe38faaf1c9dbc3ec73d7fa07782f42`
 
 M01 baseline commit: `213ba4d51b75837eee3d6fd5333910226284944a`
 
@@ -26,13 +29,81 @@ schema-valid, validator-checked coverage for all 91 Batch A units — see
 [Formal coverage](#formal-coverage-table) below — while deliberately avoiding mass-produced,
 templated criterion text (see [How per-unit substance was produced](#how-per-unit-substance-was-produced-not-compliance-theater)).
 
+## Second revision: two MAJOR findings discovered and resolved (external-tool freshness)
+
+Independent product-owner review of PR #78 identified two Chapter 2 claims that the initial
+Batch A pass had wrongly accepted as correct: both concerned *external product facts*
+(JetBrains' PyCharm edition model, VS Code's interpreter-storage mechanism) rather than Python
+language semantics, which the initial pass's Python 3.14.6 execution evidence could not and did
+not verify. This is now a recorded gap in method, not just in content: **`source_inspection` of
+the course's own text is not evidence that an external, version-sensitive product claim is
+current** — only checking the product's own current official documentation is.
+
+### F-002 (MAJOR, resolved) — PyCharm Community/Professional edition model is obsolete
+
+- Unit: `chapter:02:theory:02-09-pycharm`
+- Prior claim: "PyCharm есть бесплатная Community-редакция и платная Professional-редакция."
+- Verified false against **official JetBrains documentation**
+  (jetbrains.com/help/pycharm/unified-pycharm.html) and the JetBrains 2025.1 announcement
+  (blog.jetbrains.com/pycharm/2025/04/unified-pycharm/, blog.jetbrains.com/pycharm/2025/04/pycharm-2025-1/):
+  starting with PyCharm 2025.1, Community and Professional were unified into one product; core
+  functionality (including Jupyter notebook support) is free, a Pro subscription unlocks
+  advanced features, and every install includes a free Pro trial. The Community-only standalone
+  line ended after 2025.2.
+- Fix: `scripts/build_chapter_02.py`, section 2.9, rewritten to teach the current unified model
+  as the primary fact, with a short callout for learners who encounter the retired edition names
+  in older materials. The VS Code-comparison table's PyCharm column relabeled from "PyCharm
+  Community" to "PyCharm (бесплатные возможности)". The `IDE != interpreter` pedagogical framing
+  (the section's actual teaching point) was preserved unchanged.
+- Status: **resolved**. Chapter 2 regenerated; see [Formal coverage table](#formal-coverage-table).
+
+### F-003 (MAJOR, resolved) — VS Code interpreter-selection storage claim is false
+
+- Unit: `chapter:02:theory:02-08-vscode-konfiguraciya`
+- Prior claim: "Когда вы выбираете интерпретатор через «Select Interpreter», VS Code обычно
+  записывает выбор в `.vscode/settings.json`" via `python.defaultInterpreterPath`.
+- Verified false against **official VS Code Python documentation**
+  (code.visualstudio.com/docs/python/environments) and the microsoft/vscode-python project's own
+  wiki/discussion: `python.defaultInterpreterPath` is a legacy **fallback** the extension only
+  *reads*, used when no other environment is configured; it is never written by a manual
+  "Select Interpreter" action. The current Python Environments extension instead records a
+  project's assigned environment via `python-envs.pythonProjects` in `.vscode/settings.json`,
+  referencing an environment manager (e.g. `ms-python.python:venv`) rather than a hardcoded path.
+- Fix: `scripts/build_chapter_02.py`, section 2.8, rewritten to describe the documented current
+  mechanism, explicitly state that manual selection does not write
+  `python.defaultInterpreterPath`, and update the example `settings.json` block accordingly. The
+  closing debug callout now points to comparing against `sys.executable` (section 2.6) instead
+  of asserting a specific, no-longer-accurate settings-file claim.
+- Status: **resolved**. Chapter 2 regenerated; see [Formal coverage table](#formal-coverage-table).
+
+### Chapter 2 external-tool freshness sweep (remaining claims)
+
+Every other Chapter 2 claim naming an external product (python.org installers, the Windows
+Python install manager, the macOS installer, Linux distro packaging, PEP 668, the VS Code
+Python/Pylance/Debugger/Jupyter/Ruff extensions, pip/pipx/venv/virtualenv/uv, conda/Miniconda/
+Miniforge/Anaconda) was re-examined for whether it makes a current, checkable, product-policy- or
+version-sensitive assertion:
+
+- The Windows installer-transition claim (traditional `.exe` available through 3.14/3.15) had
+  already been independently verified against PEP 773/python.org in the initial pass — reused,
+  not re-derived, and still confirmed current.
+- PEP 668 ("externally-managed-environment"), the venv/pip/pipx/uv/conda tool-role descriptions,
+  and the macOS "do not touch the system Python" guidance are stable, well-established facts
+  about long-shipped, non-recently-restructured tools; no product-policy change was found or is
+  plausible for these in the same way PyCharm's edition model or VS Code's interpreter-storage
+  internals changed. No further external check was performed for these, per the M01-I04 brief's
+  own instruction not to manufacture unnecessary web research for stable, generic claims.
+- No other Chapter 2 claim was found to assert a current UI workflow or storage/product-tier
+  fact in the specific way the two corrected claims did.
+
 ## Decision
 
-**REVIEWED for all 91 units, no unresolved blocker/major/minor findings.** One suggestion-level
-finding remains open by design (`HUMAN_EDITORIAL_DECISION_REQUIRED`, see
-[Findings](#findings)). This is an AI-assisted pass, not the human `subject_matter_reviewer`,
-`methodology_reviewer`, and `final_approver` attestation the binding rubric requires for
-`APPROVED`.
+**REVIEWED for all 91 units, no unresolved blocker/major/minor findings.** Two MAJOR findings
+(F-002, F-003) were discovered and resolved in this revision — the history is preserved in the
+affected records' `status_history`, not erased. One suggestion-level finding remains open by
+design (`HUMAN_EDITORIAL_DECISION_REQUIRED`, see [Findings](#findings)). This is an AI-assisted
+pass, not the human `subject_matter_reviewer`, `methodology_reviewer`, and `final_approver`
+attestation the binding rubric requires for `APPROVED`.
 
 ## Formal coverage table
 
@@ -235,7 +306,11 @@ notebook computations (not assumed correct). Findings:
   personal-environment disclosure, not a content defect — left **open, not silently changed**,
   for the product owner/author to decide.
 
-No blocker, major, or minor findings were identified across any of the 91 units in Chapters 2–4.
+Two MAJOR findings (F-002, F-003 — see
+[Second revision](#second-revision-two-major-findings-discovered-and-resolved-external-tool-freshness))
+were discovered and resolved in `chapter:02:theory:02-09-pycharm` and
+`chapter:02:theory:02-08-vscode-konfiguraciya` respectively. No blocker, major, or minor findings
+remain **unresolved** across any of the 91 units in Chapters 2–4.
 
 ## Baseline drift note (not a Chapter 2–4 defect)
 
@@ -253,6 +328,39 @@ rather than the live ones, consistent with the M01 baseline doc's treatment of g
 a point-in-time review surface. This is a structural note relevant to every future batch (any
 chapter's `review_surface_sha256` may show this same benign page-number drift) rather than a
 Chapter 2–4-specific defect.
+
+## Publication artifacts: pagination, PDF, EPUB impact
+
+Correcting `scripts/build_chapter_02.py` (sections 2.8 and 2.9 both grew slightly) changed
+Chapter 2's rendered length, which — because this book paginates continuously — shifts the
+starting page of every later chapter. This was **not** patched around; the established
+publication pipeline was run in full and in the correct order:
+
+1. `scripts/build_chapter_02.py` — canonical source correction.
+2. `scripts/build_book.py` (EPUB → PDF, which itself gates on pagination → `validate_book.py`) —
+   regenerates `data/book-pagination.json`, `book/pdf/готовая книга.pdf`,
+   `book/epub/python-s-nulya.epub`. Result: **PASS**, 4,535 physical pages (was 4,531 before this
+   batch's changes), 1,221 bookmarks, uniform page geometry, `epubcheck: 0 errors`.
+3. All 24 `scripts/build_chapter_NN.py` re-run so every chapter opener's "ГЛАВА N · СТР. NNNN"
+   label and per-section page numbers match the new pagination (this is the "2-pass" step —
+   content first, then re-stamp page numbers from the fresh pagination data).
+4. `scripts/build_index.py`, `scripts/build_manifest.py`, `scripts/build_site_index.py`,
+   `scripts/build_ru_content_audit_inventory.py` — dependent generated artifacts refreshed.
+5. `scripts/build_ru_content_audit_inventory.py` output diffed against the previous committed
+   inventory: the *only* semantic change is Chapter 2's `canonical_theory_source_sha256`
+   (the corrected file) and `review_surface_sha256` across all 24 chapters (pagination-driven
+   chrome, filtered from the determinism test by design — see
+   `tests/test_ru_content_audit_inventory.py::_canonical_projection`). No unit was added,
+   removed, or renumbered; `total_review_units` remains 1,158.
+6. `bash scripts/build_vercel.sh` run in full as the final step (its own SEO-metadata pass is
+   part of the committed site state and must run *after*, not before, any chapter regeneration —
+   discovered the hard way mid-batch: re-running a chapter builder after the SEO pass strips the
+   SEO meta tags it just added, so the correct order is chapter builders → book → chapter
+   builders again (pagination) → `build_vercel.sh` last, never chapter builders after it).
+
+All 91 M01 review records' `unit.reviewed_source_sha256` / `unit.review_surface_sha256` fields
+were refreshed against this final, stable state before validation (see
+[Formal coverage table](#formal-coverage-table)).
 
 ## Validator extension: scope completeness
 
@@ -308,7 +416,7 @@ PASS: review contract valid; records=91; inventory_units=1158
 
 ```text
 .venv/bin/python scripts/validate_pagination.py
-Canonical pagination: PASS (24 chapters, 4531 physical pages, PDF/TOC/site consistent)
+Canonical pagination: PASS (24 chapters, 4535 physical pages, PDF/TOC/site consistent)
 ```
 
 ```text
@@ -317,8 +425,15 @@ Canonical chapter titles: PASS (24 openers, 24 journey cards, 24 practice groups
 ```
 
 ```text
-git diff --check
-(clean)
+bash scripts/build_vercel.sh
+... (practice manifest, Chapter 23/24 sources+outputs+practices, SEO/sitemap/llms-full.txt,
+     chapter titles, pagination, diagram conventions, navigation, site catalogs, SEO — all PASS)
+Build completed. Output: dist/
+```
+
+```text
+git diff --check "$(git merge-base origin/main HEAD)" HEAD
+(clean, after fixing the reported blank-line-at-EOF in evidence/m01/ru-technical-terminology.md)
 ```
 
 ```text
@@ -326,9 +441,16 @@ git diff --check
 Python 3.14.6
 ```
 
-No canonical chapter source, generated site output, or the frozen inventory file was modified in
-this batch — only `evidence/m01/`, `scripts/scaffold_ru_content_review_records.py`,
-`scripts/compose_ru_content_review_records.py`, and their tests were added/changed.
+External sources verified in this revision: `code.visualstudio.com/docs/python/environments`
+(VS Code interpreter-storage model); `jetbrains.com/help/pycharm/unified-pycharm.html` and
+`blog.jetbrains.com/pycharm/2025/04/{unified-pycharm,pycharm-2025-1}/` (PyCharm unified-product
+model).
+
+This revision **does** modify canonical chapter source (`scripts/build_chapter_02.py`, sections
+2.8 and 2.9 only) and, as a direct consequence, all 24 chapters' generated site output, the book
+PDF/EPUB, `data/book-pagination.json`, and `manifest/ru_content_audit_inventory.json` — see
+[Publication artifacts](#publication-artifacts-pagination-pdf-epub-impact) for the full,
+in-order regeneration trail. No other Chapter 2, 3, or 4 canonical source content was changed.
 
 ## Remaining human-approval requirements
 
@@ -342,10 +464,16 @@ does not block `reviewed`.
 ## Professorial conclusion
 
 Chapters 2–4 are in strong, publication-quality shape across all 91 individually tracked
-inventory units: technically accurate (verified by real Python 3.14.6 execution across every
-theory lesson and every notebook, not visual inspection), pedagogically well-sequenced,
-internally coherent with each other and with Chapter 1's name/reference model, and written in
-natural, professional Russian with no calque or machine-translation artifacts found. Formal M01
-coverage is complete (91/91, missing = 0, machine-verified). One suggestion-level editorial note
-(F-001) is left open for the author/release owner. No rework is required before Batch B
-(Chapters 5–8).
+inventory units: technically accurate — verified both by real Python 3.14.6 execution across
+every theory lesson and every notebook, *and*, following external product-owner review, by
+checking every external-product claim in Chapter 2 against that product's own current official
+documentation rather than by source inspection alone — pedagogically well-sequenced, internally
+coherent with each other and with Chapter 1's name/reference model, and written in natural,
+professional Russian with no calque or machine-translation artifacts found. Two MAJOR findings
+(obsolete PyCharm edition model; false VS Code interpreter-storage claim) were discovered by
+external review, independently confirmed, and resolved in `scripts/build_chapter_02.py`, with
+the full book/site publication pipeline re-run and green. Formal M01 coverage remains complete
+(91/91, missing = 0, machine-verified) after the correction. One suggestion-level editorial note
+(F-001) is left open for the author/release owner. Unresolved blockers = 0, unresolved majors =
+0, unresolved minors = 0. Batch A is merge-ready pending product-owner sign-off; no rework is
+required before Batch B (Chapters 5–8).
