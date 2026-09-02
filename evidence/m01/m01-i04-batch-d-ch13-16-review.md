@@ -24,8 +24,8 @@
 20. **Final PDF page count:** 4535 physical pages (24 chapters + subject index) — unchanged from Batch C, since this batch's fixes were text replacements that did not shift the book's total page count; validated by `validate_book.py` (4535 pages, metadata present, 1221 bookmarks, uniform page size) and `validate_pagination.py` (PDF/TOC/site consistent).
 21. **pytest result:** 177 passed, 0 failed.
 22. **M01 completeness validator result:** `PASS: review contract valid; records=236; inventory_units=1158` when invoked against this batch's own 236 record files with `--chapters 13 14 15 16 --require-complete-scope` (0 missing units for this batch's scope). See item 19 for the separate, pre-existing, out-of-scope Chapter 2-8 staleness surfaced only by the whole-directory default-discovery form of the same command.
-23. **GitHub Actions result:** Pending — to be confirmed once pushed and PR opened.
-24. **Vercel result:** `bash scripts/build_vercel.sh` passed locally in full (practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green); live Vercel preview to be confirmed once PR is opened.
+23. **GitHub Actions result:** `validate` check on PR #81 — PASS (1m6s). https://github.com/Cartesian-School/python-from-zero/actions/runs/33636518410/job/100268642283
+24. **Vercel result:** PASS — both the deployment and Vercel Preview Comments checks on PR #81 completed successfully (`bash scripts/build_vercel.sh` had already passed locally in full: practice manifest, Chapter 23/24 contracts, SafeSort sync, chapter titles, PDF pagination, diagram conventions, navigation, site catalogs, and SEO metadata all green). https://vercel.com/ssobo77-5245s-projects/python-from-zero/2q1mLQjbiFNaKxqNrtdDp4ypmTXu
 25. **PR URL:** https://github.com/Cartesian-School/python-from-zero/pull/81
 
 ---
