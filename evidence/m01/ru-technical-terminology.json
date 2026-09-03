@@ -999,6 +999,206 @@
       "affected_chapters": [
         16
       ]
+    },
+    {
+      "english_term": "event binding (bind())",
+      "preferred_ru": "привязка события",
+      "accepted_variants": [
+        "bind()"
+      ],
+      "avoid": [
+        "биндинг"
+      ],
+      "rationale": "The chapter's central new mechanism, explicitly contrasted with command= (Ch. 16) as a distinct, more general way to react to events.",
+      "evidence": "scripts/build_chapter_17.py (17-07, 17-09, 17-10)",
+      "first_use_guidance": "Introduce paired with command= to make the contrast concrete.",
+      "affected_chapters": [
+        17
+      ]
+    },
+    {
+      "english_term": "input focus",
+      "preferred_ru": "фокус ввода",
+      "accepted_variants": [
+        "фокус"
+      ],
+      "avoid": [],
+      "rationale": "Introduced in Ch. 17 and immediately load-bearing for focus_get()/focus_set() and keyboard-event handling.",
+      "evidence": "scripts/build_chapter_17.py (17-11)",
+      "first_use_guidance": "Gloss once at first use, then use bare.",
+      "affected_chapters": [
+        17
+      ]
+    },
+    {
+      "english_term": "source of truth",
+      "preferred_ru": "источник истины",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "The chapter's most repeated architectural phrase, distinguishing the state model from what widgets display.",
+      "evidence": "scripts/build_chapter_17.py (17-13, 17-18)",
+      "first_use_guidance": "Introduce when separating GameState from widgets.",
+      "affected_chapters": [
+        17,
+        18
+      ]
+    },
+    {
+      "english_term": "canvas",
+      "preferred_ru": "холст",
+      "accepted_variants": [
+        "Canvas (виджет)"
+      ],
+      "avoid": [
+        "канвас"
+      ],
+      "rationale": "Consistent for both the Tkinter widget and its drawing surface; never calqued.",
+      "evidence": "scripts/build_chapter_18.py (18-02)",
+      "first_use_guidance": "No gloss needed after first introduction.",
+      "affected_chapters": [
+        18
+      ]
+    },
+    {
+      "english_term": "canvas item / item id",
+      "preferred_ru": "элемент Canvas / идентификатор элемента",
+      "accepted_variants": [
+        "item ID"
+      ],
+      "avoid": [],
+      "rationale": "Central to the chapter's mental model: Canvas stores retained items (not pixels), each with an integer id that is not a Python id().",
+      "evidence": "scripts/build_chapter_18.py (18-08, 18-10)",
+      "first_use_guidance": "Explicitly contrast with Python's own id() the first time it appears.",
+      "affected_chapters": [
+        18
+      ]
+    },
+    {
+      "english_term": "stacking order (z-order)",
+      "preferred_ru": "порядок наложения",
+      "accepted_variants": [],
+      "avoid": [
+        "z-order (без перевода)"
+      ],
+      "rationale": "The chapter's Russian rendering for how later-created Canvas items render above earlier ones; z-order stays as the English equivalent, not the primary term.",
+      "evidence": "scripts/build_chapter_18.py (18-20)",
+      "first_use_guidance": "Introduce with tag_raise/tag_lower.",
+      "affected_chapters": [
+        18
+      ]
+    },
+    {
+      "english_term": "game tick",
+      "preferred_ru": "игровой тик",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "One discrete step of game-state update, distinct from the game loop that repeats it.",
+      "evidence": "scripts/build_chapter_19.py (19-12)",
+      "first_use_guidance": "Introduce before the real timer-driven loop (19.13).",
+      "affected_chapters": [
+        19
+      ]
+    },
+    {
+      "english_term": "game loop",
+      "preferred_ru": "игровой цикл",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "The event-driven repetition mechanism (screen.ontimer in Turtle, the frame loop in Pygame); used consistently across the two game-project chapters.",
+      "evidence": "scripts/build_chapter_19.py (19-08, 19-13); scripts/build_chapter_20.py (20-02, 20-14)",
+      "first_use_guidance": "Distinguish a busy/blocking loop (anti-pattern) from the real timer/frame-driven loop from first use.",
+      "affected_chapters": [
+        19,
+        20
+      ]
+    },
+    {
+      "english_term": "direction vector",
+      "preferred_ru": "вектор направления",
+      "accepted_variants": [
+        "вектор смещения (dx, dy)"
+      ],
+      "avoid": [],
+      "rationale": "Represents movement as a (dx, dy) pair rather than four separate boolean flags; central to the grid/vector model.",
+      "evidence": "scripts/build_chapter_19.py (19-11)",
+      "first_use_guidance": "Introduce alongside the grid-as-coordinates model.",
+      "affected_chapters": [
+        19
+      ]
+    },
+    {
+      "english_term": "game state vs game status",
+      "preferred_ru": "состояние игры (GameState) / статус игры (GameStatus)",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "The dataclass holding all mutable game data is distinct from the enum describing which phase the game is in; the chapter is careful to keep the two separate.",
+      "evidence": "scripts/build_chapter_19.py (19-15, 19-27)",
+      "first_use_guidance": "Name both terms together the first time GameState/GameStatus appear.",
+      "affected_chapters": [
+        19
+      ]
+    },
+    {
+      "english_term": "frame vs animation frame",
+      "preferred_ru": "кадр (шаг игрового цикла) / кадр анимации",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Pygame chapter deliberately distinguishes one iteration of the game loop from one frame of a sprite's animation sequence -- the one real terminology collision risk in this vocabulary, worth keeping apart.",
+      "evidence": "scripts/build_chapter_20.py (20-14 vs 20-23)",
+      "first_use_guidance": "Name the distinction explicitly the first time animation frames are introduced.",
+      "affected_chapters": [
+        20
+      ]
+    },
+    {
+      "english_term": "delta time (dt)",
+      "preferred_ru": "delta time (dt)",
+      "accepted_variants": [],
+      "avoid": [
+        "дельта времени"
+      ],
+      "rationale": "Kept in Latin script with dt as the code identifier, matching real Russian Pygame-community practice; never translated in prose.",
+      "evidence": "scripts/build_chapter_20.py (20-16)",
+      "first_use_guidance": "Gloss once as 'время, прошедшее с прошлого кадра', then use dt bare.",
+      "affected_chapters": [
+        20
+      ]
+    },
+    {
+      "english_term": "sprite",
+      "preferred_ru": "спрайт",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Standard Russian gamedev term; the chapter uses it primarily as 'image object' rather than pygame.sprite.Sprite specifically -- worth noting both senses exist.",
+      "evidence": "scripts/build_chapter_20.py (20-19, 20-23)",
+      "first_use_guidance": "Note the general-image-object sense is what this course teaches, distinct from the pygame.sprite.Sprite class.",
+      "affected_chapters": [
+        20
+      ]
+    },
+    {
+      "english_term": "hitbox / AABB collision",
+      "preferred_ru": "хитбокс / AABB (прямоугольники, выровненные по осям)",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Established transliteration in Russian gamedev for the simplified collision rectangle; AABB kept as the acronym with a one-time gloss.",
+      "evidence": "scripts/build_chapter_20.py (20-21)",
+      "first_use_guidance": "Gloss AABB once on first use.",
+      "affected_chapters": [
+        20
+      ]
+    },
+    {
+      "english_term": "world vs screen coordinates",
+      "preferred_ru": "мировые / экранные координаты",
+      "accepted_variants": [],
+      "avoid": [],
+      "rationale": "Distinguishes the game's logical coordinate space from actual pixel positions on screen; explicitly scoped as 'not needed for this book's projects' rather than left ambiguous.",
+      "evidence": "scripts/build_chapter_20.py (20-18)",
+      "first_use_guidance": "Introduce alongside Rect, note it is out of scope for the book's own projects.",
+      "affected_chapters": [
+        20
+      ]
     }
   ]
 }
