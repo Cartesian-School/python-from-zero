@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-30-publikatsiya-veb.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Запускаем Pygame-игру в браузере — Python с нуля — Cartesian School" />
-<meta property="og:description" content="pygbag как инструмент сообщества для сборки Pygame-игры в WebAssembly и что в браузерной версии устроено иначе." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-30-publikatsiya-veb.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Запускаем Pygame-игру в браузере — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="pygbag как инструмент сообщества для сборки Pygame-игры в WebAssembly и что в браузерной версии устроено иначе." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Запускаем Pygame-игру в браузере — Python с нуля — Cartesian School","description":"pygbag как инструмент сообщества для сборки Pygame-игры в WebAssembly и что в браузерной версии устроено иначе.","url":"https://www.cartesianschool.org/chapters/glava-20/20-30-publikatsiya-veb.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -59,11 +44,19 @@
     <div class="code-block">
       <div class="code-label"><span>pygbag.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>pip install pygbag
-pygbag igra.py
+pygbag moya_igra/
 </code></pre>
     </div>
     <p>Команда запускает локальный веб-сервер и открывает игру прямо в браузере — удобно для
-    проверки перед публикацией на постоянный хостинг.</p>
+    проверки перед публикацией на постоянный хостинг. Обратите внимание: аргумент — это
+    <strong>папка</strong> проекта, а не отдельный файл.</p>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Файл с игровым циклом обязан называться main.py</div>
+        <div class="callout-body">pygbag ищет внутри папки проекта строго файл <code class="inline">main.py</code> — это имя зашито в сборку, и переименовать его нельзя. Коварство в том, что при другом имени (<code class="inline">igra.py</code>, <code class="inline">game.py</code>) сборка завершится <em>успешно</em> и без единого предупреждения, но в браузере игра просто не запустится: загрузчик будет искать <code class="inline">main.py</code>, которого в собранном архиве нет. Если после сборки страница открывается, но остаётся пустой, — первым делом проверьте имя файла.</div>
+      </div>
+    </div>
 
 
     <div class="callout callout-warning">
@@ -85,11 +78,14 @@ pygbag igra.py
     </div>
     <p>Главная практическая разница в коде — цикл игры должен стать асинхронным
     (<code class="inline">async def main()</code> с <code class="inline">await asyncio.sleep(0)
-    </code> вместо <code class="inline">clock.tick()</code> в чистом виде), чтобы не
-    блокировать поток браузера — pygbag ожидает именно такую структуру программы. Производительность
-    браузерной сборки не гарантированно ниже десктопной величиной, которую можно назвать заранее
-    — она зависит от браузера, устройства игрока и самой игры, и её стоит измерять на целевом
-    устройстве, а не считать её заранее ниже настольной на какой-то определённый процент.</p>
+    </code> в конце каждого кадра), чтобы не блокировать поток браузера: pygbag ожидает именно
+    такую структуру программы. Важно, что <code class="inline">await</code> здесь <em>добавляется
+    рядом</em> с <code class="inline">clock.tick()</code>, а не заменяет его — в примерах самого
+    pygbag ограничение частоты кадров остаётся на месте, а строка с
+    <code class="inline">await</code> идёт сразу после него.</p>
+    <p>Насколько браузерная сборка медленнее настольной, заранее сказать нельзя: это зависит от
+    браузера, устройства игрока и самой игры. Производительность стоит измерять на целевом
+    устройстве, а не закладывать какой-то определённый процент потерь заранее.</p>
 
 
     <div class="section-nav"><a href="20-29-upakovka-desktop.html"><div class="dir">← Назад</div><div class="lbl">Настольная версия игры</div></a><a href="20-31-mobilnye-konsolnye-sborki.html" class="next"><div class="dir">Далее →</div><div class="lbl">Android, iOS, консоли</div></a></div>

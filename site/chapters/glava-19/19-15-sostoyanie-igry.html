@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-15-sostoyanie-igry.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Состояние игры — Python с нуля — Cartesian School" />
-<meta property="og:description" content="READY, RUNNING, PAUSED, GAME_OVER — четыре состояния игры вместо одного булева флага." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-15-sostoyanie-igry.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Состояние игры — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="READY, RUNNING, PAUSED, GAME_OVER — четыре состояния игры вместо одного булева флага." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Состояние игры — Python с нуля — Cartesian School","description":"READY, RUNNING, PAUSED, GAME_OVER — четыре состояния игры вместо одного булева флага.","url":"https://www.cartesianschool.org/chapters/glava-19/19-15-sostoyanie-igry.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -52,7 +37,7 @@
 
     <h2>Игра — это не только «идёт» или «не идёт»</h2>
     <p>Первый прототип знал только <code class="inline">igra_okonchena</code> — булево
-    да/нет. Финальная версия различает четыре разных состояния, и переходы между ними —
+    да/нет. Финальная версия различает четыре состояния обычной партии, и переходы между ними —
     это не случайность, а чёткие правила:</p>
 
     <figure style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);
@@ -95,8 +80,15 @@
     <div style="overflow-x:auto;margin:20px 0">
     <table class="compare-table">
       <thead><tr><th>Состояние</th><th>Что происходит</th></tr></thead>
-      <tbody><tr><td>READY</td><td>змейка на месте, ждём первое нажатие направления — тики ещё не идут</td></tr><tr><td>RUNNING</td><td>тики планируются друг за другом через ontimer()</td></tr><tr><td>PAUSED</td><td>тики остановлены, модель не меняется, экран показывает «ПАУЗА»</td></tr><tr><td>GAME_OVER</td><td>столкновение произошло; ждём restart()</td></tr></tbody>
+      <tbody><tr><td>READY</td><td>змейка на месте, ждём первое нажатие направления — тики ещё не идут</td></tr><tr><td>RUNNING</td><td>тики планируются друг за другом через ontimer()</td></tr><tr><td>PAUSED</td><td>тики остановлены, модель не меняется, экран показывает «ПАУЗА»</td></tr><tr><td>GAME_OVER</td><td>столкновение произошло; ждём restart()</td></tr><tr><td>WON</td><td>поле заполнено целиком, свободной клетки для еды не осталось — раздел 19.18</td></tr></tbody>
     </table>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Пятое состояние — редкое, но настоящее</div>
+        <div class="callout-body">В <code class="inline">GameStatus</code> финальной программы пять членов, а не четыре: кроме четырёх состояний обычной партии есть <code class="inline">WON</code> — змейка заняла буквально каждую клетку поля. Оно почти недостижимо в реальной игре, но это полноценное терминальное состояние, а не «почти GAME_OVER»: раздел 19.18 показывает, откуда оно берётся, а раздел 19.21 — чем терминальные состояния похожи друг на друга.</div>
+      </div>
     </div>
 
     <div class="callout callout-tip">
@@ -110,7 +102,7 @@
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: переходы состояния игры</div>
-        <div class="nc-sub">Автоматическая проверка — какие переходы между READY/RUNNING/PAUSED/GAME_OVER легальны</div>
+        <div class="nc-sub">Автоматическая проверка — функция can_transition(): какие переходы между READY/RUNNING/PAUSED/GAME_OVER допустимы</div>
         <div class="practice-inline-status" data-lesson-id="19-15"></div>
       </div>
       <a class="nc-btn" href="../../practice/19-15/index.html">Открыть практику →</a>

@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Финальный проект: «Прыгающий мяч» с архитектурой Game — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Финальный проект: «Прыгающий мяч» с архитектурой Game — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Финальный проект: «Прыгающий мяч» с архитектурой Game — Python с нуля — Cartesian School","description":"Финальный проект главы 20: прыгающий мяч, пересобранный с архитектурой Game, delta time и состояниями — и итоги главы.","url":"https://www.cartesianschool.org/chapters/glava-20/20-33-finalnyj-proekt-myach-pro.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -55,14 +40,14 @@
     <code class="inline">Game</code> (раздел 20.26), движение через delta time (раздел 20.16) и
     явные состояния игры (раздел 20.25).</p>
 
-    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg viewBox="0 0 280 208" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="uml-object" aria-label="Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами." style="display:block;width:100%;height:auto"><rect x="10" y="0" width="260" height="208" rx="2" fill="#FCE7F3" stroke="#DB2777" stroke-width="2"/><rect x="10" y="0" width="260" height="40" rx="0" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">myach : BouncingBallGame</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">state = </tspan>SostoyanieIgry.IGRA</text><text x="26" y="100" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">x, y = </tspan>312.4, 188.9</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">vx, vy = </tspan>180.0, -95.0…</text><text x="26" y="146" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"># пикселей в секунду</text><text x="26" y="174" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">otskokov = </tspan>7</text><text x="26" y="202" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">schet = </tspan>140</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами.</figcaption></figure>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg viewBox="0 0 280 226" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="uml-object" aria-label="Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами. Обратите внимание на две закономерности: счёт всегда равен числу отскоков, умноженному на 10, а длина вектора скорости остаётся равной 220 пикселям в секунду — отскок разворачивает направление, но не меняет величину." style="display:block;width:100%;height:auto"><rect x="10" y="0" width="260" height="226" rx="2" fill="#FCE7F3" stroke="#DB2777" stroke-width="2"/><rect x="10" y="0" width="260" height="40" rx="0" fill="#DB2777"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="14.5" fill="#fff" text-decoration="underline">myach : BouncingBallGame</text><line x1="10" y1="40" x2="270" y2="40" stroke="#DB2777" stroke-width="1.5"/><text x="26" y="72" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">state = </tspan>SostoyanieIgry.IGRA</text><text x="26" y="100" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">x, y = </tspan>38.7, 328.8</text><text x="26" y="128" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">vx, vy = </tspan>-182.5,…</text><text x="26" y="146" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">-122.9 # пикселей в</text><text x="26" y="164" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230">секунду</text><text x="26" y="192" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">otskokov = </tspan>7</text><text x="26" y="220" font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan fill="#6B6B7D">schet = </tspan>70</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Реальное состояние работающей игры в конкретный момент времени — то, что на самом деле хранится в памяти между кадрами. Обратите внимание на две закономерности: счёт всегда равен числу отскоков, умноженному на 10, а длина вектора скорости остаётся равной 220 пикселям в секунду — отскок разворачивает направление, но не меняет величину.</figcaption></figure>
 
     <h2>Что изменилось по сравнению с версией 20.5</h2>
 
     <div style="overflow-x:auto;margin:20px 0">
     <table class="compare-table">
       <thead><tr><th></th><th>bouncing_ball_basic.py (20.5)</th><th>bouncing_ball.py (эта версия, Pro)</th></tr></thead>
-      <tbody><tr><td>Организация кода</td><td>Глобальные переменные, плоские функции</td><td>Класс Game с методами handle_events/update/render/run</td></tr><tr><td>Движение</td><td>x += dx за кадр — зависит от FPS</td><td>x += vx * dt — не зависит от FPS (раздел 20.16)</td></tr><tr><td>Пауза</td><td>Нет</td><td>Есть, останавливает update(), не только отрисовку</td></tr><tr><td>Рестарт</td><td>Нет — нужно перезапускать программу</td><td>Клавишей, без перезапуска процесса</td></tr><tr><td>Счёт</td><td>Нет</td><td>Счёт очков и счётчик отскоков</td></tr><tr><td>Взаимодействие мышью</td><td>Нет</td><td>Клик мышью — необязательный лёгкий толчок мячу</td></tr></tbody>
+      <tbody><tr><td>Организация кода</td><td>Глобальные переменные, плоские функции</td><td>Класс Game с методами handle_events/update/render/run</td></tr><tr><td>Движение</td><td>x += dx за кадр — зависит от FPS</td><td>x += vx * dt — не зависит от FPS (раздел 20.16)</td></tr><tr><td>Пауза</td><td>Нет</td><td>Есть, останавливает update(), не только отрисовку</td></tr><tr><td>Рестарт</td><td>Нет — нужно перезапускать программу</td><td>Клавишей, без перезапуска процесса</td></tr><tr><td>Счёт</td><td>Нет</td><td>Счёт очков и счётчик отскоков</td></tr><tr><td>Взаимодействие мышью</td><td>Нет</td><td>Клик мышью — необязательный разворот мяча в сторону клика</td></tr></tbody>
     </table>
     </div>
 
@@ -92,9 +77,9 @@
     </div>
 
     <figure style="margin:24px 0">
-      <img src="../../assets/img/chapter-20/output/bouncing-ball-pro-hud.png" alt="Реальное окно: красный мяч на тёмно-синем поле, вверху слева текст «Счёт: 90 Отскоков: 9»" width="460"
+      <img src="../../assets/img/chapter-20/output/bouncing-ball-pro-hud.png" alt="Реальное окно: красный мяч у верхнего края тёмно-синего поля, вверху слева текст «Счёт: 10   Отскоков: 1»" width="460"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: финальная Pro-версия во время игры — счёт и число отскоков растут вместе, как и должны по правилу из счёта очков.</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: финальная Pro-версия во время игры — счёт и число отскоков растут вместе, как и должны по правилу из счёта очков: один отскок это десять очков.</figcaption>
     </figure>
 
     <figure style="margin:24px 0">

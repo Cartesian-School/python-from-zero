@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-31-tic-tac-toe-pro-itogi.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Tic-Tac-Toe Pro — полная программа и итоги главы — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Финальная архитектура игры целиком, чек-лист готовой игры, итоги главы 17 и мост к работе с координатами мыши в главе 18." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-31-tic-tac-toe-pro-itogi.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Tic-Tac-Toe Pro — полная программа и итоги главы — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Финальная архитектура игры целиком, чек-лист готовой игры, итоги главы 17 и мост к работе с координатами мыши в главе 18." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Tic-Tac-Toe Pro — полная программа и итоги главы — Python с нуля — Cartesian School","description":"Финальная архитектура игры целиком, чек-лист готовой игры, итоги главы 17 и мост к работе с координатами мыши в главе 18.","url":"https://www.cartesianschool.org/chapters/glava-17/17-31-tic-tac-toe-pro-itogi.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -66,6 +51,8 @@
 
 <span class="tok-kw">def</span> find_winner(board): ...
 <span class="tok-kw">def</span> is_draw(board): ...
+<span class="tok-kw">def</span> load_scores(): ...        <span class="tok-com"># необязательное сохранение счёта (17.27)</span>
+<span class="tok-kw">def</span> save_scores(state): ...
 
 @dataclass
 <span class="tok-kw">class</span> GameState:
@@ -83,6 +70,8 @@
     <span class="tok-kw">def</span> new_round(self): ...
     <span class="tok-kw">def</span> new_match(self): ...
     <span class="tok-kw">def</span> pulse_winning_line(self, tick=<span class="tok-num">0</span>): ...
+    <span class="tok-kw">def</span> cancel_pulse(self): ...      <span class="tok-com"># отменяет запланированный after() (17.30)</span>
+    <span class="tok-kw">def</span> on_close(self): ...
 
 <span class="tok-kw">def</span> main():
     root = tk.Tk()

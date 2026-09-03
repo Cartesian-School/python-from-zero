@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-17/17-30-visual-effects-after.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Visual effects и after() — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Ненавязчивая неблокирующая анимация победной линии через self-rescheduling after() и корректная отмена через after_cancel()." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-17/17-30-visual-effects-after.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Visual effects и after() — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Ненавязчивая неблокирующая анимация победной линии через self-rescheduling after() и корректная отмена через after_cancel()." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Visual effects и after() — Python с нуля — Cartesian School","description":"Ненавязчивая неблокирующая анимация победной линии через self-rescheduling after() и корректная отмена через after_cancel().","url":"https://www.cartesianschool.org/chapters/glava-17/17-30-visual-effects-after.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -54,8 +39,10 @@
     <p>После победы клетки выигрышной линии один раз получают мягкий акцент и спокойно
     возвращаются к постоянной подсветке. На реальном окне это выглядит как краткий переход
     между accent-состоянием и базовой подсветкой победы; сайт не может показать
-    видео-анимацию, поэтому ниже — три реальных кадра, а локальное приложение переключает их
-    через <code class="inline">after()</code>.</p>
+    видео-анимацию, поэтому ниже — реальные кадры этого перехода, а локальное приложение
+    переключает их через <code class="inline">after()</code>. Различимых кадров всего два:
+    третий снимок совпадает со вторым не случайно — эффект заканчивается именно на постоянной
+    подсветке победы и дальше ничего не меняет.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:start">
 
     <figure style="margin:24px 0">
@@ -73,7 +60,7 @@
     <figure style="margin:24px 0">
       <img src="../../assets/img/chapter-17/output/win-pulse-final.png" alt="После эффекта линия остаётся в постоянном цвете подсветки" width="260"
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
-      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Установившееся состояние полного приложения.</figcaption>
+      <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Установившееся состояние: картинка совпадает со вторым кадром, потому что эффект на нём и заканчивается.</figcaption>
     </figure>
     </div>
     <p style="text-align:center;font-size:14px;color:var(--color-text-muted,#6B6B7D);margin-top:4px">
@@ -103,7 +90,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Отменяйте запланированный after() при новом раунде</div>
-        <div class="callout-body">Если игрок нажимает «Новый раунд» посреди анимации, недоделанный <code class="inline">after()</code> может сработать уже на пустом поле нового раунда. <code class="inline">cancel_pulse()</code> вызывает <code class="inline">after_cancel()</code> перед сбросом — та же трёхсостояньевая дисциплина, что и у таймера в разделе 16.28.</div>
+        <div class="callout-body">Если игрок нажимает «Новый раунд» посреди анимации, недоделанный <code class="inline">after()</code> может сработать уже на пустом поле нового раунда. <code class="inline">cancel_pulse()</code> вызывает <code class="inline">after_cancel()</code> перед сбросом — та же дисциплина трёх состояний, что и у таймера в разделе 16.28.</div>
       </div>
     </div>
 

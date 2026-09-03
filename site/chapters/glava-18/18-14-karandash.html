@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-18/18-14-karandash.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Карандаш: непрерывный штрих — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Почему рисование кружками на каждое движение мыши создаёт разрывы, и как получить непрерывный штрих через last_x/last_y." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-14-karandash.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Карандаш: непрерывный штрих — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Почему рисование кружками на каждое движение мыши создаёт разрывы, и как получить непрерывный штрих через last_x/last_y." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Карандаш: непрерывный штрих — Python с нуля — Cartesian School","description":"Почему рисование кружками на каждое движение мыши создаёт разрывы, и как получить непрерывный штрих через last_x/last_y.","url":"https://www.cartesianschool.org/chapters/glava-18/18-14-karandash.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -57,7 +42,8 @@
     <ul>
       <li>между кружками остаются разрывы, если мышь двигалась быстрее, чем приходили события;</li>
       <li>сама линия выглядит «бугристой», а не гладкой;</li>
-      <li>на длинный штрих уходит гораздо больше элементов Canvas, чем нужно.</li>
+      <li>кружок ничего не знает о том, где курсор был мгновение назад, — путь между двумя
+      соседними событиями просто теряется.</li>
     </ul>
 
     <figure style="margin:24px 0">
@@ -76,9 +62,16 @@
     self.canvas.create_line(
         self.state.last_x, self.state.last_y, event.x, event.y,
         fill=self.state.color, width=self.state.width,
-        capstyle=tk.ROUND, smooth=<span class="tok-kw">True</span>,
+        capstyle=tk.ROUND,
     )
     self.state.last_x, self.state.last_y = event.x, event.y</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Отсюда код — это методы класса PaintApp</div>
+        <div class="callout-body">Начиная с этого раздела примеры пишутся как методы: <code class="inline">def on_drag(self, event)</code>, <code class="inline">self.state</code>, <code class="inline">self.canvas</code>. Все они принадлежат классу <code class="inline">PaintApp</code>, который мы соберём целиком в разделе 18.29 — до тех пор достаточно читать <code class="inline">self.state.color</code> как «текущий цвет приложения».</div>
+      </div>
     </div>
 
     <figure style="margin:24px 0">
@@ -90,14 +83,21 @@
     <div style="overflow-x:auto;margin:20px 0">
     <table class="compare-table">
       <thead><tr><th>Параметр</th><th>Зачем</th></tr></thead>
-      <tbody><tr><td><code class="inline">capstyle=tk.ROUND</code></td><td>скругляет концы каждого отрезка — стыки между ними не выглядят «зубчатыми»</td></tr><tr><td><code class="inline">smooth=True</code></td><td>Tk слегка сглаживает саму линию — не творит чудес, но убирает часть угловатости на резких поворотах</td></tr></tbody>
+      <tbody><tr><td><code class="inline">capstyle=tk.ROUND</code></td><td>скругляет концы каждого отрезка — стыки между ними не выглядят «зубчатыми»</td></tr><tr><td><code class="inline">width</code></td><td>толщина штриха; чем она больше, тем заметнее была бы «зубчатость» стыков без capstyle</td></tr></tbody>
     </table>
     </div>
 
     <div class="callout callout-warning">
       <div>
-        <div class="callout-title">smooth=True не делает штрих идеально гладким</div>
-        <div class="callout-body">Это лёгкое визуальное сглаживание средствами Tk, а не полноценная интерполяция кривой. На частых, мелких движениях эффект малозаметен — не стоит обещать пользователю «художественную» гладкость, которую этот параметр не даёт.</div>
+        <div class="callout-title">А как же smooth=True? Здесь он не сработает</div>
+        <div class="callout-body">У <code class="inline">create_line()</code> есть параметр <code class="inline">smooth=True</code> — Tk сглаживает ломаную, проводя через её точки кривую. Но сглаживать он умеет только <strong>внутренние</strong> точки одной линии, а каждый наш отрезок состоит ровно из ДВУХ точек — между ними нет ни одного угла. Добавить <code class="inline">smooth=True</code> в этот код можно, и Tk его молча примет, но на экране не изменится ровно ничего. Параметр стал бы полезен, если бы весь штрих был ОДНОЙ длинной ломаной — такой вариант описан ниже.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-tip">
+      <div>
+        <div class="callout-title">Куда это можно развить: один штрих — одна ломаная</div>
+        <div class="callout-body">Сейчас каждое движение мыши создаёт отдельный элемент Canvas. Можно вместо этого создать линию один раз на <code class="inline">&lt;Button-1&gt;</code> и на каждом движении дописывать к ней новую пару координат через <code class="inline">coords()</code> (раздел 18.18): тогда длинный штрих — это один элемент вместо сотни, а <code class="inline">smooth=True</code> наконец получает внутренние точки, которые действительно можно сгладить. В этой главе оставлен более простой вариант с отдельными отрезками — он короче и его легче отлаживать.</div>
       </div>
     </div>
 

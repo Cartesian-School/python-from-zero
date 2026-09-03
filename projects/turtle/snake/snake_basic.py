@@ -1,20 +1,28 @@
 """Игра «Змейка» на Turtle — первый прототип (главы 19.1–19.8).
 
 Состояние живёт в глобальных переменных, тело — в списке Turtle-сегментов,
-игровой цикл — обычный while с screen.update() внутри. Сознательный выбор
-для первой версии (см. раздел 19.26). Финальная архитектура с GameState,
-игровым тиком на screen.ontimer() и разделением модели и отображения — в
-snake.py.
+игровой цикл — обычный while с screen.update() и time.sleep() внутри.
+Сознательный выбор для первой версии (см. раздел 19.26). Финальная
+архитектура с GameState, игровым тиком на screen.ontimer() и разделением
+модели и отображения — в snake.py.
+
+time.sleep() здесь допустим ровно потому, что цикл и так блокирующий:
+пока он крутится, ничего другого в программе не происходит, а
+screen.update() в конце каждого шага успевает разобрать накопившиеся
+события клавиатуры. В архитектуре на screen.ontimer() (раздел 19.13) тот
+же самый sleep уже становится ошибкой — см. Debug Lab 4 в разделе 19.31.
 
 Проект к главе 19 книги «Python с нуля» (Cartesian School).
 Запуск: python snake_basic.py
 """
 
 import random
+import time
 import turtle
 
 RAZMER_SHAGA = 20
 GRANICA = 280
+ZADERZHKA_SEK = 0.12  # пауза между шагами: без неё игра закончилась бы за миллисекунды
 
 # --- экран ---
 screen = turtle.Screen()
@@ -55,8 +63,11 @@ segmenty = []  # тело змейки — список дополнительн
 
 
 def novoe_yabloko():
-    x = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
-    y = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
+    # GRANICA + RAZMER_SHAGA, а не GRANICA: у randrange правая граница
+    # исключается, поэтому без этого яблоко никогда не попало бы в крайний
+    # легальный ряд клеток (+280), куда змейка спокойно доезжает.
+    x = random.randrange(-GRANICA, GRANICA + RAZMER_SHAGA, RAZMER_SHAGA)
+    y = random.randrange(-GRANICA, GRANICA + RAZMER_SHAGA, RAZMER_SHAGA)
     yabloko.goto(x, y)
 
 
@@ -100,12 +111,35 @@ def dvigat_golovu():
         golova.setx(golova.xcor() + RAZMER_SHAGA)
 
 
+def poziciya_za_golovoj():
+    """Клетка прямо позади головы — туда встаёт самый первый сегмент тела."""
+    x = golova.xcor()
+    y = golova.ycor()
+    if napravlenie == "up":
+        return x, y - RAZMER_SHAGA
+    elif napravlenie == "down":
+        return x, y + RAZMER_SHAGA
+    elif napravlenie == "left":
+        return x + RAZMER_SHAGA, y
+    else:
+        return x - RAZMER_SHAGA, y
+
+
 def dobavit_segment():
     novyj = turtle.Turtle()
     novyj.speed(0)
     novyj.shape("square")
     novyj.color("grey")
     novyj.penup()
+    # Новый сегмент обязательно нужно сразу поставить на место. Иначе он
+    # остался бы в (0, 0), и проверка столкновений в этом же шаге увидела бы
+    # его под головой (если яблоко было съедено в центре поля) и завершила бы
+    # игру. Ставим его в хвост — на следующем шаге dvigat_telo() подтянет его.
+    if segmenty:
+        x, y = segmenty[-1].position()
+    else:
+        x, y = poziciya_za_golovoj()
+    novyj.goto(x, y)
     segmenty.append(novyj)
 
 
@@ -171,6 +205,7 @@ def glavnyj_cikl():
     napravlenie = "right"
     while igrovoj_shag():
         screen.update()
+        time.sleep(ZADERZHKA_SEK)   # без паузы игра закончилась бы за миллисекунды
     tablo.goto(0, 0)
     tablo.write(f"Игра окончена! Счёт: {schet}", align="center", font=("Arial", 20, "bold"))
 

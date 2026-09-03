@@ -62,10 +62,16 @@ class GameState:
 
 
 def load_scores():
-    if not SCORES_PATH.exists():
-        return {"x": 0, "o": 0, "draws": 0}
-    with SCORES_PATH.open("r", encoding="utf-8") as f:
-        return json.load(f)
+    """Читает сохранённый счёт. Файл мог быть повреждён, отредактирован вручную
+    или вообще оказаться чужим файлом с таким же именем — в любом из этих случаев
+    просто начинаем с нуля, а не падаем до появления окна."""
+    default = {"x": 0, "o": 0, "draws": 0}
+    try:
+        with SCORES_PATH.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return default
+    return data if isinstance(data, dict) else default
 
 
 def save_scores(state):
@@ -85,8 +91,11 @@ class TicTacToeApp:
             self.state.score_o = saved.get("o", 0)
             self.state.draws = saved.get("draws", 0)
         self.buttons: list[tk.Button] = []
-        self.status_var = tk.StringVar()
-        self.score_var = tk.StringVar()
+        # master=root обязателен: без него StringVar привязывается к «главному» корню
+        # Tk (tkinter._default_root). Если в программе уже есть другое окно Tk,
+        # переменная окажется в чужом интерпретаторе, и метка будет пустой.
+        self.status_var = tk.StringVar(master=root)
+        self.score_var = tk.StringVar(master=root)
         self._pulse_job = None
         self.build_ui()
         self.render()
@@ -181,12 +190,19 @@ class TicTacToeApp:
         self.buttons[index].config(text=state.current_player, fg=HOVER_COLOR)
 
     def on_cell_leave(self, index):
+        if self.state.game_over:
+            # Симметрично on_cell_enter: после конца партии превью не рисуется,
+            # значит и убирать нечего. Без этой проверки render() затёр бы
+            # акцент pulse_winning_line() при первом же движении мыши.
+            return
         # Превью — не ход: модель не менялась, поэтому просто перерисовываем
         # из состояния — реальная (или пустая) клетка возвращается сама.
         self.render()
 
     def on_key(self, event):
-        if event.keysym in ("r", "R"):
+        # Cyrillic_ka/Cyrillic_KA — та же физическая клавиша R при русской раскладке.
+        # Цифры 1-9 от раскладки не зависят, а буква — зависит.
+        if event.keysym in ("r", "R", "Cyrillic_ka", "Cyrillic_KA"):
             self.new_round()
             return
         if event.char and event.char.isdigit():
@@ -206,8 +222,8 @@ class TicTacToeApp:
                 text=mark,
                 fg=MARK_COLOR.get(mark, "#0D0230"),
                 bg=WIN_BG if is_win_cell else NEUTRAL_BG,
-                # Отключаем кнопку только когда партия ОКОНЧЕНА (item 67) — занятая,
-                # но ещё активная клетка обязана сохранять цвет своей отметки (item 64):
+                # Отключаем кнопку только когда партия ОКОНЧЕНА: занятая,
+                # но ещё активная клетка обязана сохранять цвет своей отметки —
                 # attempt_move() и так безопасно игнорирует клик по уже занятой клетке.
                 state="disabled" if state.game_over else "normal",
             )
@@ -270,7 +286,7 @@ class TicTacToeApp:
 
 def main():
     root = tk.Tk()
-    app = TicTacToeApp(root)
+    TicTacToeApp(root)
     root.mainloop()
 
 

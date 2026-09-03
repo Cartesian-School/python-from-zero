@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-18/18-26-ochistka-holsta.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Очистка холста — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Подтверждение перед необратимой очисткой и обязательное обнуление истории отмены вместе с документом." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-26-ochistka-holsta.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Очистка холста — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Подтверждение перед необратимой очисткой и обязательное обнуление истории отмены вместе с документом." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Очистка холста — Python с нуля — Cartesian School","description":"Подтверждение перед необратимой очисткой и обязательное обнуление истории отмены вместе с документом.","url":"https://www.cartesianschool.org/chapters/glava-18/18-26-ochistka-holsta.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -72,7 +57,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Очистка холста, забывшая очистить историю</div>
-        <div class="callout-body">Если удалить только фигуры (<code class="inline">self.document.clear()</code>), но не тронуть <code class="inline">undo_stack</code>, — <code class="inline">undo()</code> после очистки попробует убрать из ПУСТОГО документа фигуры, которых там уже нет. Раздел 18.31 разбирает этот случай отдельно: история обязана обнуляться вместе с документом, который она описывает.</div>
+        <div class="callout-body">Если удалить только фигуры (<code class="inline">self.document.clear()</code>), но не тронуть <code class="inline">undo_stack</code>, — <code class="inline">undo()</code> после очистки внешне не сделает НИЧЕГО (убирать из пустого документа нечего), зато положит устаревшее действие в <code class="inline">redo_stack</code>. И тогда Ctrl+Y вернёт на холст фигуры, которые пользователь только что удалил «Очистить». Раздел 18.31 разбирает этот случай отдельно: история обязана обнуляться вместе с документом, который она описывает.</div>
       </div>
     </div>
 

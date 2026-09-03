@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-33-itogi-glavy.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Итоги главы — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Итоги главы 19: сетка, направление как вектор, игровой тик, состояние игры, чистая логика и мост к главе 20." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-33-itogi-glavy.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Итоги главы — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Итоги главы 19: сетка, направление как вектор, игровой тик, состояние игры, чистая логика и мост к главе 20." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Итоги главы — Python с нуля — Cartesian School","description":"Итоги главы 19: сетка, направление как вектор, игровой тик, состояние игры, чистая логика и мост к главе 20.","url":"https://www.cartesianschool.org/chapters/glava-19/19-33-itogi-glavy.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -47,14 +32,14 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Итоги главы</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 19 · Финал</div>
     <h1>Итоги главы</h1>
-    <p class="lede">От busy-цикла с глобальными переменными до модели состояния с игровым тиком, паузой, рестартом и проверяемыми правилами.</p>
+    <p class="lede">От блокирующего цикла с глобальными переменными до модели состояния с игровым тиком, паузой, рестартом и проверяемыми правилами.</p>
 
 
     <h2 id="itogi-glavy">Итоги главы 19</h2>
 
     <div class="summary-box">
       <h3>Что мы построили и чему научились</h3>
-      <ul><li>Игровой мир — дискретная решётка с шагом STEP; легальные позиции всегда кратны шагу, а не произвольны.</li><li>Направление — не строка для сравнения в if/elif, а вектор смещения (DIRECTION_VECTORS), и запрет разворота на 180° проверяется против ТЕКУЩЕГО направления, а не уже запрошенного следующего.</li><li>Игровой тик — вся цепочка правил целиком (направление → движение → еда → столкновения → рендер), а отрисовка — концептуально отдельный шаг.</li><li>screen.ontimer() планирует следующий тик и сразу возвращает управление — вместо того чтобы блокировать программу в busy-цикле или time.sleep().</li><li>Модель змейки — список логических позиций; новая голова плюс старое тело строит движение за один проход, без цикла с риском перепутать порядок.</li><li>Столкновение с собой проверяется против тела ПОСЛЕ хода — иначе легальный заезд в клетку освободившегося хвоста ошибочно считается проигрышем.</li><li>Явные состояния READY/RUNNING/PAUSED/GAME_OVER — пауза и рестарт не просто меняют картинку, а переключают состояние, от которого зависит, тикает ли игра вообще.</li><li>Поколение (generation) защищает restart() от параллельных цепочек ontimer() — тот же класс проблемы, что и повторное нажатие кнопки в главе 16.</li><li>GameState не хранит ни одного объекта Turtle — правила игры протестированы обычным assert, без единого настоящего окна.</li></ul>
+      <ul><li>Игровой мир — дискретная решётка с шагом STEP; легальные позиции всегда кратны шагу, а не произвольны.</li><li>Направление — не строка для сравнения в if/elif, а вектор смещения (DIRECTION_VECTORS), и запрет разворота на 180° проверяется против ТЕКУЩЕГО направления, а не уже запрошенного следующего.</li><li>Игровой тик — вся цепочка правил целиком (направление → движение → еда → столкновения → рендер), а отрисовка — концептуально отдельный шаг.</li><li>screen.ontimer() планирует следующий тик и сразу возвращает управление — вместо того чтобы блокировать программу в цикле while с time.sleep().</li><li>Модель змейки — список логических позиций; новая голова плюс старое тело строит движение за один проход, без цикла с риском перепутать порядок.</li><li>Столкновение с собой проверяется против тела ПОСЛЕ хода — иначе легальный заезд в клетку освободившегося хвоста ошибочно считается проигрышем.</li><li>Явные состояния READY/RUNNING/PAUSED/GAME_OVER — пауза и рестарт не просто меняют картинку, а переключают состояние, от которого зависит, тикает ли игра вообще.</li><li>Поколение (generation) защищает restart() от параллельных цепочек ontimer() — тот же класс проблемы, что и повторное нажатие кнопки в главе 16.</li><li>GameState не хранит ни одного объекта Turtle — правила игры протестированы обычным assert, без единого настоящего окна.</li></ul>
     </div>
 
     <h2 id="most-k-glave-20">Мост к главе 20</h2>

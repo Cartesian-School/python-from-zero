@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-08-polnyj-kod-itogi.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Полный код первого прототипа — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Собираем игровой шаг воедино, ссылка на snake_basic.py и итоги первого прототипа главы 19." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-08-polnyj-kod-itogi.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Полный код первого прототипа — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Собираем игровой шаг воедино, ссылка на snake_basic.py и итоги первого прототипа главы 19." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Полный код первого прототипа — Python с нуля — Cartesian School","description":"Собираем игровой шаг воедино, ссылка на snake_basic.py и итоги первого прототипа главы 19.","url":"https://www.cartesianschool.org/chapters/glava-19/19-08-polnyj-kod-itogi.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -55,7 +40,11 @@
 
     <div class="code-block">
       <div class="code-label"><span>igrovoj_shag.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
-      <pre><code><span class="tok-kw">def</span> igrovoj_shag():
+      <pre><code><span class="tok-kw">import</span> time
+
+ZADERZHKA_SEK = <span class="tok-num">0.12</span>   <span class="tok-com"># пауза между шагами</span>
+
+<span class="tok-kw">def</span> igrovoj_shag():
     <span class="tok-kw">if</span> igra_okonchena:
         <span class="tok-kw">return</span> <span class="tok-kw">False</span>
 
@@ -71,8 +60,16 @@
     napravlenie = <span class="tok-str">&quot;right&quot;</span>
     <span class="tok-kw">while</span> igrovoj_shag():
         screen.update()
+        time.sleep(ZADERZHKA_SEK)
     tablo.goto(<span class="tok-num">0</span>, <span class="tok-num">0</span>)
     tablo.write(<span class="tok-str">f&quot;</span><span class="tok-str">Игра окончена! Счёт: </span>{schet}<span class="tok-str">&quot;</span>, align=<span class="tok-str">&quot;center&quot;</span>, font=(<span class="tok-str">&quot;Arial&quot;</span>, <span class="tok-num">20</span>, <span class="tok-str">&quot;bold&quot;</span>))</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Без time.sleep() игра закончилась бы раньше, чем вы успели бы нажать клавишу</div>
+        <div class="callout-body">Цикл <code class="inline">while</code> крутится со скоростью Python, а не со скоростью человека: от центра до стены всего 14 шагов, и без паузы они проходят примерно за две тысячных секунды — окно успело бы только моргнуть надписью «Игра окончена! Счёт: 0». <code class="inline">time.sleep(0.12)</code> задаёт человеческий темп: примерно восемь шагов в секунду. Здесь <code class="inline">sleep()</code> уместен именно потому, что цикл и так блокирующий — пока он работает, в программе всё равно ничего другого не происходит, а <code class="inline">screen.update()</code> в конце каждого шага успевает разобрать накопившиеся нажатия клавиш. В архитектуре на <code class="inline">screen.ontimer()</code> (раздел 19.13) тот же самый <code class="inline">sleep()</code> уже станет ошибкой — Debug Lab 4 в разделе 19.31 разбирает, почему.</div>
+      </div>
     </div>
 
     <figure style="margin:24px 0">
@@ -93,7 +90,7 @@
     <div class="callout callout-info">
       <div>
         <div class="callout-title">Честная, но не окончательная версия</div>
-        <div class="callout-body">Мы построили настоящую работающую игру — с движением, едой, счётом и столкновениями. Но <code class="inline">while igrovoj_shag(): screen.update()</code> — busy-цикл без паузы и без изменяемой скорости, а всё состояние живёт в глобальных переменных модуля. Начиная со следующего раздела глава смотрит на игру внимательнее: что такое сетка и игровой тик по-настоящему, как устроить паузу и рестарт без второй параллельной цепочки таймеров, и как вырастить из этого прототипа архитектуру уровня <code class="inline">SnakeApp</code> (раздел 19.32).</div>
+        <div class="callout-body">Мы построили настоящую работающую игру — с движением, едой, счётом и столкновениями. Но <code class="inline">while igrovoj_shag(): ...</code> — блокирующий цикл с фиксированной задержкой: скорость нельзя менять по ходу партии, а паузу и рестарт пришлось бы вплетать прямо в тело цикла. Всё состояние при этом живёт в глобальных переменных модуля. Начиная со следующего раздела глава смотрит на игру внимательнее: что такое сетка и игровой тик по-настоящему, как устроить паузу и рестарт без второй параллельной цепочки таймеров, и как вырастить из этого прототипа архитектуру уровня <code class="inline">SnakeApp</code> (раздел 19.32).</div>
       </div>
     </div>
 

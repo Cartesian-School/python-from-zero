@@ -10,21 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/theory.css" />
-<!-- cartesian:seo-meta:start -->
-<link rel="canonical" href="https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="Cartesian School" />
-<meta property="og:title" content="Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние." />
-<meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html" />
-<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<meta property="og:locale" content="ru_RU" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние." />
-<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки «Змейки» — Python с нуля — Cartesian School","description":"Восемнадцать разобранных багов игры «Змейка»: тик, таймеры, направление, столкновения, restart, состояние.","url":"https://www.cartesianschool.org/chapters/glava-19/19-31-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
-<!-- cartesian:seo-meta:end -->
 </head>
 <body>
 
@@ -132,7 +117,7 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
         <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 3: Busy-цикл усложняет паузу и скорость</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 3: Блокирующий цикл усложняет паузу и скорость</div>
       </div>
       <div style="padding:0 20px">
 
@@ -140,6 +125,7 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
       <div class="code-label"><span>busy_loop.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">while</span> igrovoj_shag():
     screen.update()
+    time.sleep(ZADERZHKA_SEK)   <span class="tok-com"># фиксированная задержка</span>
 <span class="tok-com"># цикл сам решает, когда именно проверять события — паузу, скорость</span>
 <span class="tok-com"># и перезапуск приходится вручную вплетать в его тело</span></code></pre>
     </div>
@@ -147,9 +133,9 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code># Игра не умеет ставиться на паузу: событие обрабатывается,
+        line-height:1.7"><code># Игру нельзя поставить на паузу: событие обрабатывается,
 # но цикл ничего не проверяет и продолжает крутиться дальше.
-# Заметна и постоянная нагрузка на процессор — цикл не отдыхает между тиками.</code></pre>
+# Скорость задана одной константой и по ходу партии не меняется.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
         <p>Раздел 19.13 разбирал это подробно: <code class="inline">screen.update()</code> внутри <code class="inline">while</code> ДЕЙСТВИТЕЛЬНО обрабатывает события Tkinter, включая нажатия клавиш, — обработчик паузы технически может сработать. Но сам цикл не спрашивает, нужно ли ему остановиться: паузу, скорость и перезапуск пришлось бы вручную проверять на каждой итерации. <code class="inline">screen.ontimer()</code> устроен иначе: каждый тик — это отдельный запланированный вызов, а не итерация одного бесконечного цикла, и решение «делать следующий тик или нет» принимается один раз, явно, а не проверяется заново внутри while.</p>
@@ -187,11 +173,12 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code># Во время сна окно полностью перестаёт реагировать:
-# ни клавиатура, ни закрытие окна не работают заданное число миллисекунд.</code></pre>
+        line-height:1.7"><code># Окно замирает НАВСЕГДА, а не на delay_ms: тик зовёт сам себя
+# без условия выхода, поэтому пауз становится бесконечно много,
+# а примерно через 1000 вызовов программа падает с RecursionError.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p><code class="inline">time.sleep()</code> блокирует ВЕСЬ процесс, включая цикл событий Tkinter, на котором держится Turtle. <code class="inline">screen.ontimer()</code> не блокирует ничего — раздел 19.13 объясняет разницу подробно.</p>
+        <p>Ошибок здесь сразу две. Первая: <code class="inline">time.sleep()</code> блокирует ВЕСЬ процесс, включая цикл событий Tkinter, на котором держится Turtle. Вторая, менее заметная: <code class="inline">game_tick()</code> вызывает саму себя напрямую, без всякого условия выхода — это обычная бесконечная рекурсия, и стек кончится раньше, чем игрок дождётся хоть одного отклика. <code class="inline">screen.ontimer()</code> решает обе: он ничего не блокирует и не наращивает стек — раздел 19.13 объясняет разницу подробно.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
@@ -264,7 +251,7 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
 # Left проходит проверку, потому что next_direction уже стало Up, а не Right.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>Раздел 19.49 разбирал эту ловушку: проверка обязана идти против <code class="inline">state.direction</code> — направления, которое СЕЙЧАС применяется на тике — а не против уже изменённого <code class="inline">next_direction</code>, иначе вторая клавиша между тиками может протащить нелегальный разворот.</p>
+        <p>Ловушка тонкая: проверка обязана идти против <code class="inline">state.direction</code> — направления, которое СЕЙЧАС применяется на тике — а не против уже изменённого <code class="inline">next_direction</code>, иначе вторая клавиша между тиками может протащить нелегальный разворот.</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
@@ -728,7 +715,7 @@ screen.tracer(<span class="tok-num">0</span>)</code></pre>
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: находим баг «Змейки» по симптому</div>
-        <div class="nc-sub">Автоматическая проверка — для набора описанных симптомов выбираем правильную причину/исправление</div>
+        <div class="nc-sub">Автоматическая проверка — функция diagnose(): по симптому находим причину, неизвестный симптом тоже обрабатываем</div>
         <div class="practice-inline-status" data-lesson-id="19-31"></div>
       </div>
       <a class="nc-btn" href="../../practice/19-31/index.html">Открыть практику →</a>
