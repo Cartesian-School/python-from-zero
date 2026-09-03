@@ -770,4 +770,3 @@ Distinguishes the game's logical coordinate space from actual pixel positions on
 - **Evidence:** scripts/build_chapter_20.py (20-18)
 - **First-use guidance:** Introduce alongside Rect, note it is out of scope for the book's own projects.
 - **Affected chapters:** 20
-

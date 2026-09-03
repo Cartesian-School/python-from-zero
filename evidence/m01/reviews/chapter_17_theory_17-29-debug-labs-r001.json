@@ -1,0 +1,463 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-29-DEBUG-LABS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-29-debug-labs",
+    "kind": "theory_lesson",
+    "title": "Debug Labs — типичные ошибки событийной игры",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-29-debug-labs.html",
+    "review_surface_sha256": "231cd741fa213d6f52390b092e52e696081bac00aa41db2675057bb0fa7c838f"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Collects seventeen typical event-driven-game bugs as a symptom-to-fix reference, covering focus, closures, check ordering, model/view confusion, reset semantics, blocking animation and duplicated bindings.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.sleep in",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.sleep i",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- The lab explanations are well written and specific. Debug Lab 16's symptom line was ungrammatical as well as arithmetically wrong and has been corrected.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.s",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Collects seventeen typical event-driven-game bugs as a symptom-to-fix reference, covering focus, closures, check ordering, model/view confusion, reset semantics, blocking animation and duplicated bindings.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Debug Lab 16 correctly identifies time.sleep in a callback as an availability problem for the UI thread. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Debug Lab 16 correctly identifies time.sleep in a callback as an availability problem for the UI thread. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.sleep in ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Collects seventeen typical event-driven-game bugs as a symptom-to-fix reference, covering focus, closures, check ordering, model/view confusion, reset semantics, blocking animation and duplicated bindings.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Every lab draws on material already taught (17.4, 17.10, 17.11, 17.12, 17.15, 17.17, 17.18, 17.20, 17.27, 17.30), and each cites its source section. All citations spot-checked and accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The symptom-first format ('Что видно на экране' before the explanation) trains the diagnostic skill the lede promises -- recognising a bug from its symptom before opening a debugger. Well matched to a reference section placed late in the chapter.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after the features exist and after the testing lesson, so each bug is recognisable and the reader knows what test would have caught it. All internal cross-references from earlier lessons resolve to labs that exist and demonstrate what is claimed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after the features exist and after the testing lesson, so each bug is recognisable and the reader knows what test would have caught it. All internal cross-references from earlier lessons resolve to labs that exist and demonstrate what is claimed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after the features exist and after the testing lesson, so each bug is recognisable and the reader knows what test would have caught it. All internal cross-references from earlier lessons resolve to labs that exist and demonstrate what is claimed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after the features exist and after the testing lesson, so each bug is recognisable and the reader knows what test would have caught it. All internal cross-references from earlier lessons resolve to labs that exist and demonstrate what is claimed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-29 (browser-pyodide, grader 17-29.py) reproduces the draw-before-win ordering bug and has the learner supply the fix. The grader correctly distinguishes fixed from broken order. As found the notebook's demo board was an illegal position (F-021); now replaced with the legal board 17-17 and 17-28 already use.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-29 (browser-pyodide, grader 17-29.py) reproduces the draw-before-win ordering bug and has the learner supply the fix. The grader correctly distinguishes fixed from broken order. As found the notebook's demo board was an illegal position (F-021); now replaced with the legal board 17-17 and 17-28 already use.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-29 (browser-pyodide, grader 17-29.py) reproduces the draw-before-win ordering bug and has the learner supply the fix. The grader correctly distinguishes fixed from broken order. As found the notebook's demo board was an illegal position (F-021); now replaced with the legal board 17-17 and 17-28 already use.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- The lab explanations are well written and specific. Debug Lab 16's symptom line was ungrammatical as well as arithmetically wrong and has been corrected.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- All seven inbound citations from other lessons verified to point at labs that exist and match. As found the labs were numbered 4-20 with no 1-3 anywhere, whereas chapters 14, 15 and 16 all number theirs from 1 (F-011); they are now 1-17 with every inbound reference renumbered to match.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- All seven inbound citations from other lessons verified to point at labs that exist and match. As found the labs were numbered 4-20 with no 1-3 anywhere, whereas chapters 14, 15 and 16 all number theirs from 1 (F-011); they are now 1-17 with every inbound reference renumbered to match.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- All seven inbound citations from other lessons verified to point at labs that exist and match. As found the labs were numbered 4-20 with no 1-3 anywhere, whereas chapters 14, 15 and 16 all number theirs from 1 (F-011); they are now 1-17 with every inbound reference renumbered to match.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.sleep",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- verified via code_execution: confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.; Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- verified via code_execution: confirmed -- reproduced with three buttons yielding [2,2,2].; Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- verified via code_execution: confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.; Debug Lab 16: time.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-29 (browser-pyodide, grader 17-29.py) reproduces the draw-before-win ordering bug and has the learner supply the fix. The grader correctly distinguishes fixed from broken order. As found the notebook's demo board was an illegal position (F-021); now replaced with the legal board 17-17 and 17-28 already use.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Debug Lab 16 correctly identifies time.sleep in a callback as an availability problem for the UI thread. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-011: Debug Labs were numbered 4-20 with no labs 1-3 in the chapter; chapters 14, 15 and 16 all restart at 1, so the reader's first lab was 'Debug Lab 4'.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Renumbered all 17 debug_lab() call sites to 1-17 in build_chapter_17.py and updated all 8 inbound prose cross-references in 17.11, 17.12, 17.15, 17.18, 17.23, 17.24, 17.27 and 17.28 (including one split across a string-literal break). Verified in the rendered HTML: the labs read 1 through 17 and the set of inbound references matches exactly."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-012: Debug Lab 16's symptom line was ungrammatical ('на весь почти секунду') and understated the freeze -- range(6) with two sleep(0.15) calls is 1.8 s, not 'почти секунду'.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewrote the line as 'Окно перестаёт отвечать почти на две секунды анимации —', fixing both the grammar and the arithmetic."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Collects seventeen typical event-driven-game bugs as a symptom-to-fix reference, covering focus, closures, check ordering, model/view confusion, reset semantics, blocking animation and duplicated bindings.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Debug Lab 1: an Entry-level handler returning 'break' stops a key event before it reaches root's binding, and without that 'break' the event would continue to root. -- confirmed exactly -- with a 'break' handler the root binding gets nothing and the Entry stays empty; without it the root binding fires and the character is inserted. Both halves of the explanation are correct.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Debug Lab 2: without i=indeks all nine closures share the loop variable and act on index 8. -- confirmed -- reproduced with three buttons yielding [2,2,2].",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Debug Lab 5: checking all(board) before find_winner reports a draw on a ninth move that wins. -- confirmed -- notebook 17-29 reproduces it: status_broken(...) returns 'Ничья!' where the fixed order returns 'Победил игрок X!'.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Debug Lab 16: time.sleep in the win animation freezes the window for 'почти секунду'. -- PARTIALLY REFUTED as found -- the blocking claim is correct (time.sleep blocks the event loop), but the arithmetic was wrong: the shown loop is range(6) with two sleep(0.15) calls per iteration = 1.8 s. The symptom line was also ungrammatical. Fixed under F-012.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "code_execution",
+      "summary": "Debug Lab 17: bind(..., add='+') on a button that already has command= runs the logic twice for one click. -- confirmed -- add='+' appends rather than replaces (verified: ['second','third']), so a duplicate path fires twice.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Every lab draws on material already taught (17.4, 17.10, 17.11, 17.12, 17.15, 17.17, 17.18, 17.20, 17.27, 17.30), and each cites its source section. All citations spot-checked and accurate. | motivation=The symptom-first format ('Что видно на экране' before the explanation) trains the diagnostic skill the lede promises -- recognising a bug from its symptom before opening a debugger. Well matched to a reference section placed late in the chapter. | sequence=Correctly placed after the features exist and after the testing lesson, so each bug is recognisable and the reader knows w",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "cross_reference",
+      "summary": "Coherence: All seven inbound citations from other lessons verified to point at labs that exist and match. As found the labs were numbered 4-20 with no 1-3 anywhere, whereas chapters 14, 15 and 16 all number theirs from 1 (F-011); they are now 1-17 with every inbound reference renumbered to match.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Russian technical-language check: The lab explanations are well written and specific. Debug Lab 16's symptom line was ungrammatical as well as arithmetically wrong and has been corrected.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-010",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Debug Lab 16 correctly identifies time.sleep in a callback as an availability problem for the UI thread. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-29-debug-labs against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

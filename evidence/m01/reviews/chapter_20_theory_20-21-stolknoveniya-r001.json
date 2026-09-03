@@ -1,0 +1,420 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-21-STOLKNOVENIYA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-21-stolknoveniya",
+    "kind": "theory_lesson",
+    "title": "Столкновения и хитбоксы",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-21-stolknoveniya.html",
+    "review_surface_sha256": "1148442a948e13b67cbc1a13c8c1d9259c6f4f79dd5e74aa17f66c74c19c7e44"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Teaches `Rect.colliderect()`, opens it up as a four-comparison AABB test, and distinguishes the hitbox from the drawn artwork.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side. Fixed",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side. Fixe",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «столкновение», «хитбокс», «AABB (прямоугольники, выровненные по осям)» all correct; «хитбокс» is the established Russian transliteration. One dangling gerund (F-014), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Teaches `Rect.colliderect()`, opens it up as a four-comparison AABB test, and distinguishes the hitbox from the drawn artwork.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side. Fixed ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Teaches `Rect.colliderect()`, opens it up as a four-comparison AABB test, and distinguishes the hitbox from the drawn artwork.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes Rect from 20.18 and boolean operators from chapter 9. Available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Shows the library call first, then opens the black box -- the right order here, since the four-comparison version is what the Pyodide notebook can actually test.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position: after Rect, before physics (20.22) which needs wall collisions, and it is the foundation chapter 21 builds group collision on.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position: after Rect, before physics (20.22) which needs wall collisions, and it is the foundation chapter 21 builds group collision on.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position: after Rect, before physics (20.22) which needs wall collisions, and it is the foundation chapter 21 builds group collision on.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position: after Rect, before physics (20.22) which needs wall collisions, and it is the foundation chapter 21 builds group collision on.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-21 implements the AABB function and tests the edge-touching boundary case explicitly. Its star exercise was broken (F-007, filed against the notebook) and is now fixed there.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-21 implements the AABB function and tests the edge-touching boundary case explicitly. Its star exercise was broken (F-007, filed against the notebook) and is now fixed there.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-21 implements the AABB function and tests the edge-touching boundary case explicitly. Its star exercise was broken (F-007, filed against the notebook) and is now fixed there.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «столкновение», «хитбокс», «AABB (прямоугольники, выровненные по осям)» all correct; «хитбокс» is the established Russian transliteration. One dangling gerund (F-014), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Both collision figures exist and match their alt text; the forward reference from 20.7 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Both collision figures exist and match their alt text; the forward reference from 20.7 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Both collision figures exist and match their alt text; the forward reference from 20.7 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side. Fi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- verified via code_execution: Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).; Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- verified via source_inspection: Confirmed -- a correct statement of the separating-axis argument for the AABB case.; `rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- verified via code_execution: Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per sid",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-21 implements the AABB function and tests the edge-touching boundary case explicitly. Its star exercise was broken (F-007, filed against the notebook) and is now fixed there.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-014: «-20 по ширине и высоте убирает примерно по 10 пикселей с каждой стороны» (build_chapter_20.py:1705-1711) -- for even arguments inflate() is exact, not approximate: measured 64 -> 44 with the centre preserved, i.e. exactly 10 px per side. The hedge taught distrust of a deterministic API. The same sentence also ended on an unanchored gerund («а не 20 — подобрав нужный отступ на глаз»).",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: «примерно» -> «ровно», and the trailing gerund was split into its own sentence — «Конкретный отступ подбирают на глаз под каждый спрайт.» Verified after rebuild: «примерно по 10» returns 0 files and «убирает ровно по 10» returns 1."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Teaches `Rect.colliderect()`, opens it up as a four-comparison AABB test, and distinguishes the hitbox from the drawn artwork.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`colliderect()` is an axis-aligned bounding-box test equivalent to the chapter's four comparisons. -- Confirmed -- the hand-written function agrees with pygame.Rect.colliderect on all six cases tried, including edge-touching (both False), 1px overlap (both True), zero-width (both False) and corner-adjacent (both False).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "Two rectangles fail to intersect exactly when one is entirely left, right, above or below the other. -- Confirmed -- a correct statement of the separating-axis argument for the AABB case.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`rect.inflate(-20, -20)` shrinks the total size while preserving the centre, removing ~10 px per side. -- Confirmed on the mechanism, imprecise on the hedge -- Rect(68,68,64,64).inflate(-20,-20) gives Rect(78,78,44,44) with the centre unchanged: exactly 10 px per side. Fixed under F-014.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "Taking the hitbox from the full image size, transparent padding included, makes hits feel unfair. -- Confirmed -- correct and standard game-feel reasoning, illustrated by a real two-rectangle figure.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes Rect from 20.18 and boolean operators from chapter 9. Available. | motivation=Shows the library call first, then opens the black box -- the right order here, since the four-comparison version is what the Pyodide notebook can actually test. | sequence=Correct position: after Rect, before physics (20.22) which needs wall collisions, and it is the foundation chapter 21 builds group collision on. | practice=Notebook 20-21 implements the AABB function and tests the edge-touching boundary case explicitly. Its star exercise was broken (F-007, filed against the notebook) and i",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Both collision figures exist and match their alt text; the forward reference from 20.7 and the 20.28 symptom table row both resolve.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «столкновение», «хитбокс», «AABB (прямоугольники, выровненные по осям)» all correct; «хитбокс» is the established Russian transliteration. One dangling gerund (F-014), now fixed.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-21-stolknoveniya against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

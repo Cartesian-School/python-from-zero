@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-16-DELTA-TIME-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-16-delta-time",
+    "kind": "theory_lesson",
+    "title": "Delta time: движение независимо от FPS",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-16-delta-time.html",
+    "review_surface_sha256": "9e7acfaa95048af563e7a0752f466de6b56f45ddff8176eac08aa12591363337"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Diagnoses frame-rate-dependent movement in the 20.5 project and introduces delta time so speed is expressed in pixels per second rather than pixels per frame.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to normalise th",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to normalise t",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «delta time (dt)» kept in Latin script; the «пикселей за кадр» vs «пикселей в секунду» contrast is typographically emphasised (СЕКУНДУ in caps) -- effective. The «телепортация» symptom name for the ms/s mix-up is memorable and accurate.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to norma",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Diagnoses frame-rate-dependent movement in the 20.5 project and introduces delta time so speed is expressed in pixels per second rather than pixels per frame.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to normalise the",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Diagnoses frame-rate-dependent movement in the 20.5 project and introduces delta time so speed is expressed in pixels per second rather than pixels per frame.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.5's mini-project, 20.15's frame time, and float arithmetic (chapter 4). The section explicitly reopens 20.5's admitted limitation.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated entirely by a concrete failure the reader was already warned about: the same code runs at half speed on a weaker machine. A far stronger hook than defining dt first.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct and central position. It is the hinge between the naive 20.5 version and the 20.33 rebuild, and 20.22's physics depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct and central position. It is the hinge between the naive 20.5 version and the 20.33 rebuild, and 20.22's physics depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct and central position. It is the hinge between the naive 20.5 version and the 20.33 rebuild, and 20.22's physics depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct and central position. It is the hinge between the naive 20.5 version and the 20.33 rebuild, and 20.22's physics depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-16 is pure arithmetic (browser-pyodide) and, unusually, asks the learner to reproduce the *bug* as the star exercise -- reinforcing the contrast rather than just the fix.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-16 is pure arithmetic (browser-pyodide) and, unusually, asks the learner to reproduce the *bug* as the star exercise -- reinforcing the contrast rather than just the fix.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-16 is pure arithmetic (browser-pyodide) and, unusually, asks the learner to reproduce the *bug* as the star exercise -- reinforcing the contrast rather than just the fix.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «delta time (dt)» kept in Latin script; the «пикселей за кадр» vs «пикселей в секунду» contrast is typographically emphasised (СЕКУНДУ in caps) -- effective. The «телепортация» symptom name for the ms/s mix-up is memorable and accurate.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-references to 20.5, 20.13 and 20.15 all accurate; forward use in 20.22, 20.26 and 20.33 is consistent.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-references to 20.5, 20.13 and 20.15 all accurate; forward use in 20.22, 20.26 and 20.33 is consistent.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-references to 20.5, 20.13 and 20.15 all accurate; forward use in 20.22, 20.26 and 20.33 is consistent.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to normalise",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `x += dx` per frame makes real speed depend on the achieved frame rate. -- verified via code_execution: Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.; `x += skorost_x * dt` makes displacement independent of frame rate. -- verified via code_execution: Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.; `clock.tick(FPS)` returns the number of milliseconds it *waited*. -- verified via code_execution: Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.; Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to norm",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-16 is pure arithmetic (browser-pyodide) and, unusually, asks the learner to reproduce the *bug* as the star exercise -- reinforcing the contrast rather than just the fix.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-002: «clock.tick(FPS) ... возвращает число миллисекунд, которые он прождал» (build_chapter_20.py:1301-1304) misstated the return value. tick() returns the time elapsed since the previous tick() call *including* any delay, not the delay itself; get_rawtime() is the wait-excluding method. Measured under pygame-ce 2.5.8: a frame doing 30 ms of work returns 30-31 ms with zero wait applied, while an idle frame returns 16 ms. Official docs (pyga.me/docs/ref/time.html): 'It will compute how many milliseconds have passed since the previous call.' This inverted the mechanism in exactly the slow-device case the section is about -- if tick() really returned only the wait, dt would be 0 on an overloaded device and delta-time movement would stall.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: the sentence now reads «возвращает число миллисекунд, прошедших с предыдущего вызова clock.tick(), — то есть полное время кадра, включая ожидание, если оно вообще было». A new paragraph after the code block spells out the slow-device case (tick(60) returning 30 ms with zero wait when the frame's own work took 30 ms), explains that this is precisely why delta time rescues a weak machine, and points at clock.get_rawtime() for the wait-excluding value. Verified: «которые он прождал» returns 0 files in the rebuilt HTML while «прошедших с» and «get_rawtime» each return 1."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Diagnoses frame-rate-dependent movement in the 20.5 project and introduces delta time so speed is expressed in pixels per second rather than pixels per frame.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`x += dx` per frame makes real speed depend on the achieved frame rate. -- Confirmed -- notebook 20-16: `simulirovat_bez_dt(2, 30, 2) = 120.0` vs `simulirovat_bez_dt(2, 60, 2) = 240.0`, a 2x difference for identical code.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`x += skorost_x * dt` makes displacement independent of frame rate. -- Confirmed -- `simulirovat_dt(100, fps, 2)` yields exactly 200.0 for fps = 30, 60 and 120.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`clock.tick(FPS)` returns the number of milliseconds it *waited*. -- Was FALSE -- it returns milliseconds elapsed since the previous tick() call, delay included. Measured: a frame with 30 ms of work and no delay returns 30-31 ms. The wait-excluding value is Clock.get_rawtime(). Fixed under F-002.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Moving on both axes at full speed makes diagonal motion sqrt(2) ~ 1.41x faster; the fix is to normalise the direction vector. -- Confirmed -- `math.hypot(1,1) = 1.4142`; the project's own normalizovat() applies exactly this fix for the mouse push.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.5's mini-project, 20.15's frame time, and float arithmetic (chapter 4). The section explicitly reopens 20.5's admitted limitation. | motivation=Motivated entirely by a concrete failure the reader was already warned about: the same code runs at half speed on a weaker machine. A far stronger hook than defining dt first. | sequence=Correct and central position. It is the hinge between the naive 20.5 version and the 20.33 rebuild, and 20.22's physics depends on it. | practice=Notebook 20-16 is pure arithmetic (browser-pyodide) and, unusually, asks the learner to reprodu",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-references to 20.5, 20.13 and 20.15 all accurate; forward use in 20.22, 20.26 and 20.33 is consistent.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «delta time (dt)» kept in Latin script; the «пикселей за кадр» vs «пикселей в секунду» contrast is typographically emphasised (СЕКУНДУ in caps) -- effective. The «телепортация» symptom name for the ms/s mix-up is memorable and accurate.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-16-delta-time against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

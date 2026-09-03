@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-19-SPRAJTY-I-ASSETY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-19-sprajty-i-assety",
+    "kind": "theory_lesson",
+    "title": "Спрайты, изображения и ресурсы игры",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-19-sprajty-i-assety.html",
+    "review_surface_sha256": "ef32aaf4b9b0cd186e8aab3ce8ff0246178af5f34b0c57cdeaf54c53f0abef54"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Loads image assets with `pygame.image.load().convert_alpha()`, explains why a relative asset path is fragile, and teaches building paths from `Path(__file__).resolve().parent`.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29).; The ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29).; The",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «ассет» / «ресурс» are used interchangeably; the register would benefit from picking a primary. «относительный путь», «текущая рабочая директория (CWD)» align with the existing chapter-15 entry.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29)",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Loads image assets with `pygame.image.load().convert_alpha()`, explains why a relative asset path is fragile, and teaches building paths from `Path(__file__).resolve().parent`.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29).; The p",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Loads image assets with `pygame.image.load().convert_alpha()`, explains why a relative asset path is fragile, and teaches building paths from `Path(__file__).resolve().parent`.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes pathlib from chapter 15 (83 mentions there) and Surface from 20.17. Both available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivates the robust path by its symptom («У меня всё работает» / «на другом компьютере FileNotFoundError»), which is how the bug actually presents.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position: assets after Surface, before animation (20.23) and sound (20.24) which both load files. The project-layout convention shown here is the one 20.24 and chapter 21 follow.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position: assets after Surface, before animation (20.23) and sound (20.24) which both load files. The project-layout convention shown here is the one 20.24 and chapter 21 follow.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position: assets after Surface, before animation (20.23) and sound (20.24) which both load files. The project-layout convention shown here is the one 20.24 and chapter 21 follow.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position: assets after Surface, before animation (20.23) and sound (20.24) which both load files. The project-layout convention shown here is the one 20.24 and chapter 21 follow.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-19 was the weakest link in the chapter -- it demonstrated the CWD anti-pattern while claiming to demonstrate the __file__ one (F-001, filed against the notebook and now fixed there).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-19 was the weakest link in the chapter -- it demonstrated the CWD anti-pattern while claiming to demonstrate the __file__ one (F-001, filed against the notebook and now fixed there).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-19 was the weakest link in the chapter -- it demonstrated the CWD anti-pattern while claiming to demonstrate the __file__ one (F-001, filed against the notebook and now fixed there).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «ассет» / «ресурс» are used interchangeably; the register would benefit from picking a primary. «относительный путь», «текущая рабочая директория (CWD)» align with the existing chapter-15 entry.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The pathlib cross-reference to chapter 15 and the packaging cross-reference to 20.29 both resolve; the 20.28 symptom table's FileNotFoundError row correctly cites 20.19.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The pathlib cross-reference to chapter 15 and the packaging cross-reference to 20.29 both resolve; the 20.28 symptom table's FileNotFoundError row correctly cites 20.19.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The pathlib cross-reference to chapter 15 and the packaging cross-reference to 20.29 both resolve; the 20.28 symptom table's FileNotFoundError row correctly cites 20.19.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29).; T",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- verified via code_execution: Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.; A relative path is resolved against the process's current working directory, not the location of the source file. -- verified via code_execution: Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.; `Path(__file__).resolve().parent` gives a launch-directory-independent base. -- verified via code_execution: Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-19 was the weakest link in the chapter -- it demonstrated the CWD anti-pattern while claiming to demonstrate the __file__ one (F-001, filed against the notebook and now fixed there).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "S-005: the section is titled «Спрайты, изображения и ресурсы игры» and the chapter opener promises «спрайты», but pygame.sprite / Sprite / Group / spritecollide / groupcollide appeared zero times anywhere in chapter 20 -- «спрайт» was used only in the loose sense of 'a character image'. Chapter 21 then introduces pygame.sprite.Sprite, Group and groupcollide as new material, so nothing is missing from the course, but a reader here may assume «спрайт» already means the pygame class.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: added an info callout «Спрайт здесь — это изображение, а не класс Pygame» stating that in this chapter «спрайт» means the object's image, that Pygame also has pygame.sprite.Sprite together with pygame.sprite.Group for updating and collision-checking many objects at once, and that chapter 21 covers them. Verified present once in the rebuilt 20-19-sprajty-i-assety.html."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Loads image assets with `pygame.image.load().convert_alpha()`, explains why a relative asset path is fragile, and teaches building paths from `Path(__file__).resolve().parent`.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`pygame.image.load()` already loads the image fully and preserves alpha; `.convert_alpha()` is an optimisation, not a requirement. -- Confirmed -- a PNG saved with alpha 100 loads back as Color(10,200,30,100) with the SRCALPHA flag set, before any convert call. The chapter's careful 'не обязательна технически' phrasing is exactly right.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "A relative path is resolved against the process's current working directory, not the location of the source file. -- Confirmed -- `Path.cwd()/'assets'/'igrok.png'` yields /home/astra/Projects/Python_001/assets/igrok.png from the repo root and /tmp/assets/igrok.png from /tmp.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`Path(__file__).resolve().parent` gives a launch-directory-independent base. -- Confirmed -- this is the pattern the shipped project itself uses (bouncing_ball.py:29).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "official_reference",
+      "summary": "The problem recurs after PyInstaller packaging because the process CWD may differ from the executable's folder. -- Confirmed -- consistent with PyInstaller's documented one-file extraction behaviour, and correctly cross-referenced to 20.29.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes pathlib from chapter 15 (83 mentions there) and Surface from 20.17. Both available. | motivation=Motivates the robust path by its symptom («У меня всё работает» / «на другом компьютере FileNotFoundError»), which is how the bug actually presents. | sequence=Correct position: assets after Surface, before animation (20.23) and sound (20.24) which both load files. The project-layout convention shown here is the one 20.24 and chapter 21 follow. | practice=Notebook 20-19 was the weakest link in the chapter -- it demonstrated the CWD anti-pattern while claiming to demonstrate",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The pathlib cross-reference to chapter 15 and the packaging cross-reference to 20.29 both resolve; the 20.28 symptom table's FileNotFoundError row correctly cites 20.19.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «ассет» / «ресурс» are used interchangeably; the register would benefit from picking a primary. «относительный путь», «текущая рабочая директория (CWD)» align with the existing chapter-15 entry.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-19-sprajty-i-assety against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

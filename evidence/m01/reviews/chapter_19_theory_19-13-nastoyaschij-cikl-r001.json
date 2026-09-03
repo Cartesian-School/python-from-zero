@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-13-NASTOYASCHIJ-CIKL-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-13-nastoyaschij-cikl",
+    "kind": "theory_lesson",
+    "title": "Настоящий игровой цикл",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-13-nastoyaschij-cikl.html",
+    "review_surface_sha256": "e2aa0aac5434c97952d66158a1c2ce093ce031d31d918657b99a124fc4f53e97"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Replaces the prototype's blocking while-loop with a self-scheduling chain of screen.ontimer() calls, and explains precisely why the blocking loop is wrong (and why the usual explanation for it is wrong too).",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: confirme",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: confirm",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- The strained «способен выполниться» construction has been rewritten.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Replaces the prototype's blocking while-loop with a self-scheduling chain of screen.ontimer() calls, and explains precisely why the blocking loop is wrong (and why the usual explanation for it is wrong too).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: confirmed",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Replaces the prototype's blocking while-loop with a self-scheduling chain of screen.ontimer() calls, and explains precisely why the blocking loop is wrong (and why the usual explanation for it is wrong too).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- The prototype loop (19.8), Tkinter's event loop from chapters 16-17 (16-10, 16-22) — verified present, which makes ontimer() a genuine analogue of after(). ontimer itself appears nowhere in chapters 1-18, so it is correctly treated as new.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The strongest analytical section in the chapter: it explicitly refuses the easy (wrong) explanation for why the loop is bad and replaces it with the real one — the loop owns control flow, its speed is one fixed constant, and pause/restart would have to be woven into its body.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: it needs the tick definition (19.12) and sets up 19.14 (delay), 19.22 (pause) and 19.23 (restart), all forward-referenced accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: it needs the tick definition (19.12) and sets up 19.14 (delay), 19.22 (pause) and 19.23 (restart), all forward-referenced accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: it needs the tick definition (19.12) and sets up 19.14 (delay), 19.22 (pause) and 19.23 (restart), all forward-referenced accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: it needs the tick definition (19.12) and sets up 19.14 (delay), 19.22 (pause) and 19.23 (restart), all forward-referenced accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-13 (local-required) builds a three-tick ontimer chain and now pumps the event loop until all three fire, so the lesson demonstrates its own claim.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-13 (local-required) builds a three-tick ontimer chain and now pumps the event loop until all three fire, so the lesson demonstrates its own claim.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-13 (local-required) builds a three-tick ontimer chain and now pumps the event loop until all three fire, so the lesson demonstrates its own claim.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- The strained «способен выполниться» construction has been rewritten.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The closing paragraph's forward ref to 19.22 resolves and is exactly what 19.22 delivers; the opening now describes the corrected prototype loop (with its sleep) rather than a pure busy loop.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The closing paragraph's forward ref to 19.22 resolves and is exactly what 19.22 delivers; the opening now describes the corrected prototype loop (with its sleep) rather than a pure busy loop.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The closing paragraph's forward ref to 19.22 resolves and is exactly what 19.22 delivers; the opening now describes the corrected prototype loop (with its sleep) rather than a pure busy loop.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: confi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- screen.ontimer(callback, delay_ms) schedules and returns immediately -- verified via official_reference: confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking; screen.update() inside a while loop really does process key events -- verified via official_reference: confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception; time.sleep() blocks the whole process including the Tk event loop -- verified via official_reference: confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep; ontimer() does not cancel itself when the game status changes -- verified via code_execution: ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-13 (local-required) builds a three-tick ontimer chain and now pumps the event loop until all three fire, so the lesson demonstrates its own claim.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-030.1: «он крутится так быстро, как только способен выполниться Python-код между двумя update()» is a strained construction, making «код» the subject of «способен выполниться».",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewritten in build_13 as «он крутится настолько быстро, насколько успевает выполняться Python-код между двумя вызовами update()», as part of a broader rewrite of the paragraph that also retired the now-inaccurate «busy-цикл» framing after the F-001 fix."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Replaces the prototype's blocking while-loop with a self-scheduling chain of screen.ontimer() calls, and explains precisely why the blocking loop is wrong (and why the usual explanation for it is wrong too).",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "official_reference",
+      "summary": "screen.ontimer(callback, delay_ms) schedules and returns immediately -- confirmed -- turtle.TurtleScreen.ontimer(fun, t=0) -> TurtleScreenBase._ontimer, which is self.cv.after(t, fun) (after_idle when t == 0). Non-blocking",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "screen.update() inside a while loop really does process key events -- confirmed -- TurtleScreen.update() ends in self.cv.update(), and Tk's update() dispatches pending events including <KeyPress>. The section is right to correct the common misconception",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "official_reference",
+      "summary": "time.sleep() blocks the whole process including the Tk event loop -- confirmed -- time.sleep blocks the calling thread; turtle/Tk are single-threaded, so no events are dispatched during the sleep",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "ontimer() does not cancel itself when the game status changes -- confirmed -- verified on a real SnakeApp: a callback captured with an old generation still fires; only the explicit generation check in _on_timer stops it",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=The prototype loop (19.8), Tkinter's event loop from chapters 16-17 (16-10, 16-22) — verified present, which makes ontimer() a genuine analogue of after(). ontimer itself appears nowhere in chapters 1-18, so it is correctly treated as new. | motivation=The strongest analytical section in the chapter: it explicitly refuses the easy (wrong) explanation for why the loop is bad and replaces it with the real one — the loop owns control flow, its speed is one fixed constant, and pause/restart would have to be woven into its body. | sequence=Correct: it needs the tick definition (19.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The closing paragraph's forward ref to 19.22 resolves and is exactly what 19.22 delivers; the opening now describes the corrected prototype loop (with its sleep) rather than a pure busy loop.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: The strained «способен выполниться» construction has been rewritten.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-13-nastoyaschij-cikl against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

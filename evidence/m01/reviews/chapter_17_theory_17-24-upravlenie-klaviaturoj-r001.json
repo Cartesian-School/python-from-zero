@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-24-UPRAVLENIE-KLAVIATUROJ-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-24-upravlenie-klaviaturoj",
+    "kind": "theory_lesson",
+    "title": "Управление клавиатурой",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-24-upravlenie-klaviaturoj.html",
+    "review_surface_sha256": "3ae84898578b09db6f8073217472d4aef4f4e20a34bdcc31c0369e616f3d4d16"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Routes keyboard input into the same attempt_move() that mouse clicks use, so the game's rules exist in exactly one place, and maps keys 1-9 to cell indices 0-8.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this build; th",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this build; t",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Precise and readable. Given the Russian-speaking audience, the layout caveat now added to the implementation complements the lesson's existing NumLock discussion.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this bu",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Routes keyboard input into the same attempt_move() that mouse clicks use, so the game's rules exist in exactly one place, and maps keys 1-9 to cell indices 0-8.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this build; the",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Routes keyboard input into the same attempt_move() that mouse clicks use, so the game's rules exist in exactly one place, and maps keys 1-9 to cell indices 0-8.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires bind() on root (17.1/17.11), event.char vs event.keysym (17.8) and attempt_move (17.15). All taught earlier.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The converge_diagram makes the single-path principle visual before the code, and the warning ('Клавиатура не получает свою копию правил') states the design rule in terms of the failure it prevents -- two rule sets drifting apart.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after both input mechanisms and the move algorithm exist, and it is the last input lesson before the purely visual features.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after both input mechanisms and the move algorithm exist, and it is the last input lesson before the purely visual features.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after both input mechanisms and the move algorithm exist, and it is the last input lesson before the purely visual features.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after both input mechanisms and the move algorithm exist, and it is the last input lesson before the purely visual features.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-24 (local-required) proves the keyboard reaches attempt_move. As found its output showed no move made (F-005) and its task had no code cell (F-006); both fixed, and the added cell asserts key '0' is ignored while key '9' maps to index 8.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-24 (local-required) proves the keyboard reaches attempt_move. As found its output showed no move made (F-005) and its task had no code cell (F-006); both fixed, and the added cell asserts key '0' is ignored while key '9' maps to index 8.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-24 (local-required) proves the keyboard reaches attempt_move. As found its output showed no move made (F-005) and its task had no code cell (F-006); both fixed, and the added cell asserts key '0' is ignored while key '9' maps to index 8.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Precise and readable. Given the Russian-speaking audience, the layout caveat now added to the implementation complements the lesson's existing NumLock discussion.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to 17.8 verified; the key-to-index table is generated in-page from range(1,10), so it cannot drift. The forward ref to Debug Lab 9 is accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to 17.8 verified; the key-to-index table is generated in-page from range(1,10), so it cannot drift. The forward ref to Debug Lab 9 is accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to 17.8 verified; the key-to-index table is generated in-page from range(1,10), so it cannot drift. The forward ref to Debug Lab 9 is accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this build;",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- verified via code_execution: confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.; Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- verified via source_inspection: confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.; event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- verified via code_execution: confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this b",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-24 (local-required) proves the keyboard reaches attempt_move. As found its output showed no move made (F-005) and its task had no code cell (F-006); both fixed, and the added cell asserts key '0' is ignored while key '9' maps to index 8.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-015: the R shortcut matched Latin keysyms only, so it was dead under a Russian keyboard layout although the button is labelled 'Новый раунд (R)'.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Extended on_key in tic_tac_toe.py to accept ('r', 'R', 'Cyrillic_ka', 'Cyrillic_KA') with a comment noting digits are layout-independent but the letter is not. Verified: driving on_key with keysym='Cyrillic_ka' now resets the board (previously it did not)."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Routes keyboard input into the same attempt_move() that mouse clicks use, so the game's rules exist in exactly one place, and maps keys 1-9 to cell indices 0-8.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Keys 1-9 map to indices 0-8 via attempt_move(n - 1), and the keyboard handler contains no rules of its own. -- confirmed -- driving the real app's on_key with char='3' places a mark at board[2]; char='0' is correctly ignored; all nine mappings match the printed table.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "Both the mouse path and the keyboard path converge on one function, so the rules are not duplicated. -- confirmed -- tic_tac_toe.py's command= binding and on_key both call self.attempt_move(...), and neither contains a win/draw check of its own.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "event.char is the actual character typed, predictable for the top-row digits, but NumPad behaviour can vary with platform, layout and NumLock. -- confirmed and appropriately hedged -- event_generate('<Key>', keysym='3') delivers keysym='3' and char='3' on this build; the NumPad caveat is a correct statement of a genuinely platform-dependent area.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Pressing R starts a new round. -- CONFIRMED ONLY FOR A LATIN LAYOUT as found -- on_key matched event.keysym in ('r','R') only, so keysym='Cyrillic_ka'/char='к' (the physical R key on a Russian layout) did NOT reset the board. Fixed under F-015; digits 1-9 are layout-independent and were unaffected.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires bind() on root (17.1/17.11), event.char vs event.keysym (17.8) and attempt_move (17.15). All taught earlier. | motivation=The converge_diagram makes the single-path principle visual before the code, and the warning ('Клавиатура не получает свою копию правил') states the design rule in terms of the failure it prevents -- two rule sets drifting apart. | sequence=Correctly placed after both input mechanisms and the move algorithm exist, and it is the last input lesson before the purely visual features. | practice=Notebook 17-24 (local-required) proves the keyboard reache",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to 17.8 verified; the key-to-index table is generated in-page from range(1,10), so it cannot drift. The forward ref to Debug Lab 9 is accurate.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Precise and readable. Given the Russian-speaking audience, the layout caveat now added to the implementation complements the lesson's existing NumLock discussion.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-24-upravlenie-klaviaturoj against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-26-ARHITEKTURA-CLASS-GAME-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-26-arhitektura-class-game",
+    "kind": "theory_lesson",
+    "title": "Структура небольшой игры: класс Game",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-26-arhitektura-class-game.html",
+    "review_surface_sha256": "fbed51bbd4b3f94c00ce6a09d65638d4ab93155f9ffa277528ca136e82dcbcdf"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Turns the three loop phases into the methods of a `Game` class -- handle_events(), update(dt), render(), run() -- as the architectural skeleton for 20.33 and chapter 21.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to present a f",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to present a ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «архитектура», «каркас», «фаза» consistent; the class-diagram caption («Каждый метод отвечает ровно за одну фазу... и не более того») states the single-responsibility idea without jargon.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to pres",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Turns the three loop phases into the methods of a `Game` class -- handle_events(), update(dt), render(), run() -- as the architectural skeleton for 20.33 and chapter 21.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to present a fr",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Turns the three loop phases into the methods of a `Game` class -- handle_events(), update(dt), render(), run() -- as the architectural skeleton for 20.33 and chapter 21.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes classes and __init__/self (chapter 14), enums (chapter 18/19 via 20.25), and delta time (20.16). All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated by accumulated pain rather than principle: globals were «нормально для учебного мини-проекта, но неудобно, как только игра обрастает состояниями». The right argument at this level.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct penultimate-architecture position, and the promise made in 20.14 (three phases become three methods) is kept literally.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct penultimate-architecture position, and the promise made in 20.14 (three phases become three methods) is kept literally.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct penultimate-architecture position, and the promise made in 20.14 (three phases become three methods) is kept literally.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct penultimate-architecture position, and the promise made in 20.14 (three phases become three methods) is kept literally.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-26 builds a minimal MiniGame with real delta-time movement and proves the pause semantics with an exact-equality assert -- a well-chosen, falsifiable check.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-26 builds a minimal MiniGame with real delta-time movement and proves the pause semantics with an exact-equality assert -- a well-chosen, falsifiable check.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-26 builds a minimal MiniGame with real delta-time movement and proves the pause semantics with an exact-equality assert -- a well-chosen, falsifiable check.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «архитектура», «каркас», «фаза» consistent; the class-diagram caption («Каждый метод отвечает ровно за одну фазу... и не более того») states the single-responsibility idea without jargon.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Cross-references to 20.14, 20.25, 20.33 and chapter 21 all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Cross-references to 20.14, 20.25, 20.33 and chapter 21 all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Cross-references to 20.14, 20.25, 20.33 and chapter 21 all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to present ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- verified via code_execution: Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.; The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- verified via code_execution: Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.; The listing is a skeleton, not a runnable file. -- verified via source_inspection: Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to pre",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-26 builds a minimal MiniGame with real delta-time movement and proves the pause semantics with an exact-equality assert -- a well-chosen, falsifiable check.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Turns the three loop phases into the methods of a `Game` class -- handle_events(), update(dt), render(), run() -- as the architectural skeleton for 20.33 and chapter 21.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`run()` computes `dt = self.clock.tick(60) / 1000` and calls the three phases in order. -- Confirmed -- the shipped bouncing_ball.py:158-164 implements exactly this, and it runs clean for 180 headless frames.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "The pause check must live in update(), not only in render(), or objects keep moving invisibly and the game appears to teleport on resume. -- Confirmed -- notebook 20-26 pauses a MiniGame, runs 30 more frames and asserts the position is byte-identical; notebook 20-33 does the same against the real project.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "The listing is a skeleton, not a runnable file. -- Confirmed and, unusually, stated outright -- the text lists exactly what it omits (imports, SHIRINA/VYSOTA, SostoyanieIgry, toggle_pause body) and points at 20.33 for the complete version. The honest way to present a fragment.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "Chapter 21's space shooter uses the same architecture. -- Confirmed -- space_shooter.py defines `class Game` at line 327 with handle_events (405), update (498), render (545) and run (651).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes classes and __init__/self (chapter 14), enums (chapter 18/19 via 20.25), and delta time (20.16). All available. | motivation=Motivated by accumulated pain rather than principle: globals were «нормально для учебного мини-проекта, но неудобно, как только игра обрастает состояниями». The right argument at this level. | sequence=Correct penultimate-architecture position, and the promise made in 20.14 (three phases become three methods) is kept literally. | practice=Notebook 20-26 builds a minimal MiniGame with real delta-time movement and proves the pause semantics with an",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Cross-references to 20.14, 20.25, 20.33 and chapter 21 all verified accurate.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «архитектура», «каркас», «фаза» consistent; the class-diagram caption («Каждый метод отвечает ровно за одну фазу... и не более того») states the single-responsibility idea without jargon.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-26-arhitektura-class-game against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

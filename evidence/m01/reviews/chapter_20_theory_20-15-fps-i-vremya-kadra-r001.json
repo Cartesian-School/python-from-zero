@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-15-FPS-I-VREMYA-KADRA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-15-fps-i-vremya-kadra",
+    "kind": "theory_lesson",
+    "title": "Кадры в секунду и время кадра",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-15-fps-i-vremya-kadra.html",
+    "review_surface_sha256": "9613e1817429898d69ee2f3b3077d7bae254d4d14b948c285f13d378017b1a07"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Defines FPS and frame time as reciprocals, explains that `clock.tick()` caps rather than accelerates, and introduces `clock.get_fps()` for measuring the real rate.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confirmed -- c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confirmed -- ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «частота кадров (FPS)» glossed once then used bare; «время кадра», «бюджет кадра» are clean native forms. «придерживает цикл» is a nicely idiomatic rendering of 'throttles'.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confirm",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Defines FPS and frame time as reciprocals, explains that `clock.tick()` caps rather than accelerates, and introduces `clock.get_fps()` for measuring the real rate.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confirmed -- co",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Defines FPS and frame time as reciprocals, explains that `clock.tick()` caps rather than accelerates, and introduces `clock.get_fps()` for measuring the real rate.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes the loop and clock.tick() from 20.2 and division from chapter 4. Available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Derives the frame budget from a number the reader already typed (tick(60)) rather than presenting FPS as an abstract metric, and immediately corrects the near-universal beginner belief that tick speeds things up.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: it must precede 20.16, since delta time only makes sense once frame time is a quantity. It is also the anchor 20.27 returns to for the frame budget.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: it must precede 20.16, since delta time only makes sense once frame time is a quantity. It is also the anchor 20.27 returns to for the frame budget.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: it must precede 20.16, since delta time only makes sense once frame time is a quantity. It is also the anchor 20.27 returns to for the frame budget.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: it must precede 20.16, since delta time only makes sense once frame time is a quantity. It is also the anchor 20.27 returns to for the frame budget.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-15 is pure arithmetic (browser-pyodide), converting FPS <-> frame time both ways and adding a skolko_kadrov_za_sekundy() exercise. Correct choice of what to extract for Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-15 is pure arithmetic (browser-pyodide), converting FPS <-> frame time both ways and adding a skolko_kadrov_za_sekundy() exercise. Correct choice of what to extract for Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-15 is pure arithmetic (browser-pyodide), converting FPS <-> frame time both ways and adding a skolko_kadrov_za_sekundy() exercise. Correct choice of what to extract for Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «частота кадров (FPS)» glossed once then used bare; «время кадра», «бюджет кадра» are clean native forms. «придерживает цикл» is a nicely idiomatic rendering of 'throttles'.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-reference to 20.2 and forward references to 20.13 and 20.27 all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-reference to 20.2 and forward references to 20.13 and 20.27 all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-reference to 20.2 and forward references to 20.13 and 20.27 all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confirmed -",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- verified via code_execution: Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.; `clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- verified via code_execution: Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.; `clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- verified via code_execution: Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.; Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- verified via source_inspection: Confir",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-15 is pure arithmetic (browser-pyodide), converting FPS <-> frame time both ways and adding a skolko_kadrov_za_sekundy() exercise. Correct choice of what to extract for Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "S-001: «Реальный, измеренный FPS можно узнать через clock.get_fps() уже после нескольких кадров работы» understated the warm-up. Measured: get_fps() is 0.0 for ticks 1-10 and first returns a value (61.73) at tick 11; official docs confirm 'Returns 0.0 if fewer than ten ticks have been made.'",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: the vague phrase was replaced with an explicit statement that get_fps() averages the last ten tick() calls and honestly returns 0.0 until the tenth frame, plus a line telling the learner an early zero is missing statistics rather than a broken counter. Verified present in the rebuilt HTML («усредняет последние десять»)."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "S-002: the vremya_kadra.py block raised NameError if pasted, since `frame_time` was used before assignment while every other python-tagged block in the chapter is runnable.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: the block now assigns `frame_time = 1 / 60` first, derives `fps` from it, and prints both. Verified by executing the block verbatim under .venv/bin/python: it prints 0.016666666666666666 and 60.0, exactly matching its own comments, so a learner can now paste and run it."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Defines FPS and frame time as reciprocals, explains that `clock.tick()` caps rather than accelerates, and introduces `clock.get_fps()` for measuring the real rate.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "FPS and frame time are reciprocal: 60 FPS corresponds to about 16.7 ms per frame. -- Confirmed -- `1/60 = 0.016666666666666666`; the notebook prints 16.667 ms and asserts it.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`clock.tick(60)` only holds the loop back; it cannot help if one frame's own work exceeds the budget. -- Confirmed -- with 30 ms of artificial work per frame, tick(60) returns 30-31 ms and applies no delay; with no work it returns 16 ms.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`clock.get_fps()` reports the measured rate «уже после нескольких кадров». -- Was imprecise -- measured 0.0 for ticks 1-10 and 61.73 only from tick 11; official docs say 'Returns 0.0 if fewer than ten ticks have been made.' Fixed under S-001.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "Without any rate limiting the loop becomes a busy loop consuming a full CPU core. -- Confirmed -- correct, and the callout properly notes other engines pace themselves differently (vsync, fixed timestep) rather than implying tick() is the only way.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes the loop and clock.tick() from 20.2 and division from chapter 4. Available. | motivation=Derives the frame budget from a number the reader already typed (tick(60)) rather than presenting FPS as an abstract metric, and immediately corrects the near-universal beginner belief that tick speeds things up. | sequence=Correct: it must precede 20.16, since delta time only makes sense once frame time is a quantity. It is also the anchor 20.27 returns to for the frame budget. | practice=Notebook 20-15 is pure arithmetic (browser-pyodide), converting FPS <-> frame time both ways ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-reference to 20.2 and forward references to 20.13 and 20.27 all resolve.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «частота кадров (FPS)» glossed once then used bare; «время кадра», «бюджет кадра» are clean native forms. «придерживает цикл» is a nicely idiomatic rendering of 'throttles'.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-15-fps-i-vremya-kadra against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

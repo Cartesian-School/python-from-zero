@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-30-PUBLIKATSIYA-VEB-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-30-publikatsiya-veb",
+    "kind": "theory_lesson",
+    "title": "Запускаем Pygame-игру в браузере",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-30-publikatsiya-veb.html",
+    "review_surface_sha256": "0a5a5f3eb23ae3c960f0732a447d706675a1455391565019baa60d478aafe1b7"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Shows how to publish the game to the browser with pygbag, and explains what differs in the browser sandbox -- filesystem access, the async main loop, performance.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep it 0`.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep it 0`",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «песочница браузера», «асинхронный цикл», «WebAssembly» are correct. One sentence here was the only ungrammatical Russian in the chapter (F-016), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Shows how to publish the game to the browser with pygbag, and explains what differs in the browser sandbox -- filesystem access, the async main loop, performance.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep it 0`. ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Shows how to publish the game to the browser with pygbag, and explains what differs in the browser sandbox -- filesystem access, the async main loop, performance.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.10's WASM pipeline overview and 20.29's packaging mindset. Both correctly cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Correctly positions pygbag as a real but externally maintained route, with the compatibility caveat stated up front rather than discovered later.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position between desktop packaging and mobile builds, following the easiest-to-hardest ordering of the distribution block.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position between desktop packaging and mobile builds, following the easiest-to-hardest ordering of the distribution block.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position between desktop packaging and mobile builds, following the easiest-to-hardest ordering of the distribution block.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position between desktop packaging and mobile builds, following the easiest-to-hardest ordering of the distribution block.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- No notebook, correctly -- a WASM build cannot be exercised in-browser from a practice cell.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- No notebook, correctly -- a WASM build cannot be exercised in-browser from a practice cell.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- No notebook, correctly -- a WASM build cannot be exercised in-browser from a practice cell.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «песочница браузера», «асинхронный цикл», «WebAssembly» are correct. One sentence here was the only ungrammatical Russian in the chapter (F-016), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The forward/back references to 20.10, 20.13 and 20.31 all resolve. The comparison table is accurate; the defects were in the command and one parenthetical, both now fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The forward/back references to 20.10, 20.13 and 20.31 all resolve. The comparison table is accurate; the defects were in the command and one parenthetical, both now fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The forward/back references to 20.10, 20.13 and 20.31 all resolve. The comparison table is accurate; the defects were in the command and one parenthetical, both now fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep it ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- pygbag is a community project, not an official part of pygame-ce. -- verified via official_reference: Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.; `pygbag igra.py` builds and serves the game. -- verified via code_execution: Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.; The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- verified via official_reference: Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and kee",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- No notebook, correctly -- a WASM build cannot be exercised in-browser from a practice cell.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-003: `pygbag igra.py` (build_chapter_20.py:2366-2371) was a non-working command. pygbag requires the entry file to be named main.py -- official wiki: 'Name the file with your game loop main.py'; README: '\"your.app.folder\" must contain a main.py'. Verified against pygbag 0.9.3 in an isolated venv: `python -m pygbag --build igratest/igra.py` exits 0 with no error and packs assets/igra.py, while the generated build/web/index.html contains `main = appdir / \"assets\" / \"main.py\"` at line 60 -- so the bundle builds 'successfully' and then does nothing in the browser. The control build with the file renamed to main.py packs assets/main.py and matches.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: the command became `pygbag moya_igra/` (a folder, per official usage), the following sentence now says the argument is a folder rather than a single file, and a new warning callout «Файл с игровым циклом обязан называться main.py» explains that pygbag looks for exactly that name, that a differently-named entry point makes the build succeed silently while the browser page stays blank, and that a blank page after a successful build means checking the filename first. Verified after rebuild: «pygbag igra.py» returns 0 files and «pygbag moya_igra/» returns 1."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-013: «async def main() с await asyncio.sleep(0) вместо clock.tick() в чистом виде» (build_chapter_20.py:2397-2400) said the await replaces clock.tick(). The official pygbag wiki keeps both -- its canonical loop is `clock.tick(60); pygame.display.update(); await asyncio.sleep(0)` with the note 'Right after your clock.tick() is fine'. The section's own comparison table one paragraph earlier was correct; only the parenthetical contradicted it.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: now «await asyncio.sleep(0) в конце каждого кадра», followed by an explicit sentence that the await is added *рядом с* clock.tick() rather than replacing it, since pygbag's own examples keep the frame-rate cap and put the await straight after it. Verified present in the rebuilt 20-30-publikatsiya-veb.html."
+    },
+    {
+      "finding_id": "F-003",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-016: «Производительность браузерной сборки не гарантированно ниже десктопной величиной, которую можно назвать заранее — ... и её стоит измерять ... а не считать её заранее ниже...» (build_chapter_20.py:2400-2403) did not parse, and repeated «её» within one clause.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: replaced with two clean sentences — «Насколько браузерная сборка медленнее настольной, заранее сказать нельзя: это зависит от браузера, устройства игрока и самой игры. Производительность стоит измерять на целевом устройстве, а не закладывать какой-то определённый процент потерь заранее.» Verified after rebuild: «не гарантированно ниже» returns 0 files and «заранее сказать нельзя» returns 1."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Shows how to publish the game to the browser with pygbag, and explains what differs in the browser sandbox -- filesystem access, the async main loop, performance.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "official_reference",
+      "summary": "pygbag is a community project, not an official part of pygame-ce. -- Confirmed -- pygame-web/pygbag is a separate organisation from pygame-community/pygame-ce, with its own release cadence (0.9.3, 2026-02-12). The warning callout is accurate.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`pygbag igra.py` builds and serves the game. -- Was FALSE -- pygbag requires the entry point to be named main.py. Built for real with pygbag 0.9.3: `python -m pygbag --build igratest/igra.py` exits 0 and packs assets/igra.py, but the generated index.html boot code hardcodes `main = appdir / \"assets\" / \"main.py\"`, so nothing runs. Fixed under F-003.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "official_reference",
+      "summary": "The browser build needs an async main loop with `await asyncio.sleep(0)` each frame. -- Confirmed -- the pygbag wiki emphasises `await asyncio.sleep(0)  # Very important, and keep it 0`. But the chapter said it replaces clock.tick(), whereas the official example keeps both. Fixed under F-013.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "Browser filesystem access is restricted by the sandbox and performance must be measured on the target device rather than assumed. -- Confirmed -- both correct, and the refusal to quote a fixed slowdown percentage is the right call.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.10's WASM pipeline overview and 20.29's packaging mindset. Both correctly cited. | motivation=Correctly positions pygbag as a real but externally maintained route, with the compatibility caveat stated up front rather than discovered later. | sequence=Correct position between desktop packaging and mobile builds, following the easiest-to-hardest ordering of the distribution block. | practice=No notebook, correctly -- a WASM build cannot be exercised in-browser from a practice cell.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The forward/back references to 20.10, 20.13 and 20.31 all resolve. The comparison table is accurate; the defects were in the command and one parenthetical, both now fixed.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «песочница браузера», «асинхронный цикл», «WebAssembly» are correct. One sentence here was the only ungrammatical Russian in the chapter (F-016), now fixed.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-30-publikatsiya-veb against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-18-MODEL-A-NE-WIDGETS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-18-model-a-ne-widgets",
+    "kind": "theory_lesson",
+    "title": "От widgets-as-state к board model",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-18-model-a-ne-widgets.html",
+    "review_surface_sha256": "98a2bc1b18db8c528e88b0899d4eb034100c4fa27004a92e9b1ec67bf73b3c51"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Argues from the hover-preview case that storing state in a widget's text breaks, and establishes one-way data flow: model -> render() -> widget, never the reverse.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line as deli",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line as del",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Источник истины' is the key term, used consistently here and in 17.13 and five Debug Labs; proposed for the terminology register. The headings keep two untranslated English compounds ('widgets-as-state', 'board model') in an H1 -- the densest English in any heading in the chapter, though the body glosses both.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Argues from the hover-preview case that storing state in a widget's text breaks, and establishes one-way data flow: model -> render() -> widget, never the reverse.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line as delib",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Argues from the hover-preview case that storing state in a widget's text breaks, and establishes one-way data flow: model -> render() -> widget, never the reverse.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires the model concept from 17.13 and the hover events from 17.12, both taught earlier. No forward dependency is assumed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The strongest architectural argument in the chapter because it is driven by a concrete failure the reader can picture rather than by principle. The converge_diagram poses the problem visually before the solution appears.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed as the bridge from the rules arc to the architecture arc, motivating the GameState dataclass in 17.19 and the render() discipline in 17.20.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed as the bridge from the rules arc to the architecture arc, motivating the GameState dataclass in 17.19 and the render() discipline in 17.20.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed as the bridge from the rules arc to the architecture arc, motivating the GameState dataclass in 17.19 and the render() discipline in 17.20.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed as the bridge from the rules arc to the architecture arc, motivating the GameState dataclass in 17.19 and the render() discipline in 17.20.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-18 (browser-pyodide, grader 17-18.py) uses a FakeButton toy so the point is made without Tkinter -- the right choice, since the lesson is about separating the model from the widget. The grader catches a preview that writes into the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-18 (browser-pyodide, grader 17-18.py) uses a FakeButton toy so the point is made without Tkinter -- the right choice, since the lesson is about separating the model from the widget. The grader catches a preview that writes into the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-18 (browser-pyodide, grader 17-18.py) uses a FakeButton toy so the point is made without Tkinter -- the right choice, since the lesson is about separating the model from the widget. The grader catches a preview that writes into the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Источник истины' is the key term, used consistently here and in 17.13 and five Debug Labs; proposed for the terminology register. The headings keep two untranslated English compounds ('widgets-as-state', 'board model') in an H1 -- the densest English in any heading in the chapter, though the body glosses both.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward refs to 17.3 and 17.23 verified accurate; forward ref to Debug Lab 3 verified -- that lab demonstrates exactly this failure.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward refs to 17.3 and 17.23 verified accurate; forward ref to Debug Lab 3 verified -- that lab demonstrates exactly this failure.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward refs to 17.3 and 17.23 verified accurate; forward ref to Debug Lab 3 verified -- that lab demonstrates exactly this failure.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line as d",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- If state lives in button['text'], a hover preview and a real move become indistinguishable. -- verified via code_execution: confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.; It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- verified via code_execution: confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.; Data flows model -> render() -> view and never the other way. -- verified via source_inspection: confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-18 (browser-pyodide, grader 17-18.py) uses a FakeButton toy so the point is made without Tkinter -- the right choice, since the lesson is about separating the model from the widget. The grader catches a preview that writes into the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Argues from the hover-preview case that storing state in a widget's text breaks, and establishes one-way data flow: model -> render() -> widget, never the reverse.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "If state lives in button['text'], a hover preview and a real move become indistinguishable. -- confirmed -- notebook 17-18's FakeButton model demonstrates it, and Debug Lab 3 makes it concrete: with a widget-reading win check, hovering three empty cells of one line declares a win with no clicks.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "It is fine for a button to temporarily show something other than the model, provided the model stays the source of truth. -- confirmed against the real app -- during a hover buttons[4]['text'] == 'X' while state.board[4] == '', and the next render() restores the widget from the model.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "Data flows model -> render() -> view and never the other way. -- confirmed with one documented exception -- tic_tac_toe.py explicitly annotates on_cell_enter/on_cell_leave and pulse_winning_line as deliberate presentation-only writes that do not touch state, consistent with the lesson rather than a violation.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires the model concept from 17.13 and the hover events from 17.12, both taught earlier. No forward dependency is assumed. | motivation=The strongest architectural argument in the chapter because it is driven by a concrete failure the reader can picture rather than by principle. The converge_diagram poses the problem visually before the solution appears. | sequence=Correctly placed as the bridge from the rules arc to the architecture arc, motivating the GameState dataclass in 17.19 and the render() discipline in 17.20. | practice=Notebook 17-18 (browser-pyodide, grader 17-1",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward refs to 17.3 and 17.23 verified accurate; forward ref to Debug Lab 3 verified -- that lab demonstrates exactly this failure.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Источник истины' is the key term, used consistently here and in 17.13 and five Debug Labs; proposed for the terminology register. The headings keep two untranslated English compounds ('widgets-as-state', 'board model') in an H1 -- the densest English in any heading in the chapter, though the body glosses both.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-18-model-a-ne-widgets against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

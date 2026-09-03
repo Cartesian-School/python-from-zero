@@ -1,0 +1,404 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-19-GAMESTATE-DATACLASS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-19-gamestate-dataclass",
+    "kind": "theory_lesson",
+    "title": "GameState с dataclass",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-19-gamestate-dataclass.html",
+    "review_surface_sha256": "7b46fbb9b6894646bdc8fe7064a7ee6ec9b29279c8bb77b485ab7a94cd432fb5"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Consolidates the prototype's scattered globals into a single typed GameState dataclass, and teaches why a mutable default must use field(default_factory=...).",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState(); s1.bo",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState(); s1.b",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Technically precise Russian. 'Изменяемое значение по умолчанию' is the correct rendering, and the distinction drawn against chapter 14's argument-level trap is stated clearly and without hedging.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState()",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Consolidates the prototype's scattered globals into a single typed GameState dataclass, and teaches why a mutable default must use field(default_factory=...).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState(); s1.boa",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Consolidates the prototype's scattered globals into a single typed GameState dataclass, and teaches why a mutable default must use field(default_factory=...).",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires @dataclass (chapter 14, verified: 28 pages match 'dataclass'), type hints including X | None, and the mutable-default trap (chapter 14). The cross-reference to chapter 14 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated as the destination of the V1->V2->V3 journey promised in 17.13, so the dataclass arrives as the answer to an accumulated problem rather than as a new feature. The warning callout is unusually precise about why the naive form fails (definition-time refusal, not silent sharing).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after 17.18 establishes that a model must exist and before 17.20 wires that model into the app object.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after 17.18 establishes that a model must exist and before 17.20 wires that model into the app object.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after 17.18 establishes that a model must exist and before 17.20 wires that model into the app object.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after 17.18 establishes that a model must exist and before 17.20 wires that model into the app object.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-19 (browser-pyodide, grader 17-19.py) verifies instance independence directly. As found the notebook's dataclass omitted draws (F-025); now added. The grader catches a genuinely shared default list.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-19 (browser-pyodide, grader 17-19.py) verifies instance independence directly. As found the notebook's dataclass omitted draws (F-025); now added. The grader catches a genuinely shared default list.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-19 (browser-pyodide, grader 17-19.py) verifies instance independence directly. As found the notebook's dataclass omitted draws (F-025); now added. The grader catches a genuinely shared default list.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Technically precise Russian. 'Изменяемое значение по умолчанию' is the correct rendering, and the distinction drawn against chapter 14's argument-level trap is stated clearly and without hedging.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Ref to chapter 14 verified for both @dataclass and the mutable-default trap. The class_diagram, the code block and the canonical tic_tac_toe.py all agree on the eight fields.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Ref to chapter 14 verified for both @dataclass and the mutable-default trap. The class_diagram, the code block and the canonical tic_tac_toe.py all agree on the eight fields.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Ref to chapter 14 verified for both @dataclass and the mutable-default trap. The class_diagram, the code block and the canonical tic_tac_toe.py all agree on the eight fields.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState(); s1",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- verified via code_execution: confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.; Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- verified via code_execution: confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.; field(default_factory=lambda: [''] * 9) gives each instance its own list. -- verified via code_execution: confirmed -- s1 = GameState(); s2 = GameState(",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-19 (browser-pyodide, grader 17-19.py) verifies instance independence directly. As found the notebook's dataclass omitted draws (F-025); now added. The grader catches a genuinely shared default list.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Consolidates the prototype's scattered globals into a single typed GameState dataclass, and teaches why a mutable default must use field(default_factory=...).",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Writing board: list[str] = [''] * 9 in a dataclass raises ValueError with the message 'mutable default <class 'list'> for field board is not allowed: use default_factory'. -- confirmed BYTE-FOR-BYTE on Python 3.14.6 -- the interpreter produced exactly that text. This is the only exact error message quoted anywhere in chapter 17 and it reproduces precisely.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Because the class fails to be created at all, the shared-instance problem never arises for dataclasses, unlike the ordinary mutable-default-argument trap from chapter 14. -- confirmed -- the exception is raised by the @dataclass decorator during class creation, so no instance is ever constructed.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "field(default_factory=lambda: [''] * 9) gives each instance its own list. -- confirmed -- s1 = GameState(); s2 = GameState(); s1.board[0] = 'X' leaves s2.board[0] == ''.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "GameState holds only game data with no widget inside. -- confirmed -- tic_tac_toe.py declares eight scalar/list fields and no Tk object; the class_diagram matches the real dataclass exactly, including draws.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires @dataclass (chapter 14, verified: 28 pages match 'dataclass'), type hints including X | None, and the mutable-default trap (chapter 14). The cross-reference to chapter 14 is accurate. | motivation=Motivated as the destination of the V1->V2->V3 journey promised in 17.13, so the dataclass arrives as the answer to an accumulated problem rather than as a new feature. The warning callout is unusually precise about why the naive form fails (definition-time refusal, not silent sharing). | sequence=Correctly placed after 17.18 establishes that a model must exist and before 17",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Ref to chapter 14 verified for both @dataclass and the mutable-default trap. The class_diagram, the code block and the canonical tic_tac_toe.py all agree on the eight fields.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Technically precise Russian. 'Изменяемое значение по умолчанию' is the correct rendering, and the distinction drawn against chapter 14's argument-level trap is stated clearly and without hedging.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-19-gamestate-dataclass against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

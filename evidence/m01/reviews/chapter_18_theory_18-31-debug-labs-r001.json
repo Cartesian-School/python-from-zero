@@ -1,0 +1,479 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-18-THEORY-18-31-DEBUG-LABS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:18:theory:18-31-debug-labs",
+    "kind": "theory_lesson",
+    "title": "Debug Labs — типичные ошибки рисовалки",
+    "canonical_source_path": "scripts/build_chapter_18.py",
+    "baseline_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "reviewed_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "review_surface_path": "site/chapters/glava-18/18-31-debug-labs.html",
+    "review_surface_sha256": "8d6e8c6ca367821dc8396607384899e6f19cbd0af1aebb33e49479185d1ab928"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "A symptom-to-cause reference for typical Canvas paint-app bugs: coordinates, gesture state, event choice, stroke quality, preview handling, geometry, ids, undo/redo, clear, dialogs, JSON and resizing. Fifteen labs as audited, sixteen after remediation.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize claim, a",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize claim, ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Register is good throughout.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- A symptom-to-cause reference for typical Canvas paint-app bugs: coordinates, gesture state, event choice, stroke quality, preview handling, geometry, ids, undo/redo, clear, dialogs, JSON and resizing. Fifteen labs as audited, sixteen after remediation.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize claim, an",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- A symptom-to-cause reference for typical Canvas paint-app bugs: coordinates, gesture state, event choice, stroke quality, preview handling, geometry, ids, undo/redo, clear, dialogs, JSON and resizing. Fifteen labs as audited, sixteen after remediation.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes essentially the whole chapter; each lab back-references its own section (18.9, 18.12, 18.14, 18.16, 18.10, 18.18, 18.21, 18.24, 18.25, 18.26, 18.29, 18.30) and all twelve references were verified to exist and cover the claim.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Strong format overall: broken code, on-screen symptom, explanation, fixed code. The 'узнавать симптом раньше, чем откроете отладчик' framing is the right pitch.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed second-to-last, so every lab can reference a section the reader has already read.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed second-to-last, so every lab can reference a section the reader has already read.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed second-to-last, so every lab can reference a section the reader has already read.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed second-to-last, so every lab can reference a section the reader has already read.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired browser-pyodide notebook 18-31 originally reproduced only Debug Lab 11 (one of fifteen); since remediation it also reproduces Debug Lab 10, and the grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired browser-pyodide notebook 18-31 originally reproduced only Debug Lab 11 (one of fifteen); since remediation it also reproduces Debug Lab 10, and the grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired browser-pyodide notebook 18-31 originally reproduced only Debug Lab 11 (one of fifteen); since remediation it also reproduces Debug Lab 10, and the grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Register is good throughout.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- All twelve internal section references verified accurate. The page kicker 'Глава 18 · Тестирование' matches chapters 17 and 19, so it is a house convention, not a chapter-18 anomaly, and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- All twelve internal section references verified accurate. The page kicker 'Глава 18 · Тестирование' matches chapters 17 and 19, so it is a house convention, not a chapter-18 anomaly, and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- All twelve internal section references verified accurate. The page kicker 'Глава 18 · Тестирование' matches chapters 17 and 19, so it is a house convention, not a chapter-18 anomaly, and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- verified via code_execution: confirmed -- reproduced verbatim under Python 3.14.6; Debug Lab 8's IndexError message is 'list index out of range' -- verified via code_execution: confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas; Debug Lab 11's symptom 'список становится отрицательной длины' -- verified via code_execution: REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.; Debug Lab 13's Path('') claim -- verified via code_execution: confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom; Debug Lab 15's resize ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired browser-pyodide notebook 18-31 originally reproduced only Debug Lab 11 (one of fifteen); since remediation it also reproduces Debug Lab 10, and the grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-007: Debug Lab 9 was titled 'Ластик стирает половину штриха, а не весь' but its filename, code, symptom and fix are entirely about Undo (def undo(self), 'После Ctrl+Z...'). The eraser is a separate feature with its own section (18.23) and its own real limitation. In a symptom-lookup reference this actively misroutes the reader.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_18.py (build_31): retitled 'Undo убирает только последний отрезок штриха, а не весь штрих', matching its filename, code, symptom and fix. Body unchanged. Verified: 'Ластик стирает половину' -> 0 hits; the new title is PRESENT in the regenerated page."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-006: Debug Lab 11's symptom panel said 'список становится отрицательной длины', which is not a real Python behaviour -- verified that del document[len(document)-len(shapes):] on an empty list raises nothing and does nothing. The real symptom is that Ctrl+Z appears to do nothing and a subsequent Ctrl+Y resurrects shapes the user deleted with 'Очистить'. The symptom panel is exactly the part the paired practice asks learners to match against.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_18.py (build_31): the symptom now reads that Ctrl+Z does nothing visible and the next Ctrl+Y returns the shapes deleted by 'Очистить'; the explanation spells out that the slice is a silent no-op and that the stale action lands on redo_stack. The matching callout in build_26 was updated in the same pass for consistency. Verified: 'отрицательной длины' -> 0 hits in the regenerated page."
+    },
+    {
+      "finding_id": "F-003",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-011 (part): the practice card promised 'для набора описанных симптомов выбираем правильную причину/исправление', but the notebook and grader covered exactly one lab (DL11) and asked nothing to be chosen.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed by extending the practice: notebooks/chapter-18/18-31-debug-labs.ipynb now also reproduces Debug Lab 10 (a new action must clear redo_stack) alongside Lab 11, site/practice/graders/18-31.py was extended to five checks across both labs, and the card blurb was rewritten to name them. Re-executed rc=0 (output \"['A', 'C'] []\"); grader passes on correct and fails on a wrong commit_action that omits redo.clear()."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: A symptom-to-cause reference for typical Canvas paint-app bugs: coordinates, gesture state, event choice, stroke quality, preview handling, geometry, ids, undo/redo, clear, dialogs, JSON and resizing. Fifteen labs as audited, sixteen after remediation.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Debug Lab 2's traceback text is exactly \"NameError: name 'start_x' is not defined\" -- confirmed -- reproduced verbatim under Python 3.14.6",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Debug Lab 8's IndexError message is 'list index out of range' -- confirmed -- shapes=['rectangle']; shapes[1] -> IndexError: list index out of range, and item_id is indeed 1 on a fresh canvas",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Debug Lab 11's symptom 'список становится отрицательной длины' -- REFUTED -- del document[len(document)-len(shapes):] on an empty list is del d[-3:], a silent no-op; no exception, and Python lists cannot have negative length. Corrected by the F-006 fix.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Debug Lab 13's Path('') claim -- confirmed -- Path('') is PosixPath('.') and write_text raises IsADirectoryError, matching the stated symptom",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "code_execution",
+      "summary": "Debug Lab 15's resize claim, and the screenshot backing it -- confirmed -- sticky='nsew' grows the widget without touching item coords; resized-window.png is genuinely larger (checked against the >=700x500 rule)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes essentially the whole chapter; each lab back-references its own section (18.9, 18.12, 18.14, 18.16, 18.10, 18.18, 18.21, 18.24, 18.25, 18.26, 18.29, 18.30) and all twelve references were verified to exist and cover the claim. | motivation=Strong format overall: broken code, on-screen symptom, explanation, fixed code. The 'узнавать симптом раньше, чем откроете отладчик' framing is the right pitch. | sequence=Correctly placed second-to-last, so every lab can reference a section the reader has already read. | practice=Paired browser-pyodide notebook 18-31 originally repro",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "cross_reference",
+      "summary": "Coherence: All twelve internal section references verified accurate. The page kicker 'Глава 18 · Тестирование' matches chapters 17 and 19, so it is a house convention, not a chapter-18 anomaly, and was left alone.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Register is good throughout.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-010",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:18:theory:18-31-debug-labs against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

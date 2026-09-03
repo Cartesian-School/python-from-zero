@@ -1,0 +1,411 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-13-MODEL-SOSTOYANIYA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-13-model-sostoyaniya",
+    "kind": "theory_lesson",
+    "title": "Модель игрового состояния",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-13-model-sostoyaniya.html",
+    "review_surface_sha256": "56206a969c4de64dc3b70cb0951284e6c01a98788cd483172d976094bf2e8b99"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Establishes that game state is data, separate from the widgets that display it, and maps the chapter's path from prototype globals through a dict to a GameState dataclass.",
+      "assessment_evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced framing ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced framing",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- The lede previously read 'Tkinter отображает игру и доставляет ввод', a literal calque of 'delivers input'; now 'Tkinter показывает игру и передаёт ввод пользователя'. Otherwise the terminology (игровое состояние, источник истины, модель) is precise and becomes the chapter's backbone.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced f",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Establishes that game state is data, separate from the widgets that display it, and maps the chapter's path from prototype globals through a dict to a GameState dataclass.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced framing (",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Establishes that game state is data, separate from the widgets that display it, and maps the chapter's path from prototype globals through a dict to a GameState dataclass.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires dicts (chapter 12), lists (chapter 11) and the prototype globals from 17.3. All available. The dataclass in the V3 column is a forward pointer to 17.19, correctly signposted rather than assumed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Opens with the right question ('Что вообще должна помнить программа?') before showing any structure, and the V1/V2/V3 capability map gives the reader a map of the refactoring journey ahead.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed as the opening of the 'Модель и правила' arc, immediately after the events material and before the index arithmetic and move algorithm that operate on the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed as the opening of the 'Модель и правила' arc, immediately after the events material and before the index arithmetic and move algorithm that operate on the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed as the opening of the 'Модель и правила' arc, immediately after the events material and before the index arithmetic and move algorithm that operate on the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed as the opening of the 'Модель и правила' arc, immediately after the events material and before the index arithmetic and move algorithm that operate on the model.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-13 (browser-pyodide, grader 17-13.py) builds the V2 dict state and asserts the initial values with no Tkinter at all -- a good match for a lesson whose thesis is that state is independent of widgets.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-13 (browser-pyodide, grader 17-13.py) builds the V2 dict state and asserts the initial values with no Tkinter at all -- a good match for a lesson whose thesis is that state is independent of widgets.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-13 (browser-pyodide, grader 17-13.py) builds the V2 dict state and asserts the initial values with no Tkinter at all -- a good match for a lesson whose thesis is that state is independent of widgets.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- The lede previously read 'Tkinter отображает игру и доставляет ввод', a literal calque of 'delivers input'; now 'Tkinter показывает игру и передаёт ввод пользователя'. Otherwise the terminology (игровое состояние, источник истины, модель) is precise and becomes the chapter's backbone.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to 17.3 verified; forward refs to 17.19 and 17.23 verified accurate. As found, all three figures were affected by F-001 and x-turn.png was byte-identical to four other assets; after regeneration each renders its status line and the duplicates that mattered are distinct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to 17.3 verified; forward refs to 17.19 and 17.23 verified accurate. As found, all three figures were affected by F-001 and x-turn.png was byte-identical to four other assets; after regeneration each renders its status line and the duplicates that mattered are distinct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to 17.3 verified; forward refs to 17.19 and 17.23 verified accurate. As found, all three figures were affected by F-001 and x-turn.png was byte-identical to four other assets; after regeneration each renders its status line and the duplicates that mattered are distinct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced frami",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- verified via source_inspection: confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).; Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- verified via code_execution: confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.; Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- verified via cross_reference: confirmed as an accurate characterisation of the 17.3 prototype; the balanced ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-13 (browser-pyodide, grader 17-13.py) builds the V2 dict state and asserts the initial values with no Tkinter at all -- a good match for a lesson whose thesis is that state is independent of widgets.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "blocker",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-001: all three figures (x-turn.png, o-turn.png, mid-game.png) were missing the status line their captions describe; x-turn.png was byte-identical to empty-board.png, new-round.png, new-match.png and scoreboard.png.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Root cause fixed in tic_tac_toe.py (StringVar now takes master=root, so the ttk.Labels no longer watch a variable in the basic module's interpreter) and all 26 assets regenerated. Verified: no Pro screenshot has a blank status band, and scoreboard/new-round/tic-tac-toe-pro are now distinct from the states they were duplicating."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-025: the object_diagram labelled 'GameState' omitted the draws field that the canonical dataclass and 17.19 both declare.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Added ('draws', '0') to the object_diagram in build_13() so the preview matches the eight-field dataclass that 17.26 later depends on. Chapter HTML rebuilt."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Establishes that game state is data, separate from the widgets that display it, and maps the chapter's path from prototype globals through a dict to a GameState dataclass.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "The state a tic-tac-toe game must remember is board, current_player, game_over, winner, winning_line and the scores, with no Tkinter widget among them. -- confirmed as a design claim; the canonical GameState matches it, though the diagram labelled 'GameState' omitted draws as found (F-025).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Widgets display state but are not state; a hover preview drawing 'X' on a button does not mean a move was made. -- confirmed empirically against the real app -- after app.on_cell_enter(4), buttons[4] shows 'X' while state.board[4] == '', and after on_cell_leave(4) the model is still unchanged.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "Globals are an acceptable choice for a first small prototype but create hidden coupling as a project grows. -- confirmed as an accurate characterisation of the 17.3 prototype; the balanced framing ('это не значит «глобальные переменные — зло»') is fair and matches how the prototype is actually written.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires dicts (chapter 12), lists (chapter 11) and the prototype globals from 17.3. All available. The dataclass in the V3 column is a forward pointer to 17.19, correctly signposted rather than assumed. | motivation=Opens with the right question ('Что вообще должна помнить программа?') before showing any structure, and the V1/V2/V3 capability map gives the reader a map of the refactoring journey ahead. | sequence=Correctly placed as the opening of the 'Модель и правила' arc, immediately after the events material and before the index arithmetic and move algorithm that operate ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to 17.3 verified; forward refs to 17.19 and 17.23 verified accurate. As found, all three figures were affected by F-001 and x-turn.png was byte-identical to four other assets; after regeneration each renders its status line and the duplicates that mattered are distinct.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: The lede previously read 'Tkinter отображает игру и доставляет ввод', a literal calque of 'delivers input'; now 'Tkinter показывает игру и передаёт ввод пользователя'. Otherwise the terminology (игровое состояние, источник истины, модель) is precise and becomes the chapter's backbone.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-13-model-sostoyaniya against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

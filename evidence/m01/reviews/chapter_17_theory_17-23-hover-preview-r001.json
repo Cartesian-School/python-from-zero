@@ -1,0 +1,397 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-23-HOVER-PREVIEW-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-23-hover-preview",
+    "kind": "theory_lesson",
+    "title": "Hover preview через bind()",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-23-hover-preview.html",
+    "review_surface_sha256": "215e4d0355f4eb0522f48b88e0b707bb27e99788126ba5af66398149aa6f97ca"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Implements the hover preview as the chapter's signature effect and proves that it never mutates the game model, with on_cell_leave repainting from the model rather than guessing what to erase.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Превью' / 'наведение-превью' / 'hover-превью' alternate across 17.12, 17.23 and 17.29; worth normalising in the register. 'Показать возможный ход — не значит его сделать' is an elegant, natural formulation of the thesis.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Implements the hover preview as the chapter's signature effect and proves that it never mutates the game model, with on_cell_leave repainting from the model rather than guessing what to erase.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Implements the hover preview as the chapter's signature effect and proves that it never mutates the game model, with on_cell_leave repainting from the model rather than guessing what to erase.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires <Enter>/<Leave> and binding scope (17.12), model/view separation (17.18) and the render() discipline (17.20). All taught earlier; this lesson is where they pay off jointly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Framed as the concrete payoff for the architecture ('Именно этот эффект доказывает, зачем нужна модель'), which retroactively justifies 17.18-17.20. The assertion block turns an architectural claim into something the reader can check.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after the model and styling lessons it depends on, and before the keyboard lesson that shares the same attempt_move discipline.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after the model and styling lessons it depends on, and before the keyboard lesson that shares the same attempt_move discipline.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after the model and styling lessons it depends on, and before the keyboard lesson that shares the same attempt_move discipline.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after the model and styling lessons it depends on, and before the keyboard lesson that shares the same attempt_move discipline.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-23 (local-required) builds a real hover on a real Button and prints both the widget text and the model at each step, showing them diverge and reconverge -- one of the better notebooks in the chapter. Its task had no code cell as found (F-006); the added cell asserts that hovering an occupied cell does not overwrite the existing mark.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-23 (local-required) builds a real hover on a real Button and prints both the widget text and the model at each step, showing them diverge and reconverge -- one of the better notebooks in the chapter. Its task had no code cell as found (F-006); the added cell asserts that hovering an occupied cell does not overwrite the existing mark.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-23 (local-required) builds a real hover on a real Button and prints both the widget text and the model at each step, showing them diverge and reconverge -- one of the better notebooks in the chapter. Its task had no code cell as found (F-006); the added cell asserts that hovering an occupied cell does not overwrite the existing mark.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Превью' / 'наведение-превью' / 'hover-превью' alternate across 17.12, 17.23 and 17.29; worth normalising in the register. 'Показать возможный ход — не значит его сделать' is an elegant, natural formulation of the thesis.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to 17.18 and forward ref to Debug Lab 13 verified accurate. Both figures were affected by F-001 as found -- the o-turn caption depends on a visible current player -- and now render correctly.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to 17.18 and forward ref to Debug Lab 13 verified accurate. Both figures were affected by F-001 as found -- the o-turn caption depends on a visible current player -- and now render correctly.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to 17.18 and forward ref to Debug Lab 13 verified accurate. Both figures were affected by F-001 as found -- the o-turn caption depends on a visible current player -- and now render correctly.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- verified via code_execution: confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.; on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- verified via code_execution: confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.; Hovering never changes state.board, before or after the cursor leaves. -- verified via code_execution: confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-23 (local-required) builds a real hover on a real Button and prints both the widget text and the model at each step, showing them diverge and reconverge -- one of the better notebooks in the chapter. Its task had no code cell as found (F-006); the added cell asserts that hovering an occupied cell does not overwrite the existing mark.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "blocker",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-001: hover-preview-x.png and hover-preview-o.png were missing the status line, and the o-turn figure's caption depends on a visible current player that was not rendered.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed by the StringVar(master=root) repair and regeneration; both figures now show the status line, so the caption's claim that the preview colour follows current_player is visible in the image."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Implements the hover preview as the chapter's signature effect and proves that it never mutates the game model, with on_cell_leave repainting from the model rather than guessing what to erase.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "on_cell_enter refuses to draw a preview when the game is over or the cell is occupied. -- confirmed -- verified that on_cell_enter on an occupied cell leaves the widget text unchanged.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "on_cell_leave must call render() rather than setting text='', or it will erase a real move. -- confirmed both ways -- the canonical render()-based version restores the correct mark from the model, and Debug Lab 13 demonstrates the naive version erasing a committed move.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Hovering never changes state.board, before or after the cursor leaves. -- confirmed exactly as the assertion block claims -- board[4] == '' before on_cell_enter(4), still '' after it, and still '' after on_cell_leave(4), run against the real TicTacToeApp.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires <Enter>/<Leave> and binding scope (17.12), model/view separation (17.18) and the render() discipline (17.20). All taught earlier; this lesson is where they pay off jointly. | motivation=Framed as the concrete payoff for the architecture ('Именно этот эффект доказывает, зачем нужна модель'), which retroactively justifies 17.18-17.20. The assertion block turns an architectural claim into something the reader can check. | sequence=Correctly placed after the model and styling lessons it depends on, and before the keyboard lesson that shares the same attempt_move disciplin",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to 17.18 and forward ref to Debug Lab 13 verified accurate. Both figures were affected by F-001 as found -- the o-turn caption depends on a visible current player -- and now render correctly.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Превью' / 'наведение-превью' / 'hover-превью' alternate across 17.12, 17.23 and 17.29; worth normalising in the register. 'Показать возможный ход — не значит его сделать' is an elegant, natural formulation of the thesis.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-23-hover-preview against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

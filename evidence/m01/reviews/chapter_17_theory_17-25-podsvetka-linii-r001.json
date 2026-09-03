@@ -1,0 +1,412 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-25-PODSVETKA-LINII-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-25-podsvetka-linii",
+    "kind": "theory_lesson",
+    "title": "Подсветка выигрышной линии",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-25-podsvetka-linii.html",
+    "review_surface_sha256": "ae23b879fc1db0532917ea3e83b8e277ca63b874d52d35f21e2440e444a97571"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Shows how winning_line from find_winner() flows into state and then into render(), which paints exactly those three cells and no others.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Подсветка' and 'победная линия' are natural and consistent with 17.16's 'выигрышные линии'. The prose is clean.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Shows how winning_line from find_winner() flows into state and then into render(), which paints exactly those three cells and no others.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Shows how winning_line from find_winner() flows into state and then into render(), which paints exactly those three cells and no others.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires find_winner returning a pair (17.16), the GameState field winning_line (17.19) and render() (17.20). All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The pipeline diagram traces one concrete value -- ('X', (0,4,8)) -- from the rules layer to the painted cells, a good way to make a data-flow claim tangible. The warning about highlighting the line rather than the mark pre-empts a plausible wrong implementation.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after the model, rules and render() are all established, and it is the prerequisite for the pulse animation in 17.30 that decorates the same cells.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after the model, rules and render() are all established, and it is the prerequisite for the pulse animation in 17.30 that decorates the same cells.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after the model, rules and render() are all established, and it is the prerequisite for the pulse animation in 17.30 that decorates the same cells.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after the model, rules and render() are all established, and it is the prerequisite for the pulse animation in 17.30 that decorates the same cells.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-25 computes which cells should be highlighted on real Buttons. As found the lesson advertised it as browser-graded while the manifest declared it local-required with no grader (F-008), and the task had no code cell (F-006); both fixed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-25 computes which cells should be highlighted on real Buttons. As found the lesson advertised it as browser-graded while the manifest declared it local-required with no grader (F-008), and the task had no code cell (F-006); both fixed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-25 computes which cells should be highlighted on real Buttons. As found the lesson advertised it as browser-graded while the manifest declared it local-required with no grader (F-008), and the task had no code cell (F-006); both fixed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Подсветка' and 'победная линия' are natural and consistent with 17.16's 'выигрышные линии'. The prose is clean.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to 17.16 and the forward relationship to 17.30 verified accurate. The figure correctly shows the 0-4-8 diagonal highlighted; as found it was affected by F-001 (its alt text cites a status that was not rendered) and now displays it.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to 17.16 and the forward relationship to 17.30 verified accurate. The figure correctly shows the 0-4-8 diagonal highlighted; as found it was affected by F-001 (its alt text cites a status that was not rendered) and now displays it.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to 17.16 and the forward relationship to 17.30 verified accurate. The figure correctly shows the 0-4-8 diagonal highlighted; as found it was affected by F-001 (its alt text cites a status that was not rendered) and now displays it.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- verified via code_execution: confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.; Only the winning line is highlighted, not every cell bearing the winning mark. -- verified via code_execution: confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.; The model decides which cells won; render() merely colours them. -- verified via source_inspection: confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-25 computes which cells should be highlighted on real Buttons. As found the lesson advertised it as browser-graded while the manifest declared it local-required with no grader (F-008), and the task had no code cell (F-006); both fixed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-008: the lesson emitted a browser-Pyodide practice_card promising 'Автоматическая проверка', but 17-25 is manifest-declared local-required with no grader and its notebook requires a real tk.Tk(). It was the only one of the chapter's 30 lessons whose card type disagreed with the manifest.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Changed build_25() to local_required_card with the standard local-required wording. Verified by a programmatic cross-check of card type against manifest backend for all 30 lessons: 0 mismatches (previously 1)."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "blocker",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-001: winning-highlight.png rendered no status text, though its alt text cites 'статус говорит Победил игрок X'.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed by the StringVar(master=root) repair and regeneration; the figure now shows the status line alongside the highlighted diagonal."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Shows how winning_line from find_winner() flows into state and then into render(), which paints exactly those three cells and no others.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "find_winner returns the line, which is stored as state.winning_line and consumed by render(). -- confirmed -- after a top-row win, state.winning_line == (0,1,2) and buttons 0,1,2 carry the win background while the rest carry NEUTRAL_BG.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Only the winning line is highlighted, not every cell bearing the winning mark. -- confirmed -- the check 'index in state.winning_line' is what render() uses; notebook 17-25 demonstrates the discriminating case where a fourth X outside the line stays unhighlighted.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "The model decides which cells won; render() merely colours them. -- confirmed -- render() performs no win computation of its own, consistent with the one-way data flow established in 17.18.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires find_winner returning a pair (17.16), the GameState field winning_line (17.19) and render() (17.20). All available. | motivation=The pipeline diagram traces one concrete value -- ('X', (0,4,8)) -- from the rules layer to the painted cells, a good way to make a data-flow claim tangible. The warning about highlighting the line rather than the mark pre-empts a plausible wrong implementation. | sequence=Correctly placed after the model, rules and render() are all established, and it is the prerequisite for the pulse animation in 17.30 that decorates the same cells. | prac",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to 17.16 and the forward relationship to 17.30 verified accurate. The figure correctly shows the 0-4-8 diagonal highlighted; as found it was affected by F-001 (its alt text cites a status that was not rendered) and now displays it.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Подсветка' and 'победная линия' are natural and consistent with 17.16's 'выигрышные линии'. The prose is clean.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-25-podsvetka-linii against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

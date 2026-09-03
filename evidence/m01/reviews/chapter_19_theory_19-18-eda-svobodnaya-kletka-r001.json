@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-18-EDA-SVOBODNAYA-KLETKA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-18-eda-svobodnaya-kletka",
+    "kind": "theory_lesson",
+    "title": "Еда и свободная клетка",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-18-eda-svobodnaya-kletka.html",
+    "review_surface_sha256": "a92ed80c5d024c72427fae29cd0e38f8823f931ec8c30b014b608810d9e8b12a"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Introduces move_snake() as 'new head + old body' and choose_food() restricted to genuinely free cells, including the honest None answer when the board is full.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- The gender-agreement error has been fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Introduces move_snake() as 'new head + old body' and choose_food() restricted to genuinely free cells, including the honest None answer when the board is full.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Introduces move_snake() as 'new head + old body' and choose_food() restricted to genuinely free cells, including the honest None answer when the board is full.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Sets (chapter 10), generator expressions (chapters 11-12), random.Random and seeding (chapter 5, 05-19/05-20), and 19.16's list model. All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Two well-motivated moves in one section. The invariant subsection (food in FREE_CELLS = ALL_CELLS - SNAKE_CELLS) and the «нельзя тайком подставить клетку змейки» warning are the chapter's best piece of design reasoning.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: it needs 19.16's model and 19.17's motivation, and supplies move_snake() to 19.20's self-collision rule, which depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: it needs 19.16's model and 19.17's motivation, and supplies move_snake() to 19.20's self-collision rule, which depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: it needs 19.16's model and 19.17's motivation, and supplies move_snake() to 19.20's self-collision rule, which depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: it needs 19.16's model and 19.17's motivation, and supplies move_snake() to 19.20's self-collision rule, which depends on it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-18 exercises move_snake and 50 seeded choose_food draws, and now also asserts the None-on-full-board invariant that is this section's headline point.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-18 exercises move_snake and 50 seeded choose_food draws, and now also asserts the None-on-full-board invariant that is this section's headline point.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-18 exercises move_snake and 50 seeded choose_food draws, and now also asserts the None-on-full-board invariant that is this section's headline point.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- The gender-agreement error has been fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward refs to 19.30 and 19.29 resolve; the render() shown in 19.29 now honours the requirement stated here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward refs to 19.30 and 19.29 resolve; the render() shown in 19.29 now honours the requirement stated here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward refs to 19.30 and 19.29 resolve; the render() shown in 19.29 now honours the requirement stated here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- move_snake builds the next snake in one pass, dropping the tail when grow is False -- verified via code_execution: confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]; choose_food returns None when FREE_CELLS is empty -- verified via code_execution: confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board; the empty-board case is reachable and ends in GameStatus.WON -- verified via code_execution: confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9; the forward reference for the render-side None check now points at the right section -- verified via source_inspection: confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-18 exercises move_snake and 50 seeded choose_food draws, and now also asserts the None-on-full-board invariant that is this section's headline point.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-015: «Раздел 19.3 выбирала случайную клетку без проверки» — «раздел» is masculine, so the verb form was wrong.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewritten in build_18 as «В разделе 19.3 клетка для яблока выбиралась без проверки», which fixes the agreement and reads more naturally than the minimal «выбирал». Verified absent from the rendered HTML."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Introduces move_snake() as 'new head + old body' and choose_food() restricted to genuinely free cells, including the honest None answer when the board is full.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "move_snake builds the next snake in one pass, dropping the tail when grow is False -- confirmed -- executed against snake.py: move_snake([(0,0),(-20,0)],(20,0),grow=False) -> [(20,0),(0,0)]; grow=True -> [(20,0),(0,0),(-20,0)]",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "choose_food returns None when FREE_CELLS is empty -- confirmed -- choose_food(list(all_cells()), random.Random(0)) -> None on the full 841-cell board",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "the empty-board case is reachable and ends in GameStatus.WON -- confirmed -- drove a real SnakeApp on a monkeypatched 9-cell board to GameStatus.WON, food None, length 9",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "the forward reference for the render-side None check now points at the right section -- confirmed post-fix -- retargeted from «раздел 19.32» to «раздел 19.29», where render() actually lives",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Sets (chapter 10), generator expressions (chapters 11-12), random.Random and seeding (chapter 5, 05-19/05-20), and 19.16's list model. All available. | motivation=Two well-motivated moves in one section. The invariant subsection (food in FREE_CELLS = ALL_CELLS - SNAKE_CELLS) and the «нельзя тайком подставить клетку змейки» warning are the chapter's best piece of design reasoning. | sequence=Correct: it needs 19.16's model and 19.17's motivation, and supplies move_snake() to 19.20's self-collision rule, which depends on it. | practice=Notebook 19-18 exercises move_snake and 50 ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward refs to 19.30 and 19.29 resolve; the render() shown in 19.29 now honours the requirement stated here.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: The gender-agreement error has been fixed.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-18-eda-svobodnaya-kletka against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

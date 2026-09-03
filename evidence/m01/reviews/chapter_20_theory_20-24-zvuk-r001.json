@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-24-ZVUK-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-24-zvuk",
+    "kind": "theory_lesson",
+    "title": "Звуковые эффекты и музыка",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-24-zvuk.html",
+    "review_surface_sha256": "7ea15e443778d677cc37b8017ab318d502471c4511858eebbb5d1578a7b53097"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Introduces `pygame.mixer`, separates `mixer.Sound` (short effects, fully loaded) from `mixer.music` (streamed background track), and warns against loading assets inside the loop.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verified via c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verified via ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «звуковые эффекты» vs «фоновая музыка», «канал», «потоково» are all correct and idiomatic.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verifie",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Introduces `pygame.mixer`, separates `mixer.Sound` (short effects, fully loaded) from `mixer.music` (streamed background track), and warns against loading assets inside the loop.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verified via co",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Introduces `pygame.mixer`, separates `mixer.Sound` (short effects, fully loaded) from `mixer.music` (streamed background track), and warns against loading assets inside the loop.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.19's asset-path discipline and the project layout convention. Available -- though the notebook did not follow it (F-012, now fixed there).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Leads with the distinction that actually matters in practice (effect vs music) rather than an API tour, and gives the performance consequence of the common mistake.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position: the last of the per-frame effects sections, before the chapter turns to structure (20.25-20.26).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position: the last of the per-frame effects sections, before the chapter turns to structure (20.25-20.26).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position: the last of the per-frame effects sections, before the chapter turns to structure (20.25-20.26).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position: the last of the per-frame effects sections, before the chapter turns to structure (20.25-20.26).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-24 loads the project's real otskok.wav, times repeated playback, and its star exercise shows two loads produce two distinct objects. Runs clean headlessly with SDL_AUDIODRIVER=dummy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-24 loads the project's real otskok.wav, times repeated playback, and its star exercise shows two loads produce two distinct objects. Runs clean headlessly with SDL_AUDIODRIVER=dummy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-24 loads the project's real otskok.wav, times repeated playback, and its star exercise shows two loads produce two distinct objects. Runs clean headlessly with SDL_AUDIODRIVER=dummy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «звуковые эффекты» vs «фоновая музыка», «канал», «потоково» are all correct and idiomatic.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The forward reference to 20.19's load-once rule and the 20.28 symptom table row both resolve; the project's _zagruzit_zvuk() follows this section's advice.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The forward reference to 20.19's load-once rule and the 20.28 symptom table row both resolve; the project's _zagruzit_zvuk() follows this section's advice.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The forward reference to 20.19's load-once rule and the 20.28 symptom table row both resolve; the project's _zagruzit_zvuk() follows this section's advice.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verified vi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- verified via code_execution: Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.; `pygame.mixer.music.play(loops=-1)` loops indefinitely. -- verified via code_execution: Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.; `pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- verified via code_execution: Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.; Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- verifi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-24 loads the project's real otskok.wav, times repeated playback, and its star exercise shows two loads produce two distinct objects. Runs clean headlessly with SDL_AUDIODRIVER=dummy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Introduces `pygame.mixer`, separates `mixer.Sound` (short effects, fully loaded) from `mixer.music` (streamed background track), and warns against loading assets inside the loop.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`pygame.mixer.Sound` and `pygame.mixer.music` are distinct tools: many simultaneous short sounds on channels vs one streamed music track. -- Confirmed -- both APIs exist and behave as described under pygame-ce 2.5.8 with SDL_AUDIODRIVER=dummy.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`pygame.mixer.music.play(loops=-1)` loops indefinitely. -- Confirmed -- the C signature is play(loops=0, start=0.0, fade_ms=0), so `loops` is a valid keyword; calling music.load(...) then music.play(loops=-1) succeeded.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`pygame.mixer.init()` is normally covered by `pygame.init()` but can be called explicitly. -- Confirmed -- without any init, mixer.Sound(...) raises `pygame.error: mixer not initialized`; an explicit mixer.init() fixes it.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Constructing `Sound(...)` reads from disk, so it must happen once before the loop. -- Confirmed -- notebook 20-24 measures five play() calls on a preloaded Sound at 0.0001 s total, versus a fresh construction per call which re-reads the file.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.19's asset-path discipline and the project layout convention. Available -- though the notebook did not follow it (F-012, now fixed there). | motivation=Leads with the distinction that actually matters in practice (effect vs music) rather than an API tour, and gives the performance consequence of the common mistake. | sequence=Correct position: the last of the per-frame effects sections, before the chapter turns to structure (20.25-20.26). | practice=Notebook 20-24 loads the project's real otskok.wav, times repeated playback, and its star exercise shows two loads pro",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The forward reference to 20.19's load-once rule and the 20.28 symptom table row both resolve; the project's _zagruzit_zvuk() follows this section's advice.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «звуковые эффекты» vs «фоновая музыка», «канал», «потоково» are all correct and idiomatic.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-24-zvuk against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

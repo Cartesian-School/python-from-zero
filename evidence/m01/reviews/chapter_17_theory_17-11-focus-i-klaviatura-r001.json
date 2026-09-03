@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-11-FOCUS-I-KLAVIATURA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-11-focus-i-klaviatura",
+    "kind": "theory_lesson",
+    "title": "Focus и клавиатура",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-11-focus-i-klaviatura.html",
+    "review_surface_sha256": "049c411d2cf3b543cdc5a9a32b437ab89ae84f3183634a053c65ead44c84e4fd"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Explains that keyboard events are delivered to the focused widget first and then travel the bindtags chain, and corrects the common misdiagnosis that focus alone blocks a root-level binding.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. Precisel",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. Precise",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- One of the most technically careful passages in the chapter, and the Russian matches: 'фокус ввода', 'цепочка bindtags', 'прервав цепочку' are all precise. 'bindtags' is left in English inside Russian prose; a settled Russian gloss is proposed for the terminology register.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. P",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Explains that keyboard events are delivered to the focused widget first and then travel the bindtags chain, and corrects the common misdiagnosis that focus alone blocks a root-level binding.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. Precisely",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Explains that keyboard events are delivered to the focused widget first and then travel the bindtags chain, and corrects the common misdiagnosis that focus alone blocks a root-level binding.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires bind() from 17.1/17.7 and widget hierarchy from chapter 16.11, both available. Chapter 16.21 touches focus/accessibility, but the bindtags chain is introduced here.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated by a symptom the reader will actually hit ('«Привязка не работает» часто означает «класс виджета перехватил событие раньше»'), then corrects the naive fix by explaining what actually stops propagation. Notably careful: it refuses the folk remedy of 'keeping focus on root' and instead proposes checking focus_get() in the handler.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed before 17.12 (which needs binding scope) and before 17.24 (which binds keys on root). Its forward reference to Debug Lab 1 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed before 17.12 (which needs binding scope) and before 17.24 (which binds keys on root). Its forward reference to Debug Lab 1 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed before 17.12 (which needs binding scope) and before 17.24 (which binds keys on root). Its forward reference to Debug Lab 1 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed before 17.12 (which needs binding scope) and before 17.24 (which binds keys on root). Its forward reference to Debug Lab 1 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-11 (local-required) demonstrates focus determining delivery. As found its output printed False twice (F-004) and its excellent 'break' task had no code cell (F-006); both fixed, and the task cell now proves the break/no-break asymmetry with asserts.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-11 (local-required) demonstrates focus determining delivery. As found its output printed False twice (F-004) and its excellent 'break' task had no code cell (F-006); both fixed, and the task cell now proves the break/no-break asymmetry with asserts.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-11 (local-required) demonstrates focus determining delivery. As found its output printed False twice (F-004) and its excellent 'break' task had no code cell (F-006); both fixed, and the task cell now proves the break/no-break asymmetry with asserts.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- One of the most technically careful passages in the chapter, and the Russian matches: 'фокус ввода', 'цепочка bindtags', 'прервав цепочку' are all precise. 'bindtags' is left in English inside Russian prose; a settled Russian gloss is proposed for the terminology register.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward ref to Debug Lab 1 verified: that lab exists and its explanation is consistent with this lesson's, including the 'break' mechanism.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward ref to Debug Lab 1 verified: that lab exists and its explanation is consistent with this lesson's, including the 'break' mechanism.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward ref to Debug Lab 1 verified: that lab exists and its explanation is consistent with this lesson's, including the 'break' mechanism.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. Preci",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- verified via code_execution: confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').; With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- verified via code_execution: confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.; A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- verified via code_execution: confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-11 (local-required) demonstrates focus determining delivery. As found its output printed False twice (F-004) and its excellent 'break' task had no code cell (F-006); both fixed, and the task cell now proves the break/no-break asymmetry with asserts.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Explains that keyboard events are delivered to the focused widget first and then travel the bindtags chain, and corrects the common misdiagnosis that focus alone blocks a root-level binding.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "A key event goes to the focused widget and then along the bindtags chain: widget -> its class -> toplevel (root) -> 'all'. -- confirmed exactly -- live Tk 9.0 reports label.bindtags() == ('.!label', 'Label', '.', 'all') and root.bindtags() == ('.', 'Tk', 'all').",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "With focus in an Entry and no 'break', the root binding still fires AND the character still lands in the Entry. -- confirmed precisely -- focused Entry, root.bind('<Key>'), event_generate('<KeyPress-5>') gives root handler hits=['5'] and entry text='5'. Both things happen, exactly as the callout warns.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "A handler that explicitly returns 'break' stops the rest of the chain, including the root binding. -- confirmed -- with entry.bind('<Key>', lambda e: 'break') the root handler hits=[] and the entry text stays ''. Precisely the Debug Lab 1 scenario.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "focus_get() returns the focused widget or None, and focus_set() moves focus explicitly. -- confirmed -- focus_get() returns None with no toplevel focus and the correct widget after focus_force()+focus_set().",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires bind() from 17.1/17.7 and widget hierarchy from chapter 16.11, both available. Chapter 16.21 touches focus/accessibility, but the bindtags chain is introduced here. | motivation=Motivated by a symptom the reader will actually hit ('«Привязка не работает» часто означает «класс виджета перехватил событие раньше»'), then corrects the naive fix by explaining what actually stops propagation. Notably careful: it refuses the folk remedy of 'keeping focus on root' and instead proposes checking focus_get() in the handler. | sequence=Correctly placed before 17.12 (which needs b",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward ref to Debug Lab 1 verified: that lab exists and its explanation is consistent with this lesson's, including the 'break' mechanism.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: One of the most technically careful passages in the chapter, and the Russian matches: 'фокус ввода', 'цепочка bindtags', 'прервав цепочку' are all precise. 'bindtags' is left in English inside Russian prose; a settled Russian gloss is proposed for the terminology register.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-11-focus-i-klaviatura against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

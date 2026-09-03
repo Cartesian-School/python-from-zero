@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-23-RESTART-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-23-restart",
+    "kind": "theory_lesson",
+    "title": "Restart / New Game",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-23-restart.html",
+    "review_surface_sha256": "8595ae24ed28d6a6e5a087c9c874a46648fe23f4d399625ea4d719ad37de4e31"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Implements restart as: bump the generation, carry high_score forward, build a completely new GameState, clear the overlay, render.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «поток» has been replaced by «цепочка» throughout, matching 19.22 and snake.py.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Implements restart as: bump the generation, carry high_score forward, build a completely new GameState, clear the overlay, render.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Implements restart as: bump the generation, carry high_score forward, build a completely new GameState, clear the overlay, render.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- 19.22's generation mechanism, 19.15's states, and 19.25's new_game_state (forward-referenced). Chapter 16's repeated-button-press problem is cited; 16-22 and 16-26 exist and make the timer/re-entry point, so the reference is fair.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The generation counter is demystified well («простой счётчик, не сложная архитектура») and the two code blocks (restart + guard) are the minimum needed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: restart depends on pause's generation idea and hands off to 19.25 for high_score. Debug Labs 13, 15 and 16 revisit this section's three separate failure modes.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: restart depends on pause's generation idea and hands off to 19.25 for high_score. Debug Labs 13, 15 and 16 revisit this section's three separate failure modes.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: restart depends on pause's generation idea and hands off to 19.25 for high_score. Debug Labs 13, 15 and 16 revisit this section's three separate failure modes.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: restart depends on pause's generation idea and hands off to 19.25 for high_score. Debug Labs 13, 15 and 16 revisit this section's three separate failure modes.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-23 models restart as a dict transform with a generation counter — appropriate for a browser-pyodide unit that cannot own a real timer, and it checks all four properties.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-23 models restart as a dict transform with a generation counter — appropriate for a browser-pyodide unit that cannot own a real timer, and it checks all four properties.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-23 models restart as a dict transform with a generation counter — appropriate for a browser-pyodide unit that cannot own a real timer, and it checks all four properties.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «поток» has been replaced by «цепочка» throughout, matching 19.22 and snake.py.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- All references now resolve; the forward ref to 19.25 was already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- All references now resolve; the forward ref to 19.25 was already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- All references now resolve; the forward ref to 19.25 was already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- restart resets score to 0 and status to READY while preserving high_score -- verified via code_execution: confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1; a stale _on_timer from before the restart does nothing -- verified via code_execution: confirmed -- called app._on_timer(app._generation - 1) and the model was untouched; the R key triggers restart -- verified via code_execution: confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record; the section now credits the right predecessor and uses the right word for the failure mode -- verified via source_inspection: confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-23 models restart as a dict transform with a generation counter — appropriate for a browser-pyodide unit that cannot own a real timer, and it checks all four properties.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-006: «раздел 19.27 предупреждал: если старая цепочка ontimer() всё ещё тикает…» — 19.27 is the dataclass section and has no timer content (grep -c ontimer -> 0). The warning is in 19.22.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Changed to «раздел 19.22 предупреждал» in build_23. Verified: 19-23-restart.html now reads «раздел 19.22 предупреждал». The remaining «Раздел 19.27 предупреждал» in 19-31 (Debug Lab 17, about a Turtle inside GameState) is a correct reference and was deliberately left alone."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-021: the body said «два независимых потока обновлений» and the lede «два параллельных игровых потока». There is one thread; the callbacks interleave on the Tk event loop, so «поток» (the standard Russian word for an OS thread) planted a wrong mental model.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Replaced with «две независимые цепочки обновлений» in the body and «две независимые цепочки тиков сразу» in the lede — the wording 19.22 and snake.py already use. Verified: no «поток» remains anywhere in build_chapter_19.py."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Implements restart as: bump the generation, carry high_score forward, build a completely new GameState, clear the overlay, render.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "restart resets score to 0 and status to READY while preserving high_score -- confirmed -- on a real SnakeApp after scoring: restart() gave score 0, high_score unchanged, status GameStatus.READY, snake length 1",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "a stale _on_timer from before the restart does nothing -- confirmed -- called app._on_timer(app._generation - 1) and the model was untouched",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "the R key triggers restart -- confirmed -- under both us and ru X layouts, pressing physical keycode 27 restarts the game and preserves the record",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "the section now credits the right predecessor and uses the right word for the failure mode -- confirmed post-fix -- «раздел 19.22 предупреждал» and «две независимые цепочки обновлений»",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=19.22's generation mechanism, 19.15's states, and 19.25's new_game_state (forward-referenced). Chapter 16's repeated-button-press problem is cited; 16-22 and 16-26 exist and make the timer/re-entry point, so the reference is fair. | motivation=The generation counter is demystified well («простой счётчик, не сложная архитектура») and the two code blocks (restart + guard) are the minimum needed. | sequence=Correct: restart depends on pause's generation idea and hands off to 19.25 for high_score. Debug Labs 13, 15 and 16 revisit this section's three separate failure modes. | prac",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: All references now resolve; the forward ref to 19.25 was already correct.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «поток» has been replaced by «цепочка» throughout, matching 19.22 and snake.py.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-23-restart against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

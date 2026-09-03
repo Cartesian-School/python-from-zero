@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-20-ARHITEKTURA-APP-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-20-arhitektura-app",
+    "kind": "theory_lesson",
+    "title": "Архитектура TicTacToeApp",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-20-arhitektura-app.html",
+    "review_surface_sha256": "83e61101e251304b7081dd80d2a42a5f6858f7589df08fcacd4ab152fa544d26"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Chooses composition (app.root) over inheritance from tk.Tk, presents the application object graph, and separates pure domain logic from UI logic.",
+      "assessment_evidence_refs": [
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the three do",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the three d",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Композиция' / 'наследование' / 'доменная логика' / 'UI-логика' are the right terms, used consistently. 'HAS-A' is left in English but immediately glossed by the Russian 'композиция', which works.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the t",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Chooses composition (app.root) over inheritance from tk.Tk, presents the application object graph, and separates pure domain logic from UI logic.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the three dom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Chooses composition (app.root) over inheritance from tk.Tk, presents the application object graph, and separates pure domain logic from UI logic.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires classes and __init__ (chapter 14), composition vs inheritance (chapter 14), StringVar (chapter 16.04) and the app-class pattern (chapter 16.25). All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivates the architectural choice by continuity with what the reader already built in chapter 16 rather than by appeal to principle -- the right register for a first architecture lesson. The 'can you test it without a window?' heuristic is a genuinely portable takeaway.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed as the capstone of the architecture arc: it assembles the model (17.19), the rules (17.16-17.17) and the event handling (17.7-17.12) into one object graph, and everything from 17.21 onward is a feature added to this structure.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed as the capstone of the architecture arc: it assembles the model (17.19), the rules (17.16-17.17) and the event handling (17.7-17.12) into one object graph, and everything from 17.21 onward is a feature added to this structure.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed as the capstone of the architecture arc: it assembles the model (17.19), the rules (17.16-17.17) and the event handling (17.7-17.12) into one object graph, and everything from 17.21 onward is a feature added to this structure.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed as the capstone of the architecture arc: it assembles the model (17.19), the rules (17.16-17.17) and the event handling (17.7-17.12) into one object graph, and everything from 17.21 onward is a feature added to this structure.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-20 (local-required) builds a minimal app.root/app.state graph and asserts the types. Its task had no code cell as found (F-006); the added cell now builds the board and asserts both len(app.buttons) == 9 and that app.state stays empty.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-20 (local-required) builds a minimal app.root/app.state graph and asserts the types. Its task had no code cell as found (F-006); the added cell now builds the board and asserts both len(app.buttons) == 9 and that app.state stays empty.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-20 (local-required) builds a minimal app.root/app.state graph and asserts the types. Its task had no code cell as found (F-006); the added cell now builds the board and asserts both len(app.buttons) == 9 and that app.state stays empty.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Композиция' / 'наследование' / 'доменная логика' / 'UI-логика' are the right terms, used consistently. 'HAS-A' is left in English but immediately glossed by the Russian 'композиция', which works.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Refs to chapter 16.30 and 16.31 verified present; forward ref to 17.28 verified accurate. Debug Lab 11 cites 'Раздел 17.20' for the render() principle accurately.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Refs to chapter 16.30 and 16.31 verified present; forward ref to 17.28 verified accurate. Debug Lab 11 cites 'Раздел 17.20' for the render() principle accurately.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Refs to chapter 16.30 and 16.31 verified present; forward ref to 17.28 verified accurate. Debug Lab 11 cites 'Раздел 17.20' for the render() principle accurately.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the three",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- verified via cross_reference: confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.; The app holds the widgets and a reference to the state, not the other way round. -- verified via source_inspection: confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.; find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- verified via code_execution: confirmed -- the ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-20 (local-required) builds a minimal app.root/app.state graph and asserts the types. Its task had no code cell as found (F-006); the added cell now builds the board and asserts both len(app.buttons) == 9 and that app.state stays empty.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Chooses composition (app.root) over inheritance from tk.Tk, presents the application object graph, and separates pure domain logic from UI logic.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "cross_reference",
+      "summary": "Inheriting from tk.Tk works but is unnecessary; app.root composition matches how chapter 16's apps were built. -- confirmed -- chapter 16.24/16.25 and the Tip Calculator Pro (16.31) and notes editor (16.30) all use the app-holds-root pattern; those pages verified to exist. tic_tac_toe.py takes root as a constructor parameter, consistent with the claim.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "The app holds the widgets and a reference to the state, not the other way round. -- confirmed -- TicTacToeApp holds self.root, self.state, self.buttons, self.status_var, self.score_var; GameState holds no reference back to the app or any widget.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "find_winner(board), is_draw(board) and the index arithmetic are domain logic; attempt_move, on_cell_enter/leave, render, new_round/new_match are UI logic. -- confirmed -- the three domain functions were called successfully with no Tk root in existence, while the UI methods require a live app; the comparison table matches the real file's structure.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "The test 'can it be checked without opening a window?' distinguishes the two layers. -- confirmed -- exactly the property exercised in 17.28 and notebook 17-28, which runs the full rules matrix with no window.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires classes and __init__ (chapter 14), composition vs inheritance (chapter 14), StringVar (chapter 16.04) and the app-class pattern (chapter 16.25). All available. | motivation=Motivates the architectural choice by continuity with what the reader already built in chapter 16 rather than by appeal to principle -- the right register for a first architecture lesson. The 'can you test it without a window?' heuristic is a genuinely portable takeaway. | sequence=Correctly placed as the capstone of the architecture arc: it assembles the model (17.19), the rules (17.16-17.17) and ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Refs to chapter 16.30 and 16.31 verified present; forward ref to 17.28 verified accurate. Debug Lab 11 cites 'Раздел 17.20' for the render() principle accurately.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Композиция' / 'наследование' / 'доменная логика' / 'UI-логика' are the right terms, used consistently. 'HAS-A' is left in English but immediately glossed by the Russian 'композиция', which works.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-20-arhitektura-app against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

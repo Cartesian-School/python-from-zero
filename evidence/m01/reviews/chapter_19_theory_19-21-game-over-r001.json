@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-21-GAME-OVER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-21-game-over",
+    "kind": "theory_lesson",
+    "title": "Game Over как состояние",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-21-game-over.html",
+    "review_surface_sha256": "ad557abb1f746f53f2ec247d4c08bf8599525849dcb4903e66013f69e64d520a"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Establishes GAME_OVER as a state rather than a message: the tick sets state.status, renders the final frame, shows an overlay and stops scheduling.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Clean. «терминальный статус» is used correctly, though introduced without a gloss (noted as a terminology candidate).",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Establishes GAME_OVER as a state rather than a message: the tick sets state.status, renders the final frame, shows an overlay and stops scheduling.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Establishes GAME_OVER as a state rather than a message: the tick sets state.status, renders the final frame, shows an overlay and stops scheduling.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- 19.15's state machine, 19.19/19.20's collision rules. Available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Opens with a real screenshot of the state before explaining it, then shows the smallest code fragment that produces it. The callout correctly generalises to PAUSED.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: the consequence of the two rules just established, and the setup for pause/restart.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: the consequence of the two rules just established, and the setup for pause/restart.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: the consequence of the two rules just established, and the setup for pause/restart.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: the consequence of the two rules just established, and the setup for pause/restart.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-21's resolve_tick() reduces the section to 'either collision means game_over' — a fair but easy exercise; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-21's resolve_tick() reduces the section to 'either collision means game_over' — a fair but easy exercise; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-21's resolve_tick() reduces the section to 'either collision means game_over' — a fair but easy exercise; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Clean. «терминальный статус» is used correctly, though introduced without a gloss (noted as a terminology candidate).",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The forward refs to 19.18 (WON) and 19.23 (restart) resolve. This section is also what exposed 19.15's incompleteness, now fixed.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The forward refs to 19.18 (WON) and 19.23 (restart) resolve. This section is also what exposed 19.15's incompleteness, now fixed.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The forward refs to 19.18 (WON) and 19.23 (restart) resolve. This section is also what exposed 19.15's incompleteness, now fixed.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- verified via code_execution: confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched; a wall collision transitions the live app to GAME_OVER -- verified via code_execution: confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER; GAME_OVER is not the only terminal status — WON exists -- verified via code_execution: confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-21's resolve_tick() reduces the section to 'either collision means game_over' — a fair but easy exercise; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Establishes GAME_OVER as a state rather than a message: the tick sets state.status, renders the final frame, shows an overlay and stops scheduling.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "game_tick returns immediately when status is not RUNNING, so GAME_OVER stops the chain -- confirmed -- snake.py:270-271; verified by setting status to GAME_OVER and calling game_tick(), which left the model untouched",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "a wall collision transitions the live app to GAME_OVER -- confirmed -- drove a real SnakeApp head from (280,0) rightwards: status became GameStatus.GAME_OVER",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "GAME_OVER is not the only terminal status — WON exists -- confirmed -- GameStatus has five members and WON was reached for real; this section states it correctly, which is what exposed 19.15's earlier four-state claim",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=19.15's state machine, 19.19/19.20's collision rules. Available. | motivation=Opens with a real screenshot of the state before explaining it, then shows the smallest code fragment that produces it. The callout correctly generalises to PAUSED. | sequence=Correct: the consequence of the two rules just established, and the setup for pause/restart. | practice=Notebook 19-21's resolve_tick() reduces the section to 'either collision means game_over' — a fair but easy exercise; the practice card now names the function.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: The forward refs to 19.18 (WON) and 19.23 (restart) resolve. This section is also what exposed 19.15's incompleteness, now fixed.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Clean. «терминальный статус» is used correctly, though introduced without a gloss (noted as a terminology candidate).",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-21-game-over against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

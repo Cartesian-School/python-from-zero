@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-22-PROSTAYA-FIZIKA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-22-prostaya-fizika",
+    "kind": "theory_lesson",
+    "title": "Основы игровой физики: скорость, гравитация и отскок",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-22-prostaya-fizika.html",
+    "review_surface_sha256": "582d8922400304a00dd344811435144d98077b2a1119260458fb689d57bc048f"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Adds gravity as accumulating velocity, bounce damping (restitution) and dt-correct friction, with an explicit units section separating position, velocity and acceleration.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The max()/m",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The max()/",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «ускорение», «скорость», «затухание», «restitution (коэффициент восстановления)» are precise; keeping restitution in Latin with a Russian gloss is the right call.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Adds gravity as accumulating velocity, bounce damping (restitution) and dt-correct friction, with an explicit units section separating position, velocity and acceleration.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The max()/mi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Adds gravity as accumulating velocity, bounce damping (restitution) and dt-correct friction, with an explicit units section separating position, velocity and acceleration.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes delta time (20.16), which it uses throughout, and max/min (chapter 5). The units section explicitly restates 20.16's px/s convention.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The dedicated «Единицы измерения» section before any formula is an excellent choice -- confusing px, px/s and px/s^2 is the actual source of most beginner physics bugs, and naming them first pre-empts it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position: after collisions (needed for the bounce) and before animation. It also supplies the vocabulary 20.33 uses for vx/vy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position: after collisions (needed for the bounce) and before animation. It also supplies the vocabulary 20.33 uses for vx/vy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position: after collisions (needed for the bounce) and before animation. It also supplies the vocabulary 20.33 uses for vx/vy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position: after collisions (needed for the bounce) and before animation. It also supplies the vocabulary 20.33 uses for vx/vy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-22 is pure numbers (browser-pyodide): accumulate gravity, damp a bounce, count bounces to rest. A faithful extraction of the computable core.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-22 is pure numbers (browser-pyodide): accumulate gravity, damp a bounce, count bounces to rest. A faithful extraction of the computable core.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-22 is pure numbers (browser-pyodide): accumulate gravity, damp a bounce, count bounces to rest. A faithful extraction of the computable core.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «ускорение», «скорость», «затухание», «restitution (коэффициент восстановления)» are precise; keeping restitution in Latin with a Russian gloss is the right call.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-references to 20.16 and 20.18 (Y grows down, so upward velocity is negative) are accurate and the notebook's assert comments repeat the reasoning correctly.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-references to 20.16 and 20.18 (Y grows down, so upward velocity is negative) are accurate and the notebook's assert comments repeat the reasoning correctly.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-references to 20.16 and 20.18 (Y grows down, so upward velocity is negative) are accurate and the notebook's assert comments repeat the reasoning correctly.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The max(",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- verified via code_execution: Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.; A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- verified via code_execution: Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.; Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-22 is pure numbers (browser-pyodide): accumulate gravity, damp a bounce, count bounces to rest. A faithful extraction of the computable core.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Adds gravity as accumulating velocity, bounce damping (restitution) and dt-correct friction, with an explicit units section separating position, velocity and acceleration.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "Gravity is an acceleration: `skorost_y += G * dt` then `y += skorost_y * dt`, which is why falling starts slow and speeds up. -- Confirmed -- notebook 20-22 accumulates to 900.0 px/s after one simulated second at G = 900, and the generated gravity-fall-strip.png shows the growing gaps.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "A restitution coefficient below 1 makes successive bounces lower; 1.0 is the lossless idealisation. -- Confirmed -- -900 * 0.8 = -720.0 in the notebook, and 300 px/s decays below 1 px/s in 26 bounces at 0.8, matching ln(300)/ln(1.25) = 25.6 -> 26.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "Friction must be an acceleration applied through dt; multiplying velocity by a constant each frame makes braking frame-rate-dependent. -- Confirmed -- the reasoning is correct and is the same defect as 20.16's, correctly cross-referenced. The max()/min() clamps genuinely prevent overshooting through zero.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "This is an arcade model, not a physics engine. -- Confirmed -- the callout correctly scopes what real engines add (rotation, mass, arbitrary shapes, many-body contacts).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes delta time (20.16), which it uses throughout, and max/min (chapter 5). The units section explicitly restates 20.16's px/s convention. | motivation=The dedicated «Единицы измерения» section before any formula is an excellent choice -- confusing px, px/s and px/s^2 is the actual source of most beginner physics bugs, and naming them first pre-empts it. | sequence=Correct position: after collisions (needed for the bounce) and before animation. It also supplies the vocabulary 20.33 uses for vx/vy. | practice=Notebook 20-22 is pure numbers (browser-pyodide): accumulate gravi",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-references to 20.16 and 20.18 (Y grows down, so upward velocity is negative) are accurate and the notebook's assert comments repeat the reasoning correctly.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «ускорение», «скорость», «затухание», «restitution (коэффициент восстановления)» are precise; keeping restitution in Latin with a Russian gloss is the right call.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-22-prostaya-fizika against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

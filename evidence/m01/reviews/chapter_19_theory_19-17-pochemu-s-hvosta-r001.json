@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-17-POCHEMU-S-HVOSTA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-17-pochemu-s-hvosta",
+    "kind": "theory_lesson",
+    "title": "Почему тело движется с хвоста",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-17-pochemu-s-hvosta.html",
+    "review_surface_sha256": "94894b730a48c91898c6c7d4156270044ccb09ede3d5a0effebe0808c1938cd8"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Explains why body updates must run tail-to-head: the reverse order makes each segment read an already-overwritten neighbour and collapses the whole body into one point.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Clean. «сегменты схлопываются в одну точку» is vivid and correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Explains why body updates must run tail-to-head: the reverse order makes each segment read an already-overwritten neighbour and collapses the whole body into one point.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Explains why body updates must run tail-to-head: the reverse order makes each segment read an already-overwritten neighbour and collapses the whole body into one point.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- 19.6's dvigat_telo(), list indexing and range with a negative step (chapter 11). Available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated by an experiment («Разберём, что случится, если поменять порядок на противоположный») with a before_after_grid, then the code, then the failure explained mechanically.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: it deepens 19.6 and hands off to 19.18's superior formulation, which it forward-references by name.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: it deepens 19.6 and hands off to 19.18's superior formulation, which it forward-references by name.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: it deepens 19.6 and hands off to 19.18's superior formulation, which it forward-references by name.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: it deepens 19.6 and hands off to 19.18's superior formulation, which it forward-references by name.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-17 is the strongest exercise in the chapter — it makes the learner run BOTH versions and assert the broken one's exact wrong output, so the bug is experienced rather than described.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-17 is the strongest exercise in the chapter — it makes the learner run BOTH versions and assert the broken one's exact wrong output, so the bug is experienced rather than described.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-17 is the strongest exercise in the chapter — it makes the learner run BOTH versions and assert the broken one's exact wrong output, so the bug is experienced rather than described.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Clean. «сегменты схлопываются в одну точку» is vivid and correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward ref to 19.18 resolves; Debug Lab 9's back-reference is accurate.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward ref to 19.18 resolves; Debug Lab 9's back-reference is accurate.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward ref to 19.18 resolves; Debug Lab 9's back-reference is accurate.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- head-to-tail iteration collapses every segment to a single position -- verified via code_execution: confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]; tail-to-head iteration preserves the chain -- verified via code_execution: confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]; Debug Lab 9's variant collapses the body too -- verified via code_execution: confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-17 is the strongest exercise in the chapter — it makes the learner run BOTH versions and assert the broken one's exact wrong output, so the bug is experienced rather than described.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Explains why body updates must run tail-to-head: the reverse order makes each segment read an already-overwritten neighbour and collapses the whole body into one point.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "head-to-tail iteration collapses every segment to a single position -- confirmed -- notebook 19-17: move_from_head_BROKEN([(0,0),(-20,0),(-40,0)],(20,0)) == [(20,0),(20,0),(20,0)]",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "tail-to-head iteration preserves the chain -- confirmed -- move_from_tail(same input) == [(20,0),(0,0),(-20,0)]",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Debug Lab 9's variant collapses the body too -- confirmed by hand-simulation: Lab 9's forward loop turns [A,B,C] into [B,C,C] then [C,C,C] — collapse after two ticks, matching the stated symptom",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=19.6's dvigat_telo(), list indexing and range with a negative step (chapter 11). Available. | motivation=Motivated by an experiment («Разберём, что случится, если поменять порядок на противоположный») with a before_after_grid, then the code, then the failure explained mechanically. | sequence=Correct: it deepens 19.6 and hands off to 19.18's superior formulation, which it forward-references by name. | practice=Notebook 19-17 is the strongest exercise in the chapter — it makes the learner run BOTH versions and assert the broken one's exact wrong output, so the bug is experience",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward ref to 19.18 resolves; Debug Lab 9's back-reference is accurate.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Clean. «сегменты схлопываются в одну точку» is vivid and correct.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-17-pochemu-s-hvosta against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

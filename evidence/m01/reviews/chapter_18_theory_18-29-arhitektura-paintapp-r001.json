@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-18-THEORY-18-29-ARHITEKTURA-PAINTAPP-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:18:theory:18-29-arhitektura-paintapp",
+    "kind": "theory_lesson",
+    "title": "Архитектура PaintApp",
+    "canonical_source_path": "scripts/build_chapter_18.py",
+    "baseline_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "reviewed_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "review_surface_path": "site/chapters/glava-18/18-29-arhitektura-paintapp.html",
+    "review_surface_sha256": "aebb38b7449e3f99baf111ca7f776eef84fdb93ee720e356f02a2103914ccc82"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Presents PaintApp: composition over inheritance from tk.Tk, the object graph (root/state/document/undo_stack/redo_stack/canvas), the five method groups, and the event -> state/document -> render pipeline.",
+      "assessment_evidence_refs": [
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; existing i",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; existing ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Композиция против наследования' and 'источник истины' are correct professional Russian. 'app HAS-A root' keeps the English HAS-A, standard in Russian OOP writing.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; exi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Presents PaintApp: composition over inheritance from tk.Tk, the object graph (root/state/document/undo_stack/redo_stack/canvas), the five method groups, and the event -> state/document -> render pipeline.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; existing it",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Presents PaintApp: composition over inheritance from tk.Tk, the object graph (root/state/document/undo_stack/redo_stack/canvas), the five method groups, and the event -> state/document -> render pipeline.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes Chapter 14 (classes), Chapter 16 (app.root pattern) and Chapter 17 (render()). All available and cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Very good: the three-layer callout (DrawingState = what is selected now; document = what is drawn; Canvas = what is visible) is the clearest statement of the chapter's architecture, and it explains the consequence of confusing them concretely.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed: after every feature exists, so the architecture summarises real code rather than an upfront abstraction.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed: after every feature exists, so the architecture summarises real code rather than an upfront abstraction.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed: after every feature exists, so the architecture summarises real code rather than an upfront abstraction.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed: after every feature exists, so the architecture summarises real code rather than an upfront abstraction.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired local-required notebook 18-29 imports the real paint_app and inspects the live object graph -- the strongest reinforcement available here. Re-verified after the F-017 signature change (PaintApp(root) still constructs).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired local-required notebook 18-29 imports the real paint_app and inspects the live object graph -- the strongest reinforcement available here. Re-verified after the F-017 signature change (PaintApp(root) still constructs).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired local-required notebook 18-29 imports the real paint_app and inspects the live object graph -- the strongest reinforcement available here. Re-verified after the F-017 signature change (PaintApp(root) still constructs).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Композиция против наследования' and 'источник истины' are correct professional Russian. 'app HAS-A root' keeps the English HAS-A, standard in Russian OOP writing.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The comparison_table's five method groups all exist in paint_app.py under those names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The comparison_table's five method groups all exist in paint_app.py under those names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The comparison_table's five method groups all exist in paint_app.py under those names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; existin",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- PaintApp holds root by composition rather than subclassing tk.Tk -- verified via source_inspection: confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17; render_document is the only method that draws the committed document -- verified via source_inspection: confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document; The object graph really is root/state/document/undo_stack/redo_stack/canvas -- verified via code_execution: confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>; Growing the Canvas widget is not the same as scaling the drawing -- verified via code_execution: confirmed -- rowconfigure/sticky='nsew' enlarges the widget; ex",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired local-required notebook 18-29 imports the real paint_app and inspects the live object graph -- the strongest reinforcement available here. Re-verified after the F-017 signature change (PaintApp(root) still constructs).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Presents PaintApp: composition over inheritance from tk.Tk, the object graph (root/state/document/undo_stack/redo_stack/canvas), the five method groups, and the event -> state/document -> render pipeline.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "PaintApp holds root by composition rather than subclassing tk.Tk -- confirmed -- `class PaintApp:` with `self.root = root`, matching the classic_vs_modern panel and Chapters 16-17",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "render_document is the only method that draws the committed document -- confirmed -- canvas.create_* appears in on_drag (live pencil stroke), _create_preview (draft) and _draw_shape, which is called only from render_document",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "The object graph really is root/state/document/undo_stack/redo_stack/canvas -- confirmed -- notebook 18-29 prints <class 'tkinter.Tk'> <class 'paint_app.DrawingState'> <class 'list'> <class 'tkinter.Canvas'>",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "Growing the Canvas widget is not the same as scaling the drawing -- confirmed -- rowconfigure/sticky='nsew' enlarges the widget; existing item coords are untouched (Debug Lab 15 makes the same point)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes Chapter 14 (classes), Chapter 16 (app.root pattern) and Chapter 17 (render()). All available and cited. | motivation=Very good: the three-layer callout (DrawingState = what is selected now; document = what is drawn; Canvas = what is visible) is the clearest statement of the chapter's architecture, and it explains the consequence of confusing them concretely. | sequence=Correctly placed: after every feature exists, so the architecture summarises real code rather than an upfront abstraction. | practice=Paired local-required notebook 18-29 imports the real paint_app and i",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The comparison_table's five method groups all exist in paint_app.py under those names.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Композиция против наследования' and 'источник истины' are correct professional Russian. 'app HAS-A root' keeps the English HAS-A, standard in Russian OOP writing.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:18:theory:18-29-arhitektura-paintapp against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

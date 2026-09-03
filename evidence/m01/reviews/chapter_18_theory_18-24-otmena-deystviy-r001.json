@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-18-THEORY-18-24-OTMENA-DEYSTVIY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:18:theory:18-24-otmena-deystviy",
+    "kind": "theory_lesson",
+    "title": "Отмена действий (Undo)",
+    "canonical_source_path": "scripts/build_chapter_18.py",
+    "baseline_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "reviewed_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "review_surface_path": "site/chapters/glava-18/18-24-otmena-deystviy.html",
+    "review_surface_sha256": "b17a5cd33322fd035147e6e6c47fa8612e67f20f59f73b9e1ba1ba1c7f0d3f39"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Establishes that Undo must work on logical user actions, not individual Canvas items, because one pencil stroke is many segments; introduces undo_stack of shape-lists and re-render-from-document.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; after a lo",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; after a l",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Отмена по действиям, а не по элементам Canvas' is a precise, well-chosen section framing.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; aft",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Establishes that Undo must work on logical user actions, not individual Canvas items, because one pencil stroke is many segments; introduces undo_stack of shape-lists and re-render-from-document.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; after a loa",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Establishes that Undo must work on logical user actions, not individual Canvas items, because one pencil stroke is many segments; introduces undo_stack of shape-lists and re-render-from-document.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 18.13 (document/state split), 18.14 (many segments per stroke) and Chapter 17's render() principle. All available and cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Excellent: motivated entirely by a concrete user expectation, and the naive version is shown before the correct one.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly opens the history block, before redo (18.25) which needs it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly opens the history block, before redo (18.25) which needs it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly opens the history block, before redo (18.25) which needs it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly opens the history block, before redo (18.25) which needs it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired browser-pyodide notebook 18-24 models commit/undo on plain lists and asserts a 3-segment stroke undoes as one -- an exact abstraction of the lesson.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired browser-pyodide notebook 18-24 models commit/undo on plain lists and asserts a 3-segment stroke undoes as one -- an exact abstraction of the lesson.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired browser-pyodide notebook 18-24 models commit/undo on plain lists and asserts a 3-segment stroke undoes as one -- an exact abstraction of the lesson.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Отмена по действиям, а не по элементам Canvas' is a precise, well-chosen section framing.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- References to 18.13, 18.29 and Chapter 17's render() all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- References to 18.13, 18.29 and Chapter 17's render() all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- References to 18.13, 18.29 and Chapter 17's render() all verified accurate.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; after a",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- One pencil stroke is many create_line items, so item-wise undo is wrong -- verified via code_execution: confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack; _commit_action appends the whole action and clears redo_stack -- verified via code_execution: confirmed -- after undo + a new action, redo_stack == []; del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- verified via code_execution: confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.; render_document() re-renders from the document rather than deleting specific items -- verified via code_execution: confirmed -- canvas.delete('shape') then redraw; af",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired browser-pyodide notebook 18-24 models commit/undo on plain lists and asserts a 3-segment stroke undoes as one -- an exact abstraction of the lesson.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Establishes that Undo must work on logical user actions, not individual Canvas items, because one pencil stroke is many segments; introduces undo_stack of shape-lists and re-render-from-document.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "One pencil stroke is many create_line items, so item-wise undo is wrong -- confirmed -- a 4-point pencil gesture produced 3 Shape objects but exactly 1 entry on undo_stack",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "_commit_action appends the whole action and clears redo_stack -- confirmed -- after undo + a new action, redo_stack == []",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "del self.document[len(self.document)-len(shapes):] removes the last len(shapes) items -- confirmed -- document 8 -> 6 for a 2-shape eraser action. This form is deliberately SAFER than del d[-len(shapes):], which for an empty shapes list becomes del d[0:] and wipes the whole document; the book's form is a no-op there.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "render_document() re-renders from the document rather than deleting specific items -- confirmed -- canvas.delete('shape') then redraw; after a load, canvas items tagged 'shape' == len(document) == 7",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 18.13 (document/state split), 18.14 (many segments per stroke) and Chapter 17's render() principle. All available and cited. | motivation=Excellent: motivated entirely by a concrete user expectation, and the naive version is shown before the correct one. | sequence=Correctly opens the history block, before redo (18.25) which needs it. | practice=Paired browser-pyodide notebook 18-24 models commit/undo on plain lists and asserts a 3-segment stroke undoes as one -- an exact abstraction of the lesson.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: References to 18.13, 18.29 and Chapter 17's render() all verified accurate.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Отмена по действиям, а не по элементам Canvas' is a precise, well-chosen section framing.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:18:theory:18-24-otmena-deystviy against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}
