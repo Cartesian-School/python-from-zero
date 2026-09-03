@@ -1,0 +1,412 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-01-PRIVYAZKA-SOBYTIJ-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-01-privyazka-sobytij",
+    "kind": "theory_lesson",
+    "title": "Привязка событий — делаем приложения динамическими!",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-01-privyazka-sobytij.html",
+    "review_surface_sha256": "2919fe2c5599eec8d6e5356a26d773dbb76c597dafee939de60b89a15f4c5b02"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Introduces .bind() as the general mechanism for reacting to any user event (key press, mouse motion, hover), positioned against chapter 16's command= which only covers a Button's primary action.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtle's scre",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtle's scr",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Terminology is precise: привязка событий, обработчик, объект Event, коллбэк used consistently. One unidiomatic collocation in the lede -- 'bind() открывает события любого рода' -- has been reworded to 'открывает доступ к событиям любого рода'.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtle",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Introduces .bind() as the general mechanism for reacting to any user event (key press, mouse motion, hover), positioned against chapter 16's command= which only covers a Button's primary action.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtle's scree",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Introduces .bind() as the general mechanism for reacting to any user event (key press, mouse motion, hover), positioned against chapter 16's command= which only covers a Button's primary action.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes tk.Tk(), tk.Label, .pack(), .config() and command= from chapter 16, plus f-strings from chapter 4. All genuinely available: chapter 16 covers Label/pack in 16-02 and command= throughout. Nothing is used before it is taught.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Strong motivation-before-syntax: opens by naming the limitation of what the reader already knows ('command -- самый частый, но не единственный способ'), then shows the one-line bind() that lifts it. The concept is framed as a capability gain, not new syntax to memorise.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct as the chapter opener: it establishes the event vocabulary the whole chapter needs before the game project starts in 17.2. The backward reference to chapter 16's command= is accurate; the forward reference to chapter 19 was not (F-007). The forward pointer to 17.8 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct as the chapter opener: it establishes the event vocabulary the whole chapter needs before the game project starts in 17.2. The backward reference to chapter 16's command= is accurate; the forward reference to chapter 19 was not (F-007). The forward pointer to 17.8 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct as the chapter opener: it establishes the event vocabulary the whole chapter needs before the game project starts in 17.2. The backward reference to chapter 16's command= is accurate; the forward reference to chapter 19 was not (F-007). The forward pointer to 17.8 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct as the chapter opener: it establishes the event vocabulary the whole chapter needs before the game project starts in 17.2. The backward reference to chapter 16's command= is accurate; the forward reference to chapter 19 was not (F-007). The forward pointer to 17.8 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired notebook 17-01 is local-required and builds the same key-binding demo. As found its committed output showed the binding never firing (F-002); after remediation the notebook prints 'Нажатия: [\\'Up\\']' and reinforces the lesson correctly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired notebook 17-01 is local-required and builds the same key-binding demo. As found its committed output showed the binding never firing (F-002); after remediation the notebook prints 'Нажатия: [\\'Up\\']' and reinforces the lesson correctly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired notebook 17-01 is local-required and builds the same key-binding demo. As found its committed output showed the binding never firing (F-002); after remediation the notebook prints 'Нажатия: [\\'Up\\']' and reinforces the lesson correctly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Terminology is precise: привязка событий, обработчик, объект Event, коллбэк used consistently. One unidiomatic collocation in the lede -- 'bind() открывает события любого рода' -- has been reworded to 'открывает доступ к событиям любого рода'.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to chapter 16 command= verified accurate. Forward ref to 17.8 verified accurate. Forward ref to chapter 19 verified wrong as found and now corrected.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to chapter 16 command= verified accurate. Forward ref to 17.8 verified accurate. Forward ref to chapter 19 verified wrong as found and now corrected.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to chapter 16 command= verified accurate. Forward ref to 17.8 verified accurate. Forward ref to chapter 19 verified wrong as found and now corrected.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtle's s",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- verified via code_execution: confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.; A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- verified via code_execution: confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.; The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- verified via cross_reference: REFUTED as found -- chapter 19 uses turtl",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired notebook 17-01 is local-required and builds the same key-binding demo. As found its committed output showed the binding never firing (F-002); after remediation the notebook prints 'Нажатия: [\\'Up\\']' and reinforces the lesson correctly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-007: the callout claimed chapter 19's snake is driven by .bind(); chapter 19 uses turtle screen.listen()/onkeypress() and says so explicitly.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewrote the callout in build_01() to mirror 19.4's own framing: the same idea of binding a key to a function returns in chapter 19, but via Turtle's simpler screen.listen()/screen.onkeypress() interface. Verified: grep for 'screen.onkeypress' in build_chapter_17.py returns 1, and no .bind() claim about chapter 19 remains."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-035: lede collocation 'открывает события любого рода' is not idiomatic Russian.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Changed the 17.1 lede to 'bind() открывает доступ к событиям любого рода' and rebuilt the page."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Introduces .bind() as the general mechanism for reacting to any user event (key press, mouse motion, hover), positioned against chapter 16's command= which only covers a Button's primary action.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "A callback registered via .bind() receives a tkinter Event object carrying details such as event.keysym. -- confirmed -- with root.focus_force() applied, root.bind('<Key>', h) + label.event_generate('<Key>', keysym='Up') delivers keysym='Up' to the handler on CPython 3.14.6 / Tk 9.0.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "A callback passed to command= is normally invoked without an Event argument, unlike a bind() callback. -- confirmed -- a zero-argument function works as command=; the same function passed to .bind() raises TypeError: na_klavishu() takes 0 positional arguments but 1 was given, surfaced by Tkinter's exception hook.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "The same .bind() technique will let the snake in chapter 19 react to arrow keys -- 'the same trick, only with a different event type'. -- REFUTED as found -- chapter 19 uses turtle's screen.listen() + screen.onkeypress(); 19-04-klavishi-dvizhenie.html says 'идея та же, что и .bind() у Tkinter в главе 17, только с более простым, специализированным интерфейсом'. '.bind(' occurs exactly once in all of chapter 19, inside that comparison. Fixed under F-007.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes tk.Tk(), tk.Label, .pack(), .config() and command= from chapter 16, plus f-strings from chapter 4. All genuinely available: chapter 16 covers Label/pack in 16-02 and command= throughout. Nothing is used before it is taught. | motivation=Strong motivation-before-syntax: opens by naming the limitation of what the reader already knows ('command -- самый частый, но не единственный способ'), then shows the one-line bind() that lifts it. The concept is framed as a capability gain, not new syntax to memorise. | sequence=Correct as the chapter opener: it establishes the event ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to chapter 16 command= verified accurate. Forward ref to 17.8 verified accurate. Forward ref to chapter 19 verified wrong as found and now corrected.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Terminology is precise: привязка событий, обработчик, объект Event, коллбэк used consistently. One unidiomatic collocation in the lede -- 'bind() открывает события любого рода' -- has been reworded to 'открывает доступ к событиям любого рода'.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-01-privyazka-sobytij against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

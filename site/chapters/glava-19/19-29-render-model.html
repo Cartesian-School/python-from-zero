@@ -57,10 +57,13 @@
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
       <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно: та же сетка из раздела 19.9, но теперь видно, как голова и еда — просто клетки, которые render() превращает в конкретные Turtle-объекты.</figcaption>
     </figure>
-    <p>Раздел 18.35 главы 18 уже вводил идею пула сегментов для рисовалки — здесь та же техника
-    решает похожую проблему: змейка растёт, но создавать новый <code class="inline">turtle.Turtle()</code>
-    на каждое яблоко было бы расточительно, если тело потом может понадобиться отрисовать снова
-    в следующем кадре.</p>
+    <p>Змейка растёт, и напрашивается простое решение: создавать новый
+    <code class="inline">turtle.Turtle()</code> на каждое съеденное яблоко — ровно так и делал
+    первый прототип (раздел 19.6). Но объекты Turtle никуда не деваются: после
+    <code class="inline">restart()</code> их окажется столько же, сколько было в самой длинной
+    партии, и каждый из них экран продолжит обслуживать. Поэтому вводим <strong>пул
+    сегментов</strong>: один раз созданные черепашки переиспользуются от кадра к кадру, новые
+    добавляются только когда их действительно не хватает, а лишние прячутся, а не удаляются.</p>
 
     <div class="code-block">
       <div class="code-label"><span>render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
@@ -76,9 +79,21 @@
         <span class="tok-kw">else</span>:
             segment.hideturtle()
 
-    self.food_turtle.goto(*self.state.food)
+    <span class="tok-kw">if</span> self.state.food <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>:
+        self.food_turtle.showturtle()
+        self.food_turtle.goto(*self.state.food)
+    <span class="tok-kw">else</span>:
+        self.food_turtle.hideturtle()   <span class="tok-com"># WON — свободных клеток не осталось</span>
+
     self._render_scoreboard()
     self.screen.update()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Проверка food is not None здесь обязательна</div>
+        <div class="callout-body">Раздел 19.18 обещал, что отрисовка честно обработает случай, когда свободной клетки для еды не осталось, — вот это место. Без проверки <code class="inline">self.food_turtle.goto(*self.state.food)</code> при <code class="inline">food = None</code> падает с <code class="inline">TypeError: turtle.TNavigator.goto() argument after * must be an iterable, not NoneType</code> — ровно в момент победы, в самом редком и самом обидном состоянии игры.</div>
+      </div>
     </div>
 
     <div class="callout callout-info">

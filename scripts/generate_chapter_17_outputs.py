@@ -205,11 +205,14 @@ def adaptive_board_small() -> None:
     root, app = new_app()
     for i in (0, 4, 1, 3, 8):
         app.attempt_move(i)
-    root.geometry("340x420+0+0")
+    # 380 px, а не 340: естественная минимальная ширина окна — 345 px, и при 340
+    # правая кнопка «Новый матч» обрезалась краем окна прямо на скриншоте,
+    # который должен доказывать, что вёрстка переживает изменение размера.
+    root.geometry("380x430+0+0")
     root.update_idletasks()
     root.update()
     app.render()  # re-asserts fg/bg after the geometry change settles
-    capture("adaptive-board-small", root, grab_w=420, grab_h=480)
+    capture("adaptive-board-small", root, grab_w=460, grab_h=500)
 
 
 def adaptive_board_large() -> None:

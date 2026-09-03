@@ -72,7 +72,7 @@
     <div class="callout callout-warning">
       <div>
         <div class="callout-title">Очистка холста, забывшая очистить историю</div>
-        <div class="callout-body">Если удалить только фигуры (<code class="inline">self.document.clear()</code>), но не тронуть <code class="inline">undo_stack</code>, — <code class="inline">undo()</code> после очистки попробует убрать из ПУСТОГО документа фигуры, которых там уже нет. Раздел 18.31 разбирает этот случай отдельно: история обязана обнуляться вместе с документом, который она описывает.</div>
+        <div class="callout-body">Если удалить только фигуры (<code class="inline">self.document.clear()</code>), но не тронуть <code class="inline">undo_stack</code>, — <code class="inline">undo()</code> после очистки внешне не сделает НИЧЕГО (убирать из пустого документа нечего), зато положит устаревшее действие в <code class="inline">redo_stack</code>. И тогда Ctrl+Y вернёт на холст фигуры, которые пользователь только что удалил «Очистить». Раздел 18.31 разбирает этот случай отдельно: история обязана обнуляться вместе с документом, который она описывает.</div>
       </div>
     </div>
 

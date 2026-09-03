@@ -78,11 +78,18 @@ yabloko.color(<span class="tok-str">&quot;red&quot;</span>)
 yabloko.penup()
 
 <span class="tok-kw">def</span> novoe_yabloko():
-    x = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
-    y = random.randrange(-GRANICA, GRANICA, RAZMER_SHAGA)
+    x = random.randrange(-GRANICA, GRANICA + RAZMER_SHAGA, RAZMER_SHAGA)
+    y = random.randrange(-GRANICA, GRANICA + RAZMER_SHAGA, RAZMER_SHAGA)
     yabloko.goto(x, y)
 
 novoe_yabloko()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Почему GRANICA + RAZMER_SHAGA, а не просто GRANICA</div>
+        <div class="callout-body">У <code class="inline">randrange()</code> правая граница <em>исключается</em> — <code class="inline">randrange(-280, 280, 20)</code> выдаёт значения только до 260 включительно. Змейка при этом спокойно доезжает до 280 (раздел 19.19), так что без <code class="inline">+ RAZMER_SHAGA</code> крайний ряд клеток справа и сверху был бы для яблока недостижим — поле получилось бы незаметно несимметричным.</div>
+      </div>
     </div>
 
     <figure style="margin:24px 0">

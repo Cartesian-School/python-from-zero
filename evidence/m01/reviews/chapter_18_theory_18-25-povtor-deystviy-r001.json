@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-18-THEORY-18-25-POVTOR-DEYSTVIY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:18:theory:18-25-povtor-deystviy",
+    "kind": "theory_lesson",
+    "title": "Повтор действий (Redo)",
+    "canonical_source_path": "scripts/build_chapter_18.py",
+    "baseline_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "reviewed_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "review_surface_path": "site/chapters/glava-18/18-25-povtor-deystviy.html",
+    "review_surface_sha256": "85079912ad1a8fbd8644160ef967dc9aaaf06c79ae589f786fa82ed1187f22c3"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Adds redo as a second stack and establishes the invariant that any new action must clear redo_stack.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'старая ветка redo больше не соответствует текущему документу' is clear and correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Adds redo as a second stack and establishes the invariant that any new action must clear redo_stack.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Adds redo as a second stack and establishes the invariant that any new action must clear redo_stack.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 18.24's undo_stack and _commit_action. Immediately prior and cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Good: 'Redo — второй стек, а не отмена отмены' pre-empts the most likely wrong mental model in the section title itself.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed directly after undo.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed directly after undo.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed directly after undo.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed directly after undo.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired browser-pyodide notebook 18-25 covers both halves (redo restores; a later commit clears) and its grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired browser-pyodide notebook 18-25 covers both halves (redo restores; a later commit clears) and its grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired browser-pyodide notebook 18-25 covers both halves (redo restores; a later commit clears) and its grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'старая ветка redo больше не соответствует текущему документу' is clear and correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward reference to 18.31 Debug Lab 10 verified -- that lab is exactly this omission, and since remediation the 18-31 notebook reproduces it too.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward reference to 18.31 Debug Lab 10 verified -- that lab is exactly this omission, and since remediation the 18-31 notebook reproduces it too.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward reference to 18.31 Debug Lab 10 verified -- that lab is exactly this omission, and since remediation the 18-31 notebook reproduces it too.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- verified via code_execution: confirmed -- document 6 -> 8 restoring the exact prior state; A new action after an undo must invalidate the redo branch -- verified via code_execution: confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C']); Without the clear, redo could resurrect an unrelated shape -- verified via code_execution: confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired browser-pyodide notebook 18-25 covers both halves (redo restores; a later commit clears) and its grader checks both.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Adds redo as a second stack and establishes the invariant that any new action must clear redo_stack.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "redo() pops from redo_stack, extends the document and pushes back onto undo_stack -- confirmed -- document 6 -> 8 restoring the exact prior state",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "A new action after an undo must invalidate the redo branch -- confirmed -- notebook 18-25 asserts document == ['A','C'] and redo_stack == [] after undo + commit(['C'])",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Without the clear, redo could resurrect an unrelated shape -- confirmed -- ran the omission case: undo, draw new, redo does restore a shape that no longer belongs to the document",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 18.24's undo_stack and _commit_action. Immediately prior and cited. | motivation=Good: 'Redo — второй стек, а не отмена отмены' pre-empts the most likely wrong mental model in the section title itself. | sequence=Correctly placed directly after undo. | practice=Paired browser-pyodide notebook 18-25 covers both halves (redo restores; a later commit clears) and its grader checks both.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward reference to 18.31 Debug Lab 10 verified -- that lab is exactly this omission, and since remediation the 18-31 notebook reproduces it too.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'старая ветка redo больше не соответствует текущему документу' is clear and correct.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:18:theory:18-25-povtor-deystviy against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

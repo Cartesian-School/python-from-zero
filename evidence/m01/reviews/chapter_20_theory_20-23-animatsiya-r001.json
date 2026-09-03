@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-23-ANIMATSIYA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-23-animatsiya",
+    "kind": "theory_lesson",
+    "title": "Спрайтовая анимация: кадры и спрайт-лист",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-23-animatsiya.html",
+    "review_surface_sha256": "53be6477509ebdaac787a5f31459c5bede77ef9e29c9f7fe7657fd1945eb0793"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Teaches sprite-sheet frame extraction with `subsurface()` and an accumulator-based animation timer decoupled from the game frame rate.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_reference: Confi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_reference: Conf",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «спрайт-лист», «кадр анимации» (carefully distinguished from «кадр» the loop iteration), «накопитель (аккумулятор)» are all precise. One misleading identifier (F-019), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_reference",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Teaches sprite-sheet frame extraction with `subsurface()` and an accumulator-based animation timer decoupled from the game frame rate.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_reference: Confir",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Teaches sprite-sheet frame extraction with `subsurface()` and an accumulator-based animation timer decoupled from the game frame rate.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes Surface (20.17), delta time (20.16) and the modulo operator (chapter 4). All explicitly cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Anchors on the flipbook/cartoon analogy, then justifies the separate timer by a concrete absurdity (60 drawing changes per second), making the accumulator feel necessary rather than arbitrary.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position after physics and before sound -- both are per-frame effects layered on the existing loop. The while-not-if point is a genuinely advanced detail delivered at the right moment.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position after physics and before sound -- both are per-frame effects layered on the existing loop. The while-not-if point is a genuinely advanced detail delivered at the right moment.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position after physics and before sound -- both are per-frame effects layered on the existing loop. The while-not-if point is a genuinely advanced detail delivered at the right moment.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position after physics and before sound -- both are per-frame effects layered on the existing loop. The while-not-if point is a genuinely advanced detail delivered at the right moment.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-23 runs the accumulator against real clock.tick(60) timing and asserts both that frames change and that indices stay in range -- a robust pair of checks for a timing-dependent thing.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-23 runs the accumulator against real clock.tick(60) timing and asserts both that frames change and that indices stay in range -- a robust pair of checks for a timing-dependent thing.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-23 runs the accumulator against real clock.tick(60) timing and asserts both that frames change and that indices stay in range -- a robust pair of checks for a timing-dependent thing.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «спрайт-лист», «кадр анимации» (carefully distinguished from «кадр» the loop iteration), «накопитель (аккумулятор)» are all precise. One misleading identifier (F-019), now fixed.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- animation-strip.png exists; the forward/back references to 20.14 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- animation-strip.png exists; the forward/back references to 20.14 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- animation-strip.png exists; the forward/back references to 20.14 and the 20.28 symptom table row both resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_reference: Co",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- verified via code_execution: Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.; `while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- verified via code_execution: Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.; `% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- verified via code_execution: Confirmed -- standard modulo cycling, verified in the notebook's assert.; Advancing the animation after drawing makes it lag one frame behind. -- verified via cross_referenc",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-23 runs the accumulator against real clock.tick(60) timing and asserts both that frames change and that indices stay in range -- a robust pair of checks for a timing-dependent thing.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-019: `spisok_kadrov = pygame.image.load(\"assets/hodba.png\").convert_alpha()` (build_chapter_20.py:1850) named a single Surface 'list of frames'. The object is one sheet that frames are sliced *out* of on the next lines, so the name actively misled.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: renamed to `sprajt_list`, matching the section's own term «спрайт-лист». Both the load line and the subsurface() call inside poluchit_kadr() were updated. Verified after rebuild: `spisok_kadrov` returns 0 files and `sprajt_list` returns 1."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "S-010: in scripts/generate_chapter_20_outputs.py:280, `noga_sdvig = (i % 4) * 6 - 9` moves the leg monotonically -9 -> -3 -> +3 -> +9 and then snaps back on wrap, so the strip is a slide rather than a walk cycle. The alt text said «нога смещается влево-вправо», describing a ping-pong the frames do not perform.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Alt text corrected in scripts/build_chapter_20.py to describe what the shipped strip actually shows — «нога от кадра к кадру смещается вправо, отмеряя шаг». The underlying frame sequence lives in scripts/generate_chapter_20_outputs.py, which is outside this batch's permitted file set, so the optional (-9, 0, +9, 0) ping-pong sequence is left for whoever owns that generator; the text/image mismatch itself is resolved."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Teaches sprite-sheet frame extraction with `subsurface()` and an accumulator-based animation timer decoupled from the game frame rate.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`subsurface((x, 0, w, h))` extracts one frame from a sheet Surface. -- Confirmed -- on a 128x32 sheet, frames 0-3 each return a 32x32 Surface; frame 4 raises `ValueError: subsurface rectangle outside surface area`.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`while vremya_animacii >= INTERVAL_KADRA` must be a `while`, not an `if`, so a long frame advances the animation the correct number of times and keeps the remainder. -- Confirmed -- the reasoning is correct and the notebook's 60-frame run keeps every frame index within range(KOLICHESTVO_KADROV) while changing more than once.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`% KOLICHESTVO_KADROV` cycles the frame counter back to zero. -- Confirmed -- standard modulo cycling, verified in the notebook's assert.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "Advancing the animation after drawing makes it lag one frame behind. -- Confirmed -- consistent with 20.14's Update-before-Render rule, correctly cross-referenced in both directions.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes Surface (20.17), delta time (20.16) and the modulo operator (chapter 4). All explicitly cited. | motivation=Anchors on the flipbook/cartoon analogy, then justifies the separate timer by a concrete absurdity (60 drawing changes per second), making the accumulator feel necessary rather than arbitrary. | sequence=Correct position after physics and before sound -- both are per-frame effects layered on the existing loop. The while-not-if point is a genuinely advanced detail delivered at the right moment. | practice=Notebook 20-23 runs the accumulator against real clock.tick",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: animation-strip.png exists; the forward/back references to 20.14 and the 20.28 symptom table row both resolve.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «спрайт-лист», «кадр анимации» (carefully distinguished from «кадр» the loop iteration), «накопитель (аккумулятор)» are all precise. One misleading identifier (F-019), now fixed.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-23-animatsiya against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

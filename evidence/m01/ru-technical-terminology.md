@@ -1,6 +1,6 @@
 # M01 -- Russian technical terminology register
 
-Scope covered: Chapters 2-16 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12; Batch D: 13-16); to be extended by each later batch
+Scope covered: Chapters 2-20 (Batch A: 2-4; Batch B: 5-8; Batch C: 9-12; Batch D: 13-16; Batch E: 17-20); to be extended by each later batch
 
 Policy: Prefer the term a working Russian-speaking Python developer would actually say and immediately understand. Do not mechanically translate every English term, and do not force a Russian gloss after a term is already established.
 
@@ -79,6 +79,21 @@ evidenced inconsistency -- not to relitigate an already-settled decision without
 | current working directory (CWD) | текущая рабочая директория (CWD as an accepted bare acronym) | CWD (used bare after first introduction, matching real tooling/documentation) | conflating CWD with 'the folder where the script file lives' -- the course dedicates an entire section and a Debug Lab specifically to correcting this exact misconception | 15 |
 | event-driven programming | событийно-ориентированное программирование | -- | describing mainloop()/the event loop as the program 'freezing' or 'waiting idly' -- the course explicitly and repeatedly corrects this exact misconception | 16 |
 | widget | виджет | -- | 'элемент управления' as the primary term -- 'виджет' is what Russian-speaking Tkinter/GUI developers actually say and is used consistently by the course itself | 16 |
+| event binding (bind()) | привязка события | bind() | биндинг | 17 |
+| input focus | фокус ввода | фокус | -- | 17 |
+| source of truth | источник истины | -- | -- | 17, 18 |
+| canvas | холст | Canvas (виджет) | канвас | 18 |
+| canvas item / item id | элемент Canvas / идентификатор элемента | item ID | -- | 18 |
+| stacking order (z-order) | порядок наложения | -- | z-order (без перевода) | 18 |
+| game tick | игровой тик | -- | -- | 19 |
+| game loop | игровой цикл | -- | -- | 19, 20 |
+| direction vector | вектор направления | вектор смещения (dx, dy) | -- | 19 |
+| game state vs game status | состояние игры (GameState) / статус игры (GameStatus) | -- | -- | 19 |
+| frame vs animation frame | кадр (шаг игрового цикла) / кадр анимации | -- | -- | 20 |
+| delta time (dt) | delta time (dt) | -- | дельта времени | 20 |
+| sprite | спрайт | -- | -- | 20 |
+| hitbox / AABB collision | хитбокс / AABB (прямоугольники, выровненные по осям) | -- | -- | 20 |
+| world vs screen coordinates | мировые / экранные координаты | -- | -- | 20 |
 
 ## Rationale and evidence per term
 
@@ -633,3 +648,125 @@ build_chapter_16.py §16.2 and §16.11 define 'виджет' as any visible/inte
 - **Evidence:** scripts/build_chapter_16.py:16-02-metki-knopki-pack
 - **First-use guidance:** Use 'виджет' from first mention without translation; the course's own definition ('любой видимый/интерактивный элемент интерфейса') can serve as the one-line gloss on first use.
 - **Affected chapters:** 16
+
+## Batch E additions (Chapters 17-20)
+
+### event binding (bind()) -> привязка события
+
+The chapter's central new mechanism, explicitly contrasted with command= (Ch. 16) as a distinct, more general way to react to events.
+
+- **Evidence:** scripts/build_chapter_17.py (17-07, 17-09, 17-10)
+- **First-use guidance:** Introduce paired with command= to make the contrast concrete.
+- **Affected chapters:** 17
+
+### input focus -> фокус ввода
+
+Introduced in Ch. 17 and immediately load-bearing for focus_get()/focus_set() and keyboard-event handling.
+
+- **Evidence:** scripts/build_chapter_17.py (17-11)
+- **First-use guidance:** Gloss once at first use, then use bare.
+- **Affected chapters:** 17
+
+### source of truth -> источник истины
+
+The chapter's most repeated architectural phrase, distinguishing the state model from what widgets display.
+
+- **Evidence:** scripts/build_chapter_17.py (17-13, 17-18)
+- **First-use guidance:** Introduce when separating GameState from widgets.
+- **Affected chapters:** 17, 18
+
+### canvas -> холст
+
+Consistent for both the Tkinter widget and its drawing surface; never calqued.
+
+- **Evidence:** scripts/build_chapter_18.py (18-02)
+- **First-use guidance:** No gloss needed after first introduction.
+- **Affected chapters:** 18
+
+### canvas item / item id -> элемент Canvas / идентификатор элемента
+
+Central to the chapter's mental model: Canvas stores retained items (not pixels), each with an integer id that is not a Python id().
+
+- **Evidence:** scripts/build_chapter_18.py (18-08, 18-10)
+- **First-use guidance:** Explicitly contrast with Python's own id() the first time it appears.
+- **Affected chapters:** 18
+
+### stacking order (z-order) -> порядок наложения
+
+The chapter's Russian rendering for how later-created Canvas items render above earlier ones; z-order stays as the English equivalent, not the primary term.
+
+- **Evidence:** scripts/build_chapter_18.py (18-20)
+- **First-use guidance:** Introduce with tag_raise/tag_lower.
+- **Affected chapters:** 18
+
+### game tick -> игровой тик
+
+One discrete step of game-state update, distinct from the game loop that repeats it.
+
+- **Evidence:** scripts/build_chapter_19.py (19-12)
+- **First-use guidance:** Introduce before the real timer-driven loop (19.13).
+- **Affected chapters:** 19
+
+### game loop -> игровой цикл
+
+The event-driven repetition mechanism (screen.ontimer in Turtle, the frame loop in Pygame); used consistently across the two game-project chapters.
+
+- **Evidence:** scripts/build_chapter_19.py (19-08, 19-13); scripts/build_chapter_20.py (20-02, 20-14)
+- **First-use guidance:** Distinguish a busy/blocking loop (anti-pattern) from the real timer/frame-driven loop from first use.
+- **Affected chapters:** 19, 20
+
+### direction vector -> вектор направления
+
+Represents movement as a (dx, dy) pair rather than four separate boolean flags; central to the grid/vector model.
+
+- **Evidence:** scripts/build_chapter_19.py (19-11)
+- **First-use guidance:** Introduce alongside the grid-as-coordinates model.
+- **Affected chapters:** 19
+
+### game state vs game status -> состояние игры (GameState) / статус игры (GameStatus)
+
+The dataclass holding all mutable game data is distinct from the enum describing which phase the game is in; the chapter is careful to keep the two separate.
+
+- **Evidence:** scripts/build_chapter_19.py (19-15, 19-27)
+- **First-use guidance:** Name both terms together the first time GameState/GameStatus appear.
+- **Affected chapters:** 19
+
+### frame vs animation frame -> кадр (шаг игрового цикла) / кадр анимации
+
+Pygame chapter deliberately distinguishes one iteration of the game loop from one frame of a sprite's animation sequence -- the one real terminology collision risk in this vocabulary, worth keeping apart.
+
+- **Evidence:** scripts/build_chapter_20.py (20-14 vs 20-23)
+- **First-use guidance:** Name the distinction explicitly the first time animation frames are introduced.
+- **Affected chapters:** 20
+
+### delta time (dt) -> delta time (dt)
+
+Kept in Latin script with dt as the code identifier, matching real Russian Pygame-community practice; never translated in prose.
+
+- **Evidence:** scripts/build_chapter_20.py (20-16)
+- **First-use guidance:** Gloss once as 'время, прошедшее с прошлого кадра', then use dt bare.
+- **Affected chapters:** 20
+
+### sprite -> спрайт
+
+Standard Russian gamedev term; the chapter uses it primarily as 'image object' rather than pygame.sprite.Sprite specifically -- worth noting both senses exist.
+
+- **Evidence:** scripts/build_chapter_20.py (20-19, 20-23)
+- **First-use guidance:** Note the general-image-object sense is what this course teaches, distinct from the pygame.sprite.Sprite class.
+- **Affected chapters:** 20
+
+### hitbox / AABB collision -> хитбокс / AABB (прямоугольники, выровненные по осям)
+
+Established transliteration in Russian gamedev for the simplified collision rectangle; AABB kept as the acronym with a one-time gloss.
+
+- **Evidence:** scripts/build_chapter_20.py (20-21)
+- **First-use guidance:** Gloss AABB once on first use.
+- **Affected chapters:** 20
+
+### world vs screen coordinates -> мировые / экранные координаты
+
+Distinguishes the game's logical coordinate space from actual pixel positions on screen; explicitly scoped as 'not needed for this book's projects' rather than left ambiguous.
+
+- **Evidence:** scripts/build_chapter_20.py (20-18)
+- **First-use guidance:** Introduce alongside Rect, note it is out of scope for the book's own projects.
+- **Affected chapters:** 20

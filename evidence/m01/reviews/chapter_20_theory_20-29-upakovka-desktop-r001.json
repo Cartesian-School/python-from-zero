@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-29-UPAKOVKA-DESKTOP-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-29-upakovka-desktop",
+    "kind": "theory_lesson",
+    "title": "Собираем настольную версию игры",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-29-upakovka-desktop.html",
+    "review_surface_sha256": "23ff83dda7251be12b1002a24bde534e007231f2a4b4b0a1f4ca70e71b5538a4"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Packages the game into a standalone desktop executable with PyInstaller, covering --onefile, --add-data, the no-cross-compilation rule and hidden imports.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A working ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A working",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «упаковка», «исполняемый файл», «скрытые импорты», «кросс-компиляция» are all correct; the warning callout is precise about what PyInstaller will and will not do.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A w",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Packages the game into a standalone desktop executable with PyInstaller, covering --onefile, --add-data, the no-cross-compilation rule and hidden imports.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A working `",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Packages the game into a standalone desktop executable with PyInstaller, covering --onefile, --add-data, the no-cross-compilation rule and hidden imports.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.19's asset-path discipline and pip usage (chapter 15). Both available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Opens from the user's perspective («Игрок ... почти никогда не станет устанавливать Python»), making packaging feel like finishing the product rather than a build chore.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct first of the distribution sections, and the natural sequel to a finished desktop game.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct first of the distribution sections, and the natural sequel to a finished desktop game.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct first of the distribution sections, and the natural sequel to a finished desktop game.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct first of the distribution sections, and the natural sequel to a finished desktop game.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- No notebook, correctly -- packaging cannot be exercised in a notebook, and the manifest has no 20-29 practice entry.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- No notebook, correctly -- packaging cannot be exercised in a notebook, and the manifest has no 20-29 practice entry.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- No notebook, correctly -- packaging cannot be exercised in a notebook, and the manifest has no 20-29 practice entry.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «упаковка», «исполняемый файл», «скрытые импорты», «кросс-компиляция» are all correct; the warning callout is precise about what PyInstaller will and will not do.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The cross-reference to 20.19 for the asset-path failure mode is accurate and genuinely useful here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The cross-reference to 20.19 for the asset-path failure mode is accurate and genuinely useful here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The cross-reference to 20.19 for the asset-path failure mode is accurate and genuinely useful here.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A worki",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- verified via official_reference: Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.; PyInstaller cannot cross-compile; you must build on each target OS. -- verified via official_reference: Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'; Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- verified via official_reference: Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.; A ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- No notebook, correctly -- packaging cannot be exercised in a notebook, and the manifest has no 20-29 practice entry.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "S-003: the `--add-data \"assets:assets\"` example is correct for current PyInstaller (the stable docs specify the colon with no platform exception), but PyInstaller before 6.0 used os.pathsep, i.e. ';' on Windows. A sentence noting this would save learners on an older pinned version.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in scripts/build_chapter_20.py: added an info callout «Двоеточие в --add-data» noting that current PyInstaller uses a colon on every OS including Windows, that versions before 6.0 used a semicolon on Windows, and that this character is the first thing to check when an older pinned version cannot find the assets. Verified present once in the rebuilt 20-29-upakovka-desktop.html."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Packages the game into a standalone desktop executable with PyInstaller, covering --onefile, --add-data, the no-cross-compilation rule and hidden imports.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "official_reference",
+      "summary": "`pyinstaller --onefile --add-data \"assets:assets\" igra.py` is valid current syntax. -- Confirmed -- pyinstaller.org/en/stable/usage.html specifies source and destination 'separated by a colon (:)' with no platform exception, and documents --onefile as 'Create a one-file bundled executable'.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "PyInstaller cannot cross-compile; you must build on each target OS. -- Confirmed verbatim -- 'If you need to distribute your application for more than one OS ... you must install PyInstaller on each platform and bundle your app separately on each.'",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "official_reference",
+      "summary": "Pygame's non-obvious imports may be missed by static analysis and need --hidden-import. -- Confirmed -- --hidden-import is documented as 'Name an import not visible in the code of the script(s)', which is exactly this case.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "A working `python igra.py` does not guarantee a working bundle, because asset paths and hidden imports only surface at packaging time. -- Confirmed -- consistent with 20.19's CWD warning, which this section correctly cites.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.19's asset-path discipline and pip usage (chapter 15). Both available. | motivation=Opens from the user's perspective («Игрок ... почти никогда не станет устанавливать Python»), making packaging feel like finishing the product rather than a build chore. | sequence=Correct first of the distribution sections, and the natural sequel to a finished desktop game. | practice=No notebook, correctly -- packaging cannot be exercised in a notebook, and the manifest has no 20-29 practice entry.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The cross-reference to 20.19 for the asset-path failure mode is accurate and genuinely useful here.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «упаковка», «исполняемый файл», «скрытые импорты», «кросс-компиляция» are all correct; the warning callout is precise about what PyInstaller will and will not do.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-29-upakovka-desktop against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

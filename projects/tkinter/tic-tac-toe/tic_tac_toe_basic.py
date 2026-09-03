@@ -33,7 +33,7 @@ def proverit_pobedu():
     return None
 
 
-def polye_zapolneno():
+def pole_zapolneno():
     return all(knopka["text"] != "" for knopka in polya)
 
 
@@ -51,7 +51,7 @@ def na_knopku_nazhali(indeks):
         igra_okonchena = True
         return
 
-    if polye_zapolneno():
+    if pole_zapolneno():
         status_label.config(text="Ничья!")
         igra_okonchena = True
         return

@@ -1,0 +1,420 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-16-VOSEM-LINIJ-POBEDY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-16-vosem-linij-pobedy",
+    "kind": "theory_lesson",
+    "title": "Восемь выигрышных линий",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-16-vosem-linij-pobedy.html",
+    "review_surface_sha256": "67e409764c2c0fb66344e04d99cc48054ec1840bfc3810341a393cdea73c6a19"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Shows all eight winning lines visually, promotes them to a WINNING_LINES module constant, and refactors the win check into the pure function find_winner(board) returning both the winner and the line.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all hard-c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all hard-",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Чистая функция' is used correctly and consistently with 17.28. 'Данные правил, а не алгоритм' is a crisp, natural formulation of the data/code separation.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Shows all eight winning lines visually, promotes them to a WINNING_LINES module constant, and refactors the win check into the pure function find_winner(board) returning both the winner and the line.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all hard-co",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Shows all eight winning lines visually, promotes them to a WINNING_LINES module constant, and refactors the win check into the pure function find_winner(board) returning both the winner and the line.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires tuples (chapter 11) and functions with multiple return values (chapter 13). As found, the uppercase-constant convention was used for the first time with no prior grounding -- a genuine prerequisite gap now closed in place.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Excellent motivation-by-visual: all eight lines are drawn as eight highlighted mini-boards before any code appears, so the constant reads as a transcription of something already understood. The callout explaining why find_winner returns the line as well as the winner is motivated by a concrete downstream need (17.25).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after the move algorithm that calls it and before 17.17's draw rule that depends on it. The relationship to 17.5's simpler ancestor is stated accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after the move algorithm that calls it and before 17.17's draw rule that depends on it. The relationship to 17.5's simpler ancestor is stated accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after the move algorithm that calls it and before 17.17's draw rule that depends on it. The relationship to 17.5's simpler ancestor is stated accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after the move algorithm that calls it and before 17.17's draw rule that depends on it. The relationship to 17.5's simpler ancestor is stated accurately.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-16 (browser-pyodide, grader 17-16.py) tests all eight lines for both players by generating boards from WINNING_LINES. The notebook is correct; that generation is what made the paired grader circular (F-009), now fixed in the grader.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-16 (browser-pyodide, grader 17-16.py) tests all eight lines for both players by generating boards from WINNING_LINES. The notebook is correct; that generation is what made the paired grader circular (F-009), now fixed in the grader.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-16 (browser-pyodide, grader 17-16.py) tests all eight lines for both players by generating boards from WINNING_LINES. The notebook is correct; that generation is what made the paired grader circular (F-009), now fixed in the grader.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Чистая функция' is used correctly and consistently with 17.28. 'Данные правил, а не алгоритм' is a crisp, natural formulation of the data/code separation.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Backward ref to 17.5 verified; forward refs to 17.25 and 17.28 verified accurate. Debug Lab 9 uses a typo in this exact constant, consistent with the lesson -- and is precisely what the grader could not detect before F-009 was fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Backward ref to 17.5 verified; forward refs to 17.25 and 17.28 verified accurate. Debug Lab 9 uses a typo in this exact constant, consistent with the lesson -- and is precisely what the grader could not detect before F-009 was fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Backward ref to 17.5 verified; forward refs to 17.25 and 17.28 verified accurate. Debug Lab 9 uses a typo in this exact constant, consistent with the lesson -- and is precisely what the grader could not detect before F-009 was fixed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all har",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- verified via code_execution: confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).; find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- verified via code_execution: confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.; find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- verified via source_inspection: confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) al",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-16 (browser-pyodide, grader 17-16.py) tests all eight lines for both players by generating boards from WINNING_LINES. The notebook is correct; that generation is what made the paired grader circular (F-009), now fixed in the grader.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-016: the uppercase-constant convention was attributed to chapter 13, which never teaches it; no chapter 1-16 does, so this was also a small prerequisite gap.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Replaced the false cross-reference in build_16() with an in-place explanation: the name is uppercase because that is how Python code names module constants (a PEP 8 convention between programmers, not an interpreter-enforced restriction). Chapter HTML rebuilt."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Shows all eight winning lines visually, promotes them to a WINNING_LINES module constant, and refactors the win check into the pure function find_winner(board) returning both the winner and the line.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "find_winner(board) returns (mark, (a,b,c)) for a completed line and (None, None) otherwise. -- confirmed exhaustively -- for each of the 8 lines and each of X and O, find_winner returns exactly that mark and tuple (16/16); empty and partial boards return (None, None).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "find_winner knows nothing about Tkinter and takes a plain list of strings, which is what makes it testable without a window. -- confirmed -- imported tic_tac_toe and called find_winner on plain lists with no tk.Tk() in existence at all.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "find_winner itself does not know the board is 3x3, but the index arithmetic, the ['']*9 length and the 3x3 widget grid are all still hard-coded to that size. -- confirmed and unusually honest -- verified in tic_tac_toe.py that // 3, % 3, [''] * 9 and range(9)/range(3) all hard-code the size, so changing WINNING_LINES alone would indeed not generalise the game.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "WINNING_LINES is uppercase by the Python convention for module constants (chapter 13). -- REFUTED as found -- chapter 13 is 'Функции' and contains zero occurrences of 'констант'; no chapter in 1-16 teaches the uppercase naming convention. Fixed under F-016.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires tuples (chapter 11) and functions with multiple return values (chapter 13). As found, the uppercase-constant convention was used for the first time with no prior grounding -- a genuine prerequisite gap now closed in place. | motivation=Excellent motivation-by-visual: all eight lines are drawn as eight highlighted mini-boards before any code appears, so the constant reads as a transcription of something already understood. The callout explaining why find_winner returns the line as well as the winner is motivated by a concrete downstream need (17.25). | sequence=Correct",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Backward ref to 17.5 verified; forward refs to 17.25 and 17.28 verified accurate. Debug Lab 9 uses a typo in this exact constant, consistent with the lesson -- and is precisely what the grader could not detect before F-009 was fixed.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Чистая функция' is used correctly and consistently with 17.28. 'Данные правил, а не алгоритм' is a crisp, natural formulation of the data/code separation.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-16-vosem-linij-pobedy against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

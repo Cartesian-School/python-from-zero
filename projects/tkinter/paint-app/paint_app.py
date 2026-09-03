@@ -49,6 +49,12 @@ CANVAS_BG = "#ffffff"
 MIN_DRAG = 2  # px — короче считаем «кликом без перетаскивания», раздел 18.7
 DOCUMENT_VERSION = 1
 
+# Типы фигур, которые умеет рисовать render_document(). Файл с любым другим
+# "kind" — повреждённый или сделанный другой программой: лучше честно сказать
+# об этом при загрузке, чем молча держать в документе фигуру, которую никогда
+# не видно на холсте (раздел 18.30).
+SHAPE_KINDS = frozenset({"line", "rectangle", "oval"})
+
 
 def normalize_bounds(x1: float, y1: float, x2: float, y2: float) -> tuple[float, float, float, float]:
     """Приводит две произвольные противоположные точки перетаскивания к
@@ -72,7 +78,31 @@ class Shape:
 
     @staticmethod
     def from_dict(data: dict) -> "Shape":
-        return Shape(kind=data["kind"], coords=list(data["coords"]), color=data["color"], width=int(data["width"]))
+        """Собирает Shape из словаря, прочитанного из JSON.
+
+        Всё, что пришло из файла, проверяется здесь: файл мог быть повреждён,
+        отредактирован вручную или записан другой программой (глава 15,
+        раздел 15.25). При любой проблеме бросаем ValueError — вызывающий код
+        (load_from_path) покажет пользователю понятное сообщение.
+        """
+        if not isinstance(data, dict):
+            raise ValueError(f"фигура должна быть объектом JSON, а не {type(data).__name__}")
+        try:
+            kind = data["kind"]
+            coords = list(data["coords"])
+            color = data["color"]
+            width = int(data["width"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(f"в описании фигуры не хватает данных или они неверного типа: {exc}") from exc
+        if kind not in SHAPE_KINDS:
+            raise ValueError(f"неизвестный тип фигуры: {kind!r}")
+        if len(coords) != 4 or not all(isinstance(c, (int, float)) for c in coords):
+            raise ValueError(f"у фигуры {kind!r} должно быть ровно 4 числовые координаты, получено: {coords!r}")
+        if width < 1:
+            raise ValueError(f"толщина должна быть положительной, получено: {width!r}")
+        if not isinstance(color, str) or not color:
+            raise ValueError(f"цвет должен быть непустой строкой, получено: {color!r}")
+        return Shape(kind=kind, coords=coords, color=color, width=width)
 
 
 @dataclass
@@ -92,14 +122,13 @@ class DrawingState:
 
 
 class PaintApp:
-    def __init__(self, root, *, autosave: bool = False):
+    def __init__(self, root):
         self.root = root
         self.root.title("Рисовалка Pro")
         self.state = DrawingState()
         self.document: list[Shape] = []
         self.undo_stack: list[list[Shape]] = []  # каждый элемент — фигуры ОДНОГО действия
         self.redo_stack: list[list[Shape]] = []
-        self.autosave = autosave
         self.tool_buttons: dict[Tool, tk.Button] = {}
         self.color_var = tk.StringVar(value=self.state.color)
         self.status_var = tk.StringVar()
@@ -217,7 +246,11 @@ class PaintApp:
             color = CANVAS_BG if tool is Tool.ERASER else self.state.color
             self.canvas.create_line(
                 self.state.last_x, self.state.last_y, event.x, event.y,
-                fill=color, width=self.state.width, capstyle=tk.ROUND, smooth=True,
+                # capstyle=tk.ROUND скругляет концы отрезка — стыки между
+                # соседними отрезками штриха не выглядят зубчатыми. smooth
+                # здесь не нужен: у отрезка из ДВУХ точек нет внутренних углов,
+                # которые можно было бы сгладить (раздел 18.14).
+                fill=color, width=self.state.width, capstyle=tk.ROUND,
                 tags=("shape", tool.value),
             )
             self.state.pending_shapes.append(
@@ -271,8 +304,6 @@ class PaintApp:
         self.undo_stack.append(shapes)
         self.redo_stack.clear()  # новое действие делает старую историю "redo" недействительной
         self.render_document()
-        if self.autosave:
-            self._maybe_autosave()
 
     def render_document(self):
         """Единственное место, которое рисует Canvas ИЗ документа — то же
@@ -286,7 +317,7 @@ class PaintApp:
         if shape.kind == "line":
             self.canvas.create_line(
                 *shape.coords, fill=shape.color, width=shape.width,
-                capstyle=tk.ROUND, smooth=True, tags=("shape", shape.kind),
+                capstyle=tk.ROUND, tags=("shape", shape.kind),
             )
         elif shape.kind == "rectangle":
             self.canvas.create_rectangle(*shape.coords, outline=shape.color, width=shape.width, tags=("shape", shape.kind))
@@ -332,9 +363,6 @@ class PaintApp:
         }
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    def _maybe_autosave(self):
-        pass  # переопределяется в тестах при необходимости
-
     def load_document(self):
         path_str = filedialog.askopenfilename(filetypes=[("Рисунок JSON", "*.json")])
         if not path_str:  # пользователь нажал «Отмена»
@@ -342,8 +370,40 @@ class PaintApp:
         self.load_from_path(Path(path_str))
 
     def load_from_path(self, path: Path):
-        data = json.loads(path.read_text(encoding="utf-8"))
-        self.document = [Shape.from_dict(item) for item in data["items"]]
+        """Загружает документ из JSON-файла.
+
+        Файл выбирает пользователь — значит, он может оказаться каким угодно:
+        повреждённым, не-JSON, сохранённым другой программой. Поэтому сначала
+        полностью разбираем его в ЛОКАЛЬНЫЙ список, и только если всё получилось,
+        заменяем документ. Иначе рисунок, над которым пользователь работал,
+        пропал бы при попытке открыть чужой файл (глава 15, раздел 15.25).
+        """
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("в файле ожидался объект JSON с ключом \"items\"")
+            items = data["items"]
+            if not isinstance(items, list):
+                raise ValueError('"items" должен быть списком фигур')
+            shapes = [Shape.from_dict(item) for item in items]
+            # Shape ничего не знает о Tkinter (раздел 18.29), поэтому проверить,
+            # что цвет вообще существует, может только владелец холста — здесь.
+            # Делаем это ДО замены документа: иначе "#не-цвет" из файла свалил бы
+            # уже render_document(), когда старый рисунок был бы потерян.
+            for shape in shapes:
+                self.canvas.winfo_rgb(shape.color)  # TclError, если цвет неизвестен
+        except (OSError, UnicodeDecodeError) as exc:
+            messagebox.showerror("Не удалось открыть файл", f"{path.name}: файл не читается.\n{exc}")
+            return
+        except json.JSONDecodeError as exc:
+            messagebox.showerror("Не удалось открыть файл", f"{path.name} — это не корректный JSON.\n{exc}")
+            return
+        except (KeyError, TypeError, ValueError, tk.TclError) as exc:
+            messagebox.showerror("Не удалось открыть файл", f"{path.name} — это не сохранённый рисунок.\n{exc}")
+            return
+
+        # Разбор прошёл успешно — только теперь меняем состояние приложения.
+        self.document = shapes
         self.undo_stack.clear()
         self.redo_stack.clear()
         self.render_document()

@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-08-OBYEKT-EVENT-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-08-obyekt-event",
+    "kind": "theory_lesson",
+    "title": "Объект Event",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-08-obyekt-event.html",
+    "review_surface_sha256": "bb43861f599d30eaa3d7daa32bd29425974d7de8d650f3ec65add140e91bda5b"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Dispels the belief that every event handler receives an event, and inventories the tkinter.Event object -- which fields exist and which are meaningful for which event types.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- verified vi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- verified v",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Объект Event', 'поля объекта', 'сигнатура' are used correctly. The warning's phrasing ('Не читайте поле, если не уверены, что оно применимо к этому типу события') is natural, direct engineer's Russian.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- veri",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Dispels the belief that every event handler receives an event, and inventories the tkinter.Event object -- which fields exist and which are meaningful for which event types.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- verified via",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Dispels the belief that every event handler receives an event, and inventories the tkinter.Event object -- which fields exist and which are meaningful for which event types.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires attribute access on objects (chapter 14) and the bind/command distinction from 17.7. Both available. The forward pointer to 17.18 is a signpost, not a dependency.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Opens by naming the misconception outright ('Частое заблуждение: «обработчик события всегда принимает event». Это неточно.'), a good corrective move, then supplies the object diagram only after the reader knows why they need it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed after 17.7 (needs the callback/command vocabulary) and before 17.9 (the sequence syntax that produces these events). The forward ref to 17.18 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed after 17.7 (needs the callback/command vocabulary) and before 17.9 (the sequence syntax that produces these events). The forward ref to 17.18 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed after 17.7 (needs the callback/command vocabulary) and before 17.9 (the sequence syntax that produces these events). The forward ref to 17.18 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed after 17.7 (needs the callback/command vocabulary) and before 17.9 (the sequence syntax that produces these events). The forward ref to 17.18 is accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-08 (local-required) inspects real Event fields for a keyboard and a mouse event. As found the keyboard half printed '{}' (F-003) and the task had no code cell (F-006); both are fixed, and the notebook now shows keysym/char for keyboard and event.x/event.y for a click.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-08 (local-required) inspects real Event fields for a keyboard and a mouse event. As found the keyboard half printed '{}' (F-003) and the task had no code cell (F-006); both are fixed, and the notebook now shows keysym/char for keyboard and event.x/event.y for a click.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-08 (local-required) inspects real Event fields for a keyboard and a mouse event. As found the keyboard half printed '{}' (F-003) and the task had no code cell (F-006); both are fixed, and the notebook now shows keysym/char for keyboard and event.x/event.y for a click.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Объект Event', 'поля объекта', 'сигнатура' are used correctly. The warning's phrasing ('Не читайте поле, если не уверены, что оно применимо к этому типу события') is natural, direct engineer's Russian.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward ref to 17.18 verified accurate. The Debug Lab citing 'раздел 17.8' for event.widget is correct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward ref to 17.18 verified accurate. The Debug Lab citing 'раздел 17.8' for event.widget is correct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward ref to 17.18 verified accurate. The Debug Lab citing 'раздел 17.8' for event.widget is correct.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- verified",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- verified via code_execution: confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.; Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- verified via code_execution: confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.; event.widget is the widget the event relates to -- a UI source, not game state. -- ver",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-08 (local-required) inspects real Event fields for a keyboard and a mouse event. As found the keyboard half printed '{}' (F-003) and the task had no code cell (F-006); both are fixed, and the notebook now shows keysym/char for keyboard and event.x/event.y for a click.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Dispels the belief that every event handler receives an event, and inventories the tkinter.Event object -- which fields exist and which are meaningful for which event types.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "command= calls the function with no arguments; .bind(sequence, callback) calls it with exactly one argument, the Event; mixing them up is a common cause of TypeError. -- confirmed -- a 0-arg function works fine as command=, and the same function bound via .bind() produces 'TypeError: no_arg() takes 0 positional arguments but 1 was given' through Tkinter's exception reporter.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Event is one class for all event types, so event.x/event.y are meaningful for mouse events but not keyboard, and event.keysym/event.char for keyboard but not hover. -- confirmed -- a <Key> handler receives keysym='Return', char='\\r'; an <Enter> handler receives widget='.!label', type='7' with no meaningful keysym. Matches the warning exactly.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "event.widget is the widget the event relates to -- a UI source, not game state. -- confirmed -- print(event.widget) yields the Tk widget path ('.!label'); the architectural point is reinforced correctly by Debug Lab 14 in 17.29.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires attribute access on objects (chapter 14) and the bind/command distinction from 17.7. Both available. The forward pointer to 17.18 is a signpost, not a dependency. | motivation=Opens by naming the misconception outright ('Частое заблуждение: «обработчик события всегда принимает event». Это неточно.'), a good corrective move, then supplies the object diagram only after the reader knows why they need it. | sequence=Correctly placed after 17.7 (needs the callback/command vocabulary) and before 17.9 (the sequence syntax that produces these events). The forward ref to 17.18",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward ref to 17.18 verified accurate. The Debug Lab citing 'раздел 17.8' for event.widget is correct.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Объект Event', 'поля объекта', 'сигнатура' are used correctly. The warning's phrasing ('Не читайте поле, если не уверены, что оно применимо к этому типу события') is natural, direct engineer's Russian.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-08-obyekt-event against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

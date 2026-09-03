@@ -1,0 +1,402 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-14-IGROVOJ-CIKL-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-14-igrovoj-cikl",
+    "kind": "theory_lesson",
+    "title": "Как работает игровой цикл: ввод, обновление и отрисовка",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-14-igrovoj-cikl.html",
+    "review_surface_sha256": "a8222f2947f243d2256ab9237b057bd47a88f42fd086bf96a2823461d5438758"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Names the three phases of the game loop (Input -> Update -> Render), explains why their order is not arbitrary, and catalogues the two classic first-loop bugs.",
+      "assessment_evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.; Large",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.; Larg",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «ввод / обновление / отрисовка» as the Russian gloss for Input/Update/Render, with the English kept in the diagram -- a good bilingual compromise for terms the reader will meet in English docs.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Names the three phases of the game loop (Input -> Update -> Render), explains why their order is not arbitrary, and catalogues the two classic first-loop bugs.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.; Larger",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Names the three phases of the game loop (Input -> Update -> Render), explains why their order is not arbitrary, and catalogues the two classic first-loop bugs.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes the hand-written loop from 20.2 and function definitions (chapter 13). The section explicitly positions itself as re-naming what 20.2 already built.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Deliberately arrives after the reader has written a loop twice, so the vocabulary attaches to existing experience rather than introducing abstraction first.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct opening of the engine-core block. The promise that these three phases become three methods in 20.26 is kept exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct opening of the engine-core block. The promise that these three phases become three methods in 20.26 is kept exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct opening of the engine-core block. The promise that these three phases become three methods in 20.26 is kept exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct opening of the engine-core block. The promise that these three phases become three methods in 20.26 is kept exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-14 splits a real loop into input_faza/update_faza/render_faza and its star exercise swaps two of them to show the arithmetic is unchanged while the visual timing shifts -- a subtle point handled with unusual care in the task text.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-14 splits a real loop into input_faza/update_faza/render_faza and its star exercise swaps two of them to show the arithmetic is unchanged while the visual timing shifts -- a subtle point handled with unusual care in the task text.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-14 splits a real loop into input_faza/update_faza/render_faza and its star exercise swaps two of them to show the arithmetic is unchanged while the visual timing shifts -- a subtle point handled with unusual care in the task text.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «ввод / обновление / отрисовка» as the Russian gloss for Input/Update/Render, with the English kept in the diagram -- a good bilingual compromise for terms the reader will meet in English docs.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward references to 20.26 and 20.23 both accurate; the 20.28 symptom table's rows for these two bugs correctly cite 20.14.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward references to 20.26 and 20.23 both accurate; the 20.28 symptom table's rows for these two bugs correctly cite 20.14.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward references to 20.26 and 20.23 both accurate; the 20.28 symptom table's rows for these two bugs correctly cite 20.14.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.; La",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- verified via source_inspection: Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.; Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- verified via code_execution: Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.; An unserviced event queue makes the OS mark the window 'Not responding'. -- verified via source_inspection: Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-14 splits a real loop into input_faza/update_faza/render_faza and its star exercise swaps two of them to show the arithmetic is unchanged while the visual timing shifts -- a subtle point handled with unusual care in the task text.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Names the three phases of the game loop (Input -> Update -> Render), explains why their order is not arbitrary, and catalogues the two classic first-loop bugs.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "Input must precede Update and Update must precede Render, or the game reacts or draws one frame late. -- Confirmed -- the reasoning is correct and is the same mechanism behind the 20.23 animation-lag bug, which the section cross-references.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Skipping `pygame.init()` leaves some modules uninitialised, and the resulting error often points at a different line. -- Confirmed exactly -- without init(), `mixer.Sound(...)` raises `pygame.error: mixer not initialized` and `font.SysFont(...)` raises `pygame.error: font not initialized`, while `display.set_mode()` silently succeeds. Sound is indeed the first thing to break.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "An unserviced event queue makes the OS mark the window 'Not responding'. -- Confirmed as accurate OS behaviour and consistent with the 20.28 symptom table.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "Larger engines use more complex schemes (fixed physics timestep, split update phases, interpolation, threads). -- Confirmed -- an accurate, appropriately scoped caveat that stops the three-phase model being mistaken for the only model.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes the hand-written loop from 20.2 and function definitions (chapter 13). The section explicitly positions itself as re-naming what 20.2 already built. | motivation=Deliberately arrives after the reader has written a loop twice, so the vocabulary attaches to existing experience rather than introducing abstraction first. | sequence=Correct opening of the engine-core block. The promise that these three phases become three methods in 20.26 is kept exactly. | practice=Notebook 20-14 splits a real loop into input_faza/update_faza/render_faza and its star exercise swaps two of ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward references to 20.26 and 20.23 both accurate; the 20.28 symptom table's rows for these two bugs correctly cite 20.14.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «ввод / обновление / отрисовка» as the Russian gloss for Input/Update/Render, with the English kept in the diagram -- a good bilingual compromise for terms the reader will meet in English docs.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-14-igrovoj-cikl against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

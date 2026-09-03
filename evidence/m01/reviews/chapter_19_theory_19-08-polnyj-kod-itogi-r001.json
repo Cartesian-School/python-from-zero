@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-08-POLNYJ-KOD-ITOGI-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-08-polnyj-kod-itogi",
+    "kind": "theory_lesson",
+    "title": "Полный код первого прототипа",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-08-polnyj-kod-itogi.html",
+    "review_surface_sha256": "8c60685d8f703fca6ebb11634f50d77a0fd30b8568fa8515562e73370a5f496f"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Assembles one game step (igrovoj_shag) and the main loop (glavnyj_cikl), links the complete snake_basic.py, and pivots the chapter toward the analysis half.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both now carry ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both now carry",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Clean; «честная, но не окончательная версия» is a good callout title. The closing callout now says «блокирующий цикл с фиксированной задержкой» rather than «busy-цикл без паузы».",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both now",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Assembles one game step (igrovoj_shag) and the main loop (glavnyj_cikl), links the complete snake_basic.py, and pivots the chapter toward the analysis half.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both now carry `",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Assembles one game step (igrovoj_shag) and the main loop (glavnyj_cikl), links the complete snake_basic.py, and pivots the chapter toward the analysis half.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Everything from 19.1-19.7 plus while-loops (chapter 11) and the `if __name__ == \"__main__\"` idiom. The exercise's input() reference resolves to 08-07-vvod-polzovatelya.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The closing callout is unusually honest about the design and uses that honesty as the hinge into 19.9-19.33 — pedagogically the strongest transition in the chapter, which is why the unplayability underneath it mattered so much.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct hinge position. Everything from 19.9 onward is framed as a critique of this exact file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct hinge position. Everything from 19.9 onward is framed as a critique of this exact file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct hinge position. Everything from 19.9 onward is framed as a critique of this exact file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct hinge position. Everything from 19.9 onward is framed as a critique of this exact file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-08 (local-required) builds the same program and steps it manually, which sidesteps the main loop entirely — so the practice never surfaced the defect the shipped file had.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-08 (local-required) builds the same program and steps it manually, which sidesteps the main loop entirely — so the practice never surfaced the defect the shipped file had.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-08 (local-required) builds the same program and steps it manually, which sidesteps the main loop entirely — so the practice never surfaced the defect the shipped file had.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Clean; «честная, но не окончательная версия» is a good callout title. The closing callout now says «блокирующий цикл с фиксированной задержкой» rather than «busy-цикл без паузы».",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- The link to snake_basic.py resolves; the forward ref to 'раздел 19.32' resolves; the notebook's file-name claim has been corrected to match.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- The link to snake_basic.py resolves; the forward ref to 'раздел 19.32' resolves; the notebook's file-name claim has been corrected to match.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- The link to snake_basic.py resolves; the forward ref to 'раздел 19.32' resolves; the notebook's file-name claim has been corrected to match.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both now car",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `python snake_basic.py` now gives a playable game controlled with the arrow keys -- verified via code_execution: confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms; screen.update() inside the loop processes pending Tkinter events including key presses -- verified via official_reference: confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue; igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- verified via code_execution: confirmed -- the loop terminates on wall collision after 14 steps; the listing shown matches the real snake_basic.py -- verified via source_inspection: confirmed post-fix -- both no",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-08 (local-required) builds the same program and steps it manually, which sidesteps the main loop entirely — so the practice never surfaced the defect the shipped file had.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "blocker",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-001: glavnyj_cikl() was a busy loop with no delay of any kind, so `python snake_basic.py` ran 14 ticks in 2.1 ms and printed «Игра окончена! Счёт: 0» before the player could press a key — while the section said «Запустите игру у себя … управление стрелками клавиатуры» and «Мы построили настоящую работающую игру».",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Added `import time` and `ZADERZHKA_SEK = 0.12` to snake_basic.py and a time.sleep(ZADERZHKA_SEK) call to glavnyj_cikl()'s loop body, keeping the `while igrovoj_shag(): screen.update()` shape so existing quotations in 19.13 and Debug Lab 3 stay accurate. Updated the 19.8 listing to match and added a warning callout carrying the measured numbers and explaining why sleep() is legitimate in a blocking loop but becomes a bug under screen.ontimer() (19.13 / Debug Lab 4). Reworded the closing callout and 19.13's opening from «busy-цикл» to «блокирующий цикл», and replaced Debug Lab 3's now-false CPU-burn symptom. Verified: 14 steps in 1.690 s -> 120.7 ms/step, a human-playable ~8 steps per second."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Assembles one game step (igrovoj_shag) and the main loop (glavnyj_cikl), links the complete snake_basic.py, and pivots the chapter toward the analysis half.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`python snake_basic.py` now gives a playable game controlled with the arrow keys -- confirmed post-fix -- driving igrovoj_shag() exactly as glavnyj_cikl() does gives '14 steps in 1.690s -> 120.7 ms/step' (~8 steps/s). Before the fix: '14 steps in 0.0021s -> 0.15 ms/step', i.e. the game ended in ~2 ms",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "screen.update() inside the loop processes pending Tkinter events including key presses -- confirmed -- TurtleScreen.update() -> TurtleScreenBase._update() -> self.cv.update(), and Tk's update() drains the event queue",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "igrovoj_shag() returns False once igra_okonchena is set, ending the loop -- confirmed -- the loop terminates on wall collision after 14 steps",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "the listing shown matches the real snake_basic.py -- confirmed post-fix -- both now carry `import time`, `ZADERZHKA_SEK = 0.12` and the time.sleep() call in the loop body",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Everything from 19.1-19.7 plus while-loops (chapter 11) and the `if __name__ == \"__main__\"` idiom. The exercise's input() reference resolves to 08-07-vvod-polzovatelya. | motivation=The closing callout is unusually honest about the design and uses that honesty as the hinge into 19.9-19.33 — pedagogically the strongest transition in the chapter, which is why the unplayability underneath it mattered so much. | sequence=Correct hinge position. Everything from 19.9 onward is framed as a critique of this exact file. | practice=Notebook 19-08 (local-required) builds the same program",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: The link to snake_basic.py resolves; the forward ref to 'раздел 19.32' resolves; the notebook's file-name claim has been corrected to match.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Clean; «честная, но не окончательная версия» is a good callout title. The closing callout now says «блокирующий цикл с фиксированной задержкой» rather than «busy-цикл без паузы».",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-08-polnyj-kod-itogi against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

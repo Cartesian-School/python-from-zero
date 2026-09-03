@@ -64,17 +64,20 @@
     <div class="code-block">
       <div class="code-label"><span>vremya_kadra.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-com"># frame_time — в секундах, fps — кадров в секунду</span>
-fps = <span class="tok-num">1</span> / frame_time
-frame_time = <span class="tok-num">1</span> / fps
+frame_time = <span class="tok-num">1</span> / <span class="tok-num">60</span>          <span class="tok-com"># 60 кадров в секунду -&gt; секунд на кадр</span>
+fps = <span class="tok-num">1</span> / frame_time         <span class="tok-com"># и обратно: секунд на кадр -&gt; кадров в секунду</span>
 
-<span class="tok-com"># Например: 60 кадров в секунду соответствуют кадру ~16.7 мс</span>
-<span class="tok-fn">print</span>(<span class="tok-num">1</span> / <span class="tok-num">60</span>)   <span class="tok-com"># 0.016666... секунды на кадр</span></code></pre>
+<span class="tok-fn">print</span>(frame_time)   <span class="tok-com"># 0.016666... секунды, то есть примерно 16.7 мс на кадр</span>
+<span class="tok-fn">print</span>(fps)          <span class="tok-com"># 60.0</span></code></pre>
     </div>
     <p><code class="inline">clock.tick(60)</code> из раздела 20.2 не ускоряет игру — наоборот,
     он искусственно <em>придерживает</em> цикл, если тот пытается выполниться быстрее 60 раз в
     секунду, и ничего не может сделать, если код одного кадра сам по себе занимает больше
     времени, чем отведённый бюджет. Реальный, измеренный FPS можно узнать через
-    <code class="inline">clock.get_fps()</code> уже после нескольких кадров работы.</p>
+    <code class="inline">clock.get_fps()</code>, но не сразу: он усредняет последние десять
+    вызовов <code class="inline">clock.tick()</code> и до десятого кадра честно возвращает
+    <code class="inline">0.0</code>. Ноль в первых кадрах — это не сломанный счётчик, а ещё не
+    набранная статистика.</p>
 
 
     <div class="callout callout-debug">

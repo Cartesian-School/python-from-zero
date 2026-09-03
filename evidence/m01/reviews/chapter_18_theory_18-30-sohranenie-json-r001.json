@@ -1,0 +1,447 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-18-THEORY-18-30-SOHRANENIE-JSON-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:18:theory:18-30-sohranenie-json",
+    "kind": "theory_lesson",
+    "title": "Сохранение и загрузка JSON",
+    "canonical_source_path": "scripts/build_chapter_18.py",
+    "baseline_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "reviewed_source_sha256": "02d60e371804e1b5a9a280c9a126ce1ce1e3e59074d50071244d1ea90b340d2c",
+    "review_surface_path": "site/chapters/glava-18/18-30-sohranenie-json.html",
+    "review_surface_sha256": "de62f60026f1abf9ede64ab79ad8f814030a4feb6b31638d3e92354d49f3154e"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Saves and loads the document (not the picture) as JSON, is explicit that Canvas cannot export itself to PNG/JPEG, and since remediation also teaches how to survive a corrupted file.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; version",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; versio",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Сериализация' is used correctly (established in Chapter 15). 'Сохраняется не картинка, а документ фигур' is a clean formulation.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Saves and loads the document (not the picture) as JSON, is explicit that Canvas cannot export itself to PNG/JPEG, and since remediation also teaches how to survive a corrupted file.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- This is the chapter's only filesystem-touching unit and the main dimension-L surface. Positives, all verified: no eval/exec/pickle anywhere; paths come only from filedialog and go straight into Path() with no concatenation of untrusted content, so there is no traversal surface; the empty-string cancel case is checked before use in both save and load; and file content reaching Tk (colour strings) is passed as a literal argument, NOT Tcl-substituted -- an injected '[exec touch /tmp/.../pwned.txt]' colour was rejected with 'unknown color name' and created no file (re-verified after remediation). The former negative (no error handling on malformed input, F-005) is now fixed in both the code and the text.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- This is the chapter's only filesystem-touching unit and the main dimension-L surface. Positives, all verified: no eval/exec/pickle anywhere; paths come only from filedialog and go straight into Path() with no concatenation of untrusted content, so there is no traversal surface; the empty-string cancel case is checked before use in both save and load; and file content reaching Tk (colour strings) is passed as a literal argument, NOT Tcl-substituted -- an injected '[exec touch /tmp/.../pwned.txt]' colour was rejected with 'unknown color name' and created no file (re-verified after remediation). The former negative (no error handling on malformed input, F-005) is now fixed in both the code and the text.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; version/",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Saves and loads the document (not the picture) as JSON, is explicit that Canvas cannot export itself to PNG/JPEG, and since remediation also teaches how to survive a corrupted file.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes Chapter 15 (files, pathlib, JSON serialisation -- 15-25-json-serializatsiya.html) and 18.29's document. Both available; the new section now cites 15.25 explicitly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Good: leads with the honest limitation (no PNG export) and turns it into the reason the document model is worth saving. The added corrupt-file section motivates by the data-loss consequence rather than by 'handle errors because you should'.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed as the last feature section before Debug Labs and the wrap-up.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed as the last feature section before Debug Labs and the wrap-up.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed as the last feature section before Debug Labs and the wrap-up.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed as the last feature section before Debug Labs and the wrap-up.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Paired local-required notebook 18-30 round-trips a real Shape through _write_document/load_from_path against the real paint_app module and cleans up its temp file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Paired local-required notebook 18-30 round-trips a real Shape through _write_document/load_from_path against the real paint_app module and cleans up its temp file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Paired local-required notebook 18-30 round-trips a real Shape through _write_document/load_from_path against the real paint_app module and cleans up its temp file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Сериализация' is used correctly (established in Chapter 15). 'Сохраняется не картинка, а документ фигур' is a clean formulation.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- References to 18.29 and 18.31 Debug Labs 13/14 verified accurate; the new section cross-references Chapter 15.25 and is mirrored by the new Debug Lab 16.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- References to 18.29 and 18.31 Debug Labs 13/14 verified accurate; the new section cross-references Chapter 15.25 and is mirrored by the new Debug Lab 16.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- References to 18.29 and 18.31 Debug Labs 13/14 verified accurate; the new section cross-references Chapter 15.25 and is mirrored by the new Debug Lab 16.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; vers",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- Canvas has no built-in cross-platform PNG/JPEG export -- verified via official_reference: confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate; asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- verified via official_reference: confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled; Path('') is PosixPath('.') and writing to it fails -- verified via code_execution: confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'; The document round-trips through JSON without loss -- verified via code_execution: confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after;",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Paired local-required notebook 18-30 round-trips a real Shape through _write_document/load_from_path against the real paint_app module and cleans up its temp file.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- This is the chapter's only filesystem-touching unit and the main dimension-L surface. Positives, all verified: no eval/exec/pickle anywhere; paths come only from filedialog and go straight into Path() with no concatenation of untrusted content, so there is no traversal surface; the empty-string cancel case is checked before use in both save and load; and file content reaching Tk (colour strings) is passed as a literal argument, NOT Tcl-substituted -- an injected '[exec touch /tmp/.../pwned.txt]' colour was rejected with 'unknown color name' and created no file (re-verified after remediation). The former negative (no error handling on malformed input, F-005) is now fixed in both the code and the text.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-005: the load path taught here and implemented in paint_app.py had zero error handling. Eight malformed-input classes raised uncaught (JSONDecodeError, KeyError x2, TypeError, TclError x3, IndexError, ValueError). Worse, for the TclError class the document had already been replaced and both history stacks cleared before render_document() threw, so the user's drawing was lost, undo could not recover it, and every subsequent action -- including drawing a new shape -- raised. Chapter 15's Debug Lab 12 already teaches json.JSONDecodeError on a corrupt file, so the prerequisite existed.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed in projects/tkinter/paint-app/paint_app.py and scripts/build_chapter_18.py. Code: added SHAPE_KINDS; Shape.from_dict now validates kind, coordinate count and numeric type, width and colour type, raising ValueError with a specific message; load_from_path parses into a LOCAL list, validates every colour via canvas.winfo_rgb() (the only place that can, since Shape stays Tkinter-free), and replaces self.document / clears history only after the whole parse succeeds, reporting failures via messagebox.showerror across three except groups. Text: new 18.30 section 'А если файл повреждён?' with the safe code, a warning callout 'Сначала разобрать, потом заменять — а не наоборот' describing the exact data-loss cascade, an info callout on why only the canvas can validate a colour, and a new Debug Lab 16 in 18.31 showing the destructive version (page description updated 'Пятнадцать' -> 'Шестнадцать'). Verified: all 16 malformed-input classes now mishandled = 0, drawing preserved every time, app usable afterwards, injection still blocked, valid round-trip still lossless, and the 5 existing tests/test_paint_app_logic.py assertions still pass."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Saves and loads the document (not the picture) as JSON, is explicit that Canvas cannot export itself to PNG/JPEG, and since remediation also teaches how to survive a corrupted file.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "official_reference",
+      "summary": "Canvas has no built-in cross-platform PNG/JPEG export -- confirmed -- Tk 9.0.3 canvas offers only `postscript`; raster export needs Pillow/ghostscript, so the hedged claim is accurate",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "asksaveasfilename()/askopenfilename() return an empty string on cancel, not None and not an exception -- confirmed -- inspected tkinter/filedialog.py: _Dialog._fixresult returns the raw result, which Tk gives as '' when cancelled",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Path('') is PosixPath('.') and writing to it fails -- confirmed -- Path('') -> PosixPath('.'); Path('').write_text('x') -> IsADirectoryError: [Errno 21] Is a directory: '.'",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "The document round-trips through JSON without loss -- confirmed -- 7 shapes -> _write_document -> load_from_path; [s.to_dict()] identical before and after; version/canvas/items keys as documented",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "code_execution",
+      "summary": "A malformed file no longer destroys the current drawing -- confirmed after remediation -- 16 malformed-input classes each show a dialog, preserve the document byte-for-byte and raise nothing; the app stays usable",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes Chapter 15 (files, pathlib, JSON serialisation -- 15-25-json-serializatsiya.html) and 18.29's document. Both available; the new section now cites 15.25 explicitly. | motivation=Good: leads with the honest limitation (no PNG export) and turns it into the reason the document model is worth saving. The added corrupt-file section motivates by the data-loss consequence rather than by 'handle errors because you should'. | sequence=Correctly placed as the last feature section before Debug Labs and the wrap-up. | practice=Paired local-required notebook 18-30 round-trips a real",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "cross_reference",
+      "summary": "Coherence: References to 18.29 and 18.31 Debug Labs 13/14 verified accurate; the new section cross-references Chapter 15.25 and is mirrored by the new Debug Lab 16.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Сериализация' is used correctly (established in Chapter 15). 'Сохраняется не картинка, а документ фигур' is a clean formulation.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-010",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: This is the chapter's only filesystem-touching unit and the main dimension-L surface. Positives, all verified: no eval/exec/pickle anywhere; paths come only from filedialog and go straight into Path() with no concatenation of untrusted content, so there is no traversal surface; the empty-string cancel case is checked before use in both save and load; and file content reaching Tk (colour strings) is passed as a literal argument, NOT Tcl-substituted -- an injected '[exec touch /tmp/.../pwned.txt]' colour was rejected with 'unknown color name' and created no file (re-",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:18:theory:18-30-sohranenie-json against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

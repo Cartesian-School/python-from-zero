@@ -47,7 +47,7 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 19</a> / Restart</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 19 · Функции игры</div>
     <h1>Restart / New Game</h1>
-    <p class="lede">Новая игра обязана оборвать старую цепочку тиков — иначе на мгновение окажется два параллельных игровых потока.</p>
+    <p class="lede">Новая игра обязана оборвать старую цепочку тиков — иначе на мгновение окажутся две независимые цепочки тиков сразу.</p>
 
 
     <h2>Restart обязан оборвать старую цепочку тиков</h2>
@@ -57,9 +57,9 @@
         style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" />
       <figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Реальное окно после restart(): свежая змейка, счёт обнулён, рекорд остался.</figcaption>
     </figure>
-    <p>Restart не просто возвращает змейку в исходную позицию — раздел 19.27 предупреждал:
+    <p>Restart не просто возвращает змейку в исходную позицию — раздел 19.22 предупреждал:
     если старая цепочка <code class="inline">ontimer()</code> всё ещё тикает, у игры на
-    мгновение оказалось бы два независимых потока обновлений одновременно (глава 16 уже
+    мгновение оказалось бы две независимые цепочки обновлений одновременно (глава 16 уже
     разбирала похожую проблему с повторным нажатием кнопки).</p>
 
     <div class="code-block">
@@ -100,7 +100,7 @@
     <div class="notebook-card">
       <div>
         <div class="nc-title">Практика: restart и просроченные тики</div>
-        <div class="nc-sub">Автоматическая проверка — старый _on_timer() после restart() не двигает новую игру</div>
+        <div class="nc-sub">Автоматическая проверка — функции new_game_state() и restart(): рекорд переживает рестарт, поколение растёт</div>
         <div class="practice-inline-status" data-lesson-id="19-23"></div>
       </div>
       <a class="nc-btn" href="../../practice/19-23/index.html">Открыть практику →</a>

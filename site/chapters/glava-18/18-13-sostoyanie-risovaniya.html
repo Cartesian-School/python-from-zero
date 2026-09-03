@@ -56,7 +56,54 @@
     честный прототип, но по мере роста приложения к ним добавляются точка начала жеста,
     последняя точка карандаша, id черновой фигуры превью — и глобальных переменных становится
     слишком много, чтобы держать их связь в голове.</p>
-    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 306" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="uml-class" aria-label="Один объект вместо семи отдельных переменных — те же данные, но с понятной границей." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="306" rx="2" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><rect x="10" y="0" width="260" height="40" rx="0" fill="#5B24F9"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="16" fill="#fff">DrawingState</text><line x1="10" y1="40" x2="270" y2="40" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="62">tool: Tool</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="90">color: str</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="118">width: int</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="146">start_x: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="174">start_y: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="202">last_x: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="230">last_y: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="258">preview_id: int | None</tspan></text><line x1="10" y1="268" x2="270" y2="268" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="290">—</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Один объект вместо семи отдельных переменных — те же данные, но с понятной границей.</figcaption></figure>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg viewBox="0 0 280 306" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="uml-class" aria-label="Один объект вместо восьми отдельных переменных — те же данные, но с понятной границей." style="width:100%;height:auto;max-width:280px"><rect x="10" y="0" width="260" height="306" rx="2" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><rect x="10" y="0" width="260" height="40" rx="0" fill="#5B24F9"/><text x="140.0" y="26.0" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="16" fill="#fff">DrawingState</text><line x1="10" y1="40" x2="270" y2="40" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="62">tool: Tool</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="90">color: str</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="118">width: int</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="146">start_x: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="174">start_y: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="202">last_x: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="230">last_y: float | None</tspan></text><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#0D0230"><tspan x="26" y="258">preview_id: int | None</tspan></text><line x1="10" y1="268" x2="270" y2="268" stroke="#5B24F9" stroke-width="1.5"/><text font-family="'JetBrains Mono', monospace" font-size="13.5" fill="#5B24F9" font-weight="600"><tspan x="26" y="290">—</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Один объект вместо восьми отдельных переменных — те же данные, но с понятной границей.</figcaption></figure>
+
+    <h2 id="enum">Новое: Enum — заранее известный список вариантов</h2>
+    <p>Пока инструмент хранится строкой, <strong>любое</strong> слово выглядит допустимым:
+    <code class="inline">"pryamougolnik"</code>, <code class="inline">"pryamougolnick"</code>,
+    <code class="inline">"квадрат"</code>. Python не возражает — он и не знает, какие варианты вы
+    считаете правильными. Опечатка всплывёт гораздо позже и совсем не там: значение просто не
+    совпадёт ни с одной веткой <code class="inline">if</code>, и нажатие мыши тихо перестанет
+    что-либо рисовать.</p>
+    <p>Но у инструмента конечное, заранее известное число вариантов — карандаш, линия,
+    прямоугольник, овал, ластик. Для таких случаев в Python есть <strong>перечисление</strong>
+    (<code class="inline">Enum</code> из модуля <code class="inline">enum</code>): вы один раз
+    выписываете все допустимые значения, и дальше пользуетесь только ими.</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>enum_vpervye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">from</span> enum <span class="tok-kw">import</span> Enum
+
+<span class="tok-kw">class</span> Tool(Enum):
+    PENCIL = <span class="tok-str">&quot;pencil&quot;</span>
+    LINE = <span class="tok-str">&quot;line&quot;</span>
+    RECTANGLE = <span class="tok-str">&quot;rectangle&quot;</span>
+
+<span class="tok-fn">print</span>(Tool.RECTANGLE)          <span class="tok-com"># Tool.RECTANGLE</span>
+<span class="tok-fn">print</span>(Tool.RECTANGLE.value)    <span class="tok-com"># rectangle</span>
+<span class="tok-fn">print</span>(Tool.RECTANGLE <span class="tok-kw">is</span> Tool.PENCIL)   <span class="tok-com"># False</span>
+<span class="tok-fn">print</span>(Tool.RECTANGL)           <span class="tok-com"># AttributeError — опечатка видна СРАЗУ</span></code></pre>
+    </div>
+    <p>Три вещи, которые стоит запомнить про <code class="inline">Enum</code>:</p>
+    <ul>
+      <li><code class="inline">Tool.RECTANGLE</code> — это <strong>член</strong> перечисления,
+      отдельное значение, а не строка. Его удобно передавать и хранить;</li>
+      <li><code class="inline">.value</code> достаёт строку, которую вы за ним закрепили — она
+      пригодится, когда фигуру нужно будет записать в JSON (раздел 18.30);</li>
+      <li>члены сравнивают через <code class="inline">is</code>, а не
+      <code class="inline">==</code>: член перечисления существует ровно в одном экземпляре,
+      поэтому <code class="inline">tool is Tool.ERASER</code> — самая точная и быстрая проверка.</li>
+    </ul>
+    <p>Главное отличие от строки: <code class="inline">Tool.RECTANGL</code> — это
+    <code class="inline">AttributeError</code> при первом же обращении, а
+    <code class="inline">"pryamougolnick"</code> — совершенно «нормальная» строка, о которой
+    Python промолчит.</p>
+
+    <h2>Собираем DrawingState</h2>
+    <p>Теперь соберём оба инструмента вместе: <code class="inline">Enum</code> для инструмента и
+    <code class="inline">@dataclass</code> (раздел 14.23) для самого объекта состояния —
+    он избавляет от рукописного <code class="inline">__init__</code> и сразу даёт понятный
+    <code class="inline">repr</code>:</p>
 
     <div class="code-block">
       <div class="code-label"><span>drawing_state.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
@@ -82,7 +129,7 @@
     <div class="callout callout-tip">
       <div>
         <div class="callout-title">Enum вместо строк — когда это того стоит</div>
-        <div class="callout-body"><code class="inline">tekuschaya_figura = "pryamougolnik"</code> работает, но опечатку в строке Python не заметит, пока код не выполнится и фигура тихо не окажется «неизвестной». <code class="inline">Tool.RECTANGLE</code> — то же самое по смыслу, но опечатку поймает уже редактор или <code class="inline">python -c "import module"</code>. Enum здесь оправдан ровно потому, что вариантов инструмента конечное известное число (глава 12 показывала эту идею на других примерах).</div>
+        <div class="callout-body"><code class="inline">tekuschaya_figura = "pryamougolnik"</code> работает, но опечатку в строке Python не заметит, пока код не выполнится и фигура тихо не окажется «неизвестной». <code class="inline">Tool.RECTANGLE</code> — то же самое по смыслу, но опечатку поймает уже редактор или <code class="inline">python -c "import module"</code>. Enum здесь оправдан ровно потому, что вариантов инструмента конечное известное число. Если вариант всего один или их список постоянно меняется — обычной строки достаточно, перечисление только добавит церемоний.</div>
       </div>
     </div>
 

@@ -117,6 +117,53 @@
       </div>
     </div>
 
+    <h2 id="povrezhdennyj-fajl">А если файл повреждён?</h2>
+    <p>Открывает файл пользователь — значит, выбрать он может что угодно: чужой JSON, картинку,
+    недописанный при сбое файл, отредактированный вручную рисунок с опечаткой. Глава 15
+    (раздел 15.25) уже показывала, что <code class="inline">json.load()</code> сообщает об этом
+    через <code class="inline">json.JSONDecodeError</code>. Здесь к нему добавляются ещё
+    несколько возможностей: ключа <code class="inline">"items"</code> может не быть вовсе, у
+    фигуры может не хватать поля, а цвет может оказаться строкой, которой Tk не знает.</p>
+    <p>Важно не просто «не упасть», а не потерять рисунок, над которым пользователь уже работал.
+    Поэтому загрузка разбирает файл в <strong>локальный</strong> список и заменяет документ
+    только тогда, когда разбор целиком удался:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>zagruzka_bezopasno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    <span class="tok-kw">try</span>:
+        data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
+        shapes = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+        <span class="tok-kw">for</span> shape <span class="tok-kw">in</span> shapes:
+            self.canvas.winfo_rgb(shape.color)   <span class="tok-com"># цвет существует?</span>
+    <span class="tok-kw">except</span> json.JSONDecodeError <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">&quot;Не удалось открыть файл&quot;</span>, <span class="tok-str">f&quot;</span><span class="tok-str">Это не корректный JSON.\n</span>{exc}<span class="tok-str">&quot;</span>)
+        <span class="tok-kw">return</span>
+    <span class="tok-kw">except</span> (KeyError, TypeError, ValueError, tk.TclError) <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">&quot;Не удалось открыть файл&quot;</span>, <span class="tok-str">f&quot;</span><span class="tok-str">Это не сохранённый рисунок.\n</span>{exc}<span class="tok-str">&quot;</span>)
+        <span class="tok-kw">return</span>
+
+    <span class="tok-com"># Разбор удался — только теперь меняем состояние приложения.</span>
+    self.document = shapes
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Сначала разобрать, потом заменять — а не наоборот</div>
+        <div class="callout-body">Соблазн написать <code class="inline">self.document = [...]</code> сразу, а <code class="inline">try</code> навесить только на <code class="inline">json.loads()</code>. Тогда файл с неизвестным цветом пройдёт разбор, документ уже будет заменён — и упадёт <code class="inline">render_document()</code>. Итог: прежний рисунок потерян, история отмены очищена, а каждая следующая попытка нарисовать хоть что-нибудь снова падает, потому что перерисовка каждый раз натыкается на ту же плохую фигуру. Проверка ДО присваивания стоит одной лишней переменной и спасает работу пользователя.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">Проверять цвет умеет только холст</div>
+        <div class="callout-body"><code class="inline">Shape</code> сознательно ничего не знает о Tkinter (раздел 18.29), поэтому строку цвета он проверить не может — для него <code class="inline">"#2563eb"</code> и <code class="inline">"не-цвет"</code> одинаково похожи на цвет. А вот <code class="inline">canvas.winfo_rgb(color)</code> спрашивает у самого Tk и бросает <code class="inline">TclError</code>, если такого цвета нет. Разделение обязанностей сохранено: модель проверяет структуру, холст — то, что относится к рисованию.</div>
+      </div>
+    </div>
+
 
     <div class="notebook-card">
       <div>

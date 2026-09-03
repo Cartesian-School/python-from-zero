@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-27-PROIZVODITELNOST-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-27-proizvoditelnost",
+    "kind": "theory_lesson",
+    "title": "Производительность: FPS и бюджет кадра",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-27-proizvoditelnost.html",
+    "review_surface_sha256": "e55321252b8041a828225963fb0f48f9639cc4b0d24c138a45875558f0b092b6"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Converts the target FPS into a millisecond frame budget, catalogues the usual ways that budget is blown, and insists on measuring with get_fps() or cProfile before optimising.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_reference:",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_reference",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «бюджет кадра», «просадка FPS», «профилировщик» are correct and idiomatic; «просадка» is exactly the word a Russian-speaking gamedev would use.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_ref",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Converts the target FPS into a millisecond frame budget, catalogues the usual ways that budget is blown, and insists on measuring with get_fps() or cProfile before optimising.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_reference: ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Converts the target FPS into a millisecond frame budget, catalogues the usual ways that budget is blown, and insists on measuring with get_fps() or cProfile before optimising.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.15's frame time and the asset/Surface/collision sections it cites. All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The «Сначала измерить, потом оптимизировать» callout names the actual failure mode (rewriting what merely looks slow) rather than reciting the maxim, which makes it stick.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct position: after the architecture that makes profiling meaningful, before debugging (20.28) which shares the measure-don't-guess stance.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct position: after the architecture that makes profiling meaningful, before debugging (20.28) which shares the measure-don't-guess stance.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct position: after the architecture that makes profiling meaningful, before debugging (20.28) which shares the measure-don't-guess stance.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct position: after the architecture that makes profiling meaningful, before debugging (20.28) which shares the measure-don't-guess stance.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-27 computes the budget and its remainder, and asserts that a negative remainder means the frame overran -- pure arithmetic, correctly assigned to Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-27 computes the budget and its remainder, and asserts that a negative remainder means the frame overran -- pure arithmetic, correctly assigned to Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-27 computes the budget and its remainder, and asserts that a negative remainder means the frame overran -- pure arithmetic, correctly assigned to Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «бюджет кадра», «просадка FPS», «профилировщик» are correct and idiomatic; «просадка» is exactly the word a Russian-speaking gamedev would use.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-reference to 20.15 and the four table cross-references all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-reference to 20.15 and the four table cross-references all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-reference to 20.15 and the four table cross-references all resolve.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_referen",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- verified via code_execution: Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.; Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- verified via cross_reference: Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).; All-pairs collision checking grows quadratically with object count. -- verified via source_inspection: Confirmed -- correct complexity claim for the naive n^2 approach.; `cProfile` is a Python standard-library profiler reporting per-function time. -- verified via official_re",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-27 computes the budget and its remainder, and asserts that a negative remainder means the frame overran -- pure arithmetic, correctly assigned to Pyodide.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Converts the target FPS into a millisecond frame budget, catalogues the usual ways that budget is blown, and insists on measuring with get_fps() or cProfile before optimising.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "The frame budget is `1000 / fps` ms: 30 -> 33.33, 60 -> 16.67, 120 -> 8.33. -- Confirmed -- the shown snippet was executed verbatim and prints exactly those three lines; the doubled braces in the builder's f-string render correctly in the HTML.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "Loading a file inside the loop, allocating a Surface per frame, drawing offscreen objects and all-pairs collision checks are the common budget sinks. -- Confirmed -- all four are real, and each is correctly cross-referenced to the section that introduced it (20.19, 20.24, 20.17, 20.21).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "All-pairs collision checking grows quadratically with object count. -- Confirmed -- correct complexity claim for the naive n^2 approach.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "official_reference",
+      "summary": "`cProfile` is a Python standard-library profiler reporting per-function time. -- Confirmed -- correct description of the stdlib module.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.15's frame time and the asset/Surface/collision sections it cites. All available. | motivation=The «Сначала измерить, потом оптимизировать» callout names the actual failure mode (rewriting what merely looks slow) rather than reciting the maxim, which makes it stick. | sequence=Correct position: after the architecture that makes profiling meaningful, before debugging (20.28) which shares the measure-don't-guess stance. | practice=Notebook 20-27 computes the budget and its remainder, and asserts that a negative remainder means the frame overran -- pure arithmetic, cor",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-reference to 20.15 and the four table cross-references all resolve.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «бюджет кадра», «просадка FPS», «профилировщик» are correct and idiomatic; «просадка» is exactly the word a Russian-speaking gamedev would use.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-27-proizvoditelnost against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

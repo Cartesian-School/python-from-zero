@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-17-THEORY-17-30-VISUAL-EFFECTS-AFTER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:17:theory:17-30-visual-effects-after",
+    "kind": "theory_lesson",
+    "title": "Visual effects и after()",
+    "canonical_source_path": "scripts/build_chapter_17.py",
+    "baseline_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "reviewed_source_sha256": "0ffd67f5c4279b5ea74c87869f9e1e9b1533b74172e789db6203eded1f0e27ae",
+    "review_surface_path": "site/chapters/glava-17/17-30-visual-effects-after.html",
+    "review_surface_sha256": "6597e35a30475d85b59244758b626519f9b2c887cdbca1d072151db8c0bbe270"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Adds one restrained, non-blocking win accent using self-rescheduling after(), and insists on cancelling a pending after() when a new round starts.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before comple",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before compl",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- 'Самопланирующийся after()' is a good coinage, consistent with chapter 16's treatment. 'Трёхсостояньевая дисциплина' was not a Russian word and has been replaced with 'дисциплина трёх состояний'.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Adds one restrained, non-blocking win accent using self-rescheduling after(), and insists on cancelling a pending after() when a new round starts.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- The lesson correctly treats an uncancelled after() job as a correctness hazard across a state reset. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- The lesson correctly treats an uncancelled after() job as a correctness hazard across a state reset. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before complet",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Adds one restrained, non-blocking win accent using self-rescheduling after(), and insists on cancelling a pending after() when a new round starts.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Requires after() and self-rescheduling (chapter 16.22, verified present), after_cancel and the three-state timer discipline (chapter 16.28, verified present), and winning_line from 17.25. All available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Motivated by restraint rather than capability ('победа должна быть замечена, а не устроить дискотеку'), the right value to teach alongside an animation API, and it explicitly declines to build an animation framework.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed as the last feature before the chapter summary, building on the highlighting from 17.25. The backward references to 16.22 and 16.28 are both accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed as the last feature before the chapter summary, building on the highlighting from 17.25. The backward references to 16.22 and 16.28 are both accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed as the last feature before the chapter summary, building on the highlighting from 17.25. The backward references to 16.22 and 16.28 are both accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed as the last feature before the chapter summary, building on the highlighting from 17.25. The backward references to 16.22 and 16.28 are both accurate.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 17-30 (local-required) runs a real two-tick after() sequence and records the ticks. As found it contradicted its own boilerplate about avoiding mainloop() (F-022) and its cancel_pulse task had no code cell (F-006); both fixed, and the added cell now proves after_cancel prevents the second tick.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 17-30 (local-required) runs a real two-tick after() sequence and records the ticks. As found it contradicted its own boilerplate about avoiding mainloop() (F-022) and its cancel_pulse task had no code cell (F-006); both fixed, and the added cell now proves after_cancel prevents the second tick.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 17-30 (local-required) runs a real two-tick after() sequence and records the ticks. As found it contradicted its own boilerplate about avoiding mainloop() (F-022) and its cancel_pulse task had no code cell (F-006); both fixed, and the added cell now proves after_cancel prevents the second tick.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- 'Самопланирующийся after()' is a good coinage, consistent with chapter 16's treatment. 'Трёхсостояньевая дисциплина' was not a Russian word and has been replaced with 'дисциплина трёх состояний'.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Refs to 16.22 and 16.28 verified present; the relationship to Debug Lab 16 is consistent. Figures were affected by F-001 and F-020, both now addressed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Refs to 16.22 and 16.28 verified present; the relationship to Debug Lab 16 is consistent. Figures were affected by F-001 and F-020, both now addressed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Refs to 16.22 and 16.28 verified present; the relationship to Debug Lab 16 is consistent. Figures were affected by F-001 and F-020, both now addressed.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before com",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- verified via code_execution: confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.; cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- verified via code_execution: confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.; The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- verified via code_execution: confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed befor",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 17-30 (local-required) runs a real two-tick after() sequence and records the ticks. As found it contradicted its own boilerplate about avoiding mainloop() (F-022) and its cancel_pulse task had no code cell (F-006); both fixed, and the added cell now proves after_cancel prevents the second tick.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- The lesson correctly treats an uncancelled after() job as a correctness hazard across a state reset. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "blocker",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-001: all three win-pulse figures were missing the status line.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Fixed by the StringVar(master=root) repair and regeneration; all three frames now show 'Победил игрок X!' alongside the accent and permanent highlight colours."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-020: the text promised 'три реальных кадра', but win-pulse-step-1.png and win-pulse-final.png are byte-identical -- only two distinct frames exist.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Kept all three figures but made the prose honest: it now states that only two frames are distinguishable and that the third coincides with the second precisely because the effect ends on the permanent highlight. The third caption was updated to match."
+    },
+    {
+      "finding_id": "F-003",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-028: 'трёхсостояньевая дисциплина' is not a Russian word.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Replaced with 'та же дисциплина трёх состояний, что и у таймера в разделе 16.28'."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Adds one restrained, non-blocking win accent using self-rescheduling after(), and insists on cancelling a pending after() when a new round starts.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "pulse_winning_line schedules its own next tick via after() rather than blocking, so the event loop is never frozen. -- confirmed -- notebook 17-30 records ticks [0, 1] through a real mainloop, and the canonical implementation stores the job id and clears it.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "cancel_pulse must call after_cancel before a reset, or a pending tick can fire on the new round's empty board. -- confirmed -- _pulse_job is non-None immediately after a win and None after cancel_pulse(); new_round() calls cancel_pulse() first, so the hazard is genuinely handled.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "The effect is a single calm transition, not a flashing sequence: PULSE_BG, then after 400 ms the permanent WIN_BG. -- confirmed -- tick 0 paints #6EE7B7 and tick 1 paints #D1FAE5, one transition only. As found the effect was destroyed before completing because on_cell_leave called render() unconditionally (F-013, fixed against the project).",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "The three figures are three real frames of the effect. -- REFUTED as found -- win-pulse-step-1.png and win-pulse-final.png are byte-identical (also sharing x-win.png's hash). There are only two distinct frames. Fixed under F-020 by making the prose say so.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Requires after() and self-rescheduling (chapter 16.22, verified present), after_cancel and the three-state timer discipline (chapter 16.28, verified present), and winning_line from 17.25. All available. | motivation=Motivated by restraint rather than capability ('победа должна быть замечена, а не устроить дискотеку'), the right value to teach alongside an animation API, and it explicitly declines to build an animation framework. | sequence=Correctly placed as the last feature before the chapter summary, building on the highlighting from 17.25. The backward references to 16.22 ",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Refs to 16.22 and 16.28 verified present; the relationship to Debug Lab 16 is consistent. Figures were affected by F-001 and F-020, both now addressed.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: 'Самопланирующийся after()' is a good coinage, consistent with chapter 16's treatment. 'Трёхсостояньевая дисциплина' was not a Russian word and has been replaced with 'дисциплина трёх состояний'.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: The lesson correctly treats an uncancelled after() job as a correctness hazard across a state reset. No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:17:theory:17-30-visual-effects-after against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

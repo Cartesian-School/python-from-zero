@@ -1,0 +1,403 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-02-IGROVOJ-EKRAN-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-02-igrovoj-ekran",
+    "kind": "theory_lesson",
+    "title": "Создаём окно игры и первый игровой цикл",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-02-igrovoj-ekran.html",
+    "review_surface_sha256": "11575a65d58336cfc044b52598abdf89eb3bf7ad548584253756f0ae6c2f887c"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Creates the first Pygame window with `display.set_mode()` and writes the first hand-rolled game loop: event pump, `display.flip()`, `clock.tick(60)`, and `screen.fill()` for frame clearing.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confirmed -- ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confirmed --",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «игровой цикл», «кадр», «поверхность» introduced cleanly. «не больше 60 кадров в секунду» as the gloss for `tick(60)` is precise and pre-empts the common 'tick makes it faster' error.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confir",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Creates the first Pygame window with `display.set_mode()` and writes the first hand-rolled game loop: event pump, `display.flip()`, `clock.tick(60)`, and `screen.fill()` for frame clearing.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confirmed -- r",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Creates the first Pygame window with `display.set_mode()` and writes the first hand-rolled game loop: event pump, `display.flip()`, `clock.tick(60)`, and `screen.fill()` for frame clearing.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes RGB colour tuples (chapter 11) and `while` loops (chapter 10). Both available; the `(20, 20, 40)` tuple is introduced with an explicit chapter-11 pointer.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Frames the loop as «сердце любой игры» and derives each line from a need (show the frame, cap the rate, clear the trail) rather than presenting a template to copy.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct second position: a visible window before any theory about loops. The deeper Input -> Update -> Render vocabulary is deferred to 20.14, which is right -- the learner sees the thing before it is named.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct second position: a visible window before any theory about loops. The deeper Input -> Update -> Render vocabulary is deferred to 20.14, which is right -- the learner sees the thing before it is named.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct second position: a visible window before any theory about loops. The deeper Input -> Update -> Render vocabulary is deferred to 20.14, which is right -- the learner sees the thing before it is named.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct second position: a visible window before any theory about loops. The deeper Input -> Update -> Render vocabulary is deferred to 20.14, which is right -- the learner sees the thing before it is named.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-02 replaces `while` with `for kadr in range(5)` (explained in a dedicated markdown cell) and asserts the fill colour via `get_at`. Faithful reinforcement.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-02 replaces `while` with `for kadr in range(5)` (explained in a dedicated markdown cell) and asserts the fill colour via `get_at`. Faithful reinforcement.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-02 replaces `while` with `for kadr in range(5)` (explained in a dedicated markdown cell) and asserts the fill colour via `get_at`. Faithful reinforcement.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «игровой цикл», «кадр», «поверхность» introduced cleanly. «не больше 60 кадров в секунду» as the gloss for `tick(60)` is precise and pre-empts the common 'tick makes it faster' error.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Anchor `#krasivyj` referenced from the chapter opener exists in the rendered page; both images exist and match their alt text.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Anchor `#krasivyj` referenced from the chapter opener exists in the rendered page; both images exist and match their alt text.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Anchor `#krasivyj` referenced from the chapter opener exists in the rendered page; both images exist and match their alt text.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confirmed ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- verified via code_execution: Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.; Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- verified via cross_reference: Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.; Without handling `pygame.QUIT` the window stops responding. -- verified via source_inspection: Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.; `screen.fill(colour)` must run first each frame or previous frames leave trails. -- verified via code_execution: Confi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-02 replaces `while` with `for kadr in range(5)` (explained in a dedicated markdown cell) and asserts the fill colour via `get_at`. Faithful reinforcement.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Creates the first Pygame window with `display.set_mode()` and writes the first hand-rolled game loop: event pump, `display.flip()`, `clock.tick(60)`, and `screen.fill()` for frame clearing.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`pygame.display.set_mode((600, 400))` returns a Surface that can be filled and read back. -- Confirmed -- under xvfb, `screen.fill((20,20,40)); screen.get_at((0,0))` returns `Color(20, 20, 40, 255)`, reproducing the notebook transcript exactly.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "cross_reference",
+      "summary": "Unlike Tkinter's `mainloop()`, the Pygame loop is written by hand, giving per-frame control. -- Confirmed -- chapters 16-18 teach `root.mainloop()`; the contrast is accurate and pedagogically load-bearing.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "Without handling `pygame.QUIT` the window stops responding. -- Confirmed as a correct description of OS behaviour; consistent with the 20.14 debug callout on the unread event queue, which is the mechanism.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "`screen.fill(colour)` must run first each frame or previous frames leave trails. -- Confirmed -- reproduced deliberately by the screenshot generator's `scene_bug_bez_fill()`, whose output debug-missing-fill-trail.png shows the real trail.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes RGB colour tuples (chapter 11) and `while` loops (chapter 10). Both available; the `(20, 20, 40)` tuple is introduced with an explicit chapter-11 pointer. | motivation=Frames the loop as «сердце любой игры» and derives each line from a need (show the frame, cap the rate, clear the trail) rather than presenting a template to copy. | sequence=Correct second position: a visible window before any theory about loops. The deeper Input -> Update -> Render vocabulary is deferred to 20.14, which is right -- the learner sees the thing before it is named. | practice=Notebook 20-0",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Anchor `#krasivyj` referenced from the chapter opener exists in the rendered page; both images exist and match their alt text.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «игровой цикл», «кадр», «поверхность» introduced cleanly. «не больше 60 кадров в секунду» as the gloss for `tick(60)` is precise and pre-empts the common 'tick makes it faster' error.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-02-igrovoj-ekran against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

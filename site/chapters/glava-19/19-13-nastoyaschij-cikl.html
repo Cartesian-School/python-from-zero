@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Настоящий игровой цикл — Python с нуля — Cartesian School</title>
-<meta name="description" content="screen.ontimer() вместо busy-цикла while — тики планируются друг за другом, не блокируя цикл событий." />
+<meta name="description" content="screen.ontimer() вместо блокирующего цикла while — тики планируются друг за другом, не блокируя цикл событий." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Настоящий игровой цикл — Python с нуля — Cartesian School" />
-<meta property="og:description" content="screen.ontimer() вместо busy-цикла while — тики планируются друг за другом, не блокируя цикл событий." />
+<meta property="og:description" content="screen.ontimer() вместо блокирующего цикла while — тики планируются друг за другом, не блокируя цикл событий." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-19/19-13-nastoyaschij-cikl.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Настоящий игровой цикл — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="screen.ontimer() вместо busy-цикла while — тики планируются друг за другом, не блокируя цикл событий." />
+<meta name="twitter:description" content="screen.ontimer() вместо блокирующего цикла while — тики планируются друг за другом, не блокируя цикл событий." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Настоящий игровой цикл — Python с нуля — Cartesian School","description":"screen.ontimer() вместо busy-цикла while — тики планируются друг за другом, не блокируя цикл событий.","url":"https://www.cartesianschool.org/chapters/glava-19/19-13-nastoyaschij-cikl.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Настоящий игровой цикл — Python с нуля — Cartesian School","description":"screen.ontimer() вместо блокирующего цикла while — тики планируются друг за другом, не блокируя цикл событий.","url":"https://www.cartesianschool.org/chapters/glava-19/19-13-nastoyaschij-cikl.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -51,17 +51,18 @@
 
 
     <h2>while — не единственный способ повторять тики</h2>
-    <p>Первый прототип запускает игру через <code class="inline">while igrovoj_shag(): screen.update()</code>
-    — простой и понятный busy-цикл. Здесь легко сделать неверный вывод, так что стоит
-    проговорить его отдельно: <code class="inline">screen.update()</code> внутри цикла
-    ДЕЙСТВИТЕЛЬНО обрабатывает накопившиеся события Tkinter, включая нажатия клавиш — значит,
-    обработчик, привязанный через <code class="inline">onkeypress()</code>, технически может
-    сработать прямо во время этого вызова. Проблема busy-цикла не в том, что клавиатура «не
-    успевает» — а в том, что сам цикл ничего не планирует и ни у кого не спрашивает разрешения:
-    он крутится так быстро, как только способен выполниться Python-код между двумя
-    <code class="inline">update()</code>, без встроенного контроля скорости, а паузу, изменение
-    темпа и перезапуск пришлось бы вручную вплетать в тело цикла отдельными флагами и
-    проверками на каждой итерации.</p>
+    <p>Первый прототип запускает игру через <code class="inline">while igrovoj_shag(): ...</code>
+    с <code class="inline">time.sleep()</code> в теле — простой и понятный блокирующий цикл.
+    Здесь легко сделать неверный вывод, так что стоит проговорить его отдельно:
+    <code class="inline">screen.update()</code> внутри цикла ДЕЙСТВИТЕЛЬНО обрабатывает
+    накопившиеся события Tkinter, включая нажатия клавиш — значит, обработчик, привязанный через
+    <code class="inline">onkeypress()</code>, технически может сработать прямо во время этого
+    вызова. Проблема такого цикла не в том, что клавиатура «не успевает» — а в том, что он
+    <em>владеет</em> управлением от начала и до конца партии и ни у кого не спрашивает
+    разрешения. Скорость в нём — одна константа <code class="inline">ZADERZHKA_SEK</code>,
+    которую по ходу игры не поменять; а паузу и перезапуск пришлось бы вручную вплетать в тело
+    цикла отдельными флагами и проверками на каждой итерации. И всё это время программа не может
+    заниматься ничем другим: она сидит внутри <code class="inline">sleep()</code>.</p>
 
     <div class="code-block">
       <div class="code-label"><span>ontimer_cikl.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>

@@ -1,0 +1,420 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-27-GAMESTATE-DATACLASS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-27-gamestate-dataclass",
+    "kind": "theory_lesson",
+    "title": "GameState с dataclass",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-27-gamestate-dataclass.html",
+    "review_surface_sha256": "0672d29cb1b7289b491a7f9c990e9239b6067474fc88ffbda49d01b7e86ab46e"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Collects the eight state fields into a single @dataclass, explains why food is Position | None, and warns against storing Turtle objects inside the model.",
+      "assessment_evidence_refs": [
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Debug Labs",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Debug Lab",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Clean.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Deb",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Collects the eight state fields into a single @dataclass, explains why food is Position | None, and warns against storing Turtle objects inside the model.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Debug Labs ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Collects the eight state fields into a single @dataclass, explains why food is Position | None, and warns against storing Turtle objects inside the model.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- @dataclass and field/default_factory from chapter 14 (14-23, 14-24 — both verified present, and 14-23 does cover default_factory). Position | None is the first optional type in the book but is explained in place.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Two strong motivations: the None case is justified by an already-established game situation rather than by type theory, and the anti-pattern warning is tied to a concrete cost.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct: the data container follows the recognition of purity (19.26) and precedes the app object (19.28) that owns it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct: the data container follows the recognition of purity (19.26) and precedes the app object (19.28) that owns it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct: the data container follows the recognition of purity (19.26) and precedes the app object (19.28) that owns it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct: the data container follows the recognition of purity (19.26) and precedes the app object (19.28) that owns it.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-27 constructs, compares and dataclasses.replace() a simplified GameState, and now actually uses the `field` import it declares.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-27 constructs, compares and dataclasses.replace() a simplified GameState, and now actually uses the `field` import it declares.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-27 constructs, compares and dataclasses.replace() a simplified GameState, and now actually uses the `field` import it declares.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Clean.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- All references resolve; refs to 19.18, 19.30 and 19.31 were already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- All references resolve; refs to 19.18, 19.30 and 19.31 were already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- All references resolve; refs to 19.18, 19.30 and 19.31 were already correct.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Debug L",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- GameState's eight fields match the class_diagram and the implementation -- verified via source_inspection: confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults; field(default_factory=...) is needed for the mutable list default -- verified via official_reference: confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)]); storing a Turtle in GameState would break the 19.30 tests -- verified via code_execution: confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field; the next_direction forward reference now points at a section that exists -- verified via source_inspection: confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (De",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-27 constructs, compares and dataclasses.replace() a simplified GameState, and now actually uses the `field` import it declares.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-004: «раздел 19.48 объясняет, зачем клавиатура запрашивает направление, а не меняет его напрямую» pointed past the end of the chapter. The same bad number was repeated in snake.py's request_direction docstring.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Retargeted to «раздел 19.31 (Debug Labs 5–6)» in build_27, the only place that material appears, and correspondingly to «раздел 19.31, Debug Lab 5» / «Debug Lab 6» in snake.py's docstring. Verified: no out-of-range section number remains in the chapter HTML or the project sources."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Collects the eight state fields into a single @dataclass, explains why food is Position | None, and warns against storing Turtle objects inside the model.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "GameState's eight fields match the class_diagram and the implementation -- confirmed -- snake.py:88-103 has snake, direction, next_direction, food, score, high_score, status, delay_ms in that order, with the same defaults",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "official_reference",
+      "summary": "field(default_factory=...) is needed for the mutable list default -- confirmed -- dataclasses raises ValueError for a mutable default; snake.py uses field(default_factory=lambda: [(0, 0)])",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "storing a Turtle in GameState would break the 19.30 tests -- confirmed -- tests/test_snake_logic.py::test_game_state_holds_no_turtle_objects executed clean and would fail on such a field",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "the next_direction forward reference now points at a section that exists -- confirmed post-fix -- «раздел 19.48» replaced by «раздел 19.31 (Debug Labs 5–6)»",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=@dataclass and field/default_factory from chapter 14 (14-23, 14-24 — both verified present, and 14-23 does cover default_factory). Position | None is the first optional type in the book but is explained in place. | motivation=Two strong motivations: the None case is justified by an already-established game situation rather than by type theory, and the anti-pattern warning is tied to a concrete cost. | sequence=Correct: the data container follows the recognition of purity (19.26) and precedes the app object (19.28) that owns it. | practice=Notebook 19-27 constructs, compares an",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: All references resolve; refs to 19.18, 19.30 and 19.31 were already correct.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Clean.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-27-gamestate-dataclass against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

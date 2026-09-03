@@ -237,23 +237,38 @@ class SnakeApp:
 
     # ---------- клавиатура ----------
     def bind_keys(self) -> None:
+        """Клавиши привязываются по keysym, а keysym буквенной клавиши зависит
+        от раскладки: в русской раскладке физическая W даёт Cyrillic_tse, а R —
+        Cyrillic_ka. Поэтому WASD и R привязаны сразу в трёх видах — латиница,
+        латиница с Shift/CapsLock и кириллица, — иначе половина управления
+        молчала бы ровно тогда, когда у игрока включена русская раскладка.
+        Стрелки и space от раскладки не зависят."""
         self.screen.listen()
         for key, direction in (
             ("Up", Direction.UP), ("Down", Direction.DOWN),
             ("Left", Direction.LEFT), ("Right", Direction.RIGHT),
             ("w", Direction.UP), ("s", Direction.DOWN),
             ("a", Direction.LEFT), ("d", Direction.RIGHT),
+            ("W", Direction.UP), ("S", Direction.DOWN),
+            ("A", Direction.LEFT), ("D", Direction.RIGHT),
+            # те же физические клавиши в русской раскладке: Ц, Ы, Ф, В
+            ("Cyrillic_tse", Direction.UP), ("Cyrillic_yeru", Direction.DOWN),
+            ("Cyrillic_ef", Direction.LEFT), ("Cyrillic_ve", Direction.RIGHT),
+            ("Cyrillic_TSE", Direction.UP), ("Cyrillic_YERU", Direction.DOWN),
+            ("Cyrillic_EF", Direction.LEFT), ("Cyrillic_VE", Direction.RIGHT),
         ):
             self.screen.onkeypress(lambda d=direction: self.request_direction(d), key)
         self.screen.onkeypress(self.toggle_pause, "space")
-        self.screen.onkeypress(self.restart, "r")
+        # R — та же клавиша, что и русская К
+        for key in ("r", "R", "Cyrillic_ka", "Cyrillic_KA"):
+            self.screen.onkeypress(self.restart, key)
 
     def request_direction(self, direction: Direction) -> None:
         """Клавиша только ЗАПРАШИВАЕТ направление — реальный поворот происходит
-        на следующем тике (раздел 19.48). Проверяем разворот против direction,
-        которое тик применит СЕЙЧАС, а не против уже запрошенного next_direction
-        — иначе быстрая пара клавиш перед одним тиком могла бы протащить
-        разворот на 180° (раздел 19.49)."""
+        на следующем тике (раздел 19.31, Debug Lab 5). Проверяем разворот против
+        direction, которое тик применит СЕЙЧАС, а не против уже запрошенного
+        next_direction — иначе быстрая пара клавиш перед одним тиком могла бы
+        протащить разворот на 180° (раздел 19.31, Debug Lab 6)."""
         if is_reverse(self.state.direction, direction):
             return
         self.state.next_direction = direction

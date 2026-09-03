@@ -1,0 +1,476 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-31-DEBUG-LABS-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-31-debug-labs",
+    "kind": "theory_lesson",
+    "title": "Debug Labs — типичные ошибки «Змейки»",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-31-debug-labs.html",
+    "review_surface_sha256": "0b9a1dbe72ac93bdf622b25451029aab6f5ac6957b76934c9539dace43913b75"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Eighteen Debug Labs: each pairs a broken snippet with its on-screen symptom, an explanation and a fix, covering tracer/update, the blocking loop, sleep, reversal, food placement, body order, the scoreboard, the boundary comparison, self-collision timing, restart, pause, high score, GameState purity and unconditional rescheduling.",
+      "assessment_evidence_refs": [
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19.49 разб",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19.49 раз",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Lab 3's ungrammatical reflexive has been fixed.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Eighteen Debug Labs: each pairs a broken snippet with its on-screen symptom, an explanation and a fix, covering tracer/update, the blocking loop, sleep, reversal, food placement, body order, the scoreboard, the boundary comparison, self-collision timing, restart, pause, high score, GameState purity and unconditional rescheduling.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19.49 разби",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Eighteen Debug Labs: each pairs a broken snippet with its on-screen symptom, an explanation and a fix, covering tracer/update, the blocking loop, sleep, reversal, food placement, body order, the scoreboard, the boundary comparison, self-collision timing, restart, pause, high score, GameState purity and unconditional rescheduling.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Every section from 19.1 to 19.29. The labs are explicitly framed as a reference for material already covered.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The symptom-first format is right for a debugging reference: the reader recognises what they are seeing before being told the cause. Labs 5/6 and 12 capture bugs that genuinely bite in student Snake projects.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct as a penultimate consolidation section, after all the rules exist and before the final assembly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct as a penultimate consolidation section, after all the rules exist and before the final assembly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct as a penultimate consolidation section, after all the rules exist and before the final assembly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct as a penultimate consolidation section, after all the rules exist and before the final assembly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-31 is a symptom-to-cause lookup covering four of the eighteen labs. Its grader now also requires a real unknown-symptom fallback, so restating the four strings no longer suffices.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-31 is a symptom-to-cause lookup covering four of the eighteen labs. Its grader now also requires a real unknown-symptom fallback, so restating the four strings no longer suffices.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-31 is a symptom-to-cause lookup covering four of the eighteen labs. Its grader now also requires a real unknown-symptom fallback, so restating the four strings no longer suffices.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Lab 3's ungrammatical reflexive has been fixed.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-references in Labs 1, 2, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 and 18 all resolve; Lab 6's dangling one is removed. Lab 17's reference to 19.27 is correct and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-references in Labs 1, 2, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 and 18 all resolve; Lab 6's dangling one is removed. Lab 17's reference to 19.27 is correct and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-references in Labs 1, 2, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 and 18 all resolve; Lab 6's dangling one is removed. Lab 17's reference to 19.27 is correct and was left alone.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19.49 р",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- there are 18 labs and the page description says «Восемнадцать разобранных багов» -- verified via source_inspection: confirmed -- debug_lab(1..18) in build_31; count matches; Lab 9's broken loop really does collapse the body -- verified via code_execution: confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right; Lab 4's broken snippet is unbounded recursion, not just a freeze -- verified via code_execution: confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so; Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- verified via cross_reference: confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»; Lab 6 no longer cites a nonexistent section -- verified via source_inspection: confirmed post-fix -- «Раздел 19",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-31 is a symptom-to-cause lookup covering four of the eighteen labs. Its grader now also requires a real unknown-symptom fallback, so restating the four strings no longer suffices.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-010"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-001",
+      "severity": "major",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-004: Lab 6's «Раздел 19.49 разбирал эту ловушку» pointed past the end of the chapter. The direction-vs-next_direction rule appears only in this very section (Labs 5-6). Shipped at 19-31-debug-labs.html:267.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Replaced the self-referential dangling citation with «Ловушка тонкая: проверка обязана идти против state.direction…», keeping the explanation and dropping the phantom pointer. Verified by the chapter-wide out-of-range grep returning 0."
+    },
+    {
+      "finding_id": "F-002",
+      "severity": "minor",
+      "domain": "subject_matter",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-020: Lab 4's broken snippet (`time.sleep(...); self.game_tick()`) is unbounded direct recursion — verified RecursionError after 999 self-calls — but the symptom text said the window freezes only «заданное число миллисекунд», and the explanation named only the blocking sleep.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewrote the symptom to «Окно замирает НАВСЕГДА, а не на delay_ms: тик зовёт сам себя без условия выхода… примерно через 1000 вызовов программа падает с RecursionError», and expanded the explanation to name both bugs (blocking sleep AND base-case-free recursion) and to say that screen.ontimer() solves both."
+    },
+    {
+      "finding_id": "F-003",
+      "severity": "suggestion",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "SM06",
+        "SM07"
+      ],
+      "description": "F-030.4: Lab 3's symptom line «Игра не умеет ставиться на паузу» uses a reflexive verb with an inanimate subject; its third symptom line also claimed CPU burn from a loop that (after F-001) now paces itself.",
+      "evidence_refs": [
+        "E-001"
+      ],
+      "required_action": "Resolved; see resolution.",
+      "status": "resolved",
+      "resolution": "Rewrote the symptom to «Игру нельзя поставить на паузу» and replaced the stale CPU-burn line with «Скорость задана одной константой и по ходу партии не меняется». The lab's broken snippet now shows the time.sleep(ZADERZHKA_SEK) line, and the lab title changed from «Busy-цикл…» to «Блокирующий цикл усложняет паузу и скорость»."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Eighteen Debug Labs: each pairs a broken snippet with its on-screen symptom, an explanation and a fix, covering tracer/update, the blocking loop, sleep, reversal, food placement, body order, the scoreboard, the boundary comparison, self-collision timing, restart, pause, high score, GameState purity and unconditional rescheduling.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "there are 18 labs and the page description says «Восемнадцать разобранных багов» -- confirmed -- debug_lab(1..18) in build_31; count matches",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "Lab 9's broken loop really does collapse the body -- confirmed by simulation -- [A,B,C] -> [B,C,C] -> [C,C,C]; the stated symptom is right",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "Lab 4's broken snippet is unbounded recursion, not just a freeze -- confirmed -- the same shape raises RecursionError after 999 self-calls; the symptom text now says so",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "Lab 11's >= variant is exactly what notebook 19-30 uses as its broken version -- confirmed -- notebook 19-30's is_wall_collision_BROKEN carries the comment «раздел 19.31, Debug Lab 11»",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "source_inspection",
+      "summary": "Lab 6 no longer cites a nonexistent section -- confirmed post-fix -- «Раздел 19.49 разбирал эту ловушку» replaced by «Ловушка тонкая», since this very section IS that material",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Every section from 19.1 to 19.29. The labs are explicitly framed as a reference for material already covered. | motivation=The symptom-first format is right for a debugging reference: the reader recognises what they are seeing before being told the cause. Labs 5/6 and 12 capture bugs that genuinely bite in student Snake projects. | sequence=Correct as a penultimate consolidation section, after all the rules exist and before the final assembly. | practice=Notebook 19-31 is a symptom-to-cause lookup covering four of the eighteen labs. Its grader now also requires a real unknown-",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-references in Labs 1, 2, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 and 18 all resolve; Lab 6's dangling one is removed. Lab 17's reference to 19.27 is correct and was left alone.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Lab 3's ungrammatical reflexive has been fixed.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-010",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-31-debug-labs against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

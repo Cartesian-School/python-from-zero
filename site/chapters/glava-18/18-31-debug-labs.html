@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School</title>
-<meta name="description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<meta name="description" content="Шестнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<meta property="og:description" content="Шестнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
+<meta name="twitter:description" content="Шестнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School","description":"Пятнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON.","url":"https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs — типичные ошибки рисовалки — Python с нуля — Cartesian School","description":"Шестнадцать разобранных багов приложения для рисования на Canvas: координаты, превью, undo/redo, диалоги, JSON.","url":"https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -352,7 +352,7 @@ shapes_by_id[item_id] = <span class="tok-str">&quot;rectangle&quot;</span>   <sp
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
         <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
-        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 9: Ластик стирает половину штриха, а не весь</div>
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 9: Undo убирает только последний отрезок штриха, а не весь штрих</div>
       </div>
       <div style="padding:0 20px">
 
@@ -442,11 +442,12 @@ shapes_by_id[item_id] = <span class="tok-str">&quot;rectangle&quot;</span>   <sp
     <figure style="margin:24px 0">
       <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
         padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
-        line-height:1.7"><code># После 'Очистить' нажатие Ctrl+Z пытается убрать фигуры
-# из уже пустого документа — список становится отрицательной длины.</code></pre>
+        line-height:1.7"><code># После 'Очистить' нажатие Ctrl+Z не делает ничего видимого —
+# а следующий Ctrl+Y возвращает на холст фигуры, которые
+# пользователь только что удалил кнопкой 'Очистить'.</code></pre>
       <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
     </figure>
-        <p>История описывает документ, которого больше нет — как только <code class="inline">document</code> очищается, <code class="inline">undo_stack</code> и <code class="inline">redo_stack</code> обязаны очиститься вместе с ним (раздел 18.26).</p>
+        <p>Ошибка тихая: <code class="inline">del document[len(document) - len(shapes):]</code> на пустом документе — это <code class="inline">del document[-3:]</code>, что ничего не удаляет и ничего не ломает. Зато отменённое «действие» уезжает в <code class="inline">redo_stack</code>, и следующий Ctrl+Y возвращает на холст фигуры, стёртые кнопкой «Очистить». История описывает документ, которого больше нет: как только <code class="inline">document</code> очищается, <code class="inline">undo_stack</code> и <code class="inline">redo_stack</code> обязаны очиститься вместе с ним (раздел 18.26).</p>
         <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
           text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
 
@@ -568,9 +569,58 @@ shapes_by_id[item_id] = <span class="tok-str">&quot;rectangle&quot;</span>   <sp
       <div class="code-label"><span>zagruzka_s_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
     data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
-    self.document = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+    shapes = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+    self.document = shapes
     self.undo_stack.clear()
     self.redo_stack.clear()
+    self.render_document()   <span class="tok-com"># без этой строки экран не узнает о загрузке</span>
+    <span class="tok-com"># (полная версия с обработкой повреждённого файла — в разделе 18.30)</span></code></pre>
+    </div>
+      </div>
+    </div>
+
+
+    <div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+        <div class="cs-icon-emblem cs-icon-emblem--debug"><svg class="cs-icon cs-icon--debug" aria-hidden="true"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 16: Повреждённый файл стирает текущий рисунок</div>
+      </div>
+      <div style="padding:0 20px">
+
+    <div class="code-block">
+      <div class="code-label"><span>zagruzka_bez_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
+    self.document = [Shape.from_dict(i) <span class="tok-kw">for</span> i <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]  <span class="tok-com"># уже заменили!</span>
+    self.undo_stack.clear()
+    self.render_document()   <span class="tok-com"># ...и только здесь падаем на плохом цвете</span></code></pre>
+    </div>
+
+    <figure style="margin:24px 0">
+      <pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Открыли чужой JSON — рисунок, над которым работали час, исчез,
+# Ctrl+Z его не возвращает, а каждая новая линия снова падает:
+# _tkinter.TclError: unknown color name "not-a-color"</code></pre>
+      <figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Что видно на экране</figcaption>
+    </figure>
+        <p>Документ заменён ДО того, как стало известно, что файл рисуется. Разбирайте файл в локальную переменную и присваивайте <code class="inline">self.document</code> только после успеха (раздел 18.30) — иначе одна попытка открыть не тот файл уносит и рисунок, и историю, и возможность рисовать дальше.</p>
+        <div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Исправленный код</div>
+
+    <div class="code-block">
+      <div class="code-label"><span>zagruzka_s_proverkoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    <span class="tok-kw">try</span>:
+        data = json.loads(path.read_text(encoding=<span class="tok-str">&quot;utf-8&quot;</span>))
+        shapes = [Shape.from_dict(i) <span class="tok-kw">for</span> i <span class="tok-kw">in</span> data[<span class="tok-str">&quot;items&quot;</span>]]
+        <span class="tok-kw">for</span> shape <span class="tok-kw">in</span> shapes:
+            self.canvas.winfo_rgb(shape.color)
+    <span class="tok-kw">except</span> (json.JSONDecodeError, KeyError, TypeError, ValueError, tk.TclError) <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">&quot;Не удалось открыть файл&quot;</span>, <span class="tok-fn">str</span>(exc))
+        <span class="tok-kw">return</span>
+    self.document = shapes
     self.render_document()</code></pre>
     </div>
       </div>
@@ -622,8 +672,8 @@ canvas.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</
 
     <div class="notebook-card">
       <div>
-        <div class="nc-title">Практика: находим баг рисовалки по симптому</div>
-        <div class="nc-sub">Автоматическая проверка — для набора описанных симптомов выбираем правильную причину/исправление</div>
+        <div class="nc-title">Практика: воспроизводим и чиним баги рисовалки</div>
+        <div class="nc-sub">Автоматическая проверка — Debug Lab 11 (очистка и история) и Debug Lab 10 (redo после нового действия)</div>
         <div class="practice-inline-status" data-lesson-id="18-31"></div>
       </div>
       <a class="nc-btn" href="../../practice/18-31/index.html">Открыть практику →</a>

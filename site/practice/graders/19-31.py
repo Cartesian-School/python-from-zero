@@ -15,6 +15,10 @@ checks = [
         "name": "пауза визуальная -> status не проверяется",
         "passed": diagnose("оверлей ПАУЗА показан, но змейка всё равно едет") == "status не проверяется в game_tick",
     },
+    {
+        "name": "незнакомый симптом не выдаётся за диагноз",
+        "passed": diagnose("змейка светится розовым") == "неизвестный симптом",
+    },
 ]
 passed = all(c["passed"] for c in checks)
 {"passed": passed, "score": 100 if passed else 0, "checks": checks}

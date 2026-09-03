@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-19-THEORY-19-12-ODIN-IGROVOJ-TIK-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:19:theory:19-12-odin-igrovoj-tik",
+    "kind": "theory_lesson",
+    "title": "Один игровой тик",
+    "canonical_source_path": "scripts/build_chapter_19.py",
+    "baseline_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "reviewed_source_sha256": "561aa8495f1408b49adc17d8077a26928aee8759d79c078e05da1e9779244b34",
+    "review_surface_path": "site/chapters/glava-19/19-12-odin-igrovoj-tik.html",
+    "review_surface_sha256": "3aa856b0009817151bad52f9515aae2780d5f073255d3b078b78ad96f958e765"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Defines the game tick as one complete pass through the rules (apply direction, move head, check food, check collisions, update the model) and separates it conceptually from rendering.",
+      "assessment_evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «игровой тик» is introduced cleanly with its definition. Good terminology hygiene.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Defines the game tick as one complete pass through the rules (apply direction, move head, check food, check collisions, update the model) and separates it conceptually from rendering.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Defines the game tick as one complete pass through the rules (apply direction, move head, check food, check collisions, update the model) and separates it conceptually from rendering.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- 19.9-19.11 plus functions/return values from chapters 11 and 13. Available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Leads with the misconception it wants to kill («не «один кадр анимации», а один полный цикл правил»), then a pipeline diagram, then the tick/render callout. There is no code block at all in this section — the right choice.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correctly placed between 'direction as data' and 'real loop': the reader must know what one tick contains before asking how ticks get scheduled. The promised slug order holds exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correctly placed between 'direction as data' and 'real loop': the reader must know what one tick contains before asking how ticks get scheduled. The promised slug order holds exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correctly placed between 'direction as data' and 'real loop': the reader must know what one tick contains before asking how ticks get scheduled. The promised slug order holds exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correctly placed between 'direction as data' and 'real loop': the reader must know what one tick contains before asking how ticks get scheduled. The promised slug order holds exactly.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 19-12's tick_order() isolates the food-before-body ordering, which is the section's one operational claim. Well matched; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 19-12's tick_order() isolates the food-before-body ordering, which is the section's one operational claim. Well matched; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 19-12's tick_order() isolates the food-before-body ordering, which is the section's one operational claim. Well matched; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «игровой тик» is introduced cleanly with its definition. Good terminology hygiene.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Forward refs to 19.29 and 19.26 resolve and are honoured. The pipeline puts the collision check after move_snake; snake.py does the wall check slightly earlier — a harmless simplification.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Forward refs to 19.29 and 19.26 resolve and are honoured. The pipeline puts the collision check after move_snake; snake.py does the wall check slightly earlier — a harmless simplification.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Forward refs to 19.29 and 19.26 resolve and are honoured. The pipeline puts the collision check after move_snake; snake.py does the wall check slightly earlier — a harmless simplification.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- a tick is the whole rule chain, not one head movement -- verified via cross_reference: confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render; food must be checked before the new body is assembled -- verified via code_execution: confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2; game_tick() owns the rules and render() owns the display -- verified via cross_reference: confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 19-12's tick_order() isolates the food-before-body ordering, which is the section's one operational claim. Well matched; the practice card now names the function.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Defines the game tick as one complete pass through the rules (apply direction, move head, check food, check collisions, update the model) and separates it conceptually from rendering.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "cross_reference",
+      "summary": "a tick is the whole rule chain, not one head movement -- confirmed -- snake.py's game_tick() does exactly: apply next_direction, next_head, grow test, wall test, move_snake, self test, apply, render",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "food must be checked before the new body is assembled -- confirmed -- notebook 19-12: tick_order((20,0),(20,0),[(0,0),(-20,0)]) -> ([(20,0),(0,0),(-20,0)], True), length 3; with no food, length stays 2",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "cross_reference",
+      "summary": "game_tick() owns the rules and render() owns the display -- confirmed -- in snake.py the only turtle calls inside the tick are the render() invocations; every rule function is pure",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=19.9-19.11 plus functions/return values from chapters 11 and 13. Available. | motivation=Leads with the misconception it wants to kill («не «один кадр анимации», а один полный цикл правил»), then a pipeline diagram, then the tick/render callout. There is no code block at all in this section — the right choice. | sequence=Correctly placed between 'direction as data' and 'real loop': the reader must know what one tick contains before asking how ticks get scheduled. The promised slug order holds exactly. | practice=Notebook 19-12's tick_order() isolates the food-before-body order",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Forward refs to 19.29 and 19.26 resolve and are honoured. The pipeline puts the collision check after move_snake; snake.py does the wall check slightly earlier — a harmless simplification.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «игровой тик» is introduced cleanly with its definition. Good terminology hygiene.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:19:theory:19-12-odin-igrovoj-tik against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}

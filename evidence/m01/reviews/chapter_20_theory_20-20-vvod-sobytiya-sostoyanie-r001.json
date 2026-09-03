@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-20-THEORY-20-20-VVOD-SOBYTIYA-SOSTOYANIE-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:20:theory:20-20-vvod-sobytiya-sostoyanie",
+    "kind": "theory_lesson",
+    "title": "Обработка ввода: события и удержание клавиш",
+    "canonical_source_path": "scripts/build_chapter_20.py",
+    "baseline_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "reviewed_source_sha256": "dc43860f874a6f755051f8776ca1fb0652d64a3a8ad2aaf5c08eb7fb61e4e6ca",
+    "review_surface_path": "site/chapters/glava-20/20-20-vvod-sobytiya-sostoyanie.html",
+    "review_surface_sha256": "1f623a2b3b8f501fe845aee2934fae30e4fa157a19e8f3f7a34a3eb9241ad7ca"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "3bdb525482efa193f79ab7a4518a6b546803a533",
+    "started_at": "2026-09-03T13:13:53+00:00",
+    "completed_at": "2026-09-03T13:13:53+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "Sharpens the events-vs-state choice from 20.4 into a decision rule, shows the concrete bug each wrong choice produces, and extends the same duality to the mouse.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the unit's canonical source (and, for notebooks, every cell) in full, reproduced every checkable claim under the project's own Python 3.14.6 venv rather than trusting printed output, and assessed pedagogy, coherence, and Russian technical language against the binding M01 rubric. This is an AI-only pass; it cannot issue APPROVED.",
+      "reviewed_at": "2026-09-03T13:13:53+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` and can ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` and can",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- «разовое действие» vs «непрерывное действие» is a clean, non-calqued pair; «удержание клавиш» in the title is precise.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` a",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- Sharpens the events-vs-state choice from 20.4 into a decision rule, shows the concrete bug each wrong choice produces, and extends the same duality to the mouse.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` and can h",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- Sharpens the events-vs-state choice from 20.4 into a decision rule, shows the concrete bug each wrong choice produces, and extends the same duality to the mouse.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes 20.4's two input mechanisms and 20.11's action abstraction. Both available and correctly cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Both failure modes are given memorable symptom names («персонаж дёргается», «оружие стреляет очередями») before the rule, so the rule is retrievable from the symptom later.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct spiral return to 20.4 at the point the reader has enough context to care about the distinction, and it closes the mobile-input thread from 20.11.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct spiral return to 20.4 at the point the reader has enough context to care about the distinction, and it closes the mobile-input thread from 20.11.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct spiral return to 20.4 at the point the reader has enough context to care about the distinction, and it closes the mobile-input thread from 20.11.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct spiral return to 20.4 at the point the reader has enough context to care about the distinction, and it closes the mobile-input thread from 20.11.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Notebook 20-20 covers both sides with synthetic events and a numeric model of the held-key case, which is the only way to test this headlessly. Well designed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Notebook 20-20 covers both sides with synthetic events and a numeric model of the held-key case, which is the only way to test this headlessly. Well designed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Notebook 20-20 covers both sides with synthetic events and a numeric model of the held-key case, which is the only way to test this headlessly. Well designed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- «разовое действие» vs «непрерывное действие» is a clean, non-calqued pair; «удержание клавиш» in the title is precise.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Back-references to 20.4 and 20.11 accurate; both bugs appear correctly in the 20.28 symptom table citing 20.20.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Back-references to 20.4 and 20.11 accurate; both bugs appear correctly in the 20.28 symptom table citing 20.20.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Back-references to 20.4 and 20.11 accurate; both bugs appear correctly in the 20.28 symptom table citing 20.20.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` and c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- `KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- verified via code_execution: Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.; `get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- verified via code_execution: Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.; The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- verified via code_execution: Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.; A gamepad button arrives as `pygame.JOYBUTTONDOWN` ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Notebook 20-20 covers both sides with synthetic events and a numeric model of the held-key case, which is the only way to test this headlessly. Well designed.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: Sharpens the events-vs-state choice from 20.4 into a decision rule, shows the concrete bug each wrong choice produces, and extends the same duality to the mouse.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "`KEYDOWN` fires once per press, so using it for continuous movement makes the character step and freeze. -- Confirmed -- notebook 20-20 posts three separate KEYDOWN events and counts exactly three jumps; a held key produces no further events.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "`get_pressed()` is true every frame a key is held, so using it for a one-shot action fires about 60 times per second at 60 FPS. -- Confirmed -- the notebook's star exercise models three consecutive held frames and shows a count of 3 for what should be one action.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "The mouse has the same duality: MOUSEBUTTONDOWN vs mouse.get_pressed(), with mouse.get_pos() for the cursor. -- Confirmed -- MOUSEBUTTONDOWN = 1025, get_pressed() returns (False, False, False), get_pos() returns a tuple.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "A gamepad button arrives as `pygame.JOYBUTTONDOWN` and can hide behind the same action abstraction. -- Confirmed -- pygame.JOYBUTTONDOWN = 1539 exists in pygame-ce 2.5.8.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes 20.4's two input mechanisms and 20.11's action abstraction. Both available and correctly cited. | motivation=Both failure modes are given memorable symptom names («персонаж дёргается», «оружие стреляет очередями») before the rule, so the rule is retrievable from the symptom later. | sequence=Correct spiral return to 20.4 at the point the reader has enough context to care about the distinction, and it closes the mobile-input thread from 20.11. | practice=Notebook 20-20 covers both sides with synthetic events and a numeric model of the held-key case, which is the only wa",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Back-references to 20.4 and 20.11 accurate; both bugs appear correctly in the 20.28 symptom table citing 20.20.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: «разовое действие» vs «непрерывное действие» is a clean, non-calqued pair; «удержание клавиш» in the title is precise.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: No destructive, network, credential, or filesystem-risk operation is present in this unit.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria scored >= 3 with unit-specific evidence; no blocking finding remains open.",
+    "decided_by": "ai-opus5-m01i04",
+    "decided_at": "2026-09-03T13:13:53+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "M01-I04 Batch A opened formal review of chapter:20:theory:20-20-vvod-sobytiya-sostoyanie against the binding M01 rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-opus5-m01i04",
+      "changed_at": "2026-09-03T13:13:53+00:00",
+      "reason": "All 27 applicable criteria scored with unit-specific evidence; decision recorded above."
+    }
+  ]
+}
