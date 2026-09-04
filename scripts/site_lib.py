@@ -4947,11 +4947,14 @@ PROJECT_ACCENTS: dict[str, tuple[str, str]] = {
 }
 
 
-def _project_icon_svg(project_id: str) -> str:
+def _project_icon_svg(project_id: str, *, publication_compatible: bool = False) -> str:
     """Inner SVG markup (icon only, white/light fills at partial opacity) for
     one project, centered roughly on (200, 112) in a 400x225 viewBox. Each
     icon is a deliberate, legible composition of the real project's own
     subject matter (its actual mechanic/UI), not a generic pictogram.
+
+    ``publication_compatible`` preserves frozen artwork bytes where the web
+    presentation has intentionally diverged from the accepted publication.
     """
     if project_id == "paint-app":
         return """
@@ -5057,7 +5060,8 @@ def _project_icon_svg(project_id: str) -> str:
         <path d="M280 55 l22 8 v20 q0 22 -22 30 q-22 -8 -22 -30 v-20 z" fill="#fff" opacity=".95"/>
         <path d="M271 84 l6 6 12 -14" fill="none" stroke="var(--navy-950)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>"""
     if project_id == "tic-tac-toe":
-        return """
+        if publication_compatible:
+            return """
         <g stroke="#fff" stroke-width="6" opacity=".55">
           <path d="M170 55 v120 M230 55 v120 M140 90 h120 M140 145 h120"/>
         </g>
@@ -5065,6 +5069,16 @@ def _project_icon_svg(project_id: str) -> str:
           <path d="M148 68 l32 32 M180 68 l-32 32"/>
         </g>
         <circle cx="255" cy="118" r="17" fill="none" stroke="#fff" stroke-width="9" opacity=".95"/>"""
+        # A centered 168-unit board gives three exact 56-unit cells. Both
+        # marks have 9 units of stroke-aware clearance inside their cells.
+        return """
+        <g class="tic-tac-toe__board" stroke="#fff" stroke-width="6" opacity=".55">
+          <path d="M172 28.5 V196.5 M228 28.5 V196.5 M116 84.5 H284 M116 140.5 H284"/>
+        </g>
+        <g class="tic-tac-toe__x" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".95">
+          <path d="M129 41.5 L159 71.5 M159 41.5 L129 71.5"/>
+        </g>
+        <circle class="tic-tac-toe__o" cx="256" cy="112.5" r="15" fill="none" stroke="#fff" stroke-width="8" opacity=".95"/>"""
     return '<circle cx="200" cy="112" r="30" fill="#fff" opacity=".8"/>'
 
 
@@ -5105,7 +5119,7 @@ def project_publication_illustration(project_id: str) -> str:
     contract continues to receive the exact pre-redesign illustration bytes.
     """
     c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
-    icon = _project_icon_svg(project_id)
+    icon = _project_icon_svg(project_id, publication_compatible=True)
     return f"""<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="grad-{project_id}" x1="0" y1="0" x2="1" y2="1">
