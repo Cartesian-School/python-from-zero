@@ -5450,6 +5450,40 @@ def _todo_app_scene() -> str:
   </g>"""
 
 
+def _bouncing_ball_scene() -> str:
+    """Bespoke web illustration for bouncing-ball: one ball inside a bordered
+    playfield, following a closed diagonal route that touches the right wall
+    then the top wall before returning to rest, with a brief squash at each
+    wall, a soft floor shadow that fades as the ball gets "higher", a static
+    dashed motion path, one contact ring per wall (only the most recent one
+    stays visible at rest), and a 2-pip bounce counter — replaces the old
+    abstract fading-circles-plus-arc icon with a scene that reads as "one
+    ball bouncing off the window's walls" on sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <rect class="ball-playfield" x="34" y="26" width="332" height="172" rx="16" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>
+  <path class="ball-trail" d="M90,178 L350,78 L190,42 Z" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 9" opacity=".3"/>
+  <ellipse class="ball-shadow" cx="90" cy="192" rx="14" ry="3" fill="#000" opacity=".22"/>
+  <circle class="ball-impact ball-impact--right" cx="350" cy="78" r="6" fill="none" stroke="#fff" stroke-width="2" opacity=".35"/>
+  <circle class="ball-impact ball-impact--top" cx="190" cy="42" r="6" fill="none" stroke="#fff" stroke-width="2" opacity="0"/>
+  <g class="ball-travel">
+    <g class="ball-squash">
+      <circle class="ball-main" cx="90" cy="178" r="13" fill="#fff" opacity=".97"/>
+    </g>
+  </g>
+  <g class="ball-counter">
+    <circle class="ball-counter-pip" cx="326" cy="190" r="3" fill="none" stroke="#fff" stroke-width="1.5" opacity=".4"/>
+    <circle class="ball-counter-pip-fill ball-counter-pip-fill--1" cx="326" cy="190" r="3" fill="#fff" opacity="0"/>
+    <circle class="ball-counter-pip" cx="338" cy="190" r="3" fill="none" stroke="#fff" stroke-width="1.5" opacity=".4"/>
+    <circle class="ball-counter-pip-fill ball-counter-pip-fill--2" cx="338" cy="190" r="3" fill="#fff" opacity="0"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5469,6 +5503,8 @@ def project_illustration(project_id: str) -> str:
         scene = _calculator_scene()
     elif project_id == "todo-app":
         scene = _todo_app_scene()
+    elif project_id == "bouncing-ball":
+        scene = _bouncing_ball_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
