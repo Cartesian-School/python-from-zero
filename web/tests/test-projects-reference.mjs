@@ -332,6 +332,51 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const TODO_APP_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of TODO_APP_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/todo-app/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--todo-app[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--todo-app .todo-input-state, .project-art--todo-app .todo-add, ' +
+            '.project-art--todo-app .todo-row--new, .project-art--todo-app .todo-checkbox-fill, ' +
+            '.project-art--todo-app .todo-check, .project-art--todo-app .todo-strike, ' +
+            '.project-art--todo-app .todo-delete, .project-art--todo-app .todo-db-pulse'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          inputFound: Boolean(document.querySelector('.project-art--todo-app .todo-input')),
+          addFound: Boolean(document.querySelector('.project-art--todo-app .todo-add')),
+          rowCount: document.querySelectorAll('.project-art--todo-app .todo-row').length,
+          checkboxCount: document.querySelectorAll('.project-art--todo-app .todo-checkbox').length,
+          checkFound: Boolean(document.querySelector('.project-art--todo-app .todo-check')),
+          strikeFound: Boolean(document.querySelector('.project-art--todo-app .todo-strike')),
+          deleteCount: document.querySelectorAll('.project-art--todo-app .todo-delete').length,
+          dbFound: Boolean(document.querySelector('.project-art--todo-app .todo-db')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`todo-app ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`todo-app ${viewport}: input and add button render`, result.inputFound && result.addFound);
+      ok(`todo-app ${viewport}: at least 3 task rows with checkboxes render`, result.rowCount >= 3 && result.checkboxCount >= 3);
+      ok(`todo-app ${viewport}: completed task shows a drawn checkmark and strike-through`, result.checkFound && result.strikeFound);
+      ok(`todo-app ${viewport}: delete controls render`, result.deleteCount >= 3);
+      ok(`todo-app ${viewport}: persistence (database) cue renders`, result.dbFound);
+      ok(`todo-app ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`todo-app ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -460,6 +505,10 @@ function observePage(page, base) {
       '.project-art--calculator .calc-key--seq-3', '.project-art--calculator .calc-key--seq-4',
       '.project-art--calculator .calc-key--seq-5', '.project-art--calculator .calc-display-state',
       '.project-art--calculator .calc-result-value',
+      '.project-art--todo-app .todo-input-state', '.project-art--todo-app .todo-add',
+      '.project-art--todo-app .todo-row--new', '.project-art--todo-app .todo-checkbox-fill',
+      '.project-art--todo-app .todo-check', '.project-art--todo-app .todo-strike',
+      '.project-art--todo-app .todo-delete', '.project-art--todo-app .todo-db-pulse',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -510,6 +559,25 @@ function observePage(page, base) {
     });
     ok('reduced motion: calculator shows only the settled 12 + 7 / 19 result state', calculatorReducedState.onlyResultVisible);
     ok('reduced motion: calculator equals key stays visually selected', calculatorReducedState.equalsKeyStyled);
+    const todoReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const newRow = document.querySelector('.project-art--todo-app .todo-row--new');
+      const checkboxFill = document.querySelector('.project-art--todo-app .todo-checkbox-fill');
+      const check = document.querySelector('.project-art--todo-app .todo-check');
+      const strike = document.querySelector('.project-art--todo-app .todo-strike');
+      const dbPulses = [...document.querySelectorAll('.project-art--todo-app .todo-db-pulse')];
+      return {
+        rowCount: document.querySelectorAll('.project-art--todo-app .todo-row').length,
+        newRowVisible: newRow ? opacityOf(newRow) === 1 && getComputedStyle(newRow).transform === 'none' : false,
+        completedChecked: checkboxFill ? opacityOf(checkboxFill) === 1 : false,
+        checkmarkDrawn: check ? parseFloat(getComputedStyle(check).strokeDashoffset) === 0 : false,
+        strikeDrawn: strike ? parseFloat(getComputedStyle(strike).strokeDashoffset) === 0 : false,
+        pulsesHidden: dbPulses.every((node) => opacityOf(node) === 0),
+      };
+    });
+    ok('reduced motion: todo-app shows 3 task rows with the new row settled in place', todoReducedState.rowCount >= 3 && todoReducedState.newRowVisible);
+    ok('reduced motion: todo-app completed task shows a checked box with drawn checkmark and strike-through', todoReducedState.completedChecked && todoReducedState.checkmarkDrawn && todoReducedState.strikeDrawn);
+    ok('reduced motion: todo-app persistence pulses stay hidden (no mid-flight ping)', todoReducedState.pulsesHidden);
     await reduced.close();
 
     await browser.close();

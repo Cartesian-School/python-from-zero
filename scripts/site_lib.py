@@ -5368,6 +5368,88 @@ def _calculator_scene() -> str:
   </g>"""
 
 
+def _todo_app_scene() -> str:
+    """Bespoke web illustration for todo-app: a compact task-list window with
+    a text input and add button above three task rows, replacing the old
+    abstract three-bars-and-checkmark icon with a scene that reads as
+    "active task-management web app" on sight. The bottom row plays out the
+    real lifecycle the project implements — add, complete (checkbox fills,
+    checkmark draws, strike-through draws), then delete — while a small
+    database glyph pulses to represent the app's SQLite persistence.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    row_specs = [
+        {"y": 74, "text_w": 150, "dynamic": False},
+        {"y": 108, "text_w": 118, "dynamic": False},
+        {"y": 142, "text_w": 132, "dynamic": True},
+    ]
+    rows_html = []
+    for spec in row_specs:
+        y = spec["y"]
+        cy = y + 13
+        text_y = y + 9
+        text_w = spec["text_w"]
+        delete_html = (
+            f'<g class="todo-delete" opacity="{".32" if spec["dynamic"] else ".26"}">'
+            f'<line x1="293" y1="{cy - 5}" x2="303" y2="{cy + 5}" stroke="var(--navy-900)" stroke-width="1.6" stroke-linecap="round"/>'
+            f'<line x1="303" y1="{cy - 5}" x2="293" y2="{cy + 5}" stroke="var(--navy-900)" stroke-width="1.6" stroke-linecap="round"/>'
+            f"</g>"
+        )
+        if not spec["dynamic"]:
+            rows_html.append(
+                f'<g class="todo-row">'
+                f'<g class="todo-checkbox"><circle cx="100" cy="{cy}" r="8" fill="none" stroke="var(--navy-900)" stroke-width="2.2" opacity=".35"/></g>'
+                f'<rect class="todo-row__text" x="118" y="{text_y}" width="{text_w}" height="8" rx="4" fill="var(--navy-900)" opacity=".85"/>'
+                f"{delete_html}"
+                f"</g>"
+            )
+        else:
+            text_right = 118 + text_w
+            rows_html.append(
+                f'<g class="todo-row todo-row--new">'
+                f'<g class="todo-checkbox">'
+                f'<circle cx="100" cy="{cy}" r="8" fill="none" stroke="var(--navy-900)" stroke-width="2.2" opacity=".35"/>'
+                f'<circle class="todo-checkbox-fill" cx="100" cy="{cy}" r="8" fill="var(--green-500)" opacity="1"/>'
+                f'<path class="todo-check" d="M96 {cy} l3 3.5 7 -7.5" fill="none" stroke="#fff" stroke-width="2.2" '
+                f'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="16" stroke-dashoffset="0"/>'
+                f"</g>"
+                f'<rect class="todo-row__text" x="118" y="{text_y}" width="{text_w}" height="8" rx="4" fill="var(--navy-900)" opacity=".92"/>'
+                f'<line class="todo-strike" x1="118" y1="{cy}" x2="{text_right}" y2="{cy}" stroke="var(--navy-900)" '
+                f'stroke-width="2" stroke-linecap="round" stroke-dasharray="140" stroke-dashoffset="0"/>'
+                f"{delete_html}"
+                f"</g>"
+            )
+    rows = "\n  ".join(rows_html)
+    return f"""
+  <rect class="todo-app-window" x="74" y="16" width="252" height="196" rx="18" fill="#fff" opacity=".97"/>
+  <rect class="todo-input" x="88" y="32" width="180" height="26" rx="8" fill="var(--navy-950)"/>
+  <g class="todo-input-state todo-input-state--empty" opacity="1">
+    <line x1="98" y1="39" x2="98" y2="51" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+  </g>
+  <g class="todo-input-state todo-input-state--filled" opacity="0">
+    <rect x="98" y="42" width="34" height="6" rx="3" fill="#fff" opacity=".85"/>
+    <rect x="136" y="42" width="50" height="6" rx="3" fill="#fff" opacity=".85"/>
+  </g>
+  <g class="todo-add">
+    <rect x="276" y="32" width="36" height="26" rx="8" fill="var(--green-500)"/>
+    <line x1="286" y1="45" x2="302" y2="45" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="294" y1="37" x2="294" y2="53" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  {rows}
+  <g class="todo-db">
+    <line x1="200" y1="170" x2="200" y2="184" stroke="var(--navy-900)" stroke-width="1.4" stroke-dasharray="2 4" opacity=".22"/>
+    <ellipse cx="200" cy="184" rx="13" ry="3.5" fill="var(--navy-900)" opacity=".16"/>
+    <rect x="187" y="184" width="26" height="9" fill="var(--navy-900)" opacity=".16"/>
+    <ellipse cx="200" cy="193" rx="13" ry="3.5" fill="var(--navy-900)" opacity=".22"/>
+    <circle class="todo-db-pulse todo-db-pulse--insert" cx="200" cy="170" r="2.4" fill="var(--green-500)" opacity="0"/>
+    <circle class="todo-db-pulse todo-db-pulse--complete" cx="200" cy="170" r="2.4" fill="var(--blue-500)" opacity="0"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5385,6 +5467,8 @@ def project_illustration(project_id: str) -> str:
         scene = _space_shooter_scene()
     elif project_id == "calculator":
         scene = _calculator_scene()
+    elif project_id == "todo-app":
+        scene = _todo_app_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
