@@ -804,7 +804,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
-.project-art--todo-app .project-art__subject > path { stroke-dasharray: 28; animation: project-check 5s ease-in-out infinite; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
 .project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
 .project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
@@ -1048,12 +1047,73 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 @keyframes calc-key-pulse { 0% { transform: translateY(2px) scale(.97); filter: drop-shadow(0 0 5px rgba(91,36,249,.55)); } 8%, 100% { transform: translateY(0) scale(1); filter: none; } }
 @keyframes calc-key-pulse-strong { 0% { transform: translateY(3px) scale(.95); filter: drop-shadow(0 0 8px rgba(91,36,249,.75)); } 10%, 100% { transform: translateY(0) scale(1); filter: none; } }
 
+/* todo-app: one coordinated 9s loop plays the real task lifecycle — input
+   fills, Add is pressed, a new row is inserted, its checkbox fills and the
+   checkmark draws, a strike-through draws over the completed text, the
+   database glyph pulses on save, the delete control activates and the row
+   fades out, then the loop resets. Scoped to .todo-* classes (its own
+   scene, not .project-art__subject) so this stays isolated from every
+   other project's generic icon animation. */
+.project-art--todo-app .todo-app-window { filter: drop-shadow(0 10px 20px rgba(8,1,28,.3)); }
+.project-art--todo-app .todo-input-state { transform-box: fill-box; transform-origin: center; }
+.project-art--todo-app .todo-input-state--empty { animation: todo-input-empty 9s ease-in-out infinite; }
+.project-art--todo-app .todo-input-state--filled { animation: todo-input-filled 9s ease-in-out infinite; }
+.project-art--todo-app .todo-add { transform-box: fill-box; transform-origin: center; animation: todo-add-press 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new { transform-box: fill-box; transform-origin: center; animation: todo-row-insert 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new .todo-checkbox-fill { animation: todo-checkbox-fill 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new .todo-check { animation: todo-check-draw 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new .todo-row__text { animation: todo-text-mute 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new .todo-strike { animation: todo-strike-draw 9s ease-in-out infinite; }
+.project-art--todo-app .todo-row--new .todo-delete { transform-box: fill-box; transform-origin: center; animation: todo-delete-pulse 9s ease-in-out infinite; }
+.project-art--todo-app .todo-db-pulse { transform-box: fill-box; transform-origin: center; }
+.project-art--todo-app .todo-db-pulse--insert { animation: todo-db-pulse-insert 9s ease-in-out infinite; }
+.project-art--todo-app .todo-db-pulse--complete { animation: todo-db-pulse-complete 9s ease-in-out infinite; }
+
+@keyframes todo-input-empty { 0%, 7% { opacity: 1; } 9%, 19% { opacity: 0; } 21%, 100% { opacity: 1; } }
+@keyframes todo-input-filled { 0%, 7% { opacity: 0; } 9%, 19% { opacity: 1; } 21%, 100% { opacity: 0; } }
+@keyframes todo-add-press {
+  0%, 17% { transform: translateY(0) scale(1); filter: none; }
+  20% { transform: translateY(2px) scale(.97); filter: drop-shadow(0 0 6px rgba(24,93,250,.6)); }
+  23%, 100% { transform: translateY(0) scale(1); filter: none; }
+}
+@keyframes todo-row-insert {
+  0%, 20% { opacity: 0; transform: translateY(-4px); }
+  24%, 66% { opacity: 1; transform: translateY(0); }
+  71%, 100% { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes todo-checkbox-fill { 0%, 34% { opacity: 0; } 38%, 66% { opacity: 1; } 71%, 100% { opacity: 0; } }
+@keyframes todo-check-draw {
+  0%, 37% { stroke-dashoffset: 16; opacity: 0; }
+  41%, 66% { stroke-dashoffset: 0; opacity: 1; }
+  71%, 100% { stroke-dashoffset: 16; opacity: 0; }
+}
+@keyframes todo-text-mute { 0%, 42% { opacity: .92; } 46%, 66% { opacity: .25; } 71%, 100% { opacity: .92; } }
+@keyframes todo-strike-draw {
+  0%, 45% { stroke-dashoffset: 140; opacity: 0; }
+  49%, 66% { stroke-dashoffset: 0; opacity: 1; }
+  71%, 100% { stroke-dashoffset: 140; opacity: 0; }
+}
+@keyframes todo-delete-pulse {
+  0%, 65% { opacity: .32; transform: scale(1); }
+  67% { opacity: .95; transform: scale(1.15); }
+  70%, 100% { opacity: .32; transform: scale(1); }
+}
+@keyframes todo-db-pulse-insert {
+  0%, 21% { opacity: 0; transform: translateY(0) scale(.6); }
+  25% { opacity: .8; transform: translateY(14px) scale(1); }
+  30%, 100% { opacity: 0; transform: translateY(14px) scale(.6); }
+}
+@keyframes todo-db-pulse-complete {
+  0%, 52% { opacity: 0; transform: translateY(0) scale(.6); }
+  56% { opacity: .85; transform: translateY(14px) scale(1); }
+  61%, 100% { opacity: 0; transform: translateY(14px) scale(.6); }
+}
+
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
 @keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes project-bounce { 0%, 100% { transform: translateY(0) scaleY(1); } 45% { transform: translateY(-8px) scaleY(1.02); } 78% { transform: translateY(1px) scaleY(.96); } }
 @keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
-@keyframes project-check { 0%, 18% { stroke-dashoffset: 28; opacity: .3; } 42%, 100% { stroke-dashoffset: 0; opacity: .85; } }
 @keyframes project-spark { 0%, 100% { opacity: .62; transform: scale(.88) rotate(-2deg); } 50% { opacity: 1; transform: scale(1.04) rotate(2deg); } }
 @keyframes project-tilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(3deg); } }
 @keyframes project-mercury { 0%, 100% { transform: scaleY(.86); transform-origin: bottom; } 50% { transform: scaleY(1.04); transform-origin: bottom; } }
@@ -1581,4 +1641,14 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
     transform: translateY(1px) scale(.98) !important;
     filter: drop-shadow(0 0 5px rgba(91,36,249,.55)) !important;
   }
+  .project-art--todo-app .todo-add,
+  .project-art--todo-app .todo-row--new,
+  .project-art--todo-app .todo-delete { transform: none !important; }
+  .project-art--todo-app .todo-input-state--empty { opacity: 1 !important; }
+  .project-art--todo-app .todo-input-state--filled { opacity: 0 !important; }
+  .project-art--todo-app .todo-checkbox-fill { opacity: 1 !important; }
+  .project-art--todo-app .todo-row--new .todo-row__text { opacity: .25 !important; }
+  .project-art--todo-app .todo-check,
+  .project-art--todo-app .todo-strike { stroke-dashoffset: 0 !important; opacity: 1 !important; }
+  .project-art--todo-app .todo-db-pulse { opacity: 0 !important; }
 }
