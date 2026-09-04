@@ -6,6 +6,7 @@ on:
       - "scripts/**"
       - "site/**"
       - "tests/**"
+      - "web/**"
       - "data/**"
       - "book/**"
       - "projects/**"
@@ -20,6 +21,7 @@ on:
       - "scripts/**"
       - "site/**"
       - "tests/**"
+      - "web/**"
       - "data/**"
       - "book/**"
       - "projects/**"
@@ -44,6 +46,13 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
       - name: Install system dependencies (Tk, Xvfb — needed by tests/test_projects.py)
         run: |
           sudo apt-get update
@@ -56,6 +65,12 @@ jobs:
 
       - name: Install SafeSort (editable — tests/test_chapter23_safesort.py imports it)
         run: python -m pip install -e "projects/python/safesort/[dev]"
+
+      - name: Install Projects and Reference browser-test dependencies
+        working-directory: web
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
 
       - name: Regenerate Chapters 23 and 24 from source builders
         run: |
@@ -78,6 +93,10 @@ jobs:
 
       - name: Build the full site (runs chapter/source/upstream validators, then navigation/catalog/SEO validators against dist/)
         run: bash scripts/build_vercel.sh
+
+      - name: Run Projects and Reference Playwright contract
+        working-directory: web
+        run: npm run test:redesign
 
       - name: Verify generated files match their source builders
         run: git diff --exit-code

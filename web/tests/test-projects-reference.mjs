@@ -76,6 +76,7 @@ function observePage(page, base) {
           columns: uniqueColumns.size,
           referenceCount: document.querySelectorAll('.reference-card').length,
           referenceArt: Boolean(document.querySelector('.reference-hero__art svg[aria-hidden="true"]')),
+          referenceMicrocopy: document.querySelector('.reference-art').textContent,
           referenceTextFirst: referenceCopy.top <= referenceArt.top,
           contentContained: [...document.querySelectorAll('.project-card-title, .project-card-topics, .reference-card')].every((node) => {
             const rect = node.getBoundingClientRect();
@@ -90,6 +91,7 @@ function observePage(page, base) {
       ok(`${viewport}: 13 project cards render`, result.projectCount === 13);
       ok(`${viewport}: project grid uses ${expectedColumns} column(s)`, result.columns === expectedColumns);
       ok(`${viewport}: reference hero and eight real destinations render`, result.referenceArt && result.referenceCount === 8);
+      ok(`${viewport}: reference illustration microcopy is Russian`, result.referenceMicrocopy.includes('УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ') && !/INDEX|KNOWLEDGE|reference/i.test(result.referenceMicrocopy));
       if (width <= 900) ok(`${viewport}: reference text precedes art`, result.referenceTextFirst);
       ok(`${viewport}: titles, tags, and reference cards are contained`, result.contentContained);
       ok(`${viewport}: card, reference, and navigation focus is visible`, result.focusWidths.every((value) => value >= 2));
