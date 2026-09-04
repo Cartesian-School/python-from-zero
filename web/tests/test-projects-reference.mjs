@@ -1,0 +1,181 @@
+// Browser contract for the manifest-driven project and reference redesign.
+
+import { chromium } from 'playwright';
+import { execSync, spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import fs from 'node:fs';
+import net from 'node:net';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(HERE, '../..');
+const VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [768, 1024], [430, 932], [390, 844], [360, 800]];
+const REPRESENTATIVE_PROJECTS = ['paint-app', 'space-shooter', 'todo-app', 'safesort'];
+const PROJECTS = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest', 'projects_manifest.json'), 'utf8')).projects;
+
+let failures = 0;
+function ok(label, condition) {
+  if (condition) console.log(`  [ok] ${label}`);
+  else { console.error(`  [FAIL] ${label}`); failures += 1; }
+}
+
+async function getFreePort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.listen(0, () => { const { port } = server.address(); server.close(() => resolve(port)); });
+    server.on('error', reject);
+  });
+}
+
+async function waitForServer(url, timeoutMs = 15000) {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    try { const response = await fetch(url); if (response.ok) return; } catch (_) {}
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  throw new Error(`Server at ${url} did not become ready`);
+}
+
+function observePage(page, base) {
+  const faults = [];
+  page.on('console', (message) => { if (message.type() === 'error') faults.push(`console: ${message.text()}`); });
+  page.on('pageerror', (error) => faults.push(`pageerror: ${error.message}`));
+  page.on('response', (response) => {
+    if (response.url().startsWith(base) && response.status() >= 400) faults.push(`${response.status()}: ${response.url()}`);
+  });
+  return faults;
+}
+
+(async () => {
+  execSync('bash scripts/build_vercel.sh', { cwd: ROOT, stdio: 'inherit' });
+  const port = await getFreePort();
+  const base = `http://localhost:${port}`;
+  const server = spawn('python3', [path.join(ROOT, 'scripts', 'dev_server.py'), String(port), path.join(ROOT, 'dist')], { stdio: 'ignore' });
+
+  try {
+    await waitForServer(`${base}/index.html`);
+    const browser = await chromium.launch();
+
+    for (const [width, height] of VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/index.html#proekty`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const cards = [...document.querySelectorAll('.project-card')];
+        const uniqueColumns = new Set(cards.slice(0, 6).map((card) => Math.round(card.getBoundingClientRect().left)));
+        const referenceCopy = document.querySelector('.reference-hero__copy').getBoundingClientRect();
+        const referenceArt = document.querySelector('.reference-hero__art').getBoundingClientRect();
+        const focusWidth = (selector) => {
+          const node = document.querySelector(selector);
+          node.focus();
+          return parseFloat(getComputedStyle(node).outlineWidth);
+        };
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          projectCount: cards.length,
+          columns: uniqueColumns.size,
+          referenceCount: document.querySelectorAll('.reference-card').length,
+          referenceArt: Boolean(document.querySelector('.reference-hero__art svg[aria-hidden="true"]')),
+          referenceTextFirst: referenceCopy.top <= referenceArt.top,
+          contentContained: [...document.querySelectorAll('.project-card-title, .project-card-topics, .reference-card')].every((node) => {
+            const rect = node.getBoundingClientRect();
+            return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+          }),
+          focusWidths: ['.project-card', '.reference-card', window.innerWidth <= 700 ? '.nav-toggle' : '.top-nav a'].map(focusWidth),
+        };
+      });
+      const expectedColumns = width <= 600 ? 1 : width <= 860 ? 2 : 3;
+      const viewport = `${width}x${height}`;
+      ok(`${viewport}: homepage has no horizontal overflow`, !result.overflow);
+      ok(`${viewport}: 13 project cards render`, result.projectCount === 13);
+      ok(`${viewport}: project grid uses ${expectedColumns} column(s)`, result.columns === expectedColumns);
+      ok(`${viewport}: reference hero and eight real destinations render`, result.referenceArt && result.referenceCount === 8);
+      if (width <= 900) ok(`${viewport}: reference text precedes art`, result.referenceTextFirst);
+      ok(`${viewport}: titles, tags, and reference cards are contained`, result.contentContained);
+      ok(`${viewport}: card, reference, and navigation focus is visible`, result.focusWidths.every((value) => value >= 2));
+      ok(`${viewport}: no console, runtime, or same-origin request errors`, faults.length === 0);
+      await page.close();
+    }
+
+    for (const project of PROJECTS) {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      const faults = observePage(page, base);
+      const response = await page.goto(`${base}/projects/${project.slug}/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(({ id, sourcePath }) => ({
+        overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+        h1Count: document.querySelectorAll('h1').length,
+        artFound: Boolean(document.querySelector(`.project-art--${id}[aria-hidden="true"]`)),
+        sourceFound: Boolean(document.querySelector(`a[href="/${sourcePath}"]`)),
+        visualHeight: document.querySelector('.project-detail-hero__visual').getBoundingClientRect().height,
+        linksPresent: Boolean(document.querySelector('.project-detail-back a')) && Boolean(document.querySelector('.project-related-card')),
+        focusWidths: ['.project-detail-actions a', '.project-source-link', '.project-related-card', '.project-detail-back a', '.top-nav a'].map((selector) => {
+          const node = document.querySelector(selector);
+          node.focus();
+          return parseFloat(getComputedStyle(node).outlineWidth);
+        }),
+      }), { id: project.id, sourcePath: project.source_path });
+      const relatedUrls = [
+        `/${project.source_path}`,
+        `/chapters/glava-${String(project.chapter).padStart(2, '0')}/index.html`,
+        `/practice/${project.lesson_id}/index.html`,
+        '/index.html#proekty',
+      ];
+      const relatedStatuses = await Promise.all(relatedUrls.map(async (url) => (await page.request.get(`${base}${url}`)).status()));
+      ok(`${project.slug}: route and shared template are valid`, response.ok() && result.h1Count === 1 && result.artFound);
+      ok(`${project.slug}: canonical source link is present`, result.sourceFound);
+      ok(`${project.slug}: source, chapter, practice, and back routes resolve`, result.linksPresent && relatedStatuses.every((status) => status >= 200 && status < 400));
+      ok(`${project.slug}: desktop hero visual is compact`, result.visualHeight <= 440);
+      ok(`${project.slug}: detail actions and resources have visible focus`, result.focusWidths.every((value) => value >= 2));
+      ok(`${project.slug}: no overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
+    for (const [width, height] of VIEWPORTS) {
+      for (const slug of REPRESENTATIVE_PROJECTS) {
+        const page = await browser.newPage({ viewport: { width, height } });
+        const faults = observePage(page, base);
+        await page.goto(`${base}/projects/${slug}/`, { waitUntil: 'networkidle' });
+        const result = await page.evaluate(() => {
+          const title = document.querySelector('h1').getBoundingClientRect();
+          const art = document.querySelector('.project-detail-hero__visual').getBoundingClientRect();
+          const contained = (node) => {
+            const rect = node.getBoundingClientRect();
+            return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+          };
+          return {
+            textFirst: title.top < art.top,
+            overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+            visualHeight: art.height,
+            titleContained: contained(document.querySelector('h1')),
+            tagsContained: [...document.querySelectorAll('.project-meta-row .project-topic')].every(contained),
+            ctaContained: [...document.querySelectorAll('.project-detail-actions .btn')].every(contained),
+            resourcesContained: [...document.querySelectorAll('.project-source-link, .project-related-card')].every(contained),
+          };
+        });
+        const viewport = `${width}x${height}`;
+        if (width <= 780) ok(`${slug} ${viewport}: title precedes compact art`, result.textFirst);
+        else ok(`${slug} ${viewport}: desktop hero visual stays below 440px`, result.visualHeight <= 440);
+        ok(`${slug} ${viewport}: title, tags, CTAs, and resources are contained`, result.titleContained && result.tagsContained && result.ctaContained && result.resourcesContained);
+        ok(`${slug} ${viewport}: no overflow or browser faults`, !result.overflow && faults.length === 0);
+        await page.close();
+      }
+    }
+
+    const reduced = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    await reduced.emulateMedia({ reducedMotion: 'reduce' });
+    await reduced.goto(`${base}/index.html#proekty`, { waitUntil: 'networkidle' });
+    const animations = await reduced.evaluate(() => [
+      '.project-art__route', '.project-art__nodes circle', '.project-art__subject > *',
+      '.reference-art__search', '.reference-art__nodes circle',
+    ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
+    ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
+    await reduced.close();
+
+    await browser.close();
+  } finally {
+    server.kill('SIGTERM');
+  }
+
+  console.log(`\n[projects-reference] RESULT: ${failures === 0 ? 'PASS' : `FAIL (${failures} checks)`}`);
+  if (failures) process.exitCode = 1;
+})().catch((error) => { console.error(error); process.exitCode = 1; });
