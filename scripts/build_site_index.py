@@ -27,6 +27,7 @@ from site_lib import (
     _render_icon_markers,
     mobile_nav_links,
     project_card,
+    reference_illustration,
     site_header,
 )
 
@@ -669,33 +670,47 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </div>
 
 <div class="home-section panel-surface" id="spravochnik">
-  <div class="kicker-label">Справочник</div>
-  <h2>Справочник</h2>
-  <p class="sub">Материалы книги и техническая информация о курсе.</p>
+  <div class="reference-hero">
+    <div class="reference-hero__copy">
+      <div class="kicker-label">Справочник</div>
+      <h2>Справочник</h2>
+      <p class="sub">Материалы книги и техническая информация о курсе.</p>
+      <p class="reference-hero__note">Точки входа в книгу, окружение и проверенные материалы — в одной навигационной карте.</p>
+    </div>
+    <div class="reference-hero__art">{reference_illustration()}</div>
+  </div>
   <div class="reference-board">
     <a class="reference-card" href="/predmetnyj-ukazatel.html">
       <span class="ri">[[icon:note]]</span>
-      <div><div class="rt">Предметный указатель</div><div class="rs">Алфавитный список терминов книги по главам</div></div>
+      <div class="reference-card__copy"><div class="rt">Предметный указатель</div><div class="rs">Алфавитный список терминов книги по главам</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
     </a>
     <a class="reference-card" href="/front-matter/vvedenie.html">
       <span class="ri">[[icon:note]]</span>
-      <div><div class="rt">Введение</div><div class="rs">Как получить максимум от этой книги</div></div>
+      <div class="reference-card__copy"><div class="rt">Введение</div><div class="rs">Как получить максимум от этой книги</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
     </a>
     <a class="reference-card" href="/front-matter/ob-avtore.html">
       <span class="ri">[[icon:profile]]</span>
-      <div><div class="rt">Об авторе</div><div class="rs">Siergej Sobolewski — Cartesian School</div></div>
+      <div class="reference-card__copy"><div class="rt">Об авторе</div><div class="rs">Siergej Sobolewski — Cartesian School</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
     </a>
     <a class="reference-card" href="/front-matter/o-tehnicheskom-recenzente.html">
       <span class="ri">[[icon:search]]</span>
-      <div><div class="rt">О техническом рецензенте</div><div class="rs">Кто проверял код и объяснения книги</div></div>
+      <div class="reference-card__copy"><div class="rt">О техническом рецензенте</div><div class="rs">Как устроена техническая проверка издания</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="reference-card" href="/chapters/glava-02/02-04-terminal-shell-i-path.html">
+      <span class="ri">[[icon:code]]</span>
+      <div class="reference-card__copy"><div class="rt">Среда выполнения и CLI</div><div class="rs">Терминал, оболочка, PATH и запуск Python</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="reference-card" href="/chapters/glava-01/01-05-sajt-dokumentaciya-pypi.html">
+      <span class="ri">[[icon:folder]]</span>
+      <div class="reference-card__copy"><div class="rt">Официальные ресурсы Python</div><div class="rs">python.org, документация и каталог PyPI</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
     </a>
     <a class="reference-card" href="{PDF_HREF}">
       <span class="ri">[[icon:file]]</span>
-      <div><div class="rt">Скачать PDF</div><div class="rs">Вся книга целиком</div></div>
+      <div class="reference-card__copy"><div class="rt">Скачать PDF</div><div class="rs">Вся книга целиком</div></div><span class="reference-card__arrow" aria-hidden="true">↓</span>
     </a>
     <a class="reference-card" href="/book/epub/python-s-nulya.epub">
       <span class="ri">[[icon:device]]</span>
-      <div><div class="rt">Скачать EPUB</div><div class="rs">Для читалок и мобильных устройств</div></div>
+      <div class="reference-card__copy"><div class="rt">Скачать EPUB</div><div class="rs">Для читалок и мобильных устройств</div></div><span class="reference-card__arrow" aria-hidden="true">↓</span>
     </a>
   </div>
 </div>

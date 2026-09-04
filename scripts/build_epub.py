@@ -176,10 +176,14 @@ class CaseSafeEpubHtml(epub.EpubHtml):
 
 
 def extract_project(html_text: str) -> str:
-    """Extracts .project-hero + .project-detail-body from a real, already-built
-    site/projects/<slug>/index.html — same single-source-of-truth approach as
-    extract_opener(), reused rather than re-authored, so book and site can never
-    drift on a project's real title/description/topics/source path."""
+    """Extract the stable project fragment used by the accepted publication.
+
+    Project pages embed ``.project-hero`` and ``.project-detail-body`` inside an
+    inert publication-source template.  The visible web layout may evolve, while
+    this compatibility fragment keeps the PDF/EPUB representation stable.  Its
+    factual title, description, topics, and source path still originate from the
+    canonical project manifest rather than an independently authored book copy.
+    """
     soup = BeautifulSoup(html_text, "lxml")
     hero = soup.find("div", class_="project-hero")
     body = soup.find("div", class_="project-detail-body")

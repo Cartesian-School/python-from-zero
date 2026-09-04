@@ -5076,6 +5076,36 @@ def project_illustration(project_id: str) -> str:
     """
     c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
     icon = _project_icon_svg(project_id)
+    return f"""<svg class="project-art project-art--{project_id}" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="grad-{project_id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="{c1}"/>
+      <stop offset="100%" stop-color="{c2}"/>
+    </linearGradient>
+    <pattern id="grid-{project_id}" width="25" height="25" patternUnits="userSpaceOnUse">
+      <path d="M25 0H0V25" fill="none" stroke="#fff" stroke-width=".7" opacity=".12"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="225" fill="url(#grad-{project_id})"/>
+  <rect class="project-art__grid" width="400" height="225" fill="url(#grid-{project_id})"/>
+  <circle cx="360" cy="20" r="70" fill="#fff" opacity=".05"/>
+  <circle cx="20" cy="205" r="90" fill="#000" opacity=".08"/>
+  <path class="project-art__route" d="M34 183 C102 150 135 190 202 162 S320 120 370 151" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="3 8" opacity=".16"/>
+  <g class="project-art__subject">{icon}</g>
+  <g class="project-art__nodes" fill="#fff">
+    <circle cx="34" cy="183" r="2.5"/><circle cx="202" cy="162" r="2.5"/><circle cx="370" cy="151" r="2.5"/>
+  </g>
+</svg>"""
+
+
+def project_publication_illustration(project_id: str) -> str:
+    """Stable project art consumed by the accepted PDF/EPUB appendix.
+
+    The web redesign may evolve independently, but the closed publication
+    contract continues to receive the exact pre-redesign illustration bytes.
+    """
+    c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
+    icon = _project_icon_svg(project_id)
     return f"""<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="grad-{project_id}" x1="0" y1="0" x2="1" y2="1">
@@ -5090,17 +5120,58 @@ def project_illustration(project_id: str) -> str:
 </svg>"""
 
 
+def reference_illustration() -> str:
+    """Decorative handbook/index map for the homepage reference section."""
+    return """<svg class="reference-art" viewBox="0 0 620 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="reference-bg" x1=".08" y1="0" x2=".92" y2="1">
+      <stop offset="0" stop-color="#171044"/><stop offset="1" stop-color="#09021f"/>
+    </linearGradient>
+    <linearGradient id="reference-page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dfe8ff"/>
+    </linearGradient>
+    <pattern id="reference-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#8fb7fe" stroke-width=".7" opacity=".13"/>
+    </pattern>
+    <filter id="reference-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="620" height="390" rx="30" fill="url(#reference-bg)"/>
+  <rect width="620" height="390" rx="30" fill="url(#reference-grid)"/>
+  <path d="M73 307C151 252 170 275 235 231S361 173 443 214 531 165 565 103" fill="none" stroke="#8fb7fe" stroke-width="1.5" stroke-dasharray="4 10" opacity=".34"/>
+  <g class="reference-art__book">
+    <path d="M176 118q0-18 18-18h96q29 0 39 19v170q-12-18-39-18h-114z" fill="url(#reference-page)"/>
+    <path d="M484 118q0-18-18-18h-96q-29 0-39 19v170q12-18 39-18h114z" fill="#eef2ff"/>
+    <path d="M330 119v170" fill="none" stroke="#b9a0fc" stroke-width="3" opacity=".85"/>
+    <g fill="#3d72ff" opacity=".4"><rect x="204" y="141" width="89" height="7" rx="3.5"/><rect x="204" y="161" width="70" height="7" rx="3.5"/><rect x="204" y="181" width="84" height="7" rx="3.5"/></g>
+    <g fill="#5b24f9" opacity=".35"><rect x="369" y="141" width="84" height="7" rx="3.5"/><rect x="369" y="161" width="63" height="7" rx="3.5"/><rect x="369" y="181" width="78" height="7" rx="3.5"/></g>
+    <path d="M390 218l15 13 28-34" fill="none" stroke="#5b24f9" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g class="reference-art__search" filter="url(#reference-glow)">
+    <circle cx="481" cy="88" r="41" fill="#171044" stroke="#8fb7fe" stroke-width="6"/><path d="M510 117l36 36" stroke="#8fb7fe" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g class="reference-art__code" fill="none" stroke="#b9a0fc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 153l-18 17 18 17M129 153l18 17-18 17M119 140l-13 60"/>
+  </g>
+  <g class="reference-art__nodes" fill="#09021f" stroke="#8fb7fe" stroke-width="2">
+    <circle cx="73" cy="307" r="6"/><circle cx="235" cy="231" r="6"/><circle cx="443" cy="214" r="6"/><circle cx="565" cy="103" r="6"/>
+  </g>
+  <text x="48" y="52" fill="#8fb7fe" opacity=".62" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ</text>
+</svg>"""
+
+
 def project_card(entry: dict) -> str:
     """Colorful homepage Projects catalog card for one manifest['projects'] entry."""
     slug = entry["slug"]
     topics_html = "".join(f'<span class="project-topic">{html.escape(t)}</span>' for t in entry.get("topics", []))
     return f"""
-    <a class="project-card" href="/projects/{slug}/">
+    <a class="project-card" data-project="{html.escape(entry['id'])}" href="/projects/{slug}/">
       <div class="project-card-visual">{project_illustration(entry["id"])}</div>
       <div class="project-card-body">
-        <div class="project-card-title">{html.escape(entry["title"])}</div>
+        <h3 class="project-card-title">{html.escape(entry["title"])}</h3>
         <p class="project-card-desc">{html.escape(entry["description"])}</p>
         <div class="project-card-topics">{topics_html}</div>
-        <span class="project-card-cta">Открыть проект →</span>
+        <span class="project-card-cta">Открыть проект <span aria-hidden="true">→</span></span>
       </div>
     </a>"""
