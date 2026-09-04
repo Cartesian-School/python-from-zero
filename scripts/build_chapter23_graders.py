@@ -24,7 +24,7 @@ CHECKS: dict[str, list[tuple[str, str]]] = {
         ("Крайний случай: пробел в пути", "razobrat_duplicates('/tmp/Photo Archive').root == Path('/tmp/Photo Archive')"),
     ],
     "23-08": [
-        ("JPG нормализован", "zadanie_info.extension == '.jpg' and zadanie_info.size == 2048"),
+        ("JPG нормализован", "zadanie_info.extension == '.jpg' and zadanie_info.size == 2048 and zadanie_info.path.name == 'photo.JPG'"),
         ("Крайний случай: имя без suffix", "opisat_fajl(Path('README'), 1).extension == ''"),
     ],
     "23-10": [
@@ -56,12 +56,13 @@ CHECKS: dict[str, list[tuple[str, str]]] = {
         ("Замена байта на то же значение сохраняет digest", "digest_posle_zameny(b'abc', 1, ord('b')) == hashlib.sha256(b'abc').hexdigest()"),
     ],
     "23-18": [
-        ("Пустая пара образует группу", "any(g['size'] == 0 and {f.name for f in g['files']} == {'pustoj_a.txt', 'pustoj_b.txt'} for g in gruppy2)"),
+        ("Пустая пара образует группу", "any(g['size'] == 0 and g['digest'] == hashlib.sha256(b'').hexdigest() and {f.name for f in g['files']} == {'pustoj_a.txt', 'pustoj_b.txt'} for g in gruppy2)"),
         ("Один пустой файл не образует группу", "not any(g['size'] == 0 for g in find_duplicates(fajly + [FileInfo('one', 0, b'')]))"),
     ],
     "23-19": [
+        ("Destination переопределён из TOML", "nastrojki_minimalnye.destination == 'Sorted2'"),
         ("Отсутствующая таблица использует defaults", "nastrojki_minimalnye.extensions == DEFAULT_EXTENSIONS"),
-        ("Новая books добавлена поверх defaults", "config_iz_toml('[extensions]\\nbooks = [\".epub\"]\\n').extensions['documents'] == DEFAULT_EXTENSIONS['documents']"),
+        ("Новая books добавлена, defaults сохранены", "config_iz_toml('[extensions]\\nbooks = [\".epub\"]\\n').extensions['books'] == ['.epub'] and config_iz_toml('[extensions]\\nbooks = [\".epub\"]\\n').extensions['documents'] == DEFAULT_EXTENSIONS['documents']"),
         ("Существующая категория заменяется", "config_iz_toml('[extensions]\\ndocuments = [\".md\"]\\n').extensions['documents'] == ['.md']"),
     ],
     "23-22": [
@@ -73,6 +74,7 @@ CHECKS: dict[str, list[tuple[str, str]]] = {
         ("Успешный разбор возвращает 0", "kod_razbora(['apply', '/tmp/x']) == 0"),
         ("--help является успешным SystemExit(0)", "kod_razbora(['--help']) == 0"),
         ("Некорректная команда ненулевая", "kod_razbora(['zip', '/tmp/x']) != 0"),
+        ("Отсутствие подкоманды тоже ненулевое", "kod_razbora([]) != 0"),
     ],
 }
 

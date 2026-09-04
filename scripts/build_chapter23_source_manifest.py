@@ -15,6 +15,11 @@ from validate_chapter23_sources import (
 )
 
 CHECKED_DATE = "2026-08-26"
+CHECKED_DATE_BY_URL = {
+    "https://git-scm.com/install/mac": "2026-09-04",
+    "https://git-scm.com/install/windows": "2026-09-04",
+    "https://packaging.python.org/en/latest/discussions/distribution-package-vs-import-package/": "2026-09-04",
+}
 
 
 def slugify(value: str) -> str:
@@ -47,7 +52,7 @@ def build_manifest() -> dict:
                 "provider": provider,
                 "category": category,
                 "license": PROVIDER_LICENSE[provider],
-                "checked_date": CHECKED_DATE,
+                "checked_date": CHECKED_DATE_BY_URL.get(url, CHECKED_DATE),
                 "adapted": adapted_by_url[url],
                 "routes": sorted(entry["routes"]),
             }

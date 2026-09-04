@@ -558,6 +558,54 @@ def test_enemy_escape_costs_one_life_each():
     assert game.lives == zhizni_do - 2
 
 
+def test_escape_damage_is_aggregated_and_bypasses_collision_invulnerability():
+    """Побег — отдельный от столкновения источник урона: каждый сбежавший
+    враг стоит одну жизнь даже во время неуязвимости корабля."""
+    game = novaya_igra()
+    game.start_new_game()
+    game.player.take_hit()
+    game.spawn_timer = 60.0
+
+    for x in (100.0, 200.0):
+        game.enemies.add(
+            ss.Enemy(
+                game.assets.images["enemy_scout"],
+                (x, game.playfield.bottom + 100.0),
+                points=100,
+                speed=0.0,
+            )
+        )
+
+    game._update_playing(1 / 60)
+
+    assert game.player.is_invulnerable
+    assert game.lives == ss.STARTING_LIVES - 2
+    assert len(game.enemies) == 0
+    assert game.state is ss.GameStatus.PLAYING
+
+
+def test_simultaneous_escapes_can_trigger_game_over():
+    game = novaya_igra()
+    game.start_new_game()
+    game.player.take_hit()
+    game.spawn_timer = 60.0
+
+    for x in (100.0, 200.0, 300.0):
+        game.enemies.add(
+            ss.Enemy(
+                game.assets.images["enemy_scout"],
+                (x, game.playfield.bottom + 100.0),
+                points=100,
+                speed=0.0,
+            )
+        )
+
+    game._update_playing(1 / 60)
+
+    assert game.lives == 0
+    assert game.state is ss.GameStatus.GAME_OVER
+
+
 def test_enemy_still_inside_playfield_does_not_escape():
     game = novaya_igra()
     game.start_new_game()
@@ -799,6 +847,23 @@ def test_game_runs_headless_smoke():
         game.update(1 / 60)
         game.render()
     assert game.state in (ss.GameStatus.PLAYING, ss.GameStatus.GAME_OVER)
+
+
+def test_f3_toggles_debug_overlay_and_overlay_draws_hitbox():
+    game = novaya_igra()
+    game.start_new_game()
+    assert game.debug is False
+
+    pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_F3))
+    game.handle_events()
+    assert game.debug is True
+
+    game.render()
+    assert game.screen.get_at(game.player.rect.topleft)[:3] == (255, 80, 80)
+
+    pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_F3))
+    game.handle_events()
+    assert game.debug is False
 
 
 def test_max_dt_clamps_huge_frame_spike():

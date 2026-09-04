@@ -13,7 +13,7 @@ def _record(name, predicate):
 
 
 _record("Task cell выполнена без исключения", lambda: bool(_task) and _task.get("ok", False))
-_record('Пустая пара образует группу', lambda: any(g['size'] == 0 and {f.name for f in g['files']} == {'pustoj_a.txt', 'pustoj_b.txt'} for g in gruppy2))
+_record('Пустая пара образует группу', lambda: any(g['size'] == 0 and g['digest'] == hashlib.sha256(b'').hexdigest() and {f.name for f in g['files']} == {'pustoj_a.txt', 'pustoj_b.txt'} for g in gruppy2))
 _record('Один пустой файл не образует группу', lambda: not any(g['size'] == 0 for g in find_duplicates(fajly + [FileInfo('one', 0, b'')])))
 
 _passed_count = sum(1 for check in checks if check["passed"])

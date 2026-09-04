@@ -591,7 +591,7 @@ def build_git_02() -> None:
     <p>Официальный установщик — <strong>Git for Windows</strong>: он ставит саму программу
     <code class="inline">git</code> и терминал <strong>Git Bash</strong>, в котором работают
     все команды этой главы без изменений.</p>
-    {official_sources([("Git for Windows", "https://git-scm.com/download/win")], adapted=False)}
+    {official_sources([("Git for Windows", "https://git-scm.com/install/windows")], adapted=False)}
 
     <h2>macOS</h2>
     <p>На macOS у git-scm.com больше нет единого официального установщика: отдельный
@@ -618,7 +618,7 @@ def build_git_02() -> None:
         "новым релизом Git. Для этого курса подходит любой из трёх вариантов. Команда "
         "git --version ниже покажет, что реально установилось.",
     )}
-    {official_sources([("Git for macOS", "https://git-scm.com/download/mac")], adapted=False)}
+    {official_sources([("Git for macOS", "https://git-scm.com/install/mac")], adapted=False)}
 
     <h2>Проверяем установку</h2>
     <p>Независимо от системы, результат один и тот же: команда <code class="inline">git
@@ -1098,9 +1098,12 @@ def build_git_09() -> None:
     ], caption="origin — имя, а не адрес; сам адрес хранится отдельно и виден через git remote -v")}
 
     <p>Один локальный репозиторий может иметь несколько удалённых — например, «origin» для
-    основного репозитория и «upstream» для оригинала, из которого сделан fork (этот сценарий
-    встретится в домашней практике, где студенты работают в собственном fork
-    <code class="inline">python-mini-projects</code>).</p>
+    основного репозитория и «upstream» для оригинала. <strong>Fork</strong> — это ваша
+    собственная копия чужого репозитория на GitHub: её можно свободно менять, не затрагивая
+    оригинал. Такая связка origin/upstream пригодится, если в домашней практике вы решите
+    работать через собственный fork <code class="inline">python-mini-projects</code> — это
+    один из двух равноценных вариантов практики, наравне с созданием отдельного репозитория
+    с нуля (см. приложение).</p>
 
     {official_sources([
         ("About remote repositories", "https://docs.github.com/en/get-started/git-basics/about-remote-repositories"),
@@ -1370,10 +1373,12 @@ def build_proj_03() -> None:
         ],
     )}
 
-    <p>Именно так и был создан настоящий Project этой главы —
-    <a href="https://github.com/orgs/Cartesian-School/projects/1">Cartesian-School/projects/1
-    «SafeSort — первый релиз»</a>: Owner — Cartesian-School, Title — без номера версии,
-    Template — пустой Project.</p>
+    <p>Именно так и был создан настоящий Project этой главы — «SafeSort — первый релиз»
+    (Cartesian-School, Project №1): Owner — Cartesian-School, Title — без номера версии,
+    Template — пустой Project. Как и многие рабочие доски планирования, этот Project виден
+    только участникам организации Cartesian-School (Visibility из таблицы выше) — прямой
+    ссылки на него в тексте намеренно нет, чтобы не обещать доступ, которого у читателя нет;
+    всё его содержимое показано ниже на реальных скриншотах.</p>
 
     {image_figure(
         f"{IMG}/safesort-project-table.jpg",
@@ -1768,8 +1773,8 @@ def build_proj_09() -> None:
     ], caption="Issue существует в репозитории независимо от Project; добавление в Project — отдельное, необязательное действие")}
 
     <p>Все 14 Issues репозитория SafeSort действительно добавлены в настоящий Project
-    <a href="https://github.com/orgs/Cartesian-School/projects/1">«SafeSort — первый релиз»</a> —
-    это видно на скриншотах Board и Table в следующих разделах этой части главы.</p>
+    «SafeSort — первый релиз» (виден только участникам организации, как и отмечено в начале
+    этой части) — это видно на скриншотах Board и Table в следующих разделах этой части главы.</p>
 
     {official_sources([
         ("About issues", "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues"),
@@ -2493,7 +2498,7 @@ def build_04() -> None:
             ("tests", "dir", []),
         ]),
         highlight=frozenset({"pyproject.toml", "src", "safesort", "__init__.py", "tests"}),
-        caption="Каркас проекта: src/safesort/ содержит импортируемый пакет, pyproject.toml описывает distribution/build project, а tests/ содержит проверки.",
+        caption="Каркас исходного дерева проекта: src/safesort/ содержит импортируемый пакет, pyproject.toml — метаданные проекта и настройки системы сборки, а tests/ — проверки.",
     )}
 
     <p>Исходный код лежит внутри <code class="inline">src/</code>, а не прямо в корне
@@ -2544,20 +2549,26 @@ def build_05() -> None:
     body = f"""
     {stage_tracker(3)}
 
-    <p>Здесь легко смешать три разных объекта. <strong>Импортируемый пакет</strong>
+    <p>Здесь легко смешать четыре разных объекта. <strong>Импортируемый пакет</strong>
     <code class="inline">src/safesort/</code> содержит <code class="inline">__init__.py</code>
     и модули, которые Python загружает командой <code class="inline">import safesort</code>.
-    <strong>Distribution/build project</strong> представляет весь репозиторий с
-    <code class="inline">pyproject.toml</code>, метаданными и правилами сборки.
-    <strong>Установленная distribution</strong> представляет результат, зарегистрированный в конкретном
-    окружении Python.</p>
+    <strong>Проект</strong> (project) — библиотека или приложение, предназначенное для
+    упаковки; <strong>исходное дерево проекта</strong> (project source tree) — его файлы на
+    диске: <code class="inline">pyproject.toml</code>, <code class="inline">src/</code>,
+    <code class="inline">tests/</code> и документация. <strong>Дистрибутивный пакет</strong>
+    (distribution package) — устанавливаемый выпуск проекта; когда речь идёт о конкретном
+    файле, это архив дистрибутива: wheel или sdist. <strong>Установленный проект</strong> —
+    то, что появляется в окружении Python после установки: файлы импортируемого пакета плюс
+    метаданные, по которым инструменты вроде
+    <code class="inline">pip</code> и <code class="inline">importlib.metadata</code> узнают
+    о нём.</p>
 
     {flow_diagram([
-        ("Репозиторий", "pyproject.toml + src/safesort + tests"),
-        ("python -m pip install -e .", "build frontend читает метаданные и связывает src-layout с окружением"),
-        ("Установленная distribution", "окружение знает, где находится импортируемый пакет"),
+        ("Исходное дерево проекта", "pyproject.toml + src/safesort + tests"),
+        ("python -m pip install -e .", "build frontend читает метаданные проекта и связывает src-layout с окружением"),
+        ("Установленный проект в окружении", "окружение знает, где находится импортируемый пакет"),
         ("Два интерфейса", "import safesort и команда safesort --help"),
-    ], caption="pyproject.toml не превращает каталог в import package: он описывает сборку и установку distribution")}
+    ], caption="pyproject.toml не превращает каталог в import package: он хранит метаданные проекта и настройки, по которым из исходного дерева собирают архивы дистрибутива (wheel/sdist)")}
 
     <p>При src-layout запуск Python из корня репозитория сам по себе не добавляет
     <code class="inline">src/</code> в <code class="inline">sys.path</code>. Поэтому до
@@ -2596,9 +2607,9 @@ def build_05() -> None:
         "<code class=\"inline\">json</code> входят в стандартную библиотеку Python.",
     )}
 
-    <h2>Устанавливаем distribution в редактируемом режиме</h2>
+    <h2>Устанавливаем проект в редактируемом режиме</h2>
     <p><strong>Редактируемая установка</strong> (editable install) связывает окружение
-    Python с исходным кодом пакета напрямую: изменения в файлах <code class="inline">
+    Python с исходным кодом проекта напрямую: изменения в файлах <code class="inline">
     src/safesort/</code> становятся видны сразу, без повторной установки.</p>
     {code_block(
         "Терминал (окружение активировано)",
@@ -2611,18 +2622,19 @@ def build_05() -> None:
     {official_sources([
         ("Python Tutorial — Packages", "https://docs.python.org/3/tutorial/modules.html#packages"),
         ("Packaging Python Projects", "https://packaging.python.org/en/latest/tutorials/packaging-projects/"),
+        ("Distribution package vs. import package", "https://packaging.python.org/en/latest/discussions/distribution-package-vs-import-package/"),
         ("src layout vs flat layout", "https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/"),
         ("Writing pyproject.toml", "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/"),
     ], adapted=False)}
     """
     out = render_page(
         page_title="pyproject.toml и установка проекта",
-        description="Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта.",
+        description="Import package, Проект (project) и editable installation в src-layout: три разных уровня Python-проекта.",
         depth=2,
         breadcrumb=[("Python с нуля", "../../index.html"), ("Глава 23", "index.html"), ("pyproject.toml", "")],
         kicker="Глава 23 · Часть III · Создаём Python-проект",
         h1="pyproject.toml и установка проекта",
-        lede="src/safesort импортируется, pyproject.toml описывает distribution, а editable install связывает её с текущим окружением.",
+        lede="src/safesort импортируется, pyproject.toml описывает Проект, а editable install связывает его с текущим окружением.",
         body_html=body,
         sidebar_groups=sidebar("23-05-pyproject-toml.html"),
         nav=PageNav(prev_href="23-04-struktura-paketa.html", prev_label="Структура пакета", next_href="23-06-komandnaya-stroka.html", next_label="Командная строка SafeSort"),
@@ -2709,10 +2721,14 @@ def build_06() -> None:
         "positional arguments:",
         "  {scan,plan,apply,duplicates,undo}",
         "    scan                List files found under ROOT, grouped by category",
-        "    plan                Show the moves that would be made under ROOT",
-        "    apply               Move files under ROOT into Sorted/<category>/",
-        "    duplicates          Report groups of files with identical content",
-        "    undo                Undo the most recent 'apply' run",
+        "                        (read-only).",
+        "    plan                Show the moves that would be made under ROOT, without",
+        "                        changing anything (read-only).",
+        "    apply               Move files under ROOT into Sorted/<category>/ and",
+        "                        record an undo manifest.",
+        "    duplicates          Report groups of files with identical content under",
+        "                        ROOT (read-only, never deletes).",
+        "    undo                Undo the most recent 'apply' run recorded under ROOT.",
         "",
         "options:",
         "  -h, --help            show this help message and exit",
@@ -3697,14 +3713,12 @@ def build_16() -> None:
     если там уже что-то есть, отказывается восстанавливать именно этот файл:</p>
     {terminal_capture([
         "$ safesort undo ~/Downloads",
-        "ERROR: Refusing to undo Sorted/other/bigfile_b.dat -> bigfile_b.dat:",
-        "  a file already exists at the original location: bigfile_b.dat",
-        "ERROR: Refusing to undo Sorted/documents/notes.txt -> notes.txt:",
-        "  a file already exists at the original location: notes.txt",
+        "ERROR:safesort.manifest:Refusing to undo Sorted/other/bigfile_b.dat -> bigfile_b.dat: a file already exists at the original location: bigfile_b.dat",
+        "ERROR:safesort.manifest:Refusing to undo Sorted/documents/notes.txt -> notes.txt: a file already exists at the original location: notes.txt",
         "… (ещё 7 таких строк)",
         "Restored 0 moves.",
         "9 moves could not be restored:",
-        "  Sorted/other/bigfile_b.dat -> bigfile_b.dat: a file already exists at the original location",
+        "  Sorted/other/bigfile_b.dat -> bigfile_b.dat: a file already exists at the original location: bigfile_b.dat",
         "  … (ещё 8 строк)",
     ])}
 
@@ -4005,13 +4019,13 @@ def build_19() -> None:
     {terminal_capture([
         "$ safesort duplicates ~/Downloads",
         "Found 3 duplicate group(s):",
-        "Group 1: 2 files, 2097289 bytes each, sha256=5e5aab7a...",
+        "Group 1: 2 files, 2097289 bytes each, sha256=44f70488694a224316549d0752fe6fdec636df12d58e85681eacc85e180b1f8c",
         "  Downloads/bigfile_b.dat",
         "  Downloads/bigfile_a.dat",
-        "Group 2: 2 files, 0 bytes each, sha256=e3b0c442...",
+        "Group 2: 2 files, 0 bytes each, sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "  Downloads/empty_b.bin",
         "  Downloads/empty_a.bin",
-        "Group 3: 2 files, 28 bytes each, sha256=0833b7c4...",
+        "Group 3: 2 files, 28 bytes each, sha256=f3b439399a805a21e826bbd4111ca4c4615e492934f53bbb2be042e7c97530cc",
         "  Downloads/copy_of_notes.txt",
         "  Downloads/notes.txt",
     ])}
@@ -4404,7 +4418,7 @@ def build_23() -> None:
     всего используют <code class="inline">pytest</code>.</p>
 
     {code_block(
-        "Терминал (окружение активировано)", "pip install -e .[dev]\npytest tests/ -v", lang="text",
+        "Терминал (окружение активировано)", 'pip install -e ".[dev]"\npytest tests/ -v', lang="text",
     )}
 
     {callout(
@@ -5012,15 +5026,15 @@ def build_30() -> None:
 
     {image_figure(
         f"{IMG}/safesort-actions-runs.jpg",
-        "Список запусков GitHub Actions репозитория Cartesian-School/safesort: 19 реальных запусков, включая один красный (намеренно сломанный тест) и следующий за ним зелёный",
-        "Настоящая история запусков CI репозитория SafeSort — 19 запусков, вплоть до одного специально сломанного и тут же исправленного (раздел ниже).",
+        "Список запусков GitHub Actions репозитория Cartesian-School/safesort: 19 реальных запусков; среди двух красных один относится к раннему этапу до рабочего CI, второй — к намеренно сломанному тесту, сразу после которого следует зелёный",
+        "Настоящая история CI репозитория SafeSort — 19 запусков: один ранний красный до рабочего CI и учебная пара из намеренно сломанного запуска и зелёного после исправления (раздел ниже).",
         size="wide",
     )}
 
     <p>Вот тот самый файл-инструкция, который GitHub читает перед каждым запуском:</p>
     {code_block(
-        ".github/workflows/tests.yml",
-        "name: tests\n\n"
+        ".github/workflows/safesort-tests.yml",
+        "name: SafeSort tests\n\n"
         "on:\n"
         "  push:\n"
         '    branches: ["main"]\n'
@@ -5945,7 +5959,7 @@ def build_hw_05() -> None:
 
 def build_hw_06() -> None:
     body = f"""
-    <p>Последний домашний проект объединяет файлы (глава 14) и Tkinter: приложение «Заметки»
+    <p>Последний домашний проект объединяет файлы (глава 15) и Tkinter: приложение «Заметки»
     с текстовым полем и кнопками сохранить, загрузить, очистить. Работа с файлом вынесена в
     отдельные функции, не знающие о существовании Tkinter вовсе:</p>
 

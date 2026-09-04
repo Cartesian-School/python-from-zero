@@ -68,6 +68,13 @@ db.execute(<span class="tok-str">f&quot;</span><span class="tok-str">SELECT * FR
       <div class="code-label"><span>bezopasno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
       <pre><code>db.execute(<span class="tok-str">&quot;SELECT * FROM tasks WHERE title = ?&quot;</span>, (user_input,))</code></pre>
     </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Ограничение execute() не делает f-строки безопасными</div>
+        <div class="callout-body">Метод <code class="inline">sqlite3.execute()</code> в Python не разрешает несколько SQL-инструкций за один вызов: составная атака вроде <code class="inline">x'; DROP TABLE tasks; --</code> завершится ошибкой <code class="inline">ProgrammingError</code>. Это ограничение конкретного Python-драйвера, а не универсальная защита SQL. Оно не спасает от одноинструкционных инъекций: ввод <code class="inline">' OR '1'='1</code> меняет условие <code class="inline">WHERE</code> и возвращает все строки. Никогда не вставляйте недоверенный ввод в текст SQL — передавайте его только параметром.</div>
+      </div>
+    </div>
     <p>Раздел 22.22 уже показывал этот приём — <strong>параметризованный запрос</strong>,
     где значение передаётся отдельно от текста SQL и никогда не смешивается с ним. Модуль
     <code class="inline">sqlite3</code> сам отвечает за то, чтобы значение осталось данными,
