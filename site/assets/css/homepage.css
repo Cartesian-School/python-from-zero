@@ -775,50 +775,101 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 /* ==========================================================================
    PROJECTS — the most visual homepage section
    ========================================================================== */
-.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.projects-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
 .project-card {
-  display: flex; flex-direction: column; border-radius: var(--radius-lg); overflow: hidden; text-decoration: none;
+  position: relative; display: flex; min-width: 0; flex-direction: column; border-radius: var(--radius-lg); overflow: hidden; text-decoration: none;
   color: var(--color-text-primary); background: var(--surface-2); border: var(--border-hairline);
   box-shadow: var(--shadow-sm); transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
 }
-.project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); border-color: rgba(91,36,249,.25); }
-.project-card-visual { position: relative; aspect-ratio: 4 / 3; width: 100%; display: block; overflow: hidden; }
+.project-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 1px rgba(255,255,255,.58); }
+.project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); border-color: rgba(91,36,249,.28); }
+.project-card:focus-visible { outline-width: 3px; outline-offset: 4px; }
+.project-card-visual { position: relative; aspect-ratio: 16 / 10; width: 100%; display: block; overflow: hidden; background: var(--navy-950); }
 .project-card-visual svg { display: block; width: 100%; height: 100%; transition: transform var(--duration-slow) var(--ease-standard); }
 .project-card:hover .project-card-visual svg { transform: scale(1.03); }
-.project-card-body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
-.project-card-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px; }
-.project-card-desc { font-size: 14px; line-height: 1.55; color: var(--color-text-muted); flex: 1; }
+.project-card-body { padding: 21px 23px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.project-card-title { margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px; line-height: 1.3; letter-spacing: -.015em; }
+.project-card-desc { margin: 0; font-size: 14px; line-height: 1.58; color: var(--color-text-muted); flex: 1; }
 .project-card-topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
-.project-topic { font-size: 11px; font-weight: 600; background: var(--gray-100); color: var(--gray-600); padding: 3px 10px; border-radius: var(--radius-full); }
+.project-topic { font: 600 10.5px/1.35 'Inter', sans-serif; letter-spacing: .01em; background: var(--gray-100); color: var(--gray-600); padding: 4px 10px; border: 1px solid rgba(13,2,48,.035); border-radius: var(--radius-full); }
 .project-card-cta { font-weight: 600; font-size: 14px; color: var(--color-brand-blue); display: inline-flex; align-items: center; gap: 4px; transition: gap var(--duration-fast) var(--ease-standard); }
 .project-card:hover .project-card-cta { gap: 8px; }
 
-/* Project detail page */
-.project-hero { position: relative; aspect-ratio: 21 / 9; width: 100%; }
-.project-hero svg { display: block; width: 100%; height: 100%; }
-.project-detail-body { max-width: var(--content-width-narrow); margin: 0 auto; padding: 52px 24px 72px; }
-.project-detail-body h1 { font-size: 34px; margin-bottom: 12px; }
-.project-detail-body h2 { font-size: 22px; margin-top: 40px; margin-bottom: 12px; }
-.project-detail-body .lede { font-size: 18px; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 26px; }
-.project-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.project-art__grid { opacity: .6; }
+.project-art__route { stroke-dashoffset: 0; animation: project-route 8s linear infinite; }
+.project-art__nodes circle { opacity: .38; transform-box: fill-box; transform-origin: center; animation: project-node 5s ease-in-out infinite; }
+.project-art__nodes circle:nth-child(2) { animation-delay: -1.7s; }
+.project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
+.project-art__subject > * { transform-box: fill-box; transform-origin: center; }
+.project-art--paint-app .project-art__subject > rect { animation: project-brush 5.8s ease-in-out infinite; }
+.project-art--snake .project-art__subject > circle { animation: project-float 4s ease-in-out infinite; }
+.project-art--snake .project-art__subject path { stroke-dasharray: 24 8; animation: project-dash 6s linear infinite; }
+.project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
+.project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
+.project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
+.project-art--space-shooter .project-art__subject > polygon { animation: project-float 4.8s ease-in-out infinite; }
+.project-art--space-shooter .project-art__subject > rect { animation: project-exhaust 3s ease-in-out infinite; }
+.project-art--todo-app .project-art__subject > path { stroke-dasharray: 28; animation: project-check 5s ease-in-out infinite; }
+.project-art--calculator .project-art__subject > rect:nth-child(6),
+.project-art--calculator .project-art__subject > rect:nth-child(11) { animation: project-key 4.5s ease-in-out infinite; }
+.project-art--story-generator .project-art__subject > path:last-child { animation: project-spark 4s ease-in-out infinite; }
+.project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
+.project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
+.project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
+.project-art--tic-tac-toe .project-art__subject > g:nth-of-type(2) { animation: project-mark 4.8s ease-in-out infinite; }
+.project-art--safesort .project-art__subject > rect:nth-of-type(2) { animation: project-sort 5.2s ease-in-out infinite; }
+
+@keyframes project-route { to { stroke-dashoffset: -44; } }
+@keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
+@keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes project-brush { 0%, 100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(7px) rotate(1.5deg); } }
+@keyframes project-dash { to { stroke-dashoffset: -64; } }
+@keyframes project-bounce { 0%, 100% { transform: translateY(0) scaleY(1); } 45% { transform: translateY(-8px) scaleY(1.02); } 78% { transform: translateY(1px) scaleY(.96); } }
+@keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
+@keyframes project-check { 0%, 18% { stroke-dashoffset: 28; opacity: .3; } 42%, 100% { stroke-dashoffset: 0; opacity: .85; } }
+@keyframes project-key { 0%, 74%, 100% { opacity: .55; transform: scale(1); } 82% { opacity: 1; transform: scale(.94); } }
+@keyframes project-spark { 0%, 100% { opacity: .62; transform: scale(.88) rotate(-2deg); } 50% { opacity: 1; transform: scale(1.04) rotate(2deg); } }
+@keyframes project-tilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(3deg); } }
+@keyframes project-mercury { 0%, 100% { transform: scaleY(.86); transform-origin: bottom; } 50% { transform: scaleY(1.04); transform-origin: bottom; } }
+@keyframes project-write { 0%, 100% { transform: scaleX(.74); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } }
+@keyframes project-mark { 0%, 100% { opacity: .6; } 45%, 72% { opacity: 1; } }
+@keyframes project-sort { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
 
 /* ==========================================================================
    СПРАВОЧНИК — clean technical reference board
    ========================================================================== */
-.reference-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.reference-hero { display: grid; grid-template-columns: minmax(0, .82fr) minmax(460px, 1.18fr); gap: clamp(44px, 6vw, 84px); align-items: center; margin-bottom: 44px; }
+.reference-hero__copy { min-width: 0; }
+.home-section .reference-hero__copy .sub { margin-bottom: 18px; }
+.reference-hero__note { max-width: 510px; margin: 0; color: var(--color-text-muted); font-size: 14px; line-height: 1.65; }
+.reference-hero__art { min-width: 0; }
+.reference-art { display: block; width: 100%; height: auto; filter: drop-shadow(0 24px 32px rgba(13,2,48,.18)); }
+.reference-art__search { animation: reference-search 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.reference-art__nodes circle { animation: reference-node 5.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.reference-art__nodes circle:nth-child(2) { animation-delay: -1.4s; }
+.reference-art__nodes circle:nth-child(3) { animation-delay: -2.8s; }
+.reference-art__nodes circle:nth-child(4) { animation-delay: -4.2s; }
+@keyframes reference-search { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(-6px, 4px) rotate(-2deg); } }
+@keyframes reference-node { 0%, 70%, 100% { transform: scale(1); } 82% { transform: scale(1.45); } }
+
+.reference-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .reference-card {
-  display: flex; align-items: center; gap: 16px; padding: 20px 22px; background: var(--surface-2);
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 16px; min-width: 0; padding: 20px 22px; background: var(--surface-2);
   border: var(--border-hairline); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text-primary);
   transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard);
 }
-.reference-card:hover { border-color: var(--color-brand-blue); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.reference-card:hover { border-color: var(--color-brand-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.reference-card:focus-visible { outline-width: 3px; outline-offset: 4px; }
 .reference-card .ri {
-  font-size: 19px; flex-shrink: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-  background: var(--surface-1); border-radius: var(--radius-md);
+  color: var(--color-brand-blue); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, #eef3ff, #f4efff); border: 1px solid rgba(24,93,250,.08); border-radius: 12px;
 }
 .reference-card .ri .cs-icon { margin-right: 0; }
+.reference-card__copy { min-width: 0; }
 .reference-card .rt { font-weight: 600; font-size: 15px; }
-.reference-card .rs { font-size: 13px; color: var(--color-text-muted); }
+.reference-card .rs { margin-top: 3px; font-size: 13px; line-height: 1.45; color: var(--color-text-muted); }
+.reference-card__arrow { color: var(--color-brand-blue); font-size: 17px; transition: transform var(--duration-fast) var(--ease-standard); }
+.reference-card:hover .reference-card__arrow { transform: translateX(3px); }
 
 /* ==========================================================================
    SIGNATURE AUTHOR PROFILE — real portrait + Cartesian systems drawing
@@ -1055,6 +1106,7 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .hero-system { width: min(680px, 100%); justify-self: center; }
   .author-profile__layout { column-gap: 42px; }
   .author-profile__name { font-size: clamp(42px, 5.7vw, 60px); }
+  .reference-hero { grid-template-columns: minmax(0, .88fr) minmax(400px, 1.12fr); gap: 42px; }
 }
 
 @media (max-width: 900px) {
@@ -1073,6 +1125,9 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .author-profile__intro, .author-profile__body { width: min(760px, 100%); }
   .author-portrait { width: min(100%, 440px); margin-top: 2px; justify-self: center; }
   .author-profile__name { max-width: none; font-size: clamp(42px, 8vw, 62px); }
+  .reference-hero { grid-template-columns: 1fr; gap: 34px; }
+  .reference-hero__copy { max-width: 680px; }
+  .reference-hero__art { width: min(640px, 100%); }
 }
 
 @media (max-width: 860px) {
@@ -1080,7 +1135,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .about-copy { max-width: 680px; }
   .about-stats { width: min(650px, 100%); justify-self: center; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
-  .reference-board { grid-template-columns: 1fr; }
   .home-section { padding: 60px 20px; }
   .course-overview { padding-top: 74px; padding-bottom: 64px; }
   .course-format { padding-top: 52px; padding-bottom: 84px; }
@@ -1124,6 +1178,10 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 
 @media (max-width: 600px) {
   .projects-grid { grid-template-columns: 1fr; }
+  .reference-board { grid-template-columns: 1fr; }
+  .reference-hero { margin-bottom: 34px; }
+  .reference-hero__note { font-size: 13.5px; }
+  .reference-card { padding: 17px; }
   .home-hero { padding: 52px 20px 50px; }
   .home-hero__inner { gap: 30px; }
   .home-hero .kicker { gap: 8px; margin-bottom: 18px; font-size: 10.5px; letter-spacing: .06em; }
@@ -1274,4 +1332,8 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .author-profile .author-portrait__signal { opacity: .62 !important; stroke-dashoffset: 0 !important; }
   .author-profile .author-portrait img { transform: none !important; transition: none !important; }
   .author-profile::after { transform: none !important; }
+  .project-art *, .reference-art * { animation: none !important; }
+  .project-card:hover, .reference-card:hover,
+  .project-card:hover .project-card-visual svg,
+  .reference-card:hover .reference-card__arrow { transform: none !important; }
 }
