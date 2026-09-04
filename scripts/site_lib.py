@@ -5068,6 +5068,52 @@ def _project_icon_svg(project_id: str) -> str:
     return '<circle cx="200" cy="112" r="30" fill="#fff" opacity=".8"/>'
 
 
+def _story_generator_scene() -> str:
+    """Bespoke web illustration for story-generator: three independent source
+    pools feed a random-selection hub that assembles one generated result —
+    replaces the old generic icon-in-wrapper composition (two document
+    sheets + a sparkle) with a purpose-built scene that reads as "random
+    composition" on sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    tokens_y = [44, 98, 152]
+    token_opacity = [".92", ".78", ".62"]
+    token_bar_w = [44, 34, 26]
+    tokens_html = "".join(
+        f'<g class="story-token">'
+        f'<rect x="34" y="{y}" width="76" height="32" rx="9" fill="#fff" opacity="{op}"/>'
+        f'<rect x="46" y="{y + 13}" width="{w}" height="7" rx="3.5" fill="var(--navy-950)" opacity=".24"/>'
+        f'</g>'
+        for y, op, w in zip(tokens_y, token_opacity, token_bar_w)
+    )
+    return f"""
+  <g class="story-routes" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="4 7" opacity=".55">
+    <path class="story-route" d="M110 60 Q150 60 190 112"/>
+    <path class="story-route" d="M110 114 Q150 114 190 112"/>
+    <path class="story-route" d="M110 168 Q150 168 190 112"/>
+    <path class="story-route story-route--out" d="M198 112 L244 112"/>
+  </g>
+  <g class="story-tokens">{tokens_html}</g>
+  <g class="story-hub" fill="#fff">
+    <circle class="story-hub-dot" cx="185" cy="105" r="2.6"/>
+    <circle class="story-hub-dot" cx="197" cy="105" r="2.6"/>
+    <circle class="story-hub-dot" cx="191" cy="120" r="2.6"/>
+  </g>
+  <g class="story-output">
+    <rect class="story-output-card" x="244" y="44" width="122" height="140" rx="16" fill="#fff" opacity=".95"/>
+    <g class="story-output-lines">
+      <rect class="story-output-line" x="262" y="78" width="88" height="9" rx="4.5" fill="var(--navy-950)" opacity=".8"/>
+      <rect class="story-output-line story-output-line--accent" x="262" y="100" width="68" height="9" rx="4.5" fill="var(--amber-500)" opacity=".95"/>
+      <rect class="story-output-line" x="262" y="122" width="56" height="9" rx="4.5" fill="var(--navy-950)" opacity=".45"/>
+    </g>
+  </g>
+  <path class="story-spark" d="M356 30 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" fill="var(--amber-500)" opacity=".95"/>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5075,7 +5121,16 @@ def project_illustration(project_id: str) -> str:
     aria-hidden="true" — no meaningful alt text is lost.
     """
     c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
-    icon = _project_icon_svg(project_id)
+    if project_id == "story-generator":
+        scene = _story_generator_scene()
+    else:
+        icon = _project_icon_svg(project_id)
+        scene = f"""
+  <path class="project-art__route" d="M34 183 C102 150 135 190 202 162 S320 120 370 151" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="3 8" opacity=".16"/>
+  <g class="project-art__subject">{icon}</g>
+  <g class="project-art__nodes" fill="#fff">
+    <circle cx="34" cy="183" r="2.5"/><circle cx="202" cy="162" r="2.5"/><circle cx="370" cy="151" r="2.5"/>
+  </g>"""
     return f"""<svg class="project-art project-art--{project_id}" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="grad-{project_id}" x1="0" y1="0" x2="1" y2="1">
@@ -5089,12 +5144,7 @@ def project_illustration(project_id: str) -> str:
   <rect width="400" height="225" fill="url(#grad-{project_id})"/>
   <rect class="project-art__grid" width="400" height="225" fill="url(#grid-{project_id})"/>
   <circle cx="360" cy="20" r="70" fill="#fff" opacity=".05"/>
-  <circle cx="20" cy="205" r="90" fill="#000" opacity=".08"/>
-  <path class="project-art__route" d="M34 183 C102 150 135 190 202 162 S320 120 370 151" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="3 8" opacity=".16"/>
-  <g class="project-art__subject">{icon}</g>
-  <g class="project-art__nodes" fill="#fff">
-    <circle cx="34" cy="183" r="2.5"/><circle cx="202" cy="162" r="2.5"/><circle cx="370" cy="151" r="2.5"/>
-  </g>
+  <circle cx="20" cy="205" r="90" fill="#000" opacity=".08"/>{scene}
 </svg>"""
 
 
