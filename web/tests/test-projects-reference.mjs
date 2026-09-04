@@ -208,6 +208,45 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const SNAKE_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of SNAKE_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/snake/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--snake[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--snake .snake-segment, .project-art--snake .snake-head, ' +
+            '.project-art--snake .snake-apple, .project-art--snake .snake-route, ' +
+            '.project-art--snake .snake-tail'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          segmentCount: document.querySelectorAll('.project-art--snake .snake-segment').length,
+          headFound: Boolean(document.querySelector('.project-art--snake .snake-head')),
+          appleFound: Boolean(document.querySelector('.project-art--snake .snake-apple')),
+          routeFound: Boolean(document.querySelector('.project-art--snake .snake-route')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`snake ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`snake ${viewport}: 6-9 body segments render`, result.segmentCount >= 6 && result.segmentCount <= 9);
+      ok(`snake ${viewport}: a distinct head renders`, result.headFound);
+      ok(`snake ${viewport}: one apple renders`, result.appleFound);
+      ok(`snake ${viewport}: a route/trajectory hint renders`, result.routeFound);
+      ok(`snake ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`snake ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -251,6 +290,9 @@ function observePage(page, base) {
       '.project-art--paint-app .paint-stroke', '.project-art--paint-app .paint-cursor',
       '.project-art--paint-app .paint-shape', '.project-art--paint-app .paint-tool-btn',
       '.project-art--paint-app .paint-swatch',
+      '.project-art--snake .snake-segment', '.project-art--snake .snake-head',
+      '.project-art--snake .snake-apple', '.project-art--snake .snake-apple-leaf',
+      '.project-art--snake .snake-route', '.project-art--snake .snake-tail',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -270,6 +312,15 @@ function observePage(page, base) {
       };
     });
     ok('reduced motion: paint app canvas stays fully visible (stroke complete, shapes shown)', paintReducedState.shapesVisible && paintReducedState.strokeComplete);
+    const snakeReducedState = await reduced.evaluate(() => {
+      const visible = (node) => getComputedStyle(node).opacity !== '0';
+      return {
+        segmentsVisible: [...document.querySelectorAll('.project-art--snake .snake-segment')].every(visible),
+        headVisible: visible(document.querySelector('.project-art--snake .snake-head')),
+        appleVisible: visible(document.querySelector('.project-art--snake .snake-apple')),
+      };
+    });
+    ok('reduced motion: snake body, head, and apple stay fully visible', snakeReducedState.segmentsVisible && snakeReducedState.headVisible && snakeReducedState.appleVisible);
     await reduced.close();
 
     await browser.close();
