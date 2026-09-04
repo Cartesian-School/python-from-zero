@@ -290,6 +290,48 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const CALCULATOR_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of CALCULATOR_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/calculator/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--calculator[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--calculator .calc-key--seq-1, .project-art--calculator .calc-key--seq-2, ' +
+            '.project-art--calculator .calc-key--seq-3, .project-art--calculator .calc-key--seq-4, ' +
+            '.project-art--calculator .calc-key--seq-5, .project-art--calculator .calc-display-state, ' +
+            '.project-art--calculator .calc-result-value'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          displayFound: Boolean(document.querySelector('.project-art--calculator .calc-display')),
+          keyCount: document.querySelectorAll('.project-art--calculator .calc-key').length,
+          operatorKeyCount: document.querySelectorAll('.project-art--calculator .calc-key--operator').length,
+          equalsKeyFound: Boolean(document.querySelector('.project-art--calculator .calc-key--equals')),
+          displayStateCount: document.querySelectorAll('.project-art--calculator .calc-display-state').length,
+          resultStateFound: Boolean(document.querySelector('.project-art--calculator .calc-display-state--result')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`calculator ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`calculator ${viewport}: display renders`, result.displayFound);
+      ok(`calculator ${viewport}: 16 keys render`, result.keyCount === 16);
+      ok(`calculator ${viewport}: 4 operator keys and one equals key render`, result.operatorKeyCount === 4 && result.equalsKeyFound);
+      ok(`calculator ${viewport}: 6 display states including the result state render`, result.displayStateCount === 6 && result.resultStateFound);
+      ok(`calculator ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`calculator ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -414,6 +456,10 @@ function observePage(page, base) {
       '.project-art--space-shooter .shooter-engine', '.project-art--space-shooter .shooter-explosion',
       '.project-art--space-shooter .shooter-stars-far', '.project-art--space-shooter .shooter-stars-near',
       '.project-art--space-shooter .shooter-stars-bright circle', '.project-art--space-shooter .shooter-route',
+      '.project-art--calculator .calc-key--seq-1', '.project-art--calculator .calc-key--seq-2',
+      '.project-art--calculator .calc-key--seq-3', '.project-art--calculator .calc-key--seq-4',
+      '.project-art--calculator .calc-key--seq-5', '.project-art--calculator .calc-display-state',
+      '.project-art--calculator .calc-result-value',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -453,6 +499,17 @@ function observePage(page, base) {
     });
     ok('reduced motion: space-shooter ship and enemies stay fully visible', shooterReducedState.playerVisible && shooterReducedState.enemiesVisible);
     ok('reduced motion: space-shooter explosion does not freeze mid-blast', shooterReducedState.explosionHidden);
+    const calculatorReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const nonResultStates = [...document.querySelectorAll('.project-art--calculator .calc-display-state:not(.calc-display-state--result)')];
+      const resultState = document.querySelector('.project-art--calculator .calc-display-state--result');
+      return {
+        onlyResultVisible: nonResultStates.every((node) => opacityOf(node) === 0) && resultState && opacityOf(resultState) === 1,
+        equalsKeyStyled: getComputedStyle(document.querySelector('.project-art--calculator .calc-key--seq-5')).transform !== 'none',
+      };
+    });
+    ok('reduced motion: calculator shows only the settled 12 + 7 / 19 result state', calculatorReducedState.onlyResultVisible);
+    ok('reduced motion: calculator equals key stays visually selected', calculatorReducedState.equalsKeyStyled);
     await reduced.close();
 
     await browser.close();

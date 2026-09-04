@@ -805,8 +805,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
 .project-art--todo-app .project-art__subject > path { stroke-dasharray: 28; animation: project-check 5s ease-in-out infinite; }
-.project-art--calculator .project-art__subject > rect:nth-child(6),
-.project-art--calculator .project-art__subject > rect:nth-child(11) { animation: project-key 4.5s ease-in-out infinite; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
 .project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
 .project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
@@ -1019,13 +1017,43 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   54%, 100% { opacity: 0; transform: scale(1.3); }
 }
 
+/* calculator: a two-line display and a 4x4 keypad keying through the real
+   sequence 1, 2, +, 7, = to reach 12 + 7 = 19 on one coordinated 8s loop —
+   pressed keys and the display text they produce land on the same beat.
+   Scoped to .calc-* classes (its own scene, not .project-art__subject) so
+   this stays isolated from every other project's generic icon animation. */
+.project-art--calculator .calc-body { filter: drop-shadow(0 10px 20px rgba(8,1,28,.35)); }
+.project-art--calculator .calc-display-state { opacity: 0; }
+.project-art--calculator .calc-display-state--idle { animation: calc-display-idle 8s ease-in-out infinite; }
+.project-art--calculator .calc-display-state--1 { animation: calc-display-1 8s ease-in-out infinite; }
+.project-art--calculator .calc-display-state--2 { animation: calc-display-2 8s ease-in-out infinite; }
+.project-art--calculator .calc-display-state--3 { animation: calc-display-3 8s ease-in-out infinite; }
+.project-art--calculator .calc-display-state--4 { animation: calc-display-4 8s ease-in-out infinite; }
+.project-art--calculator .calc-display-state--result { animation: calc-display-result 8s ease-in-out infinite; }
+.project-art--calculator .calc-result-value { transform-box: fill-box; transform-origin: center; animation: calc-result-pulse 8s ease-in-out infinite; }
+.project-art--calculator .calc-key { transform-box: fill-box; transform-origin: center; }
+.project-art--calculator .calc-key--seq-1 { animation: calc-key-pulse 8s ease-in-out infinite; animation-delay: .8s; }
+.project-art--calculator .calc-key--seq-2 { animation: calc-key-pulse 8s ease-in-out infinite; animation-delay: 1.6s; }
+.project-art--calculator .calc-key--seq-3 { animation: calc-key-pulse 8s ease-in-out infinite; animation-delay: 2.5s; }
+.project-art--calculator .calc-key--seq-4 { animation: calc-key-pulse 8s ease-in-out infinite; animation-delay: 3.4s; }
+.project-art--calculator .calc-key--seq-5 { animation: calc-key-pulse-strong 8s ease-in-out infinite; animation-delay: 4.5s; }
+
+@keyframes calc-display-idle { 0%, 8% { opacity: 1; } 10%, 90% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes calc-display-1 { 0%, 8% { opacity: 0; } 10%, 19% { opacity: 1; } 21%, 100% { opacity: 0; } }
+@keyframes calc-display-2 { 0%, 19% { opacity: 0; } 21%, 30% { opacity: 1; } 32%, 100% { opacity: 0; } }
+@keyframes calc-display-3 { 0%, 30% { opacity: 0; } 32%, 41% { opacity: 1; } 43%, 100% { opacity: 0; } }
+@keyframes calc-display-4 { 0%, 41% { opacity: 0; } 43%, 55% { opacity: 1; } 57%, 100% { opacity: 0; } }
+@keyframes calc-display-result { 0%, 55% { opacity: 0; } 63%, 88% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes calc-result-pulse { 0%, 62%, 84%, 100% { transform: scale(1); } 70% { transform: scale(1.06); } }
+@keyframes calc-key-pulse { 0% { transform: translateY(2px) scale(.97); filter: drop-shadow(0 0 5px rgba(91,36,249,.55)); } 8%, 100% { transform: translateY(0) scale(1); filter: none; } }
+@keyframes calc-key-pulse-strong { 0% { transform: translateY(3px) scale(.95); filter: drop-shadow(0 0 8px rgba(91,36,249,.75)); } 10%, 100% { transform: translateY(0) scale(1); filter: none; } }
+
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
 @keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes project-bounce { 0%, 100% { transform: translateY(0) scaleY(1); } 45% { transform: translateY(-8px) scaleY(1.02); } 78% { transform: translateY(1px) scaleY(.96); } }
 @keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
 @keyframes project-check { 0%, 18% { stroke-dashoffset: 28; opacity: .3; } 42%, 100% { stroke-dashoffset: 0; opacity: .85; } }
-@keyframes project-key { 0%, 74%, 100% { opacity: .55; transform: scale(1); } 82% { opacity: 1; transform: scale(.94); } }
 @keyframes project-spark { 0%, 100% { opacity: .62; transform: scale(.88) rotate(-2deg); } 50% { opacity: 1; transform: scale(1.04) rotate(2deg); } }
 @keyframes project-tilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(3deg); } }
 @keyframes project-mercury { 0%, 100% { transform: scaleY(.86); transform-origin: bottom; } 50% { transform: scaleY(1.04); transform-origin: bottom; } }
@@ -1546,4 +1574,11 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--paint-app .paint-stroke { stroke-dashoffset: 0 !important; }
   .project-art--space-shooter .shooter-explosion { opacity: 0 !important; }
   .project-art--space-shooter .shooter-route { stroke-dashoffset: 0 !important; }
+  .project-art--calculator .calc-display-state { opacity: 0 !important; }
+  .project-art--calculator .calc-display-state--result { opacity: 1 !important; }
+  .project-art--calculator .calc-result-value { transform: none !important; }
+  .project-art--calculator .calc-key--seq-5 {
+    transform: translateY(1px) scale(.98) !important;
+    filter: drop-shadow(0 0 5px rgba(91,36,249,.55)) !important;
+  }
 }

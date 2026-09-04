@@ -5298,6 +5298,76 @@ def _space_shooter_scene() -> str:
   </g>"""
 
 
+def _calculator_scene() -> str:
+    """Bespoke web illustration for calculator: a miniature calculator body
+    with a two-line display and a 4x4 keypad, keying through the real
+    sequence 1, 2, +, 7, = to reach 12 + 7 = 19 — replaces the old abstract
+    3x4 grid of rounded squares with a scene that reads as "calculator" on
+    sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    rows = [
+        [("7", "number"), ("8", "number"), ("9", "number"), ("÷", "operator")],
+        [("4", "number"), ("5", "number"), ("6", "number"), ("×", "operator")],
+        [("1", "number"), ("2", "number"), ("3", "number"), ("−", "operator")],
+        [("0", "number"), (".", "number"), ("=", "equals"), ("+", "operator")],
+    ]
+    # Only the five keys in the demonstrated sequence (1, 2, +, 7, =) get a
+    # press animation; every other key stays in its resting state.
+    seq_class = {"1": " calc-key--seq-1", "2": " calc-key--seq-2", "+": " calc-key--seq-3", "7": " calc-key--seq-4", "=": " calc-key--seq-5"}
+    fill_by_kind = {"number": "var(--offwhite)", "operator": "var(--violet-400)", "equals": "var(--violet-500)"}
+    opacity_by_kind = {"number": ".92", "operator": ".9", "equals": "1"}
+    col_x = [122, 162, 202, 242]
+    row_y = [98, 124, 150, 176]
+    keys_html = []
+    for row, labels in enumerate(rows):
+        for col, (label, kind) in enumerate(labels):
+            x, y = col_x[col], row_y[row]
+            text_fill = "var(--navy-900)" if kind == "number" else "#fff"
+            weight = "700" if kind == "equals" else "600"
+            keys_html.append(
+                f'<g class="calc-key calc-key--{kind}{seq_class.get(label, "")}">'
+                f'<rect x="{x}" y="{y}" width="34" height="20" rx="6" fill="{fill_by_kind[kind]}" opacity="{opacity_by_kind[kind]}"/>'
+                f'<text x="{x + 17}" y="{y + 14}" text-anchor="middle" font-family="\'JetBrains Mono\', monospace" '
+                f'font-weight="{weight}" font-size="12" fill="{text_fill}">{label}</text>'
+                f"</g>"
+            )
+    keys = "\n    ".join(keys_html)
+    return f"""
+  <rect class="calc-body" x="108" y="16" width="184" height="196" rx="20" fill="#fff" opacity=".97"/>
+  <circle cx="188" cy="24" r="2" fill="var(--navy-900)" opacity=".14"/>
+  <circle cx="200" cy="24" r="2" fill="var(--navy-900)" opacity=".14"/>
+  <circle cx="212" cy="24" r="2" fill="var(--navy-900)" opacity=".14"/>
+  <rect class="calc-display" x="122" y="30" width="156" height="52" rx="10" fill="var(--navy-950)"/>
+  <line x1="122" y1="90" x2="278" y2="90" stroke="var(--navy-900)" stroke-width="1" opacity=".12"/>
+  <g class="calc-display-state calc-display-state--idle">
+    <text x="270" y="73" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="22" fill="#fff" opacity=".35">0</text>
+  </g>
+  <g class="calc-display-state calc-display-state--1">
+    <text x="270" y="73" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="22" fill="#fff">1</text>
+  </g>
+  <g class="calc-display-state calc-display-state--2">
+    <text x="270" y="73" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="22" fill="#fff">12</text>
+  </g>
+  <g class="calc-display-state calc-display-state--3">
+    <text x="270" y="73" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="22" fill="#fff">12 +</text>
+  </g>
+  <g class="calc-display-state calc-display-state--4">
+    <text x="270" y="73" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="22" fill="#fff">12 + 7</text>
+  </g>
+  <g class="calc-display-state calc-display-state--result">
+    <text x="270" y="48" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="13" fill="var(--blue-300)" opacity=".85">12 + 7</text>
+    <text class="calc-result-value" x="270" y="74" text-anchor="end" font-family="'JetBrains Mono', monospace" font-weight="800" font-size="24" fill="#fff">19</text>
+  </g>
+  <g class="calc-keys">
+    {keys}
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5313,6 +5383,8 @@ def project_illustration(project_id: str) -> str:
         scene = _snake_scene()
     elif project_id == "space-shooter":
         scene = _space_shooter_scene()
+    elif project_id == "calculator":
+        scene = _calculator_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
