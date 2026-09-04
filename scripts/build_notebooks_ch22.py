@@ -857,43 +857,47 @@ def build_32() -> None:
     nb.md("## Цель\n\nНа настоящем sqlite3 сравнить опасную сборку запроса через "
           "f-строку с безопасным параметризованным запросом — и увидеть, к чему "
           "приводит SQL-инъекция, если её не остановить.")
-    nb.md("## Рабочий пример — уязвимый вариант")
+    nb.md("## Рабочий пример — уязвимый вариант\n\n"
+          "Используем одноинструкционную инъекцию, которую принимает обычный "
+          "`sqlite3.execute()`. Составную атаку с `DROP TABLE` этот метод отклонил бы, "
+          "но это ограничение Python-драйвера не делает SQL из f-строки безопасным.")
     nb.code('''import sqlite3
 
 baza = sqlite3.connect(":memory:")
 baza.execute("CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT NOT NULL)")
-baza.execute("INSERT INTO tasks (title) VALUES ('Обычная задача')")
+zadachi = [("Купить хлеб",), ("Написать тесты",), ("Позвонить врачу",)]
+baza.executemany("INSERT INTO tasks (title) VALUES (?)", zadachi)
 baza.commit()
 
-vvod_polzovatelya = "x'; DROP TABLE tasks; --"
+vvod_polzovatelya = "' OR '1'='1"
 
 # ТАК ДЕЛАТЬ НЕЛЬЗЯ — показано специально, чтобы увидеть последствия:
-try:
-    baza.executescript(f"SELECT * FROM tasks WHERE title = '{vvod_polzovatelya}'")
-except sqlite3.Error as oshibka:
-    print("sqlite3 сообщил об ошибке:", oshibka)
+opasny_zapros = f"SELECT * FROM tasks WHERE title = '{vvod_polzovatelya}'"
+rezultat_opasny = baza.execute(opasny_zapros).fetchall()
 
-tablicy_posle = baza.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-print("Таблицы после уязвимого запроса:", tablicy_posle)''')
-    nb.md("## Проверка результата — таблица пострадала")
-    nb.code('''nazvaniya_tablic = [t[0] for t in tablicy_posle]
-assert "tasks" not in nazvaniya_tablic, "уязвимый вариант удалил таблицу — именно поэтому f-строки в SQL опасны"
-print("Так и есть: таблица tasks исчезла — вставленный текст выполнился как часть SQL-команды.")''')
+print("Введённый фильтр:", repr(vvod_polzovatelya))
+print("Строки, возвращённые уязвимым запросом:", rezultat_opasny)''')
+    nb.md("## Проверка результата — фильтр обойдён")
+    nb.code('''vse_stroki = baza.execute("SELECT * FROM tasks ORDER BY id").fetchall()
+assert rezultat_opasny == vse_stroki
+assert len(rezultat_opasny) == len(zadachi) == 3
+print(f"Фильтр обойдён: запрос вернул все {len(rezultat_opasny)} строки вместо точного совпадения.")''')
     nb.md("## Эксперимент — параметризованный запрос безопасен")
     nb.code('''baza2 = sqlite3.connect(":memory:")
 baza2.execute("CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT NOT NULL)")
-baza2.execute("INSERT INTO tasks (title) VALUES ('Обычная задача')")
+baza2.executemany("INSERT INTO tasks (title) VALUES (?)", zadachi)
 baza2.commit()
 
-vvod_kak_dannye = "x'; DROP TABLE tasks; --"
+vvod_kak_dannye = "' OR '1'='1"
 rezultat = baza2.execute("SELECT * FROM tasks WHERE title = ?", (vvod_kak_dannye,)).fetchall()
 
-tablicy_posle2 = baza2.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-print("Найдено строк:", rezultat)
-print("Таблицы:", tablicy_posle2)
+vse_stroki2 = baza2.execute("SELECT * FROM tasks ORDER BY id").fetchall()
+print("Строки по точному совпадению:", rezultat)
+print("Все строки по-прежнему в таблице:", vse_stroki2)
 
-assert [t[0] for t in tablicy_posle2] == ["tasks"]
-print("Верно: параметризованный запрос обработал вредоносный текст как обычное значение — таблица цела.")''')
+assert rezultat == []
+assert len(vse_stroki2) == len(zadachi) == 3
+print("Верно: параметризованный запрос обработал вредоносный текст как обычное значение и не позволил обойти фильтр.")''')
     nb.write(OUT_DIR / "22-32-sql-inekciya.ipynb")
     print(f"Записано: 22-32-sql-inekciya ({len(nb)} ячеек)")
 

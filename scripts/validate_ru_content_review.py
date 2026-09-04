@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from collections.abc import Iterable
@@ -48,6 +49,7 @@ TOP_LEVEL_KEYS = {
 }
 SHA256_LENGTH = 64
 GIT_SHA_LENGTH = 40
+FINDING_ID_PATTERN = re.compile(r"^F-(?:[0-9]{3}|[0-9]{2}-L[0-9]{2})$")
 
 
 def _read_json(path: Path) -> Any:
@@ -502,6 +504,8 @@ def validate_review_record(
             errors.append("every finding must be an object")
             continue
         finding_id = finding.get("finding_id")
+        if not isinstance(finding_id, str) or FINDING_ID_PATTERN.fullmatch(finding_id) is None:
+            errors.append(f"finding {finding_id} has an invalid identifier")
         if finding.get("severity") not in {"blocker", "major", "minor", "suggestion"}:
             errors.append(f"finding {finding_id} has an invalid severity")
         if finding.get("status") not in {"open", "resolved", "accepted_risk"}:

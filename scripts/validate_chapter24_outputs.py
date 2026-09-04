@@ -181,12 +181,14 @@ def main() -> None:
             if "data-chapter-ref" in element.attrs
         ]:
             number = int(anchor.attrs["data-chapter-ref"])
-            target = chapter(number)
-            if target.title not in anchor.text:
-                errors.append(f"{filename}: chapter {number} cross-reference does not use canonical title")
-            expected_href = f"../glava-{number:02d}/index.html"
-            if anchor.attrs.get("href") != expected_href:
+            href = anchor.attrs.get("href", "")
+            expected_prefix = f"../glava-{number:02d}/"
+            if not anchor.text.strip():
+                errors.append(f"{filename}: chapter {number} cross-reference has an empty label")
+            if not href.startswith(expected_prefix) or not href.endswith(".html"):
                 errors.append(f"{filename}: chapter {number} cross-reference has wrong route")
+            elif not (CHAPTER_DIR / href).resolve().is_file():
+                errors.append(f"{filename}: chapter {number} cross-reference target does not exist: {href}")
 
     combined = "\n".join(html_by_name.values())
     require_tokens(combined, [
@@ -204,8 +206,8 @@ def main() -> None:
         "Расширения:", "Что закрепляет:", "не претендует", "универсальный",
     ], "24.2", errors)
     require_tokens(html_by_name.get("24-03-professional-python-core.html", ""), [
-        "Comprehensions", "unpacking", "slicing", "Iterable", "iterator", "generator",
-        "Closures", "decorators", "context managers", "dataclasses", "enums", "generics",
+        "Comprehensions", "распаковка", "срезы", "Iterable", "iterator", "generator",
+        "Closures", "декораторы", "context managers", "dataclasses", "enums", "generics",
         "Protocol", "collections", "datetime", "pathlib", "json", "re", "asyncio",
         "First-class", "Iterator", "Generators",
     ], "24.3", errors)

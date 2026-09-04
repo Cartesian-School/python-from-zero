@@ -13,8 +13,9 @@ def _record(name, predicate):
 
 
 _record("Task cell выполнена без исключения", lambda: bool(_task) and _task.get("ok", False))
+_record('Destination переопределён из TOML', lambda: nastrojki_minimalnye.destination == 'Sorted2')
 _record('Отсутствующая таблица использует defaults', lambda: nastrojki_minimalnye.extensions == DEFAULT_EXTENSIONS)
-_record('Новая books добавлена поверх defaults', lambda: config_iz_toml('[extensions]\nbooks = [".epub"]\n').extensions['documents'] == DEFAULT_EXTENSIONS['documents'])
+_record('Новая books добавлена, defaults сохранены', lambda: config_iz_toml('[extensions]\nbooks = [".epub"]\n').extensions['books'] == ['.epub'] and config_iz_toml('[extensions]\nbooks = [".epub"]\n').extensions['documents'] == DEFAULT_EXTENSIONS['documents'])
 _record('Существующая категория заменяется', lambda: config_iz_toml('[extensions]\ndocuments = [".md"]\n').extensions['documents'] == ['.md'])
 
 _passed_count = sum(1 for check in checks if check["passed"])

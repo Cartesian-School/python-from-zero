@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Жизни, урон и временная неуязвимость — Python с нуля — Cartesian School</title>
-<meta name="description" content="Система жизней вместо мгновенного конца игры, защита от потери нескольких жизней за одно столкновение и временная неуязвимость." />
+<meta name="description" content="Система жизней, защита от повторного урона при столкновениях, временная неуязвимость и отдельное правило потери жизней за сбежавших врагов." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="Жизни, урон и временная неуязвимость — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Система жизней вместо мгновенного конца игры, защита от потери нескольких жизней за одно столкновение и временная неуязвимость." />
+<meta property="og:description" content="Система жизней, защита от повторного урона при столкновениях, временная неуязвимость и отдельное правило потери жизней за сбежавших врагов." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-21/21-16-uron-i-neuyazvimost.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Жизни, урон и временная неуязвимость — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Система жизней вместо мгновенного конца игры, защита от потери нескольких жизней за одно столкновение и временная неуязвимость." />
+<meta name="twitter:description" content="Система жизней, защита от повторного урона при столкновениях, временная неуязвимость и отдельное правило потери жизней за сбежавших врагов." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Жизни, урон и временная неуязвимость — Python с нуля — Cartesian School","description":"Система жизней вместо мгновенного конца игры, защита от потери нескольких жизней за одно столкновение и временная неуязвимость.","url":"https://www.cartesianschool.org/chapters/glava-21/21-16-uron-i-neuyazvimost.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Жизни, урон и временная неуязвимость — Python с нуля — Cartesian School","description":"Система жизней, защита от повторного урона при столкновениях, временная неуязвимость и отдельное правило потери жизней за сбежавших врагов.","url":"https://www.cartesianschool.org/chapters/glava-21/21-16-uron-i-neuyazvimost.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -47,7 +47,7 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 21</a> / Жизни, урон и временная неуязвимость</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 21 · Проект: космический шутер</div>
     <h1>Жизни, урон и временная неуязвимость</h1>
-    <p class="lede">Несколько врагов, столкнувшихся одновременно, отнимают одну жизнь — а не одну за каждого.</p>
+    <p class="lede">Столкновения и побег врага — два разных источника потери жизней с разными правилами.</p>
 
 
     <p>Раздел 21.6 заканчивал игру от одного столкновения корабля с врагом. Финальная версия
@@ -106,6 +106,34 @@ collided = self.resolve_enemy_player_collisions()
       <div>
         <div class="callout-title">Ровное кольцо вместо мигания</div>
         <div class="callout-body">Мигающий спрайт — распространённый приём, но при быстром морганье он утомляет глаза. Здесь вместо этого — постоянное кольцо вокруг корабля, которое просто исчезает, когда <code class="inline">invulnerable_timer</code> достигает нуля.</div>
+      </div>
+    </div>
+
+    <h2>Побег врага за нижнюю границу</h2>
+    <p>У игры есть второй, отдельный источник потери жизней. Враг считается сбежавшим, только
+    когда его спрайт целиком пересёк нижнюю границу игрового поля
+    (<code class="inline">vrag.rect.top &gt; self.playfield.bottom</code>). Каждый такой враг
+    удаляется и стоит игроку одну жизнь:</p>
+
+    <div class="code-block">
+      <div class="code-label"><span>fragment_enemy_escapes.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code><span class="tok-kw">def</span> resolve_enemy_escapes(self):
+    escaped = [
+        vrag <span class="tok-kw">for</span> vrag <span class="tok-kw">in</span> self.enemies
+        <span class="tok-kw">if</span> vrag.rect.top &gt; self.playfield.bottom
+    ]
+    <span class="tok-kw">for</span> vrag <span class="tok-kw">in</span> escaped:
+        vrag.kill()
+    <span class="tok-kw">return</span> <span class="tok-fn">len</span>(escaped)
+
+<span class="tok-com"># в обновлении кадра:</span>
+self.lives -= self.resolve_enemy_escapes()</code></pre>
+    </div>
+
+    <div class="callout callout-warning">
+      <div>
+        <div class="callout-title">Ограничение «одна жизнь за кадр» относится только к столкновениям</div>
+        <div class="callout-body">Побег — не удар по кораблю, поэтому временная неуязвимость его не блокирует. Если в одном обновлении поле покинули два врага, игра списывает две жизни; если жизней не осталось, состояние переходит в <code class="inline">GAME_OVER</code>. Это намеренное правило: столкнувшиеся одновременно враги образуют одно событие удара, а каждый пропущенный враг — отдельный результат, который учитывается ровно один раз.</div>
       </div>
     </div>
 

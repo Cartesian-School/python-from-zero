@@ -110,6 +110,28 @@
     </table>
     </div>
 
+    <div class="code-block">
+      <div class="code-label"><span>fragment_enemy_spec.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Копировать</button></div>
+      <pre><code>@dataclass(frozen=<span class="tok-kw">True</span>)
+<span class="tok-kw">class</span> EnemySpec:
+    name: <span class="tok-fn">str</span>
+    base_speed: <span class="tok-fn">float</span>
+    points: <span class="tok-fn">int</span>
+    image_key: <span class="tok-fn">str</span>
+
+ENEMY_SPECS = {
+    <span class="tok-str">&quot;scout&quot;</span>: EnemySpec(<span class="tok-str">&quot;scout&quot;</span>, base_speed=<span class="tok-num">150.0</span>, points=<span class="tok-num">100</span>, image_key=<span class="tok-str">&quot;enemy_scout&quot;</span>),
+    <span class="tok-str">&quot;fighter&quot;</span>: EnemySpec(<span class="tok-str">&quot;fighter&quot;</span>, base_speed=<span class="tok-num">85.0</span>, points=<span class="tok-num">200</span>, image_key=<span class="tok-str">&quot;enemy_fighter&quot;</span>),
+}</code></pre>
+    </div>
+
+    <div class="callout callout-info">
+      <div>
+        <div class="callout-title">EnemySpec описывает тип, а не отдельного врага</div>
+        <div class="callout-body"><code class="inline">@dataclass</code> из главы 14 автоматически создаёт конструктор для четырёх полей. Параметр <code class="inline">frozen=True</code> запрещает менять эти поля после создания объекта: общая спецификация scout или fighter остаётся неизменной, а координаты и текущая скорость хранятся уже в каждом экземпляре <code class="inline">Enemy</code>. Чтобы добавить тип врага в упражнении 21.25, создайте новый <code class="inline">EnemySpec</code>, а не изменяйте существующий.</div>
+      </div>
+    </div>
+
 
     <div class="notebook-card">
       <div>

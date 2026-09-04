@@ -16,6 +16,7 @@ _record("Task cell выполнена без исключения", lambda: bool
 _record('Успешный разбор возвращает 0', lambda: kod_razbora(['apply', '/tmp/x']) == 0)
 _record('--help является успешным SystemExit(0)', lambda: kod_razbora(['--help']) == 0)
 _record('Некорректная команда ненулевая', lambda: kod_razbora(['zip', '/tmp/x']) != 0)
+_record('Отсутствие подкоманды тоже ненулевое', lambda: kod_razbora([]) != 0)
 
 _passed_count = sum(1 for check in checks if check["passed"])
 passed = _passed_count == len(checks)

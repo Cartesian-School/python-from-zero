@@ -13,7 +13,7 @@ def _record(name, predicate):
 
 
 _record("Task cell выполнена без исключения", lambda: bool(_task) and _task.get("ok", False))
-_record('JPG нормализован', lambda: zadanie_info.extension == '.jpg' and zadanie_info.size == 2048)
+_record('JPG нормализован', lambda: zadanie_info.extension == '.jpg' and zadanie_info.size == 2048 and zadanie_info.path.name == 'photo.JPG')
 _record('Крайний случай: имя без suffix', lambda: opisat_fajl(Path('README'), 1).extension == '')
 
 _passed_count = sum(1 for check in checks if check["passed"])

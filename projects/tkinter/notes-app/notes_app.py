@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import tkinter as tk
 from pathlib import Path
+from tkinter import messagebox
 
 FAJL_ZAMETOK_PO_UMOLCHANIYU = Path(__file__).parent / "zametka.txt"
 
@@ -107,8 +108,12 @@ def main() -> None:
 
     def na_zakrytie_okna() -> None:
         if est_nesohranennye_izmeneniya.get():
-            status_text.set("Есть несохранённые изменения — сначала сохраните, иначе они будут потеряны")
-            return
+            zakryt_bez_sohraneniya = messagebox.askyesno(
+                "Есть несохранённые изменения",
+                "Закрыть без сохранения? Несохранённые изменения будут потеряны.",
+            )
+            if not zakryt_bez_sohraneniya:
+                return
         root.destroy()
 
     root.protocol("WM_DELETE_WINDOW", na_zakrytie_okna)

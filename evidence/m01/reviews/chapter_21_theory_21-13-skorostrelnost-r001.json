@@ -1,0 +1,388 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-21-THEORY-21-13-SKOROSTRELNOST-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:21:theory:21-13-skorostrelnost",
+    "kind": "theory_lesson",
+    "title": "Скорострельность и интервал между выстрелами",
+    "canonical_source_path": "scripts/build_chapter_21.py",
+    "baseline_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "reviewed_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "review_surface_path": "site/chapters/glava-21/21-13-skorostrelnost.html",
+    "review_surface_sha256": "5ef063120abcabdc0c6cfdd083b47b84625858d35120860ddfac005b67837f9f"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Скорострельность и интервал между выстрелами', the learner can explain held-fire via get_pressed() needing a cooldown (in seconds, not frames) to avoid FPS-dependent fire rate; contrast with the while-based spawn timer (21.14) via an if vs while comparison table.",
+      "assessment_evidence_refs": [
+        "E-002"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gloss)",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gloss)",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Natural Russian; 'кулдаун' term well-introduced.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + glo",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Скорострельность и интервал между выстрелами', the learner can explain held-fire via get_pressed() needing a cooldown (in seconds, not frames) to avoid FPS-dependent fire rate; contrast with the while-based spawn timer (21.14) via an if vs while comparison table.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gloss)",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Скорострельность и интервал между выстрелами', the learner can explain held-fire via get_pressed() needing a cooldown (in seconds, not frames) to avoid FPS-dependent fire rate; contrast with the while-based spawn timer (21.14) via an if vs while comparison table.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- get_pressed() (ch20 20.20), dt (ch20 20.16) — both available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Excellent — the if-vs-while comparison table for player-input timers vs autonomous-simulation timers is a genuinely useful, well-reasoned distinction.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct, precedes the analogous but different enemy-spawn timer in 21.14.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct, precedes the analogous but different enemy-spawn timer in 21.14.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct, precedes the analogous but different enemy-spawn timer in 21.14.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct, precedes the analogous but different enemy-spawn timer in 21.14.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- browser-pyodide notebook 21-13-skorostrelnost.ipynb: executed cleanly; verified end-to-end with a real broken-code variant (cooldown check removed entirely) which correctly fails the assertion, confirming grader 21-13.py fails on wrong code and passes on correct code.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- browser-pyodide notebook 21-13-skorostrelnost.ipynb: executed cleanly; verified end-to-end with a real broken-code variant (cooldown check removed entirely) which correctly fails the assertion, confirming grader 21-13.py fails on wrong code and passes on correct code.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- browser-pyodide notebook 21-13-skorostrelnost.ipynb: executed cleanly; verified end-to-end with a real broken-code variant (cooldown check removed entirely) which correctly fails the assertion, confirming grader 21-13.py fails on wrong code and passes on correct code.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Natural Russian; 'кулдаун' term well-introduced.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Скорострельность и интервал между выстрелами agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Скорострельность и интервал между выстрелами agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Скорострельность и интервал между выстрелами agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gloss)",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- verified via code_execution: confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach; fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- verified via source_inspection: confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning; cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- verified via source_inspection: well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gl",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- browser-pyodide notebook 21-13-skorostrelnost.ipynb: executed cleanly; verified end-to-end with a real broken-code variant (cooldown check removed entirely) which correctly fails the assertion, confirming grader 21-13.py fails on wrong code and passes on correct code.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Скорострельность и интервал между выстрелами', the learner can explain held-fire via get_pressed() needing a cooldown (in seconds, not frames) to avoid FPS-dependent fire rate; contrast with the while-based spawn timer (21.14) via an if vs while comparison table.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "cooldown -= dt (seconds) vs kadrov -= 1 (frames) — the latter is FPS-dependent -- confirmed via notebook 21-13: vystrelov_za_sekundu(fps) gives 5 shots/sec regardless of fps in (30,60,120), demonstrating FPS-independence of the seconds-based approach",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "fire-rate timer uses if (not while) because it's player-input-driven and MAX_DT + MIN_SPAWN_INTERVAL together guarantee the while-vs-if distinction never actually matters in this specific game -- confirmed: MAX_DT=0.05 < MIN_SPAWN_INTERVAL=0.35 in space_shooter.py, matches the theory's explicit reasoning",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "source_inspection",
+      "summary": "cooldown / кулдаун given as the colloquial professional Russian variant alongside the formal term -- well-formed terminology introduction, consistent with the book's register conventions (LEGB/CWD-style bare-term + gloss)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=get_pressed() (ch20 20.20), dt (ch20 20.16) — both available. | motivation=Excellent — the if-vs-while comparison table for player-input timers vs autonomous-simulation timers is a genuinely useful, well-reasoned distinction. | sequence=Correct, precedes the analogous but different enemy-spawn timer in 21.14. | practice=browser-pyodide notebook 21-13-skorostrelnost.ipynb: executed cleanly; verified end-to-end with a real broken-code variant (cooldown check removed entirely) which correctly fails the assertion, confirming grader 21-13.py fails on wrong code and passes on correc",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Скорострельность и интервал между выстрелами agree in the final publication build.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Natural Russian; 'кулдаун' term well-introduced.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:21:theory:21-13-skorostrelnost against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}

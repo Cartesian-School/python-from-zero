@@ -1,0 +1,667 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-21-PROJECT-SPACE-SHOOTER-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:21:project:space-shooter",
+    "kind": "standalone_project",
+    "title": "Космический шутер",
+    "canonical_source_path": "projects/pygame/space-shooter/space_shooter.py",
+    "baseline_source_sha256": "7b84dea6bd7812dfcc151fcafbe25fe3c72fb1ee5d4896691f9f37d702b1e23e",
+    "reviewed_source_sha256": "7b84dea6bd7812dfcc151fcafbe25fe3c72fb1ee5d4896691f9f37d702b1e23e",
+    "review_surface_path": null,
+    "review_surface_sha256": null
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Космический шутер', the learner can the complete, standalone final game (projects/pygame/space-shooter/space_shooter.py, 661 lines): 5 classes (Game/Player/Bullet/Enemy/Explosion), Vector2+dt movement, sprite-group collisions, lives+invulnerability, bounded difficulty scaling, explicit GameStatus state machine with full restart contract, procedural stars, original synthesized audio, and asset paths anchored to the file's own location.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-006",
+        "E-007",
+        "E-010",
+        "E-012"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by default) —",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by default) ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- N/A (code file, not prose) — internal Russian identifiers/comments are consistent and idiomatic throughout.",
+      "evidence_refs": [
+        "E-015"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by def",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Космический шутер', the learner can the complete, standalone final game (projects/pygame/space-shooter/space_shooter.py, 661 lines): 5 classes (Game/Player/Bullet/Enemy/Explosion), Vector2+dt movement, sprite-group collisions, lives+invulnerability, bounded difficulty scaling, explicit GameStatus state machine with full restart contract, procedural stars, original synthesized audio, and asset paths anchored to the file's own location.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Asset loading is defensively guarded (missing sound -> None, game still runs); no eval/exec, no user-controlled file paths, no network access; Path(__file__)-anchored paths avoid CWD-dependent path-traversal-style surprises. No safety concerns found.",
+      "evidence_refs": [
+        "E-016"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Asset loading is defensively guarded (missing sound -> None, game still runs); no eval/exec, no user-controlled file paths, no network access; Path(__file__)-anchored paths avoid CWD-dependent path-traversal-style surprises. No safety concerns found.",
+      "evidence_refs": [
+        "E-016"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by default) — ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Космический шутер', the learner can the complete, standalone final game (projects/pygame/space-shooter/space_shooter.py, 661 lines): 5 classes (Game/Player/Bullet/Enemy/Explosion), Vector2+dt movement, sprite-group collisions, lives+invulnerability, bounded difficulty scaling, explicit GameStatus state machine with full restart contract, procedural stars, original synthesized audio, and asset paths anchored to the file's own location.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Vector2/sprites/collisions/dt (ch20), dataclasses (ch14 for regular dataclasses; frozen=True specifically is NOT available until ch23 — see finding), enum (ch18, mis-cited in 21.01 as ch13 — see finding), Path (ch15).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- This is the capstone deliverable of the chapter and functions as advertised: a genuinely complete, well-architected, testable Pygame project.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- N/A (this is the artifact, not a lesson in a sequence).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- N/A (this is the artifact, not a lesson in a sequence).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- N/A (this is the artifact, not a lesson in a sequence).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- N/A (this is the artifact, not a lesson in a sequence).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Exercised directly by notebook 21-25 (headless smoke test + manual collision) and indirectly by every other browser-pyodide notebook's simplified reimplementations of its subsystems; also covered by the project's own 45-test automated suite (tests/test_chapter21_space_shooter.py, read but not executed per task constraints on running pytest).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Exercised directly by notebook 21-25 (headless smoke test + manual collision) and indirectly by every other browser-pyodide notebook's simplified reimplementations of its subsystems; also covered by the project's own 45-test automated suite (tests/test_chapter21_space_shooter.py, read but not executed per task constraints on running pytest).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Exercised directly by notebook 21-25 (headless smoke test + manual collision) and indirectly by every other browser-pyodide notebook's simplified reimplementations of its subsystems; also covered by the project's own 45-test automated suite (tests/test_chapter21_space_shooter.py, read but not executed per task constraints on running pytest).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- N/A (code file, not prose) — internal Russian identifiers/comments are consistent and idiomatic throughout.",
+      "evidence_refs": [
+        "E-015"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- High engineering quality overall; the two documented gaps (undocumented F3 debug tool, undocumented/uncapped escape-damage mechanic) are documentation/pedagogy gaps, not code defects — the code itself is internally consistent and behaves exactly as its own docstrings and comments describe.",
+      "evidence_refs": [
+        "E-014"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- High engineering quality overall; the two documented gaps (undocumented F3 debug tool, undocumented/uncapped escape-damage mechanic) are documentation/pedagogy gaps, not code defects — the code itself is internally consistent and behaves exactly as its own docstrings and comments describe.",
+      "evidence_refs": [
+        "E-014"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- High engineering quality overall; the two documented gaps (undocumented F3 debug tool, undocumented/uncapped escape-damage mechanic) are documentation/pedagogy gaps, not code defects — the code itself is internally consistent and behaves exactly as its own docstrings and comments describe.",
+      "evidence_refs": [
+        "E-014"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by default",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- asset paths built from Path(__file__).resolve().parent, not CWD -- verified via code_execution: confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug; dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- verified via code_execution: confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers); pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- verified via code_execution: confirmed directly under pygame-ce 2.5.8; collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by de",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Exercised directly by notebook 21-25 (headless smoke test + manual collision) and indirectly by every other browser-pyodide notebook's simplified reimplementations of its subsystems; also covered by the project's own 45-test automated suite (tests/test_chapter21_space_shooter.py, read but not executed per task constraints on running pytest).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA04",
+      "score": 4,
+      "rationale": "Assessment validity -- No grader (local-required project). Verified via direct execution under SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy + xvfb-run: game construction, 120-frame simulated play, forced-dirty-state restart contract, CWD-independence (run from /tmp), Vector2 zero-normalize guard, groupcollide/spritecollide signatures, Sound-missing-file exception type, and the escape-damage/invulnerability interaction were all independently reproduced against the real production module (not a reimplementation).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA05",
+      "score": 4,
+      "rationale": "Edge cases and feedback -- No grader (local-required project). Verified via direct execution under SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy + xvfb-run: game construction, 120-frame simulated play, forced-dirty-state restart contract, CWD-independence (run from /tmp), Vector2 zero-normalize guard, groupcollide/spritecollide signatures, Sound-missing-file exception type, and the escape-damage/invulnerability interaction were all independently reproduced against the real production module (not a reimplementation).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005",
+        "E-006",
+        "E-007",
+        "E-008",
+        "E-009",
+        "E-010",
+        "E-011",
+        "E-012"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Asset loading is defensively guarded (missing sound -> None, game still runs); no eval/exec, no user-controlled file paths, no network access; Path(__file__)-anchored paths avoid CWD-dependent path-traversal-style surprises. No safety concerns found.",
+      "evidence_refs": [
+        "E-016"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "F-003",
+      "severity": "minor",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "PD04"
+      ],
+      "description": "The shipped F3 hitbox/FPS debug overlay worked but was undocumented in the project controls and debugging lesson.",
+      "evidence_refs": [
+        "E-017"
+      ],
+      "required_action": "Resolved in the audited content commit; retain the cited validation and source invariant.",
+      "status": "resolved",
+      "resolution": "F3, hitboxes, FPS, and the render-only invariant are now documented; a real KEYDOWN/render regression test verifies both toggle directions and overlay output."
+    },
+    {
+      "finding_id": "F-004",
+      "severity": "minor",
+      "domain": "pedagogy",
+      "criterion_ids": [
+        "PD04"
+      ],
+      "description": "EnemySpec used @dataclass(frozen=True) before the chapter explained the immutable configuration contract.",
+      "evidence_refs": [
+        "E-018"
+      ],
+      "required_action": "Resolved in the audited content commit; retain the cited validation and source invariant.",
+      "status": "resolved",
+      "resolution": "Section 21.14 now shows EnemySpec, its canonical instances, generated construction, frozen immutability, and the separation from per-enemy mutable state."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Космический шутер', the learner can the complete, standalone final game (projects/pygame/space-shooter/space_shooter.py, 661 lines): 5 classes (Game/Player/Bullet/Enemy/Explosion), Vector2+dt movement, sprite-group collisions, lives+invulnerability, bounded difficulty scaling, explicit GameStatus state machine with full restart contract, procedural stars, original synthesized audio, and asset paths anchored to the file's own location.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "asset paths built from Path(__file__).resolve().parent, not CWD -- confirmed: ran the game headlessly from CWD=/tmp (far from the repo) and it loaded all assets and ran correctly — no CWD-relative path bug",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "dt units are consistently seconds everywhere (clock.tick(FPS)/1000.0, then min()-clamped to MAX_DT=0.05 once in update(), and every velocity/timer multiplication uses that same dt) -- confirmed by full source read plus a 120-frame simulated run with no unit-mismatch symptoms (no teleporting, no frozen timers)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "pygame.Vector2.normalize() on a zero vector raises ValueError, correctly guarded by length_squared()>0 in Player.move() -- confirmed directly under pygame-ce 2.5.8",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "source_inspection",
+      "summary": "collision detection is Rect-based (groupcollide/spritecollide, both operating on sprite.rect by default) — not pixel-perfect, and the chapter's prose never claims otherwise -- confirmed: no pixel-perfect claim anywhere in scripts/build_chapter_21.py",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "code_execution",
+      "summary": "restart (start_new_game()) resets every piece of transient state (bullets/enemies/explosions/player/score/lives/spawn_timer/fire_cooldown/invulnerable_timer/stars) while preserving high_score -- confirmed by directly dirtying all of this state and calling start_new_game(): every field returned to its documented default, high_score preserved",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "code_execution",
+      "summary": "no busy loops: run() paces via self.clock.tick(FPS) every iteration; update()'s internal while-loops (spawn timer, explosion frames) are bounded by positive constants unrelated to dt, so they always terminate -- confirmed via source read plus live execution; no unbounded spin observed across hundreds of simulated frames",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "cross_reference",
+      "summary": "EnemySpec is declared @dataclass(frozen=True), a dataclass feature never shown/explained anywhere in the chapter's 26 theory sections, and not formally taught until Chapter 23 (later in the curriculum) -- confirmed via grep across scripts/build_chapter_21.py (only mention of 'EnemySpec' is a bare exercise prompt in 21.25) and across scripts/build_chapter_*.py (grep 'frozen=True' hits only build_chapter_14.py: none, build_chapter_23.py: yes) — students following the chapter's own material never see this syntax explained",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "source_inspection",
+      "summary": "Game supports an F3 debug-overlay toggle (hitbox outlines in red + live FPS counter via _render_debug_overlay()) that is undocumented both in the module's own docstring ('Управление: ...' lists arrows/space/P/Enter/Esc but omits F3) and in the chapter's theory text (zero mentions of F3/debug overlay anywhere in build_chapter_21.py) -- confirmed: grep for 'F3' in space_shooter.py finds only the key-check itself, no docstring mention; grep for 'F3' in build_chapter_21.py finds nothing at all",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-010",
+      "type": "code_execution",
+      "summary": "Game.resolve_enemy_escapes() costs one life per escaped enemy, uncapped, bypassing invulnerability — behaves fundamentally differently from collision damage (which IS capped+invulnerability-protected, as taught in 21.16) -- confirmed by direct execution: 3 simultaneously 'escaped' enemies removed 3 lives (3->0) even while the player was invulnerable; this mechanic is undocumented anywhere in the chapter (see linked finding on 21-16)",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-011",
+      "type": "source_inspection",
+      "summary": "dist/projects/pygame/space-shooter/space_shooter.py is byte-identical to the source copy -- confirmed via diff -- no drift between the published mirror and the source",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-012",
+      "type": "code_execution",
+      "summary": "all 5 image assets and all 3 audio assets referenced by AssetStore actually exist on disk with sane, non-corrupt content -- confirmed: PIL successfully opened and reported plausible dimensions for all 5 PNGs (all RGBA, dimensions consistent with the constants used in the historical-prototype sections); all 3 .wav files present",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-013",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Vector2/sprites/collisions/dt (ch20), dataclasses (ch14 for regular dataclasses; frozen=True specifically is NOT available until ch23 — see finding), enum (ch18, mis-cited in 21.01 as ch13 — see finding), Path (ch15). | motivation=This is the capstone deliverable of the chapter and functions as advertised: a genuinely complete, well-architected, testable Pygame project. | sequence=N/A (this is the artifact, not a lesson in a sequence). | practice=Exercised directly by notebook 21-25 (headless smoke test + manual collision) and indirectly by every other browser-pyodide notebook",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-014",
+      "type": "cross_reference",
+      "summary": "Coherence: High engineering quality overall; the two documented gaps (undocumented F3 debug tool, undocumented/uncapped escape-damage mechanic) are documentation/pedagogy gaps, not code defects — the code itself is internally consistent and behaves exactly as its own docstrings and comments describe.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-015",
+      "type": "review_note",
+      "summary": "Russian technical-language check: N/A (code file, not prose) — internal Russian identifiers/comments are consistent and idiomatic throughout.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-016",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Asset loading is defensively guarded (missing sound -> None, game still runs); no eval/exec, no user-controlled file paths, no network access; Path(__file__)-anchored paths avoid CWD-dependent path-traversal-style surprises. No safety concerns found.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-017",
+      "type": "test_result",
+      "summary": "Resolved F-003: F3, hitboxes, FPS, and the render-only invariant are now documented; a real KEYDOWN/render regression test verifies both toggle directions and overlay output.",
+      "locator": "projects/pygame/space-shooter/space_shooter.py; tests/test_chapter21_space_shooter.py",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-018",
+      "type": "test_result",
+      "summary": "Resolved F-004: Section 21.14 now shows EnemySpec, its canonical instances, generated construction, frozen immutability, and the separation from per-enemy mutable state.",
+      "locator": "scripts/build_chapter_21.py; site/chapters/glava-21/21-14-poyavlenie-vragov.html",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:21:project:space-shooter against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}

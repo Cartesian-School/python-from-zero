@@ -6,7 +6,7 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("af51b19d", {})  # "Проверка результата" -- ALTER TABLE добавил столбец, старые строки сохранились
+_proverka = _cells.get("d319de67", {})  # "Проверка результата" -- ALTER TABLE добавил столбец, старые строки сохранились
 
 checks = [
     {

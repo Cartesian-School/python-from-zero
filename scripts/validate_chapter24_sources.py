@@ -16,6 +16,7 @@ from build_chapter_24 import PAGES
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "data" / "chapter-24-official-sources.json"
 CHAPTER_DIR = ROOT / "site" / "chapters" / "glava-24"
+DOCUMENTED_AUDIT_DATE = "2026-09-03"
 
 EXPECTED_COUNTS = {
     "Python": 9,
@@ -62,8 +63,10 @@ def main() -> None:
 
     if document.get("schema_version") != "1.0.0":
         errors.append("schema_version must be 1.0.0")
-    if document.get("verified_on") != "2026-08-26":
-        errors.append("verified_on must record the documented audit date 2026-08-26")
+    if document.get("verified_on") != DOCUMENTED_AUDIT_DATE:
+        errors.append(
+            f"verified_on must record the documented audit date {DOCUMENTED_AUDIT_DATE}"
+        )
     if len(sources) != sum(EXPECTED_COUNTS.values()):
         errors.append(f"expected {sum(EXPECTED_COUNTS.values())} sources, got {len(sources)}")
 

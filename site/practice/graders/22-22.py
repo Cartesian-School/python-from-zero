@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("5d094fec", {})  # "Проверка результата" -- Create и Read через модуль sqlite3
-_update_delete = _cells.get("0d3b4b10", {})  # "Эксперимент — Update" -- Update и Delete через модуль sqlite3
+_proverka = _cells.get("6ae5b261", {})  # "Проверка результата" -- Create и Read через модуль sqlite3
+_update_delete = _cells.get("e1f1a1e9", {})  # "Эксперимент — Update" -- Update и Delete через модуль sqlite3
 
 checks = [
     {

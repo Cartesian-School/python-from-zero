@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>pyproject.toml и установка проекта — Python с нуля — Cartesian School</title>
-<meta name="description" content="Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта." />
+<meta name="description" content="Import package, Проект (project) и editable installation в src-layout: три разных уровня Python-проекта." />
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Cartesian School" />
 <meta property="og:title" content="pyproject.toml и установка проекта — Python с нуля — Cartesian School" />
-<meta property="og:description" content="Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта." />
+<meta property="og:description" content="Import package, Проект (project) и editable installation в src-layout: три разных уровня Python-проекта." />
 <meta property="og:url" content="https://www.cartesianschool.org/chapters/glava-23/23-05-pyproject-toml.html" />
 <meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
 <meta property="og:locale" content="ru_RU" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="pyproject.toml и установка проекта — Python с нуля — Cartesian School" />
-<meta name="twitter:description" content="Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта." />
+<meta name="twitter:description" content="Import package, Проект (project) и editable installation в src-layout: три разных уровня Python-проекта." />
 <meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"pyproject.toml и установка проекта — Python с нуля — Cartesian School","description":"Import package, distribution project и editable installation в src-layout: три разных уровня Python-проекта.","url":"https://www.cartesianschool.org/chapters/glava-23/23-05-pyproject-toml.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"pyproject.toml и установка проекта — Python с нуля — Cartesian School","description":"Import package, Проект (project) и editable installation в src-layout: три разных уровня Python-проекта.","url":"https://www.cartesianschool.org/chapters/glava-23/23-05-pyproject-toml.html","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"ru"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
 <!-- cartesian:seo-meta:end -->
 </head>
 <body>
@@ -47,20 +47,26 @@
     <div class="breadcrumb"><a href="../../index.html">Python с нуля</a> / <a href="index.html">Глава 23</a> / pyproject.toml</div>
     <div class="section-kicker"><img src="../../assets/img/brand/python-logo-mark.svg" alt="" aria-hidden="true" />Глава 23 · Часть III · Создаём Python-проект</div>
     <h1>pyproject.toml и установка проекта</h1>
-    <p class="lede">src/safesort импортируется, pyproject.toml описывает distribution, а editable install связывает её с текущим окружением.</p>
+    <p class="lede">src/safesort импортируется, pyproject.toml описывает Проект, а editable install связывает его с текущим окружением.</p>
 
 
     <div class="stage-tracker-compact" aria-label="Положение в проекте SafeSort"><span>SafeSort · Часть 3 из 6</span><strong>Проект</strong></div>
 
-    <p>Здесь легко смешать три разных объекта. <strong>Импортируемый пакет</strong>
+    <p>Здесь легко смешать четыре разных объекта. <strong>Импортируемый пакет</strong>
     <code class="inline">src/safesort/</code> содержит <code class="inline">__init__.py</code>
     и модули, которые Python загружает командой <code class="inline">import safesort</code>.
-    <strong>Distribution/build project</strong> представляет весь репозиторий с
-    <code class="inline">pyproject.toml</code>, метаданными и правилами сборки.
-    <strong>Установленная distribution</strong> представляет результат, зарегистрированный в конкретном
-    окружении Python.</p>
+    <strong>Проект</strong> (project) — библиотека или приложение, предназначенное для
+    упаковки; <strong>исходное дерево проекта</strong> (project source tree) — его файлы на
+    диске: <code class="inline">pyproject.toml</code>, <code class="inline">src/</code>,
+    <code class="inline">tests/</code> и документация. <strong>Дистрибутивный пакет</strong>
+    (distribution package) — устанавливаемый выпуск проекта; когда речь идёт о конкретном
+    файле, это архив дистрибутива: wheel или sdist. <strong>Установленный проект</strong> —
+    то, что появляется в окружении Python после установки: файлы импортируемого пакета плюс
+    метаданные, по которым инструменты вроде
+    <code class="inline">pip</code> и <code class="inline">importlib.metadata</code> узнают
+    о нём.</p>
 
-    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 904 166" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="process-flow" aria-label="pyproject.toml не превращает каталог в import package: он описывает сборку и установку distribution" style="width:100%;height:auto;max-width:904px;"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Репозиторий</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="78">pyproject.toml +</tspan><tspan x="92.0" y="92">src/safesort + tests</tspan></text><line x1="190" y1="73.0" x2="234" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">python -m pip</tspan><tspan x="332.0" y="50">install -e .</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="78">build frontend читает</tspan><tspan x="332.0" y="92">метаданные и</tspan><tspan x="332.0" y="106">связывает src-layout…</tspan></text><line x1="430" y1="73.0" x2="474" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Установленная</tspan><tspan x="572.0" y="50">distribution</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="78">окружение знает, где</tspan><tspan x="572.0" y="92">находится</tspan><tspan x="572.0" y="106">импортируемый пакет</tspan></text><line x1="670" y1="73.0" x2="714" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">Два интерфейса</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="812.0" y="78">import safesort и</tspan><tspan x="812.0" y="92">команда safesort</tspan><tspan x="812.0" y="106">--help</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">pyproject.toml не превращает каталог в import package: он описывает сборку и установку distribution</figcaption></figure>
+    <figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg viewBox="0 0 904 166" xmlns="http://www.w3.org/2000/svg" role="img" data-diagram="process-flow" aria-label="pyproject.toml не превращает каталог в import package: он хранит метаданные проекта и настройки, по которым из исходного дерева собирают архивы дистрибутива (wheel/sdist)" style="width:100%;height:auto;max-width:904px;"><defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#5B24F9'/></marker></defs><rect x="0" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="92.0" y="32">Исходное дерево</tspan><tspan x="92.0" y="50">проекта</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="92.0" y="78">pyproject.toml +</tspan><tspan x="92.0" y="92">src/safesort + tests</tspan></text><line x1="190" y1="73.0" x2="234" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="240" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="332.0" y="32">python -m pip</tspan><tspan x="332.0" y="50">install -e .</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="332.0" y="78">build frontend читает</tspan><tspan x="332.0" y="92">метаданные проекта и</tspan><tspan x="332.0" y="106">связывает src-layout…</tspan></text><line x1="430" y1="73.0" x2="474" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="480" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="572.0" y="32">Установленный</tspan><tspan x="572.0" y="50">проект в…</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="572.0" y="78">окружение знает, где</tspan><tspan x="572.0" y="92">находится</tspan><tspan x="572.0" y="106">импортируемый пакет</tspan></text><line x1="670" y1="73.0" x2="714" y2="73.0" stroke="#5B24F9" stroke-width="2" marker-end="url(#arrow)"/><rect x="720" y="10" width="184" height="126" rx="4" fill="#EDE9FE" stroke="#5B24F9" stroke-width="2"/><text text-anchor="middle" font-family="Sora, sans-serif" font-weight="700" font-size="15" fill="#0D0230"><tspan x="812.0" y="32">Два интерфейса</tspan></text><text text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#6B6B7D"><tspan x="812.0" y="78">import safesort и</tspan><tspan x="812.0" y="92">команда safesort</tspan><tspan x="812.0" y="106">--help</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">pyproject.toml не превращает каталог в import package: он хранит метаданные проекта и настройки, по которым из исходного дерева собирают архивы дистрибутива (wheel/sdist)</figcaption></figure>
 
     <p>При src-layout запуск Python из корня репозитория сам по себе не добавляет
     <code class="inline">src/</code> в <code class="inline">sys.path</code>. Поэтому до
@@ -100,9 +106,9 @@ safesort = <span class="tok-str">&quot;safesort.cli:main&quot;</span></code></pr
       </div>
     </div>
 
-    <h2>Устанавливаем distribution в редактируемом режиме</h2>
+    <h2>Устанавливаем проект в редактируемом режиме</h2>
     <p><strong>Редактируемая установка</strong> (editable install) связывает окружение
-    Python с исходным кодом пакета напрямую: изменения в файлах <code class="inline">
+    Python с исходным кодом проекта напрямую: изменения в файлах <code class="inline">
     src/safesort/</code> становятся видны сразу, без повторной установки.</p>
 
     <div class="code-block">
@@ -112,7 +118,7 @@ python -c &quot;import safesort; print(safesort.__file__)&quot;
 safesort --help</code></pre>
     </div>
 
-    <div style="margin:20px 0;padding:14px 18px;background:var(--color-bg-surface,#FAFAFC);border-radius:12px;font-size:13.5px"><div style="font-weight:700;color:#6B6B7D;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px">Официальная документация</div><div style="margin:3px 0"><a href="https://docs.python.org/3/tutorial/modules.html#packages" style="color:#185DFA">Python Tutorial — Packages</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/" style="color:#185DFA">Packaging Python Projects</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/" style="color:#185DFA">src layout vs flat layout</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/" style="color:#185DFA">Writing pyproject.toml</a></div></div>
+    <div style="margin:20px 0;padding:14px 18px;background:var(--color-bg-surface,#FAFAFC);border-radius:12px;font-size:13.5px"><div style="font-weight:700;color:#6B6B7D;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px">Официальная документация</div><div style="margin:3px 0"><a href="https://docs.python.org/3/tutorial/modules.html#packages" style="color:#185DFA">Python Tutorial — Packages</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/" style="color:#185DFA">Packaging Python Projects</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/discussions/distribution-package-vs-import-package/" style="color:#185DFA">Distribution package vs. import package</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/" style="color:#185DFA">src layout vs flat layout</a></div><div style="margin:3px 0"><a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/" style="color:#185DFA">Writing pyproject.toml</a></div></div>
 
 
     <div class="section-nav"><a href="23-04-struktura-paketa.html"><div class="dir">← Назад</div><div class="lbl">Структура пакета</div></a><a href="23-06-komandnaya-stroka.html" class="next"><div class="dir">Далее →</div><div class="lbl">Командная строка SafeSort</div></a></div>

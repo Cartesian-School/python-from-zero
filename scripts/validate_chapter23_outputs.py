@@ -169,8 +169,11 @@ def validate() -> list[str]:
         "23-05-pyproject-toml.html",
         (
             "Импортируемый пакет",
-            "Distribution/build project",
-            "Установленная distribution",
+            "Проект",
+            "исходное дерево проекта",
+            "Дистрибутивный пакет",
+            "архив дистрибутива",
+            "Установленный проект",
             "python -m pip install -e .",
             "src-layout",
             "import safesort",

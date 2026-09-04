@@ -1,0 +1,364 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-21-THEORY-21-18-SOSTOYANIYA-IGRY-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:21:theory:21-18-sostoyaniya-igry",
+    "kind": "theory_lesson",
+    "title": "Меню, игра, пауза и завершение",
+    "canonical_source_path": "scripts/build_chapter_21.py",
+    "baseline_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "reviewed_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "review_surface_path": "site/chapters/glava-21/21-18-sostoyaniya-igry.html",
+    "review_surface_sha256": "d2c414b5fec964a3453264070ddd08bfe11b8d9dc74b292014c004a511d3baa0"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Меню, игра, пауза и завершение', the learner can replace 21.07's single unrecoverable boolean with an explicit GameStatus enum (MENU/PLAYING/PAUSED/GAME_OVER) and a transition table; note Esc/QUIT work from any state.",
+      "assessment_evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Natural Russian. The Russian prose for Меню, игра, пауза и завершение was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Меню, игра, пауза и завершение', the learner can replace 21.07's single unrecoverable boolean with an explicit GameStatus enum (MENU/PLAYING/PAUSED/GAME_OVER) and a transition table; note Esc/QUIT work from any state.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Меню, игра, пауза и завершение', the learner can replace 21.07's single unrecoverable boolean with an explicit GameStatus enum (MENU/PLAYING/PAUSED/GAME_OVER) and a transition table; note Esc/QUIT work from any state.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- enum.Enum (see finding on 21-01 re: its true origin, ch18) is used correctly here regardless of the earlier mis-citation; SostoyanieIgry precedent from 20.25 correctly cited.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Good, direct improvement over 21.07's design flaw, explicitly named as such.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct — must precede restart (21.19) which is itself a state transition.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct — must precede restart (21.19) which is itself a state transition.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct — must precede restart (21.19) which is itself a state transition.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct — must precede restart (21.19) which is itself a state transition.",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- No dedicated notebook (not in LESSON_IDS) — reasonable, state-machine logic is thin/declarative and mostly tested indirectly via 21.19's restart notebook coverage and the real project's own test suite (tests/test_chapter21_space_shooter.py has dedicated pause/resume/game-over tests).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- No dedicated notebook (not in LESSON_IDS) — reasonable, state-machine logic is thin/declarative and mostly tested indirectly via 21.19's restart notebook coverage and the real project's own test suite (tests/test_chapter21_space_shooter.py has dedicated pause/resume/game-over tests).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- No dedicated notebook (not in LESSON_IDS) — reasonable, state-machine logic is thin/declarative and mostly tested indirectly via 21.19's restart notebook coverage and the real project's own test suite (tests/test_chapter21_space_shooter.py has dedicated pause/resume/game-over tests).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Natural Russian. The Russian prose for Меню, игра, пауза и завершение was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Меню, игра, пауза и завершение agree in the final publication build.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Меню, игра, пауза и завершение agree in the final publication build.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Меню, игра, пауза и завершение agree in the final publication build.",
+      "evidence_refs": [
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- verified via source_inspection: confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed; input must check state or the ship keeps moving on the pause/game-over screen -- verified via code_execution: confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- No dedicated notebook (not in LESSON_IDS) — reasonable, state-machine logic is thin/declarative and mostly tested indirectly via 21.19's restart notebook coverage and the real project's own test suite (tests/test_chapter21_space_shooter.py has dedicated pause/resume/game-over tests).",
+      "evidence_refs": [
+        "E-002",
+        "E-003"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Меню, игра, пауза и завершение', the learner can replace 21.07's single unrecoverable boolean with an explicit GameStatus enum (MENU/PLAYING/PAUSED/GAME_OVER) and a transition table; note Esc/QUIT work from any state.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "GameStatus(Enum) with MENU/PLAYING/PAUSED/GAME_OVER, transitions matching the stated table -- confirmed exact match against space_shooter.py: handle_events()'s K_RETURN/K_p logic and toggle_pause() implement precisely the transitions listed",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "input must check state or the ship keeps moving on the pause/game-over screen -- confirmed: handle_input() in the real game returns immediately 'if self.state is not GameStatus.PLAYING', matching the warning callout exactly",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=enum.Enum (see finding on 21-01 re: its true origin, ch18) is used correctly here regardless of the earlier mis-citation; SostoyanieIgry precedent from 20.25 correctly cited. | motivation=Good, direct improvement over 21.07's design flaw, explicitly named as such. | sequence=Correct — must precede restart (21.19) which is itself a state transition. | practice=No dedicated notebook (not in LESSON_IDS) — reasonable, state-machine logic is thin/declarative and mostly tested indirectly via 21.19's restart notebook coverage and the real project's own test suite (tests/test_chapter2",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "cross_reference",
+      "summary": "Coherence: High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Меню, игра, пауза и завершение agree in the final publication build.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Natural Russian. The Russian prose for Меню, игра, пауза и завершение was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: None applicable. Pygame lifecycle, frame-time limits, event handling, asset paths, and collision-state mutations were checked for bounded, reproducible learner execution under SDL/Xvfb.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:21:theory:21-18-sostoyaniya-igry against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}

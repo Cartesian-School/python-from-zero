@@ -1,0 +1,388 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-23-THEORY-23-01-IDEYA-TREBOVANIYA-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:23:theory:23-01-ideya-trebovaniya",
+    "kind": "theory_lesson",
+    "title": "Что мы будем создавать: SafeSort",
+    "canonical_source_path": "scripts/build_chapter_23.py",
+    "baseline_source_sha256": "5c178a39cc598689c10b82fc34ea0f86bb24123d002afcef14179f75f0120de5",
+    "reviewed_source_sha256": "5c178a39cc598689c10b82fc34ea0f86bb24123d002afcef14179f75f0120de5",
+    "review_surface_path": "site/chapters/glava-23/23-01-ideya-trebovaniya.html",
+    "review_surface_sha256": "d5201388033a4225c264335bfe50b6e2839194bf6e0e43e9b3ee255abd5d946c"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Что мы будем создавать: SafeSort', the learner can project requirements/non-goals stated up front (dry-run by default, no auto-delete, no silent overwrite), src-layout, pyproject.toml (PEP 621 + hatchling), editable install, README, first commit.",
+      "assessment_evidence_refs": [
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quoted for",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quoted fo",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- The Russian prose for Что мы будем создавать: SafeSort was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quo",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Что мы будем создавать: SafeSort', the learner can project requirements/non-goals stated up front (dry-run by default, no auto-delete, no silent overwrite), src-layout, pyproject.toml (PEP 621 + hatchling), editable install, README, first commit.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Filesystem and release operations retain dry-run-first behavior, collision refusal, narrow exception handling, manifest-backed undo, no silent overwrite, and explicit shell/CI boundaries.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Filesystem and release operations retain dry-run-first behavior, collision refusal, narrow exception handling, manifest-backed undo, no silent overwrite, and explicit shell/CI boundaries.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quoted form",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Что мы будем создавать: SafeSort', the learner can project requirements/non-goals stated up front (dry-run by default, no auto-delete, no silent overwrite), src-layout, pyproject.toml (PEP 621 + hatchling), editable install, README, first commit.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Assumes the completed Python, filesystem, testing, GUI, game, and web sequence needed to contextualize Что мы будем создавать: SafeSort.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- The unit motivates Что мы будем создавать: SafeSort by tying it to the chapter's concrete learner outcome before presenting operational detail.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Within the canonical navigation order, Что мы будем создавать: SafeSort is introduced after its prerequisites and before the dependent practice, project, or roadmap step.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Within the canonical navigation order, Что мы будем создавать: SafeSort is introduced after its prerequisites and before the dependent practice, project, or roadmap step.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Within the canonical navigation order, Что мы будем создавать: SafeSort is introduced after its prerequisites and before the dependent practice, project, or roadmap step.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Within the canonical navigation order, Что мы будем создавать: SafeSort is introduced after its prerequisites and before the dependent practice, project, or roadmap step.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- Examples, checks, and the adjacent practice route for Что мы будем создавать: SafeSort were evaluated as a single theory-to-application contract.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- Examples, checks, and the adjacent practice route for Что мы будем создавать: SafeSort were evaluated as a single theory-to-application contract.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- Examples, checks, and the adjacent practice route for Что мы будем создавать: SafeSort were evaluated as a single theory-to-application contract.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- The Russian prose for Что мы будем создавать: SafeSort was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Inventory identity, source path, rendered surface, navigation, and chapter placement for Что мы будем создавать: SafeSort agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Inventory identity, source path, rendered surface, navigation, and chapter placement for Что мы будем создавать: SafeSort agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Inventory identity, source path, rendered surface, navigation, and chapter placement for Что мы будем создавать: SafeSort agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quoted ",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- verified via source_inspection: confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description; `pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- verified via source_inspection: confirmed correctly quoted, safe under both bash and zsh; `pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- verified via code_execution: CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-qu",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- Examples, checks, and the adjacent practice route for Что мы будем создавать: SafeSort were evaluated as a single theory-to-application contract.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Filesystem and release operations retain dry-run-first behavior, collision refusal, narrow exception handling, manifest-backed undo, no silent overwrite, and explicit shell/CI boundaries.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Что мы будем создавать: SafeSort', the learner can project requirements/non-goals stated up front (dry-run by default, no auto-delete, no silent overwrite), src-layout, pyproject.toml (PEP 621 + hatchling), editable install, README, first commit.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "pyproject.toml shown in the chapter (build_02, line ~2400 area) matches the real projects/python/safesort/pyproject.toml — PEP 621 [project] table, hatchling build backend, `license = \"MIT\"` SPDX string + license-files, `requires-python = \">=3.14\"`, `[project.scripts] safesort = \"safesort.cli:main\"` -- confirmed: read the real pyproject.toml directly, it is valid modern PEP 621/hatchling syntax and matches the chapter's description",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "`pip install -e .` / `python -m pip install -e .` for editable install, and `pip install -e \".[dev]\"` (quoted) at lines 2615 and 5051 -- confirmed correctly quoted, safe under both bash and zsh",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "`pip install -e .[dev]` UNQUOTED at line 4419 in build_23() -- CONFIRMED DEFECT — see F-202 in ch23_fixes.md. Inconsistent with the correctly-quoted form used at lines 2615 and 5051 in the same chapter; fails under zsh's default glob-expansion behavior (`zsh: no matches found: .[dev]`), a well-documented pip/zsh gotcha.",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Assumes the completed Python, filesystem, testing, GUI, game, and web sequence needed to contextualize Что мы будем создавать: SafeSort. | motivation=The unit motivates Что мы будем создавать: SafeSort by tying it to the chapter's concrete learner outcome before presenting operational detail. | sequence=Within the canonical navigation order, Что мы будем создавать: SafeSort is introduced after its prerequisites and before the dependent practice, project, or roadmap step. | practice=Examples, checks, and the adjacent practice route for Что мы будем создавать: SafeSort were eval",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: Inventory identity, source path, rendered surface, navigation, and chapter placement for Что мы будем создавать: SafeSort agree in the final publication build.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: The Russian prose for Что мы будем создавать: SafeSort was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Filesystem and release operations retain dry-run-first behavior, collision refusal, narrow exception handling, manifest-backed undo, no silent overwrite, and explicit shell/CI boundaries.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:23:theory:23-01-ideya-trebovaniya against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}

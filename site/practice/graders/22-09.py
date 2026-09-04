@@ -6,8 +6,8 @@
 
 _cells = __cartesian__["cells"]
 
-_proverka = _cells.get("917a2d02", {})  # "Проверка результата" -- gruppa_koda() классифицирует коды по диапазону 2xx-5xx
-_zadanie = _cells.get("81b1af49", {})  # "Задание ★★" -- eto_uspeh() отличает 2xx от остальных кодов
+_proverka = _cells.get("14955d7e", {})  # "Проверка результата" -- gruppa_koda() классифицирует коды по диапазону 2xx-5xx
+_zadanie = _cells.get("d4eca892", {})  # "Задание ★★" -- eto_uspeh() отличает 2xx от остальных кодов
 
 checks = [
     {

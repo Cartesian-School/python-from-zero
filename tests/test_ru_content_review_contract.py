@@ -242,6 +242,46 @@ def test_approval_with_unresolved_major_finding_is_rejected() -> None:
     assert any("unresolved blocking findings" in error for error in _errors(record))
 
 
+def test_chapter_late_consolidation_finding_identifier_is_valid() -> None:
+    """A chapter-scoped late finding can retain its published Batch identifier."""
+
+    record = _approved_record()
+    record["findings"] = [
+        {
+            "finding_id": "F-23-L01",
+            "severity": "minor",
+            "domain": "subject_matter",
+            "criterion_ids": ["SM03"],
+            "description": "Late consolidation found terminology drift in the published packaging explanation.",
+            "evidence_refs": ["E-001"],
+            "required_action": "Align the explanation with current authoritative packaging terminology.",
+            "status": "resolved",
+            "resolution": "The source and generated lesson now use the current authoritative terminology.",
+        }
+    ]
+    assert _errors(record) == []
+
+
+def test_malformed_finding_identifier_is_rejected() -> None:
+    """Runtime validation enforces the same finding-id grammar as the JSON Schema."""
+
+    record = _approved_record()
+    record["findings"] = [
+        {
+            "finding_id": "F-LATE-1",
+            "severity": "minor",
+            "domain": "subject_matter",
+            "criterion_ids": ["SM03"],
+            "description": "This synthetic finding exercises identifier validation in the review contract.",
+            "evidence_refs": ["E-001"],
+            "required_action": "Reject identifiers outside the documented contract grammar.",
+            "status": "resolved",
+            "resolution": "The malformed identifier is expected to fail runtime contract validation.",
+        }
+    ]
+    assert any("invalid identifier" in error for error in _errors(record))
+
+
 def test_missing_applicable_criterion_is_rejected() -> None:
     """Reviewers cannot silently omit a difficult criterion."""
 
