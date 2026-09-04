@@ -247,6 +247,48 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const SPACE_SHOOTER_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of SPACE_SHOOTER_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/space-shooter/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--space-shooter[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--space-shooter .shooter-player, .project-art--space-shooter .shooter-enemy, ' +
+            '.project-art--space-shooter .shooter-shot, .project-art--space-shooter .shooter-enemy-shot, ' +
+            '.project-art--space-shooter .shooter-engine, .project-art--space-shooter .shooter-explosion, ' +
+            '.project-art--space-shooter .shooter-stars-far, .project-art--space-shooter .shooter-route'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          playerFound: Boolean(document.querySelector('.project-art--space-shooter .shooter-player')),
+          enemyCount: document.querySelectorAll('.project-art--space-shooter .shooter-enemy').length,
+          shotFound: Boolean(document.querySelector('.project-art--space-shooter .shooter-shot')),
+          engineFound: Boolean(document.querySelector('.project-art--space-shooter .shooter-engine')),
+          explosionFound: Boolean(document.querySelector('.project-art--space-shooter .shooter-explosion')),
+          starsFound: Boolean(document.querySelector('.project-art--space-shooter .shooter-stars-far')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`space-shooter ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`space-shooter ${viewport}: player ship renders`, result.playerFound);
+      ok(`space-shooter ${viewport}: 2-4 enemies render`, result.enemyCount >= 2 && result.enemyCount <= 4);
+      ok(`space-shooter ${viewport}: player shot, engine, and explosion cue render`, result.shotFound && result.engineFound && result.explosionFound);
+      ok(`space-shooter ${viewport}: starfield renders`, result.starsFound);
+      ok(`space-shooter ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`space-shooter ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -293,6 +335,11 @@ function observePage(page, base) {
       '.project-art--snake .snake-segment', '.project-art--snake .snake-head',
       '.project-art--snake .snake-apple', '.project-art--snake .snake-apple-leaf',
       '.project-art--snake .snake-route', '.project-art--snake .snake-tail',
+      '.project-art--space-shooter .shooter-player', '.project-art--space-shooter .shooter-enemy',
+      '.project-art--space-shooter .shooter-shot', '.project-art--space-shooter .shooter-enemy-shot',
+      '.project-art--space-shooter .shooter-engine', '.project-art--space-shooter .shooter-explosion',
+      '.project-art--space-shooter .shooter-stars-far', '.project-art--space-shooter .shooter-stars-near',
+      '.project-art--space-shooter .shooter-stars-bright circle', '.project-art--space-shooter .shooter-route',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -321,6 +368,17 @@ function observePage(page, base) {
       };
     });
     ok('reduced motion: snake body, head, and apple stay fully visible', snakeReducedState.segmentsVisible && snakeReducedState.headVisible && snakeReducedState.appleVisible);
+    const shooterReducedState = await reduced.evaluate(() => {
+      const visible = (node) => getComputedStyle(node).opacity !== '0';
+      const explosion = document.querySelector('.project-art--space-shooter .shooter-explosion');
+      return {
+        playerVisible: visible(document.querySelector('.project-art--space-shooter .shooter-player')),
+        enemiesVisible: [...document.querySelectorAll('.project-art--space-shooter .shooter-enemy')].every(visible),
+        explosionHidden: explosion ? getComputedStyle(explosion).opacity === '0' : false,
+      };
+    });
+    ok('reduced motion: space-shooter ship and enemies stay fully visible', shooterReducedState.playerVisible && shooterReducedState.enemiesVisible);
+    ok('reduced motion: space-shooter explosion does not freeze mid-blast', shooterReducedState.explosionHidden);
     await reduced.close();
 
     await browser.close();

@@ -804,8 +804,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
-.project-art--space-shooter .project-art__subject > polygon { animation: project-float 4.8s ease-in-out infinite; }
-.project-art--space-shooter .project-art__subject > rect { animation: project-exhaust 3s ease-in-out infinite; }
 .project-art--todo-app .project-art__subject > path { stroke-dasharray: 28; animation: project-check 5s ease-in-out infinite; }
 .project-art--calculator .project-art__subject > rect:nth-child(6),
 .project-art--calculator .project-art__subject > rect:nth-child(11) { animation: project-key 4.5s ease-in-out infinite; }
@@ -931,6 +929,95 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 @keyframes snake-leaf-tilt { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
 @keyframes snake-route-flow { to { stroke-dashoffset: -18; } }
 @keyframes snake-tail-grow { 0%, 82%, 100% { opacity: 0; transform: scale(.4); } 88%, 95% { opacity: .85; transform: scale(1); } }
+
+/* space-shooter: enemy formation approaching, the player's own shot in
+   flight toward the lead enemy, a return shot from a side enemy, engine
+   thrust, and a small explosion timed to the strike — one coherent ~8s
+   attack beat layered under independent ambient drift/thrust/starfield
+   motion. Scoped to .shooter-* classes (its own scene, not
+   .project-art__subject) so this stays isolated from every other
+   project's generic icon animation. */
+.project-art--space-shooter .shooter-stars-far {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-star-drift-far 13s ease-in-out infinite alternate;
+}
+.project-art--space-shooter .shooter-stars-near {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-star-drift-near 8s ease-in-out infinite alternate;
+}
+.project-art--space-shooter .shooter-stars-bright circle {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-star-twinkle 4s ease-in-out infinite;
+}
+.project-art--space-shooter .shooter-stars-bright circle:nth-child(2) { animation-delay: -2s; }
+.project-art--space-shooter .shooter-route { animation: shooter-route-flow 7s linear infinite; }
+.project-art--space-shooter .shooter-enemy {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-enemy-drift 6s ease-in-out infinite;
+}
+.project-art--space-shooter .shooter-enemy--right { animation-delay: -4s; }
+.project-art--space-shooter .shooter-enemy--lead {
+  animation-name: shooter-enemy-drift, shooter-enemy-target-flash;
+  animation-duration: 6s, 8s;
+  animation-delay: -2s, 0s;
+  animation-timing-function: ease-in-out, linear;
+  animation-iteration-count: infinite, infinite;
+}
+.project-art--space-shooter .shooter-shot {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-shot-fly 8s linear infinite;
+}
+.project-art--space-shooter .shooter-enemy-shot {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-enemy-shot-fly 8s linear infinite;
+}
+.project-art--space-shooter .shooter-player {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-player-drift 6s ease-in-out infinite;
+}
+.project-art--space-shooter .shooter-engine {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-engine-pulse 2s ease-in-out infinite;
+}
+.project-art--space-shooter .shooter-explosion {
+  transform-box: fill-box; transform-origin: center;
+  animation: shooter-explosion-burst 8s linear infinite;
+}
+
+@keyframes shooter-star-drift-far { 0% { transform: translateY(0); } 100% { transform: translateY(7px); } }
+@keyframes shooter-star-drift-near { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
+@keyframes shooter-star-twinkle { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+@keyframes shooter-route-flow { to { stroke-dashoffset: -22; } }
+@keyframes shooter-enemy-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-4px, 3px); } }
+@keyframes shooter-enemy-target-flash { 0%, 41% { opacity: 1; } 43% { opacity: .25; } 50%, 100% { opacity: 1; } }
+@keyframes shooter-shot-fly {
+  0%, 23% { opacity: 0; transform: translateY(46px); }
+  25% { opacity: 1; transform: translateY(46px); }
+  44% { opacity: 1; transform: translateY(-56px); }
+  47%, 100% { opacity: 0; transform: translateY(-56px); }
+}
+@keyframes shooter-enemy-shot-fly {
+  0%, 63% { opacity: 0; transform: translateY(-46px); }
+  66% { opacity: .8; transform: translateY(-46px); }
+  88% { opacity: .8; transform: translateY(50px); }
+  92%, 100% { opacity: 0; transform: translateY(50px); }
+}
+@keyframes shooter-player-drift {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-9px) rotate(-2deg); }
+  50% { transform: translateX(0) rotate(0deg); }
+  75% { transform: translateX(9px) rotate(2deg); }
+}
+@keyframes shooter-engine-pulse {
+  0%, 100% { opacity: .7; transform: scaleY(.75); }
+  50% { opacity: 1; transform: scaleY(1.15); }
+}
+@keyframes shooter-explosion-burst {
+  0%, 41% { opacity: 0; transform: scale(.4); }
+  43.75% { opacity: 1; transform: scale(1.15); }
+  50% { opacity: .5; transform: scale(1.3); }
+  54%, 100% { opacity: 0; transform: scale(1.3); }
+}
 
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
@@ -1457,4 +1544,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--paint-app .paint-shape,
   .project-art--paint-app .paint-swatch { opacity: 1 !important; transform: none !important; }
   .project-art--paint-app .paint-stroke { stroke-dashoffset: 0 !important; }
+  .project-art--space-shooter .shooter-explosion { opacity: 0 !important; }
+  .project-art--space-shooter .shooter-route { stroke-dashoffset: 0 !important; }
 }

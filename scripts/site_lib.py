@@ -5197,6 +5197,93 @@ def _snake_scene() -> str:
   </g>"""
 
 
+def _space_shooter_scene() -> str:
+    """Bespoke web illustration for space-shooter: an enemy formation
+    approaching, the player's own shot in flight toward the lead enemy, a
+    return shot from a side enemy, engine thrust, and a small explosion
+    timed to the strike — replaces the old single static ship + two bars +
+    scattered dots with a scene that reads as "space shooter" on sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <g class="shooter-stars-far">
+    <circle cx="24" cy="30" r="1" fill="#fff" opacity=".45"/>
+    <circle cx="372" cy="22" r="1" fill="#fff" opacity=".5"/>
+    <circle cx="16" cy="112" r="1.2" fill="#fff" opacity=".4"/>
+    <circle cx="384" cy="162" r="1" fill="#fff" opacity=".45"/>
+    <circle cx="58" cy="207" r="1" fill="#fff" opacity=".35"/>
+  </g>
+  <g class="shooter-stars-near">
+    <circle cx="350" cy="46" r="1.6" fill="#fff" opacity=".6"/>
+    <circle cx="40" cy="172" r="1.6" fill="#fff" opacity=".55"/>
+    <circle cx="300" cy="197" r="1.4" fill="#fff" opacity=".55"/>
+  </g>
+  <g class="shooter-stars-bright">
+    <circle cx="350" cy="112" r="2.2" fill="#fff" opacity=".7"/>
+    <circle cx="55" cy="62" r="2.2" fill="#fff" opacity=".7"/>
+  </g>
+  <path class="shooter-route" d="M56 200 Q200 178 344 200" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="3 8" opacity=".2"/>
+  <g class="shooter-enemies">
+    <g transform="translate(130,55)">
+      <g class="shooter-enemy shooter-enemy--left">
+        <path d="M0,-14 L9,-3 L14,3 L6,3 L0,14 L-6,3 L-14,3 L-9,-3 Z" fill="#fff" opacity=".85"/>
+        <circle cx="0" cy="-1" r="2" fill="var(--navy-950)" opacity=".3"/>
+      </g>
+    </g>
+    <g transform="translate(200,38)">
+      <g class="shooter-enemy shooter-enemy--lead">
+        <path d="M0,-14 L9,-3 L14,3 L6,3 L0,14 L-6,3 L-14,3 L-9,-3 Z" fill="#fff" opacity=".95"/>
+        <circle cx="0" cy="-1" r="2" fill="var(--navy-950)" opacity=".32"/>
+      </g>
+    </g>
+    <g transform="translate(270,55)">
+      <g class="shooter-enemy shooter-enemy--right">
+        <path d="M0,-14 L9,-3 L14,3 L6,3 L0,14 L-6,3 L-14,3 L-9,-3 Z" fill="#fff" opacity=".8"/>
+        <circle cx="0" cy="-1" r="2" fill="var(--navy-950)" opacity=".3"/>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(200,38)">
+    <g class="shooter-explosion">
+      <circle r="6" fill="var(--amber-500)" opacity=".9"/>
+      <g stroke="var(--amber-500)" stroke-width="2.4" stroke-linecap="round" opacity=".9">
+        <path d="M0,-9 L0,-15"/>
+        <path d="M0,9 L0,15"/>
+        <path d="M-9,0 L-15,0"/>
+        <path d="M9,0 L15,0"/>
+        <path d="M-6,-6 L-10,-10"/>
+        <path d="M6,6 L10,10"/>
+        <path d="M-6,6 L-10,10"/>
+        <path d="M6,-6 L10,-10"/>
+      </g>
+    </g>
+  </g>
+  <g class="shooter-shot">
+    <line x1="200" y1="86" x2="200" y2="102" stroke="var(--blue-300)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g class="shooter-enemy-shot">
+    <line x1="270" y1="95" x2="270" y2="107" stroke="var(--violet-300)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  </g>
+  <g transform="translate(200,168)">
+    <g class="shooter-player">
+      <path d="M0,-34 L8,-6 L34,14 L20,18 L10,34 L0,24 L-10,34 L-20,18 L-34,14 L-8,-6 Z" fill="#fff" opacity=".97"/>
+      <circle cx="0" cy="-10" r="3" fill="var(--blue-300)" opacity=".9"/>
+      <g class="shooter-engine">
+        <path d="M-7,24 C-7,24 -9,40 0,50 C9,40 7,24 7,24 Z" fill="var(--blue-300)" opacity=".85"/>
+      </g>
+    </g>
+  </g>
+  <g class="shooter-hud">
+    <path d="M346,206 L350,216 L346,214 L342,216 Z" fill="#fff" opacity=".45"/>
+    <path d="M360,206 L364,216 L360,214 L356,216 Z" fill="#fff" opacity=".45"/>
+    <path d="M374,206 L378,216 L374,214 L370,216 Z" fill="#fff" opacity=".45"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5210,6 +5297,8 @@ def project_illustration(project_id: str) -> str:
         scene = _paint_app_scene()
     elif project_id == "snake":
         scene = _snake_scene()
+    elif project_id == "space-shooter":
+        scene = _space_shooter_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
