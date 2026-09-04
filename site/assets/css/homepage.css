@@ -801,7 +801,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art__nodes circle:nth-child(2) { animation-delay: -1.7s; }
 .project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
 .project-art__subject > * { transform-box: fill-box; transform-origin: center; }
-.project-art--paint-app .project-art__subject > rect { animation: project-brush 5.8s ease-in-out infinite; }
 .project-art--snake .project-art__subject > circle { animation: project-float 4s ease-in-out infinite; }
 .project-art--snake .project-art__subject path { stroke-dasharray: 24 8; animation: project-dash 6s linear infinite; }
 .project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
@@ -859,10 +858,43 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 @keyframes story-line-reveal-accent { 0% { opacity: 0; transform: translateX(-6px) scaleX(.88); } 14% { opacity: 1; transform: translateX(0) scaleX(1); } 80% { opacity: 1; transform: translateX(0) scaleX(1); } 94%, 100% { opacity: 0; transform: translateX(-6px) scaleX(.88); } }
 @keyframes story-spark-pulse { 0%, 76%, 100% { opacity: .5; transform: scale(.86) rotate(-3deg); } 86% { opacity: 1; transform: scale(1.04) rotate(3deg); } }
 
+/* paint-app: toolbar + canvas with a self-drawing brush stroke, a shape-tool
+   outline, and cycling color swatches. Scoped to .paint-* classes (its own
+   scene, not .project-art__subject) so this stays isolated from every other
+   project's generic icon animation. */
+.project-art--paint-app .paint-stroke { animation: paint-stroke-draw 5.5s ease-in-out infinite; }
+.project-art--paint-app .paint-cursor {
+  transform-box: fill-box; transform-origin: center;
+  animation: paint-cursor-move 5.5s ease-in-out infinite; animation-delay: -.4s;
+}
+.project-art--paint-app .paint-shape {
+  transform-box: fill-box; transform-origin: center;
+  opacity: 0; transform: scale(.92);
+  animation: paint-shape-reveal 6.2s ease-in-out infinite;
+}
+.project-art--paint-app .paint-shape--oval { animation-delay: .5s; }
+.project-art--paint-app .paint-tool--pencil .paint-tool-btn,
+.project-art--paint-app .paint-tool--rect .paint-tool-btn {
+  transform-box: fill-box; transform-origin: center;
+  animation: paint-tool-active 7s ease-in-out infinite;
+}
+.project-art--paint-app .paint-tool--rect .paint-tool-btn { animation-delay: -3.5s; }
+.project-art--paint-app .paint-swatch {
+  transform-box: fill-box; transform-origin: center;
+  animation: paint-swatch-cycle 6.5s ease-in-out infinite;
+}
+.project-art--paint-app .paint-swatches .paint-swatch:nth-child(2) { animation-delay: -2.17s; }
+.project-art--paint-app .paint-swatches .paint-swatch:nth-child(3) { animation-delay: -4.34s; }
+
+@keyframes paint-stroke-draw { 0% { stroke-dashoffset: 320; } 55%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 320; } }
+@keyframes paint-cursor-move { 0%, 100% { transform: translate(0, 0) scale(1); } 55% { transform: translate(-3px, 2px) scale(1.15); } 75% { transform: translate(0, 0) scale(1); } }
+@keyframes paint-shape-reveal { 0%, 26% { opacity: 0; transform: scale(.92); } 42% { opacity: .55; transform: scale(1); } 80% { opacity: .55; transform: scale(1); } 96%, 100% { opacity: 0; transform: scale(.92); } }
+@keyframes paint-tool-active { 0%, 40%, 100% { opacity: .85; transform: scale(1); } 8% { opacity: 1; transform: scale(1.045); } }
+@keyframes paint-swatch-cycle { 0%, 100% { opacity: .55; transform: scale(1); } 12% { opacity: 1; transform: scale(1.05); } 28% { opacity: .7; transform: scale(1); } }
+
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
 @keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@keyframes project-brush { 0%, 100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(7px) rotate(1.5deg); } }
 @keyframes project-dash { to { stroke-dashoffset: -64; } }
 @keyframes project-bounce { 0%, 100% { transform: translateY(0) scaleY(1); } 45% { transform: translateY(-8px) scaleY(1.02); } 78% { transform: translateY(1px) scaleY(.96); } }
 @keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
@@ -1381,4 +1413,9 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--story-generator .story-output-line,
   .project-art--story-generator .story-spark { opacity: 1 !important; transform: none !important; }
   .project-art--story-generator .story-route { stroke-dashoffset: 0 !important; }
+  .project-art--paint-app .paint-cursor,
+  .project-art--paint-app .paint-tool-btn { transform: none !important; }
+  .project-art--paint-app .paint-shape,
+  .project-art--paint-app .paint-swatch { opacity: 1 !important; transform: none !important; }
+  .project-art--paint-app .paint-stroke { stroke-dashoffset: 0 !important; }
 }

@@ -5114,6 +5114,51 @@ def _story_generator_scene() -> str:
   <path class="story-spark" d="M356 30 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" fill="var(--amber-500)" opacity=".95"/>"""
 
 
+def _paint_app_scene() -> str:
+    """Bespoke web illustration for paint-app: a toolbar next to a canvas
+    holding a self-drawing brush stroke, a rectangle/oval shape-tool outline,
+    and a cursor — replaces the old abstract three-circles-and-a-bar
+    composition with one that reads as "drawing app" on sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <g class="paint-toolbar">
+    <g class="paint-tool paint-tool--pencil">
+      <rect class="paint-tool-btn" x="34" y="34" width="54" height="34" rx="10" fill="#fff" opacity=".95"/>
+      <path d="M44 60 L74 42" stroke="var(--navy-950)" stroke-width="4.5" stroke-linecap="round" opacity=".6"/>
+      <circle cx="74" cy="42" r="3" fill="var(--navy-950)" opacity=".6"/>
+    </g>
+    <g class="paint-tool paint-tool--rect">
+      <rect class="paint-tool-btn" x="34" y="76" width="54" height="34" rx="10" fill="#fff" opacity=".78"/>
+      <rect x="46" y="85" width="30" height="16" rx="4" fill="none" stroke="var(--navy-950)" stroke-width="3" opacity=".45"/>
+    </g>
+    <g class="paint-tool paint-tool--oval">
+      <rect class="paint-tool-btn" x="34" y="118" width="54" height="34" rx="10" fill="#fff" opacity=".78"/>
+      <ellipse cx="61" cy="135" rx="16" ry="9" fill="none" stroke="var(--navy-950)" stroke-width="3" opacity=".45"/>
+    </g>
+    <g class="paint-tool paint-tool--eraser">
+      <rect class="paint-tool-btn" x="34" y="160" width="54" height="34" rx="10" fill="#fff" opacity=".78"/>
+      <rect x="46" y="169" width="30" height="16" rx="6" fill="var(--navy-950)" opacity=".3"/>
+    </g>
+  </g>
+  <g class="paint-swatches">
+    <circle class="paint-swatch" cx="42" cy="204" r="8" fill="var(--violet-500)"/>
+    <circle class="paint-swatch" cx="61" cy="204" r="8" fill="var(--blue-500)"/>
+    <circle class="paint-swatch" cx="80" cy="204" r="8" fill="var(--amber-500)"/>
+  </g>
+  <g class="paint-canvas-group">
+    <rect class="paint-canvas" x="112" y="32" width="258" height="160" rx="14" fill="#fff" opacity=".95"/>
+    <path class="paint-stroke" d="M140 150 C172 96 214 188 254 112 S322 56 344 88" fill="none" stroke="var(--blue-600)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="320"/>
+    <rect class="paint-shape paint-shape--rect" x="140" y="146" width="62" height="36" rx="7" fill="none" stroke="var(--navy-950)" stroke-width="2.6" opacity=".38"/>
+    <ellipse class="paint-shape paint-shape--oval" cx="300" cy="164" rx="32" ry="19" fill="none" stroke="var(--navy-950)" stroke-width="2.6" opacity=".38"/>
+    <circle class="paint-cursor" cx="344" cy="88" r="5.5" fill="#fff" stroke="var(--blue-600)" stroke-width="3"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5123,6 +5168,8 @@ def project_illustration(project_id: str) -> str:
     c1, c2 = PROJECT_ACCENTS.get(project_id, ("var(--navy-900)", "var(--violet-500)"))
     if project_id == "story-generator":
         scene = _story_generator_scene()
+    elif project_id == "paint-app":
+        scene = _paint_app_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
