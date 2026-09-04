@@ -5484,6 +5484,89 @@ def _bouncing_ball_scene() -> str:
   </g>"""
 
 
+def _rps_glyph(kind: str) -> str:
+    """Shared ~42-unit-wide symbol geometry centered on local (0,0), reused
+    at every scale (small pool token, large match icon) so rock/paper/
+    scissors read as one consistent design language rather than three
+    unrelated pictograms."""
+    if kind == "rock":
+        return (
+            '<path d="M-19,2 C-20,-9 -12,-19 1,-20 C12,-21 21,-13 20,-2 '
+            'C20,8 12,18 0,19 C-11,20 -19,12 -19,2 Z" fill="#fff"/>'
+            '<path d="M-9,-10 L-1,-15 M5,-16 L12,-10 M-11,6 L-3,11" fill="none" '
+            'stroke="var(--navy-950)" stroke-width="1.6" stroke-linecap="round" opacity=".18"/>'
+        )
+    if kind == "paper":
+        return (
+            '<path d="M-15,-19 H7 L16,-10 V19 H-15 Z" fill="#fff"/>'
+            '<path d="M7,-19 L7,-10 L16,-10 Z" fill="var(--navy-950)" opacity=".15"/>'
+            '<g stroke="var(--navy-950)" stroke-width="2" stroke-linecap="round" opacity=".2">'
+            '<line x1="-8" y1="-2" x2="8" y2="-2"/><line x1="-8" y1="6" x2="8" y2="6"/>'
+            '<line x1="-8" y1="14" x2="2" y2="14"/></g>'
+        )
+    # scissors — finger loops above, blades crossing to a point below, tuned
+    # for card scale (moderate stroke weight rather than the thin lines that
+    # get lost at small sizes).
+    return (
+        '<g stroke="#fff" stroke-width="5.2" stroke-linecap="round" fill="none">'
+        '<path d="M-13,-14 L13,15 M13,-14 L-13,15"/></g>'
+        '<circle cx="-13" cy="-14" r="6" fill="none" stroke="#fff" stroke-width="3.2"/>'
+        '<circle cx="13" cy="-14" r="6" fill="none" stroke="#fff" stroke-width="3.2"/>'
+    )
+
+
+def _rock_paper_scissors_scene() -> str:
+    """Bespoke web illustration for rock-paper-scissors: one animated round
+    rather than three static icons side by side — the player picks rock
+    from a 3-token pool, the computer cycles rock/paper/scissors and settles
+    on scissors, both faces move toward a small center confrontation cue,
+    then rock's win is emphasized (glow, slight lift) while scissors dims
+    and shifts back, before the scene resets for the next round. This is
+    one illustrative round, not a claim about any fixed real game outcome —
+    the project's actual computer choice is random and rule-driven.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    pool = [("rock", 96, True), ("paper", 130, False), ("scissors", 164, False)]
+    pool_html = []
+    for kind, x, selected in pool:
+        cls = "rps-pool-token rps-pool-token--selected" if selected else "rps-pool-token"
+        base_opacity = "" if selected else ' opacity=".4"'
+        pool_html.append(
+            f'<g transform="translate({x} 191)"{base_opacity}>'
+            f'<g class="rps-choice {cls}" transform="scale(.34)">{_rps_glyph(kind)}</g></g>'
+        )
+    computer_icons = "".join(
+        f'<g class="rps-choice rps-computer rps-computer--{kind}" opacity="0">{_rps_glyph(kind)}</g>'
+        for kind in ("rock", "paper", "scissors")
+    )
+    return f"""
+  <path class="rps-rule-path" d="M336,42 L358,80 L314,80 Z" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="3 5" opacity=".16"/>
+  <g fill="#fff" opacity=".3">
+    <circle cx="336" cy="42" r="2"/><circle cx="358" cy="80" r="2"/><circle cx="314" cy="80" r="2"/>
+  </g>
+  <g class="rps-pool">{"".join(pool_html)}</g>
+  <circle class="rps-winner-glow" cx="130" cy="120" r="26" fill="var(--violet-300)" opacity="0"/>
+  <g transform="translate(130 120)">
+    <g class="rps-player-move">
+      <g class="rps-player-scale">
+        <g class="rps-choice rps-player">{_rps_glyph("rock")}</g>
+      </g>
+    </g>
+  </g>
+  <circle class="rps-reveal-ring" cx="270" cy="120" r="24" fill="none" stroke="#fff" stroke-width="2.4" opacity="0"/>
+  <g transform="translate(270 120)">
+    <g class="rps-computer-move">{computer_icons}</g>
+  </g>
+  <g class="rps-impact" transform="translate(200 120)">
+    <circle class="rps-impact-pulse" r="6" fill="#fff" opacity="0"/>
+    <path class="rps-impact-spark" d="M-9,-9 L9,9 M9,-9 L-9,9" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity="0"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5505,6 +5588,8 @@ def project_illustration(project_id: str) -> str:
         scene = _todo_app_scene()
     elif project_id == "bouncing-ball":
         scene = _bouncing_ball_scene()
+    elif project_id == "rock-paper-scissors":
+        scene = _rock_paper_scissors_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""

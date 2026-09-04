@@ -417,6 +417,51 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const ROCK_PAPER_SCISSORS_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of ROCK_PAPER_SCISSORS_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/rock-paper-scissors/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--rock-paper-scissors[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--rock-paper-scissors .rps-pool-token--selected, .project-art--rock-paper-scissors .rps-player-move, ' +
+            '.project-art--rock-paper-scissors .rps-player-scale, .project-art--rock-paper-scissors .rps-winner-glow, ' +
+            '.project-art--rock-paper-scissors .rps-computer-move, .project-art--rock-paper-scissors .rps-computer--rock, ' +
+            '.project-art--rock-paper-scissors .rps-computer--paper, .project-art--rock-paper-scissors .rps-computer--scissors, ' +
+            '.project-art--rock-paper-scissors .rps-reveal-ring, .project-art--rock-paper-scissors .rps-impact-pulse, ' +
+            '.project-art--rock-paper-scissors .rps-impact-spark, .project-art--rock-paper-scissors .rps-rule-path'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          rockFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-player')),
+          computerRockFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-computer--rock')),
+          computerPaperFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-computer--paper')),
+          computerScissorsFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-computer--scissors')),
+          poolTokenCount: document.querySelectorAll('.project-art--rock-paper-scissors .rps-pool-token').length,
+          winnerGlowFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-winner-glow')),
+          impactFound: Boolean(document.querySelector('.project-art--rock-paper-scissors .rps-impact-pulse')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`rock-paper-scissors ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`rock-paper-scissors ${viewport}: player rock symbol renders`, result.rockFound);
+      ok(`rock-paper-scissors ${viewport}: all three computer choice groups render`, result.computerRockFound && result.computerPaperFound && result.computerScissorsFound);
+      ok(`rock-paper-scissors ${viewport}: a 3-token player choice pool renders`, result.poolTokenCount === 3);
+      ok(`rock-paper-scissors ${viewport}: winner glow and confrontation cue render`, result.winnerGlowFound && result.impactFound);
+      ok(`rock-paper-scissors ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`rock-paper-scissors ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -552,6 +597,12 @@ function observePage(page, base) {
       '.project-art--bouncing-ball .ball-trail', '.project-art--bouncing-ball .ball-shadow',
       '.project-art--bouncing-ball .ball-impact', '.project-art--bouncing-ball .ball-travel',
       '.project-art--bouncing-ball .ball-squash', '.project-art--bouncing-ball .ball-counter-pip-fill',
+      '.project-art--rock-paper-scissors .rps-pool-token--selected', '.project-art--rock-paper-scissors .rps-rule-path',
+      '.project-art--rock-paper-scissors .rps-player-move', '.project-art--rock-paper-scissors .rps-player-scale',
+      '.project-art--rock-paper-scissors .rps-winner-glow', '.project-art--rock-paper-scissors .rps-computer-move',
+      '.project-art--rock-paper-scissors .rps-computer--rock', '.project-art--rock-paper-scissors .rps-computer--paper',
+      '.project-art--rock-paper-scissors .rps-computer--scissors', '.project-art--rock-paper-scissors .rps-reveal-ring',
+      '.project-art--rock-paper-scissors .rps-impact-pulse', '.project-art--rock-paper-scissors .rps-impact-spark',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -643,6 +694,30 @@ function observePage(page, base) {
     ok('reduced motion: bouncing-ball rests in place, not mid-flight or mid-squash', bouncingBallReducedState.ballVisible && bouncingBallReducedState.atRest);
     ok('reduced motion: bouncing-ball shows exactly one static wall-impact mark', bouncingBallReducedState.exactlyOneImpactVisible);
     ok('reduced motion: bouncing-ball counter pips stay reset (not stuck mid-count)', bouncingBallReducedState.pipsReset);
+    const rpsReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const player = document.querySelector('.project-art--rock-paper-scissors .rps-player');
+      const glow = document.querySelector('.project-art--rock-paper-scissors .rps-winner-glow');
+      const computerRock = document.querySelector('.project-art--rock-paper-scissors .rps-computer--rock');
+      const computerPaper = document.querySelector('.project-art--rock-paper-scissors .rps-computer--paper');
+      const computerScissors = document.querySelector('.project-art--rock-paper-scissors .rps-computer--scissors');
+      const revealRing = document.querySelector('.project-art--rock-paper-scissors .rps-reveal-ring');
+      const impactPulse = document.querySelector('.project-art--rock-paper-scissors .rps-impact-pulse');
+      return {
+        playerVisible: player ? opacityOf(player.closest('.rps-player-move') || player) !== 0 : false,
+        glowVisible: glow ? opacityOf(glow) > 0 : false,
+        rockHidden: computerRock ? opacityOf(computerRock) === 0 : false,
+        paperHidden: computerPaper ? opacityOf(computerPaper) === 0 : false,
+        scissorsDimmedVisible: computerScissors ? opacityOf(computerScissors) > 0 && opacityOf(computerScissors) < 1 : false,
+        reveaRingHidden: revealRing ? opacityOf(revealRing) === 0 : false,
+        impactHidden: impactPulse ? opacityOf(impactPulse) === 0 : false,
+      };
+    });
+    ok('reduced motion: rock-paper-scissors shows the player rock settled and visible', rpsReducedState.playerVisible);
+    ok('reduced motion: rock-paper-scissors shows a static winner glow on rock', rpsReducedState.glowVisible);
+    ok('reduced motion: rock-paper-scissors hides the unselected computer previews (rock/paper)', rpsReducedState.rockHidden && rpsReducedState.paperHidden);
+    ok('reduced motion: rock-paper-scissors shows scissors settled and dimmed as the loser', rpsReducedState.scissorsDimmedVisible);
+    ok('reduced motion: rock-paper-scissors hides the reveal ring and confrontation pulse (no mid-cycle freeze)', rpsReducedState.reveaRingHidden && rpsReducedState.impactHidden);
     await reduced.close();
 
     await browser.close();

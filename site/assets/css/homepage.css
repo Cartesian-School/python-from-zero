@@ -1169,6 +1169,89 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   84%, 100% { opacity: 0; }
 }
 
+/* rock-paper-scissors: one animated round — the player picks rock from a
+   3-token pool, the computer cycles rock/paper/scissors and settles on
+   scissors, both faces move a little toward a small center confrontation
+   cue, then rock's win is emphasized (glow, slight lift) while scissors
+   dims and shifts back, before the scene resets. Scoped to .rps-* classes
+   (its own scene, not .project-art__subject) so this stays isolated from
+   every other project's generic icon animation. */
+.project-art--rock-paper-scissors .rps-pool-token--selected { transform-box: fill-box; transform-origin: center; animation: rps-pool-select 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-rule-path { animation: rps-rule-flow 12s linear infinite; }
+.project-art--rock-paper-scissors .rps-player-move { animation: rps-player-move 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-player-scale { transform-box: fill-box; transform-origin: center; animation: rps-player-scale 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-winner-glow { transform-box: fill-box; transform-origin: center; animation: rps-winner-glow 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-computer-move { animation: rps-computer-move 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-computer--rock { animation: rps-computer-rock 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-computer--paper { animation: rps-computer-paper 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-computer--scissors { transform-box: fill-box; transform-origin: center; animation: rps-computer-scissors 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-reveal-ring { transform-box: fill-box; transform-origin: center; animation: rps-reveal-ring 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-impact-pulse { transform-box: fill-box; transform-origin: center; animation: rps-impact-pulse 8s ease-in-out infinite; }
+.project-art--rock-paper-scissors .rps-impact-spark { animation: rps-impact-spark 8s ease-in-out infinite; }
+
+@keyframes rps-rule-flow { to { stroke-dashoffset: -16; } }
+@keyframes rps-pool-select {
+  0%, 8% { transform: scale(.34); }
+  11% { transform: scale(.4); }
+  15%, 100% { transform: scale(.34); }
+}
+@keyframes rps-player-move {
+  0%, 8% { opacity: 0; transform: translate(0, 16px); }
+  14%, 40% { opacity: 1; transform: translate(0, 0); }
+  43%, 47% { opacity: 1; transform: translate(9px, 0); }
+  50%, 80% { opacity: 1; transform: translate(9px, -3px); }
+  88%, 100% { opacity: 0; transform: translate(0, 16px); }
+}
+@keyframes rps-player-scale {
+  0%, 8% { transform: scale(.8); }
+  14%, 47% { transform: scale(1); }
+  50%, 80% { transform: scale(1.06); }
+  88%, 100% { transform: scale(.8); }
+}
+@keyframes rps-winner-glow {
+  0%, 46% { opacity: 0; transform: scale(.8); }
+  50%, 80% { opacity: .4; transform: scale(1); }
+  88%, 100% { opacity: 0; transform: scale(.8); }
+}
+@keyframes rps-computer-move {
+  0%, 39% { transform: translate(0, 0); }
+  43%, 47% { transform: translate(-9px, 0); }
+  52%, 80% { transform: translate(-5px, 0); }
+  88%, 100% { transform: translate(0, 0); }
+}
+@keyframes rps-computer-rock {
+  0%, 18% { opacity: 0; }
+  20%, 22% { opacity: 1; }
+  25%, 100% { opacity: 0; }
+}
+@keyframes rps-computer-paper {
+  0%, 23% { opacity: 0; }
+  25%, 27% { opacity: 1; }
+  30%, 100% { opacity: 0; }
+}
+@keyframes rps-computer-scissors {
+  0%, 28% { opacity: 0; transform: scale(1); }
+  30% { opacity: 1; transform: scale(1.12); }
+  33%, 47% { opacity: 1; transform: scale(1); }
+  52%, 80% { opacity: .55; transform: scale(1); }
+  88%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes rps-reveal-ring {
+  0%, 29% { opacity: 0; transform: scale(.8); }
+  33%, 46% { opacity: .55; transform: scale(1); }
+  52%, 100% { opacity: 0; transform: scale(1.15); }
+}
+@keyframes rps-impact-pulse {
+  0%, 41% { opacity: 0; transform: scale(.4); }
+  44% { opacity: .9; transform: scale(1); }
+  48%, 100% { opacity: 0; transform: scale(2.2); }
+}
+@keyframes rps-impact-spark {
+  0%, 42% { opacity: 0; }
+  45% { opacity: .85; }
+  49%, 100% { opacity: 0; }
+}
+
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
 @keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -1711,4 +1794,11 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--todo-app .todo-check,
   .project-art--todo-app .todo-strike { stroke-dashoffset: 0 !important; opacity: 1 !important; }
   .project-art--todo-app .todo-db-pulse { opacity: 0 !important; }
+  .project-art--rock-paper-scissors .rps-winner-glow { opacity: .4 !important; transform: none !important; }
+  .project-art--rock-paper-scissors .rps-computer--rock,
+  .project-art--rock-paper-scissors .rps-computer--paper { opacity: 0 !important; }
+  .project-art--rock-paper-scissors .rps-computer--scissors { opacity: .55 !important; transform: none !important; }
+  .project-art--rock-paper-scissors .rps-reveal-ring,
+  .project-art--rock-paper-scissors .rps-impact-pulse,
+  .project-art--rock-paper-scissors .rps-impact-spark { opacity: 0 !important; }
 }
