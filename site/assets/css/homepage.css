@@ -801,7 +801,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art__nodes circle:nth-child(2) { animation-delay: -1.7s; }
 .project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
 .project-art__subject > * { transform-box: fill-box; transform-origin: center; }
-.project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
@@ -1107,6 +1106,67 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   0%, 52% { opacity: 0; transform: translateY(0) scale(.6); }
   56% { opacity: .85; transform: translateY(14px) scale(1); }
   61%, 100% { opacity: 0; transform: translateY(14px) scale(.6); }
+}
+
+/* bouncing-ball: one ball travels a closed diagonal route inside a bordered
+   playfield — right wall, then top wall, then back to rest — with a brief
+   squash at each wall, a floor shadow that fades as the ball gets "higher",
+   a static dashed motion path, and a 2-pip bounce counter. Scoped to
+   .ball-* classes (its own scene, not .project-art__subject) so this stays
+   isolated from every other project's generic icon animation. */
+.project-art--bouncing-ball .ball-trail { animation: ball-trail-flow 4s linear infinite; }
+.project-art--bouncing-ball .ball-shadow { transform-box: fill-box; transform-origin: center; animation: ball-shadow-cycle 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-impact { transform-box: fill-box; transform-origin: center; }
+.project-art--bouncing-ball .ball-impact--right { animation: ball-impact-right 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-impact--top { animation: ball-impact-top 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-travel { animation: ball-move 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-squash { transform-box: fill-box; transform-origin: center; animation: ball-squash-cycle 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-counter-pip-fill { transform-box: fill-box; transform-origin: center; }
+.project-art--bouncing-ball .ball-counter-pip-fill--1 { animation: ball-counter-pip-1 6.5s linear infinite; }
+.project-art--bouncing-ball .ball-counter-pip-fill--2 { animation: ball-counter-pip-2 6.5s linear infinite; }
+
+@keyframes ball-trail-flow { to { stroke-dashoffset: -22; } }
+@keyframes ball-move {
+  0% { transform: translate(0, 0); }
+  27% { transform: translate(260px, -100px); }
+  30% { transform: translate(260px, -100px); }
+  50% { transform: translate(100px, -136px); }
+  53% { transform: translate(100px, -136px); }
+  82% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes ball-squash-cycle {
+  0%, 26% { transform: scale(1, 1); }
+  28% { transform: scale(.94, 1.06); }
+  30%, 49% { transform: scale(1, 1); }
+  51% { transform: scale(1.06, .94); }
+  53%, 100% { transform: scale(1, 1); }
+}
+@keyframes ball-shadow-cycle {
+  0%, 100% { transform: translateX(0) scale(1); opacity: .22; }
+  27%, 30% { transform: translateX(260px) scale(.82); opacity: .13; }
+  50%, 53% { transform: translateX(100px) scale(.68); opacity: .09; }
+  82% { transform: translateX(0) scale(1); opacity: .22; }
+}
+@keyframes ball-impact-right {
+  0%, 25% { opacity: .35; transform: scale(1); }
+  28% { opacity: .95; transform: scale(1.7); }
+  32%, 100% { opacity: .35; transform: scale(1); }
+}
+@keyframes ball-impact-top {
+  0%, 48% { opacity: 0; transform: scale(1); }
+  51% { opacity: .95; transform: scale(1.7); }
+  55%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes ball-counter-pip-1 {
+  0%, 27% { opacity: 0; }
+  29%, 80% { opacity: 1; }
+  84%, 100% { opacity: 0; }
+}
+@keyframes ball-counter-pip-2 {
+  0%, 50% { opacity: 0; }
+  52%, 80% { opacity: 1; }
+  84%, 100% { opacity: 0; }
 }
 
 @keyframes project-route { to { stroke-dashoffset: -44; } }

@@ -377,6 +377,46 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const BOUNCING_BALL_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of BOUNCING_BALL_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/bouncing-ball/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--bouncing-ball[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--bouncing-ball .ball-travel, .project-art--bouncing-ball .ball-squash, ' +
+            '.project-art--bouncing-ball .ball-shadow, .project-art--bouncing-ball .ball-trail, ' +
+            '.project-art--bouncing-ball .ball-impact, .project-art--bouncing-ball .ball-counter-pip-fill'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          playfieldFound: Boolean(document.querySelector('.project-art--bouncing-ball .ball-playfield')),
+          ballFound: Boolean(document.querySelector('.project-art--bouncing-ball .ball-main')),
+          trailFound: Boolean(document.querySelector('.project-art--bouncing-ball .ball-trail')),
+          impactCount: document.querySelectorAll('.project-art--bouncing-ball .ball-impact').length,
+          counterPipCount: document.querySelectorAll('.project-art--bouncing-ball .ball-counter-pip-fill').length,
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`bouncing-ball ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`bouncing-ball ${viewport}: playfield and ball render`, result.playfieldFound && result.ballFound);
+      ok(`bouncing-ball ${viewport}: a motion-trail hint renders`, result.trailFound);
+      ok(`bouncing-ball ${viewport}: two wall-impact marks render`, result.impactCount === 2);
+      ok(`bouncing-ball ${viewport}: a 2-pip bounce counter renders`, result.counterPipCount === 2);
+      ok(`bouncing-ball ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`bouncing-ball ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -509,6 +549,9 @@ function observePage(page, base) {
       '.project-art--todo-app .todo-row--new', '.project-art--todo-app .todo-checkbox-fill',
       '.project-art--todo-app .todo-check', '.project-art--todo-app .todo-strike',
       '.project-art--todo-app .todo-delete', '.project-art--todo-app .todo-db-pulse',
+      '.project-art--bouncing-ball .ball-trail', '.project-art--bouncing-ball .ball-shadow',
+      '.project-art--bouncing-ball .ball-impact', '.project-art--bouncing-ball .ball-travel',
+      '.project-art--bouncing-ball .ball-squash', '.project-art--bouncing-ball .ball-counter-pip-fill',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -578,6 +621,28 @@ function observePage(page, base) {
     ok('reduced motion: todo-app shows 3 task rows with the new row settled in place', todoReducedState.rowCount >= 3 && todoReducedState.newRowVisible);
     ok('reduced motion: todo-app completed task shows a checked box with drawn checkmark and strike-through', todoReducedState.completedChecked && todoReducedState.checkmarkDrawn && todoReducedState.strikeDrawn);
     ok('reduced motion: todo-app persistence pulses stay hidden (no mid-flight ping)', todoReducedState.pulsesHidden);
+    const bouncingBallReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const ball = document.querySelector('.project-art--bouncing-ball .ball-main');
+      const travel = document.querySelector('.project-art--bouncing-ball .ball-travel');
+      const squash = document.querySelector('.project-art--bouncing-ball .ball-squash');
+      const impactRight = document.querySelector('.project-art--bouncing-ball .ball-impact--right');
+      const impactTop = document.querySelector('.project-art--bouncing-ball .ball-impact--top');
+      const pipFills = [...document.querySelectorAll('.project-art--bouncing-ball .ball-counter-pip-fill')];
+      return {
+        ballVisible: ball ? opacityOf(ball) !== 0 : false,
+        atRest: travel && squash
+          ? getComputedStyle(travel).transform === 'none' && getComputedStyle(squash).transform === 'none'
+          : false,
+        exactlyOneImpactVisible: impactRight && impactTop
+          ? opacityOf(impactRight) > 0 && opacityOf(impactTop) === 0
+          : false,
+        pipsReset: pipFills.length > 0 && pipFills.every((node) => opacityOf(node) === 0),
+      };
+    });
+    ok('reduced motion: bouncing-ball rests in place, not mid-flight or mid-squash', bouncingBallReducedState.ballVisible && bouncingBallReducedState.atRest);
+    ok('reduced motion: bouncing-ball shows exactly one static wall-impact mark', bouncingBallReducedState.exactlyOneImpactVisible);
+    ok('reduced motion: bouncing-ball counter pips stay reset (not stuck mid-count)', bouncingBallReducedState.pipsReset);
     await reduced.close();
 
     await browser.close();
