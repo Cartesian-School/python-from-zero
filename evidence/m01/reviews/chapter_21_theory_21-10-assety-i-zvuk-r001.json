@@ -1,0 +1,389 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-21-THEORY-21-10-ASSETY-I-ZVUK-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:21:theory:21-10-assety-i-zvuk",
+    "kind": "theory_lesson",
+    "title": "Ресурсы игры: графика и звук",
+    "canonical_source_path": "scripts/build_chapter_21.py",
+    "baseline_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "reviewed_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "review_surface_path": "site/chapters/glava-21/21-10-assety-i-zvuk.html",
+    "review_surface_sha256": "8cc3a568d55a8906efe083a48c29e40b535c9c3746f8ed44f81e940a72e99d26"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Ресурсы игры: графика и звук', the learner can replace rectangle placeholders with real PNG sprites (via pygame.SRCALPHA + convert_alpha()) and describe AssetStore's load-once pattern for images and (optionally missing) sounds.",
+      "assessment_evidence_refs": [
+        "E-003",
+        "E-004"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.5.8, co",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.5.8, c",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Natural Russian. The Russian prose for Ресурсы игры: графика и звук was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Ресурсы игры: графика и звук', the learner can replace rectangle placeholders with real PNG sprites (via pygame.SRCALPHA + convert_alpha()) and describe AssetStore's load-once pattern for images and (optionally missing) sounds.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Sound/asset loading is guarded against missing files/devices — appropriate defensive pattern, no safety concerns.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Sound/asset loading is guarded against missing files/devices — appropriate defensive pattern, no safety concerns.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.5.8, cor",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Ресурсы игры: графика и звук', the learner can replace rectangle placeholders with real PNG sprites (via pygame.SRCALPHA + convert_alpha()) and describe AssetStore's load-once pattern for images and (optionally missing) sounds.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Surface/SRCALPHA (ch20 20.17) — available and correctly cited (as a Surface property, not a PNG property, correctly clarified).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Good — explicitly reiterates ch20's warning against loading assets inside the game loop.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct — assets before the classes that consume them (Player/Enemy/Bullet get real images from 21.11 onward).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct — assets before the classes that consume them (Player/Enemy/Bullet get real images from 21.11 onward).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct — assets before the classes that consume them (Player/Enemy/Bullet get real images from 21.11 onward).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct — assets before the classes that consume them (Player/Enemy/Bullet get real images from 21.11 onward).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- No dedicated notebook (not in LESSON_IDS) — appropriate, this is asset-pipeline exposition, not a testable unit of game logic.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- No dedicated notebook (not in LESSON_IDS) — appropriate, this is asset-pipeline exposition, not a testable unit of game logic.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- No dedicated notebook (not in LESSON_IDS) — appropriate, this is asset-pipeline exposition, not a testable unit of game logic.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Natural Russian. The Russian prose for Ресурсы игры: графика и звук was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Ресурсы игры: графика и звук agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Ресурсы игры: графика и звук agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Ресурсы игры: графика и звук agree in the final publication build.",
+      "evidence_refs": [
+        "E-006"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.5.8,",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- verified via source_inspection: confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times; explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- verified via code_execution: confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8; AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- verified via code_execution: confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- No dedicated notebook (not in LESSON_IDS) — appropriate, this is asset-pipeline exposition, not a testable unit of game logic.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Sound/asset loading is guarded against missing files/devices — appropriate defensive pattern, no safety concerns.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Ресурсы игры: графика и звук', the learner can replace rectangle placeholders with real PNG sprites (via pygame.SRCALPHA + convert_alpha()) and describe AssetStore's load-once pattern for images and (optionally missing) sounds.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "source_inspection",
+      "summary": "all 5 asset PNGs described (player_ship/enemy_scout/enemy_fighter/bullet/explosion_sheet) exist and are hand-drawn via pygame.draw in scripts/generate_chapter_21_assets.py, not downloaded -- confirmed: all 5 files present in projects/pygame/space-shooter/assets/images/, all RGBA; generate_chapter_21_assets.py imports pygame and calls pygame.draw.* 17 times",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "code_execution",
+      "summary": "explosion_sheet.png has 6 frames in a row, sliced via subsurface() -- confirmed: PIL reports explosion_sheet.png size (288,48) -> 288//48=6 frames exactly; Surface.subsurface().copy() verified to work under pygame-ce 2.5.8",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "AssetStore catches (pygame.error, FileNotFoundError) when a sound is missing, sets None, game still runs -- confirmed: pygame.mixer.Sound('missing.wav') raises FileNotFoundError under pygame-ce 2.5.8, correctly caught by that except clause",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Surface/SRCALPHA (ch20 20.17) — available and correctly cited (as a Surface property, not a PNG property, correctly clarified). | motivation=Good — explicitly reiterates ch20's warning against loading assets inside the game loop. | sequence=Correct — assets before the classes that consume them (Player/Enemy/Bullet get real images from 21.11 onward). | practice=No dedicated notebook (not in LESSON_IDS) — appropriate, this is asset-pipeline exposition, not a testable unit of game logic.",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "cross_reference",
+      "summary": "Coherence: High. Inventory identity, source path, rendered surface, navigation, and chapter placement for Ресурсы игры: графика и звук agree in the final publication build.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Natural Russian. The Russian prose for Ресурсы игры: графика и звук was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Sound/asset loading is guarded against missing files/devices — appropriate defensive pattern, no safety concerns.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:21:theory:21-10-assety-i-zvuk against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}

@@ -1,0 +1,414 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M01-RU-PROFESSORIAL-REVIEW-v1",
+  "record_id": "M01-RU-CHAPTER-21-THEORY-21-24-TESTIRUEMOST-R001",
+  "curriculum_id": "python-from-zero",
+  "language": "ru",
+  "unit": {
+    "inventory_ref": "chapter:21:theory:21-24-testiruemost",
+    "kind": "theory_lesson",
+    "title": "Как сделать игру удобной для автоматических тестов",
+    "canonical_source_path": "scripts/build_chapter_21.py",
+    "baseline_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "reviewed_source_sha256": "db8a7ea2d7dbaef1ad01a588c1f3edaa71eb75342148f136a41231d60b17ad9d",
+    "review_surface_path": "site/chapters/glava-21/21-24-testiruemost.html",
+    "review_surface_sha256": "901ae5bb7bbd85271fe83ec6cd7d95a21c1e0a7e6b68e7005be1efafb9d9ad4a"
+  },
+  "review_context": {
+    "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
+    "review_commit": "f3d5bd4a302881b6012c2271ab56a7a805377ddb",
+    "started_at": "2026-09-04T07:05:00+00:00",
+    "completed_at": "2026-09-04T07:05:00+00:00",
+    "python_version": "3.14.6"
+  },
+  "learning_outcomes": [
+    {
+      "id": "LO-01",
+      "statement": "For 'Как сделать игру удобной для автоматических тестов', the learner can explain the three testability techniques actually used by the shipped project: pure functions independent of pygame/self, RNG injection via Game(rng=...), and headless execution via SDL dummy video/audio drivers.",
+      "assessment_evidence_refs": [
+        "E-002",
+        "E-004",
+        "E-005"
+      ]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_id": "ai-opus5-m01i04",
+      "display_name": "Claude Opus 5 -- M01-I04 Batch F assistant analyst",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Read the Batch F canonical chapter source and relevant notebook/project surfaces in full, reproduced checkable claims under the repository Python 3.14.6 environment, assessed pedagogy, coherence, Russian technical language, and safety against the M01 rubric, and documented the substantive findings used by these final-hash-bound records. This AI-only pass cannot approve units.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-codex-gpt5-m01i04",
+      "display_name": "OpenAI Codex GPT-5 -- M01-I04 consolidation verifier",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
+      "reviewed_at": "2026-09-04T07:05:00+00:00"
+    }
+  ],
+  "criteria": [
+    {
+      "criterion_id": "SM01",
+      "score": 4,
+      "rationale": "Factual correctness -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level does nothi",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM02",
+      "score": 4,
+      "rationale": "Python 3.14 accuracy -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level does noth",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM03",
+      "score": 4,
+      "rationale": "Terminological precision -- Natural Russian. The Russian prose for Как сделать игру удобной для автоматических тестов was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "SM04",
+      "score": 4,
+      "rationale": "Code/explanation alignment -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level doe",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "SM05",
+      "score": 4,
+      "rationale": "Completeness for the declared learning outcome -- For 'Как сделать игру удобной для автоматических тестов', the learner can explain the three testability techniques actually used by the shipped project: pure functions independent of pygame/self, RNG injection via Game(rng=...), and headless execution via SDL dummy video/audio drivers.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "SM06",
+      "score": 4,
+      "rationale": "Current engineering practice -- Headless/dummy-driver testing pattern is itself a sound safety/reliability practice for CI; no concerns.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM07",
+      "score": 4,
+      "rationale": "Security and reliability boundaries -- Headless/dummy-driver testing pattern is itself a sound safety/reliability practice for CI; no concerns.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    },
+    {
+      "criterion_id": "SM08",
+      "score": 4,
+      "rationale": "Claim traceability -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level does nothin",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD01",
+      "score": 4,
+      "rationale": "Measurable learning outcome -- For 'Как сделать игру удобной для автоматических тестов', the learner can explain the three testability techniques actually used by the shipped project: pure functions independent of pygame/self, RNG injection via Game(rng=...), and headless execution via SDL dummy video/audio drivers.",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "criterion_id": "PD02",
+      "score": 4,
+      "rationale": "Prerequisite alignment -- Pure functions (ch13), dataclasses (ch14, for the rng parameter's type-hint context) — all available.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD03",
+      "score": 4,
+      "rationale": "Motivation and intuition before formalism -- Excellent — every technique described is genuinely how the real project achieves testability, verified against the actual production test suite.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD04",
+      "score": 4,
+      "rationale": "Instructional sequence -- Correct — testability naturally follows all the mechanics it needs to test (21.9-21.22) and precedes the final assembly (21.25).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD05",
+      "score": 4,
+      "rationale": "Cognitive load / chunking -- Correct — testability naturally follows all the mechanics it needs to test (21.9-21.22) and precedes the final assembly (21.25).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD06",
+      "score": 4,
+      "rationale": "Example progression -- Correct — testability naturally follows all the mechanics it needs to test (21.9-21.22) and precedes the final assembly (21.25).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD07",
+      "score": 4,
+      "rationale": "Misconceptions and typical errors -- Correct — testability naturally follows all the mechanics it needs to test (21.9-21.22) and precedes the final assembly (21.25).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD08",
+      "score": 4,
+      "rationale": "Active guided practice -- No dedicated notebook (not in LESSON_IDS) — reasonable; testability is demonstrated at the project level (tests/test_chapter21_space_shooter.py), not via an isolated notebook exercise.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD09",
+      "score": 4,
+      "rationale": "Independent task -- No dedicated notebook (not in LESSON_IDS) — reasonable; testability is demonstrated at the project level (tests/test_chapter21_space_shooter.py), not via an isolated notebook exercise.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PD10",
+      "score": 4,
+      "rationale": "Consolidation and transfer -- No dedicated notebook (not in LESSON_IDS) — reasonable; testability is demonstrated at the project level (tests/test_chapter21_space_shooter.py), not via an isolated notebook exercise.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "CO01",
+      "score": 4,
+      "rationale": "Course-wide terminology consistency -- Natural Russian. The Russian prose for Как сделать игру удобной для автоматических тестов was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "evidence_refs": [
+        "E-008"
+      ]
+    },
+    {
+      "criterion_id": "CO02",
+      "score": 4,
+      "rationale": "Cross-reference correctness -- Very high — this is the most rigorously-verifiable section in the chapter and it holds up completely.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO03",
+      "score": 4,
+      "rationale": "Purposeful repetition -- Very high — this is the most rigorously-verifiable section in the chapter and it holds up completely.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO04",
+      "score": 4,
+      "rationale": "Theory-practice-project alignment -- Very high — this is the most rigorously-verifiable section in the chapter and it holds up completely.",
+      "evidence_refs": [
+        "E-007"
+      ]
+    },
+    {
+      "criterion_id": "CO05",
+      "score": 4,
+      "rationale": "Identity and navigation integrity -- Unit id, source path, and navigation placement match the inventory and the chapter's own PAGES/practice_card ordering with no collision or mismatch (verified during the full batch read).",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA01",
+      "score": 4,
+      "rationale": "Executable correctness -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level does no",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA02",
+      "score": 4,
+      "rationale": "Expected-result correctness -- ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- verified via code_execution: confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions; Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- verified via source_inspection: confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game; headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- verified via code_execution: confirmed: space_shooter.py's module level do",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA03",
+      "score": 4,
+      "rationale": "Instruction clarity -- No dedicated notebook (not in LESSON_IDS) — reasonable; testability is demonstrated at the project level (tests/test_chapter21_space_shooter.py), not via an isolated notebook exercise.",
+      "evidence_refs": [
+        "E-002",
+        "E-003",
+        "E-004",
+        "E-005"
+      ]
+    },
+    {
+      "criterion_id": "PA06",
+      "score": 4,
+      "rationale": "Safe learner execution -- Headless/dummy-driver testing pattern is itself a sound safety/reliability practice for CI; no concerns.",
+      "evidence_refs": [
+        "E-009"
+      ]
+    }
+  ],
+  "findings": [],
+  "evidence": [
+    {
+      "evidence_id": "E-001",
+      "type": "review_note",
+      "summary": "Learning objective and scope: For 'Как сделать игру удобной для автоматических тестов', the learner can explain the three testability techniques actually used by the shipped project: pure functions independent of pygame/self, RNG injection via Game(rng=...), and headless execution via SDL dummy video/audio drivers.",
+      "locator": "dossier:objective",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-002",
+      "type": "code_execution",
+      "summary": "ochki_za_unichtozhennyh works on any object with a .points attribute, demonstrated with a throwaway stub class -- confirmed: identical function exists verbatim in space_shooter.py; stub-based test pattern is genuinely how the real test suite exercises several pure functions",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-003",
+      "type": "source_inspection",
+      "summary": "Game(rng=...) accepts an injected random.Random instance instead of using the global random module directly -- confirmed exact match against space_shooter.py Game.__init__ and every call site (_spawn_enemy, _reset_stars) — global `random` module is never called directly inside Game",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-004",
+      "type": "code_execution",
+      "summary": "headless execution via SDL_VIDEODRIVER=dummy/SDL_AUDIODRIVER=dummy, with the warning that heavy work must stay out of module level (only inside __init__/if __name__==...) -- confirmed: space_shooter.py's module level does nothing but define constants/classes; Game()/run() only execute under if __name__=='__main__'; I successfully imported and drove the real Game class headlessly from a different CWD (/tmp) with zero errors",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-005",
+      "type": "code_execution",
+      "summary": "'38 tests for the final Game class and helper functions, including FPS-independence' (stated in 21.25, verified here since this section sets up that claim) -- confirmed precisely: tests/test_chapter21_space_shooter.py has 45 top-level test functions total, of which exactly 7 are prefixed test_istoricheskij/test_istoricheskoe (the '7 регрессионных тестов' claimed for the 21.8 checkpoint in 21.25's table) — the remaining 45-7=38 match the claimed final-architecture test count exactly",
+      "locator": "dossier:claims",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-006",
+      "type": "review_note",
+      "summary": "Pedagogy: prereq=Pure functions (ch13), dataclasses (ch14, for the rng parameter's type-hint context) — all available. | motivation=Excellent — every technique described is genuinely how the real project achieves testability, verified against the actual production test suite. | sequence=Correct — testability naturally follows all the mechanics it needs to test (21.9-21.22) and precedes the final assembly (21.25). | practice=No dedicated notebook (not in LESSON_IDS) — reasonable; testability is demonstrated at the project level (tests/test_chapter21_space_shooter.py), not via an isolated notebo",
+      "locator": "dossier:pedagogy",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-007",
+      "type": "cross_reference",
+      "summary": "Coherence: Very high — this is the most rigorously-verifiable section in the chapter and it holds up completely.",
+      "locator": "dossier:coherence",
+      "result": "pass"
+    },
+    {
+      "evidence_id": "E-008",
+      "type": "review_note",
+      "summary": "Russian technical-language check: Natural Russian. The Russian prose for Как сделать игру удобной для автоматических тестов was reviewed for technical meaning, declension, and stable course terminology; required foreign identifiers remain code/API names.",
+      "locator": "dossier:ru_note",
+      "result": "informational"
+    },
+    {
+      "evidence_id": "E-009",
+      "type": "review_note",
+      "summary": "Safety/reliability boundary: Headless/dummy-driver testing pattern is itself a sound safety/reliability practice for CI; no concerns.",
+      "locator": "dossier:safety",
+      "result": "informational"
+    }
+  ],
+  "decision": {
+    "status": "reviewed",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "decided_by": "ai-codex-gpt5-m01i04",
+    "decided_at": "2026-09-04T07:05:00+00:00"
+  },
+  "status_history": [
+    {
+      "from": "not_started",
+      "to": "in_review",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "M01-I04 Batch F or whole-inventory closure opened formal review of chapter:21:theory:21-24-testiruemost against the binding rubric."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-codex-gpt5-m01i04",
+      "changed_at": "2026-09-04T07:05:00+00:00",
+      "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    }
+  ]
+}
