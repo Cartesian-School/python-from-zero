@@ -801,8 +801,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art__nodes circle:nth-child(2) { animation-delay: -1.7s; }
 .project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
 .project-art__subject > * { transform-box: fill-box; transform-origin: center; }
-.project-art--snake .project-art__subject > circle { animation: project-float 4s ease-in-out infinite; }
-.project-art--snake .project-art__subject path { stroke-dasharray: 24 8; animation: project-dash 6s linear infinite; }
 .project-art--bouncing-ball .project-art__subject > circle:nth-child(3) { animation: project-bounce 3.8s ease-in-out infinite; }
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
 .project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
@@ -892,10 +890,51 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 @keyframes paint-tool-active { 0%, 40%, 100% { opacity: .85; transform: scale(1); } 8% { opacity: 1; transform: scale(1.045); } }
 @keyframes paint-swatch-cycle { 0%, 100% { opacity: .55; transform: scale(1); } 12% { opacity: 1; transform: scale(1.05); } 28% { opacity: .7; transform: scale(1); } }
 
+/* snake: a segmented body threading two turns toward one apple, with a head
+   visibly distinct from the body (eyes + a small directional cue) and a
+   faint dotted route hinting at the final approach. Scoped to .snake-*
+   classes (its own scene, not .project-art__subject) so this stays isolated
+   from every other project's generic icon animation. */
+.project-art--snake .snake-segment {
+  transform-box: fill-box; transform-origin: center;
+  animation: snake-wave 5s ease-in-out infinite;
+}
+.project-art--snake .snake-body .snake-segment:nth-child(1) { animation-delay: -1.75s; }
+.project-art--snake .snake-body .snake-segment:nth-child(2) { animation-delay: -1.5s; }
+.project-art--snake .snake-body .snake-segment:nth-child(3) { animation-delay: -1.25s; }
+.project-art--snake .snake-body .snake-segment:nth-child(4) { animation-delay: -1s; }
+.project-art--snake .snake-body .snake-segment:nth-child(5) { animation-delay: -.75s; }
+.project-art--snake .snake-body .snake-segment:nth-child(6) { animation-delay: -.5s; }
+.project-art--snake .snake-body .snake-segment:nth-child(7) { animation-delay: -.25s; }
+.project-art--snake .snake-body .snake-segment:nth-child(8) { animation-delay: 0s; }
+.project-art--snake .snake-head {
+  transform-box: fill-box; transform-origin: center;
+  animation: snake-head-move 5.4s ease-in-out infinite;
+}
+.project-art--snake .snake-apple {
+  transform-box: fill-box; transform-origin: center;
+  animation: snake-apple-pulse 4s ease-in-out infinite;
+}
+.project-art--snake .snake-apple-leaf {
+  transform-box: fill-box; transform-origin: center;
+  animation: snake-leaf-tilt 4s ease-in-out infinite;
+}
+.project-art--snake .snake-route { animation: snake-route-flow 6.5s linear infinite; }
+.project-art--snake .snake-tail {
+  transform-box: fill-box; transform-origin: center;
+  animation: snake-tail-grow 8.5s ease-in-out infinite;
+}
+
+@keyframes snake-wave { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.035); } }
+@keyframes snake-head-move { 0%, 100% { transform: translateX(0) scale(1); } 50% { transform: translateX(3px) scale(1.03); } }
+@keyframes snake-apple-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes snake-leaf-tilt { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes snake-route-flow { to { stroke-dashoffset: -18; } }
+@keyframes snake-tail-grow { 0%, 82%, 100% { opacity: 0; transform: scale(.4); } 88%, 95% { opacity: .85; transform: scale(1); } }
+
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
 @keyframes project-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@keyframes project-dash { to { stroke-dashoffset: -64; } }
 @keyframes project-bounce { 0%, 100% { transform: translateY(0) scaleY(1); } 45% { transform: translateY(-8px) scaleY(1.02); } 78% { transform: translateY(1px) scaleY(.96); } }
 @keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
 @keyframes project-check { 0%, 18% { stroke-dashoffset: 28; opacity: .3; } 42%, 100% { stroke-dashoffset: 0; opacity: .85; } }

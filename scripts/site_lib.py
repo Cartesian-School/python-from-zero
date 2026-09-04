@@ -5159,6 +5159,44 @@ def _paint_app_scene() -> str:
   </g>"""
 
 
+def _snake_scene() -> str:
+    """Bespoke web illustration for snake: a segmented body threading two
+    turns across the grid toward one apple, with a head visibly distinct
+    from the body (eyes + a small directional cue) and a faint dotted route
+    hinting at the final approach — replaces the old abstract stepped-line-
+    plus-dot with a scene that reads as "Snake game" on sight.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    segments = [
+        (70, 60), (104, 60), (138, 60),
+        (138, 94), (138, 128),
+        (172, 128), (206, 128), (240, 128),
+    ]
+    opacities = [".42", ".52", ".6", ".68", ".76", ".84", ".9", ".96"]
+    body_html = "".join(
+        f'<rect class="snake-segment" x="{x - 12}" y="{y - 12}" width="24" height="24" rx="7" fill="#fff" opacity="{op}"/>'
+        for (x, y), op in zip(segments, opacities)
+    )
+    return f"""
+  <path class="snake-route" d="M291 128 L328 128" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 7" opacity=".5"/>
+  <rect class="snake-tail" x="26" y="50" width="20" height="20" rx="6" fill="#fff" opacity="0"/>
+  <g class="snake-body">{body_html}</g>
+  <g class="snake-head">
+    <rect x="258" y="112" width="32" height="32" rx="10" fill="#fff" opacity=".98"/>
+    <circle cx="282" cy="120" r="2.6" fill="var(--navy-950)" opacity=".55"/>
+    <circle cx="282" cy="136" r="2.6" fill="var(--navy-950)" opacity=".55"/>
+    <path d="M290 122 L300 128 L290 134 Z" fill="#fff" opacity=".7"/>
+  </g>
+  <g class="snake-apple">
+    <path class="snake-apple-leaf" d="M345 112 q6 -9 13 -5" fill="none" stroke="var(--green-500)" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+    <circle cx="345" cy="128" r="15" fill="var(--amber-500)" opacity=".95"/>
+  </g>"""
+
+
 def project_illustration(project_id: str) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
@@ -5170,6 +5208,8 @@ def project_illustration(project_id: str) -> str:
         scene = _story_generator_scene()
     elif project_id == "paint-app":
         scene = _paint_app_scene()
+    elif project_id == "snake":
+        scene = _snake_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
