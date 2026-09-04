@@ -10,6 +10,7 @@ import net from 'node:net';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
 const VIEWPORTS = [[1920, 1080], [1440, 900], [1280, 800], [1024, 900], [768, 1024], [430, 932], [390, 844], [360, 800]];
+const TIC_TAC_TOE_VIEWPORTS = [[1440, 900], [768, 1024], [390, 844]];
 const REPRESENTATIVE_PROJECTS = ['paint-app', 'space-shooter', 'todo-app', 'safesort'];
 const PROJECTS = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest', 'projects_manifest.json'), 'utf8')).projects;
 
@@ -316,6 +317,79 @@ function observePage(page, base) {
         else ok(`${slug} ${viewport}: desktop hero visual stays below 440px`, result.visualHeight <= 440);
         ok(`${slug} ${viewport}: title, tags, CTAs, and resources are contained`, result.titleContained && result.tagsContained && result.ctaContained && result.resourcesContained);
         ok(`${slug} ${viewport}: no overflow or browser faults`, !result.overflow && faults.length === 0);
+        await page.close();
+      }
+    }
+
+    for (const [width, height] of TIC_TAC_TOE_VIEWPORTS) {
+      for (const [surface, url, containerSelector] of [
+        ['homepage card', '/index.html#proekty', '.project-card[data-project="tic-tac-toe"]'],
+        ['detail hero', '/projects/tic-tac-toe/', '.project-detail-hero__visual'],
+      ]) {
+        const page = await browser.newPage({ viewport: { width, height } });
+        const faults = observePage(page, base);
+        await page.goto(`${base}${url}`, { waitUntil: 'networkidle' });
+        const result = await page.evaluate((containerSelector) => {
+          const container = document.querySelector(containerSelector);
+          const svg = container.querySelector('.project-art--tic-tac-toe');
+          const board = svg.querySelector('.tic-tac-toe__board');
+          const xMark = svg.querySelector('.tic-tac-toe__x');
+          const oMark = svg.querySelector('.tic-tac-toe__o');
+          const route = svg.querySelector('.project-art__route');
+          const box = (node) => {
+            const value = node.getBBox();
+            return { x: value.x, y: value.y, width: value.width, height: value.height };
+          };
+          const contained = (node) => {
+            const outer = container.getBoundingClientRect();
+            const inner = node.getBoundingClientRect();
+            return inner.left >= outer.left - 1 && inner.right <= outer.right + 1
+              && inner.top >= outer.top - 1 && inner.bottom <= outer.bottom + 1;
+          };
+          const strokeAwareBox = (node, clearance) => {
+            const value = box(node);
+            const inset = parseFloat(getComputedStyle(node).strokeWidth) / 2 + clearance;
+            return {
+              left: value.x - inset,
+              right: value.x + value.width + inset,
+              top: value.y - inset,
+              bottom: value.y + value.height + inset,
+            };
+          };
+          const protectedMarks = [strokeAwareBox(xMark, 4), strokeAwareBox(oMark, 4)];
+          const routeLength = route.getTotalLength();
+          const routeClear = Array.from({ length: 201 }, (_, index) => route.getPointAtLength(routeLength * index / 200))
+            .every((point) => protectedMarks.every((mark) => point.x < mark.left || point.x > mark.right
+              || point.y < mark.top || point.y > mark.bottom));
+          return {
+            board: box(board),
+            xMark: box(xMark),
+            oMark: box(oMark),
+            boardStroke: parseFloat(getComputedStyle(board).strokeWidth),
+            xStroke: parseFloat(getComputedStyle(xMark).strokeWidth),
+            oStroke: parseFloat(getComputedStyle(oMark).strokeWidth),
+            routeClear,
+            contained: [board, xMark, oMark].every(contained),
+            overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          };
+        }, containerSelector);
+        const near = (actual, expected) => Math.abs(actual - expected) < 0.01;
+        const centeredAt = (box, x, y) => near(box.x + box.width / 2, x) && near(box.y + box.height / 2, y);
+        const viewport = `${width}x${height}`;
+        ok(`${surface} ${viewport}: board is a centered 168x168 grid with 56-unit cells`,
+          near(result.board.x, 116) && near(result.board.y, 28.5)
+          && near(result.board.width, 168) && near(result.board.height, 168));
+        ok(`${surface} ${viewport}: X and O are anchored to exact cell centers`,
+          centeredAt(result.xMark, 144, 56.5) && centeredAt(result.oMark, 256, 112.5));
+        ok(`${surface} ${viewport}: marks retain 9 units of stroke-aware cell padding`,
+          near(result.xStroke, 8) && near(result.oStroke, 8) && near(result.boardStroke, 6)
+          && near(result.xMark.x - result.xStroke / 2 - 116, 9)
+          && near(172 - (result.xMark.x + result.xMark.width + result.xStroke / 2), 9)
+          && near(result.oMark.x - result.oStroke / 2 - 228, 9)
+          && near(284 - (result.oMark.x + result.oMark.width + result.oStroke / 2), 9));
+        ok(`${surface} ${viewport}: decorative route clears both marks`, result.routeClear);
+        ok(`${surface} ${viewport}: board and marks are contained without page overflow`, result.contained && !result.overflow);
+        ok(`${surface} ${viewport}: no console, runtime, or same-origin request errors`, faults.length === 0);
         await page.close();
       }
     }
