@@ -132,6 +132,43 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const STORY_GENERATOR_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of STORY_GENERATOR_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/story-generator/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--story-generator[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--story-generator .story-token, .project-art--story-generator .story-route, ' +
+            '.project-art--story-generator .story-hub-dot, .project-art--story-generator .story-output-line, ' +
+            '.project-art--story-generator .story-spark'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          tokenCount: document.querySelectorAll('.project-art--story-generator .story-token').length,
+          routeCount: document.querySelectorAll('.project-art--story-generator .story-route').length,
+          outputFound: Boolean(document.querySelector('.project-art--story-generator .story-output-card')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`story-generator ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`story-generator ${viewport}: 3 source-pool tokens render`, result.tokenCount === 3);
+      ok(`story-generator ${viewport}: routing path(s) to the result render`, result.routeCount >= 1);
+      ok(`story-generator ${viewport}: assembled result card renders`, result.outputFound);
+      ok(`story-generator ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`story-generator ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -169,8 +206,19 @@ function observePage(page, base) {
     const animations = await reduced.evaluate(() => [
       '.project-art__route', '.project-art__nodes circle', '.project-art__subject > *',
       '.reference-art__search', '.reference-art__nodes circle',
+      '.project-art--story-generator .story-token', '.project-art--story-generator .story-route',
+      '.project-art--story-generator .story-hub-dot', '.project-art--story-generator .story-output-line',
+      '.project-art--story-generator .story-spark',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
+    const storyReducedState = await reduced.evaluate(() => {
+      const visible = (node) => getComputedStyle(node).opacity !== '0';
+      return {
+        tokensVisible: [...document.querySelectorAll('.project-art--story-generator .story-token')].every(visible),
+        outputLinesVisible: [...document.querySelectorAll('.project-art--story-generator .story-output-line')].every(visible),
+      };
+    });
+    ok('reduced motion: story generator result card stays fully visible (not mid-fade)', storyReducedState.tokensVisible && storyReducedState.outputLinesVisible);
     await reduced.close();
 
     await browser.close();

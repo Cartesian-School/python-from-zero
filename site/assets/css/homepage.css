@@ -812,12 +812,52 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art--todo-app .project-art__subject > path { stroke-dasharray: 28; animation: project-check 5s ease-in-out infinite; }
 .project-art--calculator .project-art__subject > rect:nth-child(6),
 .project-art--calculator .project-art__subject > rect:nth-child(11) { animation: project-key 4.5s ease-in-out infinite; }
-.project-art--story-generator .project-art__subject > path:last-child { animation: project-spark 4s ease-in-out infinite; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
 .project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
 .project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
 .project-art--tic-tac-toe .project-art__subject > g:nth-of-type(2) { animation: project-mark 4.8s ease-in-out infinite; }
 .project-art--safesort .project-art__subject > rect:nth-of-type(2) { animation: project-sort 5.2s ease-in-out infinite; }
+
+/* story-generator: source pools -> random-selection hub -> assembled result.
+   Scoped to .story-* classes (its own scene, not .project-art__subject) so
+   this stays isolated from every other project's generic icon animation. */
+.project-art--story-generator .story-token {
+  transform-box: fill-box; transform-origin: center;
+  opacity: .58; animation: story-token-pulse 4.8s ease-in-out infinite;
+}
+.project-art--story-generator .story-tokens .story-token:nth-child(1) { animation-delay: 0s; }
+.project-art--story-generator .story-tokens .story-token:nth-child(2) { animation-delay: -1.6s; }
+.project-art--story-generator .story-tokens .story-token:nth-child(3) { animation-delay: -3.2s; }
+.project-art--story-generator .story-route { animation: story-route-flow 6s linear infinite; }
+.project-art--story-generator .story-routes .story-route:nth-child(2) { animation-delay: -2s; }
+.project-art--story-generator .story-routes .story-route:nth-child(3) { animation-delay: -4s; }
+.project-art--story-generator .story-route--out { animation-duration: 3s; }
+.project-art--story-generator .story-hub-dot {
+  transform-box: fill-box; transform-origin: center;
+  opacity: .3; animation: story-hub-cycle 4.8s ease-in-out infinite;
+}
+.project-art--story-generator .story-hub .story-hub-dot:nth-child(2) { animation-delay: -1.6s; }
+.project-art--story-generator .story-hub .story-hub-dot:nth-child(3) { animation-delay: -3.2s; }
+.project-art--story-generator .story-output-line {
+  transform-box: fill-box; transform-origin: left center;
+  opacity: 0; transform: translateX(-6px) scaleX(.88);
+  animation: story-line-reveal 6s ease-in-out infinite;
+}
+.project-art--story-generator .story-output-lines .story-output-line:nth-child(1) { animation-delay: 0s; }
+.project-art--story-generator .story-output-lines .story-output-line:nth-child(2) { animation-delay: .5s; }
+.project-art--story-generator .story-output-lines .story-output-line:nth-child(3) { animation-delay: 1s; }
+.project-art--story-generator .story-output-line--accent { animation-name: story-line-reveal-accent; }
+.project-art--story-generator .story-spark {
+  transform-box: fill-box; transform-origin: center;
+  animation: story-spark-pulse 6.4s ease-in-out infinite; animation-delay: 1.6s;
+}
+
+@keyframes story-token-pulse { 0%, 100% { opacity: .55; transform: scale(1); } 15% { opacity: 1; transform: scale(1.045); } 30% { opacity: .68; transform: scale(1); } }
+@keyframes story-route-flow { to { stroke-dashoffset: -22; } }
+@keyframes story-hub-cycle { 0%, 100% { opacity: .28; transform: scale(1); } 50% { opacity: .85; transform: scale(1.35); } }
+@keyframes story-line-reveal { 0% { opacity: 0; transform: translateX(-6px) scaleX(.88); } 14% { opacity: .92; transform: translateX(0) scaleX(1); } 80% { opacity: .92; transform: translateX(0) scaleX(1); } 94%, 100% { opacity: 0; transform: translateX(-6px) scaleX(.88); } }
+@keyframes story-line-reveal-accent { 0% { opacity: 0; transform: translateX(-6px) scaleX(.88); } 14% { opacity: 1; transform: translateX(0) scaleX(1); } 80% { opacity: 1; transform: translateX(0) scaleX(1); } 94%, 100% { opacity: 0; transform: translateX(-6px) scaleX(.88); } }
+@keyframes story-spark-pulse { 0%, 76%, 100% { opacity: .5; transform: scale(.86) rotate(-3deg); } 86% { opacity: 1; transform: scale(1.04) rotate(3deg); } }
 
 @keyframes project-route { to { stroke-dashoffset: -44; } }
 @keyframes project-node { 0%, 68%, 100% { opacity: .28; transform: scale(1); } 78% { opacity: .78; transform: scale(1.35); } }
@@ -1336,4 +1376,9 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-card:hover, .reference-card:hover,
   .project-card:hover .project-card-visual svg,
   .reference-card:hover .reference-card__arrow { transform: none !important; }
+  .project-art--story-generator .story-token,
+  .project-art--story-generator .story-hub-dot,
+  .project-art--story-generator .story-output-line,
+  .project-art--story-generator .story-spark { opacity: 1 !important; transform: none !important; }
+  .project-art--story-generator .story-route { stroke-dashoffset: 0 !important; }
 }
