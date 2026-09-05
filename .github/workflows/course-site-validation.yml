@@ -15,6 +15,7 @@ on:
       - "notebooks/chapter-23/**"
       - "evidence/chapter-23-professorial-review.md"
       - "evidence/chapter-24-professorial-review.md"
+      - "evidence/m01/**"
       - ".github/workflows/course-site-validation.yml"
   pull_request:
     paths:
@@ -30,6 +31,7 @@ on:
       - "notebooks/chapter-23/**"
       - "evidence/chapter-23-professorial-review.md"
       - "evidence/chapter-24-professorial-review.md"
+      - "evidence/m01/**"
       - ".github/workflows/course-site-validation.yml"
 
 jobs:
@@ -101,6 +103,9 @@ jobs:
       - name: Run Author Profile Playwright contract
         working-directory: web
         run: npm run test:author
+
+      - name: Validate M01 completeness
+        run: python scripts/validate_ru_content_review.py --require-records --require-complete-scope
 
       - name: Verify generated files match their source builders
         run: git diff --exit-code
