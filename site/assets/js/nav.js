@@ -204,3 +204,46 @@ positionActiveLesson();
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(positionActiveLesson);
 }
+
+// Back to top: one shared control, built here rather than threaded through
+// the 5 separate page templates (site_lib.py's render_page()/
+// render_chapter_opener(), build_site_index.py, build_practice_pages.py,
+// build_projects.py) — nav.js already loads on every one of them.
+(function () {
+  var button = document.createElement("button");
+  button.type = "button";
+  button.className = "back-to-top";
+  button.setAttribute("aria-label", "Наверх");
+  button.disabled = true; // hidden at load (scrollY starts at/near 0) — also keeps it out of tab order
+  button.innerHTML =
+    '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    "</svg>";
+  document.body.appendChild(button);
+
+  var VISIBLE_AFTER_PX = 600; // roughly one viewport height on a typical phone
+
+  // requestAnimationFrame-throttled: the scroll listener itself just flags
+  // "something changed" and lets the next animation frame do the one cheap
+  // read (window.scrollY) and one cheap write (classList.toggle) — no work
+  // happens per-pixel-scrolled, only once per rendered frame at most.
+  var scheduled = false;
+  function updateVisibility() {
+    scheduled = false;
+    var visible = window.scrollY > VISIBLE_AFTER_PX;
+    button.classList.toggle("visible", visible);
+    button.disabled = !visible; // disabled: unfocusable and untabbable while hidden, not just invisible
+  }
+  function onScroll() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(updateVisibility);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  updateVisibility();
+
+  button.addEventListener("click", function () {
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
+})();
