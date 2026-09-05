@@ -26,6 +26,7 @@ from site_lib import (
     NAV_SCRIPT_TAG,
     _render_icon_markers,
     mobile_nav_links,
+    practice_illustration,
     project_card,
     reference_illustration,
     site_header,
@@ -641,21 +642,26 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </div>
 
 <div class="home-section panel-surface" id="praktika">
-  <div class="kicker-label">Практика</div>
-  <h2>Практика</h2>
-  <p class="sub">{TOTAL_LESSONS} практических заданий по {CHAPTERS_WITH_PRACTICE} главам — выполняйте прямо в
-  браузере или локально, без установки чего-либо для большинства уроков.</p>
+  <div class="practice-hero">
+    <div class="practice-hero__copy">
+      <div class="kicker-label">Практика</div>
+      <h2>Практика</h2>
+      <p class="sub">{TOTAL_LESSONS} практических заданий по {CHAPTERS_WITH_PRACTICE} главам — выполняйте прямо в
+      браузере или локально, без установки чего-либо для большинства уроков.</p>
 
-  <div class="practice-summary">
-    <span class="practice-stat-chip"><strong>{BROWSER_COUNT}</strong> в браузере</span>
-    <span class="practice-stat-chip"><strong>{LOCAL_COUNT}</strong> локально</span>
-    <span class="practice-stat-chip"><strong>{TOTAL_LESSONS}</strong> всего</span>
-  </div>
+      <div class="practice-summary">
+        <span class="practice-stat-chip"><strong>{BROWSER_COUNT}</strong> в браузере</span>
+        <span class="practice-stat-chip"><strong>{LOCAL_COUNT}</strong> локально</span>
+        <span class="practice-stat-chip"><strong>{TOTAL_LESSONS}</strong> всего</span>
+      </div>
 
-  <div class="practice-filters" role="group" aria-label="Фильтр практики">
-    <button class="pf-btn active" data-filter="all" type="button">Все</button>
-    <button class="pf-btn" data-filter="browser" type="button">В браузере</button>
-    <button class="pf-btn" data-filter="local" type="button">Локально</button>
+      <div class="practice-filters" role="group" aria-label="Фильтр практики">
+        <button class="pf-btn active" data-filter="all" type="button">Все</button>
+        <button class="pf-btn" data-filter="browser" type="button">В браузере</button>
+        <button class="pf-btn" data-filter="local" type="button">Локально</button>
+      </div>
+    </div>
+    <div class="practice-hero__art">{practice_illustration()}</div>
   </div>
 
 {PRACTICE_CATALOG_HTML}
