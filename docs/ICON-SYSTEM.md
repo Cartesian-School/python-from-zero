@@ -110,6 +110,7 @@ speculative or unused.
 | `profile` | 👤 | Author bio link (homepage) | inherits text |
 | `search` | 🔍 | Reviewer / "look closer" link (homepage) | inherits text |
 | `device` | 📱 | Mobile-format download link (homepage) | inherits text |
+| `license` | *(new — no emoji replaced)* | Licensing reference card (homepage) and the `/front-matter/litsenziya.html` page: document + check-seal | `var(--violet-500)` |
 
 **`idea`, `launch`, `warning`, `debug` and `note` are the exception to the
 `currentColor` rule** in the SVG contract above: their `<symbol>` shapes use

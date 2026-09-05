@@ -278,16 +278,20 @@ def build_title_page() -> str:
     """
 
 
-def build_license_paragraphs() -> str:
-    """Full MIT license text from the repo's own LICENSE.md, reflowed (each
-    paragraph's hard-wrapped source lines joined into one line) — never
-    truncated, since this is a real legal notice, not editorial copy."""
-    license_text = (ROOT / "LICENSE.md").read_text(encoding="utf-8").strip()
-    paragraphs = [p.replace("\n", " ").strip() for p in license_text.split("\n\n")]
-    return "".join(f"<p>{p}</p>" for p in paragraphs)
-
-
 def build_copyright_page() -> str:
+    """The book's own copyright/rights notice.
+
+    Draws on be.RIGHTS_NOTICE_PARAGRAPHS_HTML (defined once in build_epub.py,
+    which this module already imports as `be`) rather than a second, locally
+    authored copy — so the PDF and EPUB can never independently drift on the
+    licensing model. Prose/explanations/diagrams/assignments are CC BY-NC-SA
+    4.0. ALL code is MIT (see LICENSE-CODE.md at the repository root) unless
+    a file/directory states otherwise — including inline code snippets
+    printed inside this very book's text, not just the standalone projects
+    appendix. The full MIT text is intentionally NOT reproduced here — a
+    short, scoped reference is the accurate statement for a book copyright
+    page; the complete license text lives in the repository's own
+    LICENSE-CODE.md."""
     return f"""
     <div class="copyright-page">
       <p class="cp-title">{BOOK_TITLE}: {BOOK_SUBTITLE}</p>
@@ -295,7 +299,7 @@ def build_copyright_page() -> str:
       <p>Издание Cartesian School, 2026. Python 3.14.</p>
       <p>Электронное издание. Онлайн-версия курса, интерактивная практика в браузере
       и исходный код всех проектов — {SITE_URL_DISPLAY}</p>
-      {build_license_paragraphs()}
+      {be.RIGHTS_NOTICE_PARAGRAPHS_HTML}
     </div>
     """
 

@@ -756,11 +756,16 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
       <span class="ri">[[icon:device]]</span>
       <div class="reference-card__copy"><div class="rt">Скачать EPUB</div><div class="rs">Для читалок и мобильных устройств</div></div><span class="reference-card__arrow" aria-hidden="true">↓</span>
     </a>
+    <a class="reference-card reference-card--license" href="/front-matter/litsenziya.html">
+      <span class="ri">[[icon:license]]</span>
+      <div class="reference-card__copy"><div class="rt">Лицензия</div><div class="rs">CC BY-NC-SA 4.0 · авторство · некоммерческое использование · ShareAlike</div></div><span class="reference-card__arrow" aria-hidden="true">→</span>
+    </a>
   </div>
 </div>
 
 <div class="home-footer">
-  Cartesian School · Python с нуля · {ap.NAME} — {html.escape(ap.ROLE)}
+  <div class="home-footer__brand">Cartesian School · Python с нуля · {ap.NAME} — {html.escape(ap.ROLE)}</div>
+  <div class="home-footer__legal"><a href="/front-matter/litsenziya.html" rel="license">Лицензия · CC BY-NC-SA 4.0</a></div>
 </div>
 
 {NAV_SCRIPT_TAG}

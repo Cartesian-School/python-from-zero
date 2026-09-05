@@ -1,21 +1,42 @@
-MIT License
+# Licensing
 
-Copyright (c) 2026 Siergej Sobolewski
+This repository contains two different kinds of material under two different
+licenses. Nothing below is a blanket grant — check which category a given
+file falls into before reusing it.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## Programming code — MIT
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+**All code is MIT**, including: Python/JavaScript source, build/tooling
+scripts, the standalone example projects (`projects/`), and — this is the
+part easy to get wrong — every inline code snippet, listing, or example
+shown inside the book/course text itself. Code does not become
+CC-licensed by virtue of being printed inside a CC-licensed lesson page; it
+stays software. See [LICENSE-CODE.md](LICENSE-CODE.md) for the full text.
+This is the default for everything in this repository that is code, unless
+a specific file/directory explicitly states another license (for example,
+`projects/python/safesort/` carries its own `LICENSE` file — also MIT).
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## Educational content — CC BY-NC-SA 4.0
+
+Book/course prose, explanations, diagrams, educational illustrations,
+assignments/instructions, and other editorial material — the website's own
+educational/editorial material included — are licensed under **Creative
+Commons Attribution-NonCommercial-ShareAlike 4.0 International
+(CC BY-NC-SA 4.0)**, copyright Siergej Sobolewski / Cartesian School. This
+explicitly excludes code — see the section above. See
+[LICENSE-CONTENT.md](LICENSE-CONTENT.md) for the full notice, or
+<https://www.cartesianschool.org/front-matter/litsenziya.html> for the
+human-readable page.
+
+## Third-party material
+
+Third-party libraries, fonts, logos, and other external resources referenced
+or embedded in this repository remain under their own respective licenses
+(for example, `book/fonts/dejavu/LICENSE.txt` and
+`book/fonts/noto-emoji/LICENSE.txt`).
+
+## Trademarks
+
+The "Cartesian School" name and logo are not granted under either license
+above merely by inclusion in this repository, and their use does not imply
+endorsement by, or affiliation with, Cartesian School.

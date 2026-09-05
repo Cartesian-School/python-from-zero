@@ -101,7 +101,19 @@ Lessons that only use standard Python (no GUI, no native OS access) execute dire
 
 ## License
 
-[MIT](LICENSE.md)
+Two licenses cover different material in this repository — see
+[LICENSE.md](LICENSE.md) for the full map:
+
+- **Educational/editorial content** (book/course prose, diagrams,
+  assignments/instructions, the website's own editorial material — excludes
+  code): [CC BY-NC-SA 4.0](LICENSE-CONTENT.md)
+- **Code** (Python/JavaScript source, build scripts, standalone example
+  projects, and inline code snippets/listings shown inside the book/course
+  text): [MIT](LICENSE-CODE.md), unless a file/directory states otherwise
+- **Third-party assets** (fonts, libraries, logos): their own respective
+  licenses
+- The "Cartesian School" name and logo are not granted under either license
+  above
 
 ## Author
 
