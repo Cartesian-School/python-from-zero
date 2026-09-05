@@ -63,7 +63,9 @@
     var countEl = group.querySelector(".pcg-count");
     if (countEl && total > 0) countEl.textContent = done + " из " + total + " выполнено";
 
-    if (group.classList.contains("journey-node")) {
+    var isJourneyNode = group.classList.contains("journey-node");
+    var isPracticeGroup = group.classList.contains("practice-chapter-group");
+    if (isJourneyNode || isPracticeGroup) {
       group.classList.remove("state-not-started", "state-in-progress", "state-completed", "state-no-lessons");
       var state;
       if (total === 0) state = "no-lessons";
@@ -73,16 +75,27 @@
       group.classList.add("state-" + state);
       group.dataset.state = state;
 
-      var badge = group.querySelector(".jn-state-badge");
-      if (badge) {
-        var labels = {
-          "no-lessons": "",
-          "not-started": "Не начато",
-          "in-progress": "В процессе",
-          "completed": "Завершено",
-        };
-        badge.textContent = labels[state] || "";
-        badge.style.display = state === "no-lessons" ? "none" : "";
+      if (isJourneyNode) {
+        var badge = group.querySelector(".jn-state-badge");
+        if (badge) {
+          var labels = {
+            "no-lessons": "",
+            "not-started": "Не начато",
+            "in-progress": "В процессе",
+            "completed": "Завершено",
+          };
+          badge.textContent = labels[state] || "";
+          badge.style.display = state === "no-lessons" ? "none" : "";
+        }
+      } else {
+        // Practice catalog cards stay quiet until there is real progress to
+        // report — no "not started" badge clutter on all 24 cards.
+        var pcgBadge = group.querySelector(".pcg-state-badge");
+        if (pcgBadge) {
+          var pcgLabels = { "in-progress": "В процессе", "completed": "Завершено" };
+          pcgBadge.textContent = pcgLabels[state] || "";
+          pcgBadge.style.display = pcgLabels[state] ? "" : "none";
+        }
       }
     }
   });
