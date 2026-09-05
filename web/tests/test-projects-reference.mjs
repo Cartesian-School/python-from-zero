@@ -507,6 +507,61 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const TEMPERATURE_CONVERTER_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of TEMPERATURE_CONVERTER_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/temperature-converter/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--temperature-converter[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--temperature-converter .temp-column, .project-art--temperature-converter .temp-glow, ' +
+            '.project-art--temperature-converter .temp-input, .project-art--temperature-converter .temp-hub-ring, ' +
+            '.project-art--temperature-converter .temp-flow--fahrenheit, .project-art--temperature-converter .temp-flow--kelvin, ' +
+            '.project-art--temperature-converter .temp-flow-dot, .project-art--temperature-converter .temp-value-state, ' +
+            '.project-art--temperature-converter .temp-celsius, .project-art--temperature-converter .temp-fahrenheit, ' +
+            '.project-art--temperature-converter .temp-kelvin'
+          ),
+        ];
+        const cardText = (selector) => {
+          const node = document.querySelector(selector);
+          return node ? node.textContent.trim() : '';
+        };
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          thermometerFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-thermometer')),
+          columnFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-column')),
+          bulbFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-bulb')),
+          celsiusFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-celsius')),
+          fahrenheitFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-fahrenheit')),
+          kelvinFound: Boolean(document.querySelector('.project-art--temperature-converter .temp-kelvin')),
+          flowCount: document.querySelectorAll('.project-art--temperature-converter .temp-flow').length,
+          celsiusText: cardText('.project-art--temperature-converter .temp-value-state--celsius'),
+          fahrenheitText: cardText('.project-art--temperature-converter .temp-value-state--fahrenheit'),
+          kelvinText: cardText('.project-art--temperature-converter .temp-value-state--kelvin'),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`temperature-converter ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`temperature-converter ${viewport}: thermometer, liquid column, and bulb render`, result.thermometerFound && result.columnFound && result.bulbFound);
+      ok(`temperature-converter ${viewport}: Celsius, Fahrenheit, and Kelvin cards all render`, result.celsiusFound && result.fahrenheitFound && result.kelvinFound);
+      ok(`temperature-converter ${viewport}: conversion flow paths render`, result.flowCount >= 3);
+      ok(`temperature-converter ${viewport}: displayed values are the mathematically correct 20 °C = 68 °F = 293.15 K`,
+        result.celsiusText.includes('20') && result.celsiusText.includes('°C') &&
+        result.fahrenheitText.includes('68') && result.fahrenheitText.includes('°F') &&
+        result.kelvinText.includes('293.15') && result.kelvinText.includes('K'));
+      ok(`temperature-converter ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`temperature-converter ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -651,6 +706,12 @@ function observePage(page, base) {
       '.project-art--bouncing-balls-oop .oop-ball-travel', '.project-art--bouncing-balls-oop .oop-ball-squash',
       '.project-art--bouncing-balls-oop .oop-trail', '.project-art--bouncing-balls-oop .oop-impact',
       '.project-art--bouncing-balls-oop .oop-loop-ring', '.project-art--bouncing-balls-oop .oop-instance-link',
+      '.project-art--temperature-converter .temp-column', '.project-art--temperature-converter .temp-glow',
+      '.project-art--temperature-converter .temp-input', '.project-art--temperature-converter .temp-hub-ring',
+      '.project-art--temperature-converter .temp-flow--fahrenheit', '.project-art--temperature-converter .temp-flow--kelvin',
+      '.project-art--temperature-converter .temp-flow-dot', '.project-art--temperature-converter .temp-value-state',
+      '.project-art--temperature-converter .temp-celsius', '.project-art--temperature-converter .temp-fahrenheit',
+      '.project-art--temperature-converter .temp-kelvin',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -786,6 +847,36 @@ function observePage(page, base) {
     ok('reduced motion: bouncing-balls-oop balls stay visible and at rest (no mid-flight or mid-squash freeze)', oopReducedState.ballsVisible && oopReducedState.atRest);
     ok('reduced motion: bouncing-balls-oop trails and impact cues are hidden', oopReducedState.trailsHidden && oopReducedState.impactsHidden);
     ok('reduced motion: bouncing-balls-oop shared-loop and instance-link cues are hidden', oopReducedState.loopHidden && oopReducedState.instanceLinkHidden);
+    const tempReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const textOf = (selector) => {
+        const node = document.querySelector(selector);
+        return node ? node.textContent.trim() : '';
+      };
+      const dots = [...document.querySelectorAll('.project-art--temperature-converter .temp-flow-dot')];
+      const hubRing = document.querySelector('.project-art--temperature-converter .temp-hub-ring');
+      const empty = document.querySelector('.project-art--temperature-converter .temp-value-state--empty');
+      return {
+        allValuesVisible:
+          opacityOf(document.querySelector('.project-art--temperature-converter .temp-value-state--celsius')) === 1 &&
+          opacityOf(document.querySelector('.project-art--temperature-converter .temp-value-state--fahrenheit')) === 1 &&
+          opacityOf(document.querySelector('.project-art--temperature-converter .temp-value-state--kelvin')) === 1,
+        emptyPlaceholderHidden: empty ? opacityOf(empty) === 0 : false,
+        celsiusText: textOf('.project-art--temperature-converter .temp-value-state--celsius'),
+        fahrenheitText: textOf('.project-art--temperature-converter .temp-value-state--fahrenheit'),
+        kelvinText: textOf('.project-art--temperature-converter .temp-value-state--kelvin'),
+        dotsHidden: dots.every((node) => opacityOf(node) === 0),
+        hubRingHidden: hubRing ? opacityOf(hubRing) === 0 : false,
+      };
+    });
+    ok('reduced motion: temperature-converter shows Celsius, Fahrenheit, and Kelvin simultaneously (not the empty placeholder)',
+      tempReducedState.allValuesVisible && tempReducedState.emptyPlaceholderHidden);
+    ok('reduced motion: temperature-converter static values are the mathematically correct 20 °C = 68 °F = 293.15 K',
+      tempReducedState.celsiusText.includes('20') && tempReducedState.celsiusText.includes('°C') &&
+      tempReducedState.fahrenheitText.includes('68') && tempReducedState.fahrenheitText.includes('°F') &&
+      tempReducedState.kelvinText.includes('293.15') && tempReducedState.kelvinText.includes('K'));
+    ok('reduced motion: temperature-converter travelling dots and hub pulse ring stay hidden (no mid-flight freeze)',
+      tempReducedState.dotsHidden && tempReducedState.hubRingHidden);
     await reduced.close();
 
     await browser.close();

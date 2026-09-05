@@ -5550,6 +5550,75 @@ def _bouncing_balls_oop_scene() -> str:
   <circle class="oop-loop-ring" cx="352" cy="186" r="2" fill="none" stroke="#fff" stroke-width="1.4" opacity="0"/>"""
 
 
+def _temperature_converter_scene() -> str:
+    """Bespoke web illustration for temperature-converter: a small "20" / "°C"
+    input feeds an animated mercury thermometer, which branches through a
+    conversion hub into three result cards — Celsius (the entered source
+    value), Fahrenheit and Kelvin (both derived) — using the mathematically
+    exact 20 °C = 68 °F = 293.15 K equivalence. Replaces the old single
+    static thermometer icon, which read as "temperature" but not
+    "temperature conversion", with a scene that shows one value producing
+    three representations.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <g class="temp-input">
+    <rect x="90" y="8" width="36" height="20" rx="6" fill="var(--navy-950)"/>
+    <text x="108" y="22.5" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="12" fill="#fff">20</text>
+    <rect x="130" y="8" width="30" height="20" rx="6" fill="var(--blue-500)"/>
+    <text x="145" y="22.5" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="11" fill="#fff">°C</text>
+  </g>
+  <circle class="temp-glow" cx="103" cy="163" r="34" fill="var(--red-500)" opacity=".16"/>
+  <g class="temp-thermometer">
+    <rect class="temp-tube" x="90" y="30" width="26" height="122" rx="13" fill="#fff" fill-opacity=".14" stroke="#fff" stroke-width="2" stroke-opacity=".55"/>
+    <rect class="temp-column" x="97" y="45" width="12" height="120" rx="6" fill="var(--red-500)"/>
+    <circle class="temp-bulb-fill" cx="103" cy="163" r="15" fill="var(--red-500)"/>
+    <circle class="temp-bulb" cx="103" cy="163" r="21" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".6"/>
+    <g class="temp-scale" stroke="#fff" stroke-width="2" stroke-opacity=".45">
+      <line x1="118" y1="46" x2="124" y2="46"/>
+      <line x1="118" y1="70" x2="124" y2="70"/>
+      <line x1="118" y1="94" x2="124" y2="94"/>
+      <line x1="118" y1="118" x2="124" y2="118"/>
+      <line x1="118" y1="142" x2="124" y2="142"/>
+    </g>
+  </g>
+  <path class="temp-flow temp-flow--source" d="M116,110 L142,110" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 5" opacity=".4"/>
+  <g class="temp-hub">
+    <circle class="temp-hub-ring" cx="148" cy="110" r="4" fill="none" stroke="#fff" stroke-width="1.6" opacity="0"/>
+    <circle cx="148" cy="110" r="3.5" fill="#fff" opacity=".85"/>
+  </g>
+  <path class="temp-flow temp-flow--celsius" d="M148,110 Q160,85 172,61" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 6" opacity=".5"/>
+  <path class="temp-flow temp-flow--fahrenheit" d="M148,110 L172,114" fill="none" stroke="var(--blue-300)" stroke-width="1.8" stroke-dasharray="3 6" opacity="0"/>
+  <path class="temp-flow temp-flow--kelvin" d="M148,110 Q160,140 172,168" fill="none" stroke="var(--blue-300)" stroke-width="1.8" stroke-dasharray="3 6" opacity="0"/>
+  <circle class="temp-flow-dot temp-flow-dot--fahrenheit" cx="148" cy="110" r="3.2" fill="#fff" opacity="0"/>
+  <circle class="temp-flow-dot temp-flow-dot--kelvin" cx="148" cy="110" r="3.2" fill="#fff" opacity="0"/>
+  <g class="temp-unit-card temp-celsius">
+    <rect x="172" y="38" width="194" height="44" rx="12" fill="#fff" opacity=".92"/>
+    <g class="temp-value-state temp-value-state--empty">
+      <text x="192" y="66" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="20" fill="var(--navy-900)" opacity=".32">— °C</text>
+    </g>
+    <g class="temp-value-state temp-value-state--celsius">
+      <text x="192" y="67" font-family="'JetBrains Mono', monospace" font-weight="800" font-size="24" fill="var(--navy-950)">20 °C</text>
+    </g>
+  </g>
+  <g class="temp-unit-card temp-fahrenheit">
+    <rect x="172" y="92" width="194" height="44" rx="12" fill="#fff" opacity=".92"/>
+    <g class="temp-value-state temp-value-state--fahrenheit">
+      <text x="192" y="121" font-family="'JetBrains Mono', monospace" font-weight="800" font-size="24" fill="var(--navy-950)">68 °F</text>
+    </g>
+  </g>
+  <g class="temp-unit-card temp-kelvin">
+    <rect x="172" y="146" width="194" height="44" rx="12" fill="#fff" opacity=".92"/>
+    <g class="temp-value-state temp-value-state--kelvin">
+      <text x="192" y="175" font-family="'JetBrains Mono', monospace" font-weight="800" font-size="24" fill="var(--navy-950)">293.15 K</text>
+    </g>
+  </g>"""
+
+
 def _rps_glyph(kind: str) -> str:
     """Shared ~42-unit-wide symbol geometry centered on local (0,0), reused
     at every scale (small pool token, large match icon) so rock/paper/
@@ -5658,6 +5727,8 @@ def project_illustration(project_id: str) -> str:
         scene = _bouncing_balls_oop_scene()
     elif project_id == "rock-paper-scissors":
         scene = _rock_paper_scissors_scene()
+    elif project_id == "temperature-converter":
+        scene = _temperature_converter_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
