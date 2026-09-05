@@ -727,49 +727,55 @@
 .practice-hero__art { min-width: 0; }
 .practice-art { display: block; width: 100%; max-width: 520px; height: auto; filter: drop-shadow(0 22px 34px rgba(9,2,31,.32)); }
 
-.practice-run { transform-box: fill-box; transform-origin: center; animation: practice-run-press 9s ease-in-out infinite; }
-.practice-run-glow { transform-box: fill-box; transform-origin: center; animation: practice-run-glow 9s ease-in-out infinite; }
-.practice-caret { animation: practice-caret-blink 1.1s steps(1, end) infinite; }
-.practice-signal { animation: practice-signal-travel 9s ease-in-out infinite; }
-.practice-node-glow { transform-box: fill-box; transform-origin: center; animation: practice-node-pulse 9s ease-in-out infinite; }
-.practice-output-idle { animation: practice-output-idle 9s ease-in-out infinite; }
-.practice-output-value { transform-box: fill-box; transform-origin: center; animation: practice-output-value 9s ease-in-out infinite; }
-.practice-check-fill { animation: practice-check-fill 9s ease-in-out infinite; }
-.practice-check-mark { animation: practice-check-draw 9s ease-in-out infinite; }
-.practice-check-count { animation: practice-check-fill 9s ease-in-out infinite; }
-.practice-progress-fill { transform-box: fill-box; transform-origin: left; animation: practice-progress-fill 9s ease-in-out infinite; }
+.practice-line-reveal { transform-box: fill-box; transform-origin: left; animation: practice-line-reveal 7s ease-in-out infinite; }
+.practice-run-node { transform-box: fill-box; transform-origin: center; animation: practice-run-press 7s ease-in-out infinite; }
+.practice-glow-halo circle { transform-box: fill-box; transform-origin: center; animation: practice-glow-pulse 7s ease-in-out infinite; }
+.practice-signal--a { animation: practice-signal-a 7s ease-in-out infinite; }
+.practice-signal--b { animation: practice-signal-b 7s ease-in-out infinite; }
+.practice-result-idle { animation: practice-result-idle 7s ease-in-out infinite; }
+.practice-result-value { transform-box: fill-box; transform-origin: center; animation: practice-result-value 7s ease-in-out infinite; }
+.practice-check-fill { animation: practice-check-fill 7s ease-in-out infinite; }
+.practice-check-mark { animation: practice-check-draw 7s ease-in-out infinite; }
+.practice-progress-seg { animation: practice-progress-seg 7s ease-in-out infinite; }
+.practice-progress-dot { animation: practice-progress-dot 7s ease-in-out infinite; }
 
+@keyframes practice-line-reveal {
+  0%, 9% { transform: scaleX(0); }
+  17%, 86% { transform: scaleX(1); }
+  90%, 100% { transform: scaleX(0); }
+}
 @keyframes practice-run-press {
-  0%, 23% { transform: scale(1); }
-  25% { transform: scale(.96); }
-  27%, 100% { transform: scale(1); }
+  0%, 27% { transform: scale(1); }
+  29% { transform: scale(.92); }
+  33%, 100% { transform: scale(1); }
 }
-@keyframes practice-run-glow {
-  0%, 23% { opacity: 0; }
-  25% { opacity: .9; }
-  30%, 100% { opacity: 0; }
+@keyframes practice-glow-pulse {
+  0%, 27% { opacity: .28; transform: scale(1); }
+  33% { opacity: .55; transform: scale(1.18); }
+  46%, 100% { opacity: .28; transform: scale(1); }
 }
-@keyframes practice-caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-@keyframes practice-signal-travel {
-  0%, 26% { opacity: 0; stroke-dashoffset: 0; }
-  28% { opacity: 1; stroke-dashoffset: 0; }
-  36% { opacity: 1; stroke-dashoffset: -58; }
-  38%, 100% { opacity: 0; stroke-dashoffset: -58; }
+@keyframes practice-signal-a {
+  0%, 28% { opacity: 0; stroke-dashoffset: 0; }
+  30% { opacity: 1; stroke-dashoffset: 0; }
+  38% { opacity: 1; stroke-dashoffset: -36; }
+  40%, 100% { opacity: 0; stroke-dashoffset: -36; }
 }
-@keyframes practice-node-pulse {
-  0%, 33% { transform: scale(.85); opacity: 0; }
-  36% { transform: scale(1); opacity: .9; }
-  46%, 100% { transform: scale(1.35); opacity: 0; }
+@keyframes practice-signal-b {
+  0%, 36% { opacity: 0; stroke-dashoffset: 0; }
+  38% { opacity: 1; stroke-dashoffset: 0; }
+  45% { opacity: 1; stroke-dashoffset: -69; }
+  47%, 100% { opacity: 0; stroke-dashoffset: -69; }
 }
-@keyframes practice-output-idle { 0%, 39% { opacity: 1; } 41%, 82% { opacity: 0; } 84%, 100% { opacity: 1; } }
-@keyframes practice-output-value {
-  0%, 39% { opacity: 0; transform: translateY(4px); }
-  42%, 82% { opacity: 1; transform: translateY(0); }
-  84%, 100% { opacity: 0; transform: translateY(4px); }
+@keyframes practice-result-idle { 0%, 44% { opacity: 1; } 47%, 86% { opacity: 0; } 90%, 100% { opacity: 1; } }
+@keyframes practice-result-value {
+  0%, 44% { opacity: 0; transform: translateY(4px); }
+  47%, 86% { opacity: 1; transform: translateY(0); }
+  90%, 100% { opacity: 0; transform: translateY(4px); }
 }
-@keyframes practice-check-fill { 0%, 45% { opacity: 0; } 48%, 82% { opacity: 1; } 84%, 100% { opacity: 0; } }
-@keyframes practice-check-draw { 0%, 46% { stroke-dashoffset: 20; } 52%, 82% { stroke-dashoffset: 0; } 84%, 100% { stroke-dashoffset: 20; } }
-@keyframes practice-progress-fill { 0%, 52% { transform: scaleX(0); } 60%, 82% { transform: scaleX(1); } 84%, 100% { transform: scaleX(0); } }
+@keyframes practice-check-fill { 0%, 50% { opacity: 0; } 53%, 86% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes practice-check-draw { 0%, 50% { stroke-dashoffset: 22; } 56%, 86% { stroke-dashoffset: 0; } 90%, 100% { stroke-dashoffset: 22; } }
+@keyframes practice-progress-seg { 0%, 58% { stroke-dashoffset: 30; } 66%, 86% { stroke-dashoffset: 0; } 90%, 100% { stroke-dashoffset: 30; } }
+@keyframes practice-progress-dot { 0%, 64% { opacity: 0; } 66%, 86% { opacity: 1; } 90%, 100% { opacity: 0; } }
 
 .practice-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
 .practice-stat-chip { background: var(--surface-2); border: var(--border-hairline); border-radius: var(--radius-full); padding: 9px 20px; font-size: 14px; box-shadow: var(--shadow-sm); }
@@ -2315,13 +2321,14 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--safesort .safesort-history-check-badge { opacity: 1 !important; }
   .project-art--safesort .safesort-history-check { stroke-dashoffset: 0 !important; opacity: 1 !important; }
   .project-art--safesort .safesort-undo { opacity: 1 !important; transform: translate(300px,158px) scale(.85) !important; }
-  .practice-run { transform: none !important; }
-  .practice-run-glow { opacity: 0 !important; }
-  .practice-caret { opacity: 1 !important; }
-  .practice-signal, .practice-node-glow { opacity: 0 !important; }
-  .practice-output-idle { opacity: 0 !important; }
-  .practice-output-value { opacity: 1 !important; transform: none !important; }
-  .practice-check-fill, .practice-check-count { opacity: 1 !important; }
+  .practice-line-reveal { transform: scaleX(1) !important; }
+  .practice-run-node { transform: none !important; }
+  .practice-glow-halo circle { opacity: .4 !important; transform: none !important; }
+  .practice-signal--a, .practice-signal--b { opacity: 0 !important; }
+  .practice-result-idle { opacity: 0 !important; }
+  .practice-result-value { opacity: 1 !important; transform: none !important; }
+  .practice-check-fill { opacity: 1 !important; }
   .practice-check-mark { stroke-dashoffset: 0 !important; }
-  .practice-progress-fill { transform: scaleX(1) !important; }
+  .practice-progress-seg { stroke-dashoffset: 0 !important; }
+  .practice-progress-dot { opacity: 1 !important; }
 }

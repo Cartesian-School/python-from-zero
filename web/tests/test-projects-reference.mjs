@@ -149,17 +149,18 @@ function observePage(page, base) {
         const artRect = art.getBoundingClientRect();
         const catalogRect = catalog.getBoundingClientRect();
         const ids = [...document.querySelectorAll('[id]')].map((node) => node.id);
-        const runNode = svg ? svg.querySelector('.practice-run') : null;
+        const runNode = svg ? svg.querySelector('.practice-run-node') : null;
         return {
           overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
           heroFound: Boolean(hero),
           svgFound: Boolean(svg),
-          editorFound: svg ? svg.querySelectorAll('.practice-art__panel').length >= 3 : false,
+          // guards against regressing to the rejected 4-panel dashboard: at most 2 small cards
+          cardCount: svg ? svg.querySelectorAll('.practice-card').length : -1,
           runFound: Boolean(runNode),
           runNotFocusable: runNode ? runNode.getAttribute('tabindex') === null : false,
-          outputFound: svg ? Boolean(svg.querySelector('.practice-output-value')) : false,
+          resultFound: svg ? Boolean(svg.querySelector('.practice-result-value')) : false,
           checkFound: svg ? Boolean(svg.querySelector('.practice-check-mark')) : false,
-          progressFound: svg ? Boolean(svg.querySelector('.practice-progress-fill')) : false,
+          progressFound: svg ? Boolean(svg.querySelector('.practice-progress-dot')) : false,
           artIsAfterCopyInDom: (() => {
             const children = [...hero.children];
             return children.indexOf(copy) < children.indexOf(art);
@@ -167,19 +168,25 @@ function observePage(page, base) {
           catalogAfterHero: catalogRect.top > heroRect.bottom - 1,
           sideBySideOnDesktop: viewportWidth >= 1024 ? artRect.left > copyRect.left + 100 : true,
           stackedOnNarrow: viewportWidth < 900 ? artRect.top > copyRect.bottom - 1 : true,
+          // compact illustration only: guards against the rejected oversized hero regressing.
+          // measured on the svg itself, not the (wider) grid cell it sits in.
+          artWidth: svg ? svg.getBoundingClientRect().width : -1,
+          artHeight: svg ? svg.getBoundingClientRect().height : -1,
           noDuplicateIds: ids.length === new Set(ids).size,
-          hasNormalMotion: svg ? getComputedStyle(svg.querySelector('.practice-caret')).animationName !== 'none' : false,
+          hasNormalMotion: svg ? getComputedStyle(svg.querySelector('.practice-line-reveal')).animationName !== 'none' : false,
         };
       }, width);
       const viewport = `${width}x${height}`;
       ok(`practice hero ${viewport}: illustration wrapper renders inside the Practice intro, decorative`, result.heroFound && result.svgFound);
-      ok(`practice hero ${viewport}: editor, output, and progress panels render`, result.editorFound && result.outputFound && result.progressFound);
-      ok(`practice hero ${viewport}: Run cue and test/check mark render`, result.runFound && result.checkFound);
+      ok(`practice hero ${viewport}: compact, iconographic composition (at most 2 small cards, not a multi-panel dashboard)`, result.cardCount >= 1 && result.cardCount <= 2);
+      ok(`practice hero ${viewport}: Run node, result value, and check mark render`, result.runFound && result.resultFound && result.checkFound);
+      ok(`practice hero ${viewport}: progress stepper renders`, result.progressFound);
       ok(`practice hero ${viewport}: Run cue is not a focusable control (purely decorative)`, result.runNotFocusable);
       ok(`practice hero ${viewport}: copy precedes illustration in source order`, result.artIsAfterCopyInDom);
       ok(`practice hero ${viewport}: chapter catalog stays full-width below the intro`, result.catalogAfterHero);
       ok(`practice hero ${viewport}: desktop layout is two-column (art right of copy)`, result.sideBySideOnDesktop);
       ok(`practice hero ${viewport}: narrow layout stacks illustration below filters`, result.stackedOnNarrow);
+      ok(`practice hero ${viewport}: illustration stays compact (<=540px wide, not an oversized hero)`, result.artWidth <= 540 && result.artHeight <= 400);
       ok(`practice hero ${viewport}: no duplicate element ids`, result.noDuplicateIds);
       ok(`practice hero ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
       ok(`practice hero ${viewport}: no console, runtime, or same-origin request errors`, faults.length === 0);
@@ -875,9 +882,9 @@ function observePage(page, base) {
       '.project-art--safesort .safesort-duplicate-check', '.project-art--safesort .safesort-hash-tick',
       '.project-art--safesort .safesort-history-check-badge', '.project-art--safesort .safesort-history-check',
       '.project-art--safesort .safesort-undo',
-      '.practice-run', '.practice-run-glow', '.practice-caret', '.practice-signal', '.practice-node-glow',
-      '.practice-output-idle', '.practice-output-value', '.practice-check-fill', '.practice-check-mark',
-      '.practice-check-count', '.practice-progress-fill',
+      '.practice-line-reveal', '.practice-run-node', '.practice-glow-halo circle', '.practice-signal--a',
+      '.practice-signal--b', '.practice-result-idle', '.practice-result-value', '.practice-check-fill',
+      '.practice-check-mark', '.practice-progress-seg', '.practice-progress-dot',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -1120,38 +1127,38 @@ function observePage(page, base) {
     ok('reduced motion: safesort undo cue stays visible in its resting position', safesortReducedState.undoVisible);
     const practiceReducedState = await reduced.evaluate(() => {
       const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
-      const run = document.querySelector('.practice-run');
-      const runGlow = document.querySelector('.practice-run-glow');
-      const caret = document.querySelector('.practice-caret');
-      const signal = document.querySelector('.practice-signal');
-      const nodeGlow = document.querySelector('.practice-node-glow');
-      const outputIdle = document.querySelector('.practice-output-idle');
-      const outputValue = document.querySelector('.practice-output-value');
+      const lineReveal = document.querySelector('.practice-line-reveal');
+      const runNode = document.querySelector('.practice-run-node');
+      const glowHalo = document.querySelector('.practice-glow-halo circle');
+      const signalA = document.querySelector('.practice-signal--a');
+      const signalB = document.querySelector('.practice-signal--b');
+      const resultIdle = document.querySelector('.practice-result-idle');
+      const resultValue = document.querySelector('.practice-result-value');
       const checkFill = document.querySelector('.practice-check-fill');
       const checkMark = document.querySelector('.practice-check-mark');
-      const checkCount = document.querySelector('.practice-check-count');
-      const progressFill = document.querySelector('.practice-progress-fill');
+      const progressSeg = document.querySelector('.practice-progress-seg');
+      const progressDot = document.querySelector('.practice-progress-dot');
       return {
-        runStillVisible: run ? opacityOf(run) === 1 : false,
-        runGlowHidden: runGlow ? opacityOf(runGlow) === 0 : false,
-        caretVisible: caret ? opacityOf(caret) === 1 : false,
-        signalHidden: signal ? opacityOf(signal) === 0 : false,
-        nodeGlowHidden: nodeGlow ? opacityOf(nodeGlow) === 0 : false,
-        outputIdleHidden: outputIdle ? opacityOf(outputIdle) === 0 : false,
-        outputValueVisible: outputValue ? opacityOf(outputValue) === 1 : false,
-        checkComplete: checkFill && checkMark && checkCount
-          ? opacityOf(checkFill) === 1 && opacityOf(checkCount) === 1
-            && parseFloat(getComputedStyle(checkMark).strokeDashoffset) === 0
+        codeLineRevealed: lineReveal ? getComputedStyle(lineReveal).transform !== 'none' : false,
+        runStillStatic: runNode ? getComputedStyle(runNode).transform === 'none' : false,
+        glowVisible: glowHalo ? opacityOf(glowHalo) > 0 : false,
+        signalsHidden: signalA && signalB ? opacityOf(signalA) === 0 && opacityOf(signalB) === 0 : false,
+        resultIdleHidden: resultIdle ? opacityOf(resultIdle) === 0 : false,
+        resultValueVisible: resultValue ? opacityOf(resultValue) === 1 : false,
+        checkComplete: checkFill && checkMark
+          ? opacityOf(checkFill) === 1 && parseFloat(getComputedStyle(checkMark).strokeDashoffset) === 0
           : false,
-        progressFilled: progressFill ? getComputedStyle(progressFill).transform !== 'none' : false,
+        progressComplete: progressSeg && progressDot
+          ? parseFloat(getComputedStyle(progressSeg).strokeDashoffset) === 0 && opacityOf(progressDot) === 1
+          : false,
       };
     });
-    ok('reduced motion: practice hero Run control stays visible without a press animation', practiceReducedState.runStillVisible && practiceReducedState.runGlowHidden);
-    ok('reduced motion: practice hero caret stays visible at rest (not blinking)', practiceReducedState.caretVisible);
-    ok('reduced motion: practice hero execution signal and runtime pulse stay hidden (no mid-flight freeze)', practiceReducedState.signalHidden && practiceReducedState.nodeGlowHidden);
-    ok('reduced motion: practice hero settles on the completed result (not the idle placeholder)', practiceReducedState.outputIdleHidden && practiceReducedState.outputValueVisible);
-    ok('reduced motion: practice hero shows a drawn, completed check (1/1)', practiceReducedState.checkComplete);
-    ok('reduced motion: practice hero progress bar shows meaningful (filled) progress', practiceReducedState.progressFilled);
+    ok('reduced motion: practice hero code line stays revealed (not collapsed)', practiceReducedState.codeLineRevealed);
+    ok('reduced motion: practice hero Run node stays visible without a press animation, glow steady', practiceReducedState.runStillStatic && practiceReducedState.glowVisible);
+    ok('reduced motion: practice hero execution signals stay hidden (no mid-flight freeze)', practiceReducedState.signalsHidden);
+    ok('reduced motion: practice hero settles on the completed result (not the idle placeholder)', practiceReducedState.resultIdleHidden && practiceReducedState.resultValueVisible);
+    ok('reduced motion: practice hero shows a drawn, completed check', practiceReducedState.checkComplete);
+    ok('reduced motion: practice hero progress stepper shows meaningful (advanced) progress', practiceReducedState.progressComplete);
     await reduced.close();
 
     await browser.close();
