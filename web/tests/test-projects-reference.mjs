@@ -462,6 +462,51 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const BOUNCING_BALLS_OOP_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of BOUNCING_BALLS_OOP_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/bouncing-balls-oop/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--bouncing-balls-oop[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--bouncing-balls-oop .oop-ball-travel, .project-art--bouncing-balls-oop .oop-ball-squash, ' +
+            '.project-art--bouncing-balls-oop .oop-trail, .project-art--bouncing-balls-oop .oop-impact, ' +
+            '.project-art--bouncing-balls-oop .oop-loop-ring, .project-art--bouncing-balls-oop .oop-instance-link'
+          ),
+        ];
+        const balls = [...document.querySelectorAll('.project-art--bouncing-balls-oop .oop-ball')];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          playfieldFound: Boolean(document.querySelector('.project-art--bouncing-balls-oop .oop-playfield')),
+          ballCount: balls.length,
+          distinctRadiusCount: new Set(balls.map((b) => b.getAttribute('r'))).size,
+          trailFound: Boolean(document.querySelector('.project-art--bouncing-balls-oop .oop-trail')),
+          impactCount: document.querySelectorAll('.project-art--bouncing-balls-oop .oop-impact').length,
+          instanceLinkFound: Boolean(document.querySelector('.project-art--bouncing-balls-oop .oop-instance-link')),
+          loopFound: Boolean(document.querySelector('.project-art--bouncing-balls-oop .oop-loop-ring')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`bouncing-balls-oop ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`bouncing-balls-oop ${viewport}: playfield renders`, result.playfieldFound);
+      ok(`bouncing-balls-oop ${viewport}: at least 4 ball instances render with distinct radii`, result.ballCount >= 4 && result.distinctRadiusCount >= 4);
+      ok(`bouncing-balls-oop ${viewport}: motion-trail hints render`, result.trailFound);
+      ok(`bouncing-balls-oop ${viewport}: independent wall-impact cues render`, result.impactCount >= 4);
+      ok(`bouncing-balls-oop ${viewport}: one-class/many-instances cue renders`, result.instanceLinkFound);
+      ok(`bouncing-balls-oop ${viewport}: shared-loop cue renders`, result.loopFound);
+      ok(`bouncing-balls-oop ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`bouncing-balls-oop ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -603,6 +648,9 @@ function observePage(page, base) {
       '.project-art--rock-paper-scissors .rps-computer--rock', '.project-art--rock-paper-scissors .rps-computer--paper',
       '.project-art--rock-paper-scissors .rps-computer--scissors', '.project-art--rock-paper-scissors .rps-reveal-ring',
       '.project-art--rock-paper-scissors .rps-impact-pulse', '.project-art--rock-paper-scissors .rps-impact-spark',
+      '.project-art--bouncing-balls-oop .oop-ball-travel', '.project-art--bouncing-balls-oop .oop-ball-squash',
+      '.project-art--bouncing-balls-oop .oop-trail', '.project-art--bouncing-balls-oop .oop-impact',
+      '.project-art--bouncing-balls-oop .oop-loop-ring', '.project-art--bouncing-balls-oop .oop-instance-link',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -718,6 +766,26 @@ function observePage(page, base) {
     ok('reduced motion: rock-paper-scissors hides the unselected computer previews (rock/paper)', rpsReducedState.rockHidden && rpsReducedState.paperHidden);
     ok('reduced motion: rock-paper-scissors shows scissors settled and dimmed as the loser', rpsReducedState.scissorsDimmedVisible);
     ok('reduced motion: rock-paper-scissors hides the reveal ring and confrontation pulse (no mid-cycle freeze)', rpsReducedState.reveaRingHidden && rpsReducedState.impactHidden);
+    const oopReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const balls = [...document.querySelectorAll('.project-art--bouncing-balls-oop .oop-ball')];
+      const travels = [...document.querySelectorAll('.project-art--bouncing-balls-oop .oop-ball-travel, .project-art--bouncing-balls-oop .oop-ball-squash')];
+      const trails = [...document.querySelectorAll('.project-art--bouncing-balls-oop .oop-trail')];
+      const impacts = [...document.querySelectorAll('.project-art--bouncing-balls-oop .oop-impact')];
+      const loopRing = document.querySelector('.project-art--bouncing-balls-oop .oop-loop-ring');
+      const instanceLink = document.querySelector('.project-art--bouncing-balls-oop .oop-instance-link');
+      return {
+        ballsVisible: balls.length >= 4 && balls.every((b) => opacityOf(b) > 0),
+        atRest: travels.every((node) => getComputedStyle(node).transform === 'none'),
+        trailsHidden: trails.every((node) => opacityOf(node) === 0),
+        impactsHidden: impacts.every((node) => opacityOf(node) === 0),
+        loopHidden: loopRing ? opacityOf(loopRing) === 0 : false,
+        instanceLinkHidden: instanceLink ? opacityOf(instanceLink) === 0 : false,
+      };
+    });
+    ok('reduced motion: bouncing-balls-oop balls stay visible and at rest (no mid-flight or mid-squash freeze)', oopReducedState.ballsVisible && oopReducedState.atRest);
+    ok('reduced motion: bouncing-balls-oop trails and impact cues are hidden', oopReducedState.trailsHidden && oopReducedState.impactsHidden);
+    ok('reduced motion: bouncing-balls-oop shared-loop and instance-link cues are hidden', oopReducedState.loopHidden && oopReducedState.instanceLinkHidden);
     await reduced.close();
 
     await browser.close();

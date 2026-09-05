@@ -801,8 +801,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art__nodes circle:nth-child(2) { animation-delay: -1.7s; }
 .project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
 .project-art__subject > * { transform-box: fill-box; transform-origin: center; }
-.project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(2),
-.project-art--bouncing-balls-oop .project-art__subject > circle:nth-child(4) { animation: project-bounce 4.6s ease-in-out infinite; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
 .project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
 .project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
@@ -1250,6 +1248,130 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   0%, 42% { opacity: 0; }
   45% { opacity: .85; }
   49%, 100% { opacity: 0; }
+}
+
+/* bouncing-balls-oop: four independent ball instances, each on its own
+   closed route and duration, bouncing off the shared playfield's walls at
+   their own pace — the point being several simultaneous objects, not one
+   ball with extras pasted on. Trails reuse each ball's own movement
+   keyframes on a small negative delay instead of a static dashed path (the
+   single-ball sibling's device), a "class" node briefly fans three lines
+   toward three balls, and a corner ring ticks once per the longest cycle
+   for the one shared update loop. Scoped to .oop-* classes (its own scene,
+   not .project-art__subject) so this stays isolated from every other
+   project's generic icon animation. */
+.project-art--bouncing-balls-oop .oop-instance-link { transform-box: fill-box; transform-origin: center; animation: oop-instance-link 7.2s ease-in-out infinite; }
+.project-art--bouncing-balls-oop .oop-ball-travel,
+.project-art--bouncing-balls-oop .oop-ball-squash,
+.project-art--bouncing-balls-oop .oop-trail,
+.project-art--bouncing-balls-oop .oop-impact,
+.project-art--bouncing-balls-oop .oop-loop-ring { transform-box: fill-box; transform-origin: center; }
+.project-art--bouncing-balls-oop .oop-ball-travel--a { animation: oop-move-a 5.7s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-squash--a { animation: oop-squash-a 5.7s linear infinite; }
+.project-art--bouncing-balls-oop .oop-trail--a1 { animation: oop-move-a 5.7s linear infinite; animation-delay: -.12s; }
+.project-art--bouncing-balls-oop .oop-trail--a2 { animation: oop-move-a 5.7s linear infinite; animation-delay: -.24s; }
+.project-art--bouncing-balls-oop .oop-impact--a1 { animation: oop-impact-a1 5.7s linear infinite; }
+.project-art--bouncing-balls-oop .oop-impact--a2 { animation: oop-impact-a2 5.7s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-travel--b { animation: oop-move-b 4.8s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-squash--b { animation: oop-squash-b 4.8s linear infinite; }
+.project-art--bouncing-balls-oop .oop-trail--b1 { animation: oop-move-b 4.8s linear infinite; animation-delay: -.14s; }
+.project-art--bouncing-balls-oop .oop-impact--b { animation: oop-impact-b 4.8s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-travel--c { animation: oop-move-c 6.4s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-squash--c { animation: oop-squash-c 6.4s linear infinite; }
+.project-art--bouncing-balls-oop .oop-trail--c1 { animation: oop-move-c 6.4s linear infinite; animation-delay: -.16s; }
+.project-art--bouncing-balls-oop .oop-impact--c { animation: oop-impact-c 6.4s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-travel--d { animation: oop-move-d 7.2s linear infinite; }
+.project-art--bouncing-balls-oop .oop-ball-squash--d { animation: oop-squash-d 7.2s linear infinite; }
+.project-art--bouncing-balls-oop .oop-trail--d1 { animation: oop-move-d 7.2s linear infinite; animation-delay: -.18s; }
+.project-art--bouncing-balls-oop .oop-impact--d { animation: oop-impact-d 7.2s linear infinite; }
+.project-art--bouncing-balls-oop .oop-loop-ring { animation: oop-loop-ring 7.2s linear infinite; }
+
+@keyframes oop-instance-link {
+  0%, 3% { opacity: 0; }
+  6%, 11% { opacity: 1; }
+  17%, 100% { opacity: 0; }
+}
+@keyframes oop-move-a {
+  0% { transform: translate(0, 0); }
+  27% { transform: translate(264px, -88px); }
+  30% { transform: translate(264px, -88px); }
+  50% { transform: translate(87px, -128px); }
+  53% { transform: translate(87px, -128px); }
+  82% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes oop-squash-a {
+  0%, 26% { transform: scale(1, 1); }
+  28% { transform: scale(.93, 1.05); }
+  30%, 49% { transform: scale(1, 1); }
+  51% { transform: scale(1.05, .94); }
+  53%, 100% { transform: scale(1, 1); }
+}
+@keyframes oop-impact-a1 {
+  0%, 25% { opacity: .35; transform: scale(1); }
+  28% { opacity: .95; transform: scale(1.7); }
+  32%, 100% { opacity: .35; transform: scale(1); }
+}
+@keyframes oop-impact-a2 {
+  0%, 48% { opacity: 0; transform: scale(1); }
+  51% { opacity: .95; transform: scale(1.7); }
+  55%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes oop-move-b {
+  0% { transform: translate(0, 0); }
+  35% { transform: translate(286px, -7px); }
+  38% { transform: translate(286px, -7px); }
+  78% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes oop-squash-b {
+  0%, 34% { transform: scale(1, 1); }
+  36% { transform: scale(.93, 1.05); }
+  38%, 100% { transform: scale(1, 1); }
+}
+@keyframes oop-impact-b {
+  0%, 33% { opacity: 0; transform: scale(1); }
+  36% { opacity: .9; transform: scale(1.6); }
+  40%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes oop-move-c {
+  0% { transform: translate(0, 0); }
+  45% { transform: translate(-17px, 131px); }
+  48% { transform: translate(-17px, 131px); }
+  85% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes oop-squash-c {
+  0%, 44% { transform: scale(1, 1); }
+  46% { transform: scale(1.05, .93); }
+  48%, 100% { transform: scale(1, 1); }
+}
+@keyframes oop-impact-c {
+  0%, 43% { opacity: 0; transform: scale(1); }
+  46% { opacity: .9; transform: scale(1.6); }
+  50%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes oop-move-d {
+  0% { transform: translate(0, 0); }
+  55% { transform: translate(-272px, -20px); }
+  58% { transform: translate(-272px, -20px); }
+  90% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes oop-squash-d {
+  0%, 54% { transform: scale(1, 1); }
+  56% { transform: scale(.93, 1.05); }
+  58%, 100% { transform: scale(1, 1); }
+}
+@keyframes oop-impact-d {
+  0%, 53% { opacity: 0; transform: scale(1); }
+  56% { opacity: .9; transform: scale(1.6); }
+  60%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes oop-loop-ring {
+  0%, 60% { opacity: 0; transform: scale(1); }
+  63% { opacity: .6; transform: scale(1); }
+  70%, 100% { opacity: 0; transform: scale(3.6); }
 }
 
 @keyframes project-route { to { stroke-dashoffset: -44; } }
@@ -1801,4 +1923,10 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--rock-paper-scissors .rps-reveal-ring,
   .project-art--rock-paper-scissors .rps-impact-pulse,
   .project-art--rock-paper-scissors .rps-impact-spark { opacity: 0 !important; }
+  .project-art--bouncing-balls-oop .oop-instance-link,
+  .project-art--bouncing-balls-oop .oop-impact,
+  .project-art--bouncing-balls-oop .oop-loop-ring,
+  .project-art--bouncing-balls-oop .oop-trail { opacity: 0 !important; }
+  .project-art--bouncing-balls-oop .oop-ball-travel,
+  .project-art--bouncing-balls-oop .oop-ball-squash { transform: none !important; }
 }

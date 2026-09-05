@@ -5484,6 +5484,72 @@ def _bouncing_ball_scene() -> str:
   </g>"""
 
 
+def _bouncing_balls_oop_scene() -> str:
+    """Bespoke web illustration for bouncing-balls-oop: four independent
+    Myach instances (distinct radius, tint, start point) travel their own
+    closed route inside one shared bordered playfield and bounce off the
+    walls at their own pace — the large white ball touches the right wall
+    then the top wall, the cyan ball makes a shallow pass at the right
+    wall, the blue ball drops steeply to the bottom wall, and the
+    turquoise ball drifts slower to the left wall — each on its own
+    duration (5.7s / 4.8s / 6.4s / 7.2s) so no two ever bounce in sync.
+    A short trail of fading dots lags behind each ball (the same movement
+    keyframes replayed on a small negative delay) rather than the
+    single-ball sibling's static dashed path, a brief "class" node fans
+    three thin connector lines toward three of the balls and fades (one
+    class, many instances), and a faint corner ring ticks once per longest
+    cycle to stand for the one shared loop driving every instance forward.
+    No ball-to-ball collision is drawn — Myach.shag() only reflects off
+    the four walls in bouncing_balls.py — so paths are placed to cross
+    without ever landing on the same point at the same time.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <rect class="oop-playfield" x="34" y="26" width="332" height="172" rx="16" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>
+  <g class="oop-instance-link">
+    <circle cx="200" cy="15" r="4" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>
+    <path d="M200,18 L292,52" stroke="#fff" stroke-width="1.2" opacity=".5"/>
+    <path d="M198,19 L110,58" stroke="#fff" stroke-width="1.2" opacity=".5"/>
+    <path d="M201,19 L207,60" stroke="#fff" stroke-width="1.2" opacity=".5"/>
+  </g>
+  <circle class="oop-trail oop-trail--a1" cx="85" cy="172" r="4" fill="#fff" opacity=".5"/>
+  <circle class="oop-trail oop-trail--a2" cx="85" cy="172" r="3" fill="#fff" opacity=".3"/>
+  <circle class="oop-impact oop-impact--a1" cx="349" cy="84" r="6" fill="none" stroke="#fff" stroke-width="2" opacity=".35"/>
+  <circle class="oop-impact oop-impact--a2" cx="172" cy="44" r="6" fill="none" stroke="#fff" stroke-width="2" opacity="0"/>
+  <g class="oop-ball-travel oop-ball-travel--a">
+    <g class="oop-ball-squash oop-ball-squash--a">
+      <circle class="oop-ball oop-ball--a" cx="85" cy="172" r="15" fill="#fff" opacity=".97"/>
+    </g>
+  </g>
+  <circle class="oop-trail oop-trail--b1" cx="66" cy="108" r="2.5" fill="#CFF7FF" opacity=".22"/>
+  <circle class="oop-impact oop-impact--b" cx="352" cy="101" r="5" fill="none" stroke="#CFF7FF" stroke-width="1.8" opacity="0"/>
+  <g class="oop-ball-travel oop-ball-travel--b">
+    <g class="oop-ball-squash oop-ball-squash--b">
+      <circle class="oop-ball oop-ball--b" cx="66" cy="108" r="11" fill="#CFF7FF" opacity=".92"/>
+    </g>
+  </g>
+  <circle class="oop-trail oop-trail--c1" cx="300" cy="58" r="2" fill="#8FB7FE" opacity=".2"/>
+  <circle class="oop-impact oop-impact--c" cx="283" cy="189" r="5" fill="none" stroke="#8FB7FE" stroke-width="1.8" opacity="0"/>
+  <g class="oop-ball-travel oop-ball-travel--c">
+    <g class="oop-ball-squash oop-ball-squash--c">
+      <circle class="oop-ball oop-ball--c" cx="300" cy="58" r="8" fill="#8FB7FE" opacity=".9"/>
+    </g>
+  </g>
+  <circle class="oop-trail oop-trail--d1" cx="318" cy="148" r="2.2" fill="#7BE0C7" opacity=".2"/>
+  <circle class="oop-impact oop-impact--d" cx="46" cy="128" r="5" fill="none" stroke="#7BE0C7" stroke-width="1.8" opacity="0"/>
+  <g class="oop-ball-travel oop-ball-travel--d">
+    <g class="oop-ball-squash oop-ball-squash--d">
+      <circle class="oop-ball oop-ball--d" cx="318" cy="148" r="10" fill="#7BE0C7" opacity=".9"/>
+    </g>
+  </g>
+  <circle class="oop-loop-dot" cx="352" cy="186" r="2" fill="#fff" opacity=".5"/>
+  <circle class="oop-loop-ring" cx="352" cy="186" r="2" fill="none" stroke="#fff" stroke-width="1.4" opacity="0"/>"""
+
+
 def _rps_glyph(kind: str) -> str:
     """Shared ~42-unit-wide symbol geometry centered on local (0,0), reused
     at every scale (small pool token, large match icon) so rock/paper/
@@ -5588,6 +5654,8 @@ def project_illustration(project_id: str) -> str:
         scene = _todo_app_scene()
     elif project_id == "bouncing-ball":
         scene = _bouncing_ball_scene()
+    elif project_id == "bouncing-balls-oop":
+        scene = _bouncing_balls_oop_scene()
     elif project_id == "rock-paper-scissors":
         scene = _rock_paper_scissors_scene()
     else:
