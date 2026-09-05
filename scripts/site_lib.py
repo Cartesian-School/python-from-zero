@@ -4615,7 +4615,9 @@ def site_header(active_section: str | None = "glavy") -> str:
         "  </a>\n"
         f'  <ul class="top-nav">{nav_items}</ul>\n'
         '  <button class="nav-toggle" type="button" aria-expanded="false" '
-        'aria-controls="mobile-nav-panel">☰ Меню</button>\n'
+        'aria-controls="mobile-nav-panel" aria-label="Меню">'
+        '<span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>'
+        "</button>\n"
         "</header>"
     )
 
@@ -4627,9 +4629,23 @@ def mobile_nav_links(active_section: str | None = "glavy") -> str:
     prepended into an existing `.sidebar` (chapter pages) or used as the
     entire contents of a page's mobile drawer (pages with no page-local TOC:
     the homepage, chapter openers, practice pages).
+
+    The brand block reuses the same logo asset and .brand-word/.school
+    markup as site_header()'s always-visible header brand — it is purely
+    decorative reinforcement of an identity already reachable via the
+    header's own (accessible) brand link, so it's aria-hidden to keep a
+    screen-reader user's path through the drawer to the actual nav links
+    short.
     """
     items = _top_nav_items_html(active_section, li_class="")
-    return f'<div class="mobile-nav-links"><ul class="toc-list">{items}</ul></div>'
+    hero = (
+        '<div class="mobile-nav-hero" aria-hidden="true">'
+        '<img class="mobile-nav-hero__mark" src="/assets/img/logo.png" alt="" />'
+        '<span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span>'
+        '<span class="mobile-nav-hero__tag">Python 3.14 · Интерактивный курс</span>'
+        "</div>"
+    )
+    return f'<div class="mobile-nav-links">{hero}<ul class="toc-list">{items}</ul></div>'
 
 
 NAV_SCRIPT_TAG = '<script src="/assets/js/nav.js" defer></script>'

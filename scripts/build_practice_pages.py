@@ -97,7 +97,7 @@ def build_page(lesson_id: str, entry: dict) -> str:
     <div class="practice-chapter">{chapter_title}</div>
     <div class="practice-lesson">{lesson_title}</div>
   </div>
-  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel">☰ Меню</button>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav-panel" aria-label="Меню"><span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
 </header>
 <nav class="mobile-nav-panel" id="mobile-nav-panel">
   {mobile_nav_links("praktika")}

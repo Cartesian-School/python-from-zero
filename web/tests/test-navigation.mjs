@@ -639,6 +639,208 @@ const TOP_NAV = [
       await page.close();
     }
 
+    // =========================================================================
+    // Cartesian mobile navigation redesign: brand hero, backdrop, per-item
+    // accents, dark-reskinned chapter TOC, and the drawer's active-route
+    // signal — replacing the plain white dropdown with a viewport-anchored
+    // Cartesian-identity panel (python.org's mobile nav architecture as UX
+    // reference only; no Python.org visual styling used).
+    // =========================================================================
+
+    log('Redesign: brand hero block renders with the real logo asset');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('.nav-toggle');
+      const hero = page.locator('#mobile-nav-panel .mobile-nav-hero');
+      const heroCount = await hero.count();
+      ok('mobile-nav-hero is present', heroCount === 1);
+      const mark = page.locator('.mobile-nav-hero__mark');
+      const markSrc = (await mark.count()) ? await mark.getAttribute('src') : null;
+      ok('hero mark points at the real logo asset (not a placeholder)', markSrc === '/assets/img/logo.png');
+      const word = page.locator('.mobile-nav-hero__word');
+      const wordText = (await word.count()) ? (await word.textContent()).trim() : null;
+      ok('hero wordmark text reads "CartesianSchool"', wordText === 'CartesianSchool');
+      const heroBox = heroCount ? await hero.boundingBox() : null;
+      ok(`hero block is restrained, not half the phone (${heroBox ? heroBox.height.toFixed(0) : 'n/a'}px of 844px viewport)`, !!heroBox && heroBox.height < 844 * 0.35);
+      await page.close();
+    }
+
+    log('Redesign: backdrop appears behind the open drawer and disappears on close');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      const backdropPresent = () => page.evaluate(() => {
+        const before = getComputedStyle(document.body, '::before');
+        return before.content === '""' && before.position === 'fixed';
+      });
+      ok('no backdrop before opening', !(await backdropPresent()));
+      await page.click('.nav-toggle');
+      await page.waitForTimeout(50);
+      ok('backdrop present while drawer is open', await backdropPresent());
+      await page.click('.nav-toggle');
+      await page.waitForTimeout(50);
+      ok('backdrop gone after closing', !(await backdropPresent()));
+      await page.close();
+    }
+
+    log('Redesign: backdrop click closes the menu (outside-click path)');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('.nav-toggle');
+      await page.waitForTimeout(50);
+      // Click a point that is neither the panel nor the toggle — the backdrop
+      // (or bare page background it sits over) fills everything else.
+      await page.mouse.click(20, 800);
+      await page.waitForTimeout(100);
+      const closed = await page.evaluate(() => !document.getElementById('mobile-nav-panel').classList.contains('open'));
+      ok('clicking the backdrop area closes the menu', closed);
+      await page.close();
+    }
+
+    log('Redesign: each of the 5 rows carries its own accent (not one flat color)');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('.nav-toggle');
+      const accents = await page.evaluate(() => {
+        const anchors = ['o-kurse', 'glavy', 'praktika', 'proekty', 'spravochnik'];
+        return anchors.map((id) => {
+          const a = document.querySelector(`.mobile-nav-links .toc-list a[href$="#${id}"]`);
+          return getComputedStyle(a).backgroundImage;
+        });
+      });
+      const distinctCount = new Set(accents).size;
+      ok(`all 5 nav rows have a background-image set (accent edge)`, accents.every((a) => a && a !== 'none'));
+      ok(`the 5 rows are not all the same accent (${distinctCount} distinct)`, distinctCount >= 4);
+      await page.close();
+    }
+
+    log('Redesign: drawer identifies the current section as active (no pale-blue rectangle)');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.locator('#praktika').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400); // IntersectionObserver settles async
+      await page.click('.nav-toggle');
+      const activeRow = page.locator('.mobile-nav-links .toc-list a.active');
+      ok('exactly one row is marked active', await activeRow.count() === 1);
+      ok('the active row is "Практика"', (await activeRow.textContent()).includes('Практика'));
+      const bg = await activeRow.evaluate((el) => getComputedStyle(el).backgroundColor);
+      ok(`active row background is not the old pale-blue rectangle (computed: ${bg})`, bg !== 'rgb(143, 183, 254)');
+      await page.close();
+    }
+
+    log('Redesign: chapter TOC stays legible against the new dark drawer');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/chapters/glava-09/09-16-not.html`, { waitUntil: 'networkidle' });
+      await page.click('.nav-toggle');
+      const tocLinkRgb = await page.evaluate(() => {
+        const link = document.querySelector('.sidebar.open > .toc-list a');
+        if (!link) return null;
+        return getComputedStyle(link).color.match(/\d+/g).slice(0, 3).map(Number);
+      });
+      const brightness = tocLinkRgb ? (tocLinkRgb[0] + tocLinkRgb[1] + tocLinkRgb[2]) / 3 : 0;
+      ok(`chapter TOC link text is light-colored against the dark drawer (rgb=${tocLinkRgb}, brightness=${brightness.toFixed(0)})`, brightness > 150);
+      await page.close();
+    }
+
+    log('Redesign: desktop shows no backdrop and no mobile drawer chrome');
+    {
+      for (const w of [1024, 1440, 1920]) {
+        const page = await browser.newPage({ viewport: { width: w, height: 900 } });
+        await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+        const hasBackdrop = await page.evaluate(() => {
+          const before = getComputedStyle(document.body, '::before');
+          return before.content === '""' && before.position === 'fixed';
+        });
+        ok(`desktop ${w}: no backdrop pseudo-element active`, !hasBackdrop);
+        await page.close();
+      }
+    }
+
+    // =========================================================================
+    // Back to top: one shared, site-wide control (nav.js), independent of
+    // the mobile drawer redesign above but sharing the same file.
+    // =========================================================================
+
+    log('Back to top: hidden near top, visible after scrolling, returns to y=0');
+    {
+      for (const [w, h] of [[390, 844], [1440, 900]]) {
+        const page = await browser.newPage({ viewport: { width: w, height: h } });
+        await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+        const btn = page.locator('.back-to-top');
+        ok(`${w}x${h}: back-to-top exists`, await btn.count() === 1);
+        ok(`${w}x${h}: hidden near top`, !(await btn.evaluate((el) => el.classList.contains('visible'))));
+        ok(`${w}x${h}: disabled (untabbable) near top`, await btn.evaluate((el) => el.disabled));
+
+        await page.evaluate(() => window.scrollTo(0, 2000));
+        await page.waitForTimeout(150);
+        ok(`${w}x${h}: visible after scrolling past threshold`, await btn.evaluate((el) => el.classList.contains('visible')));
+        ok(`${w}x${h}: enabled (tabbable) once visible`, !(await btn.evaluate((el) => el.disabled)));
+        ok(`${w}x${h}: accessible name is set`, (await btn.getAttribute('aria-label')) === 'Наверх');
+
+        await btn.click();
+        await page.waitForTimeout(1200);
+        const y = await page.evaluate(() => window.scrollY);
+        ok(`${w}x${h}: click returns to the absolute top (scrollY=${y})`, y === 0);
+        await page.close();
+      }
+    }
+
+    log('Back to top: respects prefers-reduced-motion (instant, not animated)');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => window.scrollTo(0, 2000));
+      await page.waitForTimeout(150);
+      await page.click('.back-to-top');
+      await page.waitForTimeout(100); // far shorter than a smooth-scroll of this distance would need
+      const y = await page.evaluate(() => window.scrollY);
+      ok(`reduced motion: back-to-top jumps instantly (scrollY=${y} after only 100ms)`, y === 0);
+      await page.close();
+    }
+
+    log('Back to top: hidden while the mobile menu is open');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.evaluate(() => window.scrollTo(0, 2000));
+      await page.waitForTimeout(150);
+      ok('back-to-top visible before opening the menu', await page.locator('.back-to-top').evaluate((el) => getComputedStyle(el).display !== 'none'));
+      await page.click('.nav-toggle');
+      await page.waitForTimeout(50);
+      ok('back-to-top hidden while menu is open', await page.locator('.back-to-top').evaluate((el) => getComputedStyle(el).display === 'none'));
+      await page.click('.nav-toggle');
+      await page.waitForTimeout(50);
+      ok('back-to-top restored after closing the menu', await page.locator('.back-to-top').evaluate((el) => getComputedStyle(el).display !== 'none'));
+      await page.close();
+    }
+
+    log('Back to top: representative routes (chapter, front matter, project)');
+    {
+      const routes = [
+        [`${base}/chapters/glava-09/09-16-not.html`, 'chapter lesson'],
+        [`${base}/front-matter/ob-avtore.html`, 'front matter'],
+        [`${base}/projects/safesort/index.html`, 'project page'],
+      ];
+      for (const [url, tag] of routes) {
+        const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.evaluate(() => window.scrollTo(0, 2000));
+        await page.waitForTimeout(150);
+        const btn = page.locator('.back-to-top');
+        ok(`${tag}: back-to-top visible after scroll`, await btn.evaluate((el) => el.classList.contains('visible')));
+        await btn.click();
+        await page.waitForTimeout(1200);
+        ok(`${tag}: click returns to top`, (await page.evaluate(() => window.scrollY)) === 0);
+        await page.close();
+      }
+    }
+
     await browser.close();
   } finally {
     server.kill();
