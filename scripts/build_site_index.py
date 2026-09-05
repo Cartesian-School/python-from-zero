@@ -97,8 +97,9 @@ def build_roadmap() -> str:
         entries = lessons_by_chapter.get(num, [])
         lesson_ids_csv = ",".join(lid for lid, _ in entries)
         meta = f"{len(entries)} практических заданий" if entries else "теория — без практики"
-        card_body = f"""<div class="jn-card-top">
+        card_body = f"""<div class="jn-card-top" data-module="{(num - 1) % 4}">
           <span class="jn-num">Глава {num}</span>
+          <span class="jn-part" aria-hidden="true">CS / {num:02d}</span>
         </div>
         <div class="jn-title">{chapter_title_short(chapter)}</div>"""
         if entries:
@@ -108,8 +109,17 @@ def build_roadmap() -> str:
         <span class="jn-state-badge"></span>"""
         nodes.append(f"""
     <div class="journey-node" data-chapter="{num}" data-lesson-ids="{lesson_ids_csv}">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="{href}">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
         {card_body}
       </a>
     </div>""")
@@ -602,21 +612,40 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </section>
 
 <div class="home-section panel-canvas" id="glavy">
-  <div class="glavy__geometry" aria-hidden="true">
-    <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-      <path d="M0 90H160V40H320M1000 130H840V70H680M0 900H170V960H340M1000 860H830V940H660" />
-      <circle cx="160" cy="90" r="4" /><circle cx="320" cy="40" r="4" />
-      <circle cx="840" cy="130" r="4" /><circle cx="680" cy="70" r="4" />
-      <circle cx="170" cy="900" r="4" /><circle cx="340" cy="960" r="4" />
-      <circle cx="830" cy="860" r="4" /><circle cx="660" cy="940" r="4" />
-    </svg>
-  </div>
   <div class="kicker-label">Ваш путь по курсу</div>
   <h2>Главы</h2>
   <p class="sub">Проходите главы последовательно и отслеживайте свой прогресс — все {TOTAL_CHAPTERS} главы уже
   открыты, прогресс сохраняется в этом браузере.</p>
 
+  <div class="pcb-board">
+    <svg class="pcb-surface" width="100%" height="100%" aria-hidden="true">
+      <defs>
+        <pattern id="pcb-routing" width="960" height="680" patternUnits="userSpaceOnUse">
+          <g class="pcb-traces">
+            <path d="M18 0V110H126V162H218M30 0V98H138V150H230M42 0V86H150V138H242" />
+            <path d="M960 38H864V190H752V248H680M960 50H876V202H764V260H692M960 62H888V214H776V272H704" />
+            <path d="M0 350H84V278H196V236H284M0 362H96V290H208V248H296M0 374H108V302H220V260H308" />
+            <path d="M960 450H842V388H738V350H654M960 462H830V400H726V362H642M960 474H818V412H714V374H630" />
+            <path d="M54 680V562H152V514H234M66 680V574H164V526H246M78 680V586H176V538H258" />
+            <path d="M908 680V580H780V540H694M896 680V592H768V552H682M884 680V604H756V564H670" />
+          </g>
+          <g class="pcb-vias">
+            {"".join(f'<circle cx="{x}" cy="{y}" r="4"/>' for x,y in [(218,162),(230,150),(242,138),(680,248),(692,260),(704,272),(284,236),(296,248),(308,260),(654,350),(642,362),(630,374),(234,514),(246,526),(258,538),(694,540),(682,552),(670,564),(84,350),(842,450),(152,562),(864,190),(126,110),(780,580)])}
+          </g>
+          <g class="pcb-components">
+            <path d="M340 78h52v34h-52zM350 70v8m12-8v8m12-8v8m12-8v8m-36 34v8m12-8v8m12-8v8m12-8v8M328 90h12m52 0h12M328 102h12m52 0h12" />
+            <path d="M592 478h40v52h-40zM584 488h8m-8 12h8m-8 12h8m40-24h8m-8 12h8m-8 12h8" />
+            <path d="M108 432h16m0-6h22v12h-22zM146 432h16M780 108h16m0-6h22v12h-22zM818 108h16M364 566h20m0-9v18m8-18v18m0-9h20" />
+            <rect x="302" y="382" width="48" height="22" rx="3" />
+            <path d="M312 388v10m10-10v10m10-10v10m10-10v10" />
+          </g>
+          <g class="pcb-silkscreen"><text x="338" y="62">IO</text><text x="592" y="464">BUS-B</text><text x="108" y="420">R02</text><text x="300" y="370">CS-24</text></g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#pcb-routing)" />
+    </svg>
   <div class="journey-progress" id="journey-progress" data-total-lessons="{TOTAL_LESSONS}">
+    <div class="jp-hardware" aria-hidden="true"><span>CS / 24</span><i></i><i></i><i></i></div>
     <div class="jp-top">
       <div class="jp-headline">Ваш прогресс</div>
       <div class="jp-pct">0%</div>
@@ -629,7 +658,8 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
     </div>
   </div>
 
-  <div class="journey-rail">{ROADMAP_HTML}
+  <div class="journey-rail"><div class="pcb-bus" aria-hidden="true"><i></i><i></i><i></i></div>{ROADMAP_HTML}
+  </div>
   </div>
 </div>
 

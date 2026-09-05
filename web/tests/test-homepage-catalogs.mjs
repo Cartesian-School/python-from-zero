@@ -841,10 +841,10 @@ const COURSE_STAGE_TITLES = ['Теория на сайте', 'Практика �
       const mobileOverflow = await mobile.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
       ok('mobile roadmap: no horizontal overflow', !mobileOverflow);
       const railLeft = await mobile.evaluate(() => {
-        const rail = document.querySelector('.journey-rail');
-        return getComputedStyle(rail, '::before').left;
+        const rail = document.querySelector('.journey-rail').getBoundingClientRect();
+        return document.querySelector('.pcb-bus').getBoundingClientRect().left - rail.left;
       });
-      ok('mobile roadmap: rail is left-aligned (not the desktop centered zig-zag)', railLeft !== '50%');
+      ok('mobile roadmap: rail is left-aligned (not the desktop centered zig-zag)', railLeft >= 0 && railLeft < 30);
       await mobile.close();
 
       const desktop = await browser.newPage({ viewport: { width: 1440, height: 900 } });

@@ -457,21 +457,40 @@
 </section>
 
 <div class="home-section panel-canvas" id="glavy">
-  <div class="glavy__geometry" aria-hidden="true">
-    <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-      <path d="M0 90H160V40H320M1000 130H840V70H680M0 900H170V960H340M1000 860H830V940H660" />
-      <circle cx="160" cy="90" r="4" /><circle cx="320" cy="40" r="4" />
-      <circle cx="840" cy="130" r="4" /><circle cx="680" cy="70" r="4" />
-      <circle cx="170" cy="900" r="4" /><circle cx="340" cy="960" r="4" />
-      <circle cx="830" cy="860" r="4" /><circle cx="660" cy="940" r="4" />
-    </svg>
-  </div>
   <div class="kicker-label">Ваш путь по курсу</div>
   <h2>Главы</h2>
   <p class="sub">Проходите главы последовательно и отслеживайте свой прогресс — все 24 главы уже
   открыты, прогресс сохраняется в этом браузере.</p>
 
+  <div class="pcb-board">
+    <svg class="pcb-surface" width="100%" height="100%" aria-hidden="true">
+      <defs>
+        <pattern id="pcb-routing" width="960" height="680" patternUnits="userSpaceOnUse">
+          <g class="pcb-traces">
+            <path d="M18 0V110H126V162H218M30 0V98H138V150H230M42 0V86H150V138H242" />
+            <path d="M960 38H864V190H752V248H680M960 50H876V202H764V260H692M960 62H888V214H776V272H704" />
+            <path d="M0 350H84V278H196V236H284M0 362H96V290H208V248H296M0 374H108V302H220V260H308" />
+            <path d="M960 450H842V388H738V350H654M960 462H830V400H726V362H642M960 474H818V412H714V374H630" />
+            <path d="M54 680V562H152V514H234M66 680V574H164V526H246M78 680V586H176V538H258" />
+            <path d="M908 680V580H780V540H694M896 680V592H768V552H682M884 680V604H756V564H670" />
+          </g>
+          <g class="pcb-vias">
+            <circle cx="218" cy="162" r="4"/><circle cx="230" cy="150" r="4"/><circle cx="242" cy="138" r="4"/><circle cx="680" cy="248" r="4"/><circle cx="692" cy="260" r="4"/><circle cx="704" cy="272" r="4"/><circle cx="284" cy="236" r="4"/><circle cx="296" cy="248" r="4"/><circle cx="308" cy="260" r="4"/><circle cx="654" cy="350" r="4"/><circle cx="642" cy="362" r="4"/><circle cx="630" cy="374" r="4"/><circle cx="234" cy="514" r="4"/><circle cx="246" cy="526" r="4"/><circle cx="258" cy="538" r="4"/><circle cx="694" cy="540" r="4"/><circle cx="682" cy="552" r="4"/><circle cx="670" cy="564" r="4"/><circle cx="84" cy="350" r="4"/><circle cx="842" cy="450" r="4"/><circle cx="152" cy="562" r="4"/><circle cx="864" cy="190" r="4"/><circle cx="126" cy="110" r="4"/><circle cx="780" cy="580" r="4"/>
+          </g>
+          <g class="pcb-components">
+            <path d="M340 78h52v34h-52zM350 70v8m12-8v8m12-8v8m12-8v8m-36 34v8m12-8v8m12-8v8m12-8v8M328 90h12m52 0h12M328 102h12m52 0h12" />
+            <path d="M592 478h40v52h-40zM584 488h8m-8 12h8m-8 12h8m40-24h8m-8 12h8m-8 12h8" />
+            <path d="M108 432h16m0-6h22v12h-22zM146 432h16M780 108h16m0-6h22v12h-22zM818 108h16M364 566h20m0-9v18m8-18v18m0-9h20" />
+            <rect x="302" y="382" width="48" height="22" rx="3" />
+            <path d="M312 388v10m10-10v10m10-10v10m10-10v10" />
+          </g>
+          <g class="pcb-silkscreen"><text x="338" y="62">IO</text><text x="592" y="464">BUS-B</text><text x="108" y="420">R02</text><text x="300" y="370">CS-24</text></g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#pcb-routing)" />
+    </svg>
   <div class="journey-progress" id="journey-progress" data-total-lessons="493">
+    <div class="jp-hardware" aria-hidden="true"><span>CS / 24</span><i></i><i></i><i></i></div>
     <div class="jp-top">
       <div class="jp-headline">Ваш прогресс</div>
       <div class="jp-pct">0%</div>
@@ -484,12 +503,22 @@
     </div>
   </div>
 
-  <div class="journey-rail">
+  <div class="journey-rail"><div class="pcb-bus" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="journey-node" data-chapter="1" data-lesson-ids="01-01">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-01/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 1</span>
+          <span class="jn-part" aria-hidden="true">CS / 01</span>
         </div>
         <div class="jn-title">А вы знали?</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -498,10 +527,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="2" data-lesson-ids="">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-02/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 2</span>
+          <span class="jn-part" aria-hidden="true">CS / 02</span>
         </div>
         <div class="jn-title">Давайте установим Python!</div>
         <div class="jn-meta">теория — без практики</div>
@@ -509,10 +548,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="3" data-lesson-ids="03-01,03-02,03-03,03-04,03-05,03-06,03-07,03-08,03-09,03-10">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-03/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 3</span>
+          <span class="jn-part" aria-hidden="true">CS / 03</span>
         </div>
         <div class="jn-title">Ваша первая программа на Python</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -521,10 +570,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="4" data-lesson-ids="04-01,04-02,04-03,04-04,04-05,04-06,04-07,04-08,04-09,04-10,04-11,04-12,04-13,04-14,04-15,04-16,04-17,04-18,04-19,04-20,04-21,04-22">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-04/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 4</span>
+          <span class="jn-part" aria-hidden="true">CS / 04</span>
         </div>
         <div class="jn-title">Python любит числа</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -533,10 +592,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="5" data-lesson-ids="05-01,05-02,05-04,05-05,05-06,05-07,05-08,05-09,05-10,05-11,05-12,05-13,05-14,05-15,05-16,05-17,05-18,05-19,05-20,05-21">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-05/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 5</span>
+          <span class="jn-part" aria-hidden="true">CS / 05</span>
         </div>
         <div class="jn-title">Давайте поиграем с числами!</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -545,10 +614,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="6" data-lesson-ids="06-02,06-03,06-04,06-06,06-07,06-08,06-09,06-10,06-11,06-12,06-13,06-14,06-15,06-16,06-17,06-18,06-19,06-20">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-06/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 6</span>
+          <span class="jn-part" aria-hidden="true">CS / 06</span>
         </div>
         <div class="jn-title">Рисуем классные вещи с помощью Turtle</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -557,10 +636,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="7" data-lesson-ids="07-01,07-03,07-04,07-06,07-07,07-09,07-10,07-11,07-12,07-13,07-14,07-15,07-16,07-17,07-18,07-19,07-20,07-21,07-22,07-23,07-24,07-25">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-07/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 7</span>
+          <span class="jn-part" aria-hidden="true">CS / 07</span>
         </div>
         <div class="jn-title">Глубокое погружение в Turtle</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -569,10 +658,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="8" data-lesson-ids="08-01,08-03,08-04,08-06,08-07,08-09,08-10,08-11,08-12,08-13,08-14,08-16,08-17,08-18,08-20,08-21,08-22,08-23">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-08/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 8</span>
+          <span class="jn-part" aria-hidden="true">CS / 08</span>
         </div>
         <div class="jn-title">Играем с буквами и словами</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -581,10 +680,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="9" data-lesson-ids="09-01,09-02,09-03,09-04,09-05,09-06,09-07,09-08,09-09,09-10,09-11,09-12,09-13,09-14,09-15,09-16,09-17,09-18,09-19,09-20,09-21,09-22,09-23,09-24">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-09/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 9</span>
+          <span class="jn-part" aria-hidden="true">CS / 09</span>
         </div>
         <div class="jn-title">Выполняй мою команду!</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -593,10 +702,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="10" data-lesson-ids="10-01,10-02,10-03,10-04,10-05,10-06,10-07,10-08,10-09,10-10,10-11,10-12,10-13,10-14,10-15,10-16,10-17,10-18,10-19,10-20,10-21,10-22,10-23,10-24">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-10/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 10</span>
+          <span class="jn-part" aria-hidden="true">CS / 10</span>
         </div>
         <div class="jn-title">Немного автоматизации!</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -605,10 +724,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="11" data-lesson-ids="11-01,11-02,11-03,11-04,11-05,11-06,11-07,11-08,11-09,11-10,11-11,11-12,11-13,11-14,11-15,11-16,11-17,11-18,11-19,11-20,11-21,11-22,11-23,11-24,11-25,11-26">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-11/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 11</span>
+          <span class="jn-part" aria-hidden="true">CS / 11</span>
         </div>
         <div class="jn-title">Очень много информации!</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -617,10 +746,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="12" data-lesson-ids="12-01,12-02,12-03,12-04,12-05,12-06,12-07,12-08,12-09,12-10,12-11,12-12,12-13,12-14,12-15,12-16,12-17,12-18,12-19,12-20,12-21,12-22">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-12/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 12</span>
+          <span class="jn-part" aria-hidden="true">CS / 12</span>
         </div>
         <div class="jn-title">Множество увлекательных мини-проектов!</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -629,10 +768,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="13" data-lesson-ids="13-01,13-02,13-03,13-04,13-05,13-06,13-07,13-08,13-09,13-10,13-11,13-12,13-13,13-14,13-15,13-16,13-17,13-18,13-19,13-20,13-21,13-22,13-23,13-24,13-25,13-26,13-27">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-13/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 13</span>
+          <span class="jn-part" aria-hidden="true">CS / 13</span>
         </div>
         <div class="jn-title">Автоматизация с помощью функций</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -641,10 +790,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="14" data-lesson-ids="14-01,14-02,14-03,14-04,14-05,14-06,14-07,14-08,14-09,14-10,14-11,14-12,14-13,14-14,14-15,14-16,14-17,14-18,14-19,14-20,14-21,14-22,14-23,14-24,14-25,14-26">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-14/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 14</span>
+          <span class="jn-part" aria-hidden="true">CS / 14</span>
         </div>
         <div class="jn-title">Создаём объекты реального мира</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -653,10 +812,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="15" data-lesson-ids="15-01,15-02,15-03,15-04,15-05,15-06,15-07,15-08,15-09,15-10,15-11,15-12,15-13,15-14,15-15,15-16,15-17,15-18,15-19,15-20,15-21,15-22,15-23,15-24,15-25,15-26,15-27,15-28,15-29,15-30">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-15/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 15</span>
+          <span class="jn-part" aria-hidden="true">CS / 15</span>
         </div>
         <div class="jn-title">Python и файлы</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -665,10 +834,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="16" data-lesson-ids="16-01,16-02,16-03,16-04,16-05,16-06,16-07,16-08,16-09,16-10,16-11,16-12,16-13,16-14,16-15,16-16,16-17,16-18,16-19,16-20,16-21,16-22,16-23,16-24,16-25,16-26,16-27,16-28,16-29,16-30,16-31,16-32">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-16/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 16</span>
+          <span class="jn-part" aria-hidden="true">CS / 16</span>
         </div>
         <div class="jn-title">Создаём классные приложения с Tkinter</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -677,10 +856,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="17" data-lesson-ids="17-01,17-03,17-04,17-05,17-06,17-07,17-08,17-09,17-10,17-11,17-12,17-13,17-14,17-15,17-16,17-17,17-18,17-19,17-20,17-21,17-22,17-23,17-24,17-25,17-26,17-27,17-28,17-29,17-30,17-31">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-17/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 17</span>
+          <span class="jn-part" aria-hidden="true">CS / 17</span>
         </div>
         <div class="jn-title">Проект: игра «Крестики-нолики» с Tkinter</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -689,10 +878,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="18" data-lesson-ids="18-02,18-03,18-04,18-05,18-06,18-07,18-09,18-10,18-11,18-12,18-13,18-14,18-15,18-16,18-17,18-18,18-19,18-20,18-21,18-22,18-23,18-24,18-25,18-26,18-27,18-28,18-29,18-30,18-31,18-32">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-18/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 18</span>
+          <span class="jn-part" aria-hidden="true">CS / 18</span>
         </div>
         <div class="jn-title">Проект: приложение для рисования с Tkinter</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -701,10 +900,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="19" data-lesson-ids="19-02,19-03,19-04,19-06,19-07,19-08,19-09,19-10,19-11,19-12,19-13,19-14,19-15,19-16,19-17,19-18,19-19,19-20,19-21,19-22,19-23,19-24,19-25,19-26,19-27,19-28,19-29,19-30,19-31,19-32">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-19/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 19</span>
+          <span class="jn-part" aria-hidden="true">CS / 19</span>
         </div>
         <div class="jn-title">Проект: игра «Змейка» с Turtle</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -713,10 +922,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="20" data-lesson-ids="20-02,20-03,20-04,20-05,20-14,20-15,20-16,20-17,20-18,20-19,20-20,20-21,20-22,20-23,20-24,20-25,20-26,20-27,20-28,20-33">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-20/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 20</span>
+          <span class="jn-part" aria-hidden="true">CS / 20</span>
         </div>
         <div class="jn-title">Разработка игр с Pygame</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -725,10 +944,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="21" data-lesson-ids="21-01,21-02,21-03,21-04,21-06,21-08,21-09,21-11,21-13,21-14,21-15,21-16,21-17,21-20,21-25">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-21/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="0">
           <span class="jn-num">Глава 21</span>
+          <span class="jn-part" aria-hidden="true">CS / 21</span>
         </div>
         <div class="jn-title">Проект: космический шутер с Pygame</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -737,10 +966,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="22" data-lesson-ids="22-02,22-05,22-08,22-09,22-11,22-12,22-13,22-15,22-16,22-18,22-19,22-22,22-23,22-26,22-27,22-28,22-29,22-30,22-31,22-32,22-33,22-35">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-22/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="1">
           <span class="jn-num">Глава 22</span>
+          <span class="jn-part" aria-hidden="true">CS / 22</span>
         </div>
         <div class="jn-title">Веб-разработка с Python</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -749,10 +988,20 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="23" data-lesson-ids="23-01,23-02,23-03,23-04,23-05,23-06,23-07,23-08,23-09,23-10,23-11,23-12,23-13,23-14,23-15,23-16,23-17,23-18,23-19,23-20,23-21,23-22,23-23,23-24">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-23/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="2">
           <span class="jn-num">Глава 23</span>
+          <span class="jn-part" aria-hidden="true">CS / 23</span>
         </div>
         <div class="jn-title">Первый проект на GitHub: SafeSort</div>
         <div class="jn-progress-track"><div class="jn-progress-fill"></div></div>
@@ -761,16 +1010,27 @@
       </a>
     </div>
     <div class="journey-node" data-chapter="24" data-lesson-ids="">
-      <div class="jn-dot"></div>
+      <svg class="jn-route" viewBox="0 0 82 180" preserveAspectRatio="none" aria-hidden="true">
+        <path class="jn-route-base" d="M0 0V72H38V90H82M0 180V108H26V102H82" />
+        <path class="jn-route-secondary" d="M8 0V60H50V78H82M8 180V120H50V114H82" />
+        <path class="pcb-packet" pathLength="100" d="M0 0V72H38V90H76V102H26V108H0V180" />
+        <circle class="jn-via" cx="38" cy="72" r="3" />
+        <circle class="jn-via" cx="26" cy="108" r="3" />
+      </svg>
+      <div class="jn-dot" aria-hidden="true"></div>
       <a class="jn-card" href="/chapters/glava-24/index.html">
-        <div class="jn-card-top">
+        <span class="jn-pins" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="jn-pads" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="jn-card-top" data-module="3">
           <span class="jn-num">Глава 24</span>
+          <span class="jn-part" aria-hidden="true">CS / 24</span>
         </div>
         <div class="jn-title">Что дальше? Roadmap Python-разработчика</div>
         <div class="jn-meta">теория — без практики</div>
         <span class="jn-state-badge"></span>
       </a>
     </div>
+  </div>
   </div>
 </div>
 
