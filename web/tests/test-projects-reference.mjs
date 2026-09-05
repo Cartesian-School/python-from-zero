@@ -608,6 +608,55 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const SAFESORT_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of SAFESORT_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/safesort/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--safesort[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--safesort .safesort-scan, .project-art--safesort .safesort-plan, ' +
+            '.project-art--safesort .safesort-plan-row, .project-art--safesort .safesort-shield-badge, ' +
+            '.project-art--safesort .safesort-folder-active, .project-art--safesort .safesort-files__mover--1, ' +
+            '.project-art--safesort .safesort-files__mover--2, .project-art--safesort .safesort-duplicate-tile, ' +
+            '.project-art--safesort .safesort-history-row, .project-art--safesort .safesort-undo'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          filesFound: Boolean(document.querySelector('.project-art--safesort .safesort-files')),
+          scanFound: Boolean(document.querySelector('.project-art--safesort .safesort-scan')),
+          planFound: Boolean(document.querySelector('.project-art--safesort .safesort-plan')),
+          planRowCount: document.querySelectorAll('.project-art--safesort .safesort-plan-row').length,
+          shieldFound: Boolean(document.querySelector('.project-art--safesort .safesort-shield')),
+          folderCount: document.querySelectorAll('.project-art--safesort .safesort-folder').length,
+          duplicateFound: Boolean(document.querySelector('.project-art--safesort .safesort-duplicate')),
+          hashFound: Boolean(document.querySelector('.project-art--safesort .safesort-hash')),
+          historyFound: Boolean(document.querySelector('.project-art--safesort .safesort-history')),
+          undoFound: Boolean(document.querySelector('.project-art--safesort .safesort-undo')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`safesort ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`safesort ${viewport}: source files and scan cue render`, result.filesFound && result.scanFound);
+      ok(`safesort ${viewport}: plan card renders with at least 2 planned-move rows`, result.planFound && result.planRowCount >= 2);
+      ok(`safesort ${viewport}: shield/safety-gate cue renders`, result.shieldFound);
+      ok(`safesort ${viewport}: at least 2 destination folders render`, result.folderCount >= 2);
+      ok(`safesort ${viewport}: duplicate comparison and hash cue render`, result.duplicateFound && result.hashFound);
+      ok(`safesort ${viewport}: history/manifest log and undo cue render`, result.historyFound && result.undoFound);
+      ok(`safesort ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`safesort ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -763,6 +812,16 @@ function observePage(page, base) {
       '.project-art--notes-app .notes-flow', '.project-art--notes-app .notes-flow-dot',
       '.project-art--notes-app .notes-file-glow', '.project-art--notes-app .notes-file-line',
       '.project-art--notes-app .notes-saved',
+      '.project-art--safesort .safesort-scan', '.project-art--safesort .safesort-route',
+      '.project-art--safesort .safesort-plan', '.project-art--safesort .safesort-plan-row',
+      '.project-art--safesort .safesort-shield-badge', '.project-art--safesort .safesort-shield-check',
+      '.project-art--safesort .safesort-folder-active', '.project-art--safesort .safesort-files__mover--1',
+      '.project-art--safesort .safesort-files__mover--2', '.project-art--safesort .safesort-folder-pulse--1',
+      '.project-art--safesort .safesort-folder-pulse--2', '.project-art--safesort .safesort-history-row',
+      '.project-art--safesort .safesort-duplicate-tile', '.project-art--safesort .safesort-duplicate-check-badge',
+      '.project-art--safesort .safesort-duplicate-check', '.project-art--safesort .safesort-hash-tick',
+      '.project-art--safesort .safesort-history-check-badge', '.project-art--safesort .safesort-history-check',
+      '.project-art--safesort .safesort-undo',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -963,6 +1022,46 @@ function observePage(page, base) {
       notesReducedState.flowHidden && notesReducedState.flowDotHidden);
     ok('reduced motion: notes-app file confirmation glow and saved-checkmark badge stay hidden (no frozen pulse)',
       notesReducedState.fileGlowHidden && notesReducedState.savedBadgeHidden);
+    const safesortReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const scan = document.querySelector('.project-art--safesort .safesort-scan');
+      const plan = document.querySelector('.project-art--safesort .safesort-plan');
+      const planRows = [...document.querySelectorAll('.project-art--safesort .safesort-plan-row')];
+      const shieldBadge = document.querySelector('.project-art--safesort .safesort-shield-badge');
+      const shieldCheck = document.querySelector('.project-art--safesort .safesort-shield-check');
+      const foldersActive = [...document.querySelectorAll('.project-art--safesort .safesort-folder-active')];
+      const movers = [...document.querySelectorAll('.project-art--safesort .safesort-files__mover--1, .project-art--safesort .safesort-files__mover--2')];
+      const folderPulses = [...document.querySelectorAll('.project-art--safesort .safesort-folder-pulse--1, .project-art--safesort .safesort-folder-pulse--2')];
+      const historyRows = [...document.querySelectorAll('.project-art--safesort .safesort-history-row')];
+      const duplicateTiles = [...document.querySelectorAll('.project-art--safesort .safesort-duplicate-tile')];
+      const duplicateCheck = document.querySelector('.project-art--safesort .safesort-duplicate-check');
+      const historyCheck = document.querySelector('.project-art--safesort .safesort-history-check');
+      const undo = document.querySelector('.project-art--safesort .safesort-undo');
+      return {
+        scanHidden: scan ? opacityOf(scan) === 0 : false,
+        planVisible: plan ? opacityOf(plan) === 1 : false,
+        planRowsVisible: planRows.length >= 2 && planRows.every((node) => opacityOf(node) > 0),
+        shieldValidated: shieldBadge && shieldCheck
+          ? opacityOf(shieldBadge) === 1 && parseFloat(getComputedStyle(shieldCheck).strokeDashoffset) === 0
+          : false,
+        foldersActive: foldersActive.length >= 2 && foldersActive.every((node) => opacityOf(node) > 0),
+        moversHidden: movers.every((node) => opacityOf(node) === 0),
+        folderPulsesHidden: folderPulses.every((node) => opacityOf(node) === 0),
+        historyRowsVisible: historyRows.length >= 2 && historyRows.every((node) => opacityOf(node) > 0),
+        duplicateTilesVisible: duplicateTiles.every((node) => opacityOf(node) > 0),
+        duplicateConfirmed: duplicateCheck ? parseFloat(getComputedStyle(duplicateCheck).strokeDashoffset) === 0 : false,
+        historyConfirmed: historyCheck ? parseFloat(getComputedStyle(historyCheck).strokeDashoffset) === 0 : false,
+        undoVisible: undo ? opacityOf(undo) === 1 && getComputedStyle(undo).transform !== 'none' : false,
+      };
+    });
+    ok('reduced motion: safesort scan sweep stays hidden (not frozen mid-sweep)', safesortReducedState.scanHidden);
+    ok('reduced motion: safesort plan card shows all planned-move rows settled in place', safesortReducedState.planVisible && safesortReducedState.planRowsVisible);
+    ok('reduced motion: safesort shield/safety-gate shows a settled, validated checkmark', safesortReducedState.shieldValidated);
+    ok('reduced motion: safesort destination folders stay in the active (approved) state', safesortReducedState.foldersActive);
+    ok('reduced motion: safesort moving files and arrival pulses stay hidden (no mid-transfer freeze)', safesortReducedState.moversHidden && safesortReducedState.folderPulsesHidden);
+    ok('reduced motion: safesort history/manifest log shows both logged rows with a confirmed checkmark', safesortReducedState.historyRowsVisible && safesortReducedState.historyConfirmed);
+    ok('reduced motion: safesort duplicate pair stays visible with a confirmed match (not deleted)', safesortReducedState.duplicateTilesVisible && safesortReducedState.duplicateConfirmed);
+    ok('reduced motion: safesort undo cue stays visible in its resting position', safesortReducedState.undoVisible);
     await reduced.close();
 
     await browser.close();
