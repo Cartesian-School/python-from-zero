@@ -213,3 +213,47 @@ def test_machine_readable_route_schema():
     schema = read_json(ROOT / 'manifest/schemas/localization_routes.schema.json')
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema).validate(read_json(MANIFEST_DIR / 'routes.json'))
+
+
+@pytest.mark.parametrize('mutated_input', ['source', 'dependency'])
+def test_canonical_source_binding_freshness(tmp_path, mutated_input):
+    from localization import source_hash
+
+    routes = build(tmp_path)
+    page = routes.pages['home']
+    data = {'schema_version': 1, 'pages': {'home': page}}
+    source = page['source']
+    target = page['variants']['pl']
+    changed_path = tmp_path / source['path']
+    original_source_bytes = changed_path.read_bytes()
+    if mutated_input == 'dependency':
+        changed_path = tmp_path / 'canonical-dependency.txt'
+        changed_path.write_text('Original dependency', encoding='utf-8')
+        source['dependencies'] = [changed_path.name]
+        source['sha256'] = source_hash(source, tmp_path)
+        target['source_sha256'] = source['sha256']
+    old_target_hash = target['source_sha256']
+    validate_routes(data, tmp_path)
+
+    changed_path.write_text('Revised canonical content', encoding='utf-8')
+    if mutated_input == 'dependency':
+        assert (tmp_path / source['path']).read_bytes() == original_source_bytes
+    with pytest.raises(ValueError, match='^Stale canonical source binding: home$'):
+        validate_routes(data, tmp_path)
+    assert source['sha256'] == old_target_hash
+    assert target['source_sha256'] == old_target_hash
+
+    # Refresh only the authoritative binding; approval cannot hide a stale target.
+    source['sha256'] = source_hash(source, tmp_path)
+    assert source['sha256'] != old_target_hash
+    assert effective_status(page, 'pl', tmp_path) == 'stale'
+    assert 'pl' not in routes.available('home')
+    with pytest.raises(ValueError, match='^Stale approved translation: home$'):
+        validate_routes(data, tmp_path)
+
+    # A pending review may retain the old target binding without publishing it.
+    target['status'] = 'reviewed'
+    validate_routes(data, tmp_path)
+    assert target['source_sha256'] == old_target_hash
+    assert effective_status(page, 'pl', tmp_path) == 'stale'
+    assert 'pl' not in routes.available('home')

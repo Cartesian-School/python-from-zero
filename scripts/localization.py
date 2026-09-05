@@ -86,6 +86,8 @@ def validate_routes(data: dict, root: Path = ROOT) -> None:
         for dependency in dependencies:
             if not (root / dependency).resolve().is_relative_to(root.resolve()) or not (root / dependency).is_file():
                 raise ValueError(f'Invalid source dependency: {page_id}')
+        if source['sha256'] != source_hash(source, root):
+            raise ValueError(f'Stale canonical source binding: {page_id}')
         variants = page['variants']
         if DEFAULT_LOCALE not in variants or not variants.keys() <= LOCALES.keys():
             raise ValueError(f'Invalid locales: {page_id}')

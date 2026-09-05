@@ -73,6 +73,19 @@ hash with the manifest source hash before producing an artifact and record that 
 in the target binding. Update the source record on RU revision while retaining old
 target hashes so stale translations remain detectable.
 
+`validate_routes` requires `source.sha256 == source_hash(source, root)` for every
+page, including all declared dependencies. A mismatch fails closed with
+`Stale canonical source binding: <page-id>`. Changing canonical RU content requires
+updating `source.sha256` to the current hash, but never automatically updates a
+translation's separate `source_sha256`. That target binding changes only after
+actual retranslation/review against the revised RU source; until then the target
+remains stale. Neither validation nor status computation rewrites either hash.
+
+The JSON Schema validates structure and SHA-256 syntax; it cannot inspect repository
+files. `validate_routes` performs repository-semantic validation, including the
+current canonical source hash and dependency freshness. These checks complement
+the schema without adding filesystem semantics to it.
+
 States: untranslated → translated → reviewed → approved; stale is explicit or
 computed when the actual RU hash differs from the translation's source hash.
 An approved variant requires existing localized source and evidence files and a
