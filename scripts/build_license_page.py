@@ -180,6 +180,7 @@ def build_licenziya() -> None:
         "любой разумный способ указания авторства.</p>",
     )}
     """
+    body = "\n".join(line.rstrip() for line in body.splitlines())
 
     out = render_page(
         active_section="spravochnik",
