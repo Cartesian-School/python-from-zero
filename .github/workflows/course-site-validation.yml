@@ -96,6 +96,10 @@ jobs:
       - name: Build the full site (runs chapter/source/upstream validators, then navigation/catalog/SEO validators against dist/)
         run: bash scripts/build_vercel.sh
 
+      - name: Run non-public RU/PL localization browser contract
+        working-directory: web
+        run: npm run test:i18n
+
       - name: Run navigation Playwright contract
         working-directory: web
         run: npm run test:nav

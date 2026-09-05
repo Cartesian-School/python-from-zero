@@ -15,6 +15,9 @@ fi
 
 echo "==> Building Cartesian School Python deployment"
 
+echo "==> Validating localization foundation and RU baseline"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_localization.py"
+
 echo "==> Validating manifest/practice_manifest.json"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 

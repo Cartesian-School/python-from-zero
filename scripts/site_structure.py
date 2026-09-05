@@ -11,6 +11,8 @@ generators first.
 
 from __future__ import annotations
 
+from localization import LOCALES
+
 import html
 import re
 from dataclasses import dataclass
@@ -44,6 +46,11 @@ class PageRecord:
 
 
 def _classify(url_path: str) -> str:
+    for metadata in LOCALES.values():
+        prefix = metadata["prefix"]
+        if prefix and url_path.startswith(prefix + "/"):
+            url_path = url_path[len(prefix):]
+            break
     if url_path == "/index.html":
         return "home"
     if url_path == "/predmetnyj-ukazatel.html":
