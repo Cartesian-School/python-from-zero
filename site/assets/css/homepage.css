@@ -802,7 +802,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .project-art__nodes circle:nth-child(3) { animation-delay: -3.4s; }
 .project-art__subject > * { transform-box: fill-box; transform-origin: center; }
 .project-art--rock-paper-scissors .project-art__subject > g { animation: project-tilt 5.4s ease-in-out infinite; }
-.project-art--temperature-converter .project-art__subject > rect:nth-child(3) { animation: project-mercury 5s ease-in-out infinite; }
 .project-art--notes-app .project-art__subject > rect { animation: project-write 5.5s ease-in-out infinite; }
 .project-art--tic-tac-toe .project-art__subject > g:nth-of-type(2) { animation: project-mark 4.8s ease-in-out infinite; }
 .project-art--safesort .project-art__subject > rect:nth-of-type(2) { animation: project-sort 5.2s ease-in-out infinite; }
@@ -1250,6 +1249,97 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   49%, 100% { opacity: 0; }
 }
 
+/* temperature-converter: a "20 / °C" input feeds the thermometer, whose
+   liquid rises as the Celsius result card lights up, then a small
+   conversion hub branches a travelling dot to the Fahrenheit and Kelvin
+   cards in turn (20 °C = 68 °F = 293.15 K, drawn once per loop) before the
+   scene resets — the point being one entered value producing three
+   representations, not a single static mercury column. Scoped to .temp-*
+   classes (its own scene, not .project-art__subject) so this stays
+   isolated from every other project's generic icon animation. */
+.project-art--temperature-converter .temp-input { transform-box: fill-box; transform-origin: center; animation: temp-input-pulse 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-glow { animation: temp-glow-pulse 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-column { transform-box: fill-box; transform-origin: bottom; animation: temp-column-rise 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-hub-ring { transform-box: fill-box; transform-origin: center; animation: temp-hub-pulse 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-flow--fahrenheit { animation: temp-flow-fahrenheit 8s ease-in-out infinite, temp-dash-flow 2.6s linear infinite; }
+.project-art--temperature-converter .temp-flow--kelvin { animation: temp-flow-kelvin 8s ease-in-out infinite, temp-dash-flow 2.6s linear infinite; }
+.project-art--temperature-converter .temp-flow-dot--fahrenheit { transform-box: fill-box; transform-origin: center; animation: temp-dot-fahrenheit 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-flow-dot--kelvin { transform-box: fill-box; transform-origin: center; animation: temp-dot-kelvin 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-value-state { opacity: 0; }
+.project-art--temperature-converter .temp-value-state--empty { animation: temp-value-empty 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-value-state--celsius { animation: temp-value-celsius 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-value-state--fahrenheit { animation: temp-value-fahrenheit 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-value-state--kelvin { animation: temp-value-kelvin 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-unit-card { transform-box: fill-box; transform-origin: center; }
+.project-art--temperature-converter .temp-celsius { animation: temp-glow-celsius 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-fahrenheit { animation: temp-glow-fahrenheit 8s ease-in-out infinite; }
+.project-art--temperature-converter .temp-kelvin { animation: temp-glow-kelvin 8s ease-in-out infinite; }
+
+@keyframes temp-input-pulse {
+  0%, 5%, 96%, 100% { opacity: 1; }
+  9%, 92% { opacity: .55; }
+}
+@keyframes temp-glow-pulse {
+  0%, 5%, 94%, 100% { opacity: .16; }
+  20%, 78% { opacity: .34; }
+}
+@keyframes temp-column-rise {
+  0%, 6%, 96%, 100% { transform: scaleY(.42); }
+  20%, 80% { transform: scaleY(1); }
+}
+@keyframes temp-hub-pulse {
+  0%, 18%, 30%, 46%, 100% { opacity: 0; transform: scale(1); }
+  24% { opacity: .8; transform: scale(2.2); }
+  40% { opacity: .8; transform: scale(2); }
+}
+@keyframes temp-flow-fahrenheit {
+  0%, 25%, 94%, 100% { opacity: 0; }
+  30%, 88% { opacity: .55; }
+}
+@keyframes temp-flow-kelvin {
+  0%, 35%, 94%, 100% { opacity: 0; }
+  40%, 88% { opacity: .55; }
+}
+@keyframes temp-dash-flow { to { stroke-dashoffset: -14; } }
+@keyframes temp-dot-fahrenheit {
+  0%, 25%, 100% { opacity: 0; transform: translate(0, 0); }
+  27% { opacity: 1; transform: translate(2px, 1px); }
+  32% { opacity: 0; transform: translate(24px, 4px); }
+}
+@keyframes temp-dot-kelvin {
+  0%, 35%, 100% { opacity: 0; transform: translate(0, 0); }
+  37% { opacity: 1; transform: translate(2px, -1px); }
+  42% { opacity: 0; transform: translate(24px, 58px); }
+}
+@keyframes temp-value-empty {
+  0%, 6%, 97%, 100% { opacity: 1; }
+  10%, 92% { opacity: 0; }
+}
+@keyframes temp-value-celsius {
+  0%, 7%, 96%, 100% { opacity: 0; }
+  11%, 90% { opacity: 1; }
+}
+@keyframes temp-value-fahrenheit {
+  0%, 29%, 94%, 100% { opacity: 0; }
+  33%, 88% { opacity: 1; }
+}
+@keyframes temp-value-kelvin {
+  0%, 39%, 92%, 100% { opacity: 0; }
+  43%, 86% { opacity: 1; }
+}
+@keyframes temp-glow-celsius {
+  0%, 9%, 18%, 100% { filter: none; }
+  13% { filter: drop-shadow(0 0 7px rgba(24,93,250,.6)); }
+}
+@keyframes temp-glow-fahrenheit {
+  0%, 31%, 40%, 100% { filter: none; }
+  35% { filter: drop-shadow(0 0 7px rgba(24,93,250,.6)); }
+}
+@keyframes temp-glow-kelvin {
+  0%, 41%, 50%, 100% { filter: none; }
+  45% { filter: drop-shadow(0 0 7px rgba(24,93,250,.6)); }
+}
+
 /* bouncing-balls-oop: four independent ball instances, each on its own
    closed route and duration, bouncing off the shared playfield's walls at
    their own pace — the point being several simultaneous objects, not one
@@ -1381,7 +1471,6 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 @keyframes project-exhaust { 0%, 100% { opacity: .45; transform: scaleY(.78); } 50% { opacity: 1; transform: scaleY(1.08); } }
 @keyframes project-spark { 0%, 100% { opacity: .62; transform: scale(.88) rotate(-2deg); } 50% { opacity: 1; transform: scale(1.04) rotate(2deg); } }
 @keyframes project-tilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(3deg); } }
-@keyframes project-mercury { 0%, 100% { transform: scaleY(.86); transform-origin: bottom; } 50% { transform: scaleY(1.04); transform-origin: bottom; } }
 @keyframes project-write { 0%, 100% { transform: scaleX(.74); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } }
 @keyframes project-mark { 0%, 100% { opacity: .6; } 45%, 72% { opacity: 1; } }
 @keyframes project-sort { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
@@ -1929,4 +2018,18 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .project-art--bouncing-balls-oop .oop-trail { opacity: 0 !important; }
   .project-art--bouncing-balls-oop .oop-ball-travel,
   .project-art--bouncing-balls-oop .oop-ball-squash { transform: none !important; }
+  .project-art--temperature-converter .temp-value-state--empty { opacity: 0 !important; }
+  .project-art--temperature-converter .temp-value-state--celsius,
+  .project-art--temperature-converter .temp-value-state--fahrenheit,
+  .project-art--temperature-converter .temp-value-state--kelvin { opacity: 1 !important; }
+  .project-art--temperature-converter .temp-column { transform: scaleY(.78) !important; }
+  .project-art--temperature-converter .temp-glow { opacity: .3 !important; }
+  .project-art--temperature-converter .temp-input { opacity: 1 !important; }
+  .project-art--temperature-converter .temp-hub-ring,
+  .project-art--temperature-converter .temp-flow-dot { opacity: 0 !important; }
+  .project-art--temperature-converter .temp-flow--fahrenheit,
+  .project-art--temperature-converter .temp-flow--kelvin { opacity: .5 !important; }
+  .project-art--temperature-converter .temp-celsius,
+  .project-art--temperature-converter .temp-fahrenheit,
+  .project-art--temperature-converter .temp-kelvin { filter: none !important; }
 }
