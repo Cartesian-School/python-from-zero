@@ -181,7 +181,7 @@ input:focus-visible,
 
 /* ---------- Top navigation ---------- */
 .site-header {
-  position: sticky; top: 0; z-index: 20;
+  position: sticky; top: 0; z-index: 40;
   display: flex; align-items: center; justify-content: space-between;
   padding: var(--spacing-md) var(--spacing-2xl);
   background: rgba(13, 2, 48, 0.88);
@@ -551,12 +551,31 @@ code.inline { background: var(--gray-100); color: var(--navy-900); padding: 2px 
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; padding: var(--spacing-md); gap: var(--spacing-lg); }
   .sidebar { position: static; max-height: none; display: none; }
-  .sidebar.open { display: block; }
   .mobile-nav-links { display: block; margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--color-border-default); }
+
+  /* The mobile drawer (id="mobile-nav-panel" — rendered as either .sidebar
+     on chapter/front-matter pages or .mobile-nav-panel elsewhere, see
+     site_lib.py's site_header()/mobile_nav_links()) must be anchored to the
+     viewport, not to its position in document flow: a reader who has
+     scrolled deep into the page opens it expecting it under the header
+     they can see, not wherever that DOM node happens to sit near the top
+     of the document (which is off-screen and unusable once scrolled).
+     --mobile-nav-top tracks the sticky header's actual rendered bottom
+     edge (site/assets/js/nav.js measures it — never hardcoded, since
+     header height differs by viewport and content) so the drawer's top
+     edge always lines up with it exactly. */
+  .sidebar.open,
   .mobile-nav-panel.open {
-    display: block; padding: var(--spacing-md);
+    display: block;
+    position: fixed;
+    top: var(--mobile-nav-top, 64px);
+    left: 0; right: 0;
+    z-index: 39;
+    margin: 0; padding: var(--spacing-md);
     background: var(--surface-0); border-bottom: 1px solid var(--color-border-default);
     box-shadow: var(--shadow-lg);
+    max-height: calc(100dvh - var(--mobile-nav-top, 64px));
+    overflow-y: auto;
   }
   .top-nav { display: none; }
   .nav-toggle {

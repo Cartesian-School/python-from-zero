@@ -32,6 +32,17 @@ function positionActiveLesson() {
   var sidebar = document.querySelector(".sidebar");
   if (!sidebar || sidebar.clientHeight === 0) return; // hidden (mobile drawer, closed)
 
+  // On the mobile drawer, .mobile-nav-links (the site-wide nav row) sits
+  // above the chapter TOC and must stay visible the moment the drawer
+  // opens — that row is the whole point of the drawer. Auto-scrolling the
+  // pane to favor the active lesson would push it out of the pane's own
+  // internal scroll area (theory.css caps the open drawer's height so it
+  // stays under the header, which is what makes it scrollable at all).
+  // On desktop that row is display:none (0 height), so this never affects
+  // the always-visible reading-companion sidebar this function targets.
+  var mobileNavLinks = sidebar.querySelector(".mobile-nav-links");
+  if (mobileNavLinks && mobileNavLinks.clientHeight > 0) return;
+
   // .sidebar also carries the mobile drawer's site-wide links (this file's
   // toggle target below), which mark their own "Главы" entry .active — that
   // is not the current lesson and must be ignored here.
@@ -64,6 +75,27 @@ function positionActiveLesson() {
   sidebar.scrollTop = target; // no smooth-scroll: this runs at page-load time, not as a user gesture
 }
 
+// Keeps the mobile drawer's --mobile-nav-top CSS variable in sync with the
+// header actually rendered on the page (.site-header on most pages,
+// .practice-header on the interactive practice tool), so the drawer's top
+// edge lines up with the header's bottom edge exactly — never a hardcoded
+// px value, since header height varies with viewport width and content
+// (and .practice-header, unlike .site-header, isn't sticky, so its
+// boundingClientRect changes as the page scrolls past it too).
+function updateMobileNavTop() {
+  var header = document.querySelector(".site-header, .practice-header");
+  if (!header) return;
+  var bottom = header.getBoundingClientRect().bottom;
+  document.documentElement.style.setProperty("--mobile-nav-top", bottom + "px");
+}
+
+updateMobileNavTop();
+window.addEventListener("resize", updateMobileNavTop);
+window.addEventListener("orientationchange", updateMobileNavTop);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(updateMobileNavTop);
+}
+
 // Drives whichever element the .nav-toggle button's aria-controls points at.
 (function () {
   var toggle = document.querySelector(".nav-toggle");
@@ -75,6 +107,7 @@ function positionActiveLesson() {
   }
 
   function openMenu() {
+    updateMobileNavTop(); // re-measure right before showing: cheap, and guards against any drift
     panel.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
     positionActiveLesson(); // panel was display:none until now — clientHeight is 0 no longer
@@ -100,6 +133,29 @@ function positionActiveLesson() {
       toggle.focus();
     }
   });
+
+  // Tapping anywhere outside the open drawer (and outside the toggle
+  // itself, which already has its own open/close handler above) closes it.
+  document.addEventListener("click", function (event) {
+    if (!isOpen()) return;
+    if (event.target.closest("#mobile-nav-panel") || event.target.closest(".nav-toggle")) return;
+    closeMenu();
+  });
+
+  // The drawer is a mobile-only affordance (theory.css's max-width: 860px
+  // breakpoint). If it's left open while resizing past that breakpoint —
+  // e.g. rotating a tablet, or a desktop window growing — close it so no
+  // stale .open / aria-expanded="true" survives the transition, and so it
+  // starts closed if the viewport later shrinks back into mobile range.
+  var desktopQuery = window.matchMedia("(min-width: 861px)");
+  function closeIfNowDesktop(event) {
+    if (event.matches && isOpen()) closeMenu();
+  }
+  if (desktopQuery.addEventListener) {
+    desktopQuery.addEventListener("change", closeIfNowDesktop);
+  } else if (desktopQuery.addListener) {
+    desktopQuery.addListener(closeIfNowDesktop); // Safari < 14
+  }
 })();
 
 // Runs once at page-load time only — never on a scroll/resize listener, so
