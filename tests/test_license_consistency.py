@@ -167,3 +167,28 @@ def test_i_official_cc_canonical_url_is_exact() -> None:
 
     seo = _load_module("build_seo_meta", ROOT / "scripts" / "build_seo_meta.py")
     assert seo.CONTENT_LICENSE_URL == CC_CANONICAL_URL
+
+
+def test_j_approved_kratko_wording_replaced_harvard_cs50_removed() -> None:
+    """Product Owner-approved wording correction: the "Кратко" callout's two
+    opening paragraphs were replaced verbatim, and every Harvard/CS50
+    reference was removed from this page (it previously compared the
+    license to Harvard CS50's — see git history of this test file for the
+    superseded wording). Scoped to this page only; Harvard/CS50 mentions
+    elsewhere in the course (e.g. Chapter reference material) are untouched
+    and out of scope here."""
+    text = LICENSE_PAGE.read_text(encoding="utf-8")
+
+    # A: new first paragraph present.
+    assert "Все материалы курса, включая прозаический текст" in text
+    # B: new code paragraph present.
+    assert "Все примеры кода, фрагменты и полные проекты" in text
+    # C: old wording absent.
+    assert "Текст курса — проза книги" not in text
+    # D: Harvard/CS50 fully absent from this page.
+    assert "Harvard" not in text
+    assert "CS50" not in text
+
+    # E/F: the dual-license model itself is unchanged by this wording fix.
+    assert CC_IDENTIFIER in text
+    assert "MIT" in text
