@@ -329,9 +329,19 @@
 
 #glavy::before {
   background:
-    radial-gradient(900px 520px at 50% 8%, rgba(24,93,250,.06), transparent 62%),
-    repeating-linear-gradient(90deg, rgba(13,2,48,.025) 0 1px, transparent 1px 64px);
+    radial-gradient(900px 520px at 50% 4%, rgba(24,93,250,.055), transparent 62%),
+    radial-gradient(760px 480px at 94% 86%, rgba(91,36,249,.045), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(13,2,48,.022) 0 1px, transparent 1px 68px),
+    repeating-linear-gradient(0deg, rgba(13,2,48,.018) 0 1px, transparent 1px 68px);
 }
+/* A faint motherboard trace motif anchored to the section corners — echoes
+   the same orthogonal-path + via-dot language as .course-experience__geometry
+   and .author-profile__geometry, kept static so the section's one deliberate
+   motion cue stays on .journey-rail's signal pulse below. */
+.glavy__geometry { position: absolute; z-index: -1; inset: 0; pointer-events: none; }
+.glavy__geometry svg { display: block; width: 100%; height: 100%; }
+.glavy__geometry path { fill: none; stroke: rgba(24,93,250,.14); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.glavy__geometry circle { fill: #fff; stroke: rgba(24,93,250,.45); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 #praktika::before {
   background:
     radial-gradient(700px 420px at 8% 0%, rgba(91,36,249,.04), transparent 58%),
@@ -660,9 +670,17 @@
    COURSE JOURNEY — visual roadmap of all 24 chapters (signature element)
    ========================================================================== */
 .journey-progress {
+  position: relative; overflow: hidden;
   max-width: 720px; margin: 0 auto 64px; padding: 28px 32px; text-align: left;
   background: var(--surface-2); border: var(--border-hairline); border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
+}
+/* One thin status strip naming the three signal states used below (blue =
+   current, violet = in progress, green = completed) before any chapter data
+   loads. */
+.journey-progress::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue-500), var(--violet-500) 52%, var(--green-500));
 }
 .jp-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
 .journey-progress .jp-headline { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px; }
@@ -678,43 +696,97 @@
 .journey-rail::before {
   content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
   background: linear-gradient(var(--violet-300), var(--blue-300) 40%, var(--gray-200) 75%);
-  opacity: .55;
+  opacity: .55; box-shadow: 0 0 14px rgba(24,93,250,.14);
   transform: translateX(-50%); border-radius: var(--radius-full);
 }
-.journey-node { position: relative; display: grid; grid-template-columns: 1fr 60px 1fr; align-items: center; margin-bottom: 10px; }
+/* The live signal: a short glowing segment travelling the full length of the
+   rail on a loop — "the course roadmap is a live signal path", kept as the
+   section's one continuous motion cue so everything else can stay still. */
+.journey-rail::after {
+  content: ""; position: absolute; left: 50%; top: -10%; width: 3px; height: 56px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, var(--blue-500) 42%, var(--violet-400) 68%, transparent);
+  filter: drop-shadow(0 0 5px rgba(24,93,250,.55));
+  border-radius: var(--radius-full);
+  animation: journey-signal-travel 5.5s linear infinite;
+}
+@keyframes journey-signal-travel {
+  0% { top: -10%; }
+  100% { top: 108%; }
+}
+.journey-node {
+  --accent: rgba(185,160,252,.45);
+  position: relative; display: grid; grid-template-columns: 1fr 60px 1fr; align-items: center; margin-bottom: 10px;
+}
+.journey-node.state-not-started, .journey-node.state-no-lessons { --accent: rgba(180,180,196,.5); }
+.journey-node.state-in-progress { --accent: var(--color-brand-violet); }
+.journey-node.state-completed { --accent: var(--green-500); }
+.journey-node.state-current { --accent: var(--color-brand-blue); }
 .journey-node .jn-dot {
-  grid-column: 2; width: 22px; height: 22px; border-radius: 50%; background: var(--surface-0);
+  position: relative; grid-column: 2; width: 22px; height: 22px; border-radius: 50%; background: var(--surface-0);
   border: 3px solid var(--gray-400); z-index: 1; justify-self: center;
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 800; color: transparent;
   transition: border-color var(--duration-base) var(--ease-standard), background var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard);
 }
+/* A short connector trace linking each via-dot to the chip it feeds — ::after
+   stays free for the completed checkmark below, as it was before this pass. */
+.journey-node .jn-dot::before {
+  content: ""; position: absolute; top: 50%; width: 19px; height: 2px;
+  background: var(--accent); opacity: .6; transform: translateY(-50%);
+}
+.journey-node:nth-child(odd) .jn-dot::before { right: 100%; }
+.journey-node:nth-child(even) .jn-dot::before { left: 100%; }
+.journey-node:has(.jn-card:hover) .jn-dot { box-shadow: 0 0 0 6px rgba(24,93,250,.14); transform: scale(1.08); }
 .journey-node.state-completed .jn-dot { border-color: var(--green-500); background: var(--green-500); color: #fff; }
 .journey-node.state-completed .jn-dot::after { content: "✓"; }
 .journey-node.state-in-progress .jn-dot { border-color: var(--color-brand-violet); background: var(--surface-0); box-shadow: 0 0 0 5px rgba(91,36,249,0.15); }
 .journey-node.state-current .jn-dot { border-color: var(--color-brand-blue); background: var(--color-brand-blue); box-shadow: 0 0 0 7px rgba(24,93,250,0.16); transform: scale(1.05); }
 
 .jn-card {
-  display: block; background: var(--surface-2); border: var(--border-hairline); border-radius: var(--radius-lg);
+  position: relative; display: block; background: var(--surface-2); border: var(--border-hairline); border-radius: 14px;
   padding: 18px 22px; text-decoration: none; color: var(--color-text-primary); box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard), background var(--duration-base) var(--ease-standard);
 }
+/* Module edge: a slim status-colored connector strip on the side facing the
+   signal rail, turning each card into a chip reading its state off the bus. */
+.jn-card::before {
+  content: ""; position: absolute; top: 10px; bottom: 10px; width: 3px; border-radius: var(--radius-full);
+  background: var(--accent); transition: background var(--duration-base) var(--ease-standard);
+}
+.journey-node:nth-child(odd) .jn-card::before { right: -1px; }
+.journey-node:nth-child(even) .jn-card::before { left: -1px; }
 .jn-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--color-brand-blue); }
-.journey-node.state-current .jn-card { border-color: rgba(24,93,250,.35); box-shadow: var(--shadow-glow-blue); }
+.journey-node.state-completed .jn-card { background: linear-gradient(180deg, rgba(34,197,94,.055), var(--surface-2) 42%); }
+.journey-node.state-in-progress .jn-card { background: linear-gradient(180deg, rgba(91,36,249,.05), var(--surface-2) 42%); }
+.journey-node.state-current .jn-card { border-color: rgba(24,93,250,.35); box-shadow: var(--shadow-glow-blue); background: linear-gradient(180deg, rgba(24,93,250,.07), var(--surface-2) 46%); }
 .journey-node:nth-child(odd) .jn-card { grid-column: 1; text-align: right; }
 .journey-node:nth-child(even) .jn-card { grid-column: 3; text-align: left; }
 .jn-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .journey-node:nth-child(odd) .jn-card-top { justify-content: flex-end; }
-.jn-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-brand-blue); }
+.jn-num {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .03em;
+  color: var(--color-brand-blue); background: rgba(24,93,250,.08); padding: 2px 8px; border-radius: 5px;
+}
 .jn-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 8px; line-height: 1.35; }
-.jn-progress-track { height: 5px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; margin-bottom: 8px; }
+.jn-progress-track {
+  height: 5px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; margin-bottom: 8px;
+  background-image: repeating-linear-gradient(90deg, transparent 0 5px, rgba(255,255,255,.85) 5px 6px);
+}
 .jn-progress-fill { height: 100%; width: 0%; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); transition: width var(--duration-slow) var(--ease-out); }
 .jn-meta { font-size: 13px; color: var(--color-text-muted); }
-.jn-state-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); margin-top: 8px; }
+.jn-state-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); margin-top: 8px; }
+.journey-node:nth-child(odd) .jn-state-badge { flex-direction: row-reverse; }
+.jn-state-badge:not(:empty)::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
 .state-not-started .jn-state-badge { background: var(--gray-100); color: var(--gray-600); }
 .state-in-progress .jn-state-badge { background: #F3EEFF; color: var(--violet-500); }
 .state-completed .jn-state-badge { background: #E7F9EF; color: #15803D; }
 .state-current .jn-state-badge { background: #EAF1FF; color: var(--blue-600); font-weight: 700; }
+.state-current .jn-state-badge::before { animation: chip-led-pulse 2.4s ease-in-out infinite; }
+@keyframes chip-led-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(24,93,250,.55); }
+  50% { box-shadow: 0 0 0 4px rgba(24,93,250,0); }
+}
 
 .journey-all-toggle { text-align: center; margin-top: 44px; }
 
@@ -2042,12 +2114,16 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .jp-top { flex-direction: column; align-items: flex-start; gap: 2px; }
 
   /* Mobile roadmap: single left-side rail, no zig-zag */
-  .journey-rail::before { left: 10px; transform: none; }
+  .journey-rail::before, .journey-rail::after { left: 10px; transform: none; }
   .journey-node { grid-template-columns: 20px 1fr; column-gap: 14px; }
   .journey-node .jn-dot { grid-column: 1; justify-self: start; margin-left: 1px; }
+  .journey-node .jn-dot::before { left: 100%; right: auto; }
   .journey-node:nth-child(odd) .jn-card,
   .journey-node:nth-child(even) .jn-card { grid-column: 2; text-align: left; }
   .journey-node:nth-child(odd) .jn-card-top { justify-content: flex-start; }
+  .journey-node .jn-card::before { left: -1px; right: auto; }
+  .journey-node:nth-child(odd) .jn-state-badge,
+  .journey-node:nth-child(even) .jn-state-badge { flex-direction: row; }
 }
 
 @media (max-width: 700px) {
@@ -2199,6 +2275,8 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .course-stage__icon, .course-path__segment, .exercise, .reference-card,
   .practice-lesson-row, .project-card-visual svg, .jn-dot { transition: none; }
   .jp-bar-fill, .pcg-bar-fill, .jn-progress-fill { transition: none; }
+  .journey-rail::after { animation: none !important; opacity: .4; }
+  .state-current .jn-state-badge::before { animation: none !important; }
   .home-hero__content > *, .hero-system *, .hero-system *::before, .hero-system *::after {
     animation: none !important;
   }
