@@ -30,6 +30,7 @@ from site_lib import (
     practice_illustration,
     project_card,
     reference_illustration,
+    site_footer,
     site_header,
 )
 
@@ -763,10 +764,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
   </div>
 </div>
 
-<div class="home-footer">
-  <div class="home-footer__brand">Cartesian School · Python с нуля · {ap.NAME} — {html.escape(ap.ROLE)}</div>
-  <div class="home-footer__legal"><a href="/front-matter/litsenziya.html" rel="license">Лицензия · CC BY-NC-SA 4.0</a></div>
-</div>
+{site_footer()}
 
 {NAV_SCRIPT_TAG}
 <script src="/assets/js/hero.js" defer></script>
