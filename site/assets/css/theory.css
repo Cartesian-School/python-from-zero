@@ -96,9 +96,19 @@
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 
   /* layout */
-  --header-height: 72px;
   --content-width: 1180px;
   --content-width-narrow: 760px;
+
+  /* Anchor-offset model (see the html{scroll-padding-top} rule below):
+     --site-header-height is a measured-at-first-paint fallback (desktop
+     .site-header renders at 65px, see the @media override below for
+     mobile's 49px) that nav.js immediately overwrites with the header's
+     actual getBoundingClientRect().height once it runs, so direct hash
+     loads land correctly even in the brief window before that JS executes.
+     --anchor-breathing-room is the only hand-picked constant here: a small
+     deliberate gap so the target doesn't touch the header. */
+  --site-header-height: 65px;
+  --anchor-breathing-room: 10px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -134,8 +144,32 @@ code, pre, .mono {
 
 a { color: var(--color-brand-blue); transition: color var(--duration-fast) var(--ease-standard); }
 
-/* Keep fragment-link targets clear of the sticky header (.site-header). */
-[id] { scroll-margin-top: 96px; }
+/* Keep fragment-link targets clear of the sticky header (.site-header) —
+   one authoritative offset for the whole document's fragment navigation
+   (a click, a direct #hash URL load, or a reload), rather than tagging
+   every [id] individually. Was a blanket [id]{scroll-margin-top:96px}:
+   96px was picked without measuring the real header, overshot its actual
+   rendered height (65px desktop, 49px mobile) by tens of pixels, and left
+   the previous section's tail visible above the target. */
+html {
+  scroll-padding-top: calc(var(--site-header-height) + var(--anchor-breathing-room));
+}
+
+/* scroll-padding-top above is not just for #fragment navigation — browsers
+   also apply it whenever ANY element is scrolled into view, including their
+   own "scroll the focused element into view" behavior on every focus (a
+   click OR Tab, from any page, since .site-header is site-wide). For an
+   element inside a position:sticky container that behavior misfires: the
+   header is already always fully visible at the top, needing no extra
+   clearance, but the browser doesn't know that and scrolls the whole page
+   by a large, wrong amount trying to satisfy scroll-padding-top against a
+   sticky element whose position doesn't actually change as you scroll.
+   Cancel it for exactly this container with an equal-and-opposite
+   scroll-margin-top (the two combine additively, so this nets to zero) —
+   do not add scroll-margin-top anywhere else, or it will stack with this. */
+.site-header, .site-header * {
+  scroll-margin-top: calc(-1 * (var(--site-header-height) + var(--anchor-breathing-room)));
+}
 
 /* ---------- Accessibility: focus-visible everywhere ---------- */
 a:focus-visible,
@@ -549,6 +583,10 @@ code.inline { background: var(--gray-100); color: var(--navy-900); padding: 2px 
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
+  /* .site-header renders shorter here (smaller padding, below) — keep the
+     pre-JS fallback in the html{scroll-padding-top} rule accurate at this
+     breakpoint too; nav.js's measured value supersedes this immediately. */
+  :root { --site-header-height: 49px; }
   .layout { grid-template-columns: 1fr; padding: var(--spacing-md); gap: var(--spacing-lg); }
   .sidebar { position: static; max-height: none; display: none; }
   .mobile-nav-links { display: block; margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--color-border-default); }
