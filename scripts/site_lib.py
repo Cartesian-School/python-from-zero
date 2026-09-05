@@ -16,6 +16,7 @@ import tokenize
 from dataclasses import dataclass, field
 from urllib.parse import urljoin
 
+import author_profile as ap
 from book_pagination import chapter_start, page_for_url
 from chapter_metadata import chapter
 from localization import DEFAULT_LOCALE, LOCALES, UI_STRINGS, Routes
@@ -4667,6 +4668,42 @@ def mobile_nav_links(active_section: str | None = "glavy", *, page_id: str | Non
     )
     switch = (routes or Routes()).switcher(page_id, locale) if page_id else ""
     return f'<div class="mobile-nav-links">{hero}<ul class="toc-list">{items}</ul>{switch}</div>'
+
+
+def site_footer(locale: str = DEFAULT_LOCALE, routes: Routes | None = None) -> str:
+    """Shared site footer: brand line + license link.
+
+    The RU branch (default args) renders byte-identical to the footer that
+    was previously hardcoded inline in build_site_index.py, so extracting it
+    here cannot change any existing RU page's output.
+    """
+    brand_title = UI_STRINGS[locale]["course_title"]
+    if locale == DEFAULT_LOCALE:
+        license_href = "/front-matter/litsenziya.html"
+    else:
+        license_href = (routes or Routes()).available("front-matter-license").get(locale)
+    license_label = html.escape(UI_STRINGS[locale]["license_footer"])
+    if license_href:
+        legal = f'<a href="{license_href}" rel="license">{license_label}</a>'
+    else:
+        unavailable = html.escape(UI_STRINGS[locale]["unavailable"])
+        legal = f'<span aria-disabled="true" title="{unavailable}">{license_label}</span>'
+    return (
+        '<div class="home-footer">\n'
+        f'  <div class="home-footer__brand">Cartesian School · {brand_title} · {ap.NAME} — {html.escape(ap.ROLE)}</div>\n'
+        f'  <div class="home-footer__legal">{legal}</div>\n'
+        "</div>"
+    )
+
+
+def disabled_card_attrs(locale: str = DEFAULT_LOCALE) -> str:
+    """Attributes marking a homepage card as an unavailable-translation deep
+    link: no href, non-interactive, discoverable via title/aria-disabled —
+    the same convention already shipped in Routes.switcher()'s unavailable
+    branch, reused here so disabled chapter/practice/project cards match it.
+    """
+    unavailable = html.escape(UI_STRINGS[locale]["unavailable"])
+    return f'aria-disabled="true" title="{unavailable}"'
 
 
 NAV_SCRIPT_TAG = '<script src="/assets/js/nav.js" defer></script>'
