@@ -91,7 +91,7 @@ function observePage(page, base) {
       ok(`${viewport}: homepage has no horizontal overflow`, !result.overflow);
       ok(`${viewport}: 13 project cards render`, result.projectCount === 13);
       ok(`${viewport}: project grid uses ${expectedColumns} column(s)`, result.columns === expectedColumns);
-      ok(`${viewport}: reference hero and eight real destinations render`, result.referenceArt && result.referenceCount === 8);
+      ok(`${viewport}: reference hero and nine real destinations render`, result.referenceArt && result.referenceCount === 9);
       ok(`${viewport}: reference illustration microcopy is Russian`, result.referenceMicrocopy.includes('УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ') && !/INDEX|KNOWLEDGE|reference/i.test(result.referenceMicrocopy));
       if (width <= 900) ok(`${viewport}: reference text precedes art`, result.referenceTextFirst);
       ok(`${viewport}: titles, tags, and reference cards are contained`, result.contentContained);

@@ -41,6 +41,15 @@ MARKER_END = "<!-- cartesian:seo-meta:end -->"
 LOGO_URL = f"{SITE_ORIGIN}/assets/img/logo.png"
 SITE_NAME = "Cartesian School"
 
+# Course content (theory, lessons, front matter, the homepage) is licensed
+# CC BY-NC-SA 4.0 — see /front-matter/litsenziya.html. Software/source code
+# is governed separately (see that page) and is never marked with this
+# rel=license link. Reuses the exact page-kind set already treated as
+# "educational content" by _json_ld_for()'s LearningResource branch below,
+# plus "home" — not a new, independently-invented category.
+CONTENT_LICENSE_URL = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+CONTENT_LICENSE_KINDS = {"home", "chapter-opener", "chapter-lesson", "front-matter", "reference"}
+
 _OG_LOCALE = {"ru": "ru_RU", "en": "en_US", "pl": "pl_PL", "zh-Hans": "zh_CN"}
 
 
@@ -117,6 +126,8 @@ def _seo_block(page: PageRecord, all_pages: list[PageRecord]) -> str:
 
     parts = [MARKER_START]
     parts.append(f'<link rel="canonical" href="{html.escape(page.canonical_url)}" />')
+    if page.kind in CONTENT_LICENSE_KINDS:
+        parts.append(f'<link rel="license" href="{CONTENT_LICENSE_URL}" />')
     if page.kind == "practice":
         parts.append('<meta name="robots" content="noindex, follow" />')
     parts.append(f'<meta property="og:type" content="{og_type}" />')

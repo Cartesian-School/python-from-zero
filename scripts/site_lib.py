@@ -40,7 +40,7 @@ CS_ICON_NAMES = frozenset({
     "idea", "launch", "warning", "success", "error", "debug", "experiment",
     "timer", "practice", "code", "file", "folder", "game", "architecture",
     "palette", "tools", "loop", "note", "compare", "profile", "search",
-    "device",
+    "device", "license",
 })
 
 _ICON_MARKER_RE = re.compile(r"\[\[icon:([a-z-]+)\]\]")

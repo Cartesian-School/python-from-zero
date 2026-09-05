@@ -9,12 +9,15 @@
 общим стилем.
 """
 
+import datetime
 import importlib
 import json
 import mimetypes
+import os
 import posixpath
 import re
 import sys
+import zipfile
 from functools import lru_cache
 from pathlib import Path
 
@@ -30,7 +33,61 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = ROOT / "book" / "epub" / "python-s-nulya.epub"
 
+# Reproducible-builds timestamp (see build_pdf.py's own SOURCE_DATE_EPOCH,
+# which this mirrors) — a fixed instant, never datetime.now()/time.time(),
+# so two builds from identical source produce a byte-identical EPUB. ZIP's
+# DOS-based date_time field cannot represent anything before 1980-01-01
+# (raises ValueError), so unlike build_pdf.py's epoch-0 constant this floors
+# at the earliest valid ZIP timestamp instead of the Unix epoch.
+_ZIP_EPOCH_FLOOR = 315532800  # 1980-01-01T00:00:00Z as a Unix timestamp
+_SOURCE_DATE_EPOCH_ENV = os.environ.get("SOURCE_DATE_EPOCH")
+EPUB_BUILD_MTIME = datetime.datetime.fromtimestamp(
+    max(int(_SOURCE_DATE_EPOCH_ENV), _ZIP_EPOCH_FLOOR) if _SOURCE_DATE_EPOCH_ENV else _ZIP_EPOCH_FLOOR,
+    tz=datetime.UTC,
+).replace(tzinfo=None)
+
 PROJECTS = json.loads((ROOT / "manifest" / "projects_manifest.json").read_text(encoding="utf-8"))["projects"]
+
+BOOK_TITLE = "Python с нуля"
+BOOK_SUBTITLE = "программирование, графика, приложения и игры"
+BOOK_AUTHOR = "Siergej Sobolewski"
+
+# Shared by build_pdf.py (via `import build_epub as be`) so the PDF copyright
+# page and this EPUB's own copyright page/DC:rights metadata state the exact
+# same licensing model — never two independently-typed copies that could
+# drift. Prose/explanations/diagrams/assignments are CC BY-NC-SA 4.0. ALL
+# code is MIT (LICENSE-CODE.md) unless a file/directory states otherwise —
+# this explicitly includes inline code snippets/listings printed inside the
+# book text itself, not just standalone scripts/projects: code never becomes
+# CC-licensed merely by being shown inside a CC-licensed page. The two are
+# never merged into one blanket grant. See /front-matter/litsenziya.html
+# (scripts/build_license_page.py) for the full human-readable explanation
+# this notice summarizes.
+RIGHTS_HOLDER = "Siergej Sobolewski / Cartesian School"
+CONTENT_LICENSE_NAME = (
+    "Creative Commons Attribution-NonCommercial-ShareAlike "
+    "4.0 International (CC BY-NC-SA 4.0)"
+)
+CONTENT_LICENSE_URL = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+RIGHTS_NOTICE_PLAIN = (
+    f"© {RIGHTS_HOLDER}. "
+    f"Текст книги и оригинальные учебные материалы: {CONTENT_LICENSE_NAME}. "
+    f"{CONTENT_LICENSE_URL} "
+    "Программный код — включая фрагменты кода и листинги внутри текста "
+    "книги, а не только отдельные проекты и скрипты, — если прямо не "
+    "указано иное, распространяется на условиях MIT License."
+)
+
+RIGHTS_NOTICE_PARAGRAPHS_HTML = (
+    f"<p>© {RIGHTS_HOLDER}</p>"
+    "<p>Текст книги и оригинальные учебные материалы: "
+    f'<a href="{CONTENT_LICENSE_URL}">{CONTENT_LICENSE_NAME}</a>.</p>'
+    f"<p>{CONTENT_LICENSE_URL}</p>"
+    "<p>Программный код — включая фрагменты кода и листинги внутри текста "
+    "книги, а не только отдельные проекты и скрипты, — если прямо не "
+    "указано иное, распространяется на условиях MIT License.</p>"
+)
 
 FRONT_MATTER = [
     ("front-matter/ob-avtore.html", "Об авторе"),
@@ -162,6 +219,23 @@ def resolve_svg_css_vars(html_fragment: str) -> str:
     return fix_svg_case(html_fragment)
 
 
+# The live site's mobile navigation drawer (added by the Cartesian mobile
+# navigation redesign, see site/assets/css/theory.css around "mobile-nav")
+# uses the CSS relational pseudo-class :has() for two purely cosmetic,
+# progressive-enhancement rules (a backdrop behind the open drawer, and
+# hiding the floating back-to-top button while it's open). epubcheck's
+# CSS3-level parser rejects :has() as CSS-008, and neither rule means
+# anything in an e-reader anyway — the EPUB has no JS-driven #mobile-nav-panel
+# drawer for them to react to (mirrors the existing project_css rationale
+# just below main(): a curated stylesheet, not a straight copy, whenever the
+# live site's CSS uses a browser feature epubcheck/e-readers don't support).
+_HAS_SELECTOR_RULE_RE = re.compile(r"[^{};]*:has\([^)]*\)[^{};]*\{[^{}]*\}")
+
+
+def strip_has_selector_rules(css_text: str) -> str:
+    return _HAS_SELECTOR_RULE_RE.sub("", css_text)
+
+
 class CaseSafeEpubHtml(epub.EpubHtml):
     """Preserve case-sensitive SVG names after EbookLib serializes XHTML.
 
@@ -206,6 +280,63 @@ def extract_project(html_text: str) -> str:
         rewrite_links(body)
     inner = (str(hero) if hero else "") + (str(body) if body else "")
     return resolve_svg_css_vars(f"<html><body>{inner}</body></html>")
+
+
+def build_copyright_item() -> epub.EpubHtml:
+    """The EPUB's own copyright/rights page — a root-level spine item, read
+    first, mirroring build_pdf.py's copyright page (both draw on the exact
+    same RIGHTS_NOTICE_PARAGRAPHS_HTML constant above, so the two publication
+    formats can never independently drift on the licensing model)."""
+    content = normalize_epub_content(
+        "<html><body>"
+        '<div class="copyright-page-epub">'
+        f"<h1>{BOOK_TITLE}: {BOOK_SUBTITLE}</h1>"
+        f"<p>{BOOK_AUTHOR} — Cartesian School</p>"
+        f"{RIGHTS_NOTICE_PARAGRAPHS_HTML}"
+        "</div></body></html>",
+        "copyright.html",
+        "copyright.xhtml",
+    )
+    item = CaseSafeEpubHtml(title="Правовая информация", file_name="copyright.xhtml", lang="ru")
+    item.content = content
+    item.add_link(href="assets/css/theory.css", rel="stylesheet", type="text/css")
+    return item
+
+
+def normalize_epub_zip_determinism(path: Path, mtime: datetime.datetime) -> None:
+    """Repack the just-written EPUB so its ZIP container is reproducible.
+
+    ebooklib's own writer (see epub.write_epub's `mtime` option, used below in
+    main()) only fixes <meta property="dcterms:modified"> inside the OPF —
+    the ZIP entries themselves are still written via
+    ``zipfile.ZipFile.writestr(plain_filename, data)``, and CPython's zipfile
+    stamps every such entry's ZipInfo.date_time with ``time.localtime()`` at
+    write time (see cpython's zipfile.ZipInfo.from_file/writestr). That means
+    two builds from byte-identical source content still differ, entry by
+    entry, purely on wall-clock seconds — a real reproducibility defect, not
+    just an OPF metadata cosmetic issue.
+
+    This does not touch ebooklib in site-packages: it reopens the finished
+    file with the stdlib ``zipfile`` module and rewrites every entry with the
+    exact same filename, content, and compression method (read back from the
+    original), but a fixed ``date_time`` — preserving member order and every
+    other piece of metadata untouched, so the *only* thing this changes is
+    the timestamp field.
+    """
+    date_time = (mtime.year, mtime.month, mtime.day, mtime.hour, mtime.minute, mtime.second)
+    with zipfile.ZipFile(path, "r") as src:
+        entries = [(info, src.read(info.filename)) for info in src.infolist()]
+
+    tmp_path = path.with_name(path.name + ".tmp")
+    with zipfile.ZipFile(tmp_path, "w") as dst:
+        for info, data in entries:
+            new_info = zipfile.ZipInfo(filename=info.filename, date_time=date_time)
+            new_info.compress_type = info.compress_type
+            new_info.external_attr = info.external_attr
+            new_info.internal_attr = info.internal_attr
+            new_info.create_system = info.create_system
+            dst.writestr(new_info, data)
+    tmp_path.replace(path)
 
 
 def ncx_id(file_name: str) -> str:
@@ -358,13 +489,15 @@ def build_project_item(entry: dict) -> epub.EpubHtml:
 def main() -> None:
     book = epub.EpubBook()
     book.set_identifier("cartesian-school-python-s-nulya-2026")
-    book.set_title("Python с нуля: программирование, графика, приложения и игры")
+    book.set_title(f"{BOOK_TITLE}: {BOOK_SUBTITLE}")
     book.set_language("ru")
-    book.add_author("Siergej Sobolewski")
+    book.add_author(BOOK_AUTHOR)
     book.add_metadata("DC", "description", "Книга для начинающих: Python 3.14, графика на Turtle, приложения на Tkinter, игры на Pygame и веб-разработка на Flask.")
     book.add_metadata("DC", "publisher", "Cartesian School")
+    book.add_metadata("DC", "rights", RIGHTS_NOTICE_PLAIN)
 
-    css_bytes = (SITE / "assets" / "css" / "theory.css").read_bytes()
+    css_text = strip_has_selector_rules((SITE / "assets" / "css" / "theory.css").read_text(encoding="utf-8"))
+    css_bytes = css_text.encode("utf-8")
     css_item = epub.EpubItem(uid="theory_css", file_name="assets/css/theory.css", media_type="text/css", content=css_bytes)
     book.add_item(css_item)
 
@@ -410,6 +543,11 @@ def main() -> None:
     toc = []
     spine = ["nav"]
 
+    copyright_item = build_copyright_item()
+    book.add_item(copyright_item)
+    spine.append(copyright_item)
+    toc.append(epub.Link(copyright_item.file_name, "Правовая информация", ncx_id(copyright_item.file_name)))
+
     fm_links = []
     for rel_path, title in FRONT_MATTER:
         item = build_item(rel_path, title, is_opener=False)
@@ -447,7 +585,8 @@ def main() -> None:
     book.spine = spine
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    epub.write_epub(str(OUT), book)
+    epub.write_epub(str(OUT), book, {"mtime": EPUB_BUILD_MTIME})
+    normalize_epub_zip_determinism(OUT, EPUB_BUILD_MTIME)
     print(f"Записано: {OUT.relative_to(ROOT)} ({len(spine) - 1} страниц)")
 
 
