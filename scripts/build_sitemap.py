@@ -17,22 +17,28 @@ from xml.sax.saxutils import escape
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from site_structure import SITE_DIR, iter_pages
+from site_structure import SITE_DIR, SITE_ORIGIN, iter_pages
+from localization import Routes
 
 EXCLUDED_KINDS = {"practice", "other"}
 OUT_PATH = SITE_DIR / "sitemap.xml"
 
 
 def main() -> None:
-    pages = [p for p in iter_pages() if p.kind not in EXCLUDED_KINDS]
-
+    routes = Routes()
+    pages = [p for p in iter_pages()
+             if p.kind not in EXCLUDED_KINDS and routes.publishable_path(p.url_path)]
+    bilingual = any(routes.alternates(p.url_path) for p in pages)
+    namespace = ' xmlns:xhtml="http://www.w3.org/1999/xhtml"' if bilingual else ""
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"{namespace}>',
     ]
     for p in pages:
         lines.append("  <url>")
         lines.append(f"    <loc>{escape(p.canonical_url)}</loc>")
+        for locale, path in routes.alternates(p.url_path).items():
+            lines.append(f'    <xhtml:link rel="alternate" hreflang="{locale}" href="{escape(SITE_ORIGIN + path)}" />')
         lines.append("  </url>")
     lines.append("</urlset>")
 

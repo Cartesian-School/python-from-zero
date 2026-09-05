@@ -31,6 +31,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import author_profile as ap
+from localization import LOCALES, Routes, alternate_links
 from site_structure import SITE_ORIGIN, PageRecord, iter_pages
 
 AUTHOR_PAGE_URL_PATH = "/front-matter/ob-avtore.html"
@@ -50,7 +51,7 @@ SITE_NAME = "Cartesian School"
 CONTENT_LICENSE_URL = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 CONTENT_LICENSE_KINDS = {"home", "chapter-opener", "chapter-lesson", "front-matter", "reference"}
 
-_OG_LOCALE = {"ru": "ru_RU", "en": "en_US", "pl": "pl_PL", "zh-Hans": "zh_CN"}
+_OG_LOCALE = {code: metadata["og_locale"] for code, metadata in LOCALES.items()}
 
 
 def _json_ld_script(data: dict) -> str:
@@ -118,7 +119,7 @@ def _json_ld_for(page: PageRecord, all_pages: list[PageRecord]) -> str | None:
     return None  # practice/other: no structured data — see module docstring
 
 
-def _seo_block(page: PageRecord, all_pages: list[PageRecord]) -> str:
+def _seo_block(page: PageRecord, all_pages: list[PageRecord], routes: Routes | None = None) -> str:
     title = page.title or SITE_NAME
     description = page.description or ""
     locale = _OG_LOCALE.get(page.lang, page.lang)
@@ -126,6 +127,7 @@ def _seo_block(page: PageRecord, all_pages: list[PageRecord]) -> str:
 
     parts = [MARKER_START]
     parts.append(f'<link rel="canonical" href="{html.escape(page.canonical_url)}" />')
+    parts.extend(alternate_links(page.url_path, SITE_ORIGIN, routes or Routes()))
     if page.kind in CONTENT_LICENSE_KINDS:
         parts.append(f'<link rel="license" href="{CONTENT_LICENSE_URL}" />')
     if page.kind == "practice":

@@ -18,6 +18,7 @@ from urllib.parse import urljoin
 
 from book_pagination import chapter_start, page_for_url
 from chapter_metadata import chapter
+from localization import DEFAULT_LOCALE, LOCALES, UI_STRINGS, Routes
 
 
 # ---------------------------------------------------------------------------
@@ -4578,25 +4579,39 @@ def menu_bar_schematic(menu_labels: list[str], open_index: int, open_items: list
 # real `id="..."` elements on site/index.html (see build_site_index.py) —
 # this is the single source of truth both the desktop bar and the mobile
 # drawer render from, so they can never drift into different destinations.
-TOP_NAV_ITEMS = [
-    ("o-kurse", "О курсе"),
-    ("glavy", "Главы"),
-    ("praktika", "Практика"),
-    ("proekty", "Проекты"),
-    ("spravochnik", "Справочник"),
+NAV_KEYS = [
+    ("o-kurse", "about"),
+    ("glavy", "chapters"),
+    ("praktika", "practice"),
+    ("proekty", "projects"),
+    ("spravochnik", "reference"),
 ]
+TOP_NAV_ITEMS = [(anchor, UI_STRINGS[DEFAULT_LOCALE][key]) for anchor, key in NAV_KEYS]
 
 
-def _top_nav_items_html(active_section: str | None, li_class: str = "") -> str:
+def _locale_home(locale: str, routes: Routes | None) -> str:
+    if locale == DEFAULT_LOCALE:
+        return "/index.html"
+    home = (routes or Routes()).available("home").get(locale)
+    if home is None:
+        raise ValueError("Localized navigation requires an available homepage")
+    return home
+
+
+def _top_nav_items_html(active_section: str | None, li_class: str = "", *,
+                        locale: str = DEFAULT_LOCALE, routes: Routes | None = None) -> str:
     parts = []
-    for anchor, label in TOP_NAV_ITEMS:
+    home = _locale_home(locale, routes)
+    for anchor, key in NAV_KEYS:
+        label = UI_STRINGS[locale][key]
         classes = (li_class + " active").strip() if anchor == active_section else li_class
         cls_attr = f' class="{classes}"' if classes else ""
-        parts.append(f'<li><a href="/index.html#{anchor}"{cls_attr}>{html.escape(label)}</a></li>')
+        parts.append(f'<li><a href="{home}#{anchor}"{cls_attr}>{html.escape(label)}</a></li>')
     return "".join(parts)
 
 
-def site_header(active_section: str | None = "glavy") -> str:
+def site_header(active_section: str | None = "glavy", *, page_id: str | None = None,
+                locale: str = DEFAULT_LOCALE, routes: Routes | None = None) -> str:
     """Shared site header: home-linking logo + desktop top-nav + mobile toggle.
 
     All hrefs are root-relative (the site is deployed at the domain root), so
@@ -4606,23 +4621,28 @@ def site_header(active_section: str | None = "glavy") -> str:
     and site/assets/js/nav.js, which drives the open/close behavior for any
     element referenced this way, regardless of which template renders it).
     """
-    nav_items = _top_nav_items_html(active_section)
+    nav_items = _top_nav_items_html(active_section, locale=locale, routes=routes)
+    home = _locale_home(locale, routes)
+    switch = (routes or Routes()).switcher(page_id, locale) if page_id else ""
+    switch_html = f'<div class="language-switcher-desktop">{switch}</div>' if switch else ""
     return (
         '<header class="site-header">\n'
-        '  <a class="brand" href="/index.html">\n'
+        f'  <a class="brand" href="{home}">\n'
         '    <img src="/assets/img/logo.png" alt="Cartesian School" />\n'
         '    <span class="brand-word">Cartesian<span class="school">School</span></span>\n'
         "  </a>\n"
         f'  <ul class="top-nav">{nav_items}</ul>\n'
+        f'{switch_html}'
         '  <button class="nav-toggle" type="button" aria-expanded="false" '
-        'aria-controls="mobile-nav-panel" aria-label="Меню">'
+        f'aria-controls="mobile-nav-panel" aria-label="{UI_STRINGS[locale]["menu"]}">'
         '<span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>'
         "</button>\n"
         "</header>"
     )
 
 
-def mobile_nav_links(active_section: str | None = "glavy") -> str:
+def mobile_nav_links(active_section: str | None = "glavy", *, page_id: str | None = None,
+                     locale: str = DEFAULT_LOCALE, routes: Routes | None = None) -> str:
     """The site-wide nav links, for inclusion inside a page's mobile drawer.
 
     Kept separate from any page-local table of contents so it can be
@@ -4637,15 +4657,16 @@ def mobile_nav_links(active_section: str | None = "glavy") -> str:
     screen-reader user's path through the drawer to the actual nav links
     short.
     """
-    items = _top_nav_items_html(active_section, li_class="")
+    items = _top_nav_items_html(active_section, li_class="", locale=locale, routes=routes)
     hero = (
         '<div class="mobile-nav-hero" aria-hidden="true">'
         '<img class="mobile-nav-hero__mark" src="/assets/img/logo.png" alt="" />'
         '<span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span>'
-        '<span class="mobile-nav-hero__tag">Python 3.14 · Интерактивный курс</span>'
+        f'<span class="mobile-nav-hero__tag">{UI_STRINGS[locale]["course_tagline"]}</span>'
         "</div>"
     )
-    return f'<div class="mobile-nav-links">{hero}<ul class="toc-list">{items}</ul></div>'
+    switch = (routes or Routes()).switcher(page_id, locale) if page_id else ""
+    return f'<div class="mobile-nav-links">{hero}<ul class="toc-list">{items}</ul>{switch}</div>'
 
 
 NAV_SCRIPT_TAG = '<script src="/assets/js/nav.js" defer></script>'
@@ -4794,7 +4815,7 @@ def render_page(
     nav_html += "</div>"
 
     return _render_icon_markers(f"""<!DOCTYPE html>
-<html lang="ru">
+<html lang="{LOCALES[DEFAULT_LOCALE]['html_lang']}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -4867,7 +4888,7 @@ def render_chapter_opener(
         )
     rows_html = "".join(rows)
     return _render_icon_markers(f"""<!DOCTYPE html>
-<html lang="ru">
+<html lang="{LOCALES[DEFAULT_LOCALE]['html_lang']}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
