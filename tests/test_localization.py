@@ -44,6 +44,19 @@ def test_glossary_contract():
     assert set('print input len int float str list dict set tuple Exception'.split()) <= set(TERMINOLOGY['protected_identifiers'])
 
 
+def test_ui_strings_new_keys():
+    assert UI_STRINGS['ru']['course_title'] == 'Python с нуля'
+    assert UI_STRINGS['pl']['course_title'] == 'Python od zera'
+    assert UI_STRINGS['ru']['license_footer'] == 'Лицензия · CC BY-NC-SA 4.0'
+    assert UI_STRINGS['pl']['license_footer'] == 'Licencja · CC BY-NC-SA 4.0'
+
+
+def test_forbidden_synonyms_contract():
+    assert TERMINOLOGY['forbidden_synonyms']
+    assert all(isinstance(k, str) and isinstance(v, str) and k and v
+               for k, v in TERMINOLOGY['forbidden_synonyms'].items())
+
+
 def test_missing_translation():
     routes = Routes()
     assert routes.available('home') == {'ru':'/index.html'}
