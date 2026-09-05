@@ -562,6 +562,52 @@ function observePage(page, base) {
       await page.close();
     }
 
+    const NOTES_APP_VIEWPORTS = [[1440, 900], [1024, 900], [768, 1024], [390, 844]];
+    for (const [width, height] of NOTES_APP_VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width, height } });
+      const faults = observePage(page, base);
+      await page.goto(`${base}/projects/notes-app/`, { waitUntil: 'networkidle' });
+      const result = await page.evaluate(() => {
+        const svg = document.querySelector('.project-art--notes-app[aria-hidden="true"]');
+        const visual = document.querySelector('.project-detail-hero__visual');
+        const svgRect = svg ? svg.getBoundingClientRect() : null;
+        const visualRect = visual.getBoundingClientRect();
+        const motionNodes = [
+          ...document.querySelectorAll(
+            '.project-art--notes-app .notes-line--active, .project-art--notes-app .notes-caret, ' +
+            '.project-art--notes-app .notes-unsaved, .project-art--notes-app .notes-save, ' +
+            '.project-art--notes-app .notes-flow, .project-art--notes-app .notes-flow-dot, ' +
+            '.project-art--notes-app .notes-file-glow, .project-art--notes-app .notes-file-line, ' +
+            '.project-art--notes-app .notes-saved'
+          ),
+        ];
+        return {
+          overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          artFound: Boolean(svg),
+          svgContained: svg ? svgRect.width <= visualRect.width + 1 && svgRect.height <= visualRect.height + 1 : false,
+          windowFound: Boolean(document.querySelector('.project-art--notes-app .notes-window')),
+          headerFound: Boolean(document.querySelector('.project-art--notes-app .notes-header')),
+          editorFound: Boolean(document.querySelector('.project-art--notes-app .notes-editor')),
+          lineCount: document.querySelectorAll('.project-art--notes-app .notes-line').length,
+          caretFound: Boolean(document.querySelector('.project-art--notes-app .notes-caret')),
+          unsavedFound: Boolean(document.querySelector('.project-art--notes-app .notes-unsaved')),
+          saveFound: Boolean(document.querySelector('.project-art--notes-app .notes-save')),
+          fileFound: Boolean(document.querySelector('.project-art--notes-app .notes-file')),
+          savedFound: Boolean(document.querySelector('.project-art--notes-app .notes-saved')),
+          hasNormalMotion: motionNodes.some((node) => getComputedStyle(node).animationName !== 'none'),
+        };
+      });
+      const viewport = `${width}x${height}`;
+      ok(`notes-app ${viewport}: art renders and is contained (no SVG overflow)`, result.artFound && result.svgContained);
+      ok(`notes-app ${viewport}: editor window, header, and editor body render`, result.windowFound && result.headerFound && result.editorFound);
+      ok(`notes-app ${viewport}: at least 4 text lines render`, result.lineCount >= 4);
+      ok(`notes-app ${viewport}: caret, unsaved indicator, and save icon render`, result.caretFound && result.unsavedFound && result.saveFound);
+      ok(`notes-app ${viewport}: file cue and saved-confirmation cue render`, result.fileFound && result.savedFound);
+      ok(`notes-app ${viewport}: normal-motion animation is present`, result.hasNormalMotion);
+      ok(`notes-app ${viewport}: no page overflow or browser faults`, !result.overflow && faults.length === 0);
+      await page.close();
+    }
+
     for (const [width, height] of VIEWPORTS) {
       for (const slug of REPRESENTATIVE_PROJECTS) {
         const page = await browser.newPage({ viewport: { width, height } });
@@ -712,6 +758,11 @@ function observePage(page, base) {
       '.project-art--temperature-converter .temp-flow-dot', '.project-art--temperature-converter .temp-value-state',
       '.project-art--temperature-converter .temp-celsius', '.project-art--temperature-converter .temp-fahrenheit',
       '.project-art--temperature-converter .temp-kelvin',
+      '.project-art--notes-app .notes-line--active', '.project-art--notes-app .notes-caret',
+      '.project-art--notes-app .notes-unsaved', '.project-art--notes-app .notes-save',
+      '.project-art--notes-app .notes-flow', '.project-art--notes-app .notes-flow-dot',
+      '.project-art--notes-app .notes-file-glow', '.project-art--notes-app .notes-file-line',
+      '.project-art--notes-app .notes-saved',
     ].flatMap((selector) => [...document.querySelectorAll(selector)].map((node) => getComputedStyle(node).animationName)));
     ok('reduced motion: all redesigned decorative animation is disabled', animations.every((name) => name === 'none'));
     const storyReducedState = await reduced.evaluate(() => {
@@ -877,6 +928,41 @@ function observePage(page, base) {
       tempReducedState.kelvinText.includes('293.15') && tempReducedState.kelvinText.includes('K'));
     ok('reduced motion: temperature-converter travelling dots and hub pulse ring stay hidden (no mid-flight freeze)',
       tempReducedState.dotsHidden && tempReducedState.hubRingHidden);
+    const notesReducedState = await reduced.evaluate(() => {
+      const opacityOf = (node) => parseFloat(getComputedStyle(node).opacity);
+      const lines = [...document.querySelectorAll('.project-art--notes-app .notes-line')];
+      const activeLine = document.querySelector('.project-art--notes-app .notes-line--active');
+      const referenceLine = lines.find((node) => node !== activeLine);
+      const caret = document.querySelector('.project-art--notes-app .notes-caret');
+      const unsaved = document.querySelector('.project-art--notes-app .notes-unsaved');
+      const fileLines = [...document.querySelectorAll('.project-art--notes-app .notes-file-line')];
+      const flowDot = document.querySelector('.project-art--notes-app .notes-flow-dot');
+      const flow = document.querySelector('.project-art--notes-app .notes-flow');
+      const fileGlow = document.querySelector('.project-art--notes-app .notes-file-glow');
+      const saved = document.querySelector('.project-art--notes-app .notes-saved');
+      return {
+        allLinesVisible: lines.every((node) => opacityOf(node) > 0),
+        activeLineComplete: activeLine && referenceLine
+          ? activeLine.getBoundingClientRect().width / referenceLine.getBoundingClientRect().width > 0.5
+          : false,
+        caretVisible: caret ? opacityOf(caret) === 1 : false,
+        unsavedClean: unsaved ? opacityOf(unsaved) < 0.5 : false,
+        fileLinesVisible: fileLines.length > 0 && fileLines.every((node) => opacityOf(node) > 0),
+        flowHidden: flow ? opacityOf(flow) === 0 : false,
+        flowDotHidden: flowDot ? opacityOf(flowDot) === 0 : false,
+        fileGlowHidden: fileGlow ? opacityOf(fileGlow) === 0 : false,
+        savedBadgeHidden: saved ? opacityOf(saved) === 0 : false,
+      };
+    });
+    ok('reduced motion: notes-app shows all text lines complete (not mid-typing)',
+      notesReducedState.allLinesVisible && notesReducedState.activeLineComplete);
+    ok('reduced motion: notes-app caret stays visible at rest (not blinking)', notesReducedState.caretVisible);
+    ok('reduced motion: notes-app settles on a clean (saved) unsaved-indicator state', notesReducedState.unsavedClean);
+    ok('reduced motion: notes-app file icon shows saved content', notesReducedState.fileLinesVisible);
+    ok('reduced motion: notes-app data-flow path and travelling dot stay hidden (no mid-flight freeze)',
+      notesReducedState.flowHidden && notesReducedState.flowDotHidden);
+    ok('reduced motion: notes-app file confirmation glow and saved-checkmark badge stay hidden (no frozen pulse)',
+      notesReducedState.fileGlowHidden && notesReducedState.savedBadgeHidden);
     await reduced.close();
 
     await browser.close();

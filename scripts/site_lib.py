@@ -5619,6 +5619,55 @@ def _temperature_converter_scene() -> str:
   </g>"""
 
 
+def _notes_app_scene() -> str:
+    """Bespoke web illustration for notes-app: a compact text-editor window
+    — title, unsaved-state dot, save icon, and four text lines where the
+    last one visibly types out with a following caret — that then saves
+    (icon press, a data pulse travels to a small file icon, the unsaved
+    dot clears, a brief checkmark confirms) before the cycle resets.
+    Replaces the old static single-document-plus-three-bars icon, which
+    read as "text file" but not "editing", with a scene that shows the
+    actual edit -> save -> file lifecycle the project implements.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <rect class="notes-window" x="70" y="20" width="260" height="185" rx="18" fill="#fff" opacity=".97"/>
+  <g class="notes-header">
+    <text x="86" y="40" font-family="'Sora', sans-serif" font-weight="700" font-size="14" fill="var(--navy-900)" opacity=".85">Заметка</text>
+    <circle class="notes-unsaved" cx="284" cy="35" r="4.5" fill="var(--amber-500)" opacity=".2"/>
+    <g class="notes-save">
+      <rect x="300" y="26" width="18" height="18" rx="4" fill="var(--blue-500)"/>
+      <rect x="304" y="28" width="10" height="6" rx="1" fill="#fff" opacity=".92"/>
+      <rect x="305" y="36" width="8" height="5" rx="1" fill="#fff" opacity=".55"/>
+    </g>
+    <line x1="86" y1="52" x2="314" y2="52" stroke="var(--navy-900)" stroke-width="1" opacity=".1"/>
+  </g>
+  <g class="notes-editor">
+    <rect class="notes-line" x="86" y="64" width="200" height="8" rx="4" fill="var(--navy-900)" opacity=".7"/>
+    <rect class="notes-line" x="86" y="86" width="175" height="8" rx="4" fill="var(--navy-900)" opacity=".55"/>
+    <rect class="notes-line" x="86" y="108" width="190" height="8" rx="4" fill="var(--navy-900)" opacity=".55"/>
+    <rect class="notes-line notes-line--active" x="86" y="130" width="150" height="8" rx="4" fill="var(--blue-500)" opacity=".85"/>
+    <rect class="notes-caret" x="86" y="127" width="2.4" height="14" rx="1.2" fill="var(--navy-950)"/>
+  </g>
+  <path class="notes-flow" d="M318,40 Q345,60 352,90" fill="none" stroke="var(--blue-300)" stroke-width="1.8" stroke-dasharray="3 6" opacity="0"/>
+  <circle class="notes-flow-dot" cx="318" cy="40" r="3" fill="var(--blue-500)" opacity="0"/>
+  <g class="notes-file">
+    <circle class="notes-file-glow" cx="358" cy="118" r="26" fill="var(--blue-500)" opacity="0"/>
+    <path d="M340,96 H366 L376,106 V140 H340 Z" fill="#fff" opacity=".92"/>
+    <path d="M366,96 V106 H376 Z" fill="#fff" opacity=".5"/>
+    <rect class="notes-file-line" x="346" y="116" width="20" height="5" rx="2.5" fill="var(--navy-900)" opacity="0"/>
+    <rect class="notes-file-line" x="346" y="126" width="14" height="5" rx="2.5" fill="var(--navy-900)" opacity="0"/>
+  </g>
+  <g class="notes-saved" opacity="0">
+    <circle cx="284" cy="35" r="6" fill="var(--green-500)"/>
+    <path d="M281,35 l2,3 5,-6" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>"""
+
+
 def _rps_glyph(kind: str) -> str:
     """Shared ~42-unit-wide symbol geometry centered on local (0,0), reused
     at every scale (small pool token, large match icon) so rock/paper/
@@ -5729,6 +5778,8 @@ def project_illustration(project_id: str) -> str:
         scene = _rock_paper_scissors_scene()
     elif project_id == "temperature-converter":
         scene = _temperature_converter_scene()
+    elif project_id == "notes-app":
+        scene = _notes_app_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
