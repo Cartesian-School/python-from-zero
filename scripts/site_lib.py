@@ -5668,6 +5668,97 @@ def _notes_app_scene() -> str:
   </g>"""
 
 
+def _safesort_scene() -> str:
+    """Bespoke web illustration for safesort: unsorted files are scanned,
+    assembled into a reviewable plan, gated behind a shield/check safety
+    confirmation, then two representative files move into destination
+    folders while a duplicate pair is compared by size/hash (never deleted)
+    and every move is written to a small reversible log with an undo cue.
+    Replaces the old static files+shield composition, which read as "secure
+    file manager" but not "safe, planned, reversible sorting", with a scene
+    that shows the actual scan -> plan -> apply -> verify -> undo lifecycle.
+
+    Deliberately independent of _project_icon_svg(), which the closed
+    PDF/EPUB appendix (project_publication_illustration()) still relies on
+    unchanged — this scene is consumed only by project_illustration(), so
+    the accepted publication byte contract for this project is untouched.
+    """
+    return """
+  <g class="safesort-files">
+    <g class="safesort-file" transform="rotate(-8 33 43)">
+      <path d="M18,24 H39 L48,33 V62 H18 Z" fill="#fff" opacity=".92"/>
+      <path d="M39,24 V33 H48 Z" fill="var(--navy-950)" opacity=".18"/>
+    </g>
+    <g class="safesort-file" transform="rotate(5 59 61)">
+      <path d="M44,42 H65 L74,51 V80 H44 Z" fill="#fff" opacity=".85"/>
+      <path d="M65,42 V51 H74 Z" fill="var(--navy-950)" opacity=".18"/>
+    </g>
+    <g class="safesort-file" transform="rotate(-4 41 81)">
+      <path d="M26,62 H47 L56,71 V100 H26 Z" fill="#fff" opacity=".78"/>
+      <path d="M47,62 V71 H56 Z" fill="var(--navy-950)" opacity=".18"/>
+    </g>
+  </g>
+  <rect class="safesort-scan" x="2" y="18" width="16" height="90" rx="4" fill="#fff" opacity="0"/>
+
+  <path class="safesort-route safesort-route--intake" d="M84,58 C104,58 120,64 138,64" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 6" opacity=".18"/>
+
+  <rect class="safesort-plan" x="140" y="20" width="92" height="96" rx="14" fill="#fff" opacity="0"/>
+  <rect class="safesort-plan-row" x="152" y="34" width="68" height="12" rx="6" fill="var(--navy-950)" opacity="0"/>
+  <rect class="safesort-plan-row safesort-plan-row--2" x="152" y="54" width="68" height="12" rx="6" fill="var(--navy-950)" opacity="0"/>
+  <rect class="safesort-plan-row safesort-plan-row--3" x="152" y="74" width="52" height="12" rx="6" fill="var(--navy-950)" opacity="0"/>
+
+  <g class="safesort-shield">
+    <path d="M216,88 L232,94 V110 Q232,127 216,133 Q200,127 200,110 V94 Z" fill="#fff" opacity=".92"/>
+    <circle class="safesort-shield-badge" cx="216" cy="111" r="11" fill="var(--green-500)" opacity="0"/>
+    <path class="safesort-shield-check" d="M210,111 L214,116 223,105" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="20" stroke-dashoffset="20"/>
+  </g>
+
+  <path class="safesort-route safesort-route--apply-1" d="M232,50 C250,50 260,45 272,41" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 6" opacity=".15"/>
+  <path class="safesort-route safesort-route--apply-2" d="M232,82 C250,88 260,96 272,99" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 6" opacity=".15"/>
+  <rect class="safesort-files__mover safesort-files__mover--1" x="222" y="34" width="16" height="16" rx="4" fill="#fff" opacity="0"/>
+  <rect class="safesort-files__mover safesort-files__mover--2" x="222" y="74" width="16" height="16" rx="4" fill="#fff" opacity="0"/>
+
+  <g class="safesort-folder safesort-folder--1">
+    <rect x="274" y="26" width="34" height="10" rx="4" fill="#fff" opacity=".55"/>
+    <rect class="safesort-folder-active" x="274" y="26" width="34" height="10" rx="4" fill="var(--green-500)" opacity="0"/>
+    <rect x="266" y="34" width="60" height="42" rx="8" fill="#fff" opacity=".85"/>
+    <circle class="safesort-folder-pulse safesort-folder-pulse--1" cx="296" cy="55" r="6" fill="var(--green-500)" opacity="0"/>
+  </g>
+  <g class="safesort-folder safesort-folder--2">
+    <rect x="274" y="86" width="34" height="10" rx="4" fill="#fff" opacity=".55"/>
+    <rect class="safesort-folder-active" x="274" y="86" width="34" height="10" rx="4" fill="var(--green-500)" opacity="0"/>
+    <rect x="266" y="94" width="60" height="42" rx="8" fill="#fff" opacity=".85"/>
+    <circle class="safesort-folder-pulse safesort-folder-pulse--2" cx="296" cy="115" r="6" fill="var(--green-500)" opacity="0"/>
+  </g>
+
+  <g class="safesort-duplicate">
+    <rect class="safesort-duplicate-tile safesort-duplicate-tile--a" x="26" y="150" width="26" height="32" rx="5" fill="#fff" opacity=".85"/>
+    <rect class="safesort-duplicate-tile safesort-duplicate-tile--b" x="70" y="150" width="26" height="32" rx="5" fill="#fff" opacity=".85"/>
+    <path class="safesort-duplicate-line" d="M52,166 H70" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 4" opacity=".45"/>
+    <circle class="safesort-duplicate-check-badge" cx="61" cy="146" r="8" fill="var(--green-500)" opacity="0"/>
+    <path class="safesort-duplicate-check" d="M57,146 L60,149 66,142" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14" stroke-dashoffset="14"/>
+  </g>
+  <g class="safesort-hash">
+    <rect x="40" y="190" width="42" height="14" rx="7" fill="#fff" opacity=".8"/>
+    <rect class="safesort-hash-tick" x="46" y="194" width="4" height="6" rx="1.5" fill="var(--navy-950)" opacity=".3"/>
+    <rect class="safesort-hash-tick" x="55" y="194" width="4" height="6" rx="1.5" fill="var(--navy-950)" opacity=".3"/>
+    <rect class="safesort-hash-tick" x="64" y="194" width="4" height="6" rx="1.5" fill="var(--navy-950)" opacity=".3"/>
+    <rect class="safesort-hash-tick" x="73" y="194" width="4" height="6" rx="1.5" fill="var(--navy-950)" opacity=".3"/>
+  </g>
+
+  <g class="safesort-history">
+    <rect x="150" y="145" width="112" height="58" rx="10" fill="#fff" opacity=".85"/>
+    <rect class="safesort-history-row" x="160" y="160" width="70" height="7" rx="3.5" fill="var(--navy-950)" opacity="0"/>
+    <rect class="safesort-history-row safesort-history-row--2" x="160" y="175" width="55" height="7" rx="3.5" fill="var(--navy-950)" opacity="0"/>
+    <circle class="safesort-history-check-badge" cx="248" cy="153" r="8" fill="var(--green-500)" opacity="0"/>
+    <path class="safesort-history-check" d="M244,153 L247,156 253,149" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="12" stroke-dashoffset="12"/>
+  </g>
+
+  <g class="safesort-undo" opacity="0">
+    <path d="M12.5 8c-2.65 0-5.05 0.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.98 5.12-1.98 3.54 0 6.55 2.31 7.6 5.5l2.37-0.78C21.08 11.03 17.15 8 12.5 8z" fill="#fff"/>
+  </g>"""
+
+
 def _rps_glyph(kind: str) -> str:
     """Shared ~42-unit-wide symbol geometry centered on local (0,0), reused
     at every scale (small pool token, large match icon) so rock/paper/
@@ -5780,6 +5871,8 @@ def project_illustration(project_id: str) -> str:
         scene = _temperature_converter_scene()
     elif project_id == "notes-app":
         scene = _notes_app_scene()
+    elif project_id == "safesort":
+        scene = _safesort_scene()
     else:
         icon = _project_icon_svg(project_id)
         scene = f"""
