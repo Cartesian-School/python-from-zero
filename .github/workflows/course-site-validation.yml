@@ -63,7 +63,7 @@ jobs:
       - name: Install Python test dependencies
         run: >-
           python -m pip install pytest pygame-ce Flask nbformat build
-          pypdf==6.16.1 beautifulsoup4 lxml WeasyPrint==69.0 EbookLib
+          pypdf==6.16.1 beautifulsoup4 lxml WeasyPrint==69.0 EbookLib epubcheck==5.1.0
 
       - name: Install SafeSort (editable — tests/test_chapter23_safesort.py imports it)
         run: python -m pip install -e "projects/python/safesort/[dev]"
@@ -103,6 +103,13 @@ jobs:
       - name: Run Author Profile Playwright contract
         working-directory: web
         run: npm run test:author
+
+      - name: Run course PCB browser contract
+        working-directory: web
+        run: npm run test:pcb
+
+      - name: Validate publication artifacts
+        run: python scripts/validate_book.py
 
       - name: Validate M01 completeness
         run: python scripts/validate_ru_content_review.py --require-records --require-complete-scope

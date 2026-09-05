@@ -96,6 +96,8 @@
     var st = nodes[i].dataset.state;
     if (st === "not-started" || st === "in-progress") {
       nodes[i].classList.add("state-current");
+      nodes[i].querySelector(".jn-card").setAttribute("aria-current", "step");
+      if (nodes[i + 1]) nodes[i + 1].classList.add("state-preview");
       var curBadge = nodes[i].querySelector(".jn-state-badge");
       if (curBadge) curBadge.textContent = "Текущая глава";
       break;

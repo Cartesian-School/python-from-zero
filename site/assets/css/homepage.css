@@ -334,14 +334,6 @@
     repeating-linear-gradient(90deg, rgba(13,2,48,.022) 0 1px, transparent 1px 68px),
     repeating-linear-gradient(0deg, rgba(13,2,48,.018) 0 1px, transparent 1px 68px);
 }
-/* A faint motherboard trace motif anchored to the section corners — echoes
-   the same orthogonal-path + via-dot language as .course-experience__geometry
-   and .author-profile__geometry, kept static so the section's one deliberate
-   motion cue stays on .journey-rail's signal pulse below. */
-.glavy__geometry { position: absolute; z-index: -1; inset: 0; pointer-events: none; }
-.glavy__geometry svg { display: block; width: 100%; height: 100%; }
-.glavy__geometry path { fill: none; stroke: rgba(24,93,250,.14); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
-.glavy__geometry circle { fill: #fff; stroke: rgba(24,93,250,.45); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 #praktika::before {
   background:
     radial-gradient(700px 420px at 8% 0%, rgba(91,36,249,.04), transparent 58%),
@@ -669,125 +661,95 @@
 /* ==========================================================================
    COURSE JOURNEY — visual roadmap of all 24 chapters (signature element)
    ========================================================================== */
+/* COURSE JOURNEY — mounted modules on a light, routed learning backplane. */
+.pcb-board {
+  position: relative; isolation: isolate; padding: 38px 34px 46px; border: 1px solid #bdd1e8; border-radius: 24px;
+  background: radial-gradient(ellipse at 50% 0, #e5edff, transparent 650px),
+    repeating-linear-gradient(90deg, #527caf0b 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(0deg, #527caf0b 0 1px, transparent 1px 24px), #f3f8fc;
+  box-shadow: inset 0 0 0 6px #fff9, 0 8px 24px #274f7910;
+}
+.pcb-surface { position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; overflow: hidden; }
+.pcb-traces { fill: none; stroke: #88aed2; stroke-width: 1.5; opacity: .52; }
+.pcb-vias { fill: #f3f8fc; stroke: #6995bd; stroke-width: 1.5; opacity: .7; }
+.pcb-components { fill: #e2edf7; stroke: #7e9cba; stroke-width: 1.3; opacity: .58; }
+.pcb-silkscreen { fill: #7189a5; font: 9px 'JetBrains Mono', monospace; letter-spacing: 2px; }
 .journey-progress {
-  position: relative; overflow: hidden;
-  max-width: 720px; margin: 0 auto 64px; padding: 28px 32px; text-align: left;
-  background: var(--surface-2); border: var(--border-hairline); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  position: relative; max-width: 720px; margin: 0 auto 38px; padding: 20px 28px 24px; text-align: left;
+  background: linear-gradient(120deg, #e4edff, #f6f8ff 60%, #e1f5f5); border: 1px solid #849fc5; border-radius: 8px;
+  box-shadow: inset 0 0 0 5px #fff8, inset 0 -8px 12px #476a9510, 0 5px 0 -2px #b8cadd, 0 8px 14px #36558312;
 }
-/* One thin status strip naming the three signal states used below (blue =
-   current, violet = in progress, green = completed) before any chapter data
-   loads. */
-.journey-progress::before {
-  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, var(--blue-500), var(--violet-500) 52%, var(--green-500));
-}
+.journey-progress::after { content: ''; position: absolute; left: calc(50% - 13px); top: 100%; width: 26px; height: 39px; background: repeating-linear-gradient(90deg, #859dbc 0 3px, transparent 3px 11.5px); }
+.jp-hardware { display: flex; align-items: center; gap: 5px; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 3px double #9fb9d4; }
+.jp-hardware span { margin-right: auto; font: 10px 'JetBrains Mono', monospace; letter-spacing: 2px; color: #57708e; }
+.jp-hardware i { width: 5px; height: 5px; background: #91a9bd; border-radius: 50%; }
+.jp-hardware i:first-of-type { background: #2767ec; box-shadow: 0 0 5px #2767ec80; }
 .jp-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
 .journey-progress .jp-headline { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px; }
-.jp-pct { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 26px; font-variant-numeric: tabular-nums; color: var(--color-brand-violet); }
-.journey-progress .jp-detail { color: var(--color-text-muted); font-size: 15px; margin-bottom: 16px; }
-.journey-progress .jp-bar-track { height: 10px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; }
-.journey-progress .jp-bar-fill { height: 100%; width: 0%; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); transition: width var(--duration-slow) var(--ease-out); }
-.jp-stats-row { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--color-border-default); }
-.jp-stat { font-size: 13px; color: var(--color-text-muted); }
-.jp-stat strong { color: var(--color-text-primary); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-
-.journey-rail { position: relative; max-width: 900px; margin: 0 auto; }
-.journey-rail::before {
-  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
-  background: linear-gradient(var(--violet-300), var(--blue-300) 40%, var(--gray-200) 75%);
-  opacity: .55; box-shadow: 0 0 14px rgba(24,93,250,.14);
-  transform: translateX(-50%); border-radius: var(--radius-full);
-}
-/* The live signal: a short glowing segment travelling the full length of the
-   rail on a loop — "the course roadmap is a live signal path", kept as the
-   section's one continuous motion cue so everything else can stay still. */
-.journey-rail::after {
-  content: ""; position: absolute; left: 50%; top: -10%; width: 3px; height: 56px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent, var(--blue-500) 42%, var(--violet-400) 68%, transparent);
-  filter: drop-shadow(0 0 5px rgba(24,93,250,.55));
-  border-radius: var(--radius-full);
-  animation: journey-signal-travel 5.5s linear infinite;
-}
-@keyframes journey-signal-travel {
-  0% { top: -10%; }
-  100% { top: 108%; }
-}
-.journey-node {
-  --accent: rgba(185,160,252,.45);
-  position: relative; display: grid; grid-template-columns: 1fr 60px 1fr; align-items: center; margin-bottom: 10px;
-}
-.journey-node.state-not-started, .journey-node.state-no-lessons { --accent: rgba(180,180,196,.5); }
-.journey-node.state-in-progress { --accent: var(--color-brand-violet); }
-.journey-node.state-completed { --accent: var(--green-500); }
-.journey-node.state-current { --accent: var(--color-brand-blue); }
-.journey-node .jn-dot {
-  position: relative; grid-column: 2; width: 22px; height: 22px; border-radius: 50%; background: var(--surface-0);
-  border: 3px solid var(--gray-400); z-index: 1; justify-self: center;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800; color: transparent;
-  transition: border-color var(--duration-base) var(--ease-standard), background var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard);
-}
-/* A short connector trace linking each via-dot to the chip it feeds — ::after
-   stays free for the completed checkmark below, as it was before this pass. */
-.journey-node .jn-dot::before {
-  content: ""; position: absolute; top: 50%; width: 19px; height: 2px;
-  background: var(--accent); opacity: .6; transform: translateY(-50%);
-}
-.journey-node:nth-child(odd) .jn-dot::before { right: 100%; }
-.journey-node:nth-child(even) .jn-dot::before { left: 100%; }
-.journey-node:has(.jn-card:hover) .jn-dot { box-shadow: 0 0 0 6px rgba(24,93,250,.14); transform: scale(1.08); }
-.journey-node.state-completed .jn-dot { border-color: var(--green-500); background: var(--green-500); color: #fff; }
-.journey-node.state-completed .jn-dot::after { content: "✓"; }
-.journey-node.state-in-progress .jn-dot { border-color: var(--color-brand-violet); background: var(--surface-0); box-shadow: 0 0 0 5px rgba(91,36,249,0.15); }
-.journey-node.state-current .jn-dot { border-color: var(--color-brand-blue); background: var(--color-brand-blue); box-shadow: 0 0 0 7px rgba(24,93,250,0.16); transform: scale(1.05); }
-
-.jn-card {
-  position: relative; display: block; background: var(--surface-2); border: var(--border-hairline); border-radius: 14px;
-  padding: 18px 22px; text-decoration: none; color: var(--color-text-primary); box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard), background var(--duration-base) var(--ease-standard);
-}
-/* Module edge: a slim status-colored connector strip on the side facing the
-   signal rail, turning each card into a chip reading its state off the bus. */
-.jn-card::before {
-  content: ""; position: absolute; top: 10px; bottom: 10px; width: 3px; border-radius: var(--radius-full);
-  background: var(--accent); transition: background var(--duration-base) var(--ease-standard);
-}
-.journey-node:nth-child(odd) .jn-card::before { right: -1px; }
-.journey-node:nth-child(even) .jn-card::before { left: -1px; }
-.jn-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--color-brand-blue); }
-.journey-node.state-completed .jn-card { background: linear-gradient(180deg, rgba(34,197,94,.055), var(--surface-2) 42%); }
-.journey-node.state-in-progress .jn-card { background: linear-gradient(180deg, rgba(91,36,249,.05), var(--surface-2) 42%); }
-.journey-node.state-current .jn-card { border-color: rgba(24,93,250,.35); box-shadow: var(--shadow-glow-blue); background: linear-gradient(180deg, rgba(24,93,250,.07), var(--surface-2) 46%); }
-.journey-node:nth-child(odd) .jn-card { grid-column: 1; text-align: right; }
-.journey-node:nth-child(even) .jn-card { grid-column: 3; text-align: left; }
-.jn-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.journey-node:nth-child(odd) .jn-card-top { justify-content: flex-end; }
-.jn-num {
-  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .03em;
-  color: var(--color-brand-blue); background: rgba(24,93,250,.08); padding: 2px 8px; border-radius: 5px;
-}
-.jn-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 8px; line-height: 1.35; }
-.jn-progress-track {
-  height: 5px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; margin-bottom: 8px;
-  background-image: repeating-linear-gradient(90deg, transparent 0 5px, rgba(255,255,255,.85) 5px 6px);
-}
-.jn-progress-fill { height: 100%; width: 0%; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); transition: width var(--duration-slow) var(--ease-out); }
-.jn-meta { font-size: 13px; color: var(--color-text-muted); }
-.jn-state-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); margin-top: 8px; }
-.journey-node:nth-child(odd) .jn-state-badge { flex-direction: row-reverse; }
-.jn-state-badge:not(:empty)::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
-.state-not-started .jn-state-badge { background: var(--gray-100); color: var(--gray-600); }
-.state-in-progress .jn-state-badge { background: #F3EEFF; color: var(--violet-500); }
-.state-completed .jn-state-badge { background: #E7F9EF; color: #15803D; }
-.state-current .jn-state-badge { background: #EAF1FF; color: var(--blue-600); font-weight: 700; }
-.state-current .jn-state-badge::before { animation: chip-led-pulse 2.4s ease-in-out infinite; }
-@keyframes chip-led-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(24,93,250,.55); }
-  50% { box-shadow: 0 0 0 4px rgba(24,93,250,0); }
-}
-
+.jp-pct { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 28px; font-variant-numeric: tabular-nums; color: #5148cf; }
+.journey-progress .jp-detail { color: #53647e; font-size: 14px; margin-bottom: 16px; }
+.jp-bar-track { height: 9px; padding: 1px; border: 1px solid #becddf; background: #d5e1ec; border-radius: 3px; }
+.jp-bar-fill { position: relative; height: 100%; width: 0%; border-radius: 2px; background: linear-gradient(90deg, #2767ec, #7451e8, #29aebd); transition: width var(--duration-slow) var(--ease-out); }
+.jp-bar-fill[style]:not([style*='width: 0%'])::after { content: ''; position: absolute; right: -3px; top: -1px; width: 7px; height: 7px; border-radius: 50%; background: #199c75; box-shadow: 0 0 6px #199c7566; }
+.jp-stats-row { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #b8cbe0; }
+.jp-stat { font-size: 12px; color: #53647e; }
+.jp-stat strong { color: #1a294b; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.journey-rail { position: relative; max-width: 960px; margin: 0 auto; }
+.pcb-bus { position: absolute; left: calc(50% - 13px); top: 0; bottom: 0; width: 26px; display: flex; justify-content: space-between; padding: 0 1px; background: #dce9f2a6; border-radius: 8px; }
+.pcb-bus i { width: 3px; height: 100%; background: #96adc8; border-inline: 1px solid #f7fbff; }
+.pcb-bus i:nth-child(2) { background: #879ed0; }
+.journey-node { --accent: #8b9fb5; --body: #edf3f8; --edge: #adbed0; position: relative; display: grid; grid-template-columns: minmax(0,1fr) 164px minmax(0,1fr); align-items: center; min-height: 172px; padding-block: 14px; }
+.journey-node.state-in-progress { --accent: #7660c9; --body: #eceafa; --edge: #afa1d7; }
+.journey-node.state-completed { --accent: #168567; --body: #def3e9; --edge: #78b4a1; }
+.journey-node.state-current { --accent: #3b61e8; --body: #e1e8ff; --edge: #5d7ce6; }
+.jn-route { position: absolute; left: 50%; top: calc(50% - 90px); width: 82px; height: 180px; overflow: visible; fill: none; pointer-events: none; color: var(--accent); }
+.journey-node:nth-child(odd) .jn-route { left: calc(50% - 82px); transform: scaleX(-1); }
+.jn-route path { vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.jn-route-base { stroke: var(--accent); stroke-width: 2; }
+.jn-route-secondary { stroke: #b5c8d9; stroke-width: 1.5; }
+.jn-via { fill: #f3f8fc; stroke: currentColor; stroke-width: 1.5; }
+.jn-dot { position: relative; grid-column: 2; grid-row: 1; justify-self: center; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent); background: #f3f8fc; z-index: 1; }
+.state-completed .jn-dot { background: #168567; box-shadow: 0 0 0 4px #d8f0e8; }
+.state-current .jn-dot { background: #3b61e8; box-shadow: 0 0 0 5px #d9e3ff, 0 0 16px #3b61e84d; }
+.jn-card { position: relative; grid-row: 1; display: block; padding: 18px 22px; text-align: left; text-decoration: none; color: #1a294b; border: 1.5px solid var(--edge); border-radius: 7px; background: linear-gradient(135deg, #ffffff8c, transparent 60%), var(--body); box-shadow: inset 0 0 0 4px #ffffff80, inset 0 -7px 10px #476a9510, 0 4px 0 -1px #b4c4d5, 0 6px 10px #1e426a14; transition: transform 180ms ease, border-color 180ms ease; }
+.journey-node:nth-child(odd) .jn-card { grid-column: 1; }
+.journey-node:nth-child(even) .jn-card { grid-column: 3; }
+.jn-card::after { content: ''; position: absolute; inset: 8px; border: 1px solid #fff9; border-radius: 2px; pointer-events: none; }
+.jn-card:hover { transform: translateY(-2px); border-color: #3b61e8; }
+.jn-card:focus-visible { outline: 3px solid #3b61e8; outline-offset: 7px; }
+.journey-node:has(.jn-card:is(:hover,:focus-visible)) .jn-route-base { stroke: #3b61e8; }
+.jn-pins { position: absolute; top: calc(50% - 15px); left: -13px; width: 12px; display: grid; gap: 6px; }
+.jn-pins i { height: 6px; border: 1px solid #90a7c0; border-radius: 1px; background: linear-gradient(#eef5fc, #a6b9cd); }
+.journey-node:nth-child(odd) .jn-pins { left: auto; right: -13px; }
+.jn-pins i:nth-child(2), .jn-pins i:nth-child(3) { background: var(--accent); border-color: var(--accent); }
+.jn-pads { position: absolute; bottom: -6px; left: 24px; display: flex; gap: 5px; }
+.jn-pads i { height: 5px; width: 9px; background: #a3b7cb; border: 1px solid #8aa1bb; border-top: 0; }
+.journey-node:has([data-module="1"]) .jn-pads { left: auto; right: 24px; }
+.journey-node:has([data-module="2"]) .jn-pads { top: -6px; bottom: auto; }
+.journey-node:has([data-module="2"]) .jn-card { border-radius: 13px 5px 13px 5px; }
+.journey-node:has([data-module="3"]) .jn-card { border-radius: 5px 16px 5px 5px; }
+.journey-node:has([data-module="3"]) .jn-pads { left: 50%; }
+.jn-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.jn-num { font: 11px 'JetBrains Mono', monospace; color: #526885; }
+.jn-part { font: 9px 'JetBrains Mono', monospace; letter-spacing: 1.5px; color: #657a93; }
+.jn-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.jn-progress-track { height: 5px; border: 1px solid #b9cad8; background: #d2dfea; margin-bottom: 9px; }
+.jn-progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width var(--duration-slow) var(--ease-out); }
+.jn-meta { font-size: 12px; color: #53647e; }
+.jn-state-badge { display: inline-flex; align-items: center; gap: 7px; font: 10px 'JetBrains Mono', monospace; color: #52647d; margin-top: 12px; }
+.jn-state-badge:not(:empty)::before { content: ''; width: 6px; height: 6px; border: 1px solid var(--accent); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px #fff9; }
+.state-completed .jn-state-badge { color: #136d55; }
+.state-completed .jn-state-badge::after { content: '✓'; font-size: 12px; }
+.state-current .jn-state-badge { color: #304fbe; }
+.state-current .jn-card { animation: pcb-module-response 8s linear infinite; }
+.state-current .jn-pins i:nth-child(2), .state-current .jn-pins i:nth-child(3), .state-current .jn-state-badge::before { animation: pcb-contact-response 8s linear infinite; }
+.pcb-packet { stroke: #3866ef; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 5 95; stroke-dashoffset: 100; opacity: 0; filter: drop-shadow(0 0 4px #4774ff); }
+.state-current .pcb-packet { opacity: 1; animation: pcb-packet-travel 8s linear infinite; }
+.state-preview .jn-route-secondary { animation: pcb-next-preview 8s linear infinite; }
+@keyframes pcb-packet-travel { to { stroke-dashoffset: 0; } }
+@keyframes pcb-module-response { 0%, 30%, 68%, 100% { box-shadow: inset 0 0 0 4px #ffffff80, 0 4px 0 -1px #9aafe0, 0 0 18px #4169e827; } 42%, 53% { box-shadow: inset 0 0 0 4px #ffffffb3, inset 0 0 0 6px #7796ee, 0 4px 0 -1px #9aafe0, 0 0 28px #4169e852; } }
+@keyframes pcb-contact-response { 0%, 30%, 68%, 100% { box-shadow: 0 0 2px #3b61e84d; } 42%, 53% { background: #71d8f2; box-shadow: 0 0 8px #3866ef; } }
+@keyframes pcb-next-preview { 0%, 75%, 100% { stroke: #b5c8d9; } 88% { stroke: #819dde; } }
 .journey-all-toggle { text-align: center; margin-top: 44px; }
 
 /* ==========================================================================
@@ -2111,19 +2073,23 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .course-format { padding-top: 52px; padding-bottom: 84px; }
   .course-section-heading { margin-bottom: 34px; }
   .course-experience__axis--y { left: 88%; }
-  .jp-top { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .jp-top { align-items: baseline; gap: 10px; }
 
-  /* Mobile roadmap: single left-side rail, no zig-zag */
-  .journey-rail::before, .journey-rail::after { left: 10px; transform: none; }
-  .journey-node { grid-template-columns: 20px 1fr; column-gap: 14px; }
-  .journey-node .jn-dot { grid-column: 1; justify-self: start; margin-left: 1px; }
-  .journey-node .jn-dot::before { left: 100%; right: auto; }
-  .journey-node:nth-child(odd) .jn-card,
-  .journey-node:nth-child(even) .jn-card { grid-column: 2; text-align: left; }
-  .journey-node:nth-child(odd) .jn-card-top { justify-content: flex-start; }
-  .journey-node .jn-card::before { left: -1px; right: auto; }
-  .journey-node:nth-child(odd) .jn-state-badge,
-  .journey-node:nth-child(even) .jn-state-badge { flex-direction: row; }
+  /* Mobile backplane: one bus, short routes, full-width mounted modules. */
+  .pcb-board { padding: 26px 18px 32px; border-radius: 16px; }
+  .pcb-surface { opacity: .48; }
+  .journey-progress { padding: 16px 18px 20px; margin-bottom: 30px; }
+  .journey-progress::after { left: 9px; height: 31px; }
+  .journey-node { grid-template-columns: 56px minmax(0,1fr); min-height: 178px; }
+  .pcb-bus { left: 9px; }
+  .journey-node .jn-dot { grid-column: 1; justify-self: start; margin-left: 16px; }
+  .journey-node .jn-route, .journey-node:nth-child(odd) .jn-route { left: 22px; width: 34px; transform: none; }
+  .journey-node:nth-child(odd) .jn-card, .journey-node:nth-child(even) .jn-card { grid-column: 2; }
+  .journey-node:nth-child(odd) .jn-pins { left: -13px; right: auto; }
+  .jn-card { padding: 17px 16px; }
+  .jn-part { font-size: 8px; letter-spacing: .5px; }
+  .jn-title { font-size: 14px; }
+
 }
 
 @media (max-width: 700px) {
@@ -2275,8 +2241,10 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .course-stage__icon, .course-path__segment, .exercise, .reference-card,
   .practice-lesson-row, .project-card-visual svg, .jn-dot { transition: none; }
   .jp-bar-fill, .pcg-bar-fill, .jn-progress-fill { transition: none; }
-  .journey-rail::after { animation: none !important; opacity: .4; }
-  .state-current .jn-state-badge::before { animation: none !important; }
+  .pcb-board *, .pcb-board *::before, .pcb-board *::after { animation: none !important; transition: none !important; }
+  .state-current .pcb-packet { opacity: 1; stroke-dashoffset: 55; }
+  .state-current .jn-card { box-shadow: inset 0 0 0 4px #ffffff80, 0 4px 0 -1px #9aafe0, 0 0 18px #4169e827; }
+  .jn-card:hover { transform: none; }
   .home-hero__content > *, .hero-system *, .hero-system *::before, .hero-system *::after {
     animation: none !important;
   }
