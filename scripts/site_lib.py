@@ -4823,10 +4823,17 @@ def render_page(
     sidebar_groups: list[SidebarGroup],
     nav: PageNav,
     active_section: str | None = "glavy",
+    page_id: str | None = None,
+    locale: str = DEFAULT_LOCALE,
+    routes: Routes | None = None,
 ) -> str:
     """depth: how many '../' needed to reach site/ root from this file's folder
     (used only for page-local asset paths — the shared header/nav below is
-    root-relative regardless of depth, see site_header())."""
+    root-relative regardless of depth, see site_header()).
+
+    page_id/locale/routes: opt-in language switcher wiring (see site_header()).
+    Defaults reproduce the exact previous unconditional-RU output, so every
+    existing caller is unaffected until it explicitly passes these."""
     root = "../" * depth
 
     crumb_parts = []
@@ -4843,20 +4850,20 @@ def render_page(
     nav_html = '<div class="section-nav">'
     if nav.prev_href:
         prev_label = _page_nav_label(nav.prev_href, nav.prev_label)
-        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">← Назад</div><div class="lbl">{html.escape(prev_label)}</div></a>'
+        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">{UI_STRINGS[locale]["nav_prev"]}</div><div class="lbl">{html.escape(prev_label)}</div></a>'
     else:
         nav_html += "<div></div>"
     if nav.next_href:
         next_label = _page_nav_label(nav.next_href, nav.next_label)
-        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">Далее →</div><div class="lbl">{html.escape(next_label)}</div></a>'
+        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">{UI_STRINGS[locale]["nav_next"]}</div><div class="lbl">{html.escape(next_label)}</div></a>'
     nav_html += "</div>"
 
     return _render_icon_markers(f"""<!DOCTYPE html>
-<html lang="{LOCALES[DEFAULT_LOCALE]['html_lang']}">
+<html lang="{LOCALES[locale]['html_lang']}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{html.escape(page_title)} — Python с нуля — Cartesian School</title>
+<title>{html.escape(page_title)} — {UI_STRINGS[locale]["course_title"]} — Cartesian School</title>
 <meta name="description" content="{html.escape(description)}" />
 <link rel="icon" href="{root}assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4866,11 +4873,11 @@ def render_page(
 </head>
 <body>
 
-{site_header(active_section)}
+{site_header(active_section, page_id=page_id, locale=locale, routes=routes)}
 
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
-    {mobile_nav_links(active_section)}
+    {mobile_nav_links(active_section, page_id=page_id, locale=locale, routes=routes)}
     {sidebar_html}
   </nav>
 
