@@ -57,8 +57,12 @@ try {
   seed[Object.keys(manifest).find(id=>id.startsWith('03-'))]={status:'completed-local'};
   await page.evaluate(data=>localStorage.setItem('cartesian.python.progress.v1',JSON.stringify(data)),seed);
   await page.reload({waitUntil:'networkidle'});
-  check('completed/current/theory states derive from real lesson store', await page.locator('[data-chapter="1"].state-completed').count()===1 && await page.locator('[data-chapter="3"].state-current.state-in-progress').count()===1 && await page.locator('[data-chapter="2"].state-no-lessons .jn-progress-track').count()===0);
-  check('current module exposes aria-current and completed conductor is full', await page.locator('.state-current .jn-card').getAttribute('aria-current')==='step' && await page.locator('[data-chapter="1"] .jn-progress-fill').evaluate(e=>e.style.width)==='100%');
+  // Scoped to .journey-node: the Practice catalog cards (.practice-chapter-group)
+  // share the same data-chapter/.state-* convention (see progress.js) and now
+  // legitimately carry their own independent .state-completed/.state-no-lessons
+  // for the same chapters, so an unscoped [data-chapter] selector would match both.
+  check('completed/current/theory states derive from real lesson store', await page.locator('.journey-node[data-chapter="1"].state-completed').count()===1 && await page.locator('.journey-node[data-chapter="3"].state-current.state-in-progress').count()===1 && await page.locator('.journey-node[data-chapter="2"].state-no-lessons .jn-progress-track').count()===0);
+  check('current module exposes aria-current and completed conductor is full', await page.locator('.state-current .jn-card').getAttribute('aria-current')==='step' && await page.locator('.journey-node[data-chapter="1"] .jn-progress-fill').evaluate(e=>e.style.width)==='100%');
   const before = await page.locator('.state-current .pcb-packet').evaluate(e=>getComputedStyle(e).strokeDashoffset);
   await page.waitForTimeout(1100);
   const after = await page.locator('.state-current .pcb-packet').evaluate(e=>getComputedStyle(e).strokeDashoffset);
