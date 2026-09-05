@@ -30,7 +30,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import author_profile as ap
 from site_structure import SITE_ORIGIN, PageRecord, iter_pages
+
+AUTHOR_PAGE_URL_PATH = "/front-matter/ob-avtore.html"
 
 MARKER_START = "<!-- cartesian:seo-meta:start -->"
 MARKER_END = "<!-- cartesian:seo-meta:end -->"
@@ -75,19 +78,33 @@ def _json_ld_for(page: PageRecord, all_pages: list[PageRecord]) -> str | None:
         )
 
     if page.kind in ("chapter-opener", "chapter-lesson", "front-matter", "reference"):
-        return _json_ld_script(
-            {
-                "@context": "https://schema.org",
-                "@type": "LearningResource",
-                "name": page.title or "",
-                "description": page.description or "",
+        learning_resource_node = {
+            "@type": "LearningResource",
+            "name": page.title or "",
+            "description": page.description or "",
+            "url": page.canonical_url,
+            "inLanguage": page.lang,
+            "isPartOf": website_node,
+            "learningResourceType": "lesson" if page.kind == "chapter-lesson" else "chapter",
+            "isAccessibleForFree": True,
+        }
+        if page.url_path == AUTHOR_PAGE_URL_PATH:
+            # The one page whose subject is a person, not a lesson — add a
+            # Person node alongside the generic LearningResource one, using
+            # only facts already verified in author_profile.py.
+            person_node = {
+                "@type": "Person",
+                "name": ap.NAME,
+                "jobTitle": ap.ROLE,
+                "image": SITE_ORIGIN + ap.PORTRAIT_JPG,
                 "url": page.canonical_url,
-                "inLanguage": page.lang,
-                "isPartOf": website_node,
-                "learningResourceType": "lesson" if page.kind == "chapter-lesson" else "chapter",
-                "isAccessibleForFree": True,
+                "worksFor": [
+                    {"@type": "Organization", "name": a.name, **({"url": a.url} if a.url else {})}
+                    for a in ap.AFFILIATIONS
+                ],
             }
-        )
+            return _json_ld_script({"@context": "https://schema.org", "@graph": [website_node, learning_resource_node, person_node]})
+        return _json_ld_script({"@context": "https://schema.org", **learning_resource_node})
 
     return None  # practice/other: no structured data — see module docstring
 
