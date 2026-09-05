@@ -12,7 +12,7 @@
     "baseline_source_sha256": "5bbf7ad87f372511f04de10394d1c93a37334435cec49836176f8f4635ac0664",
     "reviewed_source_sha256": "5bbf7ad87f372511f04de10394d1c93a37334435cec49836176f8f4635ac0664",
     "review_surface_path": "site/chapters/glava-03/index.html",
-    "review_surface_sha256": "729dc240bf7898fe4f9dc5808b5be12eebaa6d946e297800594699be61ace57b"
+    "review_surface_sha256": "69caa4f726b1d371bf8acc72605b78491a0ecac8630360306850361c8c19bc0b"
   },
   "review_context": {
     "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
@@ -49,6 +49,16 @@
       ],
       "attestation": "Read scripts/build_chapter_003.py in full (all lesson-builder functions), cross-checked every printed/claimed code result by executing the corresponding snippets under the project's own .venv (Python 3.14.6), verified two external claims (PEP 773 Windows installer timeline; pysh-shell.com/PyPI pysh-shell authenticity) via web search, and confirmed the canonical source sha256 matches the frozen M01 baseline exactly (no drift since baseline).",
       "reviewed_at": "2026-09-02T00:00:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-sonnet5-m01-resync-20260905",
+      "display_name": "Claude Sonnet 5 -- M01 checksum-resync verifier (course-path M01 repair)",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Diffed site/chapters/glava-03/index.html between the M01-reviewed commit and origin/main HEAD e054d2fd8222dfccd028bad86a2e45da8e5692e1: the only change is embedded page-number text (chapter page header and each section's printed page number), a mechanical consequence of commit d2a6e23 lengthening the front matter that precedes Chapter 1 in the published PDF. Confirmed scripts/build_chapter_03.py (canonical_theory_source_sha256) is unchanged, so this chapter's own reviewed content is unaffected. Reopening per the M01 status machine's 'any later canonical-source change reopens the unit as needs_rework' rule, applied here to the shared pagination artifact.",
+      "reviewed_at": "2026-09-05T13:10:00+00:00"
     }
   ],
   "criteria": [
@@ -206,9 +216,9 @@
   ],
   "decision": {
     "status": "reviewed",
-    "rationale": "Full canonical source read end to end, every executable claim verified against real Python 3.14.6 execution, two external claims independently confirmed, no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED, which this AI-only pass cannot grant.",
+    "rationale": "Full canonical source read end to end, every executable claim verified against real Python 3.14.6 execution, two external claims independently confirmed, no blocker/major/minor findings remain open; ready for the human subject_matter_reviewer, methodology_reviewer, and final_approver gate required before APPROVED, which this AI-only pass cannot grant. [Resync 2026-09-05: checksum refreshed to the current frozen inventory value; content re-confirmed unaffected; still reviewed, human approval gate unchanged.]",
     "decided_by": "ai-opus5-m01i04",
-    "decided_at": "2026-09-02T05:20:00+00:00"
+    "decided_at": "2026-09-05T13:10:00+00:00"
   },
   "status_history": [
     {
@@ -245,6 +255,27 @@
       "changed_by": "ai-opus5-m01i04",
       "changed_at": "2026-09-02T05:20:00+00:00",
       "reason": "Checksums refreshed and content re-confirmed unaffected; all 14 criteria remain valid."
+    },
+    {
+      "from": "reviewed",
+      "to": "needs_rework",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:00:00+00:00",
+      "reason": "Diffed site/chapters/glava-03/index.html between the M01-reviewed commit and origin/main HEAD e054d2fd8222dfccd028bad86a2e45da8e5692e1: the only change is embedded page-number text (chapter page header and each section's printed page number), a mechanical consequence of commit d2a6e23 lengthening the front matter that precedes Chapter 1 in the published PDF. Confirmed scripts/build_chapter_03.py (canonical_theory_source_sha256) is unchanged, so this chapter's own reviewed content is unaffected. Reopening per the M01 status machine's 'any later canonical-source change reopens the unit as needs_rework' rule, applied here to the shared pagination artifact."
+    },
+    {
+      "from": "needs_rework",
+      "to": "in_review",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:05:00+00:00",
+      "reason": "Re-verification opened after the shared-source checksum refresh."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:10:00+00:00",
+      "reason": "review_surface_sha256 refreshed to the current frozen inventory value after confirming the page-number-only diff above; no wording, section, link, or claim changed. All existing criteria scores remain valid."
     }
   ]
 }

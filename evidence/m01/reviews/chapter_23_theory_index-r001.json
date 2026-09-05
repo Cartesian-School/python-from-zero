@@ -12,7 +12,7 @@
     "baseline_source_sha256": "5c178a39cc598689c10b82fc34ea0f86bb24123d002afcef14179f75f0120de5",
     "reviewed_source_sha256": "5c178a39cc598689c10b82fc34ea0f86bb24123d002afcef14179f75f0120de5",
     "review_surface_path": "site/chapters/glava-23/index.html",
-    "review_surface_sha256": "8c562b8fa600ae12fd71e5d7fd66e7d60bf8a6cede2b7742e77d661c8534ca5b"
+    "review_surface_sha256": "4872d6ccf4b7d9f147e3a6f076dd35075d335c40d9b75ee16f1acb574d5aed1b"
   },
   "review_context": {
     "baseline_commit": "213ba4d51b75837eee3d6fd5333910226284944a",
@@ -50,6 +50,16 @@
       ],
       "attestation": "Verified the final committed source binding, reran the normal and SafeSort suites, chapter-specific validators, publication fixed-point checks, post-SEO inventory generation, and deterministic CI-order regeneration; separately verified and resolved the two late Chapter 23 consolidation findings. This AI-only pass records reviewed status and cannot issue human approval.",
       "reviewed_at": "2026-09-04T07:05:00+00:00"
+    },
+    {
+      "reviewer_id": "ai-sonnet5-m01-resync-20260905",
+      "display_name": "Claude Sonnet 5 -- M01 checksum-resync verifier (course-path M01 repair)",
+      "reviewer_type": "ai_assistant",
+      "roles": [
+        "assistant_analyst"
+      ],
+      "attestation": "Diffed site/chapters/glava-23/index.html between the M01-reviewed commit and origin/main HEAD e054d2fd8222dfccd028bad86a2e45da8e5692e1: the only change is embedded page-number text (chapter page header and each section's printed page number), a mechanical consequence of commit d2a6e23 lengthening the front matter that precedes Chapter 1 in the published PDF. Confirmed scripts/build_chapter_23.py (canonical_theory_source_sha256) is unchanged, so this chapter's own reviewed content is unaffected. Reopening per the M01 status machine's 'any later canonical-source change reopens the unit as needs_rework' rule, applied here to the shared pagination artifact.",
+      "reviewed_at": "2026-09-05T13:10:00+00:00"
     }
   ],
   "criteria": [
@@ -243,9 +253,9 @@
   ],
   "decision": {
     "status": "reviewed",
-    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required.",
+    "rationale": "All applicable criteria score at least 3, every recorded Batch F finding is resolved, final source bytes are bound to the audited-content commit, and no blocking finding remains open; human approval is intentionally still required. [Resync 2026-09-05: checksum refreshed to the current frozen inventory value; content re-confirmed unaffected; still reviewed, human approval gate unchanged.]",
     "decided_by": "ai-codex-gpt5-m01i04",
-    "decided_at": "2026-09-04T07:05:00+00:00"
+    "decided_at": "2026-09-05T13:10:00+00:00"
   },
   "status_history": [
     {
@@ -261,6 +271,27 @@
       "changed_by": "ai-codex-gpt5-m01i04",
       "changed_at": "2026-09-04T07:05:00+00:00",
       "reason": "Source inspection, execution evidence where applicable, final-hash binding, and all applicable criterion assessments are complete."
+    },
+    {
+      "from": "reviewed",
+      "to": "needs_rework",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:00:00+00:00",
+      "reason": "Diffed site/chapters/glava-23/index.html between the M01-reviewed commit and origin/main HEAD e054d2fd8222dfccd028bad86a2e45da8e5692e1: the only change is embedded page-number text (chapter page header and each section's printed page number), a mechanical consequence of commit d2a6e23 lengthening the front matter that precedes Chapter 1 in the published PDF. Confirmed scripts/build_chapter_23.py (canonical_theory_source_sha256) is unchanged, so this chapter's own reviewed content is unaffected. Reopening per the M01 status machine's 'any later canonical-source change reopens the unit as needs_rework' rule, applied here to the shared pagination artifact."
+    },
+    {
+      "from": "needs_rework",
+      "to": "in_review",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:05:00+00:00",
+      "reason": "Re-verification opened after the shared-source checksum refresh."
+    },
+    {
+      "from": "in_review",
+      "to": "reviewed",
+      "changed_by": "ai-sonnet5-m01-resync-20260905",
+      "changed_at": "2026-09-05T13:10:00+00:00",
+      "reason": "review_surface_sha256 refreshed to the current frozen inventory value after confirming the page-number-only diff above; no wording, section, link, or claim changed. All existing criteria scores remain valid."
     }
   ]
 }
