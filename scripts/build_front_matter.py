@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Строит вводные материалы: Об авторе, О техническом рецензенте, Введение."""
 
+import html
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import author_profile as ap
 from site_lib import NavItem, PageNav, SidebarGroup, callout, render_page
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,9 +36,35 @@ def build_ob_avtore() -> None:
         for it in g.items:
             it.active = it.href == "ob-avtore.html"
 
-    body = """
-    <p>Сергей Соболевски (Siergej Sobolewski) — Software &amp; AI Engineer, основатель Cartesian
-    School. Эта книга выросла из практического вопроса: как объяснить программирование человеку,
+    # Hero, professional summary, domains, projects, educator, and Cartesian
+    # School sections are marked "web-presentation" — richer web-only material
+    # that build_epub.py's extract_article() strips before packaging, so the
+    # accepted PDF/EPUB "Об авторе" chapter keeps receiving exactly the lede
+    # plus these same two paragraphs it always has (unchanged, unwrapped).
+    hero = f"""
+    <div class="author-page__hero web-presentation">
+      <div class="author-page__portrait">
+        <picture>
+          <source srcset="{ap.PORTRAIT_WEBP}" type="image/webp">
+          <img src="{ap.PORTRAIT_JPG}" width="{ap.PORTRAIT_WIDTH}" height="{ap.PORTRAIT_HEIGHT}"
+               alt="{html.escape(ap.PORTRAIT_ALT)}" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <div class="author-page__hero-copy">
+        <h2 class="author-page__name">{ap.NAME}</h2>
+        <p class="author-page__role">{html.escape(ap.ROLE)}</p>
+        <p class="author-page__specialization">{"".join(f"<span>{html.escape(s)}</span>" for s in ap.SPECIALIZATIONS)}</p>
+      </div>
+    </div>
+    """
+
+    # Role stated once, in the hero above (author_profile.ROLE) — avoids
+    # restating a now-superseded title here (was "Software & AI Engineer",
+    # which contradicted the hero's canonical "Founder & CEO · Senior Systems
+    # & AI Engineer" directly on the same page; see author_profile.py).
+    core = """
+    <p>Сергей Соболевски (Siergej Sobolewski), основатель Cartesian School. Эта книга выросла из
+    практического вопроса: как объяснить программирование человеку,
     который никогда раньше не писал ни строчки кода, не превращая объяснение ни в скучный
     справочник, ни в поверхностную «книжку с картинками».</p>
     <p>Cartesian School — образовательный проект, в основе которого лежит идея, что современный
@@ -44,15 +72,78 @@ def build_ob_avtore() -> None:
     же занятие может быть одновременно точным и увлекательным.</p>
     """
 
+    domains_html = "".join(f'''<li class="author-page__domain{" author-page__domain--wide" if d.wide else ""}">
+        <span class="author-page__domain-index">{d.index}</span><div><h3>{html.escape(d.title_ru)}</h3><p>{html.escape(d.desc_ru)}</p></div>
+      </li>''' for d in ap.DOMAINS)
+
+    projects_html = "".join(f"<li>{html.escape(p)}</li>" for p in ap.PROJECTS)
+
+    rest = f"""
+    <section class="author-page__section web-presentation">
+      <h2>Профессиональный путь</h2>
+      <p>Основа — системная инженерия: embedded-разработка, радарные системы и авионика, а также
+      низкоуровневая работа с операционными системами и инженерными платформами, где границы отказа
+      должны быть заранее просчитаны и контролируемы. Значительная часть этой практики опирается на
+      safety-critical инженерные подходы и процессы уровня DO-178C — там, где цена ошибки не
+      абстрактна.</p>
+      <p>Позже фокус расширился на cloud-native инфраструктуру и production AI/ML: Kubernetes,
+      DevOps, observability, retrieval-augmented generation (RAG), работа с IBM watsonx и
+      управляемые agentic-системы — везде с тем же требованием, что и в safety-critical инженерии:
+      результат должен быть воспроизводимым и проверяемым.</p>
+      <p>Именно это сочетание — многолетняя дисциплина системного инженера и практика современного
+      AI-инжиниринга — определяет то, как построен этот курс: сначала точное объяснение механики,
+      затем работающий код, который можно запустить и проверить самому.</p>
+    </section>
+
+    <section class="author-page__section web-presentation">
+      <h2>Инженерные направления</h2>
+      <ul class="author-page__domains" aria-label="Инженерные направления">
+      {domains_html}
+      </ul>
+    </section>
+
+    <section class="author-page__section web-presentation">
+      <h2>Проекты и системы</h2>
+      <p>Среди практических инженерных систем и инструментов, созданных автором:</p>
+      <ul class="author-page__projects" aria-label="Проекты и системы">{projects_html}</ul>
+    </section>
+
+    <section class="author-page__section web-presentation">
+      <h2>Автор и преподаватель</h2>
+      <p>Помимо инженерной практики, Сергей пишет технические книги и создаёт образовательные
+      программы для инженеров — Cartesian School выросла именно из этой работы. Тот же принцип, что
+      и в safety-critical системах, — ничего не принимается на веру, всё должно быть проверяемо —
+      лежит и в основе того, как построена каждая глава этой книги: каждый пример кода реально
+      выполняется, а не просто выглядит правдоподобно в тексте.</p>
+    </section>
+
+    <section class="author-page__section web-presentation">
+      <h2>Cartesian School</h2>
+      <p>Cartesian School — образовательный проект, построенный на идее, что современный инженерный
+      подход и понятное объяснение для начинающих не противоречат друг другу: одно и то же занятие
+      может быть одновременно точным и увлекательным. Именно поэтому курс сочетает теорию с
+      практикой в каждом разделе — примеры не просто иллюстрируют идею, а превращаются в рабочий код
+      и небольшие проекты, которые можно запустить и изменить самостоятельно.</p>
+    </section>
+    """
+
+    body = "\n".join(line.rstrip() for line in (hero + core + rest).splitlines())
+
     out = render_page(
         active_section="o-kurse",
         page_title="Об авторе",
-        description="Об авторе книги «Python с нуля» и Cartesian School.",
+        description="Сергей Соболевски — Founder & CEO, Senior Systems & AI Engineer, основатель "
+                     "Cartesian School. Инженерный путь: embedded, авионика, production AI/ML.",
         depth=1,
         breadcrumb=[("Python с нуля", "../index.html"), ("Об авторе", "")],
         kicker="Вводные материалы",
         h1="Об авторе",
-        lede="",
+        lede="Сергей Соболевски (Siergej Sobolewski) — инженер с более чем двадцатилетней практикой "
+             "в системном программировании и AI, основатель Cartesian School. Его опыт — от embedded "
+             "и авионики до production AI/ML — лёг в основу инженерного метода этого курса: "
+             "объяснение должно быть не просто понятным, а точным и проверяемым в реальном коде. Эта "
+             "книга — попытка показать программирование так, как его показывают инженеру, которого "
+             "готовят к настоящей работе, но с самого первого шага.",
         body_html=body,
         sidebar_groups=SIDEBAR,
         nav=PageNav(next_href="o-tehnicheskom-recenzente.html", next_label="О техническом рецензенте"),

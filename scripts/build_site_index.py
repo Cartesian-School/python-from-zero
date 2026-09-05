@@ -20,6 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import author_profile as ap
 from book_pagination import total_pages
 from chapter_metadata import Chapter, chapters
 from site_lib import (
@@ -527,19 +528,19 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
     <div class="author-profile__layout">
       <header class="author-profile__intro">
         <p class="author-profile__eyebrow author-reveal author-reveal--eyebrow">AUTHOR PROFILE / CS-01</p>
-        <h2 class="author-profile__name author-reveal author-reveal--name" id="author-profile-title">Siergej Sobolewski</h2>
-        <p class="author-profile__role author-reveal author-reveal--role">Founder &amp; CEO · Senior Systems &amp; AI Engineer</p>
+        <h2 class="author-profile__name author-reveal author-reveal--name" id="author-profile-title">{ap.NAME}</h2>
+        <p class="author-profile__role author-reveal author-reveal--role">{html.escape(ap.ROLE)}</p>
         <p class="author-profile__specialization author-reveal author-reveal--role">
-          <span>AI/ML</span><span>Embedded Systems</span><span>Radar &amp; Avionics</span><span>High-Assurance Engineering</span>
+          {"".join(f"<span>{html.escape(s)}</span>" for s in ap.SPECIALIZATIONS)}
         </p>
       </header>
 
       <figure class="author-portrait author-reveal author-reveal--portrait">
         <div class="author-portrait__canvas">
           <picture>
-            <source srcset="/assets/img/author/siergej-sobolewski.webp" type="image/webp">
-            <img src="/assets/img/author/siergej-sobolewski.jpg" width="456" height="570"
-                 alt="Siergej Sobolewski — инженер системного программного обеспечения и AI"
+            <source srcset="{ap.PORTRAIT_WEBP}" type="image/webp">
+            <img src="{ap.PORTRAIT_JPG}" width="{ap.PORTRAIT_WIDTH}" height="{ap.PORTRAIT_HEIGHT}"
+                 alt="{html.escape(ap.PORTRAIT_ALT)}"
                  loading="lazy" decoding="async">
           </picture>
           <svg class="author-portrait__frame" viewBox="0 0 500 625" preserveAspectRatio="none" aria-hidden="true">
@@ -565,54 +566,36 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 
       <div class="author-profile__body">
         <div class="author-bio" aria-label="Профессиональная биография">
-          <p class="author-bio__lead author-reveal author-reveal--bio">Более двух десятилетий инженерной практики —
-          от embedded, radar и avionics до операционных систем, cloud-native инфраструктуры и production AI/ML.</p>
-          <p class="author-reveal author-reveal--bio">Опыт охватывает low-level engineering, safety-critical разработку,
-          включая инженерные практики и процессы DO-178C, embedded-системы, разработку операционных систем
-          и инженерных платформ с контролируемыми границами отказа.</p>
-          <p class="author-reveal author-reveal--bio">В AI и инфраструктуре: RAG, IBM watsonx, Kubernetes, DevOps,
-          observability и управляемые agentic-системы, где результат должен быть воспроизводимым и проверяемым.</p>
-          <p class="author-reveal author-reveal--bio">Автор GuardBSD, AstraDesk, AeroNerve, PySH, ECLI и Cartesian School
-          Agency AI; пишет технические книги и создаёт образовательные программы для инженеров.</p>
+          <p class="author-bio__lead author-reveal author-reveal--bio">{ap.BIO_LEAD}</p>
+          {"".join(f'<p class="author-reveal author-reveal--bio">{p}</p>' for p in ap.BIO_PARAGRAPHS)}
         </div>
 
         <ol class="author-domains" aria-label="Инженерные направления">
-          <li class="author-domain author-reveal author-reveal--domain">
-            <span class="author-domain__index">01</span><div><h3>Secure AI Systems</h3><p>Agentic Platforms · RAG · Evidence-Oriented AI</p></div>
-          </li>
-          <li class="author-domain author-reveal author-reveal--domain">
-            <span class="author-domain__index">02</span><div><h3>Systems Engineering</h3><p>Rust · Operating Systems · Embedded · Low-Level</p></div>
-          </li>
-          <li class="author-domain author-reveal author-reveal--domain">
-            <span class="author-domain__index">03</span><div><h3>Radar &amp; Avionics</h3><p>Safety-Critical · Autonomous Systems</p></div>
-          </li>
-          <li class="author-domain author-reveal author-reveal--domain">
-            <span class="author-domain__index">04</span><div><h3>Cloud-Native</h3><p>Kubernetes · DevOps · Observability</p></div>
-          </li>
-          <li class="author-domain author-domain--wide author-reveal author-reveal--domain">
-            <span class="author-domain__index">05</span><div><h3>Developer Systems</h3><p>CLI/TUI · Automation · Python Tooling</p></div>
-          </li>
+          {"".join(f'''<li class="author-domain{" author-domain--wide" if d.wide else ""} author-reveal author-reveal--domain">
+            <span class="author-domain__index">{d.index}</span><div><h3>{html.escape(d.title)}</h3><p>{html.escape(d.desc)}</p></div>
+          </li>''' for d in ap.DOMAINS)}
         </ol>
 
         <div class="author-affiliations author-reveal author-reveal--affiliations" aria-label="Организации">
-          <article class="author-affiliation">
-            <span class="author-affiliation__label">COMPANY / USA</span>
-            <a href="https://www.glaeron.com" target="_blank" rel="noopener noreferrer">Glaeron LLC <span aria-hidden="true">↗</span></a>
-            <p>Founder &amp; CEO</p>
-          </article>
-          <article class="author-affiliation">
-            <span class="author-affiliation__label">EDUCATION / AUTHORSHIP</span>
-            <h3>Cartesian School</h3>
-            <p>Founder · Author</p>
-          </article>
+          {"".join(
+              f'''<article class="author-affiliation">
+            <span class="author-affiliation__label">{html.escape(a.label)}</span>
+            <a href="{html.escape(a.url)}" target="_blank" rel="noopener noreferrer">{html.escape(a.name)} <span aria-hidden="true">↗</span></a>
+            <p>{html.escape(a.role)}</p>
+          </article>'''
+              if a.url else
+              f'''<article class="author-affiliation">
+            <span class="author-affiliation__label">{html.escape(a.label)}</span>
+            <h3>{html.escape(a.name)}</h3>
+            <p>{html.escape(a.role)}</p>
+          </article>'''
+              for a in ap.AFFILIATIONS
+          )}
         </div>
       </div>
 
       <dl class="author-metadata author-reveal author-reveal--metadata">
-        <div><dt>20+ YEARS</dt><dd>Engineering</dd></div>
-        <div><dt>SYSTEMS → AI</dt><dd>Full-stack engineering spectrum</dd></div>
-        <div><dt>GLAERON LLC</dt><dd>Founder &amp; CEO</dd></div>
-        <div><dt>CARTESIAN SCHOOL</dt><dd>Founder · Author</dd></div>
+        {"".join(f"<div><dt>{html.escape(dt)}</dt><dd>{html.escape(dd)}</dd></div>" for dt, dd in ap.METADATA_STRIP)}
       </dl>
     </div>
   </div>
@@ -722,7 +705,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </div>
 
 <div class="home-footer">
-  Cartesian School · Python с нуля · Siergej Sobolewski — Software &amp; AI Engineer, основатель Cartesian School
+  Cartesian School · Python с нуля · {ap.NAME} — {html.escape(ap.ROLE)}
 </div>
 
 {NAV_SCRIPT_TAG}

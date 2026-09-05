@@ -3,8 +3,10 @@
 
 Извлекает содержимое <article> (для обычных страниц) или .chapter-hero+.section-list
 (для страниц-открывашек глав) из уже собранных HTML-файлов, убирает элементы навигации
-сайта (breadcrumb, section-nav, header, sidebar) и собирает главы в EPUB со сквозным
-оглавлением, обложкой и общим стилем.
+сайта (breadcrumb, section-nav, header, sidebar), а также любые узлы с классом
+"web-presentation" (веб-only материал вроде расширенной hero-секции автора, не входящий
+в принятую публикацию), и собирает главы в EPUB со сквозным оглавлением, обложкой и
+общим стилем.
 """
 
 import importlib
@@ -78,6 +80,13 @@ def extract_article(html_text: str) -> str:
         node = article.find("div", class_=cls)
         if node:
             node.decompose()
+    # Web-only richer presentation (e.g. the front-matter author page's portrait
+    # hero, domain grid, and project list) that would shift accepted PDF/EPUB
+    # pagination if included — mirrors the project_illustration() /
+    # project_publication_illustration() presentation/publication split, just
+    # expressed as a class marker instead of a second function.
+    for node in article.find_all(class_="web-presentation"):
+        node.decompose()
     # copy-to-clipboard buttons rely on onclick JS with no purpose in an e-reader —
     # drop them so pages don't need to be flagged as "scripted" content.
     for btn in article.find_all("button", class_="copy-btn"):
