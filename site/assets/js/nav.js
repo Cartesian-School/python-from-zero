@@ -96,6 +96,43 @@ if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(updateMobileNavTop);
 }
 
+// Keeps --site-header-height in sync with .site-header's real rendered
+// height, so theory.css's html{scroll-padding-top} reserves exactly enough
+// room for the sticky header when the browser scrolls a fragment (#praktika
+// etc.) into view — no more (which left the previous section's tail
+// visible above the target) and no less (which would tuck the target under
+// the header). Only .site-header is measured here: .practice-header (the
+// interactive practice tool) isn't sticky, so there's no sticky obstruction
+// for scroll-padding to compensate for on those pages.
+//
+// ResizeObserver, not a resize/orientationchange/fonts.ready trio like
+// updateMobileNavTop above: it fires on every actual cause of a header
+// height change in one place (viewport crossing the mobile/desktop
+// breakpoint, zoom, a web font swapping in and nudging line height) rather
+// than guessing which events to listen for, and needs no polling.
+var siteHeaderForHeight = document.querySelector(".site-header");
+if (siteHeaderForHeight) {
+  var syncHeaderHeight = function () {
+    // getBoundingClientRect().height, not the ResizeObserver entry's own
+    // contentRect: contentRect is the content box only (padding and border
+    // excluded), which undershoots — .site-header's real rendered (border-
+    // box) height is what scroll-padding-top must reserve room for.
+    document.documentElement.style.setProperty("--site-header-height", siteHeaderForHeight.getBoundingClientRect().height + "px");
+  };
+  if (window.ResizeObserver) {
+    new ResizeObserver(syncHeaderHeight).observe(siteHeaderForHeight);
+  } else {
+    // ResizeObserver unsupported: fall back to the same measurement, run
+    // on the events most likely to change the header's height.
+    syncHeaderHeight();
+    window.addEventListener("resize", syncHeaderHeight);
+    window.addEventListener("orientationchange", syncHeaderHeight);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncHeaderHeight);
+    }
+  }
+}
+
 // Drives whichever element the .nav-toggle button's aria-controls points at.
 (function () {
   var toggle = document.querySelector(".nav-toggle");

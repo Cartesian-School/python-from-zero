@@ -442,6 +442,203 @@ const TOP_NAV = [
       }
     }
 
+    // =========================================================================
+    // Regression: precise anchor positioning under the sticky header
+    // (Product Owner report #2).
+    //
+    // Root cause: theory.css had a blanket [id]{scroll-margin-top:96px} that
+    // was never measured against the real header — the actual .site-header
+    // renders at 65px (desktop) / 49px (mobile), so 96px overshot by ~30-47px
+    // and left a strip of the *previous* section's background visible in the
+    // gap between the header and the target section's top edge.
+    //
+    // Fix: html{scroll-padding-top: calc(--site-header-height + 10px)},
+    // with --site-header-height measured live off .site-header's real
+    // getBoundingClientRect().height (nav.js, ResizeObserver) rather than a
+    // guessed constant. Expected result: every anchor's section boundary
+    // lands ~10px below the header's bottom edge, and the element directly
+    // under that point belongs to the target section, never the previous one.
+    // =========================================================================
+
+    const ANCHOR_MIN_GAP = 4; // px — tolerance floor (target must clear the header)
+    const ANCHOR_MAX_GAP = 24; // px — hard ceiling per spec; no documented reason to exceed it
+
+    async function measureAnchorGeometry(page, anchorId, headerSelector) {
+      const headerBox = await page.locator(headerSelector).boundingBox();
+      const targetBox = await page.locator(`#${anchorId}`).boundingBox();
+      const headerBottom = headerBox.y + headerBox.height;
+      const gap = targetBox.y - headerBottom;
+      const vw = page.viewportSize().width;
+      const belongsToTarget = await page.evaluate(
+        ([x, y, id]) => {
+          const el = document.elementFromPoint(x, y);
+          return !!(el && el.closest(`#${id}`));
+        },
+        [vw / 2, headerBottom + gap + 1, anchorId]
+      );
+      return { headerBottom, targetTop: targetBox.y, gap, belongsToTarget };
+    }
+
+    log('Regression: precise anchor offset via desktop top-nav (1024/1280/1440/1920)');
+    {
+      for (const w of [1024, 1280, 1440, 1920]) {
+        const page = await browser.newPage({ viewport: { width: w, height: 900 } });
+        await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+        for (const [label, fragment] of TOP_NAV) {
+          await page.click(`.top-nav a:has-text("${label}")`);
+          await page.waitForTimeout(150);
+          const anchorId = fragment.slice(1);
+          const { gap, belongsToTarget } = await measureAnchorGeometry(page, anchorId, '.site-header');
+          const tag = `desktop ${w} #${anchorId}`;
+          ok(`${tag}: gap is within [${ANCHOR_MIN_GAP}, ${ANCHOR_MAX_GAP}]px (${gap.toFixed(1)}px)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+          ok(`${tag}: point just past the gap belongs to the target section, not the previous one`, belongsToTarget);
+        }
+        await page.close();
+      }
+    }
+
+    log('Regression: precise anchor offset via mobile hamburger menu (360/390/430/768)');
+    {
+      for (const [w, h] of [[360, 800], [390, 844], [430, 932], [768, 1024]]) {
+        const page = await browser.newPage({ viewport: { width: w, height: h } });
+        for (const [label, fragment] of TOP_NAV) {
+          await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+          // Deep-scroll first (task's exact click-order requirement): open
+          // from a scrolled position, click, menu closes, THEN it navigates.
+          await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+          await page.click('.nav-toggle');
+          await page.click(`#mobile-nav-panel .mobile-nav-links a:has-text("${label}")`);
+          await page.waitForTimeout(150);
+          const anchorId = fragment.slice(1);
+          const { gap, belongsToTarget } = await measureAnchorGeometry(page, anchorId, '.site-header');
+          const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+          const tag = `mobile ${w}x${h} #${anchorId}`;
+          ok(`${tag}: gap is within [${ANCHOR_MIN_GAP}, ${ANCHOR_MAX_GAP}]px (${gap.toFixed(1)}px)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+          ok(`${tag}: point just past the gap belongs to the target section, not the previous one`, belongsToTarget);
+          ok(`${tag}: no horizontal overflow`, !overflow);
+        }
+        await page.close();
+      }
+    }
+
+    log('Regression: direct hash URL load and reload land precisely');
+    {
+      const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      for (const [, fragment] of TOP_NAV) {
+        const anchorId = fragment.slice(1);
+        await page.goto(`${base}/index.html${fragment}`, { waitUntil: 'networkidle' });
+        await page.waitForTimeout(150);
+        let { gap, belongsToTarget } = await measureAnchorGeometry(page, anchorId, '.site-header');
+        ok(`direct load #${anchorId}: gap within range (${gap.toFixed(1)}px)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+        ok(`direct load #${anchorId}: lands on target section`, belongsToTarget);
+
+        await page.reload({ waitUntil: 'networkidle' });
+        await page.waitForTimeout(150);
+        ({ gap, belongsToTarget } = await measureAnchorGeometry(page, anchorId, '.site-header'));
+        ok(`reload #${anchorId}: gap within range after reload (${gap.toFixed(1)}px)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+        ok(`reload #${anchorId}: lands on target section after reload`, belongsToTarget);
+      }
+      await page.close();
+    }
+
+    log('Regression: browser back/forward preserve precise anchor alignment');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('.top-nav a:has-text("Практика")');
+      await page.waitForTimeout(150);
+      await page.click('.top-nav a:has-text("Проекты")');
+      await page.waitForTimeout(150);
+
+      await page.goBack();
+      await page.waitForTimeout(150);
+      let hash = new URL(page.url()).hash;
+      ok('back: hash returns to #praktika', hash === '#praktika');
+      let { gap, belongsToTarget } = await measureAnchorGeometry(page, 'praktika', '.site-header');
+      ok(`back: #praktika gap still precise (${gap.toFixed(1)}px, no accumulated offset)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+      ok('back: #praktika still lands on target section', belongsToTarget);
+
+      await page.goForward();
+      await page.waitForTimeout(150);
+      hash = new URL(page.url()).hash;
+      ok('forward: hash returns to #proekty', hash === '#proekty');
+      ({ gap, belongsToTarget } = await measureAnchorGeometry(page, 'proekty', '.site-header'));
+      ok(`forward: #proekty gap still precise (${gap.toFixed(1)}px, no accumulated offset)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+      ok('forward: #proekty still lands on target section', belongsToTarget);
+      await page.close();
+    }
+
+    log('Regression: keyboard activation (Tab + Enter) lands as precisely as a click');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      const link = page.locator('.top-nav a:has-text("Практика")');
+      await link.focus();
+      ok('keyboard: "Практика" link is focused', await link.evaluate((el) => el === document.activeElement));
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(150);
+      const hash = new URL(page.url()).hash;
+      ok('keyboard: Enter on focused link navigates to #praktika', hash === '#praktika');
+      const { gap, belongsToTarget } = await measureAnchorGeometry(page, 'praktika', '.site-header');
+      ok(`keyboard: #praktika gap precise via keyboard activation (${gap.toFixed(1)}px)`, gap >= ANCHOR_MIN_GAP && gap <= ANCHOR_MAX_GAP);
+      ok('keyboard: #praktika lands on target section via keyboard activation', belongsToTarget);
+      await page.close();
+    }
+
+    // =========================================================================
+    // Regression: focusing a sticky-header control must never scroll the page.
+    //
+    // scroll-padding-top isn't only consulted for #fragment navigation —
+    // browsers also apply it to their own "scroll the focused element into
+    // view" behavior, triggered by ANY focus (a mouse click or Tab, from any
+    // page, since .site-header is site-wide). An element inside a
+    // position:sticky container is already fully visible at a fixed spot no
+    // matter the scroll position, but the browser doesn't special-case that:
+    // it computed a large, wrong scroll jump trying to satisfy
+    // scroll-padding-top's clearance against a sticky element whose position
+    // doesn't move. Caught by focusing (not clicking — isolates the browser's
+    // native focus-scroll from any click-driven side effect) each interactive
+    // header element while scrolled deep on the page, before the fix landed
+    // (the .site-header, .site-header * scroll-margin-top cancellation).
+    // =========================================================================
+    log('Regression: focusing header controls never scrolls the page (sticky + scroll-padding interaction)');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      for (const sel of ['.brand', '.top-nav li:first-child a']) {
+        await page.locator('#praktika').scrollIntoViewIfNeeded();
+        await page.waitForTimeout(50);
+        const before = await page.evaluate(() => window.scrollY);
+        await page.locator(sel).focus();
+        await page.waitForTimeout(150);
+        const after = await page.evaluate(() => window.scrollY);
+        ok(`focusing "${sel}" while deep-scrolled does not move scrollY (before=${before}, after=${after})`, Math.abs(after - before) <= 2);
+      }
+      await page.close();
+
+      const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await mobilePage.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await mobilePage.locator('#praktika').scrollIntoViewIfNeeded();
+      await mobilePage.waitForTimeout(50);
+      const before = await mobilePage.evaluate(() => window.scrollY);
+      await mobilePage.locator('.nav-toggle').focus();
+      await mobilePage.waitForTimeout(150);
+      const after = await mobilePage.evaluate(() => window.scrollY);
+      ok(`focusing ".nav-toggle" (mobile) while deep-scrolled does not move scrollY (before=${before}, after=${after})`, Math.abs(after - before) <= 2);
+      await mobilePage.close();
+    }
+
+    log('Regression: active nav-item highlight still follows scroll after the anchor fix');
+    {
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+      await page.click('.top-nav a:has-text("Справочник")');
+      await page.waitForTimeout(400); // IntersectionObserver settles async
+      const active = await page.locator('.top-nav a.active').textContent();
+      ok('active nav-item highlight follows #spravochnik after precise-anchor navigation', active.trim() === 'Справочник');
+      await page.close();
+    }
+
     await browser.close();
   } finally {
     server.kill();
