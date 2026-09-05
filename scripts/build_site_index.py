@@ -129,6 +129,16 @@ def build_roadmap() -> str:
 # ---------------------------------------------------------------------------
 # Практика — сгруппированный по главам каталог всех 122 записей
 # ---------------------------------------------------------------------------
+# Purely decorative vector chevron — the visual replacement for the old "›"
+# glyph. `.pcg-chevron` (see homepage.css) still owns rotation/hover motion;
+# this only swaps what's drawn inside it, so the open/close CSS is unaffected.
+PCG_CHEVRON_SVG = (
+    '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">'
+    '<path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round"/></svg>'
+)
+
+
 def build_practice_catalog() -> str:
     groups = []
     for chapter in CHAPTERS:
@@ -149,18 +159,24 @@ def build_practice_catalog() -> str:
             <span class="plr-badge {MODE_CLASS[mode]}">{MODE_LABELS[mode]}</span>
           </div>
         </a>""")
+        # Presentational only — real completion state is computed at runtime
+        # from localStorage progress (see progress.js), never invented here.
         groups.append(f"""
     <details class="practice-chapter-group" data-chapter="{num}" data-lesson-ids="{lesson_ids_csv}">
       <summary class="pcg-summary">
-        <div>
-          <div class="pcg-title">Глава {num} · {chapter_title_short(chapter)}</div>
+        <span class="pcg-num" aria-hidden="true">{num:02d}</span>
+        <div class="pcg-heading">
+          <div class="pcg-title-row">
+            <div class="pcg-title">Глава {num} · {chapter_title_short(chapter)}</div>
+            <span class="pcg-state-badge"></span>
+          </div>
           <div class="pcg-meta">{len(entries)} практических заданий</div>
         </div>
         <div class="pcg-progress">
           <div class="pcg-bar-track"><div class="pcg-bar-fill"></div></div>
           <span class="pcg-count">0 из {len(entries)}</span>
         </div>
-        <span class="pcg-chevron">›</span>
+        <span class="pcg-chevron">{PCG_CHEVRON_SVG}</span>
       </summary>
       <div class="pcg-lessons">{"".join(rows)}</div>
     </details>""")

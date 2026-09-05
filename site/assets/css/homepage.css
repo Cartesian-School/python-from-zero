@@ -824,24 +824,137 @@
 .pf-btn:hover { border-color: var(--navy-900); }
 .pf-btn.active { background: var(--navy-900); color: #fff; border-color: var(--navy-900); }
 
+/* ---------------------------------------------------------------------------
+   Practice chapter cards — "learning module" system.
+   Each card gets a presentational accent (5 families, cycled deterministically
+   by nth-of-type across the 24 fixed chapters — purely decorative, unrelated
+   to progress). Real state (completed/in-progress/not-started/no-lessons) is
+   layered on top via .state-* classes that progress.js already computes from
+   the one real localStorage progress store; nothing here invents data.
+   --------------------------------------------------------------------------- */
 .practice-chapter-group {
-  margin-bottom: 16px; border: var(--border-hairline); border-radius: var(--radius-lg); overflow: hidden;
-  background: var(--surface-2); box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--duration-base) var(--ease-standard);
+  --pcg-a1: 91, 36, 249;   /* violet-500 */
+  --pcg-a2: 24, 93, 250;   /* blue-500 */
+  position: relative; isolation: isolate;
+  margin-bottom: 16px; border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid rgba(var(--pcg-a1), .16);
+  background:
+    repeating-linear-gradient(90deg, rgba(13,2,48,.028) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(0deg, rgba(13,2,48,.028) 0 1px, transparent 1px 26px),
+    radial-gradient(130% 160% at 0% 0%, rgba(var(--pcg-a1), .08), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.8));
+  box-shadow: var(--shadow-sm), inset 0 1px rgba(255,255,255,.7);
+  transition: transform var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard);
 }
-.practice-chapter-group:has(.pcg-summary:hover) { box-shadow: var(--shadow-md); }
-.pcg-summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; cursor: pointer; list-style: none; }
-.pcg-summary::-webkit-details-marker { display: none; }
-.pcg-summary .pcg-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; }
-.pcg-summary .pcg-meta { font-size: 13px; color: var(--color-text-muted); margin-top: 2px; }
-.pcg-progress { display: flex; align-items: center; gap: 10px; min-width: 150px; }
-.pcg-bar-track { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--gray-200); overflow: hidden; }
-.pcg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--violet-500), var(--blue-500)); border-radius: var(--radius-full); width: 0%; transition: width var(--duration-slow) var(--ease-out); }
-.pcg-count { font-size: 12px; color: var(--color-text-muted); white-space: nowrap; font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
-.pcg-chevron { transition: transform var(--duration-base) var(--ease-standard); color: var(--color-text-muted); }
-details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
+/* 5 accent families, cycled deterministically across the 24 fixed chapters. */
+.practice-chapter-group:nth-of-type(5n+2) { --pcg-a1: 24, 93, 250; --pcg-a2: 34, 211, 238; }   /* blue -> cyan */
+.practice-chapter-group:nth-of-type(5n+3) { --pcg-a1: 70, 58, 216; --pcg-a2: 91, 36, 249; }    /* indigo -> violet */
+.practice-chapter-group:nth-of-type(5n+4) { --pcg-a1: 34, 211, 238; --pcg-a2: 18, 181, 160; }  /* cyan -> teal */
+.practice-chapter-group:nth-of-type(5n)   { --pcg-a1: 91, 36, 249; --pcg-a2: 185, 160, 252; }  /* violet -> lavender */
+/* Zero-practice / theory-only chapters: neutral, quieter, no fake progress. */
+.practice-chapter-group[data-lesson-ids=""] { --pcg-a1: 107, 107, 125; --pcg-a2: 148, 148, 166; }
 
-.pcg-lessons { border-top: 1px solid var(--color-border-default); padding: 6px 12px 14px; }
+.practice-chapter-group::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, rgb(var(--pcg-a1)), rgb(var(--pcg-a2)));
+  opacity: .8; transition: opacity var(--duration-base) var(--ease-standard);
+}
+.practice-chapter-group.state-completed::before { background: linear-gradient(180deg, #1FAE63, rgb(var(--pcg-a2))); }
+.practice-chapter-group.state-no-lessons::before { opacity: .35; }
+/* One-shot light sweep on hover/expand — no continuous animation. */
+.practice-chapter-group::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(110deg, transparent 32%, rgba(255,255,255,.4) 46%, transparent 60%);
+  transform: translateX(-130%);
+}
+.practice-chapter-group:has(.pcg-summary:hover)::after,
+.practice-chapter-group[open]::after {
+  transform: translateX(130%);
+  transition: transform .6s var(--ease-standard);
+}
+
+.practice-chapter-group:has(.pcg-summary:hover) {
+  transform: translateY(-2px);
+  border-color: rgba(var(--pcg-a1), .34);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(var(--pcg-a1), .16);
+}
+.practice-chapter-group:has(.pcg-summary:hover)::before { opacity: 1; }
+.practice-chapter-group[open] {
+  transform: translateY(-1px);
+  border-color: rgba(var(--pcg-a1), .4);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(var(--pcg-a1), .22), 0 0 32px -10px rgba(var(--pcg-a1), .45);
+}
+.practice-chapter-group[open]::before { opacity: 1; }
+.practice-chapter-group.state-completed:has(.pcg-summary:hover),
+.practice-chapter-group.state-completed[open] {
+  border-color: rgba(31,174,99,.4);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(31,174,99,.28), 0 0 28px -10px rgba(31,174,99,.5);
+}
+.practice-chapter-group.state-no-lessons { box-shadow: none; }
+.practice-chapter-group.state-no-lessons:has(.pcg-summary:hover) { box-shadow: var(--shadow-sm); }
+
+.pcg-summary {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+  cursor: pointer; list-style: none; position: relative; z-index: 1;
+  transition: transform 100ms var(--ease-standard);
+}
+.pcg-summary:active { transform: scale(.995); }
+.pcg-summary::-webkit-details-marker { display: none; }
+.pcg-num {
+  flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: .03em; line-height: 1; padding: 6px 8px; border-radius: var(--radius-sm);
+  color: rgb(var(--pcg-a1)); background: rgba(var(--pcg-a1), .12); border: 1px solid rgba(var(--pcg-a1), .2);
+}
+.practice-chapter-group.state-no-lessons .pcg-num { color: var(--gray-600); background: var(--gray-100); border-color: var(--color-border-default); }
+.pcg-heading { min-width: 0; flex: 1; }
+.pcg-title-row { display: flex; align-items: baseline; gap: 10px; row-gap: 4px; flex-wrap: wrap; }
+.pcg-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; color: var(--navy-900); }
+.pcg-meta { font-size: 13px; color: var(--color-text-muted); margin-top: 3px; }
+.pcg-state-badge {
+  display: none; align-items: center; gap: 4px; font-size: 11px; font-weight: 700;
+  padding: 2px 9px; border-radius: var(--radius-full); white-space: nowrap;
+}
+.state-completed .pcg-state-badge { display: inline-flex; color: #147A4F; background: rgba(31,174,99,.14); }
+.state-completed .pcg-state-badge::before { content: '✓'; }
+.state-in-progress .pcg-state-badge { display: inline-flex; color: rgb(var(--pcg-a1)); background: rgba(var(--pcg-a1), .13); }
+
+.pcg-progress { display: flex; align-items: center; gap: 10px; min-width: 150px; flex-shrink: 0; }
+.pcg-bar-track {
+  position: relative; flex: 1; height: 7px; border-radius: var(--radius-full); overflow: visible;
+  background: rgba(var(--pcg-a1), .1); box-shadow: inset 0 1px 2px rgba(13,2,48,.07);
+}
+.pcg-bar-fill {
+  position: relative; height: 100%; border-radius: var(--radius-full); width: 0%;
+  background: linear-gradient(90deg, rgb(var(--pcg-a1)), rgb(var(--pcg-a2)));
+  box-shadow: 0 0 8px -1px rgba(var(--pcg-a1), .6);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+.state-completed .pcg-bar-fill { background: linear-gradient(90deg, #1FAE63, #12B5A0); box-shadow: 0 0 8px -1px rgba(31,174,99,.6); }
+.state-in-progress .pcg-bar-fill::after {
+  content: ""; position: absolute; right: 0; top: 50%; width: 7px; height: 7px; border-radius: 50%;
+  background: rgb(var(--pcg-a2)); box-shadow: 0 0 6px 1px rgba(var(--pcg-a2), .7);
+  transform: translate(50%, -50%) scale(1); animation: pcg-endpoint-pulse 2.4s ease-in-out infinite;
+}
+@keyframes pcg-endpoint-pulse {
+  0%, 100% { opacity: .6; transform: translate(50%, -50%) scale(.95); }
+  50% { opacity: 1; transform: translate(50%, -50%) scale(1.12); }
+}
+.pcg-count { font-size: 12px; color: var(--color-text-muted); white-space: nowrap; font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+.pcg-chevron {
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; color: rgb(var(--pcg-a1));
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.pcg-chevron svg { display: block; }
+details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
+.practice-chapter-group:not([open]):has(.pcg-summary:hover) .pcg-chevron { transform: translateX(3px); }
+
+@keyframes pcg-reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.pcg-lessons { border-top: 1px solid var(--color-border-default); padding: 6px 12px 14px; position: relative; z-index: 1; }
+details[open] > .pcg-lessons { animation: pcg-reveal .28s var(--ease-standard); }
 .practice-lesson-row {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 10px 12px; border-radius: var(--radius-md); text-decoration: none; color: var(--color-text-primary);
@@ -855,10 +968,14 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
 .plr-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .plr-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--color-brand-blue); flex-shrink: 0; width: 46px; }
 .plr-title { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.plr-badge { flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-full); white-space: nowrap; }
+.plr-badge { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-full); white-space: nowrap; }
+.plr-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .plr-badge.mode-browser { background: #EAF1FF; color: var(--blue-600); }
+.plr-badge.mode-browser::before { background: var(--blue-500); }
 .plr-badge.mode-local { background: var(--gray-100); color: var(--gray-600); }
+.plr-badge.mode-local::before { background: var(--gray-600); }
 .plr-badge.mode-adapted { background: #F3EEFF; color: var(--violet-500); }
+.plr-badge.mode-adapted::before { background: var(--violet-500); }
 .plr-check { flex-shrink: 0; color: var(--green-500); font-size: 14px; opacity: 0; transform: scale(.6); transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
 .plr-check.done { opacity: 1; transform: scale(1); }
 
@@ -2115,6 +2232,13 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .about-stat--chapters .num { font-size: 48px; }
   .about-stat--practice .num { font-size: 44px; }
   .course-experience__bridge { width: calc(100% - 40px); }
+
+  /* Practice chapter cards: stack into clean, non-overlapping rows instead
+     of squeezing chapter badge / title / progress / chevron into one line. */
+  .pcg-summary { flex-wrap: wrap; row-gap: 10px; padding: 14px 40px 14px 14px; position: relative; }
+  .pcg-chevron { position: absolute; top: 14px; right: 10px; }
+  .pcg-progress { flex: 1 1 100%; min-width: 0; }
+  .pcg-num { padding: 5px 7px; font-size: 10px; }
 }
 
 @media (max-width: 600px) {
@@ -2241,6 +2365,11 @@ details[open] > .pcg-summary .pcg-chevron { transform: rotate(90deg); }
   .course-stage__icon, .course-path__segment, .exercise, .reference-card,
   .practice-lesson-row, .project-card-visual svg, .jn-dot { transition: none; }
   .jp-bar-fill, .pcg-bar-fill, .jn-progress-fill { transition: none; }
+  .practice-chapter-group, .practice-chapter-group::after, .pcg-chevron, .pcg-summary { transition: none; }
+  .practice-chapter-group::after { display: none; }
+  .practice-chapter-group:has(.pcg-summary:hover) { transform: none; }
+  details[open] > .pcg-lessons { animation: none; }
+  .state-in-progress .pcg-bar-fill::after { animation: none; opacity: 1; }
   .pcb-board *, .pcb-board *::before, .pcb-board *::after { animation: none !important; transition: none !important; }
   .state-current .pcb-packet { opacity: 1; stroke-dashoffset: 55; }
   .state-current .jn-card { box-shadow: inset 0 0 0 4px #ffffff80, 0 4px 0 -1px #9aafe0, 0 0 18px #4169e827; }
