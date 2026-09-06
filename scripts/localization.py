@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_DIR = ROOT / 'manifest/i18n'
 STATES = frozenset({'untranslated', 'translated', 'reviewed', 'approved', 'stale'})
+PUBLISHABLE_STATES = frozenset({'translated', 'reviewed', 'approved'})
 
 
 def read_json(path: Path) -> dict:
@@ -123,8 +124,19 @@ def validate_routes(data: dict, root: Path = ROOT) -> None:
             if locale != DEFAULT_LOCALE:
                 if not re.fullmatch(r'[0-9a-f]{64}', variant.get('source_sha256', '')):
                     raise ValueError(f'Missing translation source hash: {page_id}')
+                if variant['status'] in PUBLISHABLE_STATES:
+                    artifact = variant.get('source_path')
+                    if (not artifact
+                            or not (root / artifact).resolve().is_relative_to(root.resolve())
+                            or not (root / artifact).is_file()):
+                        raise ValueError(f'Translation missing source_path: {page_id}')
+                    # Freshness is only enforced at 'approved': 'translated'/
+                    # 'reviewed' are pending-review workflow states that may
+                    # legitimately trail a source edit awaiting re-review.
+                    if variant['status'] == 'approved' and effective_status(page, locale, root) != 'approved':
+                        raise ValueError(f'Stale translated content: {page_id}')
                 if variant['status'] == 'approved':
-                    for key in ('source_path', 'evidence_path'):
+                    for key in ('evidence_path',):
                         artifact = variant.get(key)
                         if not artifact or not (root / artifact).resolve().is_relative_to(root.resolve()) or not (root / artifact).is_file():
                             raise ValueError(f'Approved translation missing {key}: {page_id}')
@@ -145,7 +157,7 @@ class Routes:
     def available(self, page_id: str) -> dict[str, str]:
         page = self.pages[page_id]
         return {locale: v['path'] for locale, v in page['variants'].items()
-                if effective_status(page, locale, self.root) == 'approved'
+                if effective_status(page, locale, self.root) in PUBLISHABLE_STATES
                 and (self.site_dir / v['path'].lstrip('/')).is_file()}
 
     def publishable_path(self, path: str) -> bool:

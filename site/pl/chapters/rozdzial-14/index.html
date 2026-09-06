@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 14. Tworzymy obiekty rzeczywistego świata — Python od zera — Cartesian School</title>
+<meta content="Klasy, obiekty, atrybuty i metody to podstawy programowania obiektowego. Od znanych obiektów (żółw, łańcuch znaków, lista) po klasy własnościowe: stan i zachowanie, self i __init__, enkapsulację i property, składanie i dziedziczenie, super(), polimorfizm i duck typing, metody specjalne dataclasses — aż po pytanie ważniejsze niż jakakolwiek składnia: kiedy klasa w ogóle powinna pojawić się w programie." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-14/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-14/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 14. Tworzymy obiekty rzeczywistego świata — Python od zera — Cartesian School" />
+<meta property="og:description" content="Klasy, obiekty, atrybuty i metody to podstawy programowania obiektowego. Od znanych obiektów (żółw, łańcuch znaków, lista) po klasy własnościowe: stan i zachowanie, self i __init__, enkapsulację i property, składanie i dziedziczenie, super(), polimorfizm i duck typing, metody specjalne dataclasses — aż po pytanie ważniejsze niż jakakolwiek składnia: kiedy klasa w ogóle powinna pojawić się w programie." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-14/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 14. Tworzymy obiekty rzeczywistego świata — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Klasy, obiekty, atrybuty i metody to podstawy programowania obiektowego. Od znanych obiektów (żółw, łańcuch znaków, lista) po klasy własnościowe: stan i zachowanie, self i __init__, enkapsulację i property, składanie i dziedziczenie, super(), polimorfizm i duck typing, metody specjalne dataclasses — aż po pytanie ważniejsze niż jakakolwiek składnia: kiedy klasa w ogóle powinna pojawić się w programie." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 14. Tworzymy obiekty rzeczywistego świata — Python od zera — Cartesian School","description":"Klasy, obiekty, atrybuty i metody to podstawy programowania obiektowego. Od znanych obiektów (żółw, łańcuch znaków, lista) po klasy własnościowe: stan i zachowanie, self i __init__, enkapsulację i property, składanie i dziedziczenie, super(), polimorfizm i duck typing, metody specjalne dataclasses — aż po pytanie ważniejsze niż jakakolwiek składnia: kiedy klasa w ogóle powinna pojawić się w programie.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-14/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 14 · STRONA 2068</div>
+<h1>Tworzymy obiekty rzeczywistego świata</h1>
+<p>Klasy, obiekty, atrybuty i metody to podstawy programowania obiektowego. Od znanych obiektów (żółw, łańcuch znaków, lista) po klasy własnościowe: stan i zachowanie, self i __init__, enkapsulację i property, składanie i dziedziczenie, super(), polimorfizm i duck typing, metody specjalne dataclasses — aż po pytanie ważniejsze niż jakakolwiek składnia: kiedy klasa w ogóle powinna pojawić się w programie.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~11 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--architecture"><use href="/assets/icons/cartesian/icons.svg#icon-architecture"></use></svg> class, self, super()</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 26 treningów</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-14/14-01-chto-takoe-oop.html"><span><span class="si-num">14.1</span>Czym jest OOP?</span><span class="si-page">2072</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-01-chto-takoe-oop.html#dokazhem"><span><span class="si-num"></span>Udowodnijmy to!</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-02-klassy.html"><span><span class="si-num">14.2</span>Klasy i obiekty o własnych wartościach
+★★★</span><span class="si-page">2078</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-02-klassy.html#znacheniya"><span><span class="si-num"></span>Obiekty ze swoimi wartościami</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-03-upravlyaem-obektami.html"><span><span class="si-num">14.3</span>Zarządzaj obiektami. Działania obiektowe</span><span class="si-page">2084</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-04-gonka-turtle-obekty-itogi.html"><span><span class="si-num">14.4</span>Turtle Rasa Obiektów</span><span class="si-page">2090</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-05-self-i-svyazyvanie-metodov.html"><span><span class="si-num">14.5</span>self i metody łączenia</span><span class="si-page">2095</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-06-init-i-sozdanie-obekta.html"><span><span class="si-num">14.6</span>__init__ i tworzenie obiektu</span><span class="si-page">2102</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html"><span><span class="si-num">14.7</span>Atrybuty instancji i klas</span><span class="si-page">2109</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-08-lovushka-obshchego-atributa.html"><span><span class="si-num">14.8</span>Powszechna pułapka atrybutów zmiennych</span><span class="si-page">2114</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-09-mini-proekt-player.html"><span><span class="si-num">14.9</span>Mini-projekt: Player</span><span class="si-page">2121</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-10-inkapsulyatsiya.html"><span><span class="si-num">14.10</span>Enkapsulacja</span><span class="si-page">2127</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-11-property.html"><span><span class="si-num">14.11</span>property: obliczane atrybuty</span><span class="si-page">2133</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-12-mini-proekt-rectangle.html"><span><span class="si-num">14.12</span>Mini-projekt: Rectangle</span><span class="si-page">2142</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-13-kompozitsiya.html"><span><span class="si-num">14.13</span>Kompozycja: Obiekty wewnątrz obiektów</span><span class="si-page">2146</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-14-mini-proekt-korzina-v2.html"><span><span class="si-num">14.14</span>Mini Projekt: Koszyk v2</span><span class="si-page">2151</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-15-nasledovanie.html"><span><span class="si-num">14.15</span>Dziedzictwo</span><span class="si-page">2156</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-16-super.html"><span><span class="si-num">14.16</span>super() i procedura rozwiązywania rozwiązań</span><span class="si-page">2164</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-17-pereopredelenie-metodov.html"><span><span class="si-num">14.17</span>Nadpisywanie metod</span><span class="si-page">2171</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-18-polimorfizm.html"><span><span class="si-num">14.18</span>Polimorfizm</span><span class="si-page">2177</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-19-duck-typing.html"><span><span class="si-num">14.19</span>Duck typing</span><span class="si-page">2180</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-20-mini-proekt-figury.html"><span><span class="si-num">14.20</span>Mini-projekt: kształty polimorficzne</span><span class="si-page">2185</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-21-spetsialnye-metody.html"><span><span class="si-num">14.21</span>Metody specjalne</span><span class="si-page">2192</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html"><span><span class="si-num">14.22</span>Praktyka: Aplikuj __str__ i __eq__</span><span class="si-page">2199</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-23-dataclasses.html"><span><span class="si-num">14.23</span>dataclasses</span><span class="si-page">2203</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-24-praktika-dataclass.html"><span><span class="si-num">14.24</span>Praktyka: dataclass</span><span class="si-page">2210</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-25-proektiruem-modeli.html"><span><span class="si-num">14.25</span>klasa czy nie? Projektowanie modeli</span><span class="si-page">2213</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-26-mini-proekt-gonka-v2.html"><span><span class="si-num">14.26</span>Mini-Projekt: Race Turtle v2</span><span class="si-page">2221</span></a><a class="section-item" href="/pl/chapters/rozdzial-14/14-27-itogi-glavy.html"><span><span class="si-num"></span>Podsumowanie rozdziału</span><span class="si-page">2228</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

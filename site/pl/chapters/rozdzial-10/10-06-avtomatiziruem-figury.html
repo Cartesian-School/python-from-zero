@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Zautomatyzuj kwadrat i dowolny kształt — Python od podstaw — Cartesian School</title>
+<meta content="Przepisujemy kwadrat i każdy prawidłowy wielokąt z rozdziału 6 za pomocą pętli for — z rzeczywistymi wykonanymi obrazami." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-06-avtomatiziruem-figury.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-06-avtomatiziruem-figury.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Zautomatyzuj kwadrat i dowolny kształt — Python od podstaw — Cartesian School" />
+<meta property="og:description" content="Przepisujemy kwadrat i każdy prawidłowy wielokąt z rozdziału 6 za pomocą pętli for — z rzeczywistymi wykonanymi obrazami." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zautomatyzuj kwadrat i dowolny kształt — Python od podstaw — Cartesian School" />
+<meta name="twitter:description" content="Przepisujemy kwadrat i każdy prawidłowy wielokąt z rozdziału 6 za pomocą pętli for — z rzeczywistymi wykonanymi obrazami." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Zautomatyzuj kwadrat i dowolny kształt — Python od podstaw — Cartesian School","description":"Przepisujemy kwadrat i każdy prawidłowy wielokąt z rozdziału 6 za pomocą pętli for — z rzeczywistymi wykonanymi obrazami.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-06-avtomatiziruem-figury.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-06-avtomatiziruem-figury.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Automatyzacja kształtów</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Mini-projekt — automatyzacja rysowania kwadratu</h1>
+<p class="lede">Wróćmy do liczb z rozdziału 6 — tym razem z cyklami zamiast ręcznym powtarzaniem i z rzeczywistymi wynikami.</p>
+<h2>Mini-projekt — automatyzujemy kwadrat</h2>
+<p>Zastosujmy pętlę do kwadratu z rozdziału 6. Obie wersje poniższego kodu rysują dokładnie tak samo
+    Kwadrat to jedyna różnica w liczbie wierszy, które zajmował:</p>
+<div class="cvm">
+<div class="cvm-header">Kwadrat: 8 rzędów ręcznie kontra 2 linie z pętlą</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Brak Pętli (Rozdział 6)</div>
+<pre><code>artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)</code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">Z cyklem for</div>
+<pre><code><span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+    artist.forward(<span class="tok-num">100</span>)
+    artist.right(<span class="tok-num">90</span>)</code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> efekt jest ten sam, ale cztery razy krótszy i z jednym miejscem na zmianę liczby stron.</div>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>avto_kvadrat.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">300</span>, height=<span class="tok-num">300</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+    artist.forward(<span class="tok-num">100</span>)
+    artist.right(<span class="tok-num">90</span>)
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Kwadrat narysowany Turtle" src="/assets/img/chapter-10/output/10-square.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Rzeczywisty efekt jest taki, że oba warianty powyższego kodu rysują dokładnie ten kwadrat</figcaption>
+</figure>
+</div>
+</div>
+<h2 id="lyubaya-figura">Automatyzujemy dowolną prostą figurę</h2>
+<p>Uogólnimy kwadrat do wzoru, który rysuje <strong>żadnych</strong> prawidłowy wielokąt — wykorzystując wzór kąta obrotu z rozdziału 6:</p>
+<figure style="margin:24px 0;padding:28px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);display:flex;flex-direction:column;align-items:center;overflow-x:auto"><math aria-label="Im więcej boków, tym mniejszy kąt obrotu przy każdym kroku" display="block" style="font-size:2em;color:#0D0230" xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>360°</mi><mo>÷</mo><mi>liczba stron</mi><mo>=</mo><mi>kąt obrotu</mi></mrow></math><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Im więcej boków, tym mniejszy kąt obrotu przy każdym kroku</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>avto_lyubaya_figura.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>storony = <span class="tok-num">8</span>       <span class="tok-com"># Chcę ośmiokąt – po prostu zmień ten numer</span>
+dlina = <span class="tok-num">60</span>
+ugol = <span class="tok-num">360</span> / storony
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(storony):
+    artist.forward(dlina)
+    artist.right(ugol)</code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Jednym zmienna jest dowolna liczba</div>
+<div class="callout-body">Zmiana <code class="inline">storony</code> przez 3, 5, 6, 20 — program automatycznie narysuje trójkąt, pięciokąt, sześciokąt lub prawie koło, bez żadnej zmiany reszty kodu. Poniżej znajduje się rzeczywisty wynik dla kilku wartości <code class="inline">storony</code>.</div>
+</div>
+</div>
+<h3>Trójkąt (storony = 3)</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>treugolnik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">300</span>, height=<span class="tok-num">300</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+storony = <span class="tok-num">3</span>
+dlina = <span class="tok-num">110</span>
+ugol = <span class="tok-num">360</span> / storony
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(storony):
+    artist.forward(dlina)
+    artist.right(ugol)
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Trójkąt wylosowany Turtle" src="/assets/img/chapter-10/output/10-polygon-3.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">storony = 3, dlina = 110 → trójkąt regularny</figcaption>
+</figure>
+</div>
+</div>
+<h3>Pentagon (storony = 5)</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>pyatiugolnik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">300</span>, height=<span class="tok-num">300</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+storony = <span class="tok-num">5</span>
+dlina = <span class="tok-num">75</span>
+ugol = <span class="tok-num">360</span> / storony
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(storony):
+    artist.forward(dlina)
+    artist.right(ugol)
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Pentagon narysowany Turtle" src="/assets/img/chapter-10/output/10-polygon-5.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">storony = 5, dlina = 75 → regularnym Piątokątie</figcaption>
+</figure>
+</div>
+</div>
+<h3>Heksagon (storony = 6)</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>shestiugolnik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">300</span>, height=<span class="tok-num">300</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+storony = <span class="tok-num">6</span>
+dlina = <span class="tok-num">65</span>
+ugol = <span class="tok-num">360</span> / storony
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(storony):
+    artist.forward(dlina)
+    artist.right(ugol)
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Hexagon narysował Turtle" src="/assets/img/chapter-10/output/10-polygon-6.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">storony = 6, dlina = 65 → regularny sześciokąt</figcaption>
+</figure>
+</div>
+</div>
+<h3>Ośmiokąt (storony = 8)</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>vosmiugolnik.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">300</span>, height=<span class="tok-num">300</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+storony = <span class="tok-num">8</span>
+dlina = <span class="tok-num">55</span>
+ugol = <span class="tok-num">360</span> / storony
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(storony):
+    artist.forward(dlina)
+    artist.right(ugol)
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Oktagon wylosowany Turtle" src="/assets/img/chapter-10/output/10-polygon-8.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">storony = 8, dlina = 55 → prawidłowy ośmiokąt</figcaption>
+</figure>
+</div>
+</div>
+<h2>Mini-projekt: studio automatycznych wielokątów</h2>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Studio wielokątów</div>
+<p>Zaprojektuj powyższy program tak, aby użytkownik storony wywoływał input() (nie zapomnij int()). testować na kilku wartościach — w tym dużych, jak 30 czy 50 — i zobaczyć, jak kształt się zmienia.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Automatyczne Studio Wielokątne</div>
+<div class="nc-sub">Moduł turtle otwiera natywne okno Python – uruchamiane lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="10-06">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-06/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-06"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-06"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html"><div class="dir">← Back</div><div class="lbl">Debugowanie pętli</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html"><div class="dir">Następny →</div><div class="lbl">Automatycznie rysuj mandalę</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

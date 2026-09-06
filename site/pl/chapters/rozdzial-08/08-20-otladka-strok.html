@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debugowanie problemów z łańcuch znakówme – Python od zera – Cartesian School</title>
+<meta content="Częste błędy z łańcuch znakówmi: niewidoczne spacje, błędne uciekanie znaków, str+int, find/index, input() — objaw, przyczyna, naprawa." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-20-otladka-strok.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-08/08-20-otladka-strok.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-20-otladka-strok.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-08/08-20-otladka-strok.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debugowanie problemów z łańcuch znakówme – Python od zera – Cartesian School" />
+<meta property="og:description" content="Częste błędy z łańcuch znakówmi: niewidoczne spacje, błędne uciekanie znaków, str+int, find/index, input() — objaw, przyczyna, naprawa." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-20-otladka-strok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debugowanie problemów z łańcuch znakówme – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Częste błędy z łańcuch znakówmi: niewidoczne spacje, błędne uciekanie znaków, str+int, find/index, input() — objaw, przyczyna, naprawa." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debugowanie problemów z łańcuch znakówme – Python od zera – Cartesian School","description":"Częste błędy z łańcuch znakówmi: niewidoczne spacje, błędne uciekanie znaków, str+int, find/index, input() — objaw, przyczyna, naprawa.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-20-otladka-strok.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/08-20-otladka-strok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 8 · łańcuch znaków</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-08/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-08/08-01-chto-takoe-stroki.html">czym są struny?</a></li><li><a href="/pl/chapters/rozdzial-08/08-11-ekranirovanie.html">Ucieczka: \n, \t i inni</a></li><li><a href="/pl/chapters/rozdzial-08/08-12-mnogostrochnye-i-raw-stroki.html">Struny wieloliniowe i raw-struny</a></li><li><a href="/pl/chapters/rozdzial-08/08-02-kavychki-konkatenaciya.html">Cudzysłowy, łączenie, powtarzanie</a></li><li><a href="/pl/chapters/rozdzial-08/08-13-dlina-stroki.html">Długość linii: len()</a></li><li><a href="/pl/chapters/rozdzial-08/08-03-dostup-k-simvolam.html">Indeksy wierszowe</a></li><li><a href="/pl/chapters/rozdzial-08/08-14-srezy-stroki.html">Plasterki rzędowe</a></li><li><a href="/pl/chapters/rozdzial-08/08-15-neizmenyaemost.html">Rzędy nie mogą być zmieniane</a></li><li><a href="/pl/chapters/rozdzial-08/08-04-metody-strok.html">Metody łańcuch znaków: przypadki i space</a></li><li><a href="/pl/chapters/rozdzial-08/08-16-metody-strok-poisk-i-razbor.html">Metody łańcuchowe: wyszukiwanie i parsowanie</a></li><li><a href="/pl/chapters/rozdzial-08/08-17-metody-proverki.html">Metody weryfikacji: isalpha i inne</a></li><li><a href="/pl/chapters/rozdzial-08/08-05-istina-lozh.html">in, porównanie i prawda</a></li><li><a href="/pl/chapters/rozdzial-08/08-18-cikl-po-stroke.html">Iteracja przez linię w pętli</a></li><li><a href="/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html">Formatowanie łańcuch znaków</a></li><li><a href="/pl/chapters/rozdzial-08/08-07-vvod-polzovatelya.html">Wprowadzanie od użytkownika</a></li><li><a href="/pl/chapters/rozdzial-08/08-19-unikod-i-emodzi.html">Cyrylica, unicode i emoji</a></li><li><a class="active" href="/pl/chapters/rozdzial-08/08-20-otladka-strok.html">Debugowanie problemów z łańcuchami</a></li><li><a href="/pl/chapters/rozdzial-08/08-08-mini-proekt-turtle-tekst.html">Mini-projekt: tekst Turtle</a></li><li><a href="/pl/chapters/rozdzial-08/08-21-mini-proekt-privetstvie-i-imya.html">Mini-projekt: powitanie i imię i nazwisko</a></li><li><a href="/pl/chapters/rozdzial-08/08-09-mini-proekty-krik-perevorot.html">Mini-Projekty: Krzycz i Flip</a></li><li><a href="/pl/chapters/rozdzial-08/08-22-mini-proekt-parol-i-email.html">Mini-projekt: hasło i e-mail</a></li><li><a href="/pl/chapters/rozdzial-08/08-23-mini-proekt-schetchik-slov.html">Mini projekt: Licznik słów</a></li><li><a href="/pl/chapters/rozdzial-08/08-10-mini-proekt-matematika-itogi.html">Mini-projekt: dynamiczna matematyka i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/08-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-01: Praktyka</a></li><li><a href="/pl/practice/08-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-11: Praktyka</a></li><li><a href="/pl/practice/08-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-12: Praktyka</a></li><li><a href="/pl/practice/08-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-13: Praktyka</a></li><li><a href="/pl/practice/08-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-14: Praktyka</a></li><li><a href="/pl/practice/08-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-04: Praktyka</a></li><li><a href="/pl/practice/08-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-16: Praktyka</a></li><li><a href="/pl/practice/08-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-17: Praktyka</a></li><li><a href="/pl/practice/08-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-03: Praktyka</a></li><li><a href="/pl/practice/08-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-18: Praktyka</a></li><li><a href="/pl/practice/08-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-06: Praktyka</a></li><li><a href="/pl/practice/08-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-07: Praktyka</a></li><li><a href="/pl/practice/08-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-20: Praktyka</a></li><li><a href="/pl/practice/08-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-21: Praktyka</a></li><li><a href="/pl/practice/08-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-08: Praktyka</a></li><li><a href="/pl/practice/08-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-22: Praktyka</a></li><li><a href="/pl/practice/08-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-23: Praktyka</a></li><li><a href="/pl/practice/08-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/08-20-otladka-strok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-08/index.html">Rozdział 8</a> / Debugowanie łańcuch znaków</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 8 · Zabawa literami i słowami</div>
+<h1>Debugowanie problemów z łańcuchami</h1>
+<p class="lede">Struny często wyglądają poprawnie dla oka, ale pękają przez jeden niewidzialny znak. Naucz się znajdować i naprawiać takie błędy.</p>
+<p>Struny są źródłem szczególnie podstępnych błędów: często wyglądają prosto na oko, oraz
+    Złamać się przez jeden niewidzialny symbol. Przyjrzyjmy się najczęstszym sytuacjom.</p>
+<h2>Przestrzenie niewidzialne</h2>
+<div class="code-block">
+<div class="code-label"><span>nevidimye_probely.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>password = <span class="tok-str">„sekret”</span>     <span class="tok-com">#random miejsce na końcu!</span>
+<span class="tok-fn">print</span>(password == <span class="tok-str">„tajemnica”</span>)   <span class="tok-com"># False — i nie da się tego rozpoznać na oko.</span>
+<span class="tok-fn">print</span>(repr(password))          <span class="tok-com"># 'sekret' – repr() daje przestrzeń</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">repr() jest twoim głównym narzędziem</div>
+<div class="callout-body">Widzieliśmy już repr() w sekcji 8.2 – pokazuje on łańcuch znaków „taki, jaki jest”</div>
+</div>
+</div>
+<h2>Zapomniany cudzysłow</h2>
+<div class="code-block">
+<div class="code-label"><span>zabytaya_kavychka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># text = "Witaj świecie! # Zapomniałem cytatu końcowego</span>
+<span class="tok-com"># SyntaxError: unterminated string literal</span></code></pre>
+</div>
+<h2>Niepoprawne maskowanie</h2>
+<div class="code-block">
+<div class="code-label"><span>nepravilnoe_ekranirovanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com">#path=„C:\new_folder”</span>
+<span class="tok-fn">print</span>(<span class="tok-str">"C:\new_folder"</span>)
+<span class="tok-com"># C:</span>
+<span class="tok-com"># ew_folder wcale nie jest tym, czego chcieli</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">r"C:\new_folder"</span>)    <span class="tok-com"># C:\new_folder — raw-łańcuch znaków (rozdział 8.3) rozwiązuje problem</span></code></pre>
+</div>
+<h2>Łączenie łańcuch znaków z liczbą</h2>
+<div class="code-block">
+<div class="code-label"><span>stroka_plyus_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>score = <span class="tok-num">95</span>
+<span class="tok-com"># print(„Wynik: ”</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Wynik: ”</span> + <span class="tok-fn">str</span>(score))   <span class="tok-com"># poprawiono — jawna konwersja</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Wynik: </span>{score}<span class="tok-str">"</span>)        <span class="tok-com"># jeszcze lepiej — f-łańcuch znaków samo przekształca</span></code></pre>
+</div>
+<h2>find() vs index() gdy nie ma podciągu</h2>
+<div class="code-block">
+<div class="code-label"><span>find_vs_index_oshibka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>text = <span class="tok-str">"Python"</span>
+<span class="tok-fn">print</span>(text.find(<span class="tok-str">"java"</span>))    <span class="tok-com"># -1 – Cicho zwraca -1, łatwo pominąć w kodzie</span>
+<span class="tok-com"># text.index(„java”</span></code></pre>
+</div>
+<p>Częsty błąd — zapomnieć, że <code class="inline">find()</code> w przypadku braku podciągu
+    zwraca <code class="inline">-1</code>, nie <code class="inline">False</code> lub
+    <code class="inline">None</code>. Sprawdzam jak <code class="inline">if text.find("java"):</code>
+    nie będzie działać poprawnie, ponieważ <code class="inline">-1</code> jest prawda w logiczności
+    Sprawdzone! Dokładnie — żeby porównać wprost: <code class="inline">if text.find("java") != -1:</code>.</p>
+<h2>input() „naprawdę”</h2>
+<div class="code-block">
+<div class="code-label"><span>input_ne_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>age = <span class="tok-fn">input</span>(<span class="tok-str">„Wiek? ”</span>)   <span class="tok-com"># nawet jeśli wpisane zostanie "28", to łańcuch znaków "28"</span>
+<span class="tok-com"># print(age + 1)           # TypeError — zapomniano int()</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">int</span>(age) + <span class="tok-num">1</span>)         <span class="tok-com"># poprawna</span></code></pre>
+</div>
+<h2>Końcowa ściąga do debugowania stringów</h2>
+<div class="compare-table-wrap" style="overflow-x:auto">
+<table class="compare-table">
+<thead><tr><th>Objaw</th><th>Przyczyna</th><th>Jak to naprawić</th></tr></thead>
+<tbody>
+<tr><td>Porównanie <code class="inline">==</code> niespodziewanie False</td><td>niewidzialną przestrzeń lub inny przypadek</td><td><code class="inline">repr()</code>, <code class="inline">.strip()</code>, <code class="inline">.lower()</code></td></tr>
+<tr><td><code class="inline">SyntaxError: unterminated string</code></td><td>zapomniany znak zamykający cudzysłów</td><td>sprawdzić parzystość cudzysłowów</td></tr>
+<tr><td>Tekst „zepsuty”</td><td>losowe <code class="inline">\n</code> w ścieżce/tekście</td><td>raw-łańcuch znaków <code class="inline">r"..."</code></td></tr>
+<tr><td><code class="inline">TypeError: can only concatenate str</code></td><td>dodawanie łańcuch znaków o liczbie oddzielonej przez +</td><td><code class="inline">str()</code> lub f-łańcuch znaków</td></tr>
+<tr><td><code class="inline">if text.find(...)</code> zachowuje się dziwnie</td><td>-1 to prawda w czeku boolowskim</td><td>porównać <code class="inline">!= -1</code> wyraźnie</td></tr>
+<tr><td><code class="inline">TypeError</code> w arytmetyce z input()</td><td>input() zawsze zwraca łańcuch znaków</td><td><code class="inline">int()</code>/<code class="inline">float()</code></td></tr>
+</tbody>
+</table>
+</div>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Znajdź błąd</div>
+<p>W wierszu `total = „Suma: ”</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: debugowanie błędów w ciągach znaków</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="08-20"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/08-20/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-20"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-08/08-19-unikod-i-emodzi.html"><div class="dir">← Back</div><div class="lbl">Unicode i emoji</div></a><a class="next" href="/pl/chapters/rozdzial-08/08-08-mini-proekt-turtle-tekst.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekt: tekst Turtle</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

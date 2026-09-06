@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 17. Projekt: Gra w kółko i krzyżyk od Tkinter do Python od zera do Cartesian School</title>
+<meta content="Zbudujmy pierwszą pełnoprawną GUI- grę jako prawdziwy mały projekt programistyczny: przeanalizujemy system zdarzeń Tkinter, oddzielimy stan gry od widżetów, zaimplementujemy zasady i testy, dodamy obsługę myszy i klawiatury, wizualną informację zwrotną, liczenie meczów i końcową architekturę aplikacji." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-17/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-17/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-17/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-17/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 17. Projekt: Gra w kółko i krzyżyk od Tkinter do Python od zera do Cartesian School" />
+<meta property="og:description" content="Zbudujmy pierwszą pełnoprawną GUI- grę jako prawdziwy mały projekt programistyczny: przeanalizujemy system zdarzeń Tkinter, oddzielimy stan gry od widżetów, zaimplementujemy zasady i testy, dodamy obsługę myszy i klawiatury, wizualną informację zwrotną, liczenie meczów i końcową architekturę aplikacji." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-17/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 17. Projekt: Gra w kółko i krzyżyk od Tkinter do Python od zera do Cartesian School" />
+<meta name="twitter:description" content="Zbudujmy pierwszą pełnoprawną GUI- grę jako prawdziwy mały projekt programistyczny: przeanalizujemy system zdarzeń Tkinter, oddzielimy stan gry od widżetów, zaimplementujemy zasady i testy, dodamy obsługę myszy i klawiatury, wizualną informację zwrotną, liczenie meczów i końcową architekturę aplikacji." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 17. Projekt: Gra w kółko i krzyżyk od Tkinter do Python od zera do Cartesian School","description":"Zbudujmy pierwszą pełnoprawną GUI- grę jako prawdziwy mały projekt programistyczny: przeanalizujemy system zdarzeń Tkinter, oddzielimy stan gry od widżetów, zaimplementujemy zasady i testy, dodamy obsługę myszy i klawiatury, wizualną informację zwrotną, liczenie meczów i końcową architekturę aplikacji.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-17/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-17/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-17/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 17 · P. 2724</div>
+<h1>Project: Gra w kółko i krzyżyk z Tkinter</h1>
+<p>Zbudujmy pierwszą pełnoprawną GUI- grę jako prawdziwy mały projekt programistyczny: przeanalizujemy system zdarzeń Tkinter, oddzielimy stan gry od widżetów, zaimplementujemy zasady i testy, dodamy obsługę myszy i klawiatury, wizualną informację zwrotną, liczenie meczów i końcową architekturę aplikacji.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~6–7 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--game"><use href="/assets/icons/cartesian/icons.svg#icon-game"></use></svg> wydarzenia · status · zasady · architektura</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 30 praktyk</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-17/17-01-privyazka-sobytij.html"><span><span class="si-num">17.1</span>Event Binding – Dynamiczne tworzenie aplikacji!</span><span class="si-page">2728</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-02-obyasnenie-nastrojka.html"><span><span class="si-num">17.2</span>Wyjaśnienie gry kółko i krzyżyk</span><span class="si-page">2731</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-02-obyasnenie-nastrojka.html#nastrojka"><span><span class="si-num"></span>Konfigurujemy Tkinter</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-03-peremennye-knopki.html"><span><span class="si-num">17.3</span>Tworzenie zmiennych globalnych</span><span class="si-page">2734</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-03-peremennye-knopki.html#knopki"><span><span class="si-num"></span>Tworzenie przycisków</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html"><span><span class="si-num">17.4</span>Podczas naciśnięcia przycisku rysujemy na nim</span><span class="si-page">2739</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-05-proverka-pobedy.html"><span><span class="si-num">17.5</span>Sprawdzaj po każdym ruchu, czy gracz wygrał</span><span class="si-page">2742</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-06-novaya-igra-itogi.html"><span><span class="si-num">17.6</span>Nowa gra i pierwsza pełna wersja</span><span class="si-page">2747</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-07-event-callback-command-binding.html"><span><span class="si-num">17.7</span>Event, callback, command i binding</span><span class="si-page">2756</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-08-obyekt-event.html"><span><span class="si-num">17.8</span>Obiekt Event</span><span class="si-page">2762</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-09-sintaksis-sobytij.html"><span><span class="si-num">17.9</span>Składnia zdarzeń Tk</span><span class="si-page">2766</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-10-command-vs-bind.html"><span><span class="si-num">17.10</span>command vs bind — co wybrać</span><span class="si-page">2770</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-11-focus-i-klaviatura.html"><span><span class="si-num">17.11</span>Focus i klawiatura</span><span class="si-page">2775</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-12-enter-leave-hover.html"><span><span class="si-num">17.12</span>Mouse Enter/Leave i hover</span><span class="si-page">2780</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-13-model-sostoyaniya.html"><span><span class="si-num">17.13</span>Model stanu gry</span><span class="si-page">2786</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-14-indeksy-stroki-stolbcy.html"><span><span class="si-num">17.14</span>Indeksy, wiersze i kolumny</span><span class="si-page">2793</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-15-algoritm-hoda.html"><span><span class="si-num">17.15</span>Poprawny algorytm ruchu</span><span class="si-page">2797</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-16-vosem-linij-pobedy.html"><span><span class="si-num">17.16</span>Osiem linii płatnych</span><span class="si-page">2804</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-17-pobeda-nichya-terminal.html"><span><span class="si-num">17.17</span>Wygrać, zremisować i terminal state</span><span class="si-page">2813</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-18-model-a-ne-widgets.html"><span><span class="si-num">17.18</span>Od widgets-as-state do board model</span><span class="si-page">2819</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-19-gamestate-dataclass.html"><span><span class="si-num">17.19</span>GameState z dataclass</span><span class="si-page">2825</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-20-arhitektura-app.html"><span><span class="si-num">17.20</span>Architektura TicTacToeApp</span><span class="si-page">2829</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-21-adaptivnoe-pole.html"><span><span class="si-num">17.21</span>Adaptacyjne pole gry</span><span class="si-page">2834</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-22-vizualnyj-stil.html"><span><span class="si-num">17.22</span>X/O stylu wizualnego</span><span class="si-page">2839</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-23-hover-preview.html"><span><span class="si-num">17.23</span>Hover preview przez bind()</span><span class="si-page">2844</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-24-upravlenie-klaviaturoj.html"><span><span class="si-num">17.24</span>Sterowanie klawiaturą</span><span class="si-page">2849</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-25-podsvetka-linii.html"><span><span class="si-num">17.25</span>Wyróżnianie linii zwycięskiej</span><span class="si-page">2854</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-26-schyot-matchej.html"><span><span class="si-num">17.26</span>Wyniki meczów</span><span class="si-page">2857</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-27-new-round-vs-new-match.html"><span><span class="si-num">17.27</span>New Round vs New Match</span><span class="si-page">2860</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-28-testiruem-bez-tkinter.html"><span><span class="si-num">17.28</span>Testowanie gry bez Tkinter</span><span class="si-page">2867</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-29-debug-labs.html"><span><span class="si-num">17.29</span>Debug Labs</span><span class="si-page">2871</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-30-visual-effects-after.html"><span><span class="si-num">17.30</span>Visual effects i after()</span><span class="si-page">2908</span></a><a class="section-item" href="/pl/chapters/rozdzial-17/17-31-tic-tac-toe-pro-itogi.html"><span><span class="si-num">17.31</span>Tic-Tac-Toe Pro - Streszczenie rozdziału</span><span class="si-page">2915</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

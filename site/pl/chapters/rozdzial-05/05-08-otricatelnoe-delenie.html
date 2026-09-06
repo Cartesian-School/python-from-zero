@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Dzielenie floor- negatywnych - Python od zera - Cartesian School</title>
+<meta content="Dlaczego -7 // 2 równa się -4, a nie -3 jest zaokrąglone do rodzaju (minus nieskończoność) w Python." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-05/05-08-otricatelnoe-delenie.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-05/05-08-otricatelnoe-delenie.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Dzielenie floor- negatywnych - Python od zera - Cartesian School" />
+<meta property="og:description" content="Dlaczego -7 // 2 równa się -4, a nie -3 jest zaokrąglone do rodzaju (minus nieskończoność) w Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Dzielenie floor- negatywnych - Python od zera - Cartesian School" />
+<meta name="twitter:description" content="Dlaczego -7 // 2 równa się -4, a nie -3 jest zaokrąglone do rodzaju (minus nieskończoność) w Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Dzielenie floor- negatywnych - Python od zera - Cartesian School","description":"Dlaczego -7 // 2 równa się -4, a nie -3 jest zaokrąglone do rodzaju (minus nieskończoność) w Python.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-08-otricatelnoe-delenie.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 5 · Gra liczb</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-05/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-05/05-01-osnovnye-operacii.html">Wyrażenia i podstawowe operacje</a></li><li><a href="/pl/chapters/rozdzial-05/05-07-delenie-s-ostatkom.html">Podział z resztą</a></li><li><a class="active" href="/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html">Ujemne dzielenie całkowite przez floor</a></li><li><a href="/pl/chapters/rozdzial-05/05-02-specialnye-operacii.html">Stopnie naukowe i korzenie</a></li><li><a href="/pl/chapters/rozdzial-05/05-09-unarnye-operatory.html">Operatory unarne</a></li><li><a href="/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html">Kolejność przypisania i obliczeń</a></li><li><a href="/pl/chapters/rozdzial-05/05-10-associativnost.html">Skojarzenie operatorów</a></li><li><a href="/pl/chapters/rozdzial-05/05-11-skobki-i-formuly.html">Nawiasy i wzory ze zmiennych</a></li><li><a href="/pl/chapters/rozdzial-05/05-12-perevod-formul.html">Tłumaczenie wzorów: matematyka → Python</a></li><li><a href="/pl/chapters/rozdzial-05/05-04-matematicheskie-funkcii.html">Moduł math – Mapa Możliwości</a></li><li><a href="/pl/chapters/rozdzial-05/05-13-korni-rasstoyaniya.html">Korzenie i odległości</a></li><li><a href="/pl/chapters/rozdzial-05/05-14-gcd-lcm-faktorial.html">gcd, lcm, czynnikowy, comb, perm</a></li><li><a href="/pl/chapters/rozdzial-05/05-15-geometriya-s-math.html">Geometria z math</a></li><li><a href="/pl/chapters/rozdzial-05/05-16-trigonometriya.html">Trygonometria bez strachu</a></li><li><a href="/pl/chapters/rozdzial-05/05-17-logarifmy.html">Logarytmy i wykładniki</a></li><li><a href="/pl/chapters/rozdzial-05/05-05-sluchaynye-chisla.html">Moduł pseudolosowości random:</a></li><li><a href="/pl/chapters/rozdzial-05/05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="/pl/chapters/rozdzial-05/05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="/pl/chapters/rozdzial-05/05-20-seed.html">seed i powtarzalność</a></li><li><a href="/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html">Obliczania debugowania</a></li><li><a href="/pl/chapters/rozdzial-05/05-06-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/05-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-01: Praktyka</a></li><li><a href="/pl/practice/05-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 07-05: Praktyka</a></li><li><a href="/pl/practice/05-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-08: Praktyka</a></li><li><a href="/pl/practice/05-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-02: Praktyka</a></li><li><a href="/pl/practice/05-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-09: Praktyka</a></li><li><a href="/pl/practice/05-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-10: Praktyka</a></li><li><a href="/pl/practice/05-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-11: Praktyka</a></li><li><a href="/pl/practice/05-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-12: Praktyka</a></li><li><a href="/pl/practice/05-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-04: Praktyka</a></li><li><a href="/pl/practice/05-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-13: Praktyka</a></li><li><a href="/pl/practice/05-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-14: Praktyka</a></li><li><a href="/pl/practice/05-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-15: Praktyka</a></li><li><a href="/pl/practice/05-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-16: Praktyka</a></li><li><a href="/pl/practice/05-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-17: Praktyka</a></li><li><a href="/pl/practice/05-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-05: Praktyka</a></li><li><a href="/pl/practice/05-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-18: Praktyka</a></li><li><a href="/pl/practice/05-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-19: Praktyka</a></li><li><a href="/pl/practice/05-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-20: Praktyka</a></li><li><a href="/pl/practice/05-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-21: Praktyka</a></li><li><a href="/pl/practice/05-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-08-otricatelnoe-delenie.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-05/index.html">Rozdział 5</a> / Negatywna operacja floor-dzielenia</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 5 · Pobawmy się liczbami!</div>
+<h1>Ujemne dzielenie całkowite przez floor</h1>
+<p class="lede">Najczęstsza niespodzianka w tym temacie — co robi // z liczbami ujemnymi. Analizujemy na osi liczbowej.</p>
+<p>Co się stanie, jeśli podzielisz się resztą <strong>negatywne</strong> liczba? Tutaj Python
+    zachowuje się inaczej, niż wielu oczekuje ze szkoły — i ważne jest, aby to zrozumieć teraz, a nie w momencie
+    debugowania.</p>
+<h2>Zaokrąglenie jest zawsze w dół — czyli do minus nieskończoności</h2>
+<p><code class="inline">//</code> w Python nazywa się <em>floor division</em> — „dzielenie z
+    zaokrąglanie na podłogę” <strong>mniejszego</strong> ,
+    a dla liczb ujemnych "mniej" oznacza "bardziej ujemne":</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="-7 // 2 = -4 — zaokrąglenie na podłogę oznacza przesunięcie się w LEWO wzdłuż osi liczby, do −∞" data-diagram="number-line" role="img" style="width:100%;height:auto;max-width:640px" viewbox="0 0 640 110" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-21-arrownl" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><line stroke="#B9A0FC" stroke-width="2.5" x1="40" x2="600" y1="55" y2="55"></line><line stroke="#B9A0FC" stroke-width="2" x1="40.0" x2="40.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="40.0" y="79">-6</text><line stroke="#B9A0FC" stroke-width="2" x1="120.0" x2="120.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="120.0" y="79">-5</text><line stroke="#B9A0FC" stroke-width="2" x1="200.0" x2="200.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="200.0" y="79">-4</text><line stroke="#B9A0FC" stroke-width="2" x1="280.0" x2="280.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="280.0" y="79">-3</text><line stroke="#B9A0FC" stroke-width="2" x1="360.0" x2="360.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="360.0" y="79">-2</text><line stroke="#B9A0FC" stroke-width="2" x1="440.0" x2="440.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="440.0" y="79">-1</text><line stroke="#B9A0FC" stroke-width="2" x1="520.0" x2="520.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="520.0" y="79">0</text><line stroke="#B9A0FC" stroke-width="2" x1="600.0" x2="600.0" y1="49" y2="61"></line><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="600.0" y="79">1</text><circle cx="200.0" cy="55" fill="#5B24F9" r="7"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" text-anchor="middle" x="200.0" y="39">-4</text><circle cx="240.0" cy="55" fill="#0D0230" r="7"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" text-anchor="middle" x="240.0" y="39"></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">-7 // 2 = -4 — zaokrąglenie na podłogę oznacza przesunięcie się w LEWO wzdłuż osi liczby, do −∞</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>otricatelnoe_floor.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(-<span class="tok-num">7</span> // <span class="tok-num">2</span>)    <span class="tok-com">#-4, nie -3! Python zaokrągleń do minus nieskończoności</span>
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> // <span class="tok-num">2</span>)     <span class="tok-com">#3 – Dla liczb dodatnich nie ma różnicy przy zaokrągleniu „do zera”</span>
+<span class="tok-fn">print</span>(-<span class="tok-num">7</span> / <span class="tok-num">2</span>)     <span class="tok-com"># -3.5 – Dzielenie normalne uczciwie pokazuje część ułamkową</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie „zaokrąglanie do zera”</div>
+<div class="callout-body">W odniesieniu do innych języków programowania <code class="inline">-7 // 2</code> dałoby <code class="inline">-3</code> (zaokrąglone do zera). W Python wynik to <code class="inline">-4</code>: To świadomy wybór języka, aby poniższy wzór działał zawsze, bez wyjątków dla liczb ujemnych.</div>
+</div>
+</div>
+<h2>Reszta na dzieleniu negatywnym</h2>
+<p>Reszta wpisu Python zawsze pokrywa się z tym znakiem <strong>dzielnik</strong>:</p>
+<div class="code-block">
+<div class="code-label"><span>otricatelnyj_ostatok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(-<span class="tok-num">7</span> % <span class="tok-num">2</span>)     <span class="tok-com">#1 – Reszta jest dodatnia, ponieważ dzielnik (2) jest dodatni</span>
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> % -<span class="tok-num">2</span>)     <span class="tok-com">#-1 – Reszta jest ujemna, ponieważ dzielnik (-2) jest ujemny</span></code></pre>
+</div>
+<h2>Tożsamość, która zawsze działa</h2>
+<p>Bez względu na to, jak zmieniają się znaki, dla dowolnych <code class="inline">a</code> oraz
+    <code class="inline">b</code> (z wyjątkiem dzielenia przez 0) jest prawdziwe:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">a == (a // b) * b + a % b</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == (-7 // 2) * 2 + (-7 % 2)</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == (-4) * 2 + 1</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == -8 + 1</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">-7 == -7  ✓</div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Tożsamość dzielenia z resztą jest testowana w przykładzie -7 i 2</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>tozhdestvo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>a, b = -<span class="tok-num">7</span>, <span class="tok-num">2</span>
+<span class="tok-fn">print</span>((a // b) * b + a % b == a)   <span class="tok-com">#True – Tożsamość zawsze działa</span></code></pre>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Ujemna część floor-a.</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="05-08"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/05-08/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-08"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-08"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-05/05-07-delenie-s-ostatkom.html"><div class="dir">← Back</div><div class="lbl">Podział z resztą</div></a><a class="next" href="/pl/chapters/rozdzial-05/05-02-specialnye-operacii.html"><div class="dir">Następny →</div><div class="lbl">Stopnie naukowe i korzenie</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

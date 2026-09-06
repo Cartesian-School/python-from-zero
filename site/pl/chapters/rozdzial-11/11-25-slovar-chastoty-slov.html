@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Mini-projekt – liczenie częstotliwości słów – Python od zera – Cartesian School</title>
+<meta content="Klasyczny algorytm liczenia częstości słów przez słownik i .get(word, 0) + 1, wariant przez setdefault(), podgląd collections.Counter." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-11/11-25-slovar-chastoty-slov.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-11/11-25-slovar-chastoty-slov.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Mini-projekt – liczenie częstotliwości słów – Python od zera – Cartesian School" />
+<meta property="og:description" content="Klasyczny algorytm liczenia częstości słów przez słownik i .get(word, 0) + 1, wariant przez setdefault(), podgląd collections.Counter." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mini-projekt – liczenie częstotliwości słów – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Klasyczny algorytm liczenia częstości słów przez słownik i .get(word, 0) + 1, wariant przez setdefault(), podgląd collections.Counter." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Mini-projekt – liczenie częstotliwości słów – Python od zera – Cartesian School","description":"Klasyczny algorytm liczenia częstości słów przez słownik i .get(word, 0) + 1, wariant przez setdefault(), podgląd collections.Counter.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-25-slovar-chastoty-slov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 11 · Dane</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-11/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-11/11-11-zachem-hranit-mnogo.html">Dlaczego przechowywać wiele wartości</a></li><li><a href="/pl/chapters/rozdzial-11/11-01-spiski-osnovy.html">Listy: podstawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-02-srezy-spiskov.html">Sekatory list</a></li><li><a href="/pl/chapters/rozdzial-11/11-12-izmenyaem-spisok.html">Zmiana lista</a></li><li><a href="/pl/chapters/rozdzial-11/11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="/pl/chapters/rozdzial-11/11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="/pl/chapters/rozdzial-11/11-03-operacii-so-spiskami.html">Potężne operacje list</a></li><li><a href="/pl/chapters/rozdzial-11/11-15-spiski-i-cikly.html">Listy i pętle</a></li><li><a href="/pl/chapters/rozdzial-11/11-16-ssylki-aliasing.html">Kompendium, aliasing, == i is</a></li><li><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html">Listy kopiowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html">Więcej o listach</a></li><li><a href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html">Mini Projekt: Kolorowa Gwiazda</a></li><li><a href="/pl/chapters/rozdzial-11/11-06-kortezhi.html">Krotki</a></li><li><a href="/pl/chapters/rozdzial-11/11-18-zip-i-raspakovka.html">zip() i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-11/11-07-mnozhestva.html">Zestawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-19-mnozhestva-operacii.html">Operacje setów i możliwość hasowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-08-slovari.html">Słowniki</a></li><li><a href="/pl/chapters/rozdzial-11/11-20-slovari-metody.html">Metody słowników</a></li><li><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html">Zagnieżdżone struktury</a></li><li><a href="/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html">Przemiany i comprehensions</a></li><li><a href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html">Mini Project: Nieskończone Kolory</a></li><li><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html">Jak wybrać odpowiednią strukturę</a></li><li><a href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html">Debugowanie kolekcji</a></li><li><a class="active" href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html">Mini-projekt: częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html">Mini-projekty z kolekcjami</a></li><li><a href="/pl/chapters/rozdzial-11/11-10-mini-proekt-perestanovka-itogi.html">Permutacja nazw i streszczenia</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/11-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-11: Praktyka</a></li><li><a href="/pl/practice/11-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-01: Praktyka</a></li><li><a href="/pl/practice/11-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-02: Praktyka</a></li><li><a href="/pl/practice/11-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-12: Praktyka</a></li><li><a href="/pl/practice/11-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-13: Praktyka</a></li><li><a href="/pl/practice/11-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-14: Praktyka</a></li><li><a href="/pl/practice/11-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-03: Praktyka</a></li><li><a href="/pl/practice/11-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-15: Praktyka</a></li><li><a href="/pl/practice/11-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-16: Praktyka</a></li><li><a href="/pl/practice/11-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-17: Praktyka</a></li><li><a href="/pl/practice/11-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-04: Praktyka</a></li><li><a href="/pl/practice/11-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-05: Praktyka</a></li><li><a href="/pl/practice/11-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-06: Praktyka</a></li><li><a href="/pl/practice/11-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-18: Praktyka</a></li><li><a href="/pl/practice/11-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-07: Praktyka</a></li><li><a href="/pl/practice/11-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-19: Praktyka</a></li><li><a href="/pl/practice/11-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-08: Praktyka</a></li><li><a href="/pl/practice/11-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-20: Praktyka</a></li><li><a href="/pl/practice/11-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-21: Praktyka</a></li><li><a href="/pl/practice/11-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-22: Praktyka</a></li><li><a href="/pl/practice/11-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-09: Praktyka</a></li><li><a href="/pl/practice/11-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-23: Praktyka</a></li><li><a href="/pl/practice/11-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-24: Praktyka</a></li><li><a href="/pl/practice/11-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-25: Praktyka</a></li><li><a href="/pl/practice/11-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-26: Praktyka</a></li><li><a href="/pl/practice/11-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-25-slovar-chastoty-slov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-11/index.html">Rozdział 11</a> / Częstotliwość słów</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 11 · Mnóstwo informacji!</div>
+<h1>Mini-projekt — liczenie częstości słów</h1>
+<p class="lede">łańcuch znaków, pętle i licznik słownik w jednym klasycznym zadaniu — z ręcznym algorytmem i podglądem gotowego narzędzia ze standardowej biblioteki.</p>
+<p>Klasyczne zadanie, które łączy prawie wszystko z tego rozdziału: łańcuchy (rozdział 8), pętle
+    (rozdział 10) i słownik jako licznik.</p>
+<h2>Algorytm krok po kroku</h2>
+<div class="code-block">
+<div class="code-label"><span>chastota_slov.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>text = <span class="tok-str">"python is great and python is fun"</span>
+words = text.lower().split()
+
+counts = {}
+<span class="tok-kw">for</span> word <span class="tok-kw">in</span> words:
+    counts[word] = counts.get(word, <span class="tok-num">0</span>) + <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(counts)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="counts.get(word, 0) + 1 — jeśli słowa nie ma już tam, get() zwróci 0, a licznik zacznie od 1" data-diagram="timeline" role="img" style="width:100%;height:auto;max-width:640px" viewbox="0 0 640 460" xmlns="http://www.w3.org/2000/svg"><line stroke="#B9A0FC" stroke-width="3" x1="28" x2="28" y1="44" y2="396"></line><circle cx="28" cy="44" fill="#5B24F9" r="9"></circle><circle cx="28" cy="44" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="40">word = 'python'</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="62">counts.get('python', 0) + 1 = 1 → counts = {'python': 1}</text><circle cx="28" cy="132" fill="#5B24F9" r="9"></circle><circle cx="28" cy="132" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="128">word = 'is'</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="150">counts = {'python': 1, 'is': 1}</text><circle cx="28" cy="220" fill="#5B24F9" r="9"></circle><circle cx="28" cy="220" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="216">word = 'great'</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="238">counts = {'python': 1, 'is': 1, 'great': 1}</text><circle cx="28" cy="308" fill="#5B24F9" r="9"></circle><circle cx="28" cy="308" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="304">word = 'and'</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="326">counts = {..., 'and': 1}</text><circle cx="28" cy="396" fill="#5B24F9" r="9"></circle><circle cx="28" cy="396" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="392">word = 'python' ponownie</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="414">counts.get('python', 0) + 1 = 2 → counts['python'] = 2</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">counts.get(word, 0) + 1 — jeśli słowa nie ma już tam, get() zwróci 0, a licznik zacznie od 1</figcaption></figure>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Dlaczego właśnie .get(word, 0), a nie counts[word]</div>
+<div class="callout-body">Na pierwszym spotkaniu słowa kluczowego <code class="inline">word</code> w <code class="inline">counts</code> jeszcze nie — <code class="inline">counts[word]</code> by spowodowało <code class="inline">KeyError</code>. <code class="inline">.get(word, 0)</code> zwraca 0 dla nowego słowa, a kod działa tak samo zarówno dla nowych, jak i istniejących słów.</div>
+</div>
+</div>
+<h2>Ten sam algorytm przez setdefault()</h2>
+<div class="code-block">
+<div class="code-label"><span>chastota_setdefault.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>counts = {}
+<span class="tok-kw">for</span> word <span class="tok-kw">in</span> words:
+    counts.setdefault(word, <span class="tok-num">0</span>)
+    counts[word] += <span class="tok-num">1</span></code></pre>
+</div>
+<h2><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg> Trochę głębiej — standardowa biblioteka już rozwiązała ten problem</h2>
+<div class="code-block">
+<div class="code-label"><span>counter_preview.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> collections <span class="tok-kw">import</span> Counter
+
+counts = Counter(words)
+<span class="tok-fn">print</span>(counts)             <span class="tok-com"># Counter({'python': 2, 'is': 2, 'great': 1, 'and': 1, 'fun': 1})</span>
+<span class="tok-fn">print</span>(counts.most_common(<span class="tok-num">2</span>))   <span class="tok-com"># [('python', 2), ('is', 2)]</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Algorytm ręczny jest ważniejszy niż gotowa funkcja</div>
+<div class="callout-body"><code class="inline">Counter</code> z biblioteki standardowej robi to samo w jednej linii — a w prawdziwym kodzie często lepiej go używać. Ale algorytm na <code class="inline">.get(word, 0) + 1</code> warto było przejrzeć to rękami: pokazuje, jak liczenie działa w słownik ogólnie, a nie tylko że istnieje gotowe narzędzie do tego zadania.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Liczenie częstotliwości występowania słów w tekście</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="11-25"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/11-25/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-25"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-25"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html"><div class="dir">← Back</div><div class="lbl">Debugowanie kolekcji</div></a><a class="next" href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekty z kolekcjami</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

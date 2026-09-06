@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Automatyczne testowanie Flask- aplikacji – Python od zera – Cartesian School</title>
+<meta content="testuj klienta Flask, sprawdzam HTML- i JSON-responses, tymczasową bazę danych do testów oraz poprawnie określając, co robi klient testowy." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-33-testiruem-flask.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/22-33-testiruem-flask.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-33-testiruem-flask.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/22-33-testiruem-flask.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Automatyczne testowanie Flask- aplikacji – Python od zera – Cartesian School" />
+<meta property="og:description" content="testuj klienta Flask, sprawdzam HTML- i JSON-responses, tymczasową bazę danych do testów oraz poprawnie określając, co robi klient testowy." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-33-testiruem-flask.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Automatyczne testowanie Flask- aplikacji – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="testuj klienta Flask, sprawdzam HTML- i JSON-responses, tymczasową bazę danych do testów oraz poprawnie określając, co robi klient testowy." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Automatyczne testowanie Flask- aplikacji – Python od zera – Cartesian School","description":"testuj klienta Flask, sprawdzam HTML- i JSON-responses, tymczasową bazę danych do testów oraz poprawnie określając, co robi klient testowy.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-33-testiruem-flask.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-33-testiruem-flask.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 22 · Tworzenie stron internetowych</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-22/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html">Podstawy tworzenia stron internetowych: klient, serwer i Python</a></li><li><a href="/pl/chapters/rozdzial-22/22-02-html.html">HTML: struktura strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-03-css.html">CSS: projektowanie i układ elementów strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-04-javascript.html">JavaScript: programowanie w przeglądarce</a></li><li><a href="/pl/chapters/rozdzial-22/22-05-flask.html">Pierwsza aplikacja webowa na Flask</a></li><li><a href="/pl/chapters/rozdzial-22/22-06-itogi.html">Wyniki pierwszego projektu internetowego</a></li><li><a href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html">Jak przeglądarka pobiera stronę internetową</a></li><li><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html">URL: domena, ścieżka, parametry i fragment</a></li><li><a href="/pl/chapters/rozdzial-22/22-09-http.html">HTTP: żądania, odpowiedzi, metody i kody stanu</a></li><li><a href="/pl/chapters/rozdzial-22/22-10-https.html">HTTPS: zabezpieczenie połączenia ze stroną</a></li><li><a href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html">Routing w Flask: URL i funkcje obsługi</a></li><li><a href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html">Jinja: szablony danych HTML</a></li><li><a href="/pl/chapters/rozdzial-22/22-13-formy.html">HTML-forms i przesyłanie danych do serwera</a></li><li><a href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html">Pliki statyczne: CSS, obrazy i JavaScript</a></li><li><a href="/pl/chapters/rozdzial-22/22-15-json.html">JSON: format wymiany danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-16-api.html">HTTP API: wymiana danych między programami</a></li><li><a href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html">Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</a></li><li><a href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html">Porównanie Flask, Django i FastAPI</a></li><li><a href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html">WSGI i ASGI: komunikacji między aplikacją webową a serwerem</a></li><li><a href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html">Dlaczego aplikacja webowa potrzebuje bazy danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html">Relacyjne bazy danych: tabele, klucze i relacje</a></li><li><a href="/pl/chapters/rozdzial-22/22-22-sql.html">SQL: tworzymy, czytamy i edytujemy dane</a></li><li><a href="/pl/chapters/rozdzial-22/22-23-sqlite.html">SQLite: Wbudowany relacyjny DBMS</a></li><li><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</a></li><li><a href="/pl/chapters/rozdzial-22/22-25-nosql.html">NoSQL: głównych typów baz danych nierelacyjnych</a></li><li><a href="/pl/chapters/rozdzial-22/22-26-orm.html">ORM: pracy z bazą danych za pomocą Python obiektów</a></li><li><a href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html">Migracje schematów baz danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html">Transfer danych między bazami danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html">Flask i SQLite: zapisują dane w bazie danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html">Cookie i sesje: Status między HTTP- żądaniami</a></li><li><a href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html">Walidacja danych wejściowych i obsługa błędów</a></li><li><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html">Podstawy bezpieczeństwa aplikacji internetowych</a></li><li><a class="active" href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html">Automatyczne testowanie Flask- aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html">Rozwijanie Flask-aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html">Projekt końcowy: lista zadania dla Flask i SQLite</a></li><li><a href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html">Dalsze badania nad tworzeniem stron internetowych na Python</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/22-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Praktyka</a></li><li><a href="/pl/practice/22-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Praktyka</a></li><li><a href="/pl/practice/22-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Praktyka</a></li><li><a href="/pl/practice/22-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Praktyka</a></li><li><a href="/pl/practice/22-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Praktyka</a></li><li><a href="/pl/practice/22-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Praktyka</a></li><li><a href="/pl/practice/22-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Praktyka</a></li><li><a href="/pl/practice/22-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Praktyka</a></li><li><a href="/pl/practice/22-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Praktyka</a></li><li><a href="/pl/practice/22-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Praktyka</a></li><li><a href="/pl/practice/22-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Praktyka</a></li><li><a href="/pl/practice/22-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Praktyka</a></li><li><a href="/pl/practice/22-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Praktyka</a></li><li><a href="/pl/practice/22-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Praktyka</a></li><li><a href="/pl/practice/22-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Praktyka</a></li><li><a href="/pl/practice/22-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Praktyka</a></li><li><a href="/pl/practice/22-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Praktyka</a></li><li><a href="/pl/practice/22-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Praktyka</a></li><li><a href="/pl/practice/22-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Praktyka</a></li><li><a href="/pl/practice/22-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Praktyka</a></li><li><a href="/pl/practice/22-33/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Praktyka</a></li><li><a href="/pl/practice/22-35/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-33-testiruem-flask.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-22/index.html">Rozdział 22</a> / Testowanie Flask</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 22 · Tworzenie stron internetowych z Python</div>
+<h1>Automatyczne testowanie Flask- aplikacji</h1>
+<p class="lede">Klient testowy sprawdza logikę aplikacji szybko i bez odwoływania się do sieci.</p>
+<p>Każdą zmianę ręcznie sprawdzam w przeglądarce, powoli i łatwo zapominam powtórzyć
+    po następnej edycji. Flask ma wbudowany <strong>klient testowy</strong> — on
+    Pozwala wysyłać żądania do aplikacji z kodu testowego i weryfikować odpowiedź.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Klient testowy nie otwiera portu sieciowego</div>
+<div class="callout-body"><code class="inline">app.test_client()</code> nie tworzy połączenia sieciowego HTTP-. Tworzy zapytanie wewnątrz procesu i przekazuje je bezpośrednio do obsługującego Flask przez testowy interfejs biblioteki Werkzeug, na której zbudowany jest Flask — szybko i bez sieci, ale z tą samą logiką przetwarzania zapytania. Pełna ścieżka zapytania przez przeglądarkę i sieć była pokazana w rozdziale 22.7 — testowy klient celowo pomija właśnie tę część.</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>test_app.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> app <span class="tok-kw">as</span> todoapp
+
+<span class="tok-kw">def</span> test_glavnaya_pustoj_spisok(baza_dannyh):
+    client = todoapp.app.test_client()
+    otvet = client.get(<span class="tok-str">"/"</span>)
+    <span class="tok-kw">assert</span> otvet.status_code == <span class="tok-num">200</span>
+    <span class="tok-kw">assert</span> <span class="tok-str">„Jeszcze żadnych zadań”</span> <span class="tok-kw">in</span> otvet.get_data(as_text=<span class="tok-kw">True</span>)</code></pre>
+</div>
+<h2>Sprawdzanie odpowiedzi JSON-</h2>
+<div class="code-block">
+<div class="code-label"><span>test_api.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> test_api_tasks_vozvrashchaet_json(baza_dannyh):
+    client = todoapp.app.test_client()
+    otvet = client.get(<span class="tok-str">"/api/tasks"</span>)
+    <span class="tok-kw">assert</span> otvet.status_code == <span class="tok-num">200</span>
+    <span class="tok-kw">assert</span> otvet.content_type == <span class="tok-str">"application/json"</span>
+    dannye = otvet.get_json()
+    <span class="tok-kw">assert</span> <span class="tok-fn">isinstance</span>(dannye, <span class="tok-fn">list</span>)</code></pre>
+</div>
+<p><code class="inline">otvet.get_json()</code> sam analizuje ciało odpowiedzi jako JSON — to to samo, co <code class="inline">json.loads(otvet.get_data())</code> z sekcji
+    22,15, ale krócej.</p>
+<h2>Oddzielna baza danych do testów</h2>
+<p>Testy nie powinny ingerować w tę samą bazę danych, na której pracujesz ręcznie, — w przeciwnym razie przebieg testów może usunąć lub uszkodzić zapisane w niej zadania. Przed każdym testem tworzona jest tymczasowa baza danych, a po nim — usuwana:</p>
+<div class="code-block">
+<div class="code-label"><span>conftest.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> tempfile
+<span class="tok-kw">import</span> os
+<span class="tok-kw">import</span> pytest
+
+<span class="tok-kw">import</span> app <span class="tok-kw">as</span> todoapp
+
+
+@pytest.fixture
+<span class="tok-kw">def</span> baza_dannyh():
+    fd, put = tempfile.mkstemp()
+    todoapp.app.config[<span class="tok-str">"DATABASE"</span>] = put
+    <span class="tok-kw">with</span> todoapp.app.app_context():
+        todoapp.init_db()
+    <span class="tok-kw">yield</span> put
+    os.close(fd)
+    os.unlink(put)</code></pre>
+</div>
+<p>Pełny zestaw testów projektu — w <code class="inline">tests/test_chapter22_todo_app.py</code>
+    w repozytorium książek; sprawdza trasy, zapisuje je do bazy danych, waliduje JSON API oraz
+    ochrona przed zastrzykami SQL- i XSS z sekcji 22.31-22.32.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Testy dla aplikacji Flask-a.</div>
+<div class="nc-sub">Moduł flask nie jest zainstalowany w środowisku przeglądarki Pyodide – działa lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="22-33">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/22-33/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-33"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-33"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html"><div class="dir">← Back</div><div class="lbl">Podstawy bezpieczeństwa aplikacji internetowych</div></a><a class="next" href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html"><div class="dir">Następny →</div><div class="lbl">Rozwijanie Flask-aplikacji</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

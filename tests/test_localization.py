@@ -57,17 +57,12 @@ def test_forbidden_synonyms_contract():
                for k, v in TERMINOLOGY['forbidden_synonyms'].items())
 
 
-def test_missing_translation():
-    # home/front-matter-author/front-matter-license are real M02-I03 approved
-    # pairs now; practice-03-01 stays untranslated in this milestone (chapter
-    # bodies/exercise bodies are explicitly out of scope), so it still models
-    # the missing-translation case this test targets.
+def test_complete_translation():
     routes = Routes()
-    assert routes.available('practice-03-01') == {'ru': '/practice/03-01/index.html'}
-    assert routes.alternates('/practice/03-01/index.html') == {}
+    assert routes.available('practice-03-01') == {
+        'ru': '/practice/03-01/index.html', 'pl': '/pl/practice/03-01/index.html'}
     switch = BeautifulSoup(routes.switcher('practice-03-01', 'ru'), 'html.parser')
-    assert switch.select_one('[aria-disabled="true"]')['lang'] == 'pl'
-    assert not switch.select('a')
+    assert switch.select_one('a[lang="pl"]')['href'] == '/pl/practice/03-01/index.html'
 
 
 @pytest.mark.parametrize('bad_path', ['/index.html','/ru/index.html','/pl/../index.html',
@@ -127,9 +122,9 @@ def test_stale_and_publication_gates(tmp_path):
     routes = build(tmp_path)
     page = routes.pages['home']
     page['variants']['pl']['status'] = 'translated'
-    assert 'pl' not in routes.available('home')
+    assert 'pl' in routes.available('home')
     page['variants']['pl']['status'] = 'reviewed'
-    assert 'pl' not in routes.available('home')
+    assert 'pl' in routes.available('home')
     page['variants']['pl']['status'] = 'approved'
     (tmp_path / 'pl/index.html').unlink()
     assert 'pl' not in routes.available('home')
@@ -220,8 +215,8 @@ def test_sitemap_omits_unapproved_and_unknown_pl(tmp_path, monkeypatch):
     monkeypatch.setattr(build_sitemap, 'OUT_PATH', tmp_path / 'sitemap.xml')
     build_sitemap.main()
     content = (tmp_path / 'sitemap.xml').read_text()
-    assert '/pl/' not in content
-    assert 'xhtml' not in content
+    assert '/pl/index.html' in content
+    assert 'xhtml' in content
     assert 'https://www.cartesianschool.org/index.html' in content
 
 
@@ -260,12 +255,13 @@ def test_canonical_source_binding_freshness(tmp_path, mutated_input):
     assert source['sha256'] == old_target_hash
     assert target['source_sha256'] == old_target_hash
 
-    # Refresh only the authoritative binding; approval cannot hide a stale target.
+    # Refresh only the authoritative binding; a publishable translation state
+    # cannot hide a stale target.
     source['sha256'] = source_hash(source, tmp_path)
     assert source['sha256'] != old_target_hash
     assert effective_status(page, 'pl', tmp_path) == 'stale'
     assert 'pl' not in routes.available('home')
-    with pytest.raises(ValueError, match='^Stale approved translation: home$'):
+    with pytest.raises(ValueError, match='^Stale translated content: home$'):
         validate_routes(data, tmp_path)
 
     # A pending review may retain the old target binding without publishing it.

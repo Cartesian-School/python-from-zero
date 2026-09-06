@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Dlaczego 0,1 + 0,2 nie jest równe 0,3 – Python od zera – Cartesian School</title>
+<meta content="Proste i dokładne wyjaśnienie przybliżenia binarnego float: analogia z 1/3 as_integer_ratio() oraz krótkie spojrzenie na IEEE 754 binary64." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/04-13-pochemu-01-02.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/04-13-pochemu-01-02.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Dlaczego 0,1 + 0,2 nie jest równe 0,3 – Python od zera – Cartesian School" />
+<meta property="og:description" content="Proste i dokładne wyjaśnienie przybliżenia binarnego float: analogia z 1/3 as_integer_ratio() oraz krótkie spojrzenie na IEEE 754 binary64." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Dlaczego 0,1 + 0,2 nie jest równe 0,3 – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Proste i dokładne wyjaśnienie przybliżenia binarnego float: analogia z 1/3 as_integer_ratio() oraz krótkie spojrzenie na IEEE 754 binary64." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Dlaczego 0,1 + 0,2 nie jest równe 0,3 – Python od zera – Cartesian School","description":"Proste i dokładne wyjaśnienie przybliżenia binarnego float: analogia z 1/3 as_integer_ratio() oraz krótkie spojrzenie na IEEE 754 binary64.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-13-pochemu-01-02.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 4 · Liczby</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-04/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html">Czym jest liczba dla komputera</a></li><li><a href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html">int są liczbami całkowitymi bez strachu</a></li><li><a href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html">Układy liczbowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-02-kommentarii.html">Komentarze w obliczeniach</a></li><li><a href="/pl/chapters/rozdzial-04/04-08-operatory.html">Operatory arytmetyczne</a></li><li><a href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html">Kolejność wykonywania operacji</a></li><li><a href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html">Podział i reszta</a></li><li><a href="/pl/chapters/rozdzial-04/04-11-stepeni.html">Stopnie naukowe i abs()</a></li><li><a href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html">Mapa typów liczbowych</a></li><li><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html">float — liczby zmiennoprzecinkowe</a></li><li><a class="active" href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html">Dlaczego 0,1 + 0,2 nie jest równe 0,3</a></li><li><a href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html">Poprawne porównanie float</a></li><li><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html">Zaokrąglenie: round, floor, ceil, trunc</a></li><li><a href="/pl/chapters/rozdzial-04/04-16-decimal.html">Decimal jest dokładną arytmetyką dziesiętną</a></li><li><a href="/pl/chapters/rozdzial-04/04-17-fraction.html">Fraction — dokładne ułamki</a></li><li><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html">complex i cmath</a></li><li><a href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html">Konwersja typów liczb</a></li><li><a href="/pl/chapters/rozdzial-04/04-19-modul-math.html">Moduł math</a></li><li><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html">random i secrets</a></li><li><a href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html">statistics, inf i nan</a></li><li><a href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html">Błędy numeryczne i debugowanie</a></li><li><a href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/04-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-01: Praktyka</a></li><li><a href="/pl/practice/04-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-02: Praktyka</a></li><li><a href="/pl/practice/04-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-06: Praktyka</a></li><li><a href="/pl/practice/04-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-07: Praktyka</a></li><li><a href="/pl/practice/04-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-08: Praktyka</a></li><li><a href="/pl/practice/04-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-09: Praktyka</a></li><li><a href="/pl/practice/04-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-10: Praktyka</a></li><li><a href="/pl/practice/04-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-11: Praktyka</a></li><li><a href="/pl/practice/04-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-12: Praktyka</a></li><li><a href="/pl/practice/04-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-13: Praktyka</a></li><li><a href="/pl/practice/04-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-14: Praktyka</a></li><li><a href="/pl/practice/04-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-15: Praktyka</a></li><li><a href="/pl/practice/04-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-16: Praktyka</a></li><li><a href="/pl/practice/04-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-17: Praktyka</a></li><li><a href="/pl/practice/04-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-18: Praktyka</a></li><li><a href="/pl/practice/04-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-19: Praktyka</a></li><li><a href="/pl/practice/04-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-20: Praktyka</a></li><li><a href="/pl/practice/04-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-21: Praktyka</a></li><li><a href="/pl/practice/04-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-22: Praktyka</a></li><li><a href="/pl/practice/04-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-03: Praktyka</a></li><li><a href="/pl/practice/04-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-04: Praktyka</a></li><li><a href="/pl/practice/04-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-05: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-13-pochemu-01-02.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-04/index.html">Rozdział 4</a> / Dlaczego 0,1 + 0,2 nie jest równe 0,3</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 4 · Python lubi liczby</div>
+<h1>Dlaczego 0,1 + 0,2 nie jest dokładnie 0,3</h1>
+<p class="lede">Najbardziej znana „niespodzianka”</p>
+<p>Jedno z najsłynniejszych „niespodzianek”</p>
+<div class="code-block">
+<div class="code-label"><span>surpriz.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>)</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>Rzeczywiste wyjście</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>0.30000000000000004</code></pre>
+</div>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">To nie jest błąd Python</div>
+<div class="callout-body">Zobaczysz dokładnie takie samo zachowanie w JavaScript, Java, C C++ niemal każdym innym języku powszechnym. Powodem nie jest błąd Python, lecz sposób, w jaki KAŻDY komputer przechowuje liczby ułamkowe w binarnym.</div>
+</div>
+</div>
+<h2 id="analogiya">Prosta analogia: 1/3 w zapisie dziesiętnym</h2>
+<p>W systemie dziesiętnym <code class="inline">1/3</code> nie można zapisać jako liczba skończona
+    Tylko liczby <code class="inline">0.333333...</code>, bez końca. Nie dlatego, że
+    System dziesiętny jest „zły”</p>
+<p>Komputer w systemie binarnym ma dokładnie ten sam problem, tylko z innymi liczbami.
+    <code class="inline">0.1</code> w zapisie dziesiętnym wygląda „prosto” — ale w systemie binarnym
+    zamienia się w nieskończenie powtarzającą się ułamek, dokładnie jak <code class="inline">1/3</code>
+    w systemie dziesiętnym. Komputer jest zmuszony przyciąć go do skończonej liczby bitów — stąd ten mały
+    błąd.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="0.1 nie jest przechowywane równomiernie — przechowywane jest najbliższe możliwe przybliżenie binarne" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:664px;" viewbox="0 0 664 152" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-24-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">Dziesiętny 0,1</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="78">to, co napisałaś</tspan></text><line marker-end="url(#pl-svg-24-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">Najbliżej</tspan><tspan x="332.0" y="50">binarny…</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="78">to, co jest prawdziwe</tspan><tspan x="332.0" y="92">jest przechowywane</tspan></text><line marker-end="url(#pl-svg-24-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">Drobny błąd</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="78">różnica prawie żadna</tspan><tspan x="572.0" y="92">zauważalne</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">0.1 nie jest przechowywane równomiernie — przechowywane jest najbliższe możliwe przybliżenie binarne</figcaption></figure>
+<h2 id="glubzhe"><svg aria-hidden="true" class="cs-icon cs-icon--experiment"><use href="/assets/icons/cartesian/icons.svg#icon-experiment"></use></svg> Co dzieje się głębiej</h2>
+<p>Na większości nowoczesnych komputerów i w standardowym CPython
+    <code class="inline">float</code> spełnia format sprzętowy o podwójnej precyzji,
+    znany jako <strong>binary64</strong> (część standardu IEEE 754). Koncepcyjnie liczba
+    jest przechowywana w trzech częściach:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Z czego składa się typowy float w nowoczesnym CPython (standardowy binary64)" data-diagram="block-diagram" role="img" style="width:100%;height:auto;max-width:644px" viewbox="0 0 644 246" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrow" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><rect fill="#5B24F9" height="56" rx="4" width="240" x="202.0" y="10"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="16" font-weight="700" text-anchor="middle"><tspan x="322.0" y="43.0">float (binary64)</tspan></text><line stroke="#5B24F9" stroke-width="2.5" x1="322.0" x2="322.0" y1="66" y2="93"></line><line stroke="#5B24F9" stroke-width="2.5" x1="98.0" x2="546.0" y1="93" y2="93"></line><path d="M98.0,93 V120" fill="none" marker-end="url(#pl-svg-26-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#EDE9FE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="0.0" y="120"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="98.0" y="146">Znak</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="98.0" y="178">plus lub minus</tspan></text><path d="M322.0,93 V120" fill="none" marker-end="url(#pl-svg-26-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DBEAFE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="224.0" y="120"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="322.0" y="146">Wystawca</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="322.0" y="178">skala liczby</tspan></text><path d="M546.0,93 V120" fill="none" marker-end="url(#pl-svg-26-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DCFCE7" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="448.0" y="120"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="546.0" y="146">Mantissa</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="546.0" y="178">znaczące liczby</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Z czego składa się typowy float w nowoczesnym CPython (standardowy binary64)</figcaption></figure>
+<div class="callout callout-info">
+<div class="cs-icon-emblem cs-icon-emblem--note"><svg aria-hidden="true" class="cs-icon cs-icon--note"><use href="/assets/icons/cartesian/icons.svg#icon-note"></use></svg></div>
+<div>
+<div class="callout-title">Nie trzeba się uczyć na pamięć</div>
+<div class="callout-body">Dokładna liczba bitów na każdą część (1/11/52 w standardzie binary64) — szczegół, którego nie trzeba się uczyć od razu. Ważne jest zrozumienie samej zasady: wartość jest przechowywana przybliżona, a nie to, że Python „źle liczy”. To powszechne, dobrze zbadane zachowanie — standard binary64, a nie własna zasada języka Python.</div>
+</div>
+</div>
+<h2 id="tochnoe-znachenie">Python może pokazać dokładną wartość zapisaną</h2>
+<p>Dobrą wiadomością jest to, że podejście nie jest przypadkowe ani tajemnicze – Python może Ci pokazać,
+    Co dokładnie jest przechowywane:</p>
+<div class="code-block">
+<div class="code-label"><span>tochnoe.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>((<span class="tok-num">0.1</span>).as_integer_ratio())
+<span class="tok-com"># (3602879701896397, 36028797018963968) to dokładny ułamek, który faktycznie jest przechowywany</span></code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>hex_predstavlenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>((<span class="tok-num">0.1</span>).hex())
+<span class="tok-com"># '0x1.999999999999ap-4' to dokładna reprezentacja w formie szesnastkowej</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div class="cs-icon-emblem cs-icon-emblem--idea"><svg aria-hidden="true" class="cs-icon cs-icon--idea"><use href="/assets/icons/cartesian/icons.svg#icon-idea"></use></svg></div>
+<div>
+<div class="callout-title">Główne zakończenie sekcji</div>
+<div class="callout-body">0,1 nie jest przechowywane „mniej więcej”</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: 0,1 + 0,2 — przeanalizuj przybliżenie</div>
+<div class="nc-sub">Interaktywny notatnik bezpośrednio w przeglądarce — as_integer_ratio(), hex() i przewidywanie wyniku</div>
+<div class="practice-inline-status" data-lesson-id="04-13"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/04-13/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-13"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-13"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html"><div class="dir">← Back</div><div class="lbl">float — liczby zmiennoprzecinkowe</div></a><a class="next" href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html"><div class="dir">Następny →</div><div class="lbl">Poprawne porównanie float</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

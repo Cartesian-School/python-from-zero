@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Menu – Python od podstaw – Cartesian School</title>
+<meta content="Zbuduj menu aplikacji w Tkinter: Menu, add_command, add_cascade, dokładną różnicę między root.quit() a root.destroy() oraz co faktycznie robi accelerator." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-06-menu.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/16-06-menu.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-06-menu.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/16-06-menu.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Menu – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Zbuduj menu aplikacji w Tkinter: Menu, add_command, add_cascade, dokładną różnicę między root.quit() a root.destroy() oraz co faktycznie robi accelerator." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-06-menu.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Menu – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Zbuduj menu aplikacji w Tkinter: Menu, add_command, add_cascade, dokładną różnicę między root.quit() a root.destroy() oraz co faktycznie robi accelerator." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Menu – Python od podstaw – Cartesian School","description":"Zbuduj menu aplikacji w Tkinter: Menu, add_command, add_cascade, dokładną różnicę między root.quit() a root.destroy() oraz co faktycznie robi accelerator.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-06-menu.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-06-menu.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 16 · Tkinter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-16/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html">Tkinter — wszystko poprawnie skonfigurowane!</a></li><li><a href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html">Etykiety, guziki i pack</a></li><li><a href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html">Pola wejściowe</a></li><li><a href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html">Zmienne Tkinter</a></li><li><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html">Mnóstwo opcji!</a></li><li><a class="active" href="/pl/chapters/rozdzial-16/16-06-menu.html">Menu</a></li><li><a href="/pl/chapters/rozdzial-16/16-07-grid.html">Wiersze i kolumny są grid</a></li><li><a href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html">Mini Project: Kalkulator napiwków</a></li><li><a href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html">Od terminala do modelu zdarzenia GUI:</a></li><li><a href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html">Jak działa pętla zdarzeń i mainloop</a></li><li><a href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html">Widżet i drzewo interfejsu</a></li><li><a href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html">tk i ttk: klasyczne i tematyczne widżety</a></li><li><a href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html">Frame i LabelFrame: organizują interfejs</a></li><li><a href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html">pack szczegółowo: fill, expand i zagnieżdżone ramki</a></li><li><a href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html">Adaptacyjne grid: sticky i weight</a></li><li><a href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html">Widżety wyboru: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html">Progressbar i tabletki Notebook</a></li><li><a href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html">Messagebox i dialogi</a></li><li><a href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html">Otwieranie i zapisywanie plików: filedialog i pathlib</a></li><li><a href="/pl/chapters/rozdzial-16/16-20-toplevel.html">Toplevel: wiele okien</a></li><li><a href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html">Focus, klawiatura i podstawy dostępności</a></li><li><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html">after(): timery bez blokowania</a></li><li><a href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html">Walidacja i informacja zwrotna</a></li><li><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html">Architektura aplikacji: logika osobno od widżetów</a></li><li><a href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html">Klasa aplikacji i ustawienia trwałe</a></li><li><a href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html">Mini-projekt: licznik kliknięć</a></li><li><a href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html">Mini Project: Konwerter temperatury</a></li><li><a href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html">Mini-Projekt: Odliczający Timer</a></li><li><a href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html">Mini-projekt: lista zadania</a></li><li><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html">Mini-Projekt: Edytor Notatek</a></li><li><a href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html">Tip Calculator Pro: wersja ostateczna</a></li><li><a href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html">Debugowanie interfejsu i jakość GUI</a></li><li><a href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi Tkinter</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/16-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-01: Praktyka</a></li><li><a href="/pl/practice/16-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-02: Praktyka</a></li><li><a href="/pl/practice/16-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-03: Praktyka</a></li><li><a href="/pl/practice/16-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-04: Praktyka</a></li><li><a href="/pl/practice/16-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-05: Praktyka</a></li><li><a href="/pl/practice/16-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-06: Praktyka</a></li><li><a href="/pl/practice/16-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-07: Praktyka</a></li><li><a href="/pl/practice/16-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-08: Praktyka</a></li><li><a href="/pl/practice/16-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-09: Praktyka</a></li><li><a href="/pl/practice/16-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-10: Praktyka</a></li><li><a href="/pl/practice/16-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-11: Praktyka</a></li><li><a href="/pl/practice/16-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-12: Praktyka</a></li><li><a href="/pl/practice/16-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-13: Praktyka</a></li><li><a href="/pl/practice/16-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-14: Praktyka</a></li><li><a href="/pl/practice/16-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-15: Praktyka</a></li><li><a href="/pl/practice/16-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-16: Praktyka</a></li><li><a href="/pl/practice/16-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-17: Praktyka</a></li><li><a href="/pl/practice/16-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-18: Praktyka</a></li><li><a href="/pl/practice/16-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-19: Praktyka</a></li><li><a href="/pl/practice/16-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-20: Praktyka</a></li><li><a href="/pl/practice/16-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-21: Praktyka</a></li><li><a href="/pl/practice/16-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-22: Praktyka</a></li><li><a href="/pl/practice/16-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-23: Praktyka</a></li><li><a href="/pl/practice/16-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-24: Praktyka</a></li><li><a href="/pl/practice/16-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-25: Praktyka</a></li><li><a href="/pl/practice/16-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-26: Praktyka</a></li><li><a href="/pl/practice/16-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-27: Praktyka</a></li><li><a href="/pl/practice/16-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-28: Praktyka</a></li><li><a href="/pl/practice/16-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-29: Praktyka</a></li><li><a href="/pl/practice/16-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-30: Praktyka</a></li><li><a href="/pl/practice/16-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-31: Praktyka</a></li><li><a href="/pl/practice/16-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-32: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-06-menu.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-16/index.html">Rozdział 16</a> / Menu</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 16 · Tworzenie fajnych aplikacji z Tkinter</div>
+<h1>Menu</h1>
+<p class="lede">To prawdziwa aplikacja prawie zawsze zaczyna się od menu u góry okna.</p>
+<p>Prawdziwa aplikacja rzadko jest kompletna bez menu na górze okna. W Tkinter menu
+    jest zbudowany z obiektu <code class="inline">Menu</code>:</p>
+<div class="code-block">
+<div class="code-label"><span>menu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+
+<span class="tok-kw">def</span> novyj_fajl():
+    <span class="tok-fn">print</span>(<span class="tok-str">„Utwórz nowy plik...”</span>)
+
+menu_bar = tk.Menu(root)
+fajl_menu = tk.Menu(menu_bar, tearoff=<span class="tok-num">0</span>)
+fajl_menu.add_command(label=<span class="tok-str">„Nowy”</span>, command=novyj_fajl)
+fajl_menu.add_separator()
+fajl_menu.add_command(label=<span class="tok-str">„Wyjście”</span>, command=root.destroy)
+menu_bar.add_cascade(label=<span class="tok-str">„Plik”</span>, menu=fajl_menu)
+
+root.config(menu=menu_bar)
+root.mainloop()</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B45309;margin-bottom:8px">🔶 Schematyczny obraz (nie prawdziwy zrzut ekranu)</div>
+<div style="display:flex;justify-content:center">
+<div style="border:1px solid #9a97a8;border-radius:6px;overflow:visible;position:relative;
+          background:#ececec;min-width:260px;box-shadow:0 4px 12px rgba(0,0,0,.1)">
+<div style="display:flex;border-bottom:1px solid #cfcfcf;background:#f4f4f4"><div style="padding:5px 12px;font-size:13px;background:#dcdcdc;color:#111;font-weight:600">Plik</div><div style="padding:5px 12px;font-size:13px;color:#222">Edycja</div><div style="padding:5px 12px;font-size:13px;color:#222">Pomoc</div></div>
+<div style="height:90px"></div>
+<div style="position:absolute;top:30px;left:0;background:#ececec;border:1px solid #9a97a8;
+            border-radius:0 4px 4px 4px;box-shadow:0 6px 14px rgba(0,0,0,.18);padding:4px 0;min-width:170px">
+<div style="padding:5px 22px 5px 14px;font-size:13px;color:#111;white-space:nowrap">Nowe</div><div style="padding:5px 22px 5px 14px;font-size:13px;color:#111;white-space:nowrap">Otwórz...</div><div style="padding:5px 22px 5px 14px;font-size:13px;color:#111;white-space:nowrap">Zapisz</div><div style="height:1px;background:#d5d5d5;margin:4px 0"></div><div style="padding:5px 22px 5px 14px;font-size:13px;color:#111;white-space:nowrap">Wyjście</div>
+</div>
+</div>
+</div>
+</figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Wygląd menu różni się w zależności od systemu operacyjnego</div>
+<div class="callout-body">Rzeczywisty wygląd paska menu i otwartego menu zależy od systemu operacyjnego, Tk wersji i motywu – trasa nie jest w stanie konsekwentnie odtworzyć zrzutu ekranu tego elementu headless- we wszystkich środowiskach, więc używa schematu z precyzyjną strukturą (łańcuch znaków menu → element → otwórz menu → przedmioty → separator), zamiast fotograficznego zrzutu ekranu.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">tearoff=0</div>
+<div class="callout-body">Domyślnie Tkinter dodaje na początku każdego menu linię przerywaną, pozwalającą „odłączyć” menu do osobnego okna. <code class="inline">tearoff=0</code> wyłącza właśnie tę możliwość odrywania menu — jeśli w twoim interfejsie nie jest ona potrzebna (a zwykle nie jest), jest to częsty i świadomy wybór, a nie uniwersalna zasada „zawsze tak rób”.</div>
+</div>
+</div>
+<h2>root.quit() kontra root.destroy()</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Metoda</th><th>Co robi</th></tr></thead>
+<tbody><tr><td><code class="inline">root.quit()</code></td><td>zatrzymuje obecne mainloop() — ale okno i widgety pozostają</td></tr><tr><td><code class="inline">root.destroy()</code></td><td>niszczy okno i całe drzewo widżetów, a także zatrzymuje mainloop()</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie są to synonimy wymienne</div>
+<div class="callout-body"><code class="inline">root.quit()</code> pyta o prąd <code class="inline">mainloop()</code> zakończyć jest sam obiekt <code class="inline">root</code> i widgety nie są niszczone. <code class="inline">root.destroy()</code> idzie dalej: niszczy drzewo widgetów i samo okno, co również zatrzymuje <code class="inline">mainloop()</code>. Żaden z nich nie kończy samego procesu Python — po powrocie z <code class="inline">mainloop()</code> kod teoretycznie może być kontynuowany (np. coś zapisać przed wyjściem); proces kończy się później, naturalnie, jeśli po tym po prostu nie pozostanie kodu. Dla zwykłego punktu menu „Wyjście” w tym kursie jest to bardziej zrozumiałe i niezawodne <code class="inline">root.destroy</code>.</div>
+</div>
+</div>
+<h2>Akceleratory — to napis, nie przypisanie klawiszy</h2>
+<div class="code-block">
+<div class="code-label"><span>accelerator.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>fajl_menu.add_command(label=<span class="tok-str">„Ratuj”</span>, accelerator=<span class="tok-str">"Ctrl+S"</span>, command=sohranit)</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">accelerator sam w sobie nie tworzy skrótu klawiszowego</div>
+<div class="callout-body"><code class="inline">accelerator="Ctrl+S"</code> wyświetla tylko tekst tooltipu obok elementu menu. On <strong>nie</strong> automatycznie przypisuje skrót klawiaturowy do polecenia — wymaga to osobnego mechanizmu wiązania zdarzeń (<code class="inline">.bind(...)</code>), który zostanie szczegółowo omówiony w rozdziale 17.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Zbuduj menu aplikacji</div>
+<div class="nc-sub">Moduł tkinter otwiera natywne okno Python — wykonaj lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="16-06">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/16-06/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-06"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-06"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html"><div class="dir">← Back</div><div class="lbl">Mnóstwo opcji!</div></a><a class="next" href="/pl/chapters/rozdzial-16/16-07-grid.html"><div class="dir">Następny →</div><div class="lbl">Wiersze i kolumny są grid</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

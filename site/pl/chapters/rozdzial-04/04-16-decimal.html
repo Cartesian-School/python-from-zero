@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Decimal to dokładna arytmetyka dziesiętna – Python od zera – Cartesian School</title>
+<meta content="moduł decimal: dokładną arytmetykę dziesiętną dla pieniędzy i dlaczego ważne jest, aby tworzyć Decimal z łańcuch znaków, a nie z float." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-16-decimal.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/04-16-decimal.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-16-decimal.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/04-16-decimal.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Decimal to dokładna arytmetyka dziesiętna – Python od zera – Cartesian School" />
+<meta property="og:description" content="moduł decimal: dokładną arytmetykę dziesiętną dla pieniędzy i dlaczego ważne jest, aby tworzyć Decimal z łańcuch znaków, a nie z float." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-16-decimal.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Decimal to dokładna arytmetyka dziesiętna – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="moduł decimal: dokładną arytmetykę dziesiętną dla pieniędzy i dlaczego ważne jest, aby tworzyć Decimal z łańcuch znaków, a nie z float." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Decimal to dokładna arytmetyka dziesiętna – Python od zera – Cartesian School","description":"moduł decimal: dokładną arytmetykę dziesiętną dla pieniędzy i dlaczego ważne jest, aby tworzyć Decimal z łańcuch znaków, a nie z float.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-16-decimal.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-16-decimal.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 4 · Liczby</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-04/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html">Czym jest liczba dla komputera</a></li><li><a href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html">int są liczbami całkowitymi bez strachu</a></li><li><a href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html">Układy liczbowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-02-kommentarii.html">Komentarze w obliczeniach</a></li><li><a href="/pl/chapters/rozdzial-04/04-08-operatory.html">Operatory arytmetyczne</a></li><li><a href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html">Kolejność wykonywania operacji</a></li><li><a href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html">Podział i reszta</a></li><li><a href="/pl/chapters/rozdzial-04/04-11-stepeni.html">Stopnie naukowe i abs()</a></li><li><a href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html">Mapa typów liczbowych</a></li><li><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html">float — liczby zmiennoprzecinkowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html">Dlaczego 0,1 + 0,2 nie jest równe 0,3</a></li><li><a href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html">Poprawne porównanie float</a></li><li><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html">Zaokrąglenie: round, floor, ceil, trunc</a></li><li><a class="active" href="/pl/chapters/rozdzial-04/04-16-decimal.html">Decimal jest dokładną arytmetyką dziesiętną</a></li><li><a href="/pl/chapters/rozdzial-04/04-17-fraction.html">Fraction — dokładne ułamki</a></li><li><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html">complex i cmath</a></li><li><a href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html">Konwersja typów liczb</a></li><li><a href="/pl/chapters/rozdzial-04/04-19-modul-math.html">Moduł math</a></li><li><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html">random i secrets</a></li><li><a href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html">statistics, inf i nan</a></li><li><a href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html">Błędy numeryczne i debugowanie</a></li><li><a href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/04-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-01: Praktyka</a></li><li><a href="/pl/practice/04-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-02: Praktyka</a></li><li><a href="/pl/practice/04-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-06: Praktyka</a></li><li><a href="/pl/practice/04-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-07: Praktyka</a></li><li><a href="/pl/practice/04-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-08: Praktyka</a></li><li><a href="/pl/practice/04-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-09: Praktyka</a></li><li><a href="/pl/practice/04-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-10: Praktyka</a></li><li><a href="/pl/practice/04-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-11: Praktyka</a></li><li><a href="/pl/practice/04-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-12: Praktyka</a></li><li><a href="/pl/practice/04-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-13: Praktyka</a></li><li><a href="/pl/practice/04-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-14: Praktyka</a></li><li><a href="/pl/practice/04-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-15: Praktyka</a></li><li><a href="/pl/practice/04-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-16: Praktyka</a></li><li><a href="/pl/practice/04-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-17: Praktyka</a></li><li><a href="/pl/practice/04-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-18: Praktyka</a></li><li><a href="/pl/practice/04-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-19: Praktyka</a></li><li><a href="/pl/practice/04-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-20: Praktyka</a></li><li><a href="/pl/practice/04-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-21: Praktyka</a></li><li><a href="/pl/practice/04-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-22: Praktyka</a></li><li><a href="/pl/practice/04-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-03: Praktyka</a></li><li><a href="/pl/practice/04-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-04: Praktyka</a></li><li><a href="/pl/practice/04-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-05: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-16-decimal.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-04/index.html">Rozdział 4</a> / Decimal</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 4 · Python lubi liczby</div>
+<h1>Decimal – gdy potrzebujesz dokładnej arytmetyki dziesiętnej</h1>
+<p class="lede">W przypadku pieniędzy i księgowości nawet najmniejszy błąd może float być nie do przyjęcia – przyjrzyjmy się narzędziu, które go usuwa.</p>
+<p>Już to widzieliśmy <code class="inline">float</code> przechowuje przybliżenie (Rozdział 4.11).
+    W większości zadań nie stanowi to problemu – ale przy pieniądzach nawet minimalny margines błędu
+    kumuluje się i może stać się zauważalna. W tym celu biblioteka standardowa ma
+    <code class="inline">decimal</code>.</p>
+<div class="code-block">
+<div class="code-label"><span>decimal_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> decimal <span class="tok-kw">import</span> Decimal
+
+<span class="tok-fn">print</span>(Decimal(<span class="tok-str">"0.1"</span>) + Decimal(<span class="tok-str">"0.2"</span>))  <span class="tok-com">#0.3 – Dokładność, brak marginesu błędu</span></code></pre>
+</div>
+<h2 id="stroka-ne-float">Stwórz Decimal z łańcuch znaków nie float</h2>
+<p>To chyba najważniejszy praktyczny szczegół w całej sekcji:</p>
+<div class="code-block">
+<div class="code-label"><span>stroka_vs_float.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> decimal <span class="tok-kw">import</span> Decimal
+
+<span class="tok-fn">print</span>(Decimal(<span class="tok-str">"19.99"</span>))  <span class="tok-com">#Decimal('19.99') to dokładnie to, co napisałeś</span>
+<span class="tok-fn">print</span>(Decimal(<span class="tok-num">19.99</span>))    <span class="tok-com"># Decimal('19.9900000000000000000000000000000000000000131628...') — odziedziczył błąd float!</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">Dlaczego tak się dzieje?</div>
+<div class="callout-body"><code class="inline">Decimal(19.99)</code> najpierw tworzy zwykły <code class="inline">float</code> <code class="inline">19.99</code> — już z tym samym przybliżeniem z sekcji 4.11 — a następnie opakuje tę przybliżoną wartość w Decimal. Dokładność jest już utracona w tym momencie. <code class="inline">Decimal("19.99")</code> czyta tekst bezpośrednio i w ogóle nie przechodzi przez float — dlatego zachowuje dokładnie wartość, którą wpisałeś.</div>
+</div>
+</div>
+<h2 id="dengi-primer">Przykład: zakup</h2>
+<div class="code-block">
+<div class="code-label"><span>pokupka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> decimal <span class="tok-kw">import</span> Decimal
+
+price = Decimal(<span class="tok-str">"19.99"</span>)
+quantity = <span class="tok-num">3</span>
+total = price * quantity
+<span class="tok-fn">print</span>(total)  <span class="tok-com"># 59.97 — dokładnie</span></code></pre>
+</div>
+<h2 id="ne-vsegda-luchshe">Decimal nie jest „zawsze lepsze”</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th></th><th>float</th><th>Decimal</th></tr></thead>
+<tbody><tr><td>Speed</td><td>Szybki — sprzętowe wsparcie</td><td>Swolniejszy – Implementacja programowa</td></tr><tr><td>Typowe zastosowanie</td><td>Obliczenia naukowe, pomiary, ogólne zastosowania</td><td>Pieniądze, księgowość, gdzie ważna jest dokładność dziesiętna</td></tr><tr><td>Dokładność</td><td>Przybliżenie binarne</td><td>Dokładny zapis dziesiętny</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-tip">
+<div class="cs-icon-emblem cs-icon-emblem--idea"><svg aria-hidden="true" class="cs-icon cs-icon--idea"><use href="/assets/icons/cartesian/icons.svg#icon-idea"></use></svg></div>
+<div>
+<div class="callout-title">Nie wymieniaj każdego float na Decimal</div>
+<div class="callout-body">Decimal jest właściwym wyborem dla pieniędzy i księgowości, gdzie precyzja dziesiętna i przewidywalne zaokrąglanie są ważne. W większości obliczeń naukowych i codziennych stosuje się standardowe <code class="inline">float</code> szybsze i absolutnie wystarczające.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Decimal i pieniądze</div>
+<div class="nc-sub">Interaktywny laptop bezpośrednio w przeglądarce – Decimal(str) vs Decimal(float)</div>
+<div class="practice-inline-status" data-lesson-id="04-16"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/04-16/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html"><div class="dir">← Back</div><div class="lbl">Zaokrąglanie</div></a><a class="next" href="/pl/chapters/rozdzial-04/04-17-fraction.html"><div class="dir">Następny →</div><div class="lbl">Fraction</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

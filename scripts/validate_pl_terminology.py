@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from bs4 import BeautifulSoup
-from localization import ROOT, TERMINOLOGY, Routes
+from localization import PUBLISHABLE_STATES, ROOT, TERMINOLOGY, Routes
 
 # (anchor id, expected <h2> text) for the PL homepage sections.
 PL_HOME_REQUIRED_HEADINGS = [
@@ -62,7 +62,7 @@ def validate() -> int:
 
     for page_id, page in routes.pages.items():
         variant = page["variants"].get("pl")
-        if not variant or variant["status"] != "approved":
+        if not variant or variant["status"] not in PUBLISHABLE_STATES:
             continue
         path = site_dir / variant["path"].lstrip("/")
         if not path.is_file():

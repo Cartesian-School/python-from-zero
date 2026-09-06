@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Weryfikacja danych wejściowych i opinia – Python od podstaw – Cartesian School</title>
+<meta content="Sprawdzanie pustych, nienumerycznych i ujemnych danych wejściowych przed obliczeniem oraz dlaczego błąd powinien być widoczny dla użytkownika na ekranie, a nie tylko na terminalu." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/16-23-validatsiya-vvoda.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/16-23-validatsiya-vvoda.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Weryfikacja danych wejściowych i opinia – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Sprawdzanie pustych, nienumerycznych i ujemnych danych wejściowych przed obliczeniem oraz dlaczego błąd powinien być widoczny dla użytkownika na ekranie, a nie tylko na terminalu." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Weryfikacja danych wejściowych i opinia – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Sprawdzanie pustych, nienumerycznych i ujemnych danych wejściowych przed obliczeniem oraz dlaczego błąd powinien być widoczny dla użytkownika na ekranie, a nie tylko na terminalu." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Weryfikacja danych wejściowych i opinia – Python od podstaw – Cartesian School","description":"Sprawdzanie pustych, nienumerycznych i ujemnych danych wejściowych przed obliczeniem oraz dlaczego błąd powinien być widoczny dla użytkownika na ekranie, a nie tylko na terminalu.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-23-validatsiya-vvoda.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 16 · Tkinter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-16/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html">Tkinter — wszystko poprawnie skonfigurowane!</a></li><li><a href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html">Etykiety, guziki i pack</a></li><li><a href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html">Pola wejściowe</a></li><li><a href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html">Zmienne Tkinter</a></li><li><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html">Mnóstwo opcji!</a></li><li><a href="/pl/chapters/rozdzial-16/16-06-menu.html">Menu</a></li><li><a href="/pl/chapters/rozdzial-16/16-07-grid.html">Wiersze i kolumny są grid</a></li><li><a href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html">Mini Project: Kalkulator napiwków</a></li><li><a href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html">Od terminala do modelu zdarzenia GUI:</a></li><li><a href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html">Jak działa pętla zdarzeń i mainloop</a></li><li><a href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html">Widżet i drzewo interfejsu</a></li><li><a href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html">tk i ttk: klasyczne i tematyczne widżety</a></li><li><a href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html">Frame i LabelFrame: organizują interfejs</a></li><li><a href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html">pack szczegółowo: fill, expand i zagnieżdżone ramki</a></li><li><a href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html">Adaptacyjne grid: sticky i weight</a></li><li><a href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html">Widżety wyboru: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html">Progressbar i tabletki Notebook</a></li><li><a href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html">Messagebox i dialogi</a></li><li><a href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html">Otwieranie i zapisywanie plików: filedialog i pathlib</a></li><li><a href="/pl/chapters/rozdzial-16/16-20-toplevel.html">Toplevel: wiele okien</a></li><li><a href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html">Focus, klawiatura i podstawy dostępności</a></li><li><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html">after(): timery bez blokowania</a></li><li><a class="active" href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html">Walidacja i informacja zwrotna</a></li><li><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html">Architektura aplikacji: logika osobno od widżetów</a></li><li><a href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html">Klasa aplikacji i ustawienia trwałe</a></li><li><a href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html">Mini-projekt: licznik kliknięć</a></li><li><a href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html">Mini Project: Konwerter temperatury</a></li><li><a href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html">Mini-Projekt: Odliczający Timer</a></li><li><a href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html">Mini-projekt: lista zadania</a></li><li><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html">Mini-Projekt: Edytor Notatek</a></li><li><a href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html">Tip Calculator Pro: wersja ostateczna</a></li><li><a href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html">Debugowanie interfejsu i jakość GUI</a></li><li><a href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi Tkinter</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/16-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-01: Praktyka</a></li><li><a href="/pl/practice/16-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-02: Praktyka</a></li><li><a href="/pl/practice/16-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-03: Praktyka</a></li><li><a href="/pl/practice/16-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-04: Praktyka</a></li><li><a href="/pl/practice/16-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-05: Praktyka</a></li><li><a href="/pl/practice/16-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-06: Praktyka</a></li><li><a href="/pl/practice/16-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-07: Praktyka</a></li><li><a href="/pl/practice/16-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-08: Praktyka</a></li><li><a href="/pl/practice/16-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-09: Praktyka</a></li><li><a href="/pl/practice/16-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-10: Praktyka</a></li><li><a href="/pl/practice/16-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-11: Praktyka</a></li><li><a href="/pl/practice/16-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-12: Praktyka</a></li><li><a href="/pl/practice/16-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-13: Praktyka</a></li><li><a href="/pl/practice/16-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-14: Praktyka</a></li><li><a href="/pl/practice/16-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-15: Praktyka</a></li><li><a href="/pl/practice/16-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-16: Praktyka</a></li><li><a href="/pl/practice/16-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-17: Praktyka</a></li><li><a href="/pl/practice/16-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-18: Praktyka</a></li><li><a href="/pl/practice/16-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-19: Praktyka</a></li><li><a href="/pl/practice/16-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-20: Praktyka</a></li><li><a href="/pl/practice/16-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-21: Praktyka</a></li><li><a href="/pl/practice/16-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-22: Praktyka</a></li><li><a href="/pl/practice/16-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-23: Praktyka</a></li><li><a href="/pl/practice/16-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-24: Praktyka</a></li><li><a href="/pl/practice/16-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-25: Praktyka</a></li><li><a href="/pl/practice/16-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-26: Praktyka</a></li><li><a href="/pl/practice/16-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-27: Praktyka</a></li><li><a href="/pl/practice/16-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-28: Praktyka</a></li><li><a href="/pl/practice/16-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-29: Praktyka</a></li><li><a href="/pl/practice/16-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-30: Praktyka</a></li><li><a href="/pl/practice/16-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-31: Praktyka</a></li><li><a href="/pl/practice/16-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-32: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-23-validatsiya-vvoda.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-16/index.html">Rozdział 16</a> / Walidacja wejścia</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 16 · Tworzenie fajnych aplikacji z Tkinter</div>
+<h1>Walidacja i informacja zwrotna</h1>
+<p class="lede">Surowy tekst użytkownika nie staje się liczbą sam w sobie — musi być między nimi sprawdzenie.</p>
+<h2>Walidacja – przed liczeniem</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">tekst użytkownika</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">entry.get()</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">pusty? Nie ma numeru? Negatywny?</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">walidacja</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">uzasadnione?</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">nie — zrozumiały błąd</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">wiadomość do użytkownika</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">tak — konwersja</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">wartość liczbowa</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">Funkcja dziedziny</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Wprowadzanie nie zamienia się samo w liczbę — między łańcuch znaków a obliczeniem jest sprawdzenie.</figcaption></figure>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Podgląd try/except</div>
+<div class="callout-body">To jest minimalna praktyczna zapowiedź <code class="inline">try/except</code>. Na razie użyjmy go jako gotowego szablonu do sprawdzania danych użytkowników. Wyjątki zostaną szczegółowo omówione w rozdziale 21.</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>parse_number.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> parse_number(text):
+    text = text.strip()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> text:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">„Pole nie może być puste"</span>
+    <span class="tok-kw">try</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-fn">float</span>(text), <span class="tok-str">""</span>
+    <span class="tok-kw">except</span> ValueError:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">„Wprowadź numer”</span>
+
+<span class="tok-fn">print</span>(parse_number(<span class="tok-str">""</span>))      <span class="tok-com"># (False, None, ...)</span>
+<span class="tok-fn">print</span>(parse_number(<span class="tok-str">"abc"</span>))   <span class="tok-com"># (False, None, ...)</span>
+<span class="tok-fn">print</span>(parse_number(<span class="tok-str">"-5"</span>))    <span class="tok-com"># (True, -5.0, '') – liczba ujemna to LICZBA!</span>
+<span class="tok-fn">print</span>(parse_number(<span class="tok-str">"100"</span>))   <span class="tok-com"># (True, 100.0, '')</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie każda liczba musi być dodatnia</div>
+<div class="callout-body"><code class="inline">parse_number</code> sprawdza tylko „czy to w ogóle liczba?” — i celowo akceptuje wartości ujemne i zero: one też są liczbami. Na przykład temperatura w stopniach Celsjusza może być ujemna (rozdział 16.27) — wymaganie „dodatnie” jest specyficzne dla konkretnego zadania (sumy pieniędzy, liczba osób), a nie cechą liczb ogólnie.</div>
+</div>
+</div>
+<h2>Specjalistyczna walidacja na parse_number</h2>
+<div class="code-block">
+<div class="code-label"><span>validate_positive.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> validate_positive_amount(text):
+    ok, value, message = parse_number(text)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, message
+    <span class="tok-kw">if</span> value &lt;= <span class="tok-num">0</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Liczba musi być większa od zera"</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-str">""</span>
+
+<span class="tok-kw">def</span> validate_positive_int(text):
+    ok, value, message = parse_number(text)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, message
+    <span class="tok-kw">if</span> value != <span class="tok-fn">int</span>(value):
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Wprowadź liczbę całkowitą”</span>
+    <span class="tok-kw">if</span> <span class="tok-fn">int</span>(value) &lt; <span class="tok-num">1</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Liczba musi wynosić co najmniej 1”</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-str">""</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Różne zadania — różne funkcje</div>
+<div class="callout-body">Kwota rachunku musi być dodatnia — <code class="inline">validate_positive_amount</code>. Liczba osób musi być dodatnia <strong>całość</strong> — <code class="inline">validate_positive_int</code> dalsze odrzucenia <code class="inline">2.5</code>. Obie funkcje ponownie wykorzystują <code class="inline">parse_number</code>, a nie powielają analizę tekstu.</div>
+</div>
+</div>
+<h2>Jak pokazać błąd użytkownikowi</h2>
+<div class="code-block">
+<div class="code-label"><span>status_label.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>ok, message = validate_positive_amount(schet_entry.get())
+<span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+    status_label.config(text=message, foreground=<span class="tok-str">"#DB2777"</span>)
+    <span class="tok-kw">return</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Błąd — na ekranie, a nie tylko w terminalu</div>
+<div class="callout-body">GUI- użytkownik zazwyczaj nie patrzy na terminal. Pokaż błąd za pomocą widżetu statusu lub <code class="inline">messagebox.showerror(...)</code> (Rozdział 16.18) - Pieczęć <code class="inline">print(...)</code> do terminala nie jest uznawane za informację zwrotną dla użytkownika w aplikacji okienkowej.</div>
+</div>
+</div>
+<h2 id="validatecommand"><svg aria-hidden="true" class="cs-icon cs-icon--experiment"><use href="/assets/icons/cartesian/icons.svg#icon-experiment"></use></svg> Trochę głębiej: validatecommand</h2>
+<p>Tkinter ma wbudowany mechanizm walidacji na poziomie widgetu
+    (<code class="inline">validate=</code>, <code class="inline">validatecommand=</code>,
+    <code class="inline">register(...)</code>) — jego składnia nie jest najbardziej intuicyjna, więc
+    Dla większości formularzy w tym kursie wystarczy ręczne sprawdzenie przed obliczeniem, jak wyżej.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: parse_number i specjalistyczna walidacja</div>
+<div class="nc-sub">Testowane bez tkinter – na czystych funkcjach</div>
+<div class="practice-inline-status" data-lesson-id="16-23"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/16-23/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html"><div class="dir">← Back</div><div class="lbl">after(): timery bez blokowania</div></a><a class="next" href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html"><div class="dir">Następny →</div><div class="lbl">Architektura aplikacji: logika osobno od widżetów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

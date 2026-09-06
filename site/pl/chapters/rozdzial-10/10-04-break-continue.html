@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Przerwij misję! break, continue i loop-else — Python od zera — Cartesian School</title>
+<meta content="Wczesne przerwanie cyklu (break)), pomijanie kroków (continue) oraz rzadkie, ale przydatne loop-else." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-04-break-continue.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-04-break-continue.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-04-break-continue.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-04-break-continue.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Przerwij misję! break, continue i loop-else — Python od zera — Cartesian School" />
+<meta property="og:description" content="Wczesne przerwanie cyklu (break)), pomijanie kroków (continue) oraz rzadkie, ale przydatne loop-else." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-04-break-continue.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Przerwij misję! break, continue i loop-else — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Wczesne przerwanie cyklu (break)), pomijanie kroków (continue) oraz rzadkie, ale przydatne loop-else." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Przerwij misję! break, continue i loop-else — Python od zera — Cartesian School","description":"Wczesne przerwanie cyklu (break)), pomijanie kroków (continue) oraz rzadkie, ale przydatne loop-else.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-04-break-continue.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-04-break-continue.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-04-break-continue.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / break i continue</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Przerwij misję!" break i continue</h1>
+<p class="lede">Dwa sposoby sterowania pętlą od środka — zatrzymać ją całkowicie lub pominąć jeden krok — i specjalny blok else, który wie, czy break.</p>
+<p>Czasem trzeba wyjść z pętli wcześniej albo pominąć jeden krok, nie kończąc pętli
+    W całości — są dwa słowa kluczowe i jeden szczególny sposób, by sprawdzić, czy break.</p>
+<h2><code class="inline">break</code> to całkowicie przerwać ten cykl</h2>
+<div class="code-block">
+<div class="code-label"><span>break.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">100</span>):
+    <span class="tok-kw">if</span> number == <span class="tok-num">5</span>:
+        <span class="tok-kw">break</span>  <span class="tok-com"># cykl zatrzymuje się na dobre</span>
+    <span class="tok-fn">print</span>(number)</code></pre>
+</div>
+<p>Będzie wydawać tylko 1, 2, 3, 4 – tak szybko, jak <code class="inline">number</code> staje się
+    5, pętla zostaje przerwana bez oczekiwania na pozostałe 94 wartości <code class="inline">range()</code>.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="break wychodzi z obiegu NATYCHMIAST – ale nie z programu" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:755px" viewbox="-30.0 0 755.0 486.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrowfc3" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-25-arrowfc3-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-25-arrowfc3-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-25-arrowfc3-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-25-arrowfc3)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="117.0">for number in range(1,</tspan><tspan x="160.0" y="135.0">100)</tspan></text><line marker-end="url(#pl-svg-25-arrowfc3)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,180.0 275.0,230.0 160.0,280.0 45.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="235.0">number == 5?</tspan></text><line marker-end="url(#pl-svg-25-arrowfc3-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="280.0" y2="312.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="120.0" y="296.0">NIE</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="312.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="345.0">reszta ciała</tspan></text><path d="M275.0,230.0 L425.0,230.0 L425.0,420.0 L255.0,420.0" fill="none" marker-end="url(#pl-svg-25-arrowfc3-g)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="433.0" y="220.0">TAK – break: wyjdź z obiegu</text><line marker-end="url(#pl-svg-25-arrowfc3-v)" stroke="#5B24F9" stroke-width="2.5" x1="160.0" x2="160.0" y1="368.0" y2="390.0"></line><path d="M55.0,340.0 L10.0,340.0 L10.0,121.0 L55.0,121.0" fill="none" marker-end="url(#pl-svg-25-arrowfc3-v)" stroke="#5B24F9" stroke-width="2.5"></path><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="394.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="425.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">break wychodzi z obiegu NATYCHMIAST – ale nie z programu</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">break nie kończy programu</div>
+<div class="callout-body"><code class="inline">break</code> przerywa jedynie pętlę, w której się znajduje — kod po pętli działa normalnie. To nie jest analogia wyjścia z programu, lecz wyjścia z powtarzania.</div>
+</div>
+</div>
+<h2><code class="inline">continue</code> to pominąć ten krok</h2>
+<div class="code-block">
+<div class="code-label"><span>continue.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> number <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    <span class="tok-kw">if</span> number == <span class="tok-num">3</span>:
+        <span class="tok-kw">continue</span>  <span class="tok-com"># pomiń resztę ciała w tym kroku</span>
+    <span class="tok-fn">print</span>(number)</code></pre>
+</div>
+<p>Wyjście 1, 2, 4, 5 – liczba 3 jest pomijana, ale cykl trwa dalej, w przeciwieństwie do
+    <code class="inline">break</code>.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="continue pomija resztę CIAŁA i przechodzi do kolejnej iteracji – cykl trwa dalej" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:755px" viewbox="-30.0 0 755.0 408.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrowfc4" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-26-arrowfc4-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-26-arrowfc4-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-26-arrowfc4-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-26-arrowfc4)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="117.0">for number in range(1,</tspan><tspan x="160.0" y="135.0">6)</tspan></text><line marker-end="url(#pl-svg-26-arrowfc4)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,180.0 275.0,230.0 160.0,280.0 45.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="235.0">number == 3?</tspan></text><line marker-end="url(#pl-svg-26-arrowfc4-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="280.0" y2="312.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="120.0" y="296.0">NIE</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="312.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="345.0">reszta ciała</tspan></text><path d="M275.0,230.0 L425.0,230.0 L425.0,121.0 L265.0,121.0" fill="none" marker-end="url(#pl-svg-26-arrowfc4-g)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="433.0" y="220.0">TAK – continue: do kolejnego kroku</text><path d="M55.0,340.0 L10.0,340.0 L10.0,121.0 L55.0,121.0" fill="none" marker-end="url(#pl-svg-26-arrowfc4-v)" stroke="#5B24F9" stroke-width="2.5"></path></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">continue pomija resztę CIAŁA i przechodzi do kolejnej iteracji – cykl trwa dalej</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">continue nie wychodzi z cyklu</div>
+<div class="callout-body"><code class="inline">continue</code> jedynie przerywa bieżący przepływ ciała — cykl sam trwa dalej i od następnego elementu. To jest odwrotne <code class="inline">break</code>, a nie jego łagodniejsza wersja.</div>
+</div>
+</div>
+<h2>break i continue w pobliżu</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th></th><th>break</th><th>continue</th></tr></thead>
+<tbody><tr><td>Co się dzieje</td><td>cykl zatrzymuje się na zawsze</td><td>obecna iteracja się przerwie, pętla trwa dalej</td></tr><tr><td>Kod po pętli</td><td>wykonany natychmiast</td><td>kursuje dopiero po zakończeniu pętli</td></tr><tr><td>Częsty przykład</td><td>znaleźli to, czego szukali — nie ma potrzeby kontynuować</td><td>ten element nie pasuje — pomijamy właśnie go</td></tr></tbody>
+</table>
+</div>
+<h2>break w while True</h2>
+<p>Najczęstsze miejsce dla <code class="inline">break</code> — cykl <code class="inline">while
+    True</code>, gdzie warunek zatrzymania łatwiej sprawdzić w środku ciała:</p>
+<div class="code-block">
+<div class="code-label"><span>while_true_break.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>komanda = <span class="tok-str">""</span>
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    komanda = <span class="tok-fn">input</span>(<span class="tok-str">„Wprowadź komendę (stop - wyjście): ”</span>)
+    <span class="tok-kw">if</span> komanda == <span class="tok-str">"stop"</span>:
+        <span class="tok-kw">break</span>
+    <span class="tok-fn">print</span>(<span class="tok-str">„Wykonuję:”</span>, komanda)</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">continue przed aktualizacją licznika to częsta pułapka</div>
+<div class="callout-body">W pętli <code class="inline">while</code> do opublikowania <code class="inline">continue</code> PRZED wierszem, który zmienia stan (na przykład, <code class="inline">count += 1</code>), niebezpieczne: ten łańcuch znaków będzie pomijany za każdym razem, gdy zostanie wywołany <code class="inline">continue</code>, a ten cykl może się nigdy nie skończyć. Przyjrzymy się bliżej tutorialowi dotyczącemu pętli debugowania.</div>
+</div>
+</div>
+<h2>loop-else jest else cyklu, a nie if</h2>
+<p>Cykle <code class="inline">for</code> oraz <code class="inline">while</code> rzadko jedzą
+    Używaną, ale czasem bardzo wygodną funkcją jest blok <code class="inline">else</code>,
+    które są wykonywane, <strong>tylko wtedy, gdy pętla kończyła się bez break</strong>:</p>
+<div class="code-block">
+<div class="code-label"><span>loop_else.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n == <span class="tok-num">100</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Znalazłem 100!”</span>)
+        <span class="tok-kw">break</span>
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">„100 nie znalezionych ani razu”</span>)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="else dla pętli jest wykonywana tylko wtedy, gdy pętla osiągnęła koniec BEZ break" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:960px" viewbox="-190.0 0 960.0 533.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-27-arrowfc5" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-27-arrowfc5-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-27-arrowfc5-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-27-arrowfc5-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="85.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="180.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-27-arrowfc5)" stroke="#B9A0FC" stroke-width="2.5" x1="180.0" x2="180.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="75.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="180.0" y="117.0">Uzyskaj następny</tspan><tspan x="180.0" y="135.0">element z chisla</tspan></text><line marker-end="url(#pl-svg-27-arrowfc5)" stroke="#B9A0FC" stroke-width="2.5" x1="180.0" x2="180.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="180.0,180.0 295.0,230.0 180.0,280.0 65.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="180.0" y="226.0">Są następujące</tspan><tspan x="180.0" y="244.0">randka?</tspan></text><line marker-end="url(#pl-svg-27-arrowfc5-p)" stroke="#DB2777" stroke-width="2.5" x1="65.0" x2="70.0" y1="230.0" y2="230.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="67.5" y="192.0">NIE</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-128.0,202.0 70.0,202.0 48.0,258.0 -150.0,258.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="-40.0" y="235.0">print( 'nie znaleziono')</tspan></text><line marker-end="url(#pl-svg-27-arrowfc5-g)" stroke="#059669" stroke-width="2.5" x1="180.0" x2="180.0" y1="280.0" y2="312.0"></line><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="206.0" y="296.0">TAK</text><polygon data-flow-shape="decision" fill="#5B24F9" points="180.0,312.0 295.0,362.0 180.0,412.0 65.0,362.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="180.0" y="367.0">n == 100?</tspan></text><line marker-end="url(#pl-svg-27-arrowfc5-g)" stroke="#059669" stroke-width="2.5" x1="295.0" x2="300.0" y1="362.0" y2="362.0"></line><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="297.5" y="319.0">TAK</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="322.0,329.0 520.0,329.0 498.0,395.0 300.0,395.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="410.0" y="358.0">print('Znaleziono!');</tspan><tspan x="410.0" y="376.0">break</tspan></text><line stroke="#B9A0FC" stroke-width="2" x1="-40.0" x2="-40.0" y1="258.0" y2="467.0"></line><line stroke="#B9A0FC" stroke-width="2" x1="410.0" x2="410.0" y1="395.0" y2="467.0"></line><line stroke="#B9A0FC" stroke-width="2" x1="-40.0" x2="410.0" y1="467.0" y2="467.0"></line><line marker-end="url(#pl-svg-27-arrowfc5)" stroke="#B9A0FC" stroke-width="2.5" x1="185.0" x2="185.0" y1="467.0" y2="441.0"></line><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="90.0" y="441.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="185.0" y="472.0">KONIEC</tspan></text><path d="M295.0,368.0 L580.0,368.0 L580.0,121.0 L285.0,121.0" fill="none" marker-end="url(#pl-svg-27-arrowfc5-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="588.0" y="241.5">NIE – z powrotem</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">else dla pętli jest wykonywana tylko wtedy, gdy pętla osiągnęła koniec BEZ break</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">loop-else NIE jest if/else</div>
+<div class="callout-body">Chociaż słowo <code class="inline">else</code> tak samo jak <code class="inline">if</code>, sens jest zupełnie inny. <code class="inline">else</code> u <code class="inline">if</code> oznacza „jeśli warunek jest fałszywy”. <code class="inline">else</code> w pętli oznacza „jeśli pętla zakończyła się sama, a nie przez break”. Jeśli wewnątrz pętli nie było <code class="inline">break</code> w ogóle — blok <code class="inline">else</code> zawsze zostanie spełnione zaraz po zakończeniu cyklu.</div>
+</div>
+</div>
+<h2 id="cikl-komand">Mini-projekt: cykl zespołów</h2>
+<p>Będziemy zbierać <code class="inline">while True</code>, <code class="inline">break</code> oraz
+    pracuj z łańcuch znakówi/warunkami z rozdziałów 8-9 w małej, interaktywnej pętli. To jest tutorial
+    Demonstracja techniki, a nie zastępstwo dla interpretera PySH z wprowadzenia kursu:</p>
+<div class="code-block">
+<div class="code-label"><span>cikl_komand.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>zhurnal = []
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    komanda = <span class="tok-fn">input</span>(<span class="tok-str">„Drużyna (help/list/stop):”</span>).strip().lower()
+    <span class="tok-kw">if</span> komanda == <span class="tok-str">"stop"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Kończę pracę.”</span>)
+        <span class="tok-kw">break</span>
+    <span class="tok-kw">elif</span> komanda == <span class="tok-str">"help"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Dostępne: help, list, stop”</span>)
+    <span class="tok-kw">elif</span> komanda == <span class="tok-str">"list"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Magazyn:”</span>, zhurnal)
+    <span class="tok-kw">else</span>:
+        zhurnal.append(komanda)
+        <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Dodane do dziennika: </span>{komanda}<span class="tok-str">"</span>)</code></pre>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: break i continue</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-04"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-04/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-04"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-04"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Mini-projekt i loop-else Cykl Teams</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-13"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-13/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-13"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-13"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html"><div class="dir">← Back</div><div class="lbl">Cykle while</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html"><div class="dir">Następny →</div><div class="lbl">Wyszukiwanie, filtrowanie i streszczenie</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

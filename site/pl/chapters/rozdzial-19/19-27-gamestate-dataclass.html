@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>GameState od dataclass to Python od zera jest Cartesian School</title>
+<meta content="Wszystkie pola gry – snake, direction, food, score, status, delay_ms – w jednym dataclass bez przedmiotów Turtle." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-19/19-27-gamestate-dataclass.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-19/19-27-gamestate-dataclass.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-19/19-27-gamestate-dataclass.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-19/19-27-gamestate-dataclass.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="GameState od dataclass to Python od zera jest Cartesian School" />
+<meta property="og:description" content="Wszystkie pola gry – snake, direction, food, score, status, delay_ms – w jednym dataclass bez przedmiotów Turtle." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-19/19-27-gamestate-dataclass.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GameState od dataclass to Python od zera jest Cartesian School" />
+<meta name="twitter:description" content="Wszystkie pola gry – snake, direction, food, score, status, delay_ms – w jednym dataclass bez przedmiotów Turtle." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"GameState od dataclass to Python od zera jest Cartesian School","description":"Wszystkie pola gry – snake, direction, food, score, status, delay_ms – w jednym dataclass bez przedmiotów Turtle.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-19/19-27-gamestate-dataclass.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-19/19-27-gamestate-dataclass.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 19 · Wąż</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-19/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-19/19-01-igra-import.html">Import gry i modułów Snake</a></li><li><a href="/pl/chapters/rozdzial-19/19-02-ekran-peremennye.html">Dostosowanie ekranu i zmiennych</a></li><li><a href="/pl/chapters/rozdzial-19/19-03-golova-yabloko.html">Narysuj głowę i jabłko</a></li><li><a href="/pl/chapters/rozdzial-19/19-04-klavishi-dvizhenie.html">Klawisze i ruch głowy</a></li><li><a href="/pl/chapters/rozdzial-19/19-05-tablo-scheta.html">Tablica wyników</a></li><li><a href="/pl/chapters/rozdzial-19/19-06-eda-telo.html">Wąż je! Ruch ciała</a></li><li><a href="/pl/chapters/rozdzial-19/19-07-stolknoveniya.html">Kontrola kolizji</a></li><li><a href="/pl/chapters/rozdzial-19/19-08-polnyj-kod-itogi.html">Pełny kod i sumy</a></li><li><a href="/pl/chapters/rozdzial-19/19-09-mir-kak-setka.html">Świat gry jako siatka</a></li><li><a href="/pl/chapters/rozdzial-19/19-10-koordinaty-kletki.html">Współrzędne komórek i piksele Turtle</a></li><li><a href="/pl/chapters/rozdzial-19/19-11-napravlenie-kak-vektor.html">Kierunek jako wektor</a></li><li><a href="/pl/chapters/rozdzial-19/19-12-odin-igrovoj-tik.html">Jeden odznak gry</a></li><li><a href="/pl/chapters/rozdzial-19/19-13-nastoyaschij-cikl.html">Prawdziwa pętla rozgrywki</a></li><li><a href="/pl/chapters/rozdzial-19/19-14-vremya-skorost.html">Czas, prędkość i opóźnienie</a></li><li><a href="/pl/chapters/rozdzial-19/19-15-sostoyanie-igry.html">Stan gry</a></li><li><a href="/pl/chapters/rozdzial-19/19-16-model-snake.html">Głowa, ciało i model Snake</a></li><li><a href="/pl/chapters/rozdzial-19/19-17-pochemu-s-hvosta.html">Dlaczego ciało porusza się od ogona</a></li><li><a href="/pl/chapters/rozdzial-19/19-18-eda-svobodnaya-kletka.html">Food and Free Cell</a></li><li><a href="/pl/chapters/rozdzial-19/19-19-stolknovenie-so-stenoj.html">Zderzenie ze ścianą</a></li><li><a href="/pl/chapters/rozdzial-19/19-20-stolknovenie-s-soboj.html">Zderzenie z samym sobą</a></li><li><a href="/pl/chapters/rozdzial-19/19-21-game-over.html">Game Over jako państwo</a></li><li><a href="/pl/chapters/rozdzial-19/19-22-pauza.html">Pause / Resume</a></li><li><a href="/pl/chapters/rozdzial-19/19-23-restart.html">Restart / New Game</a></li><li><a href="/pl/chapters/rozdzial-19/19-24-skorost-slozhnost.html">Prędkość i wzrost złożoności</a></li><li><a href="/pl/chapters/rozdzial-19/19-25-high-score.html">High Score</a></li><li><a href="/pl/chapters/rozdzial-19/19-26-chistaya-logika.html">Czysta logika gry bez Turtle</a></li><li><a class="active" href="/pl/chapters/rozdzial-19/19-27-gamestate-dataclass.html">GameState z dataclass</a></li><li><a href="/pl/chapters/rozdzial-19/19-28-snakeapp-arhitektura.html">SnakeApp: oddzielenie modelu od wizualizacji</a></li><li><a href="/pl/chapters/rozdzial-19/19-29-render-model.html">Render: model → Turtle</a></li><li><a href="/pl/chapters/rozdzial-19/19-30-testiruem-pravila.html">Testowanie zasad gry</a></li><li><a href="/pl/chapters/rozdzial-19/19-31-debug-labs.html">Debug Labs</a></li><li><a href="/pl/chapters/rozdzial-19/19-32-snake-pro-itogi.html">Snake Pro - Finałowa gra</a></li><li><a href="/pl/chapters/rozdzial-19/19-33-itogi-glavy.html">Podsumowanie i przejście dalej</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/19-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-02: Praktyka</a></li><li><a href="/pl/practice/19-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-03: Praktyka</a></li><li><a href="/pl/practice/19-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-04: Praktyka</a></li><li><a href="/pl/practice/19-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-06: Praktyka</a></li><li><a href="/pl/practice/19-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-07: Praktyka</a></li><li><a href="/pl/practice/19-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-08: Praktyka</a></li><li><a href="/pl/practice/19-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-09: Praktyka</a></li><li><a href="/pl/practice/19-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-10: Praktyka</a></li><li><a href="/pl/practice/19-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-11: Praktyka</a></li><li><a href="/pl/practice/19-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-12: Praktyka</a></li><li><a href="/pl/practice/19-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-13: Praktyka</a></li><li><a href="/pl/practice/19-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-14: Praktyka</a></li><li><a href="/pl/practice/19-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-15: Praktyka</a></li><li><a href="/pl/practice/19-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-16: Praktyka</a></li><li><a href="/pl/practice/19-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-17: Praktyka</a></li><li><a href="/pl/practice/19-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-18: Praktyka</a></li><li><a href="/pl/practice/19-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-19: Praktyka</a></li><li><a href="/pl/practice/19-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-20: Praktyka</a></li><li><a href="/pl/practice/19-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-21: Praktyka</a></li><li><a href="/pl/practice/19-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-22: Praktyka</a></li><li><a href="/pl/practice/19-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-23: Praktyka</a></li><li><a href="/pl/practice/19-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-24: Praktyka</a></li><li><a href="/pl/practice/19-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-25: Praktyka</a></li><li><a href="/pl/practice/19-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-26: Praktyka</a></li><li><a href="/pl/practice/19-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-27: Praktyka</a></li><li><a href="/pl/practice/19-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-28: Praktyka</a></li><li><a href="/pl/practice/19-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-29: Praktyka</a></li><li><a href="/pl/practice/19-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-30: Praktyka</a></li><li><a href="/pl/practice/19-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-31: Praktyka</a></li><li><a href="/pl/practice/19-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 19-32: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/turtle/snake/snake_basic.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> snake_basic.py - Pierwszy prototyp (19.8)</a></li><li><a href="../../../projects/turtle/snake/snake.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> snake.py — wersja finalna Pro (19.32)</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-19/19-27-gamestate-dataclass.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-19/index.html">Rozdział 19</a> / GameState</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 19 · Architektura</div>
+<h1>GameState z dataclass</h1>
+<p class="lede">Jedna struktura danych opisuje całą grę, bez żadnego obiektu Turtle środku.</p>
+<h2>Jedna struktura zamiast ośmiu oddzielnych zmiennych</h2>
+<p>Zebrać wszystkie pola podzielone na części — węża, kierunek, jedzenie, wynik, status,
+    Prędkość to jeden. <code class="inline">@dataclass</code>, ten sam pomysł co
+    <code class="inline">DrawingState</code> w rozdziale 18:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg aria-label="Żadnych obiektów Turtle — tylko dane w pełni opisujące aktualną grę." data-diagram="uml-class" role="img" style="width:100%;height:auto;max-width:280px" viewbox="0 0 280 324" xmlns="http://www.w3.org/2000/svg"><rect fill="#EDE9FE" height="324" rx="2" stroke="#5B24F9" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#5B24F9" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" text-anchor="middle" x="140.0" y="26.0">GameState</text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="62">snake: list[Position]</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="90">direction: Direction</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="118">next_direction:</tspan><tspan x="26" y="136">Direction</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="164">food: Position | None</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="192">score: int</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="220">high_score: int</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="248">status: GameStatus</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="276">delay_ms: int</tspan></text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="286" y2="286"></line><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="308">—</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Żadnych obiektów Turtle — tylko dane w pełni opisujące aktualną grę.</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>gamestate.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>@dataclass
+<span class="tok-kw">class</span> GameState:
+    snake: <span class="tok-fn">list</span>[Position] = field(default_factory=<span class="tok-kw">lambda</span>: [(<span class="tok-num">0</span>, <span class="tok-num">0</span>)])
+    direction: Direction = Direction.RIGHT
+    next_direction: Direction = Direction.RIGHT
+    food: Position | <span class="tok-kw">None</span> = (<span class="tok-num">0</span>, <span class="tok-num">0</span>)
+    score: <span class="tok-fn">int</span> = <span class="tok-num">0</span>
+    high_score: <span class="tok-fn">int</span> = <span class="tok-num">0</span>
+    status: GameStatus = GameStatus.READY
+    delay_ms: <span class="tok-fn">int</span> = BASE_DELAY_MS</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Dlaczego food w ogóle można None</div>
+<div class="callout-body">Dziewięćdziesiąt dziewięć meczów na sto <code class="inline">food</code> jest zwykłą klatką. Ale sekcja 19.18 pokazuje szczery, skrajny przypadek: jeśli wąż zajmuje dosłownie całe pole, nie będzie wolnej klatki na nowe jedzenie. Rodzaj
+Model <code class="inline">Position | None</code> sprawia, że ten przypadek jest widoczny w samej sygnaturze, a nie ukryty — kod, który czyta <code class="inline">state.food</code>jest zobowiązany jasno zdecydować, co zrobić, jeśli nie ma jedzenia.</div>
+</div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Pokusa, aby zapisać tutaj obiekt Turtle- — częsty błąd</div>
+<div class="callout-body">Jeśli wpiszesz <code class="inline">head_turtle</code> w środku <code class="inline">GameState</code>, testy z rozdziału 19.30 przestaną działać bez prawdziwego okna, a „model” przestanie być modelem — znowu połączy się z wyświetlaniem, jak w pierwszym prototypie. Rozdział 19.31 omawia ten błąd jako osobny Debug Lab.</div>
+</div>
+</div>
+<p><code class="inline">next_direction</code> — oddzielny od <code class="inline">direction</code>
+    pole z jakiegoś powodu: Rozdział 19.31 (Debug Labs 5-6) wyjaśnia, dlaczego klawiatura żąda
+    kierunek i nie zmienia go bezpośrednio.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: projektujemy i porównujemy GameState</div>
+<div class="nc-sub">Automatyczna weryfikacja — klasa GameState: tworzenie, porównanie i dataclasses.replace()</div>
+<div class="practice-inline-status" data-lesson-id="19-27"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/19-27/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["19-27"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="19-27"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-19/19-26-chistaya-logika.html"><div class="dir">← Back</div><div class="lbl">Czysta logika</div></a><a class="next" href="/pl/chapters/rozdzial-19/19-28-snakeapp-arhitektura.html"><div class="dir">Następny →</div><div class="lbl">SnakeApp architektura</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

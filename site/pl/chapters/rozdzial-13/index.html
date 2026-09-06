@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 13. Automatyzuj z funkcjami – Python od zera – Cartesian School</title>
+<meta content="Funkcje · Dekompozycja · Parametry · return · zakresy. Nauczymy się, jak przekształcać duże programy w zrozumiałe części: nadać algorytmom nazwy, przekazywać im dane, uzyskiwać wyniki, zarządzać zakresem i ponownie używać kodu bez kopiowania — pomysł, który można przełożyć na każdy inny język programowania." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-13/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-13/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 13. Automatyzuj z funkcjami – Python od zera – Cartesian School" />
+<meta property="og:description" content="Funkcje · Dekompozycja · Parametry · return · zakresy. Nauczymy się, jak przekształcać duże programy w zrozumiałe części: nadać algorytmom nazwy, przekazywać im dane, uzyskiwać wyniki, zarządzać zakresem i ponownie używać kodu bez kopiowania — pomysł, który można przełożyć na każdy inny język programowania." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-13/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 13. Automatyzuj z funkcjami – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Funkcje · Dekompozycja · Parametry · return · zakresy. Nauczymy się, jak przekształcać duże programy w zrozumiałe części: nadać algorytmom nazwy, przekazywać im dane, uzyskiwać wyniki, zarządzać zakresem i ponownie używać kodu bez kopiowania — pomysł, który można przełożyć na każdy inny język programowania." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 13. Automatyzuj z funkcjami – Python od zera – Cartesian School","description":"Funkcje · Dekompozycja · Parametry · return · zakresy. Nauczymy się, jak przekształcać duże programy w zrozumiałe części: nadać algorytmom nazwy, przekazywać im dane, uzyskiwać wyniki, zarządzać zakresem i ponownie używać kodu bez kopiowania — pomysł, który można przełożyć na każdy inny język programowania.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-13/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 13 · STR. 1850</div>
+<h1>Automatyzacja przy użyciu funkcji</h1>
+<p>Funkcje · Dekompozycja · Parametry · return · zakresy. Nauczymy się, jak przekształcać duże programy w zrozumiałe części: nadać algorytmom nazwy, przekazywać im dane, uzyskiwać wyniki, zarządzać zakresem i ponownie używać kodu bez kopiowania — pomysł, który można przełożyć na każdy inny język programowania.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~9 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--architecture"><use href="/assets/icons/cartesian/icons.svg#icon-architecture"></use></svg> def, return, scope</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 27 praktyk</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-13/13-09-zachem-programme-funkcii.html"><span><span class="si-num">13.1</span>Dlaczego program potrzebuje funkcji</span><span class="si-page">1854</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-01-nastoyashaya-avtomatizaciya.html"><span><span class="si-num">13.2</span>Prawdziwa automatyzacja. Pierwsza funkcja</span><span class="si-page">1863</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-10-vyzov-i-vozvrat-upravlenie.html"><span><span class="si-num">13.3</span>Co się dzieje podczas wywołania</span><span class="si-page">1870</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-02-zachem-funkcii.html"><span><span class="si-num">13.4</span>Parametr i argument</span><span class="si-page">1874</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html"><span><span class="si-num">13.5</span>Argumenty zmienne i niezmienne</span><span class="si-page">1881</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-12-pozicionnye-i-imennye.html"><span><span class="si-num">13.6</span>Argumenty pozycyjne i nazwane</span><span class="si-page">1890</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-04-argumenty.html"><span><span class="si-num">13.7</span>Wartości domyślne i *args</span><span class="si-page">1896</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-04-argumenty.html#lovushka"><span><span class="si-num"></span>Pułapka zmiennej domyślnej mutowalnej</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-13-args-kwargs-raspakovka.html"><span><span class="si-num">13.8</span>*args, **kwargs i rozpakowywanie</span><span class="si-page">1905</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-14-positional-only-keyword-only.html"><span><span class="si-num">13.9</span>Positional-only i keyword-only</span><span class="si-page">1913</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-03-vozvrashaem-otvet.html"><span><span class="si-num">13.10</span>Odpowiedz</span><span class="si-page">1920</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html"><span><span class="si-num">13.11</span>Wejście, Operacja, Wyjście: Funkcje czyste</span><span class="si-page">1929</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html"><span><span class="si-num">13.12</span>Zmienne globalne i lokalne</span><span class="si-page">1936</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html"><span><span class="si-num">13.13</span>Zagnieżdżone funkcje i nonlocal</span><span class="si-page">1949</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html"><span><span class="si-num">13.14</span>Stos wywołań i traceback</span><span class="si-page">1956</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-18-proektiruem-funkciyu.html"><span><span class="si-num">13.15</span>Projektowanie dobrej funkcji</span><span class="si-page">1964</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-19-dokumentaciya-i-tipy.html"><span><span class="si-num">13.16</span>Dockstringi i wskazówki typu</span><span class="si-page">1974</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-20-funkcii-kak-obekty.html"><span><span class="si-num">13.17</span>Funkcje jako obiekty</span><span class="si-page">1982</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-06-lambda.html"><span><span class="si-num">13.18</span>Funkcje lambda</span><span class="si-page">1989</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-21-funkcii-kak-konvejer.html"><span><span class="si-num">13.19</span>Funkcje jak taśma produkcyjna</span><span class="si-page">2000</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html"><span><span class="si-num">13.20</span>Refaktoryzacja projektów rozdziału 12</span><span class="si-page">2003</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html"><span><span class="si-num">13.21</span>Debug Lab: typowe błędy funkcji</span><span class="si-page">2013</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html"><span><span class="si-num">13.22</span>Funkcje testowania</span><span class="si-page">2024</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html"><span><span class="si-num">13.23</span>Mini-projekt – zadanie domowe z matematyki</span><span class="si-page">2031</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-25-mini-proekt-analizator-v2.html"><span><span class="si-num">13.24</span>Mini-projekt – analizator tekstu v2</span><span class="si-page">2037</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-26-mini-proekt-konverter-i-utility.html"><span><span class="si-num">13.25</span>Mini-Projekty - Konwertery i narzędzia do zbierania</span><span class="si-page">2041</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html"><span><span class="si-num">13.26</span>Mini-projekt — Turtle Function Studio</span><span class="si-page">2048</span></a><a class="section-item" href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html#itogi"><span><span class="si-num"></span>Podsumowanie rozdziału</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

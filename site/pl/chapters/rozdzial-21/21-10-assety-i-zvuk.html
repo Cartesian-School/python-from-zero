@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Zasoby gry: grafika i dźwięk — Python od zera — Cartesian School</title>
+<meta content="Własne sprite'y i dźwięki finalnej wersji gry oraz klasa AssetStore, która ładuje je raz." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-21/21-10-assety-i-zvuk.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-21/21-10-assety-i-zvuk.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Zasoby gry: grafika i dźwięk — Python od zera — Cartesian School" />
+<meta property="og:description" content="Własne sprite&#x27;y i dźwięki finalnej wersji gry oraz klasa AssetStore, która ładuje je raz." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zasoby gry: grafika i dźwięk — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Własne sprite&#x27;y i dźwięki finalnej wersji gry oraz klasa AssetStore, która ładuje je raz." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Zasoby gry: grafika i dźwięk — Python od zera — Cartesian School","description":"Własne sprite'y i dźwięki finalnej wersji gry oraz klasa AssetStore, która ładuje je raz.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-21/21-10-assety-i-zvuk.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 21 · Kosmiczny shooter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-21/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-21/21-01-igra-import-init.html">Plan gry i przygotowanie projektów</a></li><li><a href="/pl/chapters/rozdzial-21/21-02-cikl-korabl.html">Pętla rozgrywki i statek gracza</a></li><li><a href="/pl/chapters/rozdzial-21/21-03-dvizhenie-vragi.html">Ruch statków i wrogowie</a></li><li><a href="/pl/chapters/rozdzial-21/21-04-strelba.html">Strzelanie: Tworzenie i przesuwanie pocisków</a></li><li><a href="/pl/chapters/rozdzial-21/21-05-tablo-scheta.html">Ocena i informacje na ekranie</a></li><li><a href="/pl/chapters/rozdzial-21/21-06-unichtozhenie.html">Uderzenia i kolizje</a></li><li><a href="/pl/chapters/rozdzial-21/21-07-game-over.html">Koniec gry i ekran zakończenia gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-08-polnyj-kod-itogi.html">Pierwsza działająca wersja gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-09-arhitektura-proekta.html">Dzielenie gry na klasy</a></li><li><a class="active" href="/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html">Zasoby gry: grafika i dźwięk</a></li><li><a href="/pl/chapters/rozdzial-21/21-11-vector2-tochnoe-dvizhenie.html">Dokładny ruch z Vector2</a></li><li><a href="/pl/chapters/rozdzial-21/21-12-igrovoe-pole-i-hud.html">Boisko i interfejs zawodnika</a></li><li><a href="/pl/chapters/rozdzial-21/21-13-skorostrelnost.html">Szybkostrzelność i odstępy między strzałami</a></li><li><a href="/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html">Jak pojawiają się wrogowie</a></li><li><a href="/pl/chapters/rozdzial-21/21-15-stolknoveniya-i-schet.html">Trafianie wrogów i zdobywanie punktów</a></li><li><a href="/pl/chapters/rozdzial-21/21-16-uron-i-neuyazvimost.html">Życia, obrażenia i tymczasowa niewrażliwość</a></li><li><a href="/pl/chapters/rozdzial-21/21-17-slozhnost-i-volny.html">Jak wzrasta trudność gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-18-sostoyaniya-igry.html">Menu, Gra, Pauza i Koniec</a></li><li><a href="/pl/chapters/rozdzial-21/21-19-perezapusk.html">Restart gry bez ponownego uruchomienia programu</a></li><li><a href="/pl/chapters/rozdzial-21/21-20-animatsiya-vzryva.html">Animacja eksplozji</a></li><li><a href="/pl/chapters/rozdzial-21/21-21-zvukovye-effekty.html">Dźwięki wystrzału, trafienia i eksplozji</a></li><li><a href="/pl/chapters/rozdzial-21/21-22-zvyozdnyj-fon.html">Gwiazdy tła i kolejność rysunku</a></li><li><a href="/pl/chapters/rozdzial-21/21-23-otladka-shutera.html">Jak znaleźć i naprawić błędy w strzelance</a></li><li><a href="/pl/chapters/rozdzial-21/21-24-testiruemost.html">Jak uczynić grę wygodną do testów automatycznych</a></li><li><a href="/pl/chapters/rozdzial-21/21-25-finalnaya-arhitektura.html">Składanie ostatecznej wersji gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-26-itogi-proekta.html">Co zbudowaliśmy i jak dalej rozwijać grę</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/21-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-01: Praktyka</a></li><li><a href="/pl/practice/21-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 2002: Praktyka</a></li><li><a href="/pl/practice/21-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-03: Praktyka</a></li><li><a href="/pl/practice/21-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-04: Praktyka</a></li><li><a href="/pl/practice/21-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> : Praktyka</a></li><li><a href="/pl/practice/21-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> : Praktyka</a></li><li><a href="/pl/practice/21-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-09: Praktyka</a></li><li><a href="/pl/practice/21-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-11: Praktyka</a></li><li><a href="/pl/practice/21-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-13: Praktyka</a></li><li><a href="/pl/practice/21-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-14: Praktyka</a></li><li><a href="/pl/practice/21-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-15: Praktyka</a></li><li><a href="/pl/practice/21-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-16: Praktyka</a></li><li><a href="/pl/practice/21-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-17: Praktyka</a></li><li><a href="/pl/practice/21-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-20: Praktyka</a></li><li><a href="/pl/practice/21-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-25: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/pygame/space-shooter/space_shooter.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> space_shooter.py</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-21/21-10-assety-i-zvuk.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-21/index.html">Rozdział 21</a> / Zasoby do gier: grafika i dźwięk</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 21 · Projekt: kosmiczny strzelec</div>
+<h1>Zasoby gry: grafika i dźwięk</h1>
+<p class="lede">Prawdziwe sprite'y zamiast prostokątów — i klasę, która ładuje je dokładnie raz.</p>
+<p>Do tej pory statek, wrogowie i pociski były rysowane prostokątami i kółkami —
+    Przydatne na pierwsze kroki (Rozdział 20.3). Ostateczna wersja używa własnych sprite'ów,
+    narysowane specjalnie na potrzeby tego projektu, zamiast geometrycznych włóczek.</p>
+<h2>Sprite'y Projektu</h2>
+<figure style="margin:24px 0">
+<img alt="Real Window: Mały pomarańczowy wróg Scout po lewej i większy różowo-czerwony myśliwiec po prawej, niebieski statek gracza poniżej" src="/assets/img/chapter-21/output/19-two-enemy-types.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="320"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Trzy własne sprite'y jednocześnie: zwiadowca (scout), myśliwiec (fighter) i statek gracza) – różne sylwetki i kolory, dzięki czemu przeciwnicy są czytelni na pierwszy rzut oka.</figcaption>
+</figure>
+<p>Wszystkie obrazy są zapisywane jako pliki <code class="inline">.png</code> z przezroczystym tłem.
+    Po załadowaniu przechodzą do Surface obsługującego kanał alfa (flaga
+    <code class="inline">pygame.SRCALPHA</code> przy tworzeniu takiej Surface, rozdział 20.17, — to jest właściwość samej Surface w pygame, a nie pliku PNG), dlatego przezroczyste piksele pozostają przezroczyste również na ekranie. Sprite'y rysowane są bezpośrednio przez
+    <code class="inline">pygame.draw</code> w osobnym piśmie
+    <code class="inline">scripts/generate_chapter_21_assets.py</code>, a nie pobrana skądś —
+    proste kształty geometryczne, bez żadnego istniejącego komercyjnego sprite'a.</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Plik</th><th>Rola</th><th>Funkcje</th></tr></thead>
+<tbody><tr><td>player_ship.png</td><td>Statek Gracza</td><td>Sylwetka w kształcie strzały, jasna kabina, światło silnika</td></tr><tr><td>enemy_scout.png</td><td>Szybki, tani wróg</td><td>Mały, pomarańczowo-czerwony trójkąt</td></tr><tr><td>enemy_fighter.png</td><td>Powoli, drogi Wrogu</td><td>Większy, purpurowo-czerwony, z bocznymi modułami</td></tr><tr><td>bullet.png</td><td>Pocisk Gracza</td><td>Mała, jasnożółta kapsułka</td></tr><tr><td>explosion_sheet.png</td><td>Animacja eksplozji</td><td>6 klatek z rzędu – sekcja 21.20 przecina je przez subsurface()</td></tr></tbody>
+</table>
+</div>
+<h2>AssetStore - Załaduj raz</h2>
+<p>Rozdział 20.24 już ostrzegała: pobieranie pliku w pętli gry to częsta przyczyna
+    Spadki klatek. Tutaj wszystko jest ładowane raz podczas tworzenia gry, w osobnej klasie:</p>
+<div class="code-block">
+<div class="code-label"><span>fragment_asset_store.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">class</span> AssetStore:
+    <span class="tok-kw">def</span> __init__(self, image_dir, audio_dir):
+        self.images = {{}}
+        <span class="tok-kw">for</span> key <span class="tok-kw">in</span> (<span class="tok-str">"player_ship"</span>, <span class="tok-str">"enemy_scout"</span>, <span class="tok-str">"enemy_fighter"</span>, <span class="tok-str">"bullet"</span>):
+            self.images[key] = pygame.image.load(image_dir / <span class="tok-str">f"</span><span class="tok-str">{</span>{<span class="tok-str">key}</span>}<span class="tok-str">.png</span><span class="tok-str">"</span>).convert_alpha()
+
+        self.sounds = {{}}
+        <span class="tok-kw">for</span> key <span class="tok-kw">in</span> (<span class="tok-str">"laser"</span>, <span class="tok-str">"explosion"</span>, <span class="tok-str">"player_hit"</span>):
+            path = audio_dir / <span class="tok-str">f"</span><span class="tok-str">{</span>{<span class="tok-str">key}</span>}<span class="tok-str">.wav</span><span class="tok-str">"</span>
+            <span class="tok-kw">try</span>:
+                self.sounds[key] = pygame.mixer.Sound(<span class="tok-fn">str</span>(path))
+            <span class="tok-kw">except</span> (pygame.error, FileNotFoundError):
+                self.sounds[key] = <span class="tok-kw">None</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">convert_alpha() — to samo znaczenie, co w rozdziale 20</div>
+<div class="callout-body"><code class="inline">pygame.image.load(...)</code> już zachowuje przezroczystość załadowanego PNG samo w sobie — <code class="inline">.convert_alpha()</code> nie „tworzy” przezroczystości, lecz przygotowuje kopię w formacie pikseli ekranu do szybkiego ponownego rysowania (rozdział 20.19). Tutaj jest wywoływana zaraz po załadowaniu, dopóki obrazów jest mało i nie trzeba tego odkładać.</div>
+</div>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Dźwięk jest opcjonalny na początku gry</div>
+<div class="callout-body">Jeśli w systemie nie ma urządzenia dźwiękowego (np. przy automatycznym testowaniu), <code class="inline">pygame.mixer.Sound(...)</code> może się nie zdać — wtedy <code class="inline">self.sounds[key]</code> pozostałości <code class="inline">None</code>, ale gra nadal się uruchamia i działa, tylko bez dźwięku. Rozdział 21.21 pokazuje, jak odtwarzanie uwzględnia to przy każdym połączeniu.</div>
+</div>
+</div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-21/21-09-arhitektura-proekta.html"><div class="dir">← Back</div><div class="lbl">Dzielenie gry na klasy</div></a><a class="next" href="/pl/chapters/rozdzial-21/21-11-vector2-tochnoe-dvizhenie.html"><div class="dir">Następny →</div><div class="lbl">Dokładny ruch z Vector2</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

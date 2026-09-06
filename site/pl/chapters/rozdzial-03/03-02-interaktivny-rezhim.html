@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Interaktywny tryb Python (Python REPL) – Python od zera – Cartesian School</title>
+<meta content="Python REPL szczegółowo: pętla Read-Eval-Print-Loop, pierwsze wyrażenia, zaproszenia &gt;&gt;&gt; i ..., oraz wyjście z trybu." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-03/03-02-interaktivny-rezhim.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Interaktywny tryb Python (Python REPL) – Python od zera – Cartesian School" />
+<meta property="og:description" content="Python REPL szczegółowo: pętla Read-Eval-Print-Loop, pierwsze wyrażenia, zaproszenia &gt;&gt;&gt; i ..., oraz wyjście z trybu." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Interaktywny tryb Python (Python REPL) – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Python REPL szczegółowo: pętla Read-Eval-Print-Loop, pierwsze wyrażenia, zaproszenia &gt;&gt;&gt; i ..., oraz wyjście z trybu." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Interaktywny tryb Python (Python REPL) – Python od zera – Cartesian School","description":"Python REPL szczegółowo: pętla Read-Eval-Print-Loop, pierwsze wyrażenia, zaproszenia >>> i ..., oraz wyjście z trybu.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-03/03-02-interaktivny-rezhim.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 3 · Pierwszy program</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-03/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-03/03-01-sozdanie-i-zapusk-programm.html">Tworzenie i uruchamianie programów</a></li><li><a href="/pl/chapters/rozdzial-03/03-06-terminal-shell-i-python-repl.html">Terminal, shell i Python REPL</a></li><li><a href="/pl/chapters/rozdzial-03/03-07-semejstvo-obolochek.html">Rodzina Shell</a></li><li><a href="/pl/chapters/rozdzial-03/03-08-pysh.html">PySH: Python-first skorupa</a></li><li><a class="active" href="/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html">Tryb Interaktywny (Python REPL)</a></li><li><a href="/pl/chapters/rozdzial-03/03-09-repl-kak-instrument.html">REPL jako narzędzie badawcze</a></li><li><a href="/pl/chapters/rozdzial-03/03-03-vyvod-dannyh.html">Dane wyjściowe za pomocą Python</a></li><li><a href="/pl/chapters/rozdzial-03/03-10-input-i-dialog.html">input(): pierwszy dialog</a></li><li><a href="/pl/chapters/rozdzial-03/03-11-imena-i-znacheniya.html">Imiona i znaczenia</a></li><li><a href="/pl/chapters/rozdzial-03/03-12-kommentarii-i-stil.html">Komentarze i czytelny kod</a></li><li><a href="/pl/chapters/rozdzial-03/03-04-idle.html">IDLE Tryb Scenariusza</a></li><li><a href="/pl/chapters/rozdzial-03/03-05-praktika-itogi.html">Praktyka: Ujawnij swoje imię</a></li><li><a href="/pl/chapters/rozdzial-03/03-13-oshibki-i-traceback.html">Błędy, traceback i jak je czytać</a></li><li><a href="/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html">Laboratoria debugowania</a></li><li><a href="/pl/chapters/rozdzial-03/03-15-otladchik-v-ide.html">Pierwszy debugger w IDE</a></li><li><a href="/pl/chapters/rozdzial-03/03-16-notebook-i-kernel.html">Notebook i kernel</a></li><li><a href="/pl/chapters/rozdzial-03/03-17-mini-proekt-i-itogi.html">Mini-projekt i streszczenie rozdziałów</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/03-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-01: Praktyka</a></li><li><a href="/pl/practice/03-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-02: Praktyka</a></li><li><a href="/pl/practice/03-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-03: Praktyka</a></li><li><a href="/pl/practice/03-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-04: Praktyka</a></li><li><a href="/pl/practice/03-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-05: Praktyka</a></li><li><a href="/pl/practice/03-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-06: Praktyka</a></li><li><a href="/pl/practice/03-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-07: Praktyka</a></li><li><a href="/pl/practice/03-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-08: Praktyka</a></li><li><a href="/pl/practice/03-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-09: Praktyka</a></li><li><a href="/pl/practice/03-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-03/03-02-interaktivny-rezhim.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-03/index.html">Rozdział 3</a> / Tryb Interaktywny (Python REPL)</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 3 · Twój pierwszy program w Python</div>
+<h1>Tryb interaktywny Python (Python REPL)</h1>
+<p class="lede">Drugim sposobem pracy z Python jest wpisywanie kodu linia po linii i natychmiastowe zobaczenie efektu. Przyjrzyjmy się, jak to faktycznie działa.</p>
+<p>Oprócz uruchamiania plików (sekcja 3.1), Python posiada drugi tryb działania —
+    <strong>interaktywny</strong>. W niej wpisujesz kod linijka po linii i od razu widzisz
+    bez pliku i bez wyraźnego „run”</p>
+<h2 id="zapusk-repl">Uruchomienie</h2>
+<p>Otwórz terminal (w VS Code, PyCharm lub jako osobna aplikacja — rozdział 3.2) i wpisz:</p>
+<div class="code-block">
+<div class="code-label"><span>Terminal</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>python</code></pre>
+</div>
+<p>Zobaczysz coś w stylu:</p>
+<div class="code-block">
+<div class="code-label"><span>Rzeczywiste wyjście</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>Python 3.14.7 (main, Aug  5 2026, 00:00:00) [GCC ...] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; </code></pre>
+</div>
+<p>Zaproszenie <code class="inline">&gt;&gt;&gt;</code> oznacza: Python jest gotowy i czeka na twoją
+    drużynie.</p>
+<h2 id="chto-takoe-repl">Co oznacza R-E-P-L</h2>
+<p>REPL to skrót od <strong>Read–Eval–Print Loop</strong> („czytaj — wykonuj —
+    drukuj — powtarzaj”</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="REPL = Read – Eval – Print – Loop" data-diagram="timeline" role="img" style="width:100%;height:auto;max-width:640px" viewbox="0 0 640 372" xmlns="http://www.w3.org/2000/svg"><line stroke="#B9A0FC" stroke-width="3" x1="28" x2="28" y1="44" y2="308"></line><circle cx="28" cy="44" fill="#5B24F9" r="9"></circle><circle cx="28" cy="44" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="40">Read</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="62">Python czyta łańcuch znaków, który wpisałeś</text><circle cx="28" cy="132" fill="#5B24F9" r="9"></circle><circle cx="28" cy="132" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="128">Eval</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="150">ocenia je jako wyrażenie lub wykonuje jako kod</text><circle cx="28" cy="220" fill="#5B24F9" r="9"></circle><circle cx="28" cy="220" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="216">Print</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="238">jeśli to wyrażenie — wypisuje wynik</text><circle cx="28" cy="308" fill="#5B24F9" r="9"></circle><circle cx="28" cy="308" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="304">Loop</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="326">i znowu czeka na następną linię</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">REPL = Read – Eval – Print – Loop</figcaption></figure>
+<h2 id="primery">Pierwsze przykłady</h2>
+<div class="code-block">
+<div class="code-label"><span>Python REPL</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>&gt;&gt;&gt; 2 + 2
+4
+&gt;&gt;&gt; "Py" + "thon"
+'Python'
+&gt;&gt;&gt; name = "Анна"
+&gt;&gt;&gt; name
+'Анна'</code></pre>
+</div>
+<p>Proszę zauważyć: łańcuch znaków <code class="inline">name = "Анна"</code> NIE pokazał wyniku
+    — samo przypisanie nie jest wyrażeniem, którego znaczenie trzeba drukować. Ale
+    Następne łańcuch znaków tam, gdzie właśnie pisaliśmy <code class="inline">name</code>już jest
+    wyrazu twarzy, a REPL natychmiast je obliczył i wpisał.</p>
+<div class="callout callout-tip">
+<div class="cs-icon-emblem cs-icon-emblem--idea"><svg aria-hidden="true" class="cs-icon cs-icon--idea"><use href="/assets/icons/cartesian/icons.svg#icon-idea"></use></svg></div>
+<div>
+<div class="callout-title">Dlaczego REPL drukuje plik, a nie</div>
+<div class="callout-body">REPL automatycznie pokazuje wynik <em>ostatnie obliczone wyrażenie</em> w każdej wprowadzonej linii to wygoda trybu interaktywnego. Normalny <code class="inline">.py</code>plik -jest wykonywany w całości i bezgłośnie — chyba że jest wyraźnie wywoływany gdziekolwiek <code class="inline">print()</code>nic nie pojawi się na ekranie, nawet jeśli gdzieś pośrodku pliku pojawi się wyrażenie takie jak <code class="inline">2 + 2</code>.</div>
+</div>
+</div>
+<h2 id="schitaet">Twój shell potrafi liczyć</h2>
+<p>Gdy REPL natychmiast pokazuje wynik każdego wiersza, wygodnie jest go użyć jako szybkiego
+    Kalkulator – Bez jednego <code class="inline">print()</code>:</p>
+<div class="code-block">
+<div class="code-label"><span>Python REPL</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>&gt;&gt;&gt; 2 + 2
+4
+&gt;&gt;&gt; 10 / 4
+2.5
+&gt;&gt;&gt; 3 * 7
+21</code></pre>
+</div>
+<p>Działa tylko w samej powłodzie: w zwykłej powłoce <code class="inline">.py</code>-plik
+    łańcuch znaków <code class="inline">2 + 2</code> sam z siebie nic nie wywoła.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Interaktywny tryb laptopa</div>
+<div class="nc-sub">Interaktywny notatnik bezpośrednio w przeglądarce — porównaj komórkę Jupyter z Python REPL</div>
+<div class="practice-inline-status" data-lesson-id="03-02"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/03-02/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["03-02"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="03-02"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: użyj Python jako kalkulatora</div>
+<div class="nc-sub">Interaktywny laptop bezpośrednio w przeglądarce – dodawaj, odejmuj, mnż, dziel</div>
+<div class="practice-inline-status" data-lesson-id="03-03"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/03-03/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["03-03"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="03-03"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<h2 id="prompty">Dwa rodzaje zaproszeń</h2>
+<ul>
+<li><code class="inline">&gt;&gt;&gt;</code> — <strong>główne</strong> zaproszenie: Python
+        czekając na start nowej drużyny;</li>
+<li><code class="inline">...</code> — <strong>zaproszenie do kontynuowania</strong>: Python
+        widzi, że bieżące polecenie nie zostało jeszcze ukończone (na przykład, nawias jest otwarty lub blok został rozpoczęty), oraz
+        czeka na resztę.</li>
+</ul>
+<div class="code-block">
+<div class="code-label"><span>Python REPL — przykład wieloliniowy</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>&gt;&gt;&gt; total = (
+...     2
+...     + 2
+... )
+&gt;&gt;&gt; total
+4</code></pre>
+</div>
+<h2 id="vyhod">Jak się wylogować</h2>
+<p>Wpisz <code class="inline">exit()</code> i kliknij Enter. klawiaturę
+    Kombinacje: <code class="inline">Ctrl+Z</code> potem Enter na Windows, albo
+    <code class="inline">Ctrl+D</code> na macOS/Linux.</p>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-03/03-08-pysh.html"><div class="dir">← Back</div><div class="lbl">PySH</div></a><a class="next" href="/pl/chapters/rozdzial-03/03-09-repl-kak-instrument.html"><div class="dir">Następny →</div><div class="lbl">REPL jako narzędzie badawcze</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

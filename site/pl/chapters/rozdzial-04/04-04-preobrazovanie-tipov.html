@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Konwersja typów liczb — Python od zera — Cartesian School</title>
+<meta content="int(), float(), str() i typowe błędy przy konwersji typów w Python, w tym analiza tekstu z podaniem systemu liczbowego." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/04-04-preobrazovanie-tipov.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/04-04-preobrazovanie-tipov.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Konwersja typów liczb — Python od zera — Cartesian School" />
+<meta property="og:description" content="int(), float(), str() i typowe błędy przy konwersji typów w Python, w tym analiza tekstu z podaniem systemu liczbowego." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Konwersja typów liczb — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="int(), float(), str() i typowe błędy przy konwersji typów w Python, w tym analiza tekstu z podaniem systemu liczbowego." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Konwersja typów liczb — Python od zera — Cartesian School","description":"int(), float(), str() i typowe błędy przy konwersji typów w Python, w tym analiza tekstu z podaniem systemu liczbowego.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-04-preobrazovanie-tipov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 4 · Liczby</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-04/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html">Czym jest liczba dla komputera</a></li><li><a href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html">int są liczbami całkowitymi bez strachu</a></li><li><a href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html">Układy liczbowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-02-kommentarii.html">Komentarze w obliczeniach</a></li><li><a href="/pl/chapters/rozdzial-04/04-08-operatory.html">Operatory arytmetyczne</a></li><li><a href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html">Kolejność wykonywania operacji</a></li><li><a href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html">Podział i reszta</a></li><li><a href="/pl/chapters/rozdzial-04/04-11-stepeni.html">Stopnie naukowe i abs()</a></li><li><a href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html">Mapa typów liczbowych</a></li><li><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html">float — liczby zmiennoprzecinkowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html">Dlaczego 0,1 + 0,2 nie jest równe 0,3</a></li><li><a href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html">Poprawne porównanie float</a></li><li><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html">Zaokrąglenie: round, floor, ceil, trunc</a></li><li><a href="/pl/chapters/rozdzial-04/04-16-decimal.html">Decimal jest dokładną arytmetyką dziesiętną</a></li><li><a href="/pl/chapters/rozdzial-04/04-17-fraction.html">Fraction — dokładne ułamki</a></li><li><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html">complex i cmath</a></li><li><a class="active" href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html">Konwersja typów liczb</a></li><li><a href="/pl/chapters/rozdzial-04/04-19-modul-math.html">Moduł math</a></li><li><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html">random i secrets</a></li><li><a href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html">statistics, inf i nan</a></li><li><a href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html">Błędy numeryczne i debugowanie</a></li><li><a href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/04-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-01: Praktyka</a></li><li><a href="/pl/practice/04-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-02: Praktyka</a></li><li><a href="/pl/practice/04-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-06: Praktyka</a></li><li><a href="/pl/practice/04-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-07: Praktyka</a></li><li><a href="/pl/practice/04-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-08: Praktyka</a></li><li><a href="/pl/practice/04-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-09: Praktyka</a></li><li><a href="/pl/practice/04-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-10: Praktyka</a></li><li><a href="/pl/practice/04-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-11: Praktyka</a></li><li><a href="/pl/practice/04-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-12: Praktyka</a></li><li><a href="/pl/practice/04-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-13: Praktyka</a></li><li><a href="/pl/practice/04-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-14: Praktyka</a></li><li><a href="/pl/practice/04-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-15: Praktyka</a></li><li><a href="/pl/practice/04-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-16: Praktyka</a></li><li><a href="/pl/practice/04-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-17: Praktyka</a></li><li><a href="/pl/practice/04-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-18: Praktyka</a></li><li><a href="/pl/practice/04-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-19: Praktyka</a></li><li><a href="/pl/practice/04-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-20: Praktyka</a></li><li><a href="/pl/practice/04-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-21: Praktyka</a></li><li><a href="/pl/practice/04-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-22: Praktyka</a></li><li><a href="/pl/practice/04-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-03: Praktyka</a></li><li><a href="/pl/practice/04-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-04: Praktyka</a></li><li><a href="/pl/practice/04-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-05: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-04-preobrazovanie-tipov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-04/index.html">Rozdział 4</a> / Przeliczanie typów liczb</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 4 · Python lubi liczby</div>
+<h1>Konwersja typów liczb</h1>
+<p class="lede">Liczby można przekształcić w siebie nawzajem i w tekst, ale nie zawsze odwrotnie i nie zawsze, jak się wydaje na pierwszy rzut oka.</p>
+<p>Każdy typ numeryczny ma własną funkcję transformatora o tej samej nazwie:
+    <code class="inline">int()</code>, <code class="inline">float()</code>,
+    <code class="inline">complex()</code>. Ponadto każdą liczbę można przekonwertować na tekst
+    funkcją <code class="inline">str()</code> — i odwrotnie, tekst podobny do liczby może być
+    Odwróć to.</p>
+<div class="code-block">
+<div class="code-label"><span>preobrazovanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>whole = <span class="tok-fn">int</span>(<span class="tok-num">3.99</span>)
+<span class="tok-fn">print</span>(whole)      <span class="tok-com">#3 – część ułamkowa jest odrzucana zamiast zaokrąglonej</span>
+
+decimal = <span class="tok-fn">float</span>(<span class="tok-num">7</span>)
+<span class="tok-fn">print</span>(decimal)    <span class="tok-com"># 7.0</span>
+
+text = <span class="tok-fn">str</span>(<span class="tok-num">42</span>)
+<span class="tok-fn">print</span>(text, <span class="tok-kw">type</span>(text))   <span class="tok-com"># "42" &lt;class 'str'&gt;</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">int() odrzuca część ułamkową, zamiast zaokrąglać</div>
+<div class="callout-body"><code class="inline">int(3.99)</code> równa się <code class="inline">3</code>, nie <code class="inline">4</code> jest <strong>obcięcie</strong> (truncation) ku zeru, nie zaokrąglając. <code class="inline">round()</code> (Rozdział 4.13).</div>
+</div>
+</div>
+<p>Kierunek obcięcia jest również ważny dla liczb ujemnych — <code class="inline">int()</code>
+    zawsze zmierza do zera, a nie „w dół” w sensie matematycznym:</p>
+<div class="code-block">
+<div class="code-label"><span>int_otricatelnoe.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-num">3.9</span>))   <span class="tok-com"># 3</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">int</span>(-<span class="tok-num">3.9</span>))  <span class="tok-com">#-3 zamiast -4</span></code></pre>
+</div>
+<h2 id="tekst-v-chislo">Przekształć tekst na liczbę</h2>
+<div class="code-block">
+<div class="code-label"><span>tekst_v_chislo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>age_text = <span class="tok-str">"10"</span>
+age = <span class="tok-fn">int</span>(age_text)
+<span class="tok-fn">print</span>(age + <span class="tok-num">5</span>)   <span class="tok-com"># 15 — teraz to prawdziwa liczba</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">Nie każdy tekst da się przekonwertować</div>
+<div class="callout-body"><code class="inline">int("десять")</code> spowoduje <code class="inline">ValueError</code> - Python nie potrafi odczytać liczb w słowach. Można przekonwertować tylko tekst wyglądający jak liczba.</div>
+</div>
+</div>
+<h2 id="s-osnovaniem">Parsowanie tekstu z określeniem systemu liczbowego</h2>
+<p>Widzieliśmy to już w sekcji 4.3 – <code class="inline">int()</code> potrafi odczytać tekst, który nie jest w stanie
+    Tylko w systemie dziesiętnym:</p>
+<div class="code-block">
+<div class="code-label"><span>s_osnovaniem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-str">"1010"</span>, <span class="tok-num">2</span>))  <span class="tok-com"># 10</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-str">"FF"</span>, <span class="tok-num">16</span>))   <span class="tok-com"># 255</span></code></pre>
+</div>
+<div class="cvm">
+<div class="cvm-header">Tworzenie łańcuch znaków z liczb: konkatenacja → f-łańcuch znaków</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Klasyczne podejście</div>
+<pre><code>age = <span class="tok-num">10</span>
+message = <span class="tok-str">„Wiek: ”</span> + <span class="tok-fn">str</span>(age) + <span class="tok-str">„ lat”</span>
+<span class="tok-fn">print</span>(message)
+<span class="tok-com"># koniecznie ręcznie opakować liczbę w str()</span></code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">Nowoczesny Python 3.14</div>
+<pre><code>age = <span class="tok-num">10</span>
+message = <span class="tok-str">f"</span><span class="tok-str">Wiek: </span>{age}<span class="tok-str"> lat</span><span class="tok-str">"</span>
+<span class="tok-fn">print</span>(message)
+<span class="tok-com">#f-łańcuch znaków wykonuje konwersję wewnątrz samego {}</span></code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> f-stringi (f-strings), pojawiły się w Python 3.6 i od tego czasu stały się standardem. Są krótsze, mniej podatne na błędy (nie trzeba pamiętać o str()) i pozwalają od razu pisać wyrażenia wewnątrz nawiasów klamrowych.</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: int(), float(), str() i parsowanie baz</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="04-04"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/04-04/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-04"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-04"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html"><div class="dir">← Back</div><div class="lbl">complex i cmath</div></a><a class="next" href="/pl/chapters/rozdzial-04/04-19-modul-math.html"><div class="dir">Następny →</div><div class="lbl">Moduł math</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

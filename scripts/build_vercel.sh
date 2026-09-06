@@ -15,6 +15,13 @@ fi
 
 echo "==> Building Cartesian School Python deployment"
 
+echo "==> Generating complete Polish course and shared practice client"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_polish_course.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_front_matter_pl.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_license_page_pl.py"
+(cd "${ROOT_DIR}/web" && npm run build)
+"${PYTHON}" "${ROOT_DIR}/scripts/inject_language_switchers.py"
+
 echo "==> Validating localization foundation and RU baseline"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_localization.py"
 
@@ -24,6 +31,7 @@ echo "==> Validating PL review evidence"
 echo "==> Validating PL content quality (RU-leakage, terminology)"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_leakage.py"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_terminology.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_complete.py"
 
 echo "==> Validating manifest/practice_manifest.json"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_practice_manifest.py"
@@ -57,6 +65,7 @@ echo "==> Generating SEO metadata, sitemap.xml, llms-full.txt"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_seo_meta.py"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_sitemap.py"
 "${PYTHON}" "${ROOT_DIR}/scripts/build_llms_full.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/build_llms_pl.py"
 
 echo "==> Validating canonical chapter titles"
 if [[ "${CHAPTER23_VALIDATION_MODE:-full}" == "portable" ]]; then

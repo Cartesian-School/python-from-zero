@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Klasa aplikacji i ustawienia trwałe — Python od zera — Cartesian School</title>
+<meta content="App jako obiekt zawierający root (składanie zamiast dziedziczenia Tk), graf obiektów aplikacji oraz trwałe ustawienia przez load_settings/save_settings od rozdziału 15." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/16-25-klass-prilozheniya-i-nastrojki.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/16-25-klass-prilozheniya-i-nastrojki.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Klasa aplikacji i ustawienia trwałe — Python od zera — Cartesian School" />
+<meta property="og:description" content="App jako obiekt zawierający root (składanie zamiast dziedziczenia Tk), graf obiektów aplikacji oraz trwałe ustawienia przez load_settings/save_settings od rozdziału 15." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Klasa aplikacji i ustawienia trwałe — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="App jako obiekt zawierający root (składanie zamiast dziedziczenia Tk), graf obiektów aplikacji oraz trwałe ustawienia przez load_settings/save_settings od rozdziału 15." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Klasa aplikacji i ustawienia trwałe — Python od zera — Cartesian School","description":"App jako obiekt zawierający root (składanie zamiast dziedziczenia Tk), graf obiektów aplikacji oraz trwałe ustawienia przez load_settings/save_settings od rozdziału 15.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-25-klass-prilozheniya-i-nastrojki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 16 · Tkinter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-16/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html">Tkinter — wszystko poprawnie skonfigurowane!</a></li><li><a href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html">Etykiety, guziki i pack</a></li><li><a href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html">Pola wejściowe</a></li><li><a href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html">Zmienne Tkinter</a></li><li><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html">Mnóstwo opcji!</a></li><li><a href="/pl/chapters/rozdzial-16/16-06-menu.html">Menu</a></li><li><a href="/pl/chapters/rozdzial-16/16-07-grid.html">Wiersze i kolumny są grid</a></li><li><a href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html">Mini Project: Kalkulator napiwków</a></li><li><a href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html">Od terminala do modelu zdarzenia GUI:</a></li><li><a href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html">Jak działa pętla zdarzeń i mainloop</a></li><li><a href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html">Widżet i drzewo interfejsu</a></li><li><a href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html">tk i ttk: klasyczne i tematyczne widżety</a></li><li><a href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html">Frame i LabelFrame: organizują interfejs</a></li><li><a href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html">pack szczegółowo: fill, expand i zagnieżdżone ramki</a></li><li><a href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html">Adaptacyjne grid: sticky i weight</a></li><li><a href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html">Widżety wyboru: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html">Progressbar i tabletki Notebook</a></li><li><a href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html">Messagebox i dialogi</a></li><li><a href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html">Otwieranie i zapisywanie plików: filedialog i pathlib</a></li><li><a href="/pl/chapters/rozdzial-16/16-20-toplevel.html">Toplevel: wiele okien</a></li><li><a href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html">Focus, klawiatura i podstawy dostępności</a></li><li><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html">after(): timery bez blokowania</a></li><li><a href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html">Walidacja i informacja zwrotna</a></li><li><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html">Architektura aplikacji: logika osobno od widżetów</a></li><li><a class="active" href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html">Klasa aplikacji i ustawienia trwałe</a></li><li><a href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html">Mini-projekt: licznik kliknięć</a></li><li><a href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html">Mini Project: Konwerter temperatury</a></li><li><a href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html">Mini-Projekt: Odliczający Timer</a></li><li><a href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html">Mini-projekt: lista zadania</a></li><li><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html">Mini-Projekt: Edytor Notatek</a></li><li><a href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html">Tip Calculator Pro: wersja ostateczna</a></li><li><a href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html">Debugowanie interfejsu i jakość GUI</a></li><li><a href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi Tkinter</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/16-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-01: Praktyka</a></li><li><a href="/pl/practice/16-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-02: Praktyka</a></li><li><a href="/pl/practice/16-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-03: Praktyka</a></li><li><a href="/pl/practice/16-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-04: Praktyka</a></li><li><a href="/pl/practice/16-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-05: Praktyka</a></li><li><a href="/pl/practice/16-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-06: Praktyka</a></li><li><a href="/pl/practice/16-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-07: Praktyka</a></li><li><a href="/pl/practice/16-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-08: Praktyka</a></li><li><a href="/pl/practice/16-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-09: Praktyka</a></li><li><a href="/pl/practice/16-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-10: Praktyka</a></li><li><a href="/pl/practice/16-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-11: Praktyka</a></li><li><a href="/pl/practice/16-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-12: Praktyka</a></li><li><a href="/pl/practice/16-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-13: Praktyka</a></li><li><a href="/pl/practice/16-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-14: Praktyka</a></li><li><a href="/pl/practice/16-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-15: Praktyka</a></li><li><a href="/pl/practice/16-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-16: Praktyka</a></li><li><a href="/pl/practice/16-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-17: Praktyka</a></li><li><a href="/pl/practice/16-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-18: Praktyka</a></li><li><a href="/pl/practice/16-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-19: Praktyka</a></li><li><a href="/pl/practice/16-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-20: Praktyka</a></li><li><a href="/pl/practice/16-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-21: Praktyka</a></li><li><a href="/pl/practice/16-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-22: Praktyka</a></li><li><a href="/pl/practice/16-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-23: Praktyka</a></li><li><a href="/pl/practice/16-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-24: Praktyka</a></li><li><a href="/pl/practice/16-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-25: Praktyka</a></li><li><a href="/pl/practice/16-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-26: Praktyka</a></li><li><a href="/pl/practice/16-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-27: Praktyka</a></li><li><a href="/pl/practice/16-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-28: Praktyka</a></li><li><a href="/pl/practice/16-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-29: Praktyka</a></li><li><a href="/pl/practice/16-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-30: Praktyka</a></li><li><a href="/pl/practice/16-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-31: Praktyka</a></li><li><a href="/pl/practice/16-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-32: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-25-klass-prilozheniya-i-nastrojki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-16/index.html">Rozdział 16</a> / Zajęcia aplikacyjne</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 16 · Tworzenie fajnych aplikacji z Tkinter</div>
+<h1>Klasa aplikacji i ustawienia trwałe</h1>
+<p class="lede">Aplikacja jest także obiektem: z własnym stanem, widgetami atrybutów i metodami obsługi użytkownika.</p>
+<h2>klasa aplikacji to kompozycja, a nie dziedziczenie Tk</h2>
+<p>Bezpośrednie powiązanie z rozdziałem 14. Dla aplikacji bardziej skomplikowanych niż para widżetów wygodnie jest zebrać wszystko w jednej
+    klasie:</p>
+<div class="code-block">
+<div class="code-label"><span>klass_prilozheniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">class</span> TipCalculatorApp:
+    <span class="tok-kw">def</span> __init__(self, root):
+        self.root = root
+        self.amount_var = tk.StringVar()
+        self.build_ui()
+
+    <span class="tok-kw">def</span> build_ui(self):
+        ttk.Entry(self.root, textvariable=self.amount_var).pack()
+        ttk.Button(self.root, text=<span class="tok-str">„Czytaj”</span>, command=self.on_calculate).pack()
+
+    <span class="tok-kw">def</span> on_calculate(self):
+        ...
+
+root = tk.Tk()
+app = TipCalculatorApp(root)
+root.mainloop()</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg aria-label="Graf obiektów aplikacji: App HAS-A root, nie App IS-A Tk." data-diagram="uml-object" role="img" style="display:block;width:100%;height:auto" viewbox="0 0 280 134" xmlns="http://www.w3.org/2000/svg"><rect fill="#FCE7F3" height="134" rx="2" stroke="#DB2777" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#DB2777" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="700" text-anchor="middle" text-decoration="underline" x="140.0" y="26.0">app : TipCalculatorApp</text><line stroke="#DB2777" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="72"><tspan fill="#6B6B7D">root = </tspan>Tk</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="100"><tspan fill="#6B6B7D">amount_var = </tspan>StringVar</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="128"><tspan fill="#6B6B7D">result_var = </tspan>StringVar</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Graf obiektów aplikacji: App HAS-A root, nie App IS-A Tk.</figcaption></figure>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">App zawiera root, a nie dziedziczy po Tk</div>
+<div class="callout-body"><code class="inline">class App:</code> z <code class="inline">self.root = root</code> jest głównym modelem tego kursu: zależność od Tk jest wyraźnie widoczna w konstruktorze. Dziedziczenie <code class="inline">class App(tk.Tk):</code> jest również możliwe i występuje w praktyce, ale tutaj łatwiej zrozumieć skład, a nie "błędny" kontra "właściwy".</div>
+</div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie każdy widget jest atrybutem self</div>
+<div class="callout-body">Zapisz do <code class="inline">self.виджет</code> tylko to, do czego potrzebujesz uzyskać dostęp później z innej metody (pole wejściowe, etykieta wyniku). Tymczasowe widgety utworzone i umieszczone w jednym miejscu mogą pozostać jako zmienne lokalne <code class="inline">build_ui()</code>.</div>
+</div>
+</div>
+<h2>Ustawienia trwałe – Przejdź do rozdziału 15</h2>
+<div class="code-block">
+<div class="code-label"><span>nastroyki_gui.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+DEFAULT_SETTINGS = {<span class="tok-str">"theme"</span>: <span class="tok-str">"light"</span>, <span class="tok-str">"window_width"</span>: <span class="tok-num">900</span>}
+
+<span class="tok-kw">def</span> load_settings(path):
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> path.exists():
+        <span class="tok-kw">return</span> <span class="tok-fn">dict</span>(DEFAULT_SETTINGS)
+    <span class="tok-kw">with</span> path.<span class="tok-fn">open</span>(<span class="tok-str">"r"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+        <span class="tok-kw">return</span> json.load(f)
+
+<span class="tok-kw">def</span> save_settings(path, settings):
+    <span class="tok-kw">with</span> path.<span class="tok-fn">open</span>(<span class="tok-str">"w"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+        json.dump(settings, f, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#FEF3C7;border:2px solid #B45309;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#B45309">nastroyki.json</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">kiedy aplikacja się uruchamia</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">load_settings()</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">TipCalculatorApp(root, settings)</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">użytkownik zmienia ustawienia</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">save_settings() przed zamknięciem</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#FEF3C7;border:2px solid #B45309;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#B45309">nastroyki.json</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Ani jedna linijka o JSON i plikach nie jest nowa – wszystko już było w rozdziale 15.</figcaption></figure>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Ani jednej nowej idei dotyczącej plików</div>
+<div class="callout-body"><code class="inline">load_settings()</code>/<code class="inline">save_settings()</code> korzystać z niczego poza tym, czego już się nauczyliśmy w rozdziale 15 — <code class="inline">json</code>, <code class="inline">pathlib</code>, bezpieczne domyślne ustawienia. GUI po prostu nazywa te funkcje przy starcie i przed zamknięciem.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: load_settings/save_settings dla GUI</div>
+<div class="nc-sub">Sprawdza się bez tkinter — przenosimy funkcje persistence rozdziału 15</div>
+<div class="practice-inline-status" data-lesson-id="16-25"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/16-25/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-25"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-25"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html"><div class="dir">← Back</div><div class="lbl">Architektura aplikacji: logika osobno od widżetów</div></a><a class="next" href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekt: licznik kliknięć</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

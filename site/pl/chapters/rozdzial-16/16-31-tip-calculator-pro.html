@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Tip Calculator Pro: wersja finalna – Python od zera – Cartesian School</title>
+<meta content="Krok po kroku ewolucja kalkulatora napiwków od sekcji 16.8 do klasy aplikacji z walidacją, ttk, adaptacyjnymi grid, menu i ustawieniami trwałymi." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/16-31-tip-calculator-pro.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/16-31-tip-calculator-pro.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Tip Calculator Pro: wersja finalna – Python od zera – Cartesian School" />
+<meta property="og:description" content="Krok po kroku ewolucja kalkulatora napiwków od sekcji 16.8 do klasy aplikacji z walidacją, ttk, adaptacyjnymi grid, menu i ustawieniami trwałymi." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tip Calculator Pro: wersja finalna – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Krok po kroku ewolucja kalkulatora napiwków od sekcji 16.8 do klasy aplikacji z walidacją, ttk, adaptacyjnymi grid, menu i ustawieniami trwałymi." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Tip Calculator Pro: wersja finalna – Python od zera – Cartesian School","description":"Krok po kroku ewolucja kalkulatora napiwków od sekcji 16.8 do klasy aplikacji z walidacją, ttk, adaptacyjnymi grid, menu i ustawieniami trwałymi.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-31-tip-calculator-pro.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 16 · Tkinter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-16/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html">Tkinter — wszystko poprawnie skonfigurowane!</a></li><li><a href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html">Etykiety, guziki i pack</a></li><li><a href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html">Pola wejściowe</a></li><li><a href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html">Zmienne Tkinter</a></li><li><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html">Mnóstwo opcji!</a></li><li><a href="/pl/chapters/rozdzial-16/16-06-menu.html">Menu</a></li><li><a href="/pl/chapters/rozdzial-16/16-07-grid.html">Wiersze i kolumny są grid</a></li><li><a href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html">Mini Project: Kalkulator napiwków</a></li><li><a href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html">Od terminala do modelu zdarzenia GUI:</a></li><li><a href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html">Jak działa pętla zdarzeń i mainloop</a></li><li><a href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html">Widżet i drzewo interfejsu</a></li><li><a href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html">tk i ttk: klasyczne i tematyczne widżety</a></li><li><a href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html">Frame i LabelFrame: organizują interfejs</a></li><li><a href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html">pack szczegółowo: fill, expand i zagnieżdżone ramki</a></li><li><a href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html">Adaptacyjne grid: sticky i weight</a></li><li><a href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html">Widżety wyboru: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html">Progressbar i tabletki Notebook</a></li><li><a href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html">Messagebox i dialogi</a></li><li><a href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html">Otwieranie i zapisywanie plików: filedialog i pathlib</a></li><li><a href="/pl/chapters/rozdzial-16/16-20-toplevel.html">Toplevel: wiele okien</a></li><li><a href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html">Focus, klawiatura i podstawy dostępności</a></li><li><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html">after(): timery bez blokowania</a></li><li><a href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html">Walidacja i informacja zwrotna</a></li><li><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html">Architektura aplikacji: logika osobno od widżetów</a></li><li><a href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html">Klasa aplikacji i ustawienia trwałe</a></li><li><a href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html">Mini-projekt: licznik kliknięć</a></li><li><a href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html">Mini Project: Konwerter temperatury</a></li><li><a href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html">Mini-Projekt: Odliczający Timer</a></li><li><a href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html">Mini-projekt: lista zadania</a></li><li><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html">Mini-Projekt: Edytor Notatek</a></li><li><a class="active" href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html">Tip Calculator Pro: wersja ostateczna</a></li><li><a href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html">Debugowanie interfejsu i jakość GUI</a></li><li><a href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi Tkinter</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/16-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-01: Praktyka</a></li><li><a href="/pl/practice/16-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-02: Praktyka</a></li><li><a href="/pl/practice/16-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-03: Praktyka</a></li><li><a href="/pl/practice/16-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-04: Praktyka</a></li><li><a href="/pl/practice/16-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-05: Praktyka</a></li><li><a href="/pl/practice/16-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-06: Praktyka</a></li><li><a href="/pl/practice/16-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-07: Praktyka</a></li><li><a href="/pl/practice/16-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-08: Praktyka</a></li><li><a href="/pl/practice/16-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-09: Praktyka</a></li><li><a href="/pl/practice/16-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-10: Praktyka</a></li><li><a href="/pl/practice/16-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-11: Praktyka</a></li><li><a href="/pl/practice/16-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-12: Praktyka</a></li><li><a href="/pl/practice/16-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-13: Praktyka</a></li><li><a href="/pl/practice/16-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-14: Praktyka</a></li><li><a href="/pl/practice/16-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-15: Praktyka</a></li><li><a href="/pl/practice/16-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-16: Praktyka</a></li><li><a href="/pl/practice/16-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-17: Praktyka</a></li><li><a href="/pl/practice/16-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-18: Praktyka</a></li><li><a href="/pl/practice/16-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-19: Praktyka</a></li><li><a href="/pl/practice/16-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-20: Praktyka</a></li><li><a href="/pl/practice/16-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-21: Praktyka</a></li><li><a href="/pl/practice/16-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-22: Praktyka</a></li><li><a href="/pl/practice/16-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-23: Praktyka</a></li><li><a href="/pl/practice/16-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-24: Praktyka</a></li><li><a href="/pl/practice/16-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-25: Praktyka</a></li><li><a href="/pl/practice/16-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-26: Praktyka</a></li><li><a href="/pl/practice/16-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-27: Praktyka</a></li><li><a href="/pl/practice/16-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-28: Praktyka</a></li><li><a href="/pl/practice/16-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-29: Praktyka</a></li><li><a href="/pl/practice/16-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-30: Praktyka</a></li><li><a href="/pl/practice/16-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-31: Praktyka</a></li><li><a href="/pl/practice/16-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-32: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-31-tip-calculator-pro.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-16/index.html">Rozdział 16</a> / Tip Calculator Pro</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 16 · Tworzenie fajnych aplikacji z Tkinter</div>
+<h1>Tip Calculator Pro: wersja ostateczna</h1>
+<p class="lede">Ten sam projekt co w sekcji 16.8 — ale teraz, mając wszystko, czego się od tamtej pory nauczyliśmy.</p>
+<p>Wróćmy do kalkulatora napiwków (sekcja 16.8) i zbierzmy wszystko, czego się nauczyliśmy w tym
+    Rozdział — etapami, a nie jednym wielkim, ostatnim kawałkiem kodu.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Droga od fundacji do Pro</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V1–V2 (16.8)</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Entry + Button + grid()</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">czysta formuła napiwków</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V3</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Combobox z typowymi procentami zamiast Entry</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V4</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">pole „liczba osób”</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V5</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">validate_positive_amount/validate_positive_int (16.23)</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V6</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">menu plików z Exit (16.6)</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V7</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">load_settings/save_settings — zapamiętujemy ostatni procent (16.25)</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">V8</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">klasa TipCalculatorApp — wszystko w jednym obiekcie (16.25)</div></div></div></figure>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Ustawienia są zapisywane względem aktualnego katalogu roboczego</div>
+<div class="callout-body"><code class="inline">SETTINGS_PATH = Path("tip_calculator_settings.json")</code> jest ścieżka względna: plik pojawi się tam, gdzie program został uruchomiony (Rozdział 15, Rozdział 15.7 o CWD). Dla projektu uczącego się jest to świadomy, wyraźny wybór — nie zapomniana niepewność.</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>tip_calculator_pro.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+<span class="tok-kw">from</span> tkinter <span class="tok-kw">import</span> ttk
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+SETTINGS_PATH = Path(<span class="tok-str">"tip_calculator_settings.json"</span>)
+DEFAULT_SETTINGS = {<span class="tok-str">"last_percent"</span>: <span class="tok-str">"15"</span>}
+
+<span class="tok-kw">def</span> load_settings():
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> SETTINGS_PATH.exists():
+        <span class="tok-kw">return</span> <span class="tok-fn">dict</span>(DEFAULT_SETTINGS)
+    <span class="tok-kw">with</span> SETTINGS_PATH.<span class="tok-fn">open</span>(<span class="tok-str">"r"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+        <span class="tok-kw">return</span> json.load(f)
+
+<span class="tok-kw">def</span> save_settings(settings):
+    <span class="tok-kw">with</span> SETTINGS_PATH.<span class="tok-fn">open</span>(<span class="tok-str">"w"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+        json.dump(settings, f, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)
+
+<span class="tok-kw">def</span> parse_number(text):
+    text = text.strip()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> text:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">„Pole nie może być puste"</span>
+    <span class="tok-kw">try</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-fn">float</span>(text), <span class="tok-str">""</span>
+    <span class="tok-kw">except</span> ValueError:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-kw">None</span>, <span class="tok-str">„Wprowadź numer”</span>
+
+<span class="tok-kw">def</span> validate_positive_amount(text):
+    ok, value, message = parse_number(text)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, message
+    <span class="tok-kw">if</span> value &lt;= <span class="tok-num">0</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Liczba musi być większa od zera"</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-str">""</span>
+
+<span class="tok-kw">def</span> validate_positive_int(text):
+    ok, value, message = parse_number(text)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, message
+    <span class="tok-kw">if</span> value != <span class="tok-fn">int</span>(value):
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Wprowadź liczbę całkowitą”</span>
+    <span class="tok-kw">if</span> <span class="tok-fn">int</span>(value) &lt; <span class="tok-num">1</span>:
+        <span class="tok-kw">return</span> <span class="tok-kw">False</span>, <span class="tok-str">„Liczba musi wynosić co najmniej 1”</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">True</span>, <span class="tok-str">""</span>
+
+<span class="tok-kw">def</span> calculate_tip(amount, percent, people):
+    <span class="tok-kw">return</span> (amount * percent / <span class="tok-num">100</span>) / people
+
+<span class="tok-kw">class</span> TipCalculatorApp:
+    <span class="tok-kw">def</span> __init__(self, root):
+        self.root = root
+        self.root.title(<span class="tok-str">"Tip Calculator Pro"</span>)
+        self.settings = load_settings()
+        self.amount_var = tk.StringVar()
+        self.percent_var = tk.StringVar(value=self.settings[<span class="tok-str">"last_percent"</span>])
+        self.people_var = tk.StringVar(value=<span class="tok-str">"1"</span>)
+        self.result_var = tk.StringVar()
+        self.build_ui()
+        self.root.protocol(<span class="tok-str">"WM_DELETE_WINDOW"</span>, self.on_close)
+
+    <span class="tok-kw">def</span> build_ui(self):
+        frame = ttk.Frame(self.root, padding=<span class="tok-num">12</span>)
+        frame.grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">"nsew"</span>)
+        self.root.columnconfigure(<span class="tok-num">0</span>, weight=<span class="tok-num">1</span>)
+
+        ttk.Label(frame, text=<span class="tok-str">„Suma konta:”</span>).grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">"w"</span>)
+        ttk.Entry(frame, textvariable=self.amount_var).grid(row=<span class="tok-num">0</span>, column=<span class="tok-num">1</span>, sticky=<span class="tok-str">"ew"</span>)
+
+        ttk.Label(frame, text=<span class="tok-str">„Procent napiwków:”</span>).grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">"w"</span>)
+        ttk.Combobox(frame, textvariable=self.percent_var, values=[<span class="tok-str">"10"</span>, <span class="tok-str">"15"</span>, <span class="tok-str">"20"</span>],
+            state=<span class="tok-str">"readonly"</span>).grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">1</span>, sticky=<span class="tok-str">"ew"</span>)
+
+        ttk.Label(frame, text=<span class="tok-str">„Liczba osób:”</span>).grid(row=<span class="tok-num">2</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">"w"</span>)
+        ttk.Entry(frame, textvariable=self.people_var).grid(row=<span class="tok-num">2</span>, column=<span class="tok-num">1</span>, sticky=<span class="tok-str">"ew"</span>)
+
+        ttk.Button(frame, text=<span class="tok-str">„Obliczaj”</span>, command=self.on_calculate).grid(
+            row=<span class="tok-num">3</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">2</span>, pady=<span class="tok-num">8</span>)
+        ttk.Label(frame, textvariable=self.result_var).grid(row=<span class="tok-num">4</span>, column=<span class="tok-num">0</span>, columnspan=<span class="tok-num">2</span>)
+        frame.columnconfigure(<span class="tok-num">1</span>, weight=<span class="tok-num">1</span>)
+
+    <span class="tok-kw">def</span> on_calculate(self):
+        ok, message = validate_positive_amount(self.amount_var.get())
+        <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok:
+            self.result_var.<span class="tok-fn">set</span>(message)
+            <span class="tok-kw">return</span>
+        ok_people, message_people = validate_positive_int(self.people_var.get())
+        <span class="tok-kw">if</span> <span class="tok-kw">not</span> ok_people:
+            self.result_var.<span class="tok-fn">set</span>(<span class="tok-str">„Liczba osób: ”</span> + message_people)
+            <span class="tok-kw">return</span>
+        chaevye = calculate_tip(
+            <span class="tok-fn">float</span>(self.amount_var.get()),
+            <span class="tok-fn">float</span>(self.percent_var.get()),
+            <span class="tok-fn">int</span>(self.people_var.get()),
+        )
+        self.result_var.<span class="tok-fn">set</span>(<span class="tok-str">f"</span><span class="tok-str">napiwki na osobę: </span>{chaevye:<span class="tok-str">.2f</span>}<span class="tok-str">"</span>)
+        self.settings[<span class="tok-str">"last_percent"</span>] = self.percent_var.get()
+
+    <span class="tok-kw">def</span> on_close(self):
+        save_settings(self.settings)
+        self.root.destroy()
+
+root = tk.Tk()
+app = TipCalculatorApp(root)
+root.mainloop()</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Liczba osób jest dodatnią liczbą całkowitą, a nie dowolną</div>
+<div class="callout-body">nie ma 2,5 osoby. <code class="inline">validate_positive_int</code> (Rozdział 16.23) przyjmuje <code class="inline">1</code>, <code class="inline">2</code>, <code class="inline">5</code>, <code class="inline">10</code> — i odrzucone <code class="inline">0</code>, <code class="inline">-1</code>, <code class="inline">2.5</code>, <code class="inline">"abc"</code> i pusta linia z wyraźnym komunikatem o błędzie.</div>
+</div>
+</div>
+<figure style="margin:24px 0">
+<img alt="Okno Tip Calculator Pro z sumą rachunku 1000, procentem 15, liczbą osób 2 i wynikiem 75.00" src="/assets/img/chapter-16/output/tip-calculator-pro.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="360"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Wyjściem powyższego kodu jest prawdziwe okno, a nie ilustracja. Przykład wyglądu w środowisku kursu. Czcionki, rozmiary i motywy mogą się nieco różnić w zależności od systemu operacyjnego.</figcaption>
+</figure>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg aria-label="Ostateczny graf obiektowy: jedna aplikacja, jawne zależności, brak zmiennych globalnych." data-diagram="uml-object" role="img" style="display:block;width:100%;height:auto" viewbox="0 0 280 218" xmlns="http://www.w3.org/2000/svg"><rect fill="#FCE7F3" height="218" rx="2" stroke="#DB2777" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#DB2777" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="700" text-anchor="middle" text-decoration="underline" x="140.0" y="26.0">app : TipCalculatorApp</text><line stroke="#DB2777" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="72"><tspan fill="#6B6B7D">root = </tspan>Tk</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="100"><tspan fill="#6B6B7D">settings = </tspan>dict</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="128"><tspan fill="#6B6B7D">amount_var = </tspan>StringVar</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="156"><tspan fill="#6B6B7D">percent_var = </tspan>StringVar</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="184"><tspan fill="#6B6B7D">people_var = </tspan>StringVar</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="212"><tspan fill="#6B6B7D">result_var = </tspan>StringVar</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Ostateczny graf obiektowy: jedna aplikacja, jawne zależności, brak zmiennych globalnych.</figcaption></figure>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Tip Calculator Pro</div>
+<div class="nc-sub">Moduł tkinter otwiera natywne okno Python — wykonaj lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="16-31">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/16-31/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-31"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-31"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html"><div class="dir">← Back</div><div class="lbl">Mini-Projekt: Edytor Notatek</div></a><a class="next" href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html"><div class="dir">Następny →</div><div class="lbl">Debugowanie interfejsu i jakość GUI</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

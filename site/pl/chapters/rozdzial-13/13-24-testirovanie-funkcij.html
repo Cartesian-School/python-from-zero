@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Funkcje testowe — Python od podstaw — Cartesian School</title>
+<meta content="Funkcje łatwo testować osobno: tabela testowa, assert jako narzędzie deweloperskie (nie walidacja danych wejściowych), workflow kontraktowy → przykłady, → implementacja → walidacja." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-13/13-24-testirovanie-funkcij.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-13/13-24-testirovanie-funkcij.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Funkcje testowe — Python od podstaw — Cartesian School" />
+<meta property="og:description" content="Funkcje łatwo testować osobno: tabela testowa, assert jako narzędzie deweloperskie (nie walidacja danych wejściowych), workflow kontraktowy → przykłady, → implementacja → walidacja." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Funkcje testowe — Python od podstaw — Cartesian School" />
+<meta name="twitter:description" content="Funkcje łatwo testować osobno: tabela testowa, assert jako narzędzie deweloperskie (nie walidacja danych wejściowych), workflow kontraktowy → przykłady, → implementacja → walidacja." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Funkcje testowe — Python od podstaw — Cartesian School","description":"Funkcje łatwo testować osobno: tabela testowa, assert jako narzędzie deweloperskie (nie walidacja danych wejściowych), workflow kontraktowy → przykłady, → implementacja → walidacja.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-24-testirovanie-funkcij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 13 · Funkcje</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-13/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-13/13-09-zachem-programme-funkcii.html">Dlaczego program potrzebuje funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-01-nastoyashaya-avtomatizaciya.html">Prawdziwa automatyzacja. Pierwsza funkcja</a></li><li><a href="/pl/chapters/rozdzial-13/13-10-vyzov-i-vozvrat-upravlenie.html">Co się dzieje podczas wywołania</a></li><li><a href="/pl/chapters/rozdzial-13/13-02-zachem-funkcii.html">Parametr i argument</a></li><li><a href="/pl/chapters/rozdzial-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Argumenty zmienne i niezmienne</a></li><li><a href="/pl/chapters/rozdzial-13/13-12-pozicionnye-i-imennye.html">Argumenty pozycyjne i nazwane</a></li><li><a href="/pl/chapters/rozdzial-13/13-04-argumenty.html">Wartości domyślne i *args</a></li><li><a href="/pl/chapters/rozdzial-13/13-13-args-kwargs-raspakovka.html">*args, **kwargs i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-13/13-14-positional-only-keyword-only.html">Positional-only i keyword-only</a></li><li><a href="/pl/chapters/rozdzial-13/13-03-vozvrashaem-otvet.html">Odpowiedz</a></li><li><a href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html">Wejście, Operacja, Wyjście: Funkcje czyste</a></li><li><a href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html">Zmienne globalne i lokalne</a></li><li><a href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html">Zagnieżdżone funkcje i nonlocal</a></li><li><a href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html">Stos wywołań i traceback</a></li><li><a href="/pl/chapters/rozdzial-13/13-18-proektiruem-funkciyu.html">Projektowanie dobrej funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-19-dokumentaciya-i-tipy.html">Dockstringi i wskazówki typu</a></li><li><a href="/pl/chapters/rozdzial-13/13-20-funkcii-kak-obekty.html">Funkcje jako obiekty</a></li><li><a href="/pl/chapters/rozdzial-13/13-06-lambda.html">Funkcje lambda</a></li><li><a href="/pl/chapters/rozdzial-13/13-21-funkcii-kak-konvejer.html">Funkcje jak taśma produkcyjna</a></li><li><a href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html">Refaktoryzacja projektów rozdziału 12</a></li><li><a href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html">Debug Lab: typowe błędy funkcji</a></li><li><a class="active" href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html">Funkcje testowania</a></li><li><a href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html">Mini-projekt: zadanie domowe z matematyki</a></li><li><a href="/pl/chapters/rozdzial-13/13-25-mini-proekt-analizator-v2.html">Mini-projekt: Analizator tekstu v2</a></li><li><a href="/pl/chapters/rozdzial-13/13-26-mini-proekt-konverter-i-utility.html">Mini-projekty: konwerter i narzędzia kolekcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html">Mini-projekt: Turtle Function Studio i wnioski</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/13-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-09: Praktyka</a></li><li><a href="/pl/practice/13-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-01: Praktyka</a></li><li><a href="/pl/practice/13-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-10: Praktyka</a></li><li><a href="/pl/practice/13-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-02: Praktyka</a></li><li><a href="/pl/practice/13-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-11: Praktyka</a></li><li><a href="/pl/practice/13-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-12: Praktyka</a></li><li><a href="/pl/practice/13-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-04: Praktyka</a></li><li><a href="/pl/practice/13-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-13: Praktyka</a></li><li><a href="/pl/practice/13-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-14: Praktyka</a></li><li><a href="/pl/practice/13-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-03: Praktyka</a></li><li><a href="/pl/practice/13-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-15: Praktyka</a></li><li><a href="/pl/practice/13-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-05: Praktyka</a></li><li><a href="/pl/practice/13-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-16: Praktyka</a></li><li><a href="/pl/practice/13-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-17: Praktyka</a></li><li><a href="/pl/practice/13-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-18: Praktyka</a></li><li><a href="/pl/practice/13-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-19: Praktyka</a></li><li><a href="/pl/practice/13-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-20: Praktyka</a></li><li><a href="/pl/practice/13-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-06: Praktyka</a></li><li><a href="/pl/practice/13-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-21: Praktyka</a></li><li><a href="/pl/practice/13-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-22: Praktyka</a></li><li><a href="/pl/practice/13-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-23: Praktyka</a></li><li><a href="/pl/practice/13-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-24: Praktyka</a></li><li><a href="/pl/practice/13-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-07: Praktyka</a></li><li><a href="/pl/practice/13-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-25: Praktyka</a></li><li><a href="/pl/practice/13-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-26: Praktyka</a></li><li><a href="/pl/practice/13-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-27: Praktyka</a></li><li><a href="/pl/practice/13-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-08: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-24-testirovanie-funkcij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-13/index.html">Rozdział 13</a> / Funkcje testowe</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 13 · Automatyzacja z funkcjami</div>
+<h1>Funkcje testowania</h1>
+<p class="lede">Funkcję można testować oddzielnie od całego programu, bez udziału użytkownika i bez uruchamiania całej aplikacji.</p>
+<h2>Główna praktyczna zaleta funkcji</h2>
+<div class="code-block">
+<div class="code-label"><span>testiruemaya_funkciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> rectangle_area(w, h):
+    <span class="tok-kw">return</span> w * h</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>rectangle_area(<span class="tok-num">2</span>, <span class="tok-num">3</span>) == <span class="tok-num">6</span>
+rectangle_area(<span class="tok-num">0</span>, <span class="tok-num">5</span>) == <span class="tok-num">0</span>
+rectangle_area(<span class="tok-num">10</span>, <span class="tok-num">1</span>) == <span class="tok-num">10</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Nie trzeba wprowadzać użytkowników ani całej aplikacji</div>
+<div class="callout-body">Funkcję można przetestować w izolacji — wywołać bezpośrednio z określonymi wartościami i porównać z oczekiwanym wynikiem. O to chodzi <strong>testowanie jednostkowe</strong> kod.</div>
+</div>
+</div>
+<h2>Stół Testowy</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Loguj</th><th>Czekam</th><th>Fakt</th><th>Ukończono?</th></tr></thead>
+<tbody><tr><td><code class="inline">classify_score(95)</code></td><td>„doskonały”</td><td>„doskonały”</td><td><svg aria-hidden="true" class="cs-icon cs-icon--success"><use href="/assets/icons/cartesian/icons.svg#icon-success"></use></svg></td></tr><tr><td><code class="inline">classify_score(60)</code></td><td>„dobrze”</td><td>„dobrze”</td><td><svg aria-hidden="true" class="cs-icon cs-icon--success"><use href="/assets/icons/cartesian/icons.svg#icon-success"></use></svg></td></tr><tr><td><code class="inline">classify_score(0)</code></td><td>„poprawka”</td><td>„poprawka”</td><td><svg aria-hidden="true" class="cs-icon cs-icon--success"><use href="/assets/icons/cartesian/icons.svg#icon-success"></use></svg></td></tr><tr><td><code class="inline">classify_score(100)</code></td><td>granicy z góry</td><td>?</td><td>sprawdzone</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Przypadki Krawędziowe — z rozdziału 9</div>
+<div class="callout-body">Tabela testowa — bezpośrednia kontynuacja testów granicznych warunków z rozdziału 9: sprawdzamy nie tylko „zwykłe” wartości, ale też granice zakresów.</div>
+</div>
+</div>
+<h2>assert jest łatwym testem tego założenia</h2>
+<div class="code-block">
+<div class="code-label"><span>assert_primer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">assert</span> rectangle_area(<span class="tok-num">2</span>, <span class="tok-num">3</span>) == <span class="tok-num">6</span>
+<span class="tok-kw">assert</span> rectangle_area(<span class="tok-num">0</span>, <span class="tok-num">5</span>) == <span class="tok-num">0</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Wszystkie testy przeszły”</span>)</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>assert_padaet.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">assert</span> rectangle_area(<span class="tok-num">2</span>, <span class="tok-num">3</span>) == <span class="tok-num">7</span>
+<span class="tok-com"># AssertionError</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">assert jest narzędziem deweloperskim, nie weryfikującym danych użytkowników</div>
+<div class="callout-body"><code class="inline">assert</code> sprawdza założenie i podnosi <code class="inline">AssertionError</code>jeśli jest fałszywy, jest przydatny do samodzielnego testowania podczas rozwoju i debugowania. To NIE jest mechanizm weryfikacji danych użytkownika ani ochrony bezpieczeństwa – stosuje się standardowe warunki (Rozdział 9) do weryfikacji danych otrzymanych od użytkownika, tak jak już zrobiliśmy.</div>
+</div>
+</div>
+<h2>Workflow: przykłady → kontraktów → przegląd wdrożenia →</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Ten sposób myślenia — bezpośredni zwiastun kompletnego testowania unit-, które pojawi się w przyszłych rozdziałach" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:1144px;min-width:1144px;" viewbox="0 0 1144 134" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-31-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">Wymaganie</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">, że funkcja powinna</tspan><tspan x="92.0" y="74">robić</tspan></text><line marker-end="url(#pl-svg-31-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">Przykłady</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">wejście → oczekiwane</tspan><tspan x="332.0" y="74">wyjście</tspan></text><line marker-end="url(#pl-svg-31-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">Wdrożenie</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">napisać def</tspan></text><line marker-end="url(#pl-svg-31-arrow)" stroke="#5B24F9" stroke-width="2" x1="670" x2="714" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="720" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="812.0" y="32">Challenge</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="812.0" y="60">testem</tspan><tspan x="812.0" y="74">wartości</tspan></text><line marker-end="url(#pl-svg-31-arrow)" stroke="#5B24F9" stroke-width="2" x1="910" x2="954" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="960" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="1052.0" y="32">Weryfikacja</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="1052.0" y="60">to się zbiegło z tym</tspan><tspan x="1052.0" y="74">oczekiwania</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Ten sposób myślenia — bezpośredni zwiastun kompletnego testowania unit-, które pojawi się w przyszłych rozdziałach</figcaption></figure>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Testowanie funkcji względem tabeli</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="13-24"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/13-24/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-24"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html"><div class="dir">← Back</div><div class="lbl">Debug Lab: typowe błędy funkcji</div></a><a class="next" href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekt: zadanie domowe z matematyki</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Zapisywanie i ładowanie JSON – Python od zera – Cartesian School</title>
+<meta content="Dokument obrazkowy jest zapisywany i ładowany jak JSON – Canvas nie eksportuje się bezpośrednio do PNG." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-30-sohranenie-json.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-18/18-30-sohranenie-json.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-30-sohranenie-json.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-18/18-30-sohranenie-json.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Zapisywanie i ładowanie JSON – Python od zera – Cartesian School" />
+<meta property="og:description" content="Dokument obrazkowy jest zapisywany i ładowany jak JSON – Canvas nie eksportuje się bezpośrednio do PNG." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-30-sohranenie-json.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zapisywanie i ładowanie JSON – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Dokument obrazkowy jest zapisywany i ładowany jak JSON – Canvas nie eksportuje się bezpośrednio do PNG." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Zapisywanie i ładowanie JSON – Python od zera – Cartesian School","description":"Dokument obrazkowy jest zapisywany i ładowany jak JSON – Canvas nie eksportuje się bezpośrednio do PNG.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-30-sohranenie-json.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/18-30-sohranenie-json.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 18 · Rysowanka</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-18/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-18/18-01-obyasnenie-nachalo.html">Co budujemy? Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-18/18-02-ekran-holst.html">Ekran i płótno (Canvas)</a></li><li><a href="/pl/chapters/rozdzial-18/18-03-menu-parametry.html">Paska Narzędzi i Opcje</a></li><li><a href="/pl/chapters/rozdzial-18/18-04-mysh-linii.html">Pozycja myszy i rysowanie linii</a></li><li><a href="/pl/chapters/rozdzial-18/18-05-figury.html">Kwadraty, prostokąty, koła i owale</a></li><li><a href="/pl/chapters/rozdzial-18/18-06-razmer-cveta.html">Wybieramy rozmiar i kolor</a></li><li><a href="/pl/chapters/rozdzial-18/18-07-polnaya-programma-itogi.html">Pierwszy Kompletny Program</a></li><li><a href="/pl/chapters/rozdzial-18/18-08-mentalnaya-model.html">Canvas przechowuje obiekty, a nie piksele</a></li><li><a href="/pl/chapters/rozdzial-18/18-09-sistema-koordinat.html">Układ współrzędnych Canvas</a></li><li><a href="/pl/chapters/rozdzial-18/18-10-item-id.html">Item ID: co wraca create_*</a></li><li><a href="/pl/chapters/rozdzial-18/18-11-tegi.html">Tagi: Grupuj i wybieraj elementy</a></li><li><a href="/pl/chapters/rozdzial-18/18-12-zhest-myshi.html">Cykl życia gestu myszy</a></li><li><a href="/pl/chapters/rozdzial-18/18-13-sostoyanie-risovaniya.html">Stan rysowania</a></li><li><a href="/pl/chapters/rozdzial-18/18-14-karandash.html">Ołówek: ciągła kreska</a></li><li><a href="/pl/chapters/rozdzial-18/18-15-instrument-liniya.html">Narzędzie liniowe</a></li><li><a href="/pl/chapters/rozdzial-18/18-16-geometriya-pryamougolnika.html">Geometria prostokąta</a></li><li><a href="/pl/chapters/rozdzial-18/18-17-geometriya-ovala.html">Geometria owalna</a></li><li><a href="/pl/chapters/rozdzial-18/18-18-zhivoe-prevyu.html">Zapowiedź na żywo: coords()</a></li><li><a href="/pl/chapters/rozdzial-18/18-19-redaktirovanie-elementov.html">itemconfig, move, delete</a></li><li><a href="/pl/chapters/rozdzial-18/18-20-poryadok-sloev.html">Nakładająca się kolejność</a></li><li><a href="/pl/chapters/rozdzial-18/18-21-sistema-cveta.html">System Kolorów</a></li><li><a href="/pl/chapters/rozdzial-18/18-22-tolschina-kisti.html">Grubość pędzla</a></li><li><a href="/pl/chapters/rozdzial-18/18-23-lastik.html">Gumka</a></li><li><a href="/pl/chapters/rozdzial-18/18-24-otmena-deystviy.html">Cofnij działania (Undo)</a></li><li><a href="/pl/chapters/rozdzial-18/18-25-povtor-deystviy.html">Powtarzanie czynności (Redo)</a></li><li><a href="/pl/chapters/rozdzial-18/18-26-ochistka-holsta.html">Czyszczenie płótna</a></li><li><a href="/pl/chapters/rozdzial-18/18-27-goryachie-klavishi.html">skróty klawiszowe</a></li><li><a href="/pl/chapters/rozdzial-18/18-28-stroka-sostoyaniya.html">Pasek statusu</a></li><li><a href="/pl/chapters/rozdzial-18/18-29-arhitektura-paintapp.html">PaintApp architektura</a></li><li><a class="active" href="/pl/chapters/rozdzial-18/18-30-sohranenie-json.html">Zapisywanie i ładowanie JSON</a></li><li><a href="/pl/chapters/rozdzial-18/18-31-debug-labs.html">Debug Labs</a></li><li><a href="/pl/chapters/rozdzial-18/18-32-paint-pro-itogi.html">Paint Pro — podsumowanie rozdziału</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/18-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-02: Praktyka</a></li><li><a href="/pl/practice/18-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-03: Praktyka</a></li><li><a href="/pl/practice/18-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-04: Praktyka</a></li><li><a href="/pl/practice/18-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-05: Praktyka</a></li><li><a href="/pl/practice/18-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-06: Praktyka</a></li><li><a href="/pl/practice/18-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-07: Praktyka</a></li><li><a href="/pl/practice/18-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-09: Praktyka</a></li><li><a href="/pl/practice/18-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-10: Praktyka</a></li><li><a href="/pl/practice/18-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-11: Praktyka</a></li><li><a href="/pl/practice/18-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-12: Praktyka</a></li><li><a href="/pl/practice/18-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-13: Praktyka</a></li><li><a href="/pl/practice/18-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-14: Praktyka</a></li><li><a href="/pl/practice/18-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-15: Praktyka</a></li><li><a href="/pl/practice/18-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-16: Praktyka</a></li><li><a href="/pl/practice/18-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-17: Praktyka</a></li><li><a href="/pl/practice/18-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-18: Praktyka</a></li><li><a href="/pl/practice/18-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-19: Praktyka</a></li><li><a href="/pl/practice/18-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-20: Praktyka</a></li><li><a href="/pl/practice/18-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-21: Praktyka</a></li><li><a href="/pl/practice/18-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-22: Praktyka</a></li><li><a href="/pl/practice/18-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-23: Praktyka</a></li><li><a href="/pl/practice/18-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-24: Praktyka</a></li><li><a href="/pl/practice/18-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-25: Praktyka</a></li><li><a href="/pl/practice/18-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-26: Praktyka</a></li><li><a href="/pl/practice/18-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-27: Praktyka</a></li><li><a href="/pl/practice/18-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-28: Praktyka</a></li><li><a href="/pl/practice/18-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-29: Praktyka</a></li><li><a href="/pl/practice/18-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-30: Praktyka</a></li><li><a href="/pl/practice/18-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-31: Praktyka</a></li><li><a href="/pl/practice/18-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-32: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app_basic.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> paint_app_basic.py - Pierwszy prototyp (18.7)</a></li><li><a href="../../../projects/tkinter/paint-app/paint_app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> paint_app.py — wersja finalna Pro (18.32)</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/18-30-sohranenie-json.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-18/index.html">Rozdział 18</a> / Zapisz i wczytaj</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 18 · Ostatnie poprawki</div>
+<h1>Zapisywanie i ładowanie JSON</h1>
+<p class="lede">Zapisuje się nie obrazek, lecz dokument figur — Canvas potrafi odtworzyć z niego płótno w dowolnym momencie.</p>
+<h2>Canvas nie zapisuje zdjęcia jako pliku – dokument jest zapisywany</h2>
+<p>Ważne, szczere zastrzeżenie: <code class="inline">Canvas</code> nie potrafi zrobić tego samodzielnie
+    Eksportuj się do zwykłych PNG lub JPEG – niezawodny, wieloplatformowy eksport rastrowy
+    wymaga dodatkowych zależności i wykracza poza zakres tego rozdziału. Zamiast tego zapisujemy
+    DOCUMENT to lista liczb, z których Canvas już zbudowany jest
+    <code class="inline">render_document()</code> (Rozdział 18.29):</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">document: list[Shape]</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">save_document()</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">plik JSON- na dysku</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Ochrona środowiska.</figcaption></figure>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">plik JSON- na dysku</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">load_document()</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">document: list[Shape]</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">render_document()</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">Canvas</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Ładowanie – Zawsze kończy się ponownym rysowaniem, a nie tylko odczytem pliku.</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>drawing.json</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>{
+  "version": 1,
+  "canvas": {"background": "#ffffff"},
+  "items": [
+    {
+      "kind": "line",
+      "coords": [34, 52, 180, 90],
+      "color": "#2563eb",
+      "width": 4
+    },
+    {
+      "kind": "rectangle",
+      "coords": [80, 120, 220, 210],
+      "color": "#dc2626",
+      "width": 3
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>sohranenie_json.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> save_document(self):
+    path_str = filedialog.asksaveasfilename(
+        defaultextension=<span class="tok-str">".json"</span>, filetypes=[(<span class="tok-str">„Figura JSON”</span>, <span class="tok-str">"*.json"</span>)]
+    )
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> path_str:  <span class="tok-com"># użytkownik kliknął "Anuluj" — path_str == ""</span>
+        <span class="tok-kw">return</span>
+    data = {
+        <span class="tok-str">"version"</span>: <span class="tok-num">1</span>,
+        <span class="tok-str">"canvas"</span>: {<span class="tok-str">"background"</span>: CANVAS_BG},
+        <span class="tok-str">"items"</span>: [shape.to_dict() <span class="tok-kw">for</span> shape <span class="tok-kw">in</span> self.document],
+    }
+    Path(path_str).write_text(json.dumps(data, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>), encoding=<span class="tok-str">"utf-8"</span>)</code></pre>
+</div>
+<figure style="margin:24px 0">
+<img alt="Real Window: rysowanie z wieloma kształtami tuż przed zapisem" src="/assets/img/chapter-18/output/saved-document.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="420"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Prawdziwe okno: zdjęcie przed Ctrl+S — ten sam dokument będzie w pliku JSON-.</figcaption>
+</figure>
+<figure style="margin:24px 0">
+<img alt="Rzeczywiste okno: ten sam obraz, odtworzony po załadowaniu JSON w nowej sesji" src="/assets/img/chapter-18/output/loaded-document.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="420"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Realne okno: ten sam obraz po Ctrl+O w innym uruchomieniu programu — przywrócony z JSON, a nie z pamięci poprzedniego procesu.</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Anulowanie dialogu nie jest błędem, lecz normalnym sposobem</div>
+<div class="callout-body">I <code class="inline">asksaveasfilename()</code>, i <code class="inline">askopenfilename()</code> zwracają pusty łańcuch znaków <code class="inline">""</code>jeśli użytkownik kliknie „Anuluj” <code class="inline">None</code> i nie rzucaj wyjątek. Kod musi to zweryfikować PRZED przekazaniem ścieżki do <code class="inline">Path(...)</code>: <code class="inline">Path("")</code> jest ważnym, ale bezsensownym obiektem, który wskazuje na aktualny katalog, a nie na plik wybrany przez użytkownika.</div>
+</div>
+</div>
+<h2 id="povrezhdennyj-fajl">A jeśli plik jest uszkodzony?</h2>
+<p>Użytkownik otwiera plik, co oznacza, że może wybrać dowolne: czyjąś JSON, obraz,
+    plik niepełny w przypadku niepowodzenia, ręcznie edytowany rysunek z literówką. Rozdział 15
+    (Rozdział 15.25) już wykazała, że <code class="inline">json.load()</code> o tym informuje
+    via <code class="inline">json.JSONDecodeError</code>. Tutaj jest dodawany do
+    Wiele funkcji: Kluczowe <code class="inline">"items"</code> może w ogóle nie istnieć,
+    kształt może brakować pola, a kolor może być nić, którego Tk nie zna.</p>
+<p>Ważne jest, by nie tylko „nie upadać” <strong>lokalny</strong> lista i zastępuje dokument
+    tylko wtedy, gdy analiza jest całkowicie skuteczna:</p>
+<div class="code-block">
+<div class="code-label"><span>zagruzka_bezopasno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    <span class="tok-kw">try</span>:
+        data = json.loads(path.read_text(encoding=<span class="tok-str">"utf-8"</span>))
+        shapes = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">"items"</span>]]
+        <span class="tok-kw">for</span> shape <span class="tok-kw">in</span> shapes:
+            self.canvas.winfo_rgb(shape.color)   <span class="tok-com"># kolor istnieje?</span>
+    <span class="tok-kw">except</span> json.JSONDecodeError <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">„Plik nie mógł zostać otwarty”</span>, <span class="tok-str">f"</span><span class="tok-str">To nie jest poprawna JSON.\n</span>{exc}<span class="tok-str">"</span>)
+        <span class="tok-kw">return</span>
+    <span class="tok-kw">except</span> (KeyError, TypeError, ValueError, tk.TclError) <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">„Plik nie mógł zostać otwarty”</span>, <span class="tok-str">f"</span><span class="tok-str">To nie jest zapisany rysunek n</span>{exc}<span class="tok-str">"</span>)
+        <span class="tok-kw">return</span>
+
+    <span class="tok-com"># Parsowanie zakończyło się sukcesem, tylko teraz zmieniamy stan aplikacji.</span>
+    self.document = shapes
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Najpierw rozmontować, potem wymienić — i nie odwrotnie</div>
+<div class="callout-body">Pokusa pisania <code class="inline">self.document = [...]</code> od razu, ale <code class="inline">try</code> tylko się trzymać <code class="inline">json.loads()</code>. Wtedy plik o nieznanym kolorze zostanie rozłożony, dokument już zostanie zastąpiony — i upadnie <code class="inline">render_document()</code>. Podsumowując: stary rysunek zostaje zgubiony, historia cofnięć jest czysta, a każda kolejna próba narysowania czegoś znowu się zawiesza, bo przerysowanie zawsze kończy się tym samym złym kondem. Sprawdzenie PRZED zadaniem kosztuje jedną dodatkową zmienną i oszczędza pracę użytkownika.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Sprawdzanie koloru potrafi tylko płótno</div>
+<div class="callout-body"><code class="inline">Shape</code> świadomie nic nie wie o Tkinter (Rozdział 18.29), więc nie może sprawdzić koloru za niego <code class="inline">"#2563eb"</code> oraz <code class="inline">"не-цвет"</code> są równie podobne do koloru. Ale <code class="inline">canvas.winfo_rgb(color)</code> sam pyta Tk i rzuca <code class="inline">TclError</code>jeśli takiego koloru nie ma. Podział obowiązków zostaje zachowany: model sprawdza strukturę, płótno sprawdza, co należy do rysunku.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Zapisz i wczytaj rysunek, aby JSON</div>
+<div class="nc-sub">Moduł tkinter otwiera natywne okno Python — wykonaj lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="18-30">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/18-30/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["18-30"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="18-30"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-18/18-29-arhitektura-paintapp.html"><div class="dir">← Back</div><div class="lbl">PaintApp architektura</div></a><a class="next" href="/pl/chapters/rozdzial-18/18-31-debug-labs.html"><div class="dir">Następny →</div><div class="lbl">Debug Labs</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>conda, Miniconda, Miniforge, Anaconda — Python od zera — Cartesian School</title>
+<meta content="Rozbij conda jako menedżer środowisk i pakietów dla data science, różnice między Anaconda/Miniconda/Miniforge i sposobem conda interakcji z pip." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-02/02-14-conda-i-anaconda.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-02/02-14-conda-i-anaconda.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="conda, Miniconda, Miniforge, Anaconda — Python od zera — Cartesian School" />
+<meta property="og:description" content="Rozbij conda jako menedżer środowisk i pakietów dla data science, różnice między Anaconda/Miniconda/Miniforge i sposobem conda interakcji z pip." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="conda, Miniconda, Miniforge, Anaconda — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Rozbij conda jako menedżer środowisk i pakietów dla data science, różnice między Anaconda/Miniconda/Miniforge i sposobem conda interakcji z pip." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"conda, Miniconda, Miniforge, Anaconda — Python od zera — Cartesian School","description":"Rozbij conda jako menedżer środowisk i pakietów dla data science, różnice między Anaconda/Miniconda/Miniforge i sposobem conda interakcji z pip.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-02/02-14-conda-i-anaconda.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 2 · Instalacja Python</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-02/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-02/02-01-govorim-na-yazyke-kompyutera.html">Co dokładnie instalujemy?</a></li><li><a href="/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html">Terminal, shell i PATH</a></li><li><a href="/pl/chapters/rozdzial-02/02-02-windows.html">Instalacja na Windows</a></li><li><a href="/pl/chapters/rozdzial-02/02-03-mac.html">Instalacja na macOS</a></li><li><a href="/pl/chapters/rozdzial-02/02-05-linux.html">Instalacja na Linux</a></li><li><a href="/pl/chapters/rozdzial-02/02-06-kakoj-python-zapushen.html">Który Python tak naprawdę się rozbiega</a></li><li><a href="/pl/chapters/rozdzial-02/02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: instalacja i rozszerzenia</a></li><li><a href="/pl/chapters/rozdzial-02/02-08-vscode-konfiguraciya.html">VS Code: interpreter i przepływ pracy</a></li><li><a href="/pl/chapters/rozdzial-02/02-09-pycharm.html">PyCharm: projekt, interpretator, środowisko</a></li><li><a href="/pl/chapters/rozdzial-02/02-10-zachem-nuzhny-venv.html">Środowiska wirtualne – dlaczego są potrzebne</a></li><li><a href="/pl/chapters/rozdzial-02/02-11-sozdanie-venv.html">Stwórz . venv</a></li><li><a href="/pl/chapters/rozdzial-02/02-12-pervyj-paket.html">Zainstaluj pierwszy pakiet</a></li><li><a href="/pl/chapters/rozdzial-02/02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a class="active" href="/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="/pl/chapters/rozdzial-02/02-15-ide-i-okruzheniya.html">Jak IDE, Python i środowisko są powiązane</a></li><li><a href="/pl/chapters/rozdzial-02/02-16-diagnostika.html">Typowe problemy i diagnoza</a></li><li><a href="/pl/chapters/rozdzial-02/02-17-rekomendacii-i-itogi.html">Rekomendacje Cartesian School i efekty</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-02/02-14-conda-i-anaconda.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-02/index.html">Rozdział 2</a> / conda / Anaconda</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 2 · Ustaw Python!</div>
+<h1>conda, Miniconda, Miniforge, Anaconda</h1>
+<p class="lede">Kolejna rodzina narzędzi pochodząca z data science — ze swoim modelem środowisk i swoim podejściem do pakietów.</p>
+<p><strong>conda</strong> — jeszcze jeden menedżer pakietów i środowisk, pierwotnie stworzony dla data science i obliczeń naukowych przez firmę Anaconda, Inc.. Jego kluczowa różnica od pip: conda polega na tym, że potrafi instalować nie tylko pakiety Python-, ale także <strong>nie-Python</strong>
+    zależności – na przykład kompilatory, CUDA biblioteki dla kart graficznych, biblioteki systemowe dla
+    Komputery naukowe to coś, z czym pip nie poradzi sobie sam.</p>
+<h2 id="semejstvo">Anaconda, Miniconda, Miniforge — jaka jest różnica</h2>
+<p>Wszystkie trzy są <em>sposoby, by conda przenieść na komputer</em>zamiast trzech różnych narzędzi:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Wszystkie trzy używają tego samego narzędzia conda — różni się tylko to, co jest „w zestawie”" data-diagram="block-diagram" role="img" style="width:100%;height:auto;max-width:644px" viewbox="0 0 644 266" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-1-arrow" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><rect fill="#5B24F9" height="76" rx="4" width="240" x="202.0" y="10"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="16" font-weight="700" text-anchor="middle"><tspan x="322.0" y="43.0">Dystrybucje na</tspan><tspan x="322.0" y="63.0">podstawą conda</tspan></text><line stroke="#5B24F9" stroke-width="2.5" x1="322.0" x2="322.0" y1="86" y2="113"></line><line stroke="#5B24F9" stroke-width="2.5" x1="98.0" x2="546.0" y1="113" y2="113"></line><path d="M98.0,113 V140" fill="none" marker-end="url(#pl-svg-1-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#EDE9FE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="0.0" y="140"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="98.0" y="166">Anaconda</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="98.0" y="198">Pełny zestaw: conda+</tspan><tspan x="98.0" y="212">setki pakietów danych</tspan><tspan x="98.0" y="226">natychmiast</tspan></text><path d="M322.0,113 V140" fill="none" marker-end="url(#pl-svg-1-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DBEAFE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="224.0" y="140"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="322.0" y="166">Miniconda</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="322.0" y="198">Minimum: tylko conda,</tspan><tspan x="322.0" y="212">paczki na żądanie</tspan></text><path d="M546.0,113 V140" fill="none" marker-end="url(#pl-svg-1-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DCFCE7" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="448.0" y="140"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="546.0" y="166">Miniforge</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="546.0" y="198">Jak Miniconda, ale z</tspan><tspan x="546.0" y="212">otwarta społeczność</tspan><tspan x="546.0" y="226">conda-forge domyślny</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Wszystkie trzy używają tego samego narzędzia conda — różni się tylko to, co jest „w zestawie”</figcaption></figure>
+<ul>
+<li><strong>Anaconda</strong> jest najbardziej „trudna”</li>
+<li><strong>Miniconda</strong> — oficjalny minimalny instalator: tylko sam conda, resztę instalujesz według potrzeby;</li>
+<li><strong>Miniforge</strong> - Podobny do Miniconda, ale używany
+        Repozytorium społeczności conda-forge zamiast domyślnego kanału z Anaconda, Inc.</li>
+</ul>
+<h2 id="conda-okruzheniya">Środowiska w conda</h2>
+<div class="code-block">
+<div class="code-label"><span>Terminal</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>conda create -n my-project python=3.14
+conda activate my-project
+conda install numpy pandas</code></pre>
+</div>
+<p>Idea jest dokładnie taka sama jak w venv (Rozdział 2.10) – izolowane środowisko na projekt. Różnice
+    Szczegółowo: conda przechowuje środowiska nie w folderze projektu, lecz w współdzielonym miejscu na dysku, a ty
+    zwracaj się do nich po imieniu (<code class="inline">-n my-project</code>), nie po drodze.</p>
+<h2 id="conda-i-pip">Jak conda i pip żyją razem</h2>
+<p>W obrębie aktywowanego conda-okreslenia polecenie <code class="inline">pip</code> też
+    działa – i często jest używany dla pakietów, które nie znajdują się w repozytoriach conda. Rule
+    Dobre maniery: najpierw przepuść to <code class="inline">conda install</code> wszystko, co
+    jest dostępna w ten sposób, a tylko reszta jest dostępna <code class="inline">pip install</code>,
+    aby nie pomieszać własnego systemu rozwiązywania zależności conda.</p>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">Nie mieszaj venv i conda dla tego samego środowiska</div>
+<div class="callout-body">conda i venv to dwa niezależne sposoby tworzenia odizolowanych środowisk. Nie próbuj aktywować venv <em>w środku</em> conda- otoczenia (lub odwrotnie) dla tego samego projektu — wybierz jedno narzędzie na projekt.</div>
+</div>
+</div>
+<h2 id="kogda-conda">Kiedy wybrać conda</h2>
+<div class="callout callout-tip">
+<div class="cs-icon-emblem cs-icon-emblem--launch"><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg></div>
+<div>
+<div class="callout-title">Praktyczne porady</div>
+<div class="callout-body">Jeśli zajmujesz się analizą danych, nauką maszynową lub obliczeniami naukowymi i korzystasz z bibliotek z złożonymi zależnościami nie-Python (na przykład niektóre wersje PyTorch z GPU) wsparciem, conda jest często wygodniejsze. Dla tego kursu i większości typowych projektów Python pakiet venv + pip z sekcji 2.10–2.13 jest całkiem wystarczający.</div>
+</div>
+</div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-02/02-13-pip-pipx-venv-virtualenv-uv.html"><div class="dir">← Back</div><div class="lbl">pip / pipx / venv / uv</div></a><a class="next" href="/pl/chapters/rozdzial-02/02-15-ide-i-okruzheniya.html"><div class="dir">Następny →</div><div class="lbl">Jak IDE, Python i środowisko są powiązane</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

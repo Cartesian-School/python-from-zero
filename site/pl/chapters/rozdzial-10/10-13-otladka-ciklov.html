@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debugowanie pętli: 10 powszechnych błędów – Python od zera – Cartesian School</title>
+<meta content="10 nazwanych typów błędów pętli, metodę śledzenia off-by-one, zmienna po for, nazwy i shadowing." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-13-otladka-ciklov.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-13-otladka-ciklov.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debugowanie pętli: 10 powszechnych błędów – Python od zera – Cartesian School" />
+<meta property="og:description" content="10 nazwanych typów błędów pętli, metodę śledzenia off-by-one, zmienna po for, nazwy i shadowing." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debugowanie pętli: 10 powszechnych błędów – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="10 nazwanych typów błędów pętli, metodę śledzenia off-by-one, zmienna po for, nazwy i shadowing." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debugowanie pętli: 10 powszechnych błędów – Python od zera – Cartesian School","description":"10 nazwanych typów błędów pętli, metodę śledzenia off-by-one, zmienna po for, nazwy i shadowing.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-13-otladka-ciklov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-13-otladka-ciklov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Debugowanie pętli</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Debugowanie pętli</h1>
+<p class="lede">Dziesięć typowych błędów pętli i uniwersalna metoda ich znajdowania — tabela śledzenia stworzona ręcznie, łańcuch znaków linia po linii.</p>
+<h2>Jak czytać czyjś (i własny) zepsuty cykl</h2>
+<p>Pętle — najczęstsze miejsce, w którym program <em>dzieła</em>, ale daje błędny wynik,
+    albo całkowicie się zawiesza. Dobrą wiadomością jest to, że zdecydowana większość takich błędów pasuje do nich
+    Łącznie istnieje tuzin typowych scenariuszy. Przyjrzyjmy się im po kolei.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Ważne: NIE będziemy uruchamiać zawieszonego kodu</div>
+<div class="callout-body">Niektóre z poniższych przykładów opisują nieskończone pętle — w praktyce tej strony będziesz <strong>czytać i przewidywać</strong> zachowanie kodu, zamiast uruchamiać prawdziwą pętlę zawieszającą się w przeglądarce. Jeśli kod w twoim programie jest naprawdę zamrożony, zatrzymaj go ręcznie (<code class="inline">Ctrl+C</code> na terminalu, „Interrupt kernel”</div>
+</div>
+</div>
+<h2>10 Częstych błędów w pętli</h2>
+<div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">1. Zapomniałem zaktualizować status</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(count)
+    <span class="tok-com"># zapomniałem count += 1</span></code></pre>
+</div><p style="margin-top:8px">Warunek nigdy nie stanie się fałszywy — nieskończona pętla. Sprawdź, czy w while znajduje się łańcuch znaków, która zmienia zmienną względem warunku.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">2. Błąd na jeden na range()</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">10</span>):
+    <span class="tok-fn">print</span>(i)  <span class="tok-com"># nie wyświetli 10!</span></code></pre>
+</div><p style="margin-top:8px">range(1, 10) daje 1..9 — jeśli trzeba dodać 10, to range(1, 11). Klasyczny błąd off-by-one.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">3. Nieprawidłowe wgniecenie korpusu</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+<span class="tok-fn">print</span>(n)  <span class="tok-com"># SyntaxError: wcięcia oczekiwano</span></code></pre>
+</div><p style="margin-top:8px">Ciało pętli musi być wcięte. Bez tego Python nawet nie uruchomi programu.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">4. Licznik jest zerowany wewnątrz pętli</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    kolichestvo = <span class="tok-num">0</span>
+    kolichestvo += <span class="tok-num">1</span></code></pre>
+</div><p style="margin-top:8px">kolichestvo jest resetowany przy każdej iteracji — na końcu zawsze ma 1, a nie całkowitą liczbę. Inicjalizacja powinna nastąpić PRZED pętlą, a nie wewnątrz.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">5. break na niewłaściwym poziomie wcięcia</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n == <span class="tok-num">5</span>:
+    <span class="tok-kw">break</span>  <span class="tok-com"># nie w ciele if!</span></code></pre>
+</div><p style="margin-top:8px">break, stojący poza if (z powodu wcięcia), zadziała przy pierwszej iteracji niezależnie od warunku. Sprawdzaj wcięcia tak samo uważnie, jak warunki.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">6. continue przed aktualizacją</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-kw">if</span> count == <span class="tok-num">2</span>:
+        <span class="tok-kw">continue</span>
+    <span class="tok-fn">print</span>(count)
+    count += <span class="tok-num">1</span></code></pre>
+</div><p style="margin-top:8px">Gdy count == 2, continue pomija count += 1 — i count na zawsze pozostanie równe 2. Nieskończona pętla, i jest szczególnie trudno ją zauważyć.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">7. Pomyłka zmiennych zagnieżdżonych pętli</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">3</span>):
+    <span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+        <span class="tok-fn">print</span>(i)</code></pre>
+</div><p style="margin-top:8px">Wewnętrzna pętla używa tej samej nazwy i, co zewnętrzna — zewnętrzna wartość i zostaje nadpisana i utracona. Użyj różnych nazw, na przykład i i j.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">8. Nieprawidłowy krok negatywny</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">10</span>, <span class="tok-num">0</span>):
+    <span class="tok-fn">print</span>(n)  <span class="tok-com"># nic nie wywoła</span></code></pre>
+</div><p style="margin-top:8px">range(10, 0) z domyślnym krokiem +1 nigdy nie przejdzie od 10 do 0 — potrzebny jest range(10, 0, -1).</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">9. Niezgodność stanu i warunku</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">while</span> spisok:
+    <span class="tok-fn">print</span>(spisok[<span class="tok-num">0</span>])
+    <span class="tok-com"># zapomniałem usunąć przedmiot z spisok</span></code></pre>
+</div><p style="margin-top:8px">Warunek sprawdza spisok (o ile lista nie jest pusty), ale ciało nigdy nie zmniejsza lista — nieskończona pętla, choć wygląda inaczej niż licznik.</p></div><div style="margin:18px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:4px solid #DB2777;border-radius:10px"><div style="font-family:Sora,sans-serif;font-weight:700;margin-bottom:8px">10. Warunek fałszywy od samego początku</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>n = <span class="tok-num">10</span>
+<span class="tok-kw">while</span> n &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(n)
+    n += <span class="tok-num">1</span></code></pre>
+</div><p style="margin-top:8px">Ciało nie wykona się ani razu — zero iteracji. To nie jest błąd sam w sobie, ale częsta niespodzianka, jeśli wcześniej nie sprawdzono warunku.</p></div>
+<h2>Metoda debugowania: Ręczna tabela śledzenia</h2>
+<p>Kiedy pętla działa nie tak, jak się tego spodziewano, najpewniejszy sposób, żeby to sprawdzić, to zbudować tę samą tabelę śledzenia, której używaliśmy przez cały ten rozdział, ale teraz dla prawdziwego, zepsutego kodu:</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Iteracja</th><th>Stan</th><th>Zmienne PRZED ciałem</th><th>tego, co jest wydalane</th><th>Zmienne PO CIAŁA</th></tr></thead>
+<tbody><tr><td>1</td><td>…</td><td>…</td><td>…</td><td>…</td></tr><tr><td>2</td><td>…</td><td>…</td><td>…</td><td>…</td></tr><tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Wypełniaj tabelę linijka po linijce, jakbyś był Python</div>
+<div class="callout-body">Nie próbuj zgadywać całego wyniku. Weź pierwszą iterację, zapisz warunek uczciwie, wartości zmiennych przed i po ciele, i powtarzaj, aż zobaczysz, gdzie oczekiwanie odbiega od tego, co faktycznie się dzieje.</div>
+</div>
+</div>
+<h2>Off-by-one — osobna analiza</h2>
+<p>„Error per one”</p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="range(1, 10) to ostatnia wartość 9, a nie 10!
+Projekt" role="img" style="width:100%;height:auto;max-width:802px" viewbox="0 0 802 110" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrowrd" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><circle cx="50" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="50" y="85">1</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="60" x2="118" y1="55" y2="55"></line><circle cx="128" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="128" y="85">2</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="138" x2="196" y1="55" y2="55"></line><circle cx="206" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="206" y="85">3</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="216" x2="274" y1="55" y2="55"></line><circle cx="284" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="284" y="85">4</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="294" x2="352" y1="55" y2="55"></line><circle cx="362" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="362" y="85">5</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="372" x2="430" y1="55" y2="55"></line><circle cx="440" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="440" y="85">6</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="450" x2="508" y1="55" y2="55"></line><circle cx="518" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="518" y="85">7</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="528" x2="586" y1="55" y2="55"></line><circle cx="596" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="596" y="85">8</text><line marker-end="url(#pl-svg-25-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="606" x2="664" y1="55" y2="55"></line><circle cx="674" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="674" y="85">9</text><line stroke="#E4E1F5" stroke-dasharray="4 4" stroke-width="2.5" x1="684" x2="742" y1="55" y2="55"></line><circle cx="752" cy="55" fill="#fff" r="10" stroke="#B9A0FC" stroke-width="2.5"></circle><text fill="#8A8A9A" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" x="752" y="85">10</text><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="752" y="35">stop — wyłączone</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(1, 10) to ostatnia wartość 9, a nie 10!
+Projekt</figcaption></figure></div>
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="range(1, 11) — poprawne, jeśli chcesz osiągnąć 10 włącznie" role="img" style="width:100%;height:auto;max-width:880px" viewbox="0 0 880 110" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrowrd" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><circle cx="50" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="50" y="85">1</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="60" x2="118" y1="55" y2="55"></line><circle cx="128" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="128" y="85">2</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="138" x2="196" y1="55" y2="55"></line><circle cx="206" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="206" y="85">3</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="216" x2="274" y1="55" y2="55"></line><circle cx="284" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="284" y="85">4</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="294" x2="352" y1="55" y2="55"></line><circle cx="362" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="362" y="85">5</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="372" x2="430" y1="55" y2="55"></line><circle cx="440" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="440" y="85">6</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="450" x2="508" y1="55" y2="55"></line><circle cx="518" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="518" y="85">7</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="528" x2="586" y1="55" y2="55"></line><circle cx="596" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="596" y="85">8</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="606" x2="664" y1="55" y2="55"></line><circle cx="674" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="674" y="85">9</text><line marker-end="url(#pl-svg-26-arrowrd)" stroke="#B9A0FC" stroke-width="2.5" x1="684" x2="742" y1="55" y2="55"></line><circle cx="752" cy="55" fill="#5B24F9" r="10"></circle><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" text-anchor="middle" x="752" y="85">10</text><line stroke="#E4E1F5" stroke-dasharray="4 4" stroke-width="2.5" x1="762" x2="820" y1="55" y2="55"></line><circle cx="830" cy="55" fill="#fff" r="10" stroke="#B9A0FC" stroke-width="2.5"></circle><text fill="#8A8A9A" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" x="830" y="85">11</text><text fill="#8A8A9A" font-family="Inter, sans-serif" font-size="11" text-anchor="middle" x="830" y="35">stop — wyłączone</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">range(1, 11) — poprawne, jeśli chcesz osiągnąć 10 włącznie</figcaption></figure></div>
+</div>
+<h3>Lista kontrolna przypadków granicznych</h3>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Pytanie</th><th>Po co sprawdzać</th></tr></thead>
+<tbody><tr><td>Co się stanie, jeśli nie ma żadnych powtórek (pusta sekwencja)?</td><td>ciało pętli w ogóle się nie wykonuje, niezależnie od tego, czy kod się zepsuje po pętli</td></tr><tr><td>Co się stanie przy jednym powtórzeniu?</td><td>najczęstszym źródłem błędów na jednostkę</td></tr><tr><td>Czy ostatnia granica jest uwzględniona tam, gdzie jest potrzebna?</td><td>stop nie jest domyślnie włączony dla range() i slicerów</td></tr><tr><td>Czy kierunek kroku pokrywa się z kierunkiem start→stop?</td><td>pozytywny krok dla wzrostu, negatywny dla spadku</td></tr></tbody>
+</table>
+</div>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Sprawa</th><th>Przykład</th><th>Ile iteracji</th></tr></thead>
+<tbody><tr><td>Zero</td><td>for n in []:</td><td>0 — ciało nie zostanie stracone ani razu</td></tr><tr><td>Jeden</td><td>for n in [7]:</td><td>1</td></tr><tr><td>Dużo</td><td>for n in range(1000):</td><td>1000</td></tr></tbody>
+</table>
+</div>
+<h2>Zmienna cyklu po zakończeniu</h2>
+<div class="code-block">
+<div class="code-label"><span>peremennaya_posle_cikla.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">5</span>):
+    <span class="tok-kw">pass</span>
+
+<span class="tok-fn">print</span>(n)  <span class="tok-com">#4 to ostatnia wartość n którą przyjął</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Zmienna nie znika po for</div>
+<div class="callout-body">Po ukończeniu <code class="inline">for</code> zmienna pętli pozostaje powiązana z ostatnią uzyskaną wartością — w przeciwieństwie do niektórych innych języków, w Python pętle nie mają osobnego „zakresu widoczności”. Wyjątek: jeśli sekwencja była pusta, ciało nie wykonało się ani razu, a zmienna pętli w ogóle nie zostało utworzone — odwołanie się do niej po pętli w tym przypadku spowoduje <code class="inline">NameError</code>.</div>
+</div>
+</div>
+<h2>Nazwy zmiennych pętli</h2>
+<p>Krótkie nazwy takie jak <code class="inline">i</code>, <code class="inline">j</code>,
+    <code class="inline">k</code> — dawna tradycja dla prostych liczników (szczególnie w
+    zagnieżdżonych pętlach), ale gdy tylko zmienna pętli ma realny sens — nazwij ją
+    sensownie: <code class="inline">for slovo in slova:</code> jest łatwiejszy do czytania niż
+    <code class="inline">for x in y:</code>.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Zmienne cieniowanie (shadowing)</div>
+<div class="callout-body">Jeśli ręcznie przypiszesz nową wartość zmiennej pętli wewnątrz pętli lub użyjesz nazwy, która już istniała poza pętlą, możesz przypadkowo usunąć pożądaną wartość. Szczególnie łatwo jest popełnić ten błąd w zagnieżdżonych pętlach o tej samej nazwie (patrz błąd nr 7 powyżej).</div>
+</div>
+</div>
+<h2>Podgląd: Zmień listę podczas wyszukiwania</h2>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie zmieniaj lista, którą teraz próbujesz</div>
+<div class="callout-body">Usuwanie lub dodawanie elementów w lista wprost podczas cyklu <code class="inline">for элемент in spisok:</code> może prowadzić do tego, że niektóre elementy zostaną pominięte lub przetworzone dwukrotnie. Dokładnie omówimy ten temat i bezpieczne sposoby jego obejścia w rozdziale o listach — na razie wystarczy wiedzieć, że tak nie należy robić.</div>
+</div>
+</div>
+<h2>Trochę o występach</h2>
+<p>Każde dodatkowe zagnieżdżenie pętli mnoży liczbę iteracji (widzieliśmy to już na przykładzie
+    tabliczki mnożenia). Na razie musisz policzyć tysiące, a nie miliony wartości – różnica
+    jest niewidoczna. Formalne wyjaśnienie szybkości algorytmów czeka na Ciebie już teraz
+    Intuicja wystarczy: zagnieżdżona pętla w pętli zwykle działa zauważalnie wolniej niż ta
+    cykl o tej samej wielkości.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Znajdź błęda w pętli</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-17"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-17/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-17"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-17"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: off-by-one — liczyć iteracje</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-18"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-18/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html"><div class="dir">← Back</div><div class="lbl">Zgadnij v2</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html"><div class="dir">Następny →</div><div class="lbl">Automatyzujemy figury</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

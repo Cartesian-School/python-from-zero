@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Iteracja smyczków i pętle while – Python od zera – Cartesian School</title>
+<meta content="while motywowany jest problemami z nieznaną liczbą powtórzeń: flowchart kanoniczne, trzy części, while True, for-vs-while." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-03-perebor-strok-while.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-03-perebor-strok-while.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Iteracja smyczków i pętle while – Python od zera – Cartesian School" />
+<meta property="og:description" content="while motywowany jest problemami z nieznaną liczbą powtórzeń: flowchart kanoniczne, trzy części, while True, for-vs-while." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Iteracja smyczków i pętle while – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="while motywowany jest problemami z nieznaną liczbą powtórzeń: flowchart kanoniczne, trzy części, while True, for-vs-while." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Iteracja smyczków i pętle while – Python od zera – Cartesian School","description":"while motywowany jest problemami z nieznaną liczbą powtórzeń: flowchart kanoniczne, trzy części, while True, for-vs-while.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-03-perebor-strok-while.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-03-perebor-strok-while.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Struny i while</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Cykle while</h1>
+<p class="lede">for potrafi przechodzić nie tylko przez liczby, ale while powtarza tę czynność, dopóki warunek pozostaje spełniony, bez względu na to, ile razy to potrwa.</p>
+<h2>Gdy liczba powtórzeń nie jest znana z góry</h2>
+<p><code class="inline">for</code> jest świetne, gdy wiemy z góry, ile razy
+    Musisz powtórzyć czynność – "4 boki kwadratu", "wszystkie litery słowa". A co jeśli
+    Liczba powtórzeń nie jest znana z góry – na przykład: "Powtarzaj, aż użytkownik zgadnie
+    liczba"? Dla takich problemów istnieje drugi typ cyklu — <code class="inline">while</code>.</p>
+<h2>Cykle while</h2>
+<p>W przeciwieństwie do <code class="inline">for</code>, <code class="inline">while</code>
+    powtarza się <strong>ten warunek nadal jest prawdziwy</strong>:</p>
+<div class="code-block">
+<div class="code-label"><span>cikl_while.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>count = <span class="tok-num">0</span>
+<span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(count)
+    count += <span class="tok-num">1</span></code></pre>
+</div>
+<h3>Kanoniczne flowchart cyklu while</h3>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="while count &lt; 5: – sprawdzanie stanu PRZED każdym ciałem, w tym pierwszym" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:745px" viewbox="15.0 0 745.0 388.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrowfc1" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-25-arrowfc1-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-25-arrowfc1-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-25-arrowfc1-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-25-arrowfc1)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="121.0">count = 0</tspan></text><line marker-end="url(#pl-svg-25-arrowfc1)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="144.0" y2="170.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,170.0 275.0,220.0 160.0,270.0 45.0,220.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="225.0">count &lt; 5?</tspan></text><path d="M275.0,220.0 H287.5 V186.0 H300.0" fill="none" marker-end="url(#pl-svg-25-arrowfc1-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="287.5" y="204.0">TAK</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="158.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="191.0">print(count)</tspan></text><line marker-end="url(#pl-svg-25-arrowfc1)" stroke="#B9A0FC" stroke-width="2.5" x1="405.0" x2="405.0" y1="214.0" y2="226.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="226.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="259.0">count += 1</tspan></text><path d="M510.0,254.0 L570.0,254.0 L570.0,220.0 L275.0,220.0" fill="none" marker-end="url(#pl-svg-25-arrowfc1-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="578.0" y="237.0">temu</text><line marker-end="url(#pl-svg-25-arrowfc1-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="270.0" y2="296.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="186.0" y="283.0">NIE</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="296.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="327.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">while count &lt; 5: – sprawdzanie stanu PRZED każdym ciałem, w tym pierwszym</figcaption></figure>
+<h3>Trzy części cyklu while</h3>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Część</th><th>Kodeks</th><th>Rola</th></tr></thead>
+<tbody><tr><td>Inicjalizacja</td><td><code class="inline">count = 0</code></td><td>przygotowuje stan PRZED pierwszym sprawdzeniem warunku</td></tr><tr><td>Stan</td><td><code class="inline">count &lt; 5</code></td><td>sprawdzane przed każdą iteracją, w tym pierwszą</td></tr><tr><td>Aktualizacja</td><td><code class="inline">count += 1</code></td><td>zmienia stan tak, aby warunek w końcu stał się fałszywy</td></tr></tbody>
+</table>
+</div>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Iteracja</th><th>Sprawdzanie count lt 5</th><th>Podsumowanie</th><th>count po kroku</th></tr></thead>
+<tbody><tr><td>1</td><td>0 &lt; 5 → tak</td><td>0</td><td>1</td></tr><tr><td>2</td><td>1 &lt; 5 → tak</td><td>1</td><td>2</td></tr><tr><td>3</td><td>2 &lt; 5 → tak</td><td>2</td><td>3</td></tr><tr><td>4</td><td>3 &lt; 5 → tak</td><td>3</td><td>4</td></tr><tr><td>5</td><td>4 &lt; 5 → tak</td><td>4</td><td>5</td></tr><tr><td>—</td><td>5 &lt; 5 → nie</td><td>pętla zakończona</td><td>—</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">while jest pre-test cykl</div>
+<div class="callout-body">Stan w <code class="inline">while</code> sprawdzane <strong>do</strong> ciało, co oznacza, że jeśli warunek jest początkowo fałszywy, ciało nie zostanie w ogóle wykonane (zero iteracji). W Python nie ma osobnej pętli „najpierw wykonaj, potem sprawdź” <code class="inline">do/while</code>) — jeśli takie zachowanie jest potrzebne, symulują je poprzez <code class="inline">while True</code> z <code class="inline">break</code> na końcu ciała (tę technikę zobaczymy na następnej stronie).</div>
+</div>
+</div>
+<h2 id="while-true">Nieskończona pętla – celowo i przypadkowo</h2>
+<p>Dokładnie przyjrzyj się temu kodowi:</p>
+<div class="code-block">
+<div class="code-label"><span>beskonechnyj_cikl.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>count = <span class="tok-num">0</span>
+<span class="tok-kw">while</span> count &lt; <span class="tok-num">5</span>:
+    <span class="tok-fn">print</span>(count)
+    <span class="tok-com"># zapomniałem count += 1!</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Stan (count) nie zmienia się między iteracjami – warunek ten pozostaje prawdziwy na zawsze" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:560px" viewbox="5.0 0 560.0 388.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrowfc2" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-26-arrowfc2-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-26-arrowfc2-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-26-arrowfc2-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="55.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="150.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-26-arrowfc2)" stroke="#B9A0FC" stroke-width="2.5" x1="150.0" x2="150.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="45.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="150.0" y="121.0">print(count)</tspan></text><line marker-end="url(#pl-svg-26-arrowfc2)" stroke="#B9A0FC" stroke-width="2.5" x1="150.0" x2="150.0" y1="144.0" y2="170.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="150.0,170.0 265.0,220.0 150.0,270.0 35.0,220.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="150.0" y="225.0">count &lt; 5?</tspan></text><path d="M265.0,220.0 L375.0,220.0 L375.0,116.0 L255.0,116.0" fill="none" marker-end="url(#pl-svg-26-arrowfc2-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="383.0" y="210.0">TAK – powtarzam</text><line marker-end="url(#pl-svg-26-arrowfc2-p)" stroke="#DB2777" stroke-width="2.5" x1="150.0" x2="150.0" y1="270.0" y2="296.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="176.0" y="283.0">NIE</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="55.0" y="296.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="150.0" y="327.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Stan (count) nie zmienia się między iteracjami – warunek ten pozostaje prawdziwy na zawsze</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Jak zatrzymać zamrożony program</div>
+<div class="callout-body">Jeśli program utknął w nieskończonej pętli, kliknij <code class="inline">Ctrl+C</code> (lub przycisk „Stop”/„Interrupt kernel” w Jupyter). Zawsze sprawdzaj, co jest w środku <code class="inline">while</code> istnieje krok, który prędzej czy później sprawi, że stan zostanie fałszywy.</div>
+</div>
+</div>
+<h2>while True też jest normalne</h2>
+<p><code class="inline">while True</code> tworzy pętlę, której stan sam nigdy się nie powtórzy
+    nie stanie się fałszywym — jedynym wyjściem: <code class="inline">break</code> wewnątrz ciała.
+    Jest to powszechna i absolutnie poprawna technika, gdy stan zatrzymania jest bardziej naturalny
+    Sprawdź na środku ciała, a nie na początku – użyjemy tego na następnej stronie.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">while True samo w sobie nie jest błędem</div>
+<div class="callout-body"><code class="inline">while True:</code> nie jest samo w sobie „złą praktyką” — to świadome narzędzie. Problem pojawia się dopiero wtedy, gdy wewnątrz zapomni się ustawić <code class="inline">break</code> – wtedy ten cykl naprawdę nigdy się nie skończy.</div>
+</div>
+</div>
+<h2>Iteracja po łańcuchach znaków — przypomnienie</h2>
+<p>Struna to łańcuch znaków (Rozdział 8) — <code class="inline">for</code>
+    potrafi iterować po niej bezpośrednio, bez indeksów (szczegółowa analiza indeksu i wartości — na stronie o enumerate()):</p>
+<div class="code-block">
+<div class="code-label"><span>perebor_strok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> letter <span class="tok-kw">in</span> <span class="tok-str">"Python"</span>:
+    <span class="tok-fn">print</span>(letter)</code></pre>
+</div>
+<h2>for czy while?</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">Wytyczne, a nie sztywne reguły</div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Liczba powtórzeń jest znana wcześniej („narysuj 4 boki”, „przejdź przez wszystkie litery”)</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Liczba powtórzeń nie jest znana z góry („dopóki użytkownik nie zgadnie”</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">while</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Bardziej naturalne jest sprawdzanie stanu zatrzymania się w środku ciała</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">while True + break</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Musisz przejść przez gotową sekwencję (łańcuch znaków, lista, range)</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Oba rodzaje pętli są równie potężne pod względem Python — wybór wpływa na czytelność kodu, a nie na to, co w ogóle jest możliwe</figcaption></figure>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: pętle while</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-03"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-03/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-03"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-03"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: for czy while – którą wybrać wybrać?</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-23"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-23/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html"><div class="dir">← Back</div><div class="lbl">if i zagnieżdżone pętle</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-04-break-continue.html"><div class="dir">Następny →</div><div class="lbl">break, continue i loop-else</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

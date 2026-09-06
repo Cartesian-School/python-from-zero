@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Transformacje i comprehensions — Python od zera — Cartesian School</title>
+<meta content="Konwersje między kolekcjami, split()/join() sorted() dla różnych kolekcji, list/set/dict comprehension, wyrażenie generatora." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Transformacje i comprehensions — Python od zera — Cartesian School" />
+<meta property="og:description" content="Konwersje między kolekcjami, split()/join() sorted() dla różnych kolekcji, list/set/dict comprehension, wyrażenie generatora." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Transformacje i comprehensions — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Konwersje między kolekcjami, split()/join() sorted() dla różnych kolekcji, list/set/dict comprehension, wyrażenie generatora." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Transformacje i comprehensions — Python od zera — Cartesian School","description":"Konwersje między kolekcjami, split()/join() sorted() dla różnych kolekcji, list/set/dict comprehension, wyrażenie generatora.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 11 · Dane</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-11/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-11/11-11-zachem-hranit-mnogo.html">Dlaczego przechowywać wiele wartości</a></li><li><a href="/pl/chapters/rozdzial-11/11-01-spiski-osnovy.html">Listy: podstawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-02-srezy-spiskov.html">Sekatory list</a></li><li><a href="/pl/chapters/rozdzial-11/11-12-izmenyaem-spisok.html">Zmiana lista</a></li><li><a href="/pl/chapters/rozdzial-11/11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="/pl/chapters/rozdzial-11/11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="/pl/chapters/rozdzial-11/11-03-operacii-so-spiskami.html">Potężne operacje list</a></li><li><a href="/pl/chapters/rozdzial-11/11-15-spiski-i-cikly.html">Listy i pętle</a></li><li><a href="/pl/chapters/rozdzial-11/11-16-ssylki-aliasing.html">Kompendium, aliasing, == i is</a></li><li><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html">Listy kopiowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html">Więcej o listach</a></li><li><a href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html">Mini Projekt: Kolorowa Gwiazda</a></li><li><a href="/pl/chapters/rozdzial-11/11-06-kortezhi.html">Krotki</a></li><li><a href="/pl/chapters/rozdzial-11/11-18-zip-i-raspakovka.html">zip() i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-11/11-07-mnozhestva.html">Zestawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-19-mnozhestva-operacii.html">Operacje setów i możliwość hasowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-08-slovari.html">Słowniki</a></li><li><a href="/pl/chapters/rozdzial-11/11-20-slovari-metody.html">Metody słowników</a></li><li><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html">Zagnieżdżone struktury</a></li><li><a class="active" href="/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html">Przemiany i comprehensions</a></li><li><a href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html">Mini Project: Nieskończone Kolory</a></li><li><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html">Jak wybrać odpowiednią strukturę</a></li><li><a href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html">Debugowanie kolekcji</a></li><li><a href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html">Mini-projekt: częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html">Mini-projekty z kolekcjami</a></li><li><a href="/pl/chapters/rozdzial-11/11-10-mini-proekt-perestanovka-itogi.html">Permutacja nazw i streszczenia</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/11-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-11: Praktyka</a></li><li><a href="/pl/practice/11-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-01: Praktyka</a></li><li><a href="/pl/practice/11-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-02: Praktyka</a></li><li><a href="/pl/practice/11-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-12: Praktyka</a></li><li><a href="/pl/practice/11-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-13: Praktyka</a></li><li><a href="/pl/practice/11-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-14: Praktyka</a></li><li><a href="/pl/practice/11-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-03: Praktyka</a></li><li><a href="/pl/practice/11-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-15: Praktyka</a></li><li><a href="/pl/practice/11-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-16: Praktyka</a></li><li><a href="/pl/practice/11-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-17: Praktyka</a></li><li><a href="/pl/practice/11-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-04: Praktyka</a></li><li><a href="/pl/practice/11-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-05: Praktyka</a></li><li><a href="/pl/practice/11-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-06: Praktyka</a></li><li><a href="/pl/practice/11-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-18: Praktyka</a></li><li><a href="/pl/practice/11-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-07: Praktyka</a></li><li><a href="/pl/practice/11-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-19: Praktyka</a></li><li><a href="/pl/practice/11-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-08: Praktyka</a></li><li><a href="/pl/practice/11-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-20: Praktyka</a></li><li><a href="/pl/practice/11-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-21: Praktyka</a></li><li><a href="/pl/practice/11-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-22: Praktyka</a></li><li><a href="/pl/practice/11-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-09: Praktyka</a></li><li><a href="/pl/practice/11-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-23: Praktyka</a></li><li><a href="/pl/practice/11-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-24: Praktyka</a></li><li><a href="/pl/practice/11-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-25: Praktyka</a></li><li><a href="/pl/practice/11-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-26: Praktyka</a></li><li><a href="/pl/practice/11-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-22-preobrazovaniya-i-comprehensions.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-11/index.html">Rozdział 11</a> / Przemiany i comprehensions</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 11 · Mnóstwo informacji!</div>
+<h1>Przemiany i comprehensions</h1>
+<p class="lede">Od list()/tuple()/set() do zwartego sposobu budowania nowych kolekcji w jednej linii — ale dopiero po zrozumieniu zwykłego cyklu.</p>
+<h2>Konwersje między kolekcjami</h2>
+<div class="code-block">
+<div class="code-label"><span>preobrazovaniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">list</span>(<span class="tok-str">"Python"</span>))            <span class="tok-com"># ['P', 'y', 't', 'h', 'o', 'n']</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">tuple</span>([<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]))          <span class="tok-com"># (1, 2, 3)</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">set</span>([<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]))          <span class="tok-com"># {1, 2, 3}</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">dict() wymaga pary „klucz, wartość”</div>
+<div class="callout-body"><code class="inline">dict(...)</code> przekształca w słownik nie każdą kolekcję, tylko taką, z której można utworzyć pary: na przykład, <code class="inline">dict(zip(a, b))</code> z §11.14. Proste <code class="inline">dict([1, 2, 3])</code> spowoduje błąd.</div>
+</div>
+</div>
+<h2>String lista ↔ to najczęstsza konwersja</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="text.split() → lista, ' '. join(lista) → łańcuch znaków z powrotem" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:664px;" viewbox="0 0 664 120" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-27-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">łańcuch znaków</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">"a,b,c"</tspan></text><line marker-end="url(#pl-svg-27-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">split()</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">['a', 'b', 'c']</tspan></text><line marker-end="url(#pl-svg-27-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">join()</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">"a,b,c"</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">text.split() → lista, ' '. join(lista) → łańcuch znaków z powrotem</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>split_join.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>text = <span class="tok-str">"python git linux"</span>
+words = text.split()
+<span class="tok-fn">print</span>(words)          <span class="tok-com"># ['python', 'git', 'linux']</span>
+<span class="tok-fn">print</span>(<span class="tok-str">" "</span>.join(words))   <span class="tok-com"># "python git linux"</span></code></pre>
+</div>
+<h2>sorted() dla różnych kolekcji</h2>
+<div class="code-block">
+<div class="code-label"><span>sorted_raznoe.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>((<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>)))          <span class="tok-com"># [1, 2, 3] - z krotki</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>({<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>}))           <span class="tok-com"># [1, 2, 3] — zestawu</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">sorted</span>({<span class="tok-str">"b"</span>: <span class="tok-num">1</span>, <span class="tok-str">"a"</span>: <span class="tok-num">2</span>}))   <span class="tok-com"># ['a', 'b'] — KLUCZE są sortowane ze słownika</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">sorted() zawsze zwraca lista</div>
+<div class="callout-body">Niezależnie od tego, co było przy wejściu – konwoj, zbiór czy słownik – <code class="inline">sorted()</code> zawsze daje to, co zwykle. <code class="inline">list</code>.</div>
+</div>
+</div>
+<h2>List comprehension już jest znajome, teraz krok po kroku</h2>
+<div class="code-block">
+<div class="code-label"><span>comprehension_klassika.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>kvadraty = []
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    kvadraty.append(n ** <span class="tok-num">2</span>)
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>comprehension_novyj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>kvadraty = [n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>)]
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="[wyrażenie for n in źródło] jest tym samym co pętla, ale w jednej linii" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:664px;" viewbox="0 0 664 120" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-28-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">źródło</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">range(1, 6)</tspan></text><line marker-end="url(#pl-svg-28-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">wyraz twarzy</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">n ** 2</tspan></text><line marker-end="url(#pl-svg-28-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">wynik</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">[1, 4, 9, 16, 25]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">[wyrażenie for n in źródło] jest tym samym co pętla, ale w jednej linii</figcaption></figure>
+<h2>Comprehension z warunkiem</h2>
+<div class="code-block">
+<div class="code-label"><span>comprehension_uslovie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chetnye = [n <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">10</span>) <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>]
+<span class="tok-fn">print</span>(chetnye)   <span class="tok-com"># [0, 2, 4, 6, 8]</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Końcowy warunek - Filtr: Element zostanie uwzględniony w wyniku tylko wtedy, gdy warunek True" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:664px;" viewbox="0 0 664 120" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-29-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">źródło</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">range(10)</tspan></text><line marker-end="url(#pl-svg-29-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">filtr</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">if n % 2 == 0</tspan></text><line marker-end="url(#pl-svg-29-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="50.0" y2="50.0"></line><rect fill="#EDE9FE" height="80" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">wynik</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">[0, 2, 4, 6, 8]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Końcowy warunek - Filtr: Element zostanie uwzględniony w wyniku tylko wtedy, gdy warunek True</figcaption></figure>
+<h2>Set i dict comprehension</h2>
+<div class="code-block">
+<div class="code-label"><span>set_comprehension.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>unikalnye_bukvy = {ch.lower() <span class="tok-kw">for</span> ch <span class="tok-kw">in</span> <span class="tok-str">"Python"</span>}
+<span class="tok-fn">print</span>(unikalnye_bukvy)</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>dict_comprehension.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>kvadraty_slovar = {n: n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">5</span>)}
+<span class="tok-fn">print</span>(kvadraty_slovar)   <span class="tok-com"># {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</span></code></pre>
+</div>
+<p>Ta sama idea „źródło → wyrażenie → wynik”</p>
+<div class="callout callout-info">
+<div class="cs-icon-emblem cs-icon-emblem--launch"><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg></div>
+<div>
+<div class="callout-title">Trochę głębiej — wyrażenia generatorowe</div>
+<div class="callout-body"><code class="inline">(n ** 2 for n in range(5))</code> — wyrażenie generatorowe, podobne do comprehension, ale nie budujące lista całego na raz w pamięci, tylko zwracające wartości po jednej. Przyda się później, gdy będziemy mówić o iteratorach i pracy z dużymi zbiorami danych.</div>
+</div>
+</div>
+<div class="cvm">
+<div class="cvm-header">Budowanie listy: cykl vs comprehension</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Cykl z append()</div>
+<pre><code>kuby = []
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        kuby.append(n ** <span class="tok-num">3</span>)</code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">List comprehension</div>
+<pre><code>kuby = [n ** <span class="tok-num">3</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>) <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>]</code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> comprehension prostych transformacji i filtrów — krótko mówiąc, i czyta się jak jedna myśl. Ale comprehension NIE jest uniwersalnym narzędziem do głębokiego kopiowania i nie zastępuje pętli, jeśli potrzebujesz efektów ubocznych w środku (print, zapis do pliku, kilka warunków z inną logiką) — wtedy zwykła pętla z append() jest łatwiejsza do odczytania.</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: transformacje i comprehensions</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="11-22"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/11-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html"><div class="dir">← Back</div><div class="lbl">Zagnieżdżone struktury</div></a><a class="next" href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html"><div class="dir">Następny →</div><div class="lbl">Mini Project: Nieskończone Kolory</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

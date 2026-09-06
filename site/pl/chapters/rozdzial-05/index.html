@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 5. Pobawmy się liczbami! — Python od zera — Cartesian School</title>
+<meta content="Głębokie zanurzenie w obliczenia matematyczne Python: wyrażenia, operatory i ich priorytety, tłumaczenie formuł z matematyki na kod, moduł math (pierwiastki, geometria, trygonometria, logarytmy), moduł random (pseudolosowość, seed, odtwarzalność) oraz debugowanie obliczeń." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-05/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-05/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 5. Pobawmy się liczbami! — Python od zera — Cartesian School" />
+<meta property="og:description" content="Głębokie zanurzenie w obliczenia matematyczne Python: wyrażenia, operatory i ich priorytety, tłumaczenie formuł z matematyki na kod, moduł math (pierwiastki, geometria, trygonometria, logarytmy), moduł random (pseudolosowość, seed, odtwarzalność) oraz debugowanie obliczeń." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-05/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 5. Pobawmy się liczbami! — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Głębokie zanurzenie w obliczenia matematyczne Python: wyrażenia, operatory i ich priorytety, tłumaczenie formuł z matematyki na kod, moduł math (pierwiastki, geometria, trygonometria, logarytmy), moduł random (pseudolosowość, seed, odtwarzalność) oraz debugowanie obliczeń." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 5. Pobawmy się liczbami! — Python od zera — Cartesian School","description":"Głębokie zanurzenie w obliczenia matematyczne Python: wyrażenia, operatory i ich priorytety, tłumaczenie formuł z matematyki na kod, moduł math (pierwiastki, geometria, trygonometria, logarytmy), moduł random (pseudolosowość, seed, odtwarzalność) oraz debugowanie obliczeń.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-05/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 5 · STR. 528</div>
+<h1>Pobawmy się liczbami!</h1>
+<p>Głębokie zanurzenie w obliczenia matematyczne Python: wyrażenia, operatory i ich priorytety, tłumaczenie formuł z matematyki na kod, moduł math (pierwiastki, geometria, trygonometria, logarytmy), moduł random (pseudolosowość, seed, odtwarzalność) oraz debugowanie obliczeń.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~4 godziny</span><span><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> math i random szczegółowo</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21 treningów</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-05/05-01-osnovnye-operacii.html"><span><span class="si-num">5.1</span>Wyrażenia i podstawowe operacje</span><span class="si-page">531</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-07-delenie-s-ostatkom.html"><span><span class="si-num">5.2</span>Podział z resztą</span><span class="si-page">538</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html"><span><span class="si-num">5.3</span>Ujemne dzielenie całkowite przez floor</span><span class="si-page">544</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-02-specialnye-operacii.html"><span><span class="si-num">5.4</span>Stopnie naukowe i korzenie</span><span class="si-page">549</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-09-unarnye-operatory.html"><span><span class="si-num">5.5</span>Operatory unarne</span><span class="si-page">555</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html"><span><span class="si-num">5.6</span>Kolejność przypisania i obliczeń</span><span class="si-page">559</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-10-associativnost.html"><span><span class="si-num">5.7</span>Skojarzenie operatorów</span><span class="si-page">566</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-11-skobki-i-formuly.html"><span><span class="si-num">5.8</span>Nawiasy i wzory ze zmiennych</span><span class="si-page">572</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-12-perevod-formul.html"><span><span class="si-num">5.9</span>Tłumaczenie wzorów: matematyka → Python</span><span class="si-page">579</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-04-matematicheskie-funkcii.html"><span><span class="si-num">5.10</span>Moduł math – Mapa Możliwości</span><span class="si-page">589</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-13-korni-rasstoyaniya.html"><span><span class="si-num">5.11</span>Korzenie i odległości</span><span class="si-page">603</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-14-gcd-lcm-faktorial.html"><span><span class="si-num">5.12</span>gcd, lcm, czynnikowy, comb, perm</span><span class="si-page">608</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-15-geometriya-s-math.html"><span><span class="si-num">5.13</span>Geometria z math</span><span class="si-page">613</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-16-trigonometriya.html"><span><span class="si-num">5.14</span>Trygonometria bez strachu</span><span class="si-page">619</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-17-logarifmy.html"><span><span class="si-num">5.15</span>Logarytmy i wykładniki</span><span class="si-page">626</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-05-sluchaynye-chisla.html"><span><span class="si-num">5.16</span>Moduł pseudolosowości random:</span><span class="si-page">631</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-18-randint-randrange-uniform.html"><span><span class="si-num">5.17</span>randint, randrange, uniform</span><span class="si-page">636</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-19-choice-sample-shuffle.html"><span><span class="si-num">5.18</span>choice, choices, sample, shuffle</span><span class="si-page">641</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-20-seed.html"><span><span class="si-num">5.19</span>seed i powtarzalność</span><span class="si-page">648</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html"><span><span class="si-num">5.20</span>Obliczania debugowania</span><span class="si-page">655</span></a><a class="section-item" href="/pl/chapters/rozdzial-05/05-06-mini-proekt-itogi.html"><span><span class="si-num">5.21</span>Mini-projekty i podsumowania</span><span class="si-page">667</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debug Lab: typowe błędy funkcji — Python od zera — Cartesian School</title>
+<meta content="10 typowych błędów przy pracy z funkcjami: błędy None-bugs, odkryte return ścieżki, return w pętli, return vs break, losowe mutacje argumentów i inne." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-13/13-23-debug-lab-funkcii.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-13/13-23-debug-lab-funkcii.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Lab: typowe błędy funkcji — Python od zera — Cartesian School" />
+<meta property="og:description" content="10 typowych błędów przy pracy z funkcjami: błędy None-bugs, odkryte return ścieżki, return w pętli, return vs break, losowe mutacje argumentów i inne." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Lab: typowe błędy funkcji — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="10 typowych błędów przy pracy z funkcjami: błędy None-bugs, odkryte return ścieżki, return w pętli, return vs break, losowe mutacje argumentów i inne." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Lab: typowe błędy funkcji — Python od zera — Cartesian School","description":"10 typowych błędów przy pracy z funkcjami: błędy None-bugs, odkryte return ścieżki, return w pętli, return vs break, losowe mutacje argumentów i inne.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-23-debug-lab-funkcii.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 13 · Funkcje</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-13/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-13/13-09-zachem-programme-funkcii.html">Dlaczego program potrzebuje funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-01-nastoyashaya-avtomatizaciya.html">Prawdziwa automatyzacja. Pierwsza funkcja</a></li><li><a href="/pl/chapters/rozdzial-13/13-10-vyzov-i-vozvrat-upravlenie.html">Co się dzieje podczas wywołania</a></li><li><a href="/pl/chapters/rozdzial-13/13-02-zachem-funkcii.html">Parametr i argument</a></li><li><a href="/pl/chapters/rozdzial-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Argumenty zmienne i niezmienne</a></li><li><a href="/pl/chapters/rozdzial-13/13-12-pozicionnye-i-imennye.html">Argumenty pozycyjne i nazwane</a></li><li><a href="/pl/chapters/rozdzial-13/13-04-argumenty.html">Wartości domyślne i *args</a></li><li><a href="/pl/chapters/rozdzial-13/13-13-args-kwargs-raspakovka.html">*args, **kwargs i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-13/13-14-positional-only-keyword-only.html">Positional-only i keyword-only</a></li><li><a href="/pl/chapters/rozdzial-13/13-03-vozvrashaem-otvet.html">Odpowiedz</a></li><li><a href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html">Wejście, Operacja, Wyjście: Funkcje czyste</a></li><li><a href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html">Zmienne globalne i lokalne</a></li><li><a href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html">Zagnieżdżone funkcje i nonlocal</a></li><li><a href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html">Stos wywołań i traceback</a></li><li><a href="/pl/chapters/rozdzial-13/13-18-proektiruem-funkciyu.html">Projektowanie dobrej funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-19-dokumentaciya-i-tipy.html">Dockstringi i wskazówki typu</a></li><li><a href="/pl/chapters/rozdzial-13/13-20-funkcii-kak-obekty.html">Funkcje jako obiekty</a></li><li><a href="/pl/chapters/rozdzial-13/13-06-lambda.html">Funkcje lambda</a></li><li><a href="/pl/chapters/rozdzial-13/13-21-funkcii-kak-konvejer.html">Funkcje jak taśma produkcyjna</a></li><li><a href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html">Refaktoryzacja projektów rozdziału 12</a></li><li><a class="active" href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html">Debug Lab: typowe błędy funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html">Funkcje testowania</a></li><li><a href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html">Mini-projekt: zadanie domowe z matematyki</a></li><li><a href="/pl/chapters/rozdzial-13/13-25-mini-proekt-analizator-v2.html">Mini-projekt: Analizator tekstu v2</a></li><li><a href="/pl/chapters/rozdzial-13/13-26-mini-proekt-konverter-i-utility.html">Mini-projekty: konwerter i narzędzia kolekcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html">Mini-projekt: Turtle Function Studio i wnioski</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/13-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-09: Praktyka</a></li><li><a href="/pl/practice/13-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-01: Praktyka</a></li><li><a href="/pl/practice/13-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-10: Praktyka</a></li><li><a href="/pl/practice/13-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-02: Praktyka</a></li><li><a href="/pl/practice/13-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-11: Praktyka</a></li><li><a href="/pl/practice/13-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-12: Praktyka</a></li><li><a href="/pl/practice/13-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-04: Praktyka</a></li><li><a href="/pl/practice/13-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-13: Praktyka</a></li><li><a href="/pl/practice/13-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-14: Praktyka</a></li><li><a href="/pl/practice/13-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-03: Praktyka</a></li><li><a href="/pl/practice/13-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-15: Praktyka</a></li><li><a href="/pl/practice/13-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-05: Praktyka</a></li><li><a href="/pl/practice/13-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-16: Praktyka</a></li><li><a href="/pl/practice/13-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-17: Praktyka</a></li><li><a href="/pl/practice/13-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-18: Praktyka</a></li><li><a href="/pl/practice/13-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-19: Praktyka</a></li><li><a href="/pl/practice/13-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-20: Praktyka</a></li><li><a href="/pl/practice/13-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-06: Praktyka</a></li><li><a href="/pl/practice/13-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-21: Praktyka</a></li><li><a href="/pl/practice/13-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-22: Praktyka</a></li><li><a href="/pl/practice/13-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-23: Praktyka</a></li><li><a href="/pl/practice/13-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-24: Praktyka</a></li><li><a href="/pl/practice/13-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-07: Praktyka</a></li><li><a href="/pl/practice/13-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-25: Praktyka</a></li><li><a href="/pl/practice/13-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-26: Praktyka</a></li><li><a href="/pl/practice/13-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-27: Praktyka</a></li><li><a href="/pl/practice/13-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-08: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-23-debug-lab-funkcii.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-13/index.html">Rozdział 13</a> / Debug Lab: funkcje</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 13 · Automatyzacja z funkcjami</div>
+<h1>Debug Lab: typowe błędy funkcji</h1>
+<p class="lede">Zapomniany return return wewnątrz pętli w pierwszej iteracji, losowo zmutowany argument — dziesięć błędów, które powtarzają się wielokrotnie w rzeczywistym kodzie.</p>
+<p>Dziesięć typowych błędów związanych z funkcjami — każdy z przykładem i wyjaśnieniem.
+    Pierwsze dwa były już omówione osobno (§13.1, §13.13) — tutaj dla kompletności listy, zwięźle;
+    pozostałe osiem — szczegółowo.</p>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">1 · Losowe wywołanie przed definicją</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>greet()
+
+<span class="tok-kw">def</span> greet():
+    <span class="tok-fn">print</span>(<span class="tok-str">'Cześć'</span>)</code></pre>
+</div>
+<p style="margin-top:10px">W momencie połączenia greet() nie jest jeszcze zdefiniowany — Python wykonuje kod od góry do dołu i dzieje się NameError zanim łańcuch znaków def zdąży go wykonać.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">2 · Niewidoczny def w def</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> outer():
+    ...
+
+    <span class="tok-kw">def</span> helper():
+        ...</code></pre>
+</div>
+<p style="margin-top:10px">Wcięcie definiuje zagnieżdżanie. Jeśli helper jest wcięte wewnątrz outer, nie będzie widoczne z zewnątrz jako niezależna funkcja, tylko przez outer.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">3 · Funkcja zawsze zwraca None</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> calculate(x):
+    <span class="tok-fn">print</span>(x * <span class="tok-num">2</span>)
+
+result = calculate(<span class="tok-num">5</span>) + <span class="tok-num">1</span></code></pre>
+</div>
+<p style="margin-top:10px">calculate się drukuje, ale nie wraca – result staje się None i None + 1 powoduje TypeError.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">4 · Nie wszystkie ścieżki funkcji zwracają wartość</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> sign(number):
+    <span class="tok-kw">if</span> number &gt; <span class="tok-num">0</span>:
+        <span class="tok-kw">return</span> <span class="tok-str">'positive'</span>
+    <span class="tok-com"># a co jeśli number &lt;= 0?</span></code></pre>
+</div>
+<p style="margin-top:10px">Dla liczb ujemnych i zerowych funkcja osiąga koniec bez return — i bezszelestnie zwraca None.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">5 · return w pętli przy pierwszej iteracji</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> contains_even(numbers):
+    <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers:
+        <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+            <span class="tok-kw">return</span> <span class="tok-kw">True</span>
+        <span class="tok-kw">else</span>:
+            <span class="tok-kw">return</span> <span class="tok-kw">False</span></code></pre>
+</div>
+<p style="margin-top:10px">return w rozgałęzieniu else jest już wyzwalane na pierwszym elemencie — nie wszystkie liczby są zaznaczone. Poprawnie: return True wewnątrz if, a return False — po całej pętli, z tym samym wcięciem co for.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">6 · return pomieszane z break</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> find_first_even(numbers):
+    <span class="tok-kw">for</span> n <span class="tok-kw">in</span> numbers:
+        <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+            <span class="tok-kw">break</span>   <span class="tok-com"># a nie return n!</span></code></pre>
+</div>
+<p style="margin-top:10px">break po prostu zatrzymuje cykl — n trzeba jeszcze jawnie zwrócić oddzielnym wierszem po cyklu. return natychmiast wychodzi z CAŁEJ funkcji, break — tylko z najbliższego cyklu.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">7 · Niespodziewana mutacja przekazanej listy</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> sorted_names(names):
+    names.sort()
+    <span class="tok-kw">return</span> names</code></pre>
+</div>
+<p style="margin-top:10px">names.sort() mutuje lista kodu wywołującego w miejscu. Jeśli nie jest to przewidziane w planie, bezpieczniej return sorted(names) — nowy lista, oryginał pozostaje nietknięty.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">8 · Zapomnieli skopiować przed zmianą</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> normalize_items(items):
+    items[<span class="tok-num">0</span>] = items[<span class="tok-num">0</span>].strip()
+    <span class="tok-kw">return</span> items</code></pre>
+</div>
+<p style="margin-top:10px">Jeśli dane źródłowe trzeba zachować niezmienione, zacznij od items = items.copy() — ale pamiętaj o powierzchowności kopii (rozdział 11, §11.10) dla struktur zagnieżdżonych.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">9 · Stan globalny utrudnia testowanie</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>score = <span class="tok-num">0</span>
+
+<span class="tok-kw">def</span> add_point():
+    <span class="tok-kw">global</span> score
+    score += <span class="tok-num">1</span></code></pre>
+</div>
+<p style="margin-top:10px">Działa, ale trudniej jest przetestować taką funkcję osobno — jej wynik zależy od ukrytej zmiennej globalnej. def add_point(score): return score + 1 jest testowany na jednej linii, bez żadnej konfiguracji.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">10 · Parametr zacienia nazwę inline</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> total(<span class="tok-fn">list</span>):
+    <span class="tok-kw">return</span> <span class="tok-fn">sum</span>(<span class="tok-fn">list</span>)</code></pre>
+</div>
+<p style="margin-top:10px">list — nazwa wbudowanego typu. Zastąpienie jej parametrem działa, ale myli czytelnika i łamie dostęp do prawdziwego list() wewnątrz tej funkcji. Lepiej: def total(numbers):</p>
+</div>
+<div class="summary-box">
+<h3>Metoda debugowania funkcji</h3>
+<ul><li>Drukuje funkcja, czy zwraca? Sprawdź na papierze, zanim przeczytasz kod.</li><li>Sprawdzono WSZYSTKIE ścieżki wykonywania funkcji, w tym niejawny „koniec bez return"?</li><li>return w pętli — czy na pewno powinien zadziałać w tej iteracji?</li><li>Czy funkcja celowo mutuje argument przekazany? Jeśli nie, skopiuj go.</li><li>Czy nazwa parametru jest mylona z wbudowaną nazwą Python?</li></ul>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: znajdujemy i poprawiamy błędy w funkcjach</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="13-23"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/13-23/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html"><div class="dir">← Back</div><div class="lbl">Refaktoryzacja projektów rozdziału 12</div></a><a class="next" href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html"><div class="dir">Następny →</div><div class="lbl">Funkcje testowania</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

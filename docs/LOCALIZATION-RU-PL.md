@@ -177,3 +177,30 @@ a visible bidirectional RU|PL switcher on all three pairs. See
 `manifest/i18n/content/pl/` for the canonical PL sources. Chapter lesson
 bodies and exercise bodies remain untranslated; `practice-03-01` is
 unaffected. Production merge is still pending Product Owner review.
+
+## M02-I04 update: complete Polish web corpus
+
+M02-I04 replaces the temporary shell with a deterministic Polish build for all
+1,160 stable page identities: 24 chapter openers, 624 lessons, 493 practice
+units, 13 projects, the homepage, and the complete front-matter/reference
+set.  `scripts/build_polish_course.py` consumes the immutable route identities
+and the canonical translation memory in
+`manifest/i18n/content/pl/course_translation_memory.json`; generated
+`site/pl/**/*.html` and localized notebooks remain build outputs rather than
+manually maintained translation sources.
+
+The route manifest now carries every RU/PL pair and its current source hash.
+The states `translated` and `reviewed` are publishable for this completion
+milestone, while `approved` still requires schema-valid human review evidence.
+This separation permits a complete, usable course without falsely claiming the
+page-by-page linguistic, technical, visual, and pedagogical certification that
+belongs to M02-I05.  Stale source hashes remain a hard publication failure.
+
+`scripts/inject_language_switchers.py` installs exact manifest-derived desktop
+and mobile counterparts on every pair.  `scripts/build_llms_pl.py`, the SEO
+builder, and the sitemap builder cover the complete PL corpus.  The completion
+validator enforces cardinality and identity equality, meaningful page content,
+zero visible-prose Cyrillic, zero temporary localization copy, localized
+notebook availability, exact PL-to-RU routing, and absence of ordinary RU
+fallback links.  The canonical Vercel build runs all of these generation and
+validation stages automatically.

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Tkinter – wszystko poprawnie skonfiguruj! "Python od zera jest Cartesian School</title>
+<meta content="Co to tkinter, Tk kontrola dostępności, pierwsze okno, root jako obiekt oraz mainloop() jako pętla zdarzeń, a nie zamrożenie programu." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/16-01-nastraivaem-tkinter.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/16-01-nastraivaem-tkinter.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Tkinter – wszystko poprawnie skonfiguruj! &quot;Python od zera jest Cartesian School" />
+<meta property="og:description" content="Co to tkinter, Tk kontrola dostępności, pierwsze okno, root jako obiekt oraz mainloop() jako pętla zdarzeń, a nie zamrożenie programu." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tkinter – wszystko poprawnie skonfiguruj! &quot;Python od zera jest Cartesian School" />
+<meta name="twitter:description" content="Co to tkinter, Tk kontrola dostępności, pierwsze okno, root jako obiekt oraz mainloop() jako pętla zdarzeń, a nie zamrożenie programu." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Tkinter – wszystko poprawnie skonfiguruj! \"Python od zera jest Cartesian School","description":"Co to tkinter, Tk kontrola dostępności, pierwsze okno, root jako obiekt oraz mainloop() jako pętla zdarzeń, a nie zamrożenie programu.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-01-nastraivaem-tkinter.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 16 · Tkinter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-16/index.html">Przegląd rozdziału</a></li><li><a class="active" href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html">Tkinter — wszystko poprawnie skonfigurowane!</a></li><li><a href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html">Etykiety, guziki i pack</a></li><li><a href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html">Pola wejściowe</a></li><li><a href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html">Zmienne Tkinter</a></li><li><a href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html">Mnóstwo opcji!</a></li><li><a href="/pl/chapters/rozdzial-16/16-06-menu.html">Menu</a></li><li><a href="/pl/chapters/rozdzial-16/16-07-grid.html">Wiersze i kolumny są grid</a></li><li><a href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html">Mini Project: Kalkulator napiwków</a></li><li><a href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html">Od terminala do modelu zdarzenia GUI:</a></li><li><a href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html">Jak działa pętla zdarzeń i mainloop</a></li><li><a href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html">Widżet i drzewo interfejsu</a></li><li><a href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html">tk i ttk: klasyczne i tematyczne widżety</a></li><li><a href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html">Frame i LabelFrame: organizują interfejs</a></li><li><a href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html">pack szczegółowo: fill, expand i zagnieżdżone ramki</a></li><li><a href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html">Adaptacyjne grid: sticky i weight</a></li><li><a href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html">Widżety wyboru: Combobox, Listbox, Spinbox, Scale</a></li><li><a href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html">Progressbar i tabletki Notebook</a></li><li><a href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html">Messagebox i dialogi</a></li><li><a href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html">Otwieranie i zapisywanie plików: filedialog i pathlib</a></li><li><a href="/pl/chapters/rozdzial-16/16-20-toplevel.html">Toplevel: wiele okien</a></li><li><a href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html">Focus, klawiatura i podstawy dostępności</a></li><li><a href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html">after(): timery bez blokowania</a></li><li><a href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html">Walidacja i informacja zwrotna</a></li><li><a href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html">Architektura aplikacji: logika osobno od widżetów</a></li><li><a href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html">Klasa aplikacji i ustawienia trwałe</a></li><li><a href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html">Mini-projekt: licznik kliknięć</a></li><li><a href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html">Mini Project: Konwerter temperatury</a></li><li><a href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html">Mini-Projekt: Odliczający Timer</a></li><li><a href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html">Mini-projekt: lista zadania</a></li><li><a href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html">Mini-Projekt: Edytor Notatek</a></li><li><a href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html">Tip Calculator Pro: wersja ostateczna</a></li><li><a href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html">Debugowanie interfejsu i jakość GUI</a></li><li><a href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi Tkinter</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/16-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-01: Praktyka</a></li><li><a href="/pl/practice/16-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-02: Praktyka</a></li><li><a href="/pl/practice/16-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-03: Praktyka</a></li><li><a href="/pl/practice/16-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-04: Praktyka</a></li><li><a href="/pl/practice/16-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-05: Praktyka</a></li><li><a href="/pl/practice/16-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-06: Praktyka</a></li><li><a href="/pl/practice/16-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-07: Praktyka</a></li><li><a href="/pl/practice/16-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-08: Praktyka</a></li><li><a href="/pl/practice/16-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-09: Praktyka</a></li><li><a href="/pl/practice/16-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-10: Praktyka</a></li><li><a href="/pl/practice/16-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-11: Praktyka</a></li><li><a href="/pl/practice/16-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-12: Praktyka</a></li><li><a href="/pl/practice/16-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-13: Praktyka</a></li><li><a href="/pl/practice/16-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-14: Praktyka</a></li><li><a href="/pl/practice/16-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-15: Praktyka</a></li><li><a href="/pl/practice/16-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-16: Praktyka</a></li><li><a href="/pl/practice/16-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-17: Praktyka</a></li><li><a href="/pl/practice/16-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-18: Praktyka</a></li><li><a href="/pl/practice/16-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-19: Praktyka</a></li><li><a href="/pl/practice/16-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-20: Praktyka</a></li><li><a href="/pl/practice/16-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-21: Praktyka</a></li><li><a href="/pl/practice/16-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-22: Praktyka</a></li><li><a href="/pl/practice/16-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-23: Praktyka</a></li><li><a href="/pl/practice/16-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-24: Praktyka</a></li><li><a href="/pl/practice/16-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-25: Praktyka</a></li><li><a href="/pl/practice/16-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-26: Praktyka</a></li><li><a href="/pl/practice/16-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-27: Praktyka</a></li><li><a href="/pl/practice/16-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-28: Praktyka</a></li><li><a href="/pl/practice/16-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-29: Praktyka</a></li><li><a href="/pl/practice/16-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-30: Praktyka</a></li><li><a href="/pl/practice/16-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-31: Praktyka</a></li><li><a href="/pl/practice/16-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 16-32: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/16-01-nastraivaem-tkinter.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-16/index.html">Rozdział 16</a> / Przygotowanie Tkinter</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 16 · Tworzenie fajnych aplikacji z Tkinter</div>
+<h1>Tkinter — wszystko poprawnie skonfigurowane!</h1>
+<p class="lede">Pierwsza prawdziwa aplikacja okienkowa — i przejście od sekwencyjnego wykonania do modelu opartego na zdarzeniach.</p>
+<p>Dotychczas wszystkie programy albo wyświetlały tekst w terminalu (rozdziały 1–5, 8–15), albo rysowały
+    na płótnie Turtle (rozdziały 6–7, 12). Program terminalowy wykonuje się <strong>łańcuch znaków dla
+    struna</strong>: robi krok, czeka na wejścia przez <code class="inline">input()</code>, czy
+    Kolejnym krokiem jest ciągłe sterowanie programem. Aplikacja okienkowa jest projektowana inaczej: buduje się
+    interfejs raz, a potem <strong>czeka, aż użytkownik podejmie działanie</strong> i reaguje na nie w
+    dowolnej kolejności — użytkownik może kliknąć dowolny przycisk, wpisać tekst w dowolne pole,
+    zmienić rozmiar okna. To nazywa się <strong>Programowanie zdarzane</strong>
+    (event-driven programming), a ten model omówimy szczegółowo w sekcjach 16.9–16.10.</p>
+<p>Moduł dla aplikacji okienkowych nazywa się <code class="inline">tkinter</code> jest interfejs
+    Python do biblioteki graficznej Tcl/Tk i lubi <code class="inline">turtle</code>, wchodzi w
+    standardową dostawę Python:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="tkinter jest pomostem między Python a środowiskiem systemowym Windows, a nie GUI od nowa wymyślonym." data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:904px;" viewbox="0 0 904 134" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-33-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">Twój kod</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">obiekty i metody</tspan><tspan x="92.0" y="74">Python</tspan></text><line marker-end="url(#pl-svg-33-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">tkinter</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">moduł standardowy</tspan><tspan x="332.0" y="74">biblioteki</tspan></text><line marker-end="url(#pl-svg-33-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">Tcl/Tk</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">GUI-toolkit</tspan></text><line marker-end="url(#pl-svg-33-arrow)" stroke="#5B24F9" stroke-width="2" x1="670" x2="714" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="720" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="812.0" y="32">okno systemu operacyjnego</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="812.0" y="60">natywny interfejs</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">tkinter jest pomostem między Python a środowiskiem systemowym Windows, a nie GUI od nowa wymyślonym.</figcaption></figure>
+<h2>Check: Czy Tkinter dostępny?</h2>
+<p>Nie każda instalacja Python musi mieć środowisko pracy Tk. Szybka diagnoza:</p>
+<div class="code-block">
+<div class="code-label"><span>proverka_tkinter.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>python -m tkinter
+</code></pre>
+</div>
+<p>Jeśli Tkinter i Tk są dostępne — pojawi się małe okno testowe. Jeśli pojawi się błąd
+    importu lub okno się nie otwiera — z lokalną instalacją Python/Tk trzeba poradzić sobie osobno
+    (w sprawdzonych instrukcjach dla twojego systemu operacyjnego), zanim przejdziesz dalej w tym rozdziale.</p>
+<h2>Pierwsze okno</h2>
+<div class="code-block">
+<div class="code-label"><span>pervoe_okno.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> tkinter <span class="tok-kw">as</span> tk
+
+root = tk.Tk()
+root.title(<span class="tok-str">„Moja pierwsza aplikacja”</span>)
+
+root.mainloop()   <span class="tok-com"># rozpoczyna pętlę zdarzeń</span></code></pre>
+</div>
+<p><code class="inline">tk.Tk()</code> tworzy główne okno aplikacji — coś w rodzaju
+    <code class="inline">turtle.Screen()</code> stworzył płótno do malarstwa. To jest bezpośrednie powiązanie z
+    Rozdział 14: Rezultat <code class="inline">tk.Tk()</code> jest regularnym obiektem Python- z własnym
+    metodami.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg aria-label="root jest przykładem Tk z własnymi metodami; jest to OOP rozdziału 14 w prawdziwej bibliotece." data-diagram="uml-class" role="img" style="width:100%;height:auto;max-width:280px" viewbox="0 0 280 324" xmlns="http://www.w3.org/2000/svg"><rect fill="#EDE9FE" height="324" rx="2" stroke="#5B24F9" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#5B24F9" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" text-anchor="middle" x="140.0" y="26.0">Tk (root)</text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="62">— (stan okna</tspan><tspan x="26" y="80">przechowywane w środku)</tspan></text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="90" y2="90"></line><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="112">title(text)</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="140">geometry(„SxW”</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="168">minsize(w, h)</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="196">configure(...)</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="224">protocol(...)</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="252">after(...)</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="280">destroy()</tspan></text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="308">mainloop()</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">root jest przykładem Tk z własnymi metodami; jest to OOP rozdziału 14 w prawdziwej bibliotece.</figcaption></figure>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">root — powszechne konwencje nazewnictwa</div>
+<div class="callout-body">Główne okno jest zwykle nazywane <code class="inline">root</code> („rdzeń”</div>
+</div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Zazwyczaj jeden root na aplikację</div>
+<div class="callout-body">W zwykłym zastosowaniu, <strong>jeden</strong> cel <code class="inline">Tk()</code> na cały proces. Dla dodatkowych okien (ustawienia, dialogi) używa się <code class="inline">tk.Toplevel(...)</code> (sekcja 16.20), a nie drugi <code class="inline">Tk()</code>.</div>
+</div>
+</div>
+<h2 id="mainloop">mainloop() nie jest „zamrożeniem”</h2>
+<p><code class="inline">root.mainloop()</code> uruchamia cykl, który aktywnie obsługuje
+    zdarzenia: kliknięcia, wprowadzanie tekstu, zmianę rozmiaru okna. Program nie „zawiesza się” i nie „zasypia” —
+    czeka i reaguje, pozostając responsywny, aż zostanie zamknięty. Omówimy to szczegółowo
+    w rozdziale 16.10.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Stwórz pierwsze okno</div>
+<div class="nc-sub">Moduł tkinter otwiera natywne okno Python — wykonaj lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="16-01">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/16-01/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["16-01"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="16-01"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-16/index.html"><div class="dir">← Back</div><div class="lbl">Przegląd rozdziału</div></a><a class="next" href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html"><div class="dir">Następny →</div><div class="lbl">Etykiety, guziki i pack</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

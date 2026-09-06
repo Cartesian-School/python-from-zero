@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Projektowanie warunku: input, walidacja, granice — Python od podstaw — Cartesian School</title>
+<meta content="Różnica między walidacją a rozwiązaniem, praca z liczbowymi wejściami, wartościami brzegowymi i błędami off-by-one." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-09/09-21-proektirovanie-uslovij.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-09/09-21-proektirovanie-uslovij.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Projektowanie warunku: input, walidacja, granice — Python od podstaw — Cartesian School" />
+<meta property="og:description" content="Różnica między walidacją a rozwiązaniem, praca z liczbowymi wejściami, wartościami brzegowymi i błędami off-by-one." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Projektowanie warunku: input, walidacja, granice — Python od podstaw — Cartesian School" />
+<meta name="twitter:description" content="Różnica między walidacją a rozwiązaniem, praca z liczbowymi wejściami, wartościami brzegowymi i błędami off-by-one." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Projektowanie warunku: input, walidacja, granice — Python od podstaw — Cartesian School","description":"Różnica między walidacją a rozwiązaniem, praca z liczbowymi wejściami, wartościami brzegowymi i błędami off-by-one.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/09-21-proektirovanie-uslovij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 9 · Warunki i zasady</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-09/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-09/09-07-algoritmy-i-komandy.html">Algorytmy i polecenia</a></li><li><a href="/pl/chapters/rozdzial-09/09-08-tri-struktury-i-vetvlenie.html">Trzy struktury algorytmu i rozgałęzienie</a></li><li><a href="/pl/chapters/rozdzial-09/09-01-istina-ili-lozh.html">Prawda czy fałsz</a></li><li><a href="/pl/chapters/rozdzial-09/09-02-sravnenie-i-reshenie.html">Porównujemy i podejmujemy decyzję</a></li><li><a href="/pl/chapters/rozdzial-09/09-09-ravno-i-sravnenie-strok.html">Jaka jest różnica między = a == oraz jak porównywać łańcuch znaków</a></li><li><a href="/pl/chapters/rozdzial-09/09-10-cepochki-sravnenij.html">Łańcuchy porównawcze</a></li><li><a href="/pl/chapters/rozdzial-09/09-11-truthiness-i-none.html">Truthiness i None</a></li><li><a href="/pl/chapters/rozdzial-09/09-03-if-inache.html">Jeśli tak się stanie, wykonuj polecenie!</a></li><li><a href="/pl/chapters/rozdzial-09/09-12-elif-lestnica.html">elif — kilka opcji</a></li><li><a href="/pl/chapters/rozdzial-09/09-13-neskolko-if-protiv-elif.html">Kilka if ≠ if/elif/else</a></li><li><a href="/pl/chapters/rozdzial-09/09-14-and.html">and — wszystkie warunki naraz</a></li><li><a href="/pl/chapters/rozdzial-09/09-15-or.html">or — przynajmniej jeden</a></li><li><a href="/pl/chapters/rozdzial-09/09-16-not.html">not — odwróć warunek</a></li><li><a href="/pl/chapters/rozdzial-09/09-04-neskolko-uslovij.html">Więcej niż jeden warunek!</a></li><li><a href="/pl/chapters/rozdzial-09/09-17-short-circuit.html">Short-circuit: Python czasem leniwy</a></li><li><a href="/pl/chapters/rozdzial-09/09-18-in-not-in.html">in / not in jako warunek</a></li><li><a href="/pl/chapters/rozdzial-09/09-19-is-vs-ravno.html">is wady ==</a></li><li><a href="/pl/chapters/rozdzial-09/09-20-vlozhennye-uslovija.html">Zagnieżdżone warunki</a></li><li><a class="active" href="/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html">Projektowanie warunku: input, walidacja, granice</a></li><li><a href="/pl/chapters/rozdzial-09/09-22-otladka-logiki.html">Debugowanie błędów logicznych</a></li><li><a href="/pl/chapters/rozdzial-09/09-05-mini-proekt-ugadaj-chislo.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-09/09-23-mini-proekt-klub-i-pogoda.html">Mini-projekty: klub i pogoda</a></li><li><a href="/pl/chapters/rozdzial-09/09-24-mini-proekt-ocenki-i-komandy.html">Mini-projekty: oceny i zespoły</a></li><li><a href="/pl/chapters/rozdzial-09/09-06-nakoplenie-uslovij-itogi.html">Warunki kumulują się i skutkują</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/09-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-07: Praktyka</a></li><li><a href="/pl/practice/09-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-08: Praktyka</a></li><li><a href="/pl/practice/09-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-01: Praktyka</a></li><li><a href="/pl/practice/09-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-02: Praktyka</a></li><li><a href="/pl/practice/09-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-09: Praktyka</a></li><li><a href="/pl/practice/09-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-10: Praktyka</a></li><li><a href="/pl/practice/09-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-11: Praktyka</a></li><li><a href="/pl/practice/09-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-03: Praktyka</a></li><li><a href="/pl/practice/09-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-12: Praktyka</a></li><li><a href="/pl/practice/09-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-13: Praktyka</a></li><li><a href="/pl/practice/09-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-14: Praktyka</a></li><li><a href="/pl/practice/09-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-15: Praktyka</a></li><li><a href="/pl/practice/09-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-16: Praktyka</a></li><li><a href="/pl/practice/09-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-04: Praktyka</a></li><li><a href="/pl/practice/09-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-17: Praktyka</a></li><li><a href="/pl/practice/09-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-18: Praktyka</a></li><li><a href="/pl/practice/09-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-19: Praktyka</a></li><li><a href="/pl/practice/09-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-20: Praktyka</a></li><li><a href="/pl/practice/09-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-21: Praktyka</a></li><li><a href="/pl/practice/09-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-22: Praktyka</a></li><li><a href="/pl/practice/09-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-05: Praktyka</a></li><li><a href="/pl/practice/09-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-23: Praktyka</a></li><li><a href="/pl/practice/09-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-24: Praktyka</a></li><li><a href="/pl/practice/09-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/09-21-proektirovanie-uslovij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-09/index.html">Rozdział 9</a> / Projektowanie warunków</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 9 · Słuchaj mojego rozkazu!</div>
+<h1>Projektowanie warunku: input, walidacja, granice</h1>
+<p class="lede">Powtarzalny sposób podejścia do każdego warunku — od wymagań po przetestowaną wartość graniczną.</p>
+<h2>Walidacja to nie to samo co rozwiązanie</h2>
+<p>Przed podjęciem decyzji na podstawie wprowadzonych danych musisz sprawdzić, czy dane
+    znaczące. To są dwa różne kroki:</p>
+<ul>
+<li><strong>Walidacja</strong> — czy wkład jest akceptowalny? (np. czy to w ogóle liczba?)</li>
+<li><strong>Rozwiązanie</strong> - Co zrobić z dozwolonym wejściem?</li>
+</ul>
+<div class="code-block">
+<div class="code-label"><span>validaciya_i_reshenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>age_text = <span class="tok-fn">input</span>(<span class="tok-str">„Wiek: ”</span>).strip()
+
+<span class="tok-kw">if</span> age_text.isdigit():          <span class="tok-com"># 1. walidacja</span>
+    age = <span class="tok-fn">int</span>(age_text)
+    <span class="tok-kw">if</span> age &gt;= <span class="tok-num">18</span>:                <span class="tok-com">#2. Rozwiązanie</span>
+        <span class="tok-fn">print</span>(<span class="tok-str">„Dostęp dozwolony”</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Dostęp zabroniony”</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">„To nie wygląda jak liczba”</span>)</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Pełna obsługa błędów — przed nami</div>
+<div class="callout-body">Tutaj sprawdzamy ręczne wejście przez <code class="inline">isdigit()</code> (Rozdział 8). Obecny mechanizm obsługi wyjątków to <code class="inline">try/except</code> — pojawi się w osobnym rozdziale później; na razie wystarczy to proste podejście.</div>
+</div>
+</div>
+<h2>Granice są źródłem większości błędów</h2>
+<p>„Dozwolone są wartości od 1 do 10 włącznie”</p>
+<div class="code-block">
+<div class="code-label"><span>granicy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>number = <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(<span class="tok-num">1</span> &lt;= number &lt;= <span class="tok-num">10</span>)   <span class="tok-com">#True – Zgadza się, zawiera krawędzie</span>
+<span class="tok-fn">print</span>(<span class="tok-num">1</span> &lt; number &lt; <span class="tok-num">10</span>)     <span class="tok-com">#False – TRAP: Odrzuceni 1 i 10!</span></code></pre>
+</div>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Znaczenie</th><th>1 &amp;lt;= number &amp;lt;= 10</th><th>Komentarz</th></tr></thead>
+<tbody><tr><td>0</td><td>False</td><td>poniżej granicy</td></tr><tr><td>1</td><td>True</td><td>dokładnie na granicy — wchodzi</td></tr><tr><td>10</td><td>True</td><td>dokładnie na granicy — wchodzi</td></tr><tr><td>11</td><td>False</td><td>powyżej granicy</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Off-by-one — klasyczny błąd</div>
+<div class="callout-body">Jeśli sformułowanie mówi „inkluzywnie” <code class="inline">&lt;</code>/<code class="inline">&gt;</code> zamiast <code class="inline">&lt;=</code>/<code class="inline">&gt;=</code>wartości brzegowe są niezauważalnie odrzucane. Ten błąd nazywamy <strong>off-by-one</strong> („błąd o jednego”</div>
+</div>
+</div>
+<h2>Powtarzalny sposób projektowania warunku</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Projektowanie warunków powtarzalnych workflow od wymagań do testowanego kodu" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:1144px;min-width:1144px;" viewbox="0 0 1144 134" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">WYMAGANIA</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="60">rzeczy do sprawdzenia</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">PYTANIE</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="60">jasno sformułować</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">STAN</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="60">to Python</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="670" x2="714" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="720" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="812.0" y="32">ODDZIAŁY</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="812.0" y="60">co robić, gdy</tspan><tspan x="812.0" y="74">True/False</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="910" x2="954" y1="57.0" y2="57.0"></line><rect fill="#EDE9FE" height="94" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="960" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="1052.0" y="32">GRANICE</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="1052.0" y="60">przetestować krawędź</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Projektowanie warunków powtarzalnych workflow od wymagań do testowanego kodu</figcaption></figure>
+<p>Zanim napiszesz kod:</p>
+<ol style="font-size:15px;line-height:1.9">
+<li>Jakie pytanie zadajemy?</li>
+<li>Jakie wartości w nim uczestniczą?</li>
+<li>Co oznacza efekt True?</li>
+<li>Co powinnam zrobić, jeśli True? A jeśli False?</li>
+<li>Czy jest więcej niż dwa scenariusze?</li>
+<li>Jakie są tutaj wartości graniczne?</li>
+</ol>
+<p>Zawsze testuj <strong>wartość tuż poniżej granicy, dokładnie na granicy i tuż nad nią</strong>
+    prosta zasada, która wykrywa ogromną część błędów logicznych, zanim do nich dojdzie
+    do użytkownika.</p>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Zaprojektuj go samodzielnie</div>
+<p>Wymóg: „Rabat przysługuje przy kwocie zakupu od 1000 rubli”. Przejdź przez cały workflow — od pytania po przetestowany kod — i sprawdź wartości graniczne 999, 1000, 1001.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: potwierdzenie, granice i off-by-one</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="09-21"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/09-21/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["09-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="09-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-09/09-20-vlozhennye-uslovija.html"><div class="dir">← Back</div><div class="lbl">Zagnieżdżone warunki</div></a><a class="next" href="/pl/chapters/rozdzial-09/09-22-otladka-logiki.html"><div class="dir">Następny →</div><div class="lbl">Debugowanie błędów logicznych</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

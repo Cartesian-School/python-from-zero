@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>NoSQL: głównych typów baz danych nierelacyjnych Python od podstaw – Cartesian School</title>
+<meta content="Klucz-wartość, dokumentowe, szerokokolumnowe i grafowe bazy danych — cztery główne rodziny NoSQL, ich modele danych i kiedy warto je wybierać." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-25-nosql.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/22-25-nosql.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-25-nosql.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/22-25-nosql.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="NoSQL: głównych typów baz danych nierelacyjnych Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Klucz-wartość, dokumentowe, szerokokolumnowe i grafowe bazy danych — cztery główne rodziny NoSQL, ich modele danych i kiedy warto je wybierać." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-25-nosql.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NoSQL: głównych typów baz danych nierelacyjnych Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Klucz-wartość, dokumentowe, szerokokolumnowe i grafowe bazy danych — cztery główne rodziny NoSQL, ich modele danych i kiedy warto je wybierać." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"NoSQL: głównych typów baz danych nierelacyjnych Python od podstaw – Cartesian School","description":"Klucz-wartość, dokumentowe, szerokokolumnowe i grafowe bazy danych — cztery główne rodziny NoSQL, ich modele danych i kiedy warto je wybierać.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-25-nosql.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-25-nosql.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 22 · Tworzenie stron internetowych</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-22/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html">Podstawy tworzenia stron internetowych: klient, serwer i Python</a></li><li><a href="/pl/chapters/rozdzial-22/22-02-html.html">HTML: struktura strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-03-css.html">CSS: projektowanie i układ elementów strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-04-javascript.html">JavaScript: programowanie w przeglądarce</a></li><li><a href="/pl/chapters/rozdzial-22/22-05-flask.html">Pierwsza aplikacja webowa na Flask</a></li><li><a href="/pl/chapters/rozdzial-22/22-06-itogi.html">Wyniki pierwszego projektu internetowego</a></li><li><a href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html">Jak przeglądarka pobiera stronę internetową</a></li><li><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html">URL: domena, ścieżka, parametry i fragment</a></li><li><a href="/pl/chapters/rozdzial-22/22-09-http.html">HTTP: żądania, odpowiedzi, metody i kody stanu</a></li><li><a href="/pl/chapters/rozdzial-22/22-10-https.html">HTTPS: zabezpieczenie połączenia ze stroną</a></li><li><a href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html">Routing w Flask: URL i funkcje obsługi</a></li><li><a href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html">Jinja: szablony danych HTML</a></li><li><a href="/pl/chapters/rozdzial-22/22-13-formy.html">HTML-forms i przesyłanie danych do serwera</a></li><li><a href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html">Pliki statyczne: CSS, obrazy i JavaScript</a></li><li><a href="/pl/chapters/rozdzial-22/22-15-json.html">JSON: format wymiany danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-16-api.html">HTTP API: wymiana danych między programami</a></li><li><a href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html">Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</a></li><li><a href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html">Porównanie Flask, Django i FastAPI</a></li><li><a href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html">WSGI i ASGI: komunikacji między aplikacją webową a serwerem</a></li><li><a href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html">Dlaczego aplikacja webowa potrzebuje bazy danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html">Relacyjne bazy danych: tabele, klucze i relacje</a></li><li><a href="/pl/chapters/rozdzial-22/22-22-sql.html">SQL: tworzymy, czytamy i edytujemy dane</a></li><li><a href="/pl/chapters/rozdzial-22/22-23-sqlite.html">SQLite: Wbudowany relacyjny DBMS</a></li><li><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</a></li><li><a class="active" href="/pl/chapters/rozdzial-22/22-25-nosql.html">NoSQL: głównych typów baz danych nierelacyjnych</a></li><li><a href="/pl/chapters/rozdzial-22/22-26-orm.html">ORM: pracy z bazą danych za pomocą Python obiektów</a></li><li><a href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html">Migracje schematów baz danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html">Transfer danych między bazami danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html">Flask i SQLite: zapisują dane w bazie danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html">Cookie i sesje: Status między HTTP- żądaniami</a></li><li><a href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html">Walidacja danych wejściowych i obsługa błędów</a></li><li><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html">Podstawy bezpieczeństwa aplikacji internetowych</a></li><li><a href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html">Automatyczne testowanie Flask- aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html">Rozwijanie Flask-aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html">Projekt końcowy: lista zadania dla Flask i SQLite</a></li><li><a href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html">Dalsze badania nad tworzeniem stron internetowych na Python</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/22-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Praktyka</a></li><li><a href="/pl/practice/22-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Praktyka</a></li><li><a href="/pl/practice/22-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Praktyka</a></li><li><a href="/pl/practice/22-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Praktyka</a></li><li><a href="/pl/practice/22-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Praktyka</a></li><li><a href="/pl/practice/22-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Praktyka</a></li><li><a href="/pl/practice/22-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Praktyka</a></li><li><a href="/pl/practice/22-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Praktyka</a></li><li><a href="/pl/practice/22-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Praktyka</a></li><li><a href="/pl/practice/22-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Praktyka</a></li><li><a href="/pl/practice/22-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Praktyka</a></li><li><a href="/pl/practice/22-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Praktyka</a></li><li><a href="/pl/practice/22-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Praktyka</a></li><li><a href="/pl/practice/22-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Praktyka</a></li><li><a href="/pl/practice/22-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Praktyka</a></li><li><a href="/pl/practice/22-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Praktyka</a></li><li><a href="/pl/practice/22-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Praktyka</a></li><li><a href="/pl/practice/22-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Praktyka</a></li><li><a href="/pl/practice/22-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Praktyka</a></li><li><a href="/pl/practice/22-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Praktyka</a></li><li><a href="/pl/practice/22-33/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Praktyka</a></li><li><a href="/pl/practice/22-35/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-25-nosql.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-22/index.html">Rozdział 22</a> / NoSQL</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 22 · Tworzenie stron internetowych z Python</div>
+<h1>NoSQL: głównych typów baz danych nierelacyjnych</h1>
+<p class="lede">NoSQL łączy kilka modeli pamięci nierelacyjnej: key-value, dokumenty, szerokokolumnowe przechowywanie oraz wykresy.</p>
+<p><strong>NoSQL</strong> to powszechna nazwa dla systemów zarządzania bazami danych nierelacyjnymi
+    danych wykorzystujących modele danych inne niż klasyczny model tabeli relacyjnej.</p>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">NoSQL to "nie tylko SQL", a nie "nigdy SQL"</div>
+<div class="callout-body">Termin NoSQL często interpretowany jest jako Not Only SQL – „nie tylko SQL”</div>
+</div>
+</div>
+<p>Relacyjne bazy danych (sekcje 22.21-22.24) przechowują dane w tabelach z predefiniowaną
+    struktura. Czasami taka struktura jest niewygodna, na przykład, jeśli forma wpisów jest bardzo
+    Różni się to w zależności od dokumentu, musisz bardzo szybko pracować nad kluczem lub danymi
+    są naturalnie reprezentowane jako węzły i połączenia. Poniżej przedstawiono cztery główne rodziny NoSQL-dbms,
+    Każdy ma swój własny model danych.</p>
+<h2>Klucz – Wartość</h2>
+<p>Każdy wpis jest dostępny pod unikalnym kluczem. Wartością może być łańcuch znaków, liczba, struktura danych lub inny obiekt, w zależności od DBMS.</p>
+<p><strong>Przykład:</strong> Redis jest serwerem struktur danych, w którym każdy obiekt ma
+    klucz; Redis obsługuje łańcuch znaków tekstów, list, zbiory, skróty, strumienie i inne struktury
+    danych.</p>
+<div class="code-block">
+<div class="code-label"><span>primer_redis.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>SET session:42 '{{"user_id": 42, "expires": "2026-08-24"}}'
+GET session:42</code></pre>
+</div>
+<p>Typowe zastosowania: cache, liczniki, przechowywanie sesji/stanów, kolejki i strumienie danych
+    — często jako uzupełnienie głównej bazy, a nie jej zamiennik.</p>
+<h2>Bazy danych zorientowane na dokumenty</h2>
+<p>Dane są przechowywane w dokumentach składających się z pól i wartości. Dokumenty mogą zawierać
+    zagnieżdżone struktury.</p>
+<p><strong>Przykład:</strong> MongoDB przechowuje dokumenty w BSON formacie, który jest strukturyzowany przez
+    Blisko JSON.</p>
+<div class="code-block">
+<div class="code-label"><span>primer_dokument.json</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>{{
+  "name": "Механическая клавиатура",
+  "price": 8900,
+  "characteristics": {{"switches": "red", "layout": "ru"}}
+}}</code></pre>
+</div>
+<p>Wygodne, gdy forma zapisów może różnić się w zależności od dokumentu.</p>
+<h2>Bazy danych kolumn szerokich</h2>
+<p>Dane są zorganizowane wokół kluczy partycji (partition keys) oraz wierszy z zestawem kolumn.
+    Model ten został zaprojektowany do rozproszonego przechowywania dużych ilości danych i z wyprzedzeniem
+    Zaawansowane szablony zapytań.</p>
+<p><strong>Przykład:</strong> Apache Cassandra jest rozproszonym systemem DBMS o szerokich kolumnach,
+    dostępny w swoim własnym języku zapytań CQL.</p>
+<div class="code-block">
+<div class="code-label"><span>primer_wide_column.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>Партиция: device_id = 42
+Строки внутри партиции упорядочены по date</code></pre>
+</div>
+<p>Typowe zastosowanie: zdarzenia i metryki z prędkością zapisu, rozproszone
+    według urządzenia, użytkownika lub innego klucza partycji.</p>
+<h2>Bazy danych grafów</h2>
+<p>Dane są reprezentowane przez węzły, połączenia między nimi oraz właściwości. Model ten jest użyteczny, gdy
+    Same połączenia są ważną częścią zadania.</p>
+<p><strong>Przykład:</strong> Neo4j jest grafowym DBMS, gdzie zapytania eksplicitnie działają na węzłach i
+    Kontakty.</p>
+<div class="code-block">
+<div class="code-label"><span>primer_graf.txt</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>(Ада)-[:ДРУГ]-&gt;(Борис)-[:ДРУГ]-&gt;(Вера)</code></pre>
+</div>
+<p>Typowe zastosowanie: powiązania społeczne, rekomendacje, sieci zależności, analiza powiązań przy wykrywaniu oszustw.</p>
+<h2>Specjalistyczne systemy przechowywania i odzyskiwania</h2>
+<p>Istnieją systemy wyszukiwania pełnego tekstu, bazy danych wektorowe i czasowe osobno — nie są
+    Należą do czterech wymienionych powyżej rodzin kanonicznych. Te kategorie mogą się nakładać
+    oraz z już wymienionymi modelami, a niektóre produkty łączą kilka modeli w
+    jeden DBMS (multi-model).</p>
+<h2>Ogólne cechy systemów NoSQL-</h2>
+<p>Wiele NoSQL-D baz danych ma bardziej elastyczny schemat danych niż model relacyjny, który nie jest
+    oznacza, że w ogóle nie ma obwodu. Wiele NoSQL-D jest zaprojektowanych z
+    Praca rozproszona i skalowanie poziome, ale konkretne gwarancje
+    (spójność, wsparcie transakcyjne, odporność na błędy) zależą od produktu i jego
+    ustawienia. Wydajność zależy od modelu danych, konkretnego DBMS oraz rodzaju zapytania —
+    Nie ma zasady „NoSQL zawsze jest szybsze.”</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Kryteria</th><th>Relacyjny DBMS</th><th>NoSQL- Systemy</th></tr></thead>
+<tbody><tr><td>Model danych</td><td>Tabele, wiersze, kolumny</td><td>Zależy od typu: dokumenty, klucz-wartość, wide-column, wykres</td></tr><tr><td>Schemat</td><td>Zwykle określane jawnie</td><td>Często bardziej elastyczne; Specyficzne dla DBMS</td></tr><tr><td>Powiązania</td><td>Klucze zewnętrzne, JOIN i inne operacje relacyjne</td><td>Implementowane różnie: linki, dokumenty zagnieżdżone, połączenia grafowe i inne</td></tr><tr><td>Język zapytań</td><td>SQL i jego dialekty</td><td>Natywne języki zapytań, polecenia lub API; niektóre obsługują interfejsy podobne do SQL-</td></tr><tr><td>Transakcje</td><td>Zależą od DBMS, zwykle rozwinięta obsługa transakcji</td><td>Zależy od konkretnego DBMS; wiele nowoczesnych systemów obsługuje również transakcje</td></tr><tr><td>Skalowanie</td><td>Możliwe architektury pionowe i rozproszone</td><td>Wiele systemów początkowo projektuje się do pracy rozproszonej</td></tr><tr><td>Kiedy wybrać</td><td>Gdy model relacyjny dobrze dopasowuje dane i zapytania</td><td>Gdy dany model nierelacyjny lepiej odpowiada danym i obciążeniu</td></tr></tbody>
+</table>
+</div>
+<h2>Co wybrać</h2>
+<p>Relacyjną bazę danych warto rozważyć, gdy dane mają naturalną strukturę relacyjną, istotne są związki i ograniczenia, zapytania dobrze pasują do SQL, a integralność transakcyjna jest ważna dla zadania. Konkretną NoSQL-BD relacyjną warto brać pod uwagę, gdy jeden z modeli — dokumentowy, klucz-wartość, szerokolumnowy lub grafowy — naturalnie pasuje do zadania, wzorzec dostępu do danych jest dobrze znany z góry, a wymagania dotyczące dystrybucji i skalowania skłaniają wybór ku konkretnej nierelacyjnej architekturze.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Dla prostego zastosowania wystarczy jeden odpowiedni DBMS</div>
+<div class="callout-body">Duże systemy rzeczywiste często wykorzystują więcej niż jedną technologię pamięci masowej, ale powinieneś rozpocząć projekt szkoleniowy od najprostszej i najbardziej odpowiedniej. W typowym CRUD- zastosowaniu, takim jak lista zadań, nie potrzebujesz jednocześnie PostgreSQL, MongoDB, Redis ani bazy wektorowej, co zwiększa złożoność działania bez realnych korzyści. Ostateczny szkic tego rozdziału (Rozdział 22.35) to jedna tabela na SQLite.</div>
+</div>
+</div>
+<p>Oficjalna dokumentacja: <a href="https://www.mongodb.com/docs/">MongoDB</a>,
+    <a href="https://redis.io/docs/">Redis</a>,
+    <a href="https://cassandra.apache.org/doc/">Apache Cassandra</a>,
+    <a href="https://neo4j.com/docs/">Neo4j</a>.</p>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html"><div class="dir">← Back</div><div class="lbl">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</div></a><a class="next" href="/pl/chapters/rozdzial-22/22-26-orm.html"><div class="dir">Następny →</div><div class="lbl">ORM: pracy z bazą danych za pomocą Python obiektów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

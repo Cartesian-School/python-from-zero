@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 16. Tworzenie fajnych aplikacji od Tkinter do Python od zera po Cartesian School</title>
+<meta content="Dowiedz się, jak budować rzeczywiste aplikacje okienkowe: analizuj model zdarzeń, drzewo widżetów, responsywny układ, formularze, menu, dialogi, timery oraz architekturę aplikacji oraz powiąż interfejs z funkcjami, obiektami i plikami z poprzednich rozdziałów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-16/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-16/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-16/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 16. Tworzenie fajnych aplikacji od Tkinter do Python od zera po Cartesian School" />
+<meta property="og:description" content="Dowiedz się, jak budować rzeczywiste aplikacje okienkowe: analizuj model zdarzeń, drzewo widżetów, responsywny układ, formularze, menu, dialogi, timery oraz architekturę aplikacji oraz powiąż interfejs z funkcjami, obiektami i plikami z poprzednich rozdziałów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-16/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 16. Tworzenie fajnych aplikacji od Tkinter do Python od zera po Cartesian School" />
+<meta name="twitter:description" content="Dowiedz się, jak budować rzeczywiste aplikacje okienkowe: analizuj model zdarzeń, drzewo widżetów, responsywny układ, formularze, menu, dialogi, timery oraz architekturę aplikacji oraz powiąż interfejs z funkcjami, obiektami i plikami z poprzednich rozdziałów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 16. Tworzenie fajnych aplikacji od Tkinter do Python od zera po Cartesian School","description":"Dowiedz się, jak budować rzeczywiste aplikacje okienkowe: analizuj model zdarzeń, drzewo widżetów, responsywny układ, formularze, menu, dialogi, timery oraz architekturę aplikacji oraz powiąż interfejs z funkcjami, obiektami i plikami z poprzednich rozdziałów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-16/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-16/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 16 · P. 2464</div>
+<h1>Twórz fajne aplikacje za pomocą Tkinter</h1>
+<p>Dowiedz się, jak budować rzeczywiste aplikacje okienkowe: analizuj model zdarzeń, drzewo widżetów, responsywny układ, formularze, menu, dialogi, timery oraz architekturę aplikacji oraz powiąż interfejs z funkcjami, obiektami i plikami z poprzednich rozdziałów.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~10 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--palette"><use href="/assets/icons/cartesian/icons.svg#icon-palette"></use></svg> tkinter, ttk, mainloop</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 32 treningi</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-16/16-01-nastraivaem-tkinter.html"><span><span class="si-num">16.1</span>Tkinter — wszystko poprawnie skonfigurowane!</span><span class="si-page">2468</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-02-metki-knopki-pack.html"><span><span class="si-num">16.2</span>Etykiety, guziki i pack</span><span class="si-page">2475</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-03-polya-vvoda.html"><span><span class="si-num">16.3</span>Pola wejściowe</span><span class="si-page">2481</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-04-peremennye-tkinter.html"><span><span class="si-num">16.4</span>Zmienne Tkinter</span><span class="si-page">2487</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-05-mnozhestvo-variantov.html"><span><span class="si-num">16.5</span>Mnóstwo opcji!</span><span class="si-page">2492</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-06-menu.html"><span><span class="si-num">16.6</span>Menu</span><span class="si-page">2499</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-07-grid.html"><span><span class="si-num">16.7</span>Wiersze i kolumny są grid</span><span class="si-page">2507</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-08-mini-proekt-chaevye-itogi.html"><span><span class="si-num">16.8</span>Mini Project: Kalkulator napiwków</span><span class="si-page">2510</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-09-ot-terminala-k-gui.html"><span><span class="si-num">16.9</span>Od terminala do modelu zdarzenia GUI:</span><span class="si-page">2515</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-10-event-loop-i-mainloop.html"><span><span class="si-num">16.10</span>Jak działa pętla zdarzeń i mainloop</span><span class="si-page">2521</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-11-derevo-widgetov.html"><span><span class="si-num">16.11</span>Widżet i drzewo interfejsu</span><span class="si-page">2526</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-12-tk-i-ttk.html"><span><span class="si-num">16.12</span>tk i ttk</span><span class="si-page">2533</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-13-frame-i-labelframe.html"><span><span class="si-num">16.13</span>Frame i LabelFrame</span><span class="si-page">2552</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-14-pack-podrobno.html"><span><span class="si-num">16.14</span>pack szczegóły</span><span class="si-page">2557</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-15-adaptivny-grid.html"><span><span class="si-num">16.15</span>Adaptacyjne grid</span><span class="si-page">2561</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-16-widgety-vybora.html"><span><span class="si-num">16.16</span>Widżety wyboru</span><span class="si-page">2571</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-17-progressbar-i-notebook.html"><span><span class="si-num">16.17</span>Progressbar i Notebook</span><span class="si-page">2579</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-18-messagebox-i-dialogi.html"><span><span class="si-num">16.18</span>Messagebox i dialogi</span><span class="si-page">2584</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-19-filedialog-i-pathlib.html"><span><span class="si-num">16.19</span>filedialog i pathlib</span><span class="si-page">2593</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-20-toplevel.html"><span><span class="si-num">16.20</span>Toplevel: wiele okien</span><span class="si-page">2598</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-21-focus-i-dostupnost.html"><span><span class="si-num">16.21</span>Focus, klawiatura i dostępność</span><span class="si-page">2603</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-22-after-tajmery.html"><span><span class="si-num">16.22</span>after(): timery bez blokowania</span><span class="si-page">2609</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-23-validatsiya-vvoda.html"><span><span class="si-num">16.23</span>Walidacja danych wejściowych</span><span class="si-page">2621</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-24-arhitektura-prilozheniya.html"><span><span class="si-num">16.24</span>Architektura aplikacji</span><span class="si-page">2632</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-25-klass-prilozheniya-i-nastrojki.html"><span><span class="si-num">16.25</span>Klasa aplikacji i ustawienia</span><span class="si-page">2639</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-26-mini-proekt-schetchik-klikov.html"><span><span class="si-num">16.26</span>Mini-projekt: licznik kliknięć</span><span class="si-page">2647</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-27-mini-proekt-konverter-temperatur.html"><span><span class="si-num">16.27</span>Mini Project: Konwerter temperatury</span><span class="si-page">2652</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-28-mini-proekt-tajmer.html"><span><span class="si-num">16.28</span>Mini-Projekt: Odliczający Timer</span><span class="si-page">2658</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-29-mini-proekt-todo.html"><span><span class="si-num">16.29</span>Mini-projekt: lista zadania</span><span class="si-page">2667</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-30-mini-proekt-zametki.html"><span><span class="si-num">16.30</span>Mini-Projekt: Edytor Notatek</span><span class="si-page">2674</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-31-tip-calculator-pro.html"><span><span class="si-num">16.31</span>Tip Calculator Pro</span><span class="si-page">2681</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-32-debugging-i-kachestvo.html"><span><span class="si-num">16.32</span>Debugowanie interfejsu i jakość GUI</span><span class="si-page">2692</span></a><a class="section-item" href="/pl/chapters/rozdzial-16/16-33-itogi-glavy.html"><span><span class="si-num">16.33</span>Podsumowanie rozdziału: Zestaw narzędzi Tkinter</span><span class="si-page">2703</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Mini-projekt – spirale łuków – Python od podstaw – Cartesian School</title>
+<meta content="Końcowy mini-projekt rozdziału 10: spirale z łuków o rosnącym promieniu, break w Turtle, końcowe narzędzia i krótkie podsumowanie." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-08-spirali-itogi.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-08-spirali-itogi.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-08-spirali-itogi.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-08-spirali-itogi.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Mini-projekt – spirale łuków – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Końcowy mini-projekt rozdziału 10: spirale z łuków o rosnącym promieniu, break w Turtle, końcowe narzędzia i krótkie podsumowanie." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-08-spirali-itogi.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mini-projekt – spirale łuków – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Końcowy mini-projekt rozdziału 10: spirale z łuków o rosnącym promieniu, break w Turtle, końcowe narzędzia i krótkie podsumowanie." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Mini-projekt – spirale łuków – Python od podstaw – Cartesian School","description":"Końcowy mini-projekt rozdziału 10: spirale z łuków o rosnącym promieniu, break w Turtle, końcowe narzędzia i krótkie podsumowanie.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-08-spirali-itogi.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-08-spirali-itogi.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-08-spirali-itogi.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Spirale i sumy</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Mini-projekt – spirale łuków</h1>
+<p class="lede">Kończymy rozdział wzorcem, który zmienia się na każdym etapie cyklu, i podsumowujemy wyniki.</p>
+<p>Mini-Projekt Ostatniego Rozdziału: Spirala Łuku – każdy wątek jest mniejszy
+    poprzednie.</p>
+<div class="code-block">
+<div class="code-label"><span>spirali_iz_dug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>radius = <span class="tok-num">5</span>
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">60</span>):
+    artist.circle(radius, <span class="tok-num">90</span>)   <span class="tok-com"># Łuk ćwierćkoła</span>
+    radius += <span class="tok-num">3</span>                 <span class="tok-com"># Za każdym razem trochę więcej</span></code></pre>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>spirali_iz_dug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">2</span>)
+
+radius = <span class="tok-num">5</span>
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">60</span>):
+    artist.circle(radius, <span class="tok-num">90</span>)
+    radius += <span class="tok-num">3</span>
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Spirala z rosnących łuków" src="/assets/img/chapter-10/output/10-spiral.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">60 łuków, promień rośnie z 5 o 3 przy każdym kroku — rozwijająca się spirala</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Zmiana zmiennej w pętli — normalna sprawa</div>
+<div class="callout-body">W przeciwieństwie do poprzednich przykładów, tutaj <code class="inline">radius</code> się zmienia <em>każdym kroku</em> cyklu powoduje to efekt rosnącej spirali, a nie powtarzającego się wzoru.</div>
+</div>
+</div>
+<h2>break w Turtle jest zatrzymanie się przed końcem</h2>
+<p><code class="inline">break</code> świetnie działa w pętlach wewnętrznych, które rysują grafikę
+    — na przykład, aby pozostać na ekranie:</p>
+<div class="code-block">
+<div class="code-label"><span>break_v_turtle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>dlina = <span class="tok-num">10</span>
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">50</span>):
+    <span class="tok-kw">if</span> artist.xcor() &gt; <span class="tok-num">150</span>:
+        <span class="tok-kw">break</span>
+    artist.forward(dlina)
+    artist.left(<span class="tok-num">90</span>)
+    dlina += <span class="tok-num">6</span></code></pre>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>break_v_turtle.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.pensize(<span class="tok-num">3</span>)
+
+dlina = <span class="tok-num">10</span>
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">50</span>):
+    <span class="tok-kw">if</span> artist.xcor() &gt; <span class="tok-num">150</span>:
+        <span class="tok-kw">break</span>
+    artist.forward(dlina)
+    artist.left(<span class="tok-num">90</span>)
+    dlina += <span class="tok-num">6</span>
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Kwadratowa spirala, przycięta break" src="/assets/img/chapter-10/output/10-break-turtle.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Kwadratowa spirala odrywa się w środku ostatniego zwrotu – gdy xcor() przekroczy 150, break zatrzymuje cykl</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">50 zaplanowano, ale wykonało się mniej</div>
+<div class="callout-body">Pętla była gotowa do wykonania 50 razy, ale faktycznie ukończona wcześniej, gdy tylko spełniono warunki <code class="inline">artist.xcor() &gt; 150</code> się sprawdziło. Dlatego ostatni segment na zdjęciu jest krótszy niż powinien był być pełny obrót — break przerywa rysunek dokładnie w środku kroku.</div>
+</div>
+</div>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Spirala z kwadratów</div>
+<p>Zastąp łuk małym kwadratem (pętlą czterostronną) wewnątrz zewnętrznej pętli, aby stworzyć spiralę z zmniejszającymi się lub rosnącymi kwadratami.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Spirale łuków</div>
+<div class="nc-sub">Moduł turtle otwiera natywne okno Python – uruchamiane lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="10-08">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-08/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-08"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-08"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: break w Turtle jest kwadratową spiralą</div>
+<div class="nc-sub">Moduł turtle otwiera natywne okno Python – uruchamiane lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="10-21">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-21/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-21"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<h2 id="itogi">Podsumowanie rozdziału</h2>
+<h3>Narzędzia pętli — na przyszłość</h3>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;margin-bottom:12px;color:#0D0230">Rozdział 10 Podsumowanie Ściągawka</div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Liczba powtórzeń jest znana z góry</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for ... in range(n)</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Brutalna siła gotowej sekwencji (łańcuch znaków, lista)</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for element in sekwencję</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Potrzebujesz zarówno indeksu, jak i wartości</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for i, znaczenie in enumerate(...)</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Liczba powtórzeń nie jest znana z góry</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">while stan</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Warunek zatrzymania wygodniej sprawdzić w środku ciała</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">while True + break</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Musimy się dowiedzieć, czy był jakiś break</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">for/while … else</div></div><div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:14px;margin-bottom:10px"><div style="flex:1;font-size:14px;color:#0D0230">Musisz pominąć jeden krok, nie wychodząc z pętli</div><div style="font-size:16px;color:#B9A0FC">→</div><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9;white-space:nowrap">continue</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Nie sztywne zasady – wytyczne, które stają się nawykiem z praktyką</figcaption></figure>
+<div class="summary-box">
+<h3>Czego nauczyliśmy się w tym rozdziale</h3>
+<ul><li>Powtarzanie to trzecia struktura algorytmu po sekwencji i rozgałęzieniu (Rozdział 9).</li><li><code class="inline">for ... in range(n)</code> powtarza blok kodu określoną liczbę razy — pętla pyta "Czy jest następny przedmiot?", zamiast N wykonać ciało "magicznie".</li><li><code class="inline">range()</code> nie lista, lecz generator liczb; jego stop się nie włącza — ta sama logika co w liniach z rozdziału 8.</li><li><code class="inline">enumerate()</code> daje jednocześnie zarówno indeks, jak i wartość; licznik i akumulator to dwa podstawowe wzorce stanów w pętli.</li><li><code class="inline">while</code> powtarza akcję, dopóki warunek pozostaje prawdziwy — używane, gdy liczba powtórzeń jest nieznana.</li><li><code class="inline">break</code> przerywa pętlę całkowicie; <code class="inline">continue</code> pomija bieżący krok; opcjonalne <code class="inline">else</code> pętla działa tylko bez break.</li><li>Cykle można zagnieżdżać w sobie — wtedy wewnętrzny cykl wykonuje się całkowicie przy każdym kroku zewnętrznego, a łączna liczba iteracji mnoży się.</li><li>Większość błędów pętli mieści się w kilkunastu typowych scenariuszach — tabela śledzenia stworzona ręcznie pomaga znaleźć każdy z nich.</li><li>Wszystkie ręcznie rysowane kształty z rozdziałów 6-7 można teraz zapisać w 2-4 linijkach w cyklu, a my widzieliśmy ich prawdziwe, naprawdę ukończone rezultaty.</li></ul>
+</div>
+<h2>co dalej</h2>
+<p>Widzieliśmy już pętle działające z listami liczb — <code class="inline">[4, 8, 15,
+    16, 23, 42]</code>. W następnym rozdziale szczegółowo przeanalizujemy, jak same zbiory danych są zorganizowane
+    Listy, krotki, zbiory i słowniki to właśnie dla cykli istnieją
+    w prawdziwych programach.</p>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html"><div class="dir">← Back</div><div class="lbl">Siatka kształtów</div></a><a class="next" href="/pl/chapters/rozdzial-11/index.html"><div class="dir">Następny →</div><div class="lbl">Rozdział 11: Dużo informacji!</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

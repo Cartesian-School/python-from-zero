@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debug Labs – Python od podstaw – Cartesian School</title>
+<meta content="Pięć krótkich laboratoriów debugowania: brakujący cudzysłów, literówka w nazwie, błąd wcięcia, pomieszane zmienne i nie ten interpreter." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-03/03-14-debug-laboratorii.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-03/03-14-debug-laboratorii.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Labs – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Pięć krótkich laboratoriów debugowania: brakujący cudzysłów, literówka w nazwie, błąd wcięcia, pomieszane zmienne i nie ten interpreter." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Labs – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Pięć krótkich laboratoriów debugowania: brakujący cudzysłów, literówka w nazwie, błąd wcięcia, pomieszane zmienne i nie ten interpreter." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs – Python od podstaw – Cartesian School","description":"Pięć krótkich laboratoriów debugowania: brakujący cudzysłów, literówka w nazwie, błąd wcięcia, pomieszane zmienne i nie ten interpreter.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-03/03-14-debug-laboratorii.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 3 · Pierwszy program</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-03/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-03/03-01-sozdanie-i-zapusk-programm.html">Tworzenie i uruchamianie programów</a></li><li><a href="/pl/chapters/rozdzial-03/03-06-terminal-shell-i-python-repl.html">Terminal, shell i Python REPL</a></li><li><a href="/pl/chapters/rozdzial-03/03-07-semejstvo-obolochek.html">Rodzina Shell</a></li><li><a href="/pl/chapters/rozdzial-03/03-08-pysh.html">PySH: Python-first skorupa</a></li><li><a href="/pl/chapters/rozdzial-03/03-02-interaktivny-rezhim.html">Tryb Interaktywny (Python REPL)</a></li><li><a href="/pl/chapters/rozdzial-03/03-09-repl-kak-instrument.html">REPL jako narzędzie badawcze</a></li><li><a href="/pl/chapters/rozdzial-03/03-03-vyvod-dannyh.html">Dane wyjściowe za pomocą Python</a></li><li><a href="/pl/chapters/rozdzial-03/03-10-input-i-dialog.html">input(): pierwszy dialog</a></li><li><a href="/pl/chapters/rozdzial-03/03-11-imena-i-znacheniya.html">Imiona i znaczenia</a></li><li><a href="/pl/chapters/rozdzial-03/03-12-kommentarii-i-stil.html">Komentarze i czytelny kod</a></li><li><a href="/pl/chapters/rozdzial-03/03-04-idle.html">IDLE Tryb Scenariusza</a></li><li><a href="/pl/chapters/rozdzial-03/03-05-praktika-itogi.html">Praktyka: Ujawnij swoje imię</a></li><li><a href="/pl/chapters/rozdzial-03/03-13-oshibki-i-traceback.html">Błędy, traceback i jak je czytać</a></li><li><a class="active" href="/pl/chapters/rozdzial-03/03-14-debug-laboratorii.html">Laboratoria debugowania</a></li><li><a href="/pl/chapters/rozdzial-03/03-15-otladchik-v-ide.html">Pierwszy debugger w IDE</a></li><li><a href="/pl/chapters/rozdzial-03/03-16-notebook-i-kernel.html">Notebook i kernel</a></li><li><a href="/pl/chapters/rozdzial-03/03-17-mini-proekt-i-itogi.html">Mini-projekt i streszczenie rozdziałów</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/03-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-01: Praktyka</a></li><li><a href="/pl/practice/03-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-02: Praktyka</a></li><li><a href="/pl/practice/03-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-03: Praktyka</a></li><li><a href="/pl/practice/03-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-04: Praktyka</a></li><li><a href="/pl/practice/03-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-05: Praktyka</a></li><li><a href="/pl/practice/03-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-06: Praktyka</a></li><li><a href="/pl/practice/03-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-07: Praktyka</a></li><li><a href="/pl/practice/03-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-08: Praktyka</a></li><li><a href="/pl/practice/03-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-09: Praktyka</a></li><li><a href="/pl/practice/03-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 03-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-03/03-14-debug-laboratorii.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-03/index.html">Rozdział 3</a> / Debug Labs</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 3 · Twój pierwszy program w Python</div>
+<h1>Laboratoria debugowania</h1>
+<p class="lede">Pięć krótkich, specjalnie popsutych przykładów — poćwiczymy tę samą umiejętność: przewidzieć, uruchomić, zbadać, naprawić.</p>
+<p>Pięć krótkich laboratoriów – Złamany kod do ćwiczenia znajdowania i
+    Rozwiąż problem według tego samego algorytmu: przewiduj → przejdź → badaj → napraw
+    → wyjaśnić sobie, dlaczego to zadziałało.</p>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 1. Brakujący cudzysłów lub nawias</div>
+<div class="callout-body">
+<p><strong>1. Przewidywanie:</strong> przeczytaj poniższy kod – co myślisz, że się wydarzy?</p>
+<div class="code-block">
+<div class="code-label"><span>zepsuty kod</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>print("Привет, мир!</code></pre>
+</div>
+<p><strong>2. Uciekaj</strong> — zobaczycie: <code class="inline">SyntaxError: unterminated string literal</code></p>
+<p><strong>3. Poprawka:</strong></p>
+<div class="code-block">
+<div class="code-label"><span>naprawione</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-str">„Witaj, świecie!”</span>)</code></pre>
+</div>
+<p><strong>4. Dlaczego:</strong> cudzysłowy otwierające nie miały pary, Python nie rozumiały końca tekstu.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 2. Nieprawidłowa nazwa zmiennej</div>
+<div class="callout-body">
+<p><strong>1. Przewidywanie:</strong> przeczytaj poniższy kod – co myślisz, że się wydarzy?</p>
+<div class="code-block">
+<div class="code-label"><span>zepsuty kod</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>user_name = <span class="tok-str">"Cartesian"</span>
+<span class="tok-fn">print</span>(usr_name)</code></pre>
+</div>
+<p><strong>2. Uciekaj</strong> — zobaczycie: <code class="inline">NameError: name 'usr_name' is not defined</code></p>
+<p><strong>3. Poprawka:</strong></p>
+<div class="code-block">
+<div class="code-label"><span>naprawione</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>user_name = <span class="tok-str">"Cartesian"</span>
+<span class="tok-fn">print</span>(user_name)</code></pre>
+</div>
+<p><strong>4. Dlaczego:</strong> literówka w nazwie — <code class="inline">usr_name</code> zamiast <code class="inline">user_name</code>. Python nie „zgaduje”</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 3. Błąd wcięcia</div>
+<div class="callout-body">
+<p><strong>1. Przewidywanie:</strong> przeczytaj poniższy kod – co myślisz, że się wydarzy?</p>
+<div class="code-block">
+<div class="code-label"><span>zepsuty kod</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-str">„Początek”</span>)
+  <span class="tok-fn">print</span>(<span class="tok-str">„Kontynuacja”</span>)</code></pre>
+</div>
+<p><strong>2. Uciekaj</strong> — zobaczycie: <code class="inline">IndentationError: unexpected indent</code></p>
+<p><strong>3. Poprawka:</strong></p>
+<div class="code-block">
+<div class="code-label"><span>naprawione</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-str">„Początek”</span>)
+<span class="tok-fn">print</span>(<span class="tok-str">„Kontynuacja”</span>)</code></pre>
+</div>
+<p><strong>4. Dlaczego:</strong> druga linijka ma wcięcie, którego nie powinno tam być — poza blokami (if/for/def pojawią się w kolejnych rozdziałach), wszystkie linie powinny zaczynać się od tej samej pozycji.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 4. Program działa, ale generuje niewłaściwe wyniki</div>
+<div class="callout-body">
+<p><strong>1. Przewidywanie:</strong> przeczytaj poniższy kod – co myślisz, że się wydarzy?</p>
+<div class="code-block">
+<div class="code-label"><span>zepsuty kod</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>name = <span class="tok-str">„Anna”</span>
+city = <span class="tok-str">„Moskwa”</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Cześć,”</span>, city)</code></pre>
+</div>
+<p><strong>2. Uciekaj</strong> — zobaczycie: <code class="inline">Привет, Москва  (а должно быть — имя)</code></p>
+<p><strong>3. Poprawka:</strong></p>
+<div class="code-block">
+<div class="code-label"><span>naprawione</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>name = <span class="tok-str">„Anna”</span>
+city = <span class="tok-str">„Moskwa”</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Cześć,”</span>, name)</code></pre>
+</div>
+<p><strong>4. Dlaczego:</strong> program wykonał się bez żadnego błędu, ale zmienne były pomieszane. To najbardziej podstępny typ błędu: Python nie mogą wiedzieć, że nie miałeś na myśli tego, co napisałeś.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 5. Zły tłumacz – Pozdrowienia z rozdziału 2</div>
+<div class="callout-body">
+<p><strong>1. Przewidywanie:</strong> przeczytaj poniższy kod – co myślisz, że się wydarzy?</p>
+<div class="code-block">
+<div class="code-label"><span>zepsuty kod</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> requests
+<span class="tok-fn">print</span>(<span class="tok-str">„Pakiet znaleziony!”</span>)</code></pre>
+</div>
+<p><strong>2. Uciekaj</strong> — zobaczycie: <code class="inline">ModuleNotFoundError: No module named 'requests' (хотя вы точно его ставили!)</code></p>
+<p><strong>3. Poprawka:</strong></p>
+<div class="code-block">
+<div class="code-label"><span>naprawione</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># w VS Code: Ctrl+Shift+P -&gt; „Python: Select Interpreter”</span>
+<span class="tok-com"># Wybierz interpretera z aktywnego projektu . venv</span></code></pre>
+</div>
+<p><strong>4. Dlaczego:</strong> pakiet zainstalowany w jednym środowisku, a kod uruchamiany przez inne — klasyczny problem z rozdziału 2 (sekcja 2.16). Sprawdź <code class="inline">sys.executable</code> oraz wybranego interpretera w edytorze.</p>
+</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Przeczytaj traceback (SyntaxError)</div>
+<div class="nc-sub">Interaktywny laptop bezpośrednio w przeglądarce – znajdź brakujące nawiasy i cudzysłowy</div>
+<div class="practice-inline-status" data-lesson-id="03-09"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/03-09/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["03-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="03-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-03/03-13-oshibki-i-traceback.html"><div class="dir">← Back</div><div class="lbl">Robaki i traceback</div></a><a class="next" href="/pl/chapters/rozdzial-03/03-15-otladchik-v-ide.html"><div class="dir">Następny →</div><div class="lbl">Pierwszy debugger w IDE</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

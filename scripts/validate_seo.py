@@ -25,7 +25,10 @@ ROOT = Path(__file__).resolve().parent.parent
 CANONICAL_ORIGIN = "https://www.cartesianschool.org"
 
 TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
-DESC_RE = re.compile(r'<meta\s+name="description"\s+content="(.*?)"\s*/?>', re.S)
+DESC_RE = re.compile(
+    r'''<meta(?=[^>]*\bname=["']description["'])(?=[^>]*\bcontent=(["'])(.*?)\1)[^>]*>''',
+    re.S,
+)
 CANONICAL_RE = re.compile(r'<link\s+rel="canonical"\s+href="([^"]*)"\s*/?>')
 OG_RE = {
     "og:type": re.compile(r'<meta\s+property="og:type"'),

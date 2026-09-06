@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 4. Python uwielbia liczby – Python od zera – Cartesian School</title>
+<meta content="Pełne bazy liczbowe Python 3.14: co komputer nazywa liczbą, systemy int i liczbowe, operatorzy i ich kolejność, dzielenie i reszta, float i dlaczego 0.1 + 0.2 nie jest równe 0.3, zaokrąglenie, Decimal, Fraction, complex, math, random/secrets, statistics — oraz kilka mini-projektów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 4. Python uwielbia liczby – Python od zera – Cartesian School" />
+<meta property="og:description" content="Pełne bazy liczbowe Python 3.14: co komputer nazywa liczbą, systemy int i liczbowe, operatorzy i ich kolejność, dzielenie i reszta, float i dlaczego 0.1 + 0.2 nie jest równe 0.3, zaokrąglenie, Decimal, Fraction, complex, math, random/secrets, statistics — oraz kilka mini-projektów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 4. Python uwielbia liczby – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Pełne bazy liczbowe Python 3.14: co komputer nazywa liczbą, systemy int i liczbowe, operatorzy i ich kolejność, dzielenie i reszta, float i dlaczego 0.1 + 0.2 nie jest równe 0.3, zaokrąglenie, Decimal, Fraction, complex, math, random/secrets, statistics — oraz kilka mini-projektów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 4. Python uwielbia liczby – Python od zera – Cartesian School","description":"Pełne bazy liczbowe Python 3.14: co komputer nazywa liczbą, systemy int i liczbowe, operatorzy i ich kolejność, dzielenie i reszta, float i dlaczego 0.1 + 0.2 nie jest równe 0.3, zaokrąglenie, Decimal, Fraction, complex, math, random/secrets, statistics — oraz kilka mini-projektów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 4 · STRONA 384</div>
+<h1>Python lubi liczby</h1>
+<p>Pełne bazy liczbowe Python 3.14: co komputer nazywa liczbą, systemy int i liczbowe, operatorzy i ich kolejność, dzielenie i reszta, float i dlaczego 0.1 + 0.2 nie jest równe 0.3, zaokrąglenie, Decimal, Fraction, complex, math, random/secrets, statistics — oraz kilka mini-projektów.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~4 godziny</span><span><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> int, float, complex, Decimal, Fraction</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22 praktyki</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html"><span><span class="si-num">4.1</span>Czym jest liczba dla komputera</span><span class="si-page">387</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html"><span><span class="si-num">4.2</span>int są liczbami całkowitymi bez strachu</span><span class="si-page">394</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html"><span><span class="si-num">4.3</span>Układy liczbowe</span><span class="si-page">404</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-02-kommentarii.html"><span><span class="si-num">4.4</span>Komentarze w obliczeniach</span><span class="si-page">411</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-08-operatory.html"><span><span class="si-num">4.5</span>Operatory arytmetyczne</span><span class="si-page">416</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html"><span><span class="si-num">4.6</span>Kolejność wykonywania operacji</span><span class="si-page">420</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html"><span><span class="si-num">4.7</span>Podział i reszta</span><span class="si-page">424</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-11-stepeni.html"><span><span class="si-num">4.8</span>Stopnie naukowe i abs()</span><span class="si-page">429</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html"><span><span class="si-num">4.9</span>Mapa typów liczbowych</span><span class="si-page">432</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html"><span><span class="si-num">4.10</span>float — liczby zmiennoprzecinkowe</span><span class="si-page">436</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html"><span><span class="si-num">4.11</span>Dlaczego 0,1 + 0,2 nie jest równe 0,3</span><span class="si-page">439</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html"><span><span class="si-num">4.12</span>Poprawne porównanie float</span><span class="si-page">449</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-15-okruglenie.html"><span><span class="si-num">4.13</span>Zaokrąglenie: round, floor, ceil, trunc</span><span class="si-page">453</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-16-decimal.html"><span><span class="si-num">4.14</span>Decimal jest dokładną arytmetyką dziesiętną</span><span class="si-page">458</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-17-fraction.html"><span><span class="si-num">4.15</span>Fraction — dokładne ułamki</span><span class="si-page">465</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html"><span><span class="si-num">4.16</span>complex i cmath</span><span class="si-page">470</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html"><span><span class="si-num">4.17</span>Konwersja typów liczb</span><span class="si-page">476</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-19-modul-math.html"><span><span class="si-num">4.18</span>Moduł math</span><span class="si-page">482</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html"><span><span class="si-num">4.19</span>random i secrets</span><span class="si-page">489</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html"><span><span class="si-num">4.20</span>statistics, inf i nan</span><span class="si-page">494</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html"><span><span class="si-num">4.21</span>Błędy numeryczne i debugowanie</span><span class="si-page">501</span></a><a class="section-item" href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html"><span><span class="si-num">4.22</span>Mini-projekty i podsumowania</span><span class="si-page">514</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

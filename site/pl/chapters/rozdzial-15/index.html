@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 15. Python i akta — Python od podstaw — Cartesian School</title>
+<meta content="Ścieżka danych od obiektu Python do pliku na dysku — i z powrotem. System plików, ścieżki przenośne przez pathlib, bezpieczne odczytywanie i zapisywanie tekstu oraz bajtów do UTF-8, JSON i CSV — oraz jak zapisać stan programu między uruchomieniami, nie tylko na czas trwania jednej sesji." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-15/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-15/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-15/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-15/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 15. Python i akta — Python od podstaw — Cartesian School" />
+<meta property="og:description" content="Ścieżka danych od obiektu Python do pliku na dysku — i z powrotem. System plików, ścieżki przenośne przez pathlib, bezpieczne odczytywanie i zapisywanie tekstu oraz bajtów do UTF-8, JSON i CSV — oraz jak zapisać stan programu między uruchomieniami, nie tylko na czas trwania jednej sesji." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-15/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 15. Python i akta — Python od podstaw — Cartesian School" />
+<meta name="twitter:description" content="Ścieżka danych od obiektu Python do pliku na dysku — i z powrotem. System plików, ścieżki przenośne przez pathlib, bezpieczne odczytywanie i zapisywanie tekstu oraz bajtów do UTF-8, JSON i CSV — oraz jak zapisać stan programu między uruchomieniami, nie tylko na czas trwania jednej sesji." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 15. Python i akta — Python od podstaw — Cartesian School","description":"Ścieżka danych od obiektu Python do pliku na dysku — i z powrotem. System plików, ścieżki przenośne przez pathlib, bezpieczne odczytywanie i zapisywanie tekstu oraz bajtów do UTF-8, JSON i CSV — oraz jak zapisać stan programu między uruchomieniami, nie tylko na czas trwania jednej sesji.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-15/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-15/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-15/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 15 · STR. 2236</div>
+<h1>Python i akta</h1>
+<p>Ścieżka danych od obiektu Python do pliku na dysku — i z powrotem. System plików, ścieżki przenośne przez pathlib, bezpieczne odczytywanie i zapisywanie tekstu oraz bajtów do UTF-8, JSON i CSV — oraz jak zapisać stan programu między uruchomieniami, nie tylko na czas trwania jednej sesji.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~9 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--folder"><use href="/assets/icons/cartesian/icons.svg#icon-folder"></use></svg> pathlib, JSON, CSV</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 30 praktyk</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-15/15-01-zachem-fajly.html"><span><span class="si-num">15.1</span>Po co są pliki? Otwieranie i czytanie</span><span class="si-page">2240</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-02-stroka-za-strokoj.html"><span><span class="si-num">15.2</span>Linia po linijce</span><span class="si-page">2250</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-03-sozdanie-fajlov.html"><span><span class="si-num">15.3</span>Utwórz nowe pliki</span><span class="si-page">2257</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-04-mini-proekt-itogi.html"><span><span class="si-num">15.4</span>Mini-projekt: Dziennik notatek</span><span class="si-page">2263</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-05-fajl-i-papka.html"><span><span class="si-num">15.5</span>System plików, folderów i plików</span><span class="si-page">2266</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-06-puti-absolyutnye-i-otnositelnye.html"><span><span class="si-num">15.6</span>Ścieżki: bezwzględne i względne</span><span class="si-page">2273</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-07-tekushaya-rabochaya-directoriya.html"><span><span class="si-num">15.7</span>Bieżący katalog roboczy (CWD)</span><span class="si-page">2277</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-08-pochemu-pathlib.html"><span><span class="si-num">15.8</span>pathlib.Path: ścieżki jako obiekty</span><span class="si-page">2286</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-09-razbiraem-put.html"><span><span class="si-num">15.9</span>Rozkładanie ścieżki: name, stem, suffix, parent</span><span class="si-page">2291</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-10-praktika-puti-i-cwd.html"><span><span class="si-num">15.10</span>Praktyka: Ścieżki i CWD</span><span class="si-page">2296</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-11-file-object.html"><span><span class="si-num">15.11</span>open() zwraca obiekt pliku</span><span class="si-page">2300</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-12-zhiznenny-cikl-i-with.html"><span><span class="si-num">15.12</span>Cykl życia pliku i with</span><span class="si-page">2303</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-13-kursor-fajla.html"><span><span class="si-num">15.13</span>Kursor pliku: tell() i seek()</span><span class="si-page">2309</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-14-chitaem-fajly.html"><span><span class="si-num">15.14</span>Przeczytaj akta: read(), readline(), readlines()</span><span class="si-page">2317</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-15-pishem-i-rezhimy.html"><span><span class="si-num">15.15</span>Zapis do plików: write() i tryby r/w/a/x</span><span class="si-page">2325</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-16-text-bytes-encoding.html"><span><span class="si-num">15.16</span>Tekst, bytes i kodowanie UTF-8</span><span class="si-page">2334</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-17-binarnye-fajly-i-perevody-strok.html"><span><span class="si-num">15.17</span>Binarki i podziały linii</span><span class="si-page">2345</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-18-pathlib-udobnye-metody.html"><span><span class="si-num">15.18</span>pathlib: read_text/write_text/read_bytes/write_bytes</span><span class="si-page">2352</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-19-papki-exists-mkdir.html"><span><span class="si-num">15.19</span>Foldery: exists(), is_file(), mkdir()</span><span class="si-page">2357</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-20-poisk-fajlov-glob.html"><span><span class="si-num">15.20</span>Wyszukiwanie plików: iterdir() i glob()</span><span class="si-page">2365</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-21-pereimenovanie-kopirovanie-udalenie.html"><span><span class="si-num">15.21</span>Zmiana nazw, kopiowanie, usuwanie</span><span class="si-page">2371</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-22-oshibki-fajlovoj-sistemy.html"><span><span class="si-num">15.22</span>Błędy systemu plików</span><span class="si-page">2378</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-23-bolshie-fajly-i-potoki.html"><span><span class="si-num">15.23</span>Duże pliki i przetwarzanie strumieni</span><span class="si-page">2387</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-24-kak-vybrat-format.html"><span><span class="si-num">15.24</span>Jak wybrać format przechowywania danych</span><span class="si-page">2395</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-25-json-serializatsiya.html"><span><span class="si-num">15.25</span>JSON: zapisujemy struktury danych</span><span class="si-page">2400</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html"><span><span class="si-num">15.26</span>Mini-projekt: ratowanie Player</span><span class="si-page">2411</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-27-csv-tablitsy.html"><span><span class="si-num">15.27</span>CSV: tabele w formie tekstowej</span><span class="si-page">2419</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-28-bezopasnaya-rabota-s-fajlami.html"><span><span class="si-num">15.28</span>Bezpieczne zarządzanie plikami</span><span class="si-page">2427</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-29-mini-proekt-rekordy-i-nastrojki.html"><span><span class="si-num">15.29</span>Mini-projekt: tabela rekordów</span><span class="si-page">2438</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-30-brauzer-vs-lokalny-disk.html"><span><span class="si-num">15.30</span>Przeglądarka i lokalny Dysk</span><span class="si-page">2444</span></a><a class="section-item" href="/pl/chapters/rozdzial-15/15-31-itogi-glavy.html"><span><span class="si-num">15.31</span>Podsumowanie rozdziału: Zestaw narzędzi do plików</span><span class="si-page">2452</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

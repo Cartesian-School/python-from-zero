@@ -24,6 +24,8 @@ import sys
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from bs4 import BeautifulSoup
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # Only match href inside a real <a ...> or <link ...> tag — not a bare
@@ -33,11 +35,6 @@ ROOT = Path(__file__).resolve().parent.parent
 # a student — that's not a real link, and &lt; means there's no literal "<"
 # for this pattern to anchor on).
 HREF_RE = re.compile(r'<(?:a|link)\s[^>]*?\bhref="([^"]*)"')
-
-# Real id="..." attributes only — a lookbehind excludes "data-lesson-id=" and
-# similar suffixed attributes, which a bare `id="` match would wrongly treat
-# as a fragment target.
-ID_RE = re.compile(r'(?<![\w-])id="([^"]*)"')
 
 # Only the site's own generated pages are navigation to validate — not
 # standalone example project source (e.g. projects/flask/*/templates/*.html
@@ -55,7 +52,8 @@ SKIP_SCHEMES = ("mailto:", "tel:", "javascript:")
 def _ids_in(path: Path) -> set[str]:
     if not path.exists():
         return set()
-    return set(ID_RE.findall(path.read_text(encoding="utf-8")))
+    soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    return {str(tag["id"]) for tag in soup.find_all(id=True)}
 
 
 def _resolve_internal(href_path: str, current_file: Path, base_dir: Path) -> Path:
@@ -88,13 +86,25 @@ def validate(base_dir: Path) -> list[str]:
         rel = file.relative_to(base_dir)
         text = file.read_text(encoding="utf-8")
 
-        # Duplicate ids within this one page.
-        all_ids = ID_RE.findall(text)
-        seen: set[str] = set()
-        for i in all_ids:
-            if i in seen:
-                errors.append(f"{rel}: duplicate id=\"{i}\" on the same page (ambiguous fragment target)")
-            seen.add(i)
+        # Duplicate HTML ids are ambiguous.  SVG paint-server/marker ids are
+        # additionally checked within each individual SVG; legacy RU pages
+        # intentionally reuse names such as ``arrow`` across independent
+        # diagrams, and changing that baseline is outside this validator's
+        # remit.  PL generation namespaces those ids proactively.
+        soup = BeautifulSoup(text, "html.parser")
+        id_scopes = [
+            [str(tag["id"]) for tag in soup.find_all(id=True) if tag.find_parent("svg") is None],
+            *[[str(tag["id"]) for tag in svg.find_all(id=True)] for svg in soup.find_all("svg")],
+        ]
+        for scoped_ids in id_scopes:
+            seen: set[str] = set()
+            for identifier in scoped_ids:
+                if identifier in seen:
+                    errors.append(
+                        f'{rel}: duplicate id="{identifier}" in the same HTML/SVG scope '
+                        "(ambiguous fragment target)"
+                    )
+                seen.add(identifier)
 
         for href in HREF_RE.findall(text):
             if not href or href.startswith(SKIP_SCHEMES):
