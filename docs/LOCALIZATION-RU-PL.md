@@ -162,3 +162,18 @@ path collisions, stable practice identity, reciprocity, self canonical, lang,
 missing translations and deterministic fixture regeneration. The frozen baseline
 validator is intentionally a milestone guard: later approved content/publication
 work must deliberately version it rather than silently updating M02 evidence.
+
+## M02-I03 update: first production PL pages
+
+The "no production PL pages or visible switchers" statement above described
+this foundation milestone only and is now historical. M02-I03 published the
+first three real, approved PL routes (`home`, `front-matter-author`,
+`front-matter-license`) with real evidence (`manifest/schemas/pl_review.schema.json`,
+`scripts/validate_pl_review.py`, replacing the file-existence-only gate this
+foundation shipped), real RU-leakage/terminology validators
+(`scripts/validate_pl_leakage.py`, `scripts/validate_pl_terminology.py`), and
+a visible bidirectional RU|PL switcher on all three pairs. See
+`docs/M02-I03-PL-SHELL-REVIEW.md` for the full linguistic/technical review and
+`manifest/i18n/content/pl/` for the canonical PL sources. Chapter lesson
+bodies and exercise bodies remain untranslated; `practice-03-01` is
+unaffected. Production merge is still pending Product Owner review.
