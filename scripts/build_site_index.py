@@ -30,6 +30,7 @@ from site_lib import (
     practice_illustration,
     project_card,
     reference_illustration,
+    site_footer,
     site_header,
 )
 
@@ -207,12 +208,13 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/theory.css" />
 <link rel="stylesheet" href="/assets/css/homepage.css" />
+<link rel="stylesheet" href="/assets/css/localization.css" />
 </head>
 <body>
 
-{site_header("o-kurse")}
+{site_header("o-kurse", page_id="home")}
 <nav class="mobile-nav-panel" id="mobile-nav-panel">
-  {mobile_nav_links("o-kurse")}
+  {mobile_nav_links("o-kurse", page_id="home")}
 </nav>
 
 <section class="home-hero" aria-labelledby="course-hero-title">
@@ -763,10 +765,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
   </div>
 </div>
 
-<div class="home-footer">
-  <div class="home-footer__brand">Cartesian School · Python с нуля · {ap.NAME} — {html.escape(ap.ROLE)}</div>
-  <div class="home-footer__legal"><a href="/front-matter/litsenziya.html" rel="license">Лицензия · CC BY-NC-SA 4.0</a></div>
-</div>
+{site_footer()}
 
 {NAV_SCRIPT_TAG}
 <script src="/assets/js/hero.js" defer></script>

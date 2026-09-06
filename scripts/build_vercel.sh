@@ -18,6 +18,13 @@ echo "==> Building Cartesian School Python deployment"
 echo "==> Validating localization foundation and RU baseline"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_localization.py"
 
+echo "==> Validating PL review evidence"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_review.py"
+
+echo "==> Validating PL content quality (RU-leakage, terminology)"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_leakage.py"
+"${PYTHON}" "${ROOT_DIR}/scripts/validate_pl_terminology.py"
+
 echo "==> Validating manifest/practice_manifest.json"
 "${PYTHON}" "${ROOT_DIR}/scripts/validate_practice_manifest.py"
 

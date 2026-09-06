@@ -16,6 +16,7 @@ import tokenize
 from dataclasses import dataclass, field
 from urllib.parse import urljoin
 
+import author_profile as ap
 from book_pagination import chapter_start, page_for_url
 from chapter_metadata import chapter
 from localization import DEFAULT_LOCALE, LOCALES, UI_STRINGS, Routes
@@ -4589,13 +4590,14 @@ NAV_KEYS = [
 TOP_NAV_ITEMS = [(anchor, UI_STRINGS[DEFAULT_LOCALE][key]) for anchor, key in NAV_KEYS]
 
 
-def _locale_home(locale: str, routes: Routes | None) -> str:
-    if locale == DEFAULT_LOCALE:
-        return "/index.html"
-    home = (routes or Routes()).available("home").get(locale)
-    if home is None:
-        raise ValueError("Localized navigation requires an available homepage")
-    return home
+def _locale_home(locale: str, routes: Routes | None = None) -> str:
+    """A locale's own home path is a fixed structural fact (its prefix plus
+    index.html), never approval-gated — that gating applies only to
+    cross-locale navigation (Routes.switcher()). Gating this too would make
+    a locale's own homepage unable to render its own header before its
+    route is approved, which is circular: the approval decision itself
+    depends on the rendered page existing."""
+    return LOCALES[locale]["prefix"] + "/index.html"
 
 
 def _top_nav_items_html(active_section: str | None, li_class: str = "", *,
@@ -4667,6 +4669,42 @@ def mobile_nav_links(active_section: str | None = "glavy", *, page_id: str | Non
     )
     switch = (routes or Routes()).switcher(page_id, locale) if page_id else ""
     return f'<div class="mobile-nav-links">{hero}<ul class="toc-list">{items}</ul>{switch}</div>'
+
+
+def site_footer(locale: str = DEFAULT_LOCALE, routes: Routes | None = None) -> str:
+    """Shared site footer: brand line + license link.
+
+    The RU branch (default args) renders byte-identical to the footer that
+    was previously hardcoded inline in build_site_index.py, so extracting it
+    here cannot change any existing RU page's output.
+    """
+    brand_title = UI_STRINGS[locale]["course_title"]
+    if locale == DEFAULT_LOCALE:
+        license_href = "/front-matter/litsenziya.html"
+    else:
+        license_href = (routes or Routes()).available("front-matter-license").get(locale)
+    license_label = html.escape(UI_STRINGS[locale]["license_footer"])
+    if license_href:
+        legal = f'<a href="{license_href}" rel="license">{license_label}</a>'
+    else:
+        unavailable = html.escape(UI_STRINGS[locale]["unavailable"])
+        legal = f'<span aria-disabled="true" title="{unavailable}">{license_label}</span>'
+    return (
+        '<div class="home-footer">\n'
+        f'  <div class="home-footer__brand">Cartesian School · {brand_title} · {ap.NAME} — {html.escape(ap.ROLE)}</div>\n'
+        f'  <div class="home-footer__legal">{legal}</div>\n'
+        "</div>"
+    )
+
+
+def disabled_card_attrs(locale: str = DEFAULT_LOCALE) -> str:
+    """Attributes marking a homepage card as an unavailable-translation deep
+    link: no href, non-interactive, discoverable via title/aria-disabled —
+    the same convention already shipped in Routes.switcher()'s unavailable
+    branch, reused here so disabled chapter/practice/project cards match it.
+    """
+    unavailable = html.escape(UI_STRINGS[locale]["unavailable"])
+    return f'aria-disabled="true" title="{unavailable}"'
 
 
 NAV_SCRIPT_TAG = '<script src="/assets/js/nav.js" defer></script>'
@@ -4786,10 +4824,17 @@ def render_page(
     sidebar_groups: list[SidebarGroup],
     nav: PageNav,
     active_section: str | None = "glavy",
+    page_id: str | None = None,
+    locale: str = DEFAULT_LOCALE,
+    routes: Routes | None = None,
 ) -> str:
     """depth: how many '../' needed to reach site/ root from this file's folder
     (used only for page-local asset paths — the shared header/nav below is
-    root-relative regardless of depth, see site_header())."""
+    root-relative regardless of depth, see site_header()).
+
+    page_id/locale/routes: opt-in language switcher wiring (see site_header()).
+    Defaults reproduce the exact previous unconditional-RU output, so every
+    existing caller is unaffected until it explicitly passes these."""
     root = "../" * depth
 
     crumb_parts = []
@@ -4806,34 +4851,38 @@ def render_page(
     nav_html = '<div class="section-nav">'
     if nav.prev_href:
         prev_label = _page_nav_label(nav.prev_href, nav.prev_label)
-        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">← Назад</div><div class="lbl">{html.escape(prev_label)}</div></a>'
+        nav_html += f'<a href="{html.escape(nav.prev_href)}"><div class="dir">{UI_STRINGS[locale]["nav_prev"]}</div><div class="lbl">{html.escape(prev_label)}</div></a>'
     else:
         nav_html += "<div></div>"
     if nav.next_href:
         next_label = _page_nav_label(nav.next_href, nav.next_label)
-        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">Далее →</div><div class="lbl">{html.escape(next_label)}</div></a>'
+        nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">{UI_STRINGS[locale]["nav_next"]}</div><div class="lbl">{html.escape(next_label)}</div></a>'
     nav_html += "</div>"
 
+    # Only loaded when a switcher can actually render (page_id set) — every
+    # existing RU caller omits page_id, so this never changes their output.
+    locale_css = f'<link rel="stylesheet" href="{root}assets/css/localization.css" />\n' if page_id else ""
+
     return _render_icon_markers(f"""<!DOCTYPE html>
-<html lang="{LOCALES[DEFAULT_LOCALE]['html_lang']}">
+<html lang="{LOCALES[locale]['html_lang']}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{html.escape(page_title)} — Python с нуля — Cartesian School</title>
+<title>{html.escape(page_title)} — {UI_STRINGS[locale]["course_title"]} — Cartesian School</title>
 <meta name="description" content="{html.escape(description)}" />
 <link rel="icon" href="{root}assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/css/theory.css" />
-</head>
+{locale_css}</head>
 <body>
 
-{site_header(active_section)}
+{site_header(active_section, page_id=page_id, locale=locale, routes=routes)}
 
 <div class="layout">
   <nav class="sidebar" id="mobile-nav-panel">
-    {mobile_nav_links(active_section)}
+    {mobile_nav_links(active_section, page_id=page_id, locale=locale, routes=routes)}
     {sidebar_html}
   </nav>
 
@@ -5656,7 +5705,7 @@ def _temperature_converter_scene() -> str:
   </g>"""
 
 
-def _notes_app_scene() -> str:
+def _notes_app_scene(locale: str = DEFAULT_LOCALE) -> str:
     """Bespoke web illustration for notes-app: a compact text-editor window
     — title, unsaved-state dot, save icon, and four text lines where the
     last one visibly types out with a following caret — that then saves
@@ -5671,10 +5720,11 @@ def _notes_app_scene() -> str:
     unchanged — this scene is consumed only by project_illustration(), so
     the accepted publication byte contract for this project is untouched.
     """
-    return """
+    title = {"pl": "Notatka"}.get(locale, "Заметка")
+    return f"""
   <rect class="notes-window" x="70" y="20" width="260" height="185" rx="18" fill="#fff" opacity=".97"/>
   <g class="notes-header">
-    <text x="86" y="40" font-family="'Sora', sans-serif" font-weight="700" font-size="14" fill="var(--navy-900)" opacity=".85">Заметка</text>
+    <text x="86" y="40" font-family="'Sora', sans-serif" font-weight="700" font-size="14" fill="var(--navy-900)" opacity=".85">{title}</text>
     <circle class="notes-unsaved" cx="284" cy="35" r="4.5" fill="var(--amber-500)" opacity=".2"/>
     <g class="notes-save">
       <rect x="300" y="26" width="18" height="18" rx="4" fill="var(--blue-500)"/>
@@ -5879,7 +5929,7 @@ def _rock_paper_scissors_scene() -> str:
   </g>"""
 
 
-def project_illustration(project_id: str) -> str:
+def project_illustration(project_id: str, locale: str = DEFAULT_LOCALE) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
     Purely decorative (the card/page title carries the accessible name), so
@@ -5907,7 +5957,7 @@ def project_illustration(project_id: str) -> str:
     elif project_id == "temperature-converter":
         scene = _temperature_converter_scene()
     elif project_id == "notes-app":
-        scene = _notes_app_scene()
+        scene = _notes_app_scene(locale)
     elif project_id == "safesort":
         scene = _safesort_scene()
     else:
@@ -5957,7 +6007,7 @@ def project_publication_illustration(project_id: str) -> str:
 </svg>"""
 
 
-def practice_illustration() -> str:
+def practice_illustration(locale: str = DEFAULT_LOCALE) -> str:
     """Compact "write -> run -> verify -> progress" editorial illustration for the
     homepage Practice section intro — deliberately iconographic (one small code
     card, one bright focal Run node, one small result card, a tiny progress
@@ -5967,7 +6017,9 @@ def practice_illustration() -> str:
     counts, filters, and progress remain driven by practice_manifest.json and
     progress.js; this scene never repeats or implies those exact figures.
     """
-    return """<svg class="practice-art" viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    result_label = {"pl": "WYNIK"}.get(locale, "РЕЗУЛЬТАТ")
+    cycle_label = {"pl": "PISZ → URUCHOM → SPRAWDŹ"}.get(locale, "ПИШИ → ЗАПУСКАЙ → ПРОВЕРЯЙ")
+    return f"""<svg class="practice-art" viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
   <defs>
     <linearGradient id="practice-bg" x1=".05" y1="0" x2=".95" y2="1">
       <stop offset="0" stop-color="#171044"/><stop offset="1" stop-color="#09021f"/>
@@ -6022,7 +6074,7 @@ def practice_illustration() -> str:
 
   <g class="practice-card">
     <rect x="384" y="70" width="150" height="86" rx="16" fill="#fff" opacity=".96"/>
-    <text x="400" y="92" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#6B6B7D" letter-spacing="1">РЕЗУЛЬТАТ</text>
+    <text x="400" y="92" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#6B6B7D" letter-spacing="1">{result_label}</text>
     <text class="practice-result-idle" x="400" y="134" font-family="JetBrains Mono, monospace" font-size="18" fill="#B4B4C4">···</text>
     <text class="practice-result-value" x="400" y="134" font-family="JetBrains Mono, monospace" font-size="26" font-weight="700" fill="#0D0230" opacity="0">12</text>
     <circle cx="500" cy="118" r="15" fill="none" stroke="#0D0230" stroke-width="2" opacity=".2"/>
@@ -6039,13 +6091,14 @@ def practice_illustration() -> str:
     <circle cx="314" cy="326" r="7" fill="none" stroke="#8FB7FE" stroke-width="2" opacity=".35"/>
   </g>
 
-  <text x="32" y="340" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8fb7fe" opacity=".55" letter-spacing="1">ПИШИ → ЗАПУСКАЙ → ПРОВЕРЯЙ</text>
+  <text x="32" y="340" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8fb7fe" opacity=".55" letter-spacing="1">{cycle_label}</text>
 </svg>"""
 
 
-def reference_illustration() -> str:
+def reference_illustration(locale: str = DEFAULT_LOCALE) -> str:
     """Decorative handbook/index map for the homepage reference section."""
-    return """<svg class="reference-art" viewBox="0 0 620 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    map_label = {"pl": "INDEKS / MAPA WIEDZY"}.get(locale, "УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ")
+    return f"""<svg class="reference-art" viewBox="0 0 620 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
   <defs>
     <linearGradient id="reference-bg" x1=".08" y1="0" x2=".92" y2="1">
       <stop offset="0" stop-color="#171044"/><stop offset="1" stop-color="#09021f"/>
@@ -6080,7 +6133,7 @@ def reference_illustration() -> str:
   <g class="reference-art__nodes" fill="#09021f" stroke="#8fb7fe" stroke-width="2">
     <circle cx="73" cy="307" r="6"/><circle cx="235" cy="231" r="6"/><circle cx="443" cy="214" r="6"/><circle cx="565" cy="103" r="6"/>
   </g>
-  <text x="48" y="52" fill="#8fb7fe" opacity=".62" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ</text>
+  <text x="48" y="52" fill="#8fb7fe" opacity=".62" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">{map_label}</text>
 </svg>"""
 
 

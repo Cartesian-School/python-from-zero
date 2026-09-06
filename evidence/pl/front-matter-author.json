@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M02-PL-SHELL-REVIEW-v1",
+  "record_id": "M02-PL-FRONT-MATTER-AUTHOR-R001",
+  "page_id": "front-matter-author",
+  "language": "pl",
+  "source_locale": "ru",
+  "target_locale": "pl",
+  "unit": {
+    "source_path": "scripts/build_front_matter.py",
+    "source_sha256": "cf0e40a25210a3b569dd30bcd758e74a623749084293d3931bfc562d9d34c42e",
+    "target_source_path": "manifest/i18n/content/pl/front-matter-author.json",
+    "target_sha256": "f788bed6fcc60e9dfdf27057fc99abbc1d415223b4d6d6db77eebb94cb30d992",
+    "rendered_output_path": "/pl/front-matter/o-autorze.html"
+  },
+  "terminology": {
+    "contract_path": "manifest/i18n/pl_terminology.json",
+    "contract_sha256": "3db959980aaf8a9da8c128769a63bfc28ebd1f2456852f807606b00f239fa113"
+  },
+  "reviewer": {
+    "reviewer_id": "claude-m02-i03-agent",
+    "display_name": "Claude Sonnet 5 (M02-I03 agent QA pass)",
+    "reviewer_type": "ai_assistant",
+    "reviewed_at": "2026-09-05T23:56:21Z"
+  },
+  "checks": {
+    "fidelity_status": "pass",
+    "terminology_status": "pass",
+    "language_quality_status": "pass",
+    "code_preservation_status": "pass",
+    "link_integrity_status": "pass",
+    "russian_leakage_status": "pass",
+    "accessibility_status": "pass"
+  },
+  "sections": [
+    {
+      "name": "hero + core",
+      "status": "pass",
+      "notes": "Name, role, specializations and portrait preserved unchanged (author_profile.py, untouched); two core paragraphs translated faithfully; portrait alt text translated (was RU-only, now content/pl/front-matter-author.json:portrait_alt)."
+    },
+    {
+      "name": "professional path",
+      "status": "pass",
+      "notes": "Three paragraphs translated faithfully, preserving DO-178C, RAG, IBM watsonx, Kubernetes/DevOps/observability as protected technical terms."
+    },
+    {
+      "name": "engineering domains",
+      "status": "pass",
+      "notes": "5 domains translated (Polish counterpart of author_profile.Domain.title_ru/desc_ru), index-parallel and length-matched to author_profile.DOMAINS."
+    },
+    {
+      "name": "projects and systems",
+      "status": "pass",
+      "notes": "Lead sentence translated; the 6 project/system names (GuardBSD, AstraDesk, AeroNerve, PySH, ECLI, Cartesian School Agency AI) are protected proper nouns, unchanged."
+    },
+    {
+      "name": "educator + Cartesian School",
+      "status": "pass",
+      "notes": "Both closing sections translated faithfully, no new claims introduced."
+    },
+    {
+      "name": "sidebar",
+      "status": "pass",
+      "notes": "Only the translated item (O autorze) is linked; the two untranslated front-matter pages are omitted rather than linked, per the no-misleading-navigation contract."
+    }
+  ],
+  "notes": "Faithful translation of the currently approved RU author page (scripts/build_front_matter.py's build_ob_avtore()), rendered via the new scripts/build_front_matter_pl.py using site_lib.render_page()'s locale-aware path. Automated scan confirms zero Cyrillic codepoints in visible text or attributes. All verified facts (name, roles, companies, project names, links, portrait asset) preserved unchanged; only surrounding prose and labels translated. Reviewed as mechanical QA + linguistic audit per M02-I03 governance. This is an AI QA pass, not a production approval: decision.status is 'reviewed', not 'approved', because only a human decider may set decision.status to 'approved' (scripts/validate_pl_review.py enforces this). Final production merge still requires Product Owner sign-off.",
+  "decision": {
+    "status": "reviewed",
+    "decided_by": "claude-m02-i03-agent",
+    "decider_type": "ai_assistant",
+    "decided_at": "2026-09-06T09:00:00Z"
+  }
+}

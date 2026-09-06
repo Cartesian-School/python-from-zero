@@ -213,7 +213,11 @@ if (document.fonts && document.fonts.ready) {
   var button = document.createElement("button");
   button.type = "button";
   button.className = "back-to-top";
-  button.setAttribute("aria-label", "Наверх");
+  var BACK_TO_TOP_LABEL = { ru: "Наверх", pl: "Wróć na górę" };
+  button.setAttribute(
+    "aria-label",
+    BACK_TO_TOP_LABEL[document.documentElement.lang] || BACK_TO_TOP_LABEL.ru
+  );
   button.disabled = true; // hidden at load (scrollY starts at/near 0) — also keeps it out of tab order
   button.innerHTML =
     '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +

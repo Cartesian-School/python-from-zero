@@ -192,6 +192,7 @@ def build_licenziya() -> None:
         body_html=body,
         sidebar_groups=SIDEBAR,
         nav=PageNav(),
+        page_id="front-matter-license",
     )
     write("litsenziya.html", out)
 

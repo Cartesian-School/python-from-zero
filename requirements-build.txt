@@ -1,0 +1,25 @@
+# Build-time Python dependencies shared by GitHub Actions and the Vercel
+# build (scripts/build_vercel.sh -> validate_pl_review.py / validate_pl_leakage.py
+# / validate_pl_terminology.py).
+#
+# Both packages were previously only ever installed as transitive
+# dependencies (jsonschema via nbformat, beautifulsoup4 directly in CI's
+# inline pip install list) that Vercel's build environment never had.
+# jsonschema's absence failed the build immediately with
+# ModuleNotFoundError; once that was fixed, the *next* script in
+# build_vercel.sh's sequence (validate_pl_leakage.py) failed the same way on
+# `from bs4 import BeautifulSoup` — the same class of bug, just masked until
+# the first one was fixed. Both must be explicit, direct build dependencies
+# here so local/CI/Vercel can't silently diverge on what's installed.
+jsonschema==4.26.0
+beautifulsoup4==4.15.0
+
+# jsonschema's "date-time" format checker (used by validate_pl_review.py's
+# FormatChecker) lazily imports rfc3339-validator and, per jsonschema's own
+# design, silently registers no checker at all -- format validation becomes
+# a silent no-op -- when that import fails. Without pinning it here
+# directly, whether "format": "date-time" is actually enforced would depend
+# on whatever unrelated transitive dependency (e.g. jupyter-events, pulled
+# in only by nbclient/nbconvert in a full dev install) happens to have
+# installed it first; CI's and Vercel's minimal build environments do not.
+rfc3339-validator==0.1.4

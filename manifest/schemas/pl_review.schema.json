@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.cartesianschool.org/schemas/pl-review-record-1.0.0.json",
+  "title": "M02 Polish shell localization review record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rubric_id",
+    "record_id",
+    "page_id",
+    "language",
+    "source_locale",
+    "target_locale",
+    "unit",
+    "terminology",
+    "reviewer",
+    "checks",
+    "notes",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "rubric_id": {"const": "M02-PL-SHELL-REVIEW-v1"},
+    "record_id": {"type": "string", "pattern": "^M02-PL-[A-Z0-9._-]+-R[0-9]{3}$"},
+    "page_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "language": {"const": "pl"},
+    "source_locale": {"const": "ru"},
+    "target_locale": {"const": "pl"},
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "source_sha256", "target_source_path", "target_sha256", "rendered_output_path"],
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "target_source_path": {"type": "string", "minLength": 1},
+        "target_sha256": {"$ref": "#/$defs/sha256"},
+        "rendered_output_path": {"type": "string", "pattern": "^/[a-zA-Z0-9/_-]+\\.html$"}
+      }
+    },
+    "terminology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_path", "contract_sha256"],
+      "properties": {
+        "contract_path": {"const": "manifest/i18n/pl_terminology.json"},
+        "contract_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_id", "display_name", "reviewer_type", "reviewed_at"],
+      "properties": {
+        "reviewer_id": {"type": "string", "minLength": 1},
+        "display_name": {"type": "string", "minLength": 1},
+        "reviewer_type": {"enum": ["human", "ai_assistant"]},
+        "reviewed_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fidelity_status",
+        "terminology_status",
+        "language_quality_status",
+        "code_preservation_status",
+        "link_integrity_status",
+        "russian_leakage_status",
+        "accessibility_status"
+      ],
+      "properties": {
+        "fidelity_status": {"$ref": "#/$defs/check_status"},
+        "terminology_status": {"$ref": "#/$defs/check_status"},
+        "language_quality_status": {"$ref": "#/$defs/check_status"},
+        "code_preservation_status": {"$ref": "#/$defs/check_status"},
+        "link_integrity_status": {"$ref": "#/$defs/check_status"},
+        "russian_leakage_status": {"$ref": "#/$defs/check_status"},
+        "accessibility_status": {"$ref": "#/$defs/check_status"}
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "notes"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "status": {"$ref": "#/$defs/check_status"},
+          "notes": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "notes": {"type": "string", "minLength": 20},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "decided_by", "decider_type", "decided_at"],
+      "properties": {
+        "status": {"enum": ["reviewed", "approved", "rejected", "needs_rework"]},
+        "decided_by": {"type": "string", "minLength": 1},
+        "decider_type": {"enum": ["human", "ai_assistant"]},
+        "decided_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "check_status": {"enum": ["pass", "fail"]}
+  }
+}

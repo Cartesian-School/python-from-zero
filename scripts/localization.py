@@ -24,6 +24,19 @@ def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=unique)
 
 
+def load_pl_content(name: str, required_keys: tuple[str, ...] = ()) -> dict:
+    """Load one canonical PL content file (manifest/i18n/content/pl/<name>.json).
+
+    Fails fast on a missing required section rather than half-rendering a
+    page with silently absent copy.
+    """
+    data = read_json(MANIFEST_DIR / 'content' / 'pl' / f'{name}.json')
+    missing = [key for key in required_keys if key not in data]
+    if missing:
+        raise ValueError(f'PL content {name}.json missing keys: {missing}')
+    return data
+
+
 REGISTRY = read_json(MANIFEST_DIR / 'locales.json')
 LOCALES = REGISTRY['locales']
 DEFAULT_LOCALE = REGISTRY['default_locale']
