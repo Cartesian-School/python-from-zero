@@ -1,9 +1,15 @@
 # Build-time Python dependencies shared by GitHub Actions and the Vercel
-# build (scripts/build_vercel.sh -> scripts/validate_pl_review.py).
+# build (scripts/build_vercel.sh -> validate_pl_review.py / validate_pl_leakage.py
+# / validate_pl_terminology.py).
 #
-# jsonschema must be declared here explicitly rather than relied upon as a
-# transitive dependency of nbformat: Vercel's build environment does not
-# install nbformat, so validate_pl_review.py's `from jsonschema import
-# Draft202012Validator` previously failed with ModuleNotFoundError there
-# even though GitHub Actions happened to have it via nbformat.
+# Both packages were previously only ever installed as transitive
+# dependencies (jsonschema via nbformat, beautifulsoup4 directly in CI's
+# inline pip install list) that Vercel's build environment never had.
+# jsonschema's absence failed the build immediately with
+# ModuleNotFoundError; once that was fixed, the *next* script in
+# build_vercel.sh's sequence (validate_pl_leakage.py) failed the same way on
+# `from bs4 import BeautifulSoup` — the same class of bug, just masked until
+# the first one was fixed. Both must be explicit, direct build dependencies
+# here so local/CI/Vercel can't silently diverge on what's installed.
 jsonschema==4.26.0
+beautifulsoup4==4.15.0
