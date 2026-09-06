@@ -110,6 +110,65 @@ def test_leakage_validator_catches_manual_completion_ui_regressions():
         assert validate_pl_leakage.find_leaks(html, set()) != [], label
 
 
+def test_completeness_validator_catches_stale_m02_i03_shell_copy():
+    """Regression guard for the M02-I03 "partial shell" homepage copy
+    (manifest/i18n/content/pl/home.json, now deleted) claiming the Polish
+    course is only partially translated. Even if such copy were ever
+    reintroduced on a translated PL page, validate_pl_complete's TEMPORARY
+    pattern must catch it."""
+    stale_phrases = [
+        "Wszystkie 24 rozdziały kursu są już ujęte w planie — ich tytuły są dostępne po polsku.",
+        "Pełna treść lekcji nie została jeszcze przetłumaczona na polski.",
+        "Tytuły i treść poszczególnych ćwiczeń pojawią się w kolejnych etapach tłumaczenia.",
+        "Tłumaczenie niedostępne",
+    ]
+    for phrase in stale_phrases:
+        assert validate_pl_complete.TEMPORARY.search(phrase), phrase
+
+
+def test_completeness_validator_catches_disabled_homepage_cards():
+    """Regression guard: a homepage card for a route that already has a
+    published PL page must never render disabled/unlinked -- the exact
+    M02-I04 post-merge bug report (chapter/project/reference cards blocked
+    or showing "Tłumaczenie niedostępne" despite the PL page existing)."""
+    pages = {
+        "chapter-01": {"variants": {"pl": {"path": "/pl/chapters/rozdzial-01/index.html"}}},
+        "chapter-02": {"variants": {"pl": {"path": "/pl/chapters/rozdzial-02/index.html"}}},
+        "project-snake": {"project_id": "snake", "variants": {"pl": {"path": "/pl/projects/snake/index.html"}}},
+    }
+    chapter_openers = {"chapter-01", "chapter-02"}
+    manifest_practice: set[str] = set()
+
+    broken_home = BeautifulSoup(
+        '<div id="glavy">'
+        '<a class="jn-card" href="/pl/chapters/rozdzial-01/index.html">Ch1</a>'
+        '<a class="jn-card" aria-disabled="true">Ch2</a>'
+        "</div>"
+        '<div id="proekty"><a class="project-card" href="#">Snake</a></div>'
+        '<div id="spravochnik"></div>',
+        "html.parser",
+    )
+    errors = validate_pl_complete.homepage_navigation_errors(
+        broken_home, pages, chapter_openers, manifest_practice,
+    )
+    assert any("disabled/placeholder chapter" in e for e in errors)
+    assert any("chapter cards don't match" in e for e in errors)
+    assert any("disabled/placeholder project" in e for e in errors)
+
+    fixed_home = BeautifulSoup(
+        '<div id="glavy">'
+        '<a class="jn-card" href="/pl/chapters/rozdzial-01/index.html">Ch1</a>'
+        '<a class="jn-card" href="/pl/chapters/rozdzial-02/index.html">Ch2</a>'
+        "</div>"
+        '<div id="proekty"><a class="project-card" href="/pl/projects/snake/index.html">Snake</a></div>'
+        '<div id="spravochnik"></div>',
+        "html.parser",
+    )
+    assert validate_pl_complete.homepage_navigation_errors(
+        fixed_home, pages, chapter_openers, manifest_practice,
+    ) == []
+
+
 def test_shared_progress_identity_remains_locale_neutral():
     client = (ROOT / "web/src/practice-app.js").read_text(encoding="utf-8")
     assert 'const PROGRESS_KEY = "cartesian.python.progress.v1"' in client
