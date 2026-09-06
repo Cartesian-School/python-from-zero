@@ -35,6 +35,7 @@ from localization import LOCALES, Routes, alternate_links
 from site_structure import SITE_ORIGIN, PageRecord, iter_pages
 
 AUTHOR_PAGE_URL_PATH = "/front-matter/ob-avtore.html"
+AUTHOR_PAGE_URL_PATHS = {AUTHOR_PAGE_URL_PATH, "/pl/front-matter/o-autorze.html"}
 
 MARKER_START = "<!-- cartesian:seo-meta:start -->"
 MARKER_END = "<!-- cartesian:seo-meta:end -->"
@@ -98,7 +99,7 @@ def _json_ld_for(page: PageRecord, all_pages: list[PageRecord]) -> str | None:
             "learningResourceType": "lesson" if page.kind == "chapter-lesson" else "chapter",
             "isAccessibleForFree": True,
         }
-        if page.url_path == AUTHOR_PAGE_URL_PATH:
+        if page.url_path in AUTHOR_PAGE_URL_PATHS:
             # The one page whose subject is a person, not a lesson — add a
             # Person node alongside the generic LearningResource one, using
             # only facts already verified in author_profile.py.
