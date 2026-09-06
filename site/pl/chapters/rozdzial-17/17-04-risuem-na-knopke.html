@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Gdy klikniesz przycisk, narysuj go — Python od zera — Cartesian School</title>
+<meta content="Obsługa kliknięcia na komórkę pola gry i ważny niuans z lambda w pętli." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-17/17-04-risuem-na-knopke.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-17/17-04-risuem-na-knopke.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Gdy klikniesz przycisk, narysuj go — Python od zera — Cartesian School" />
+<meta property="og:description" content="Obsługa kliknięcia na komórkę pola gry i ważny niuans z lambda w pętli." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Gdy klikniesz przycisk, narysuj go — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Obsługa kliknięcia na komórkę pola gry i ważny niuans z lambda w pętli." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Gdy klikniesz przycisk, narysuj go — Python od zera — Cartesian School","description":"Obsługa kliknięcia na komórkę pola gry i ważny niuans z lambda w pętli.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-17/17-04-risuem-na-knopke.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 17 · Kółko-krzyżyk</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-17/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-17/17-01-privyazka-sobytij.html">Wiązanie zdarzeń</a></li><li><a href="/pl/chapters/rozdzial-17/17-02-obyasnenie-nastrojka.html">Wyjaśnienie gry i Tkinter konfiguracja</a></li><li><a href="/pl/chapters/rozdzial-17/17-03-peremennye-knopki.html">Zmienne globalne i przyciski</a></li><li><a class="active" href="/pl/chapters/rozdzial-17/17-04-risuem-na-knopke.html">Podczas klikania rysuj przycisk</a></li><li><a href="/pl/chapters/rozdzial-17/17-05-proverka-pobedy.html">Sprawdzanie zwycięstwa</a></li><li><a href="/pl/chapters/rozdzial-17/17-06-novaya-igra-itogi.html">Nowa gra i pierwsza pełna wersja</a></li><li><a href="/pl/chapters/rozdzial-17/17-07-event-callback-command-binding.html">Event, callback, command i binding</a></li><li><a href="/pl/chapters/rozdzial-17/17-08-obyekt-event.html">Obiekt Event</a></li><li><a href="/pl/chapters/rozdzial-17/17-09-sintaksis-sobytij.html">Składnia zdarzeń Tk</a></li><li><a href="/pl/chapters/rozdzial-17/17-10-command-vs-bind.html">command vs bind — co wybrać</a></li><li><a href="/pl/chapters/rozdzial-17/17-11-focus-i-klaviatura.html">Focus i klawiatura</a></li><li><a href="/pl/chapters/rozdzial-17/17-12-enter-leave-hover.html">Mouse Enter/Leave i hover</a></li><li><a href="/pl/chapters/rozdzial-17/17-13-model-sostoyaniya.html">Model stanu gry</a></li><li><a href="/pl/chapters/rozdzial-17/17-14-indeksy-stroki-stolbcy.html">Indeksy, wiersze i kolumny</a></li><li><a href="/pl/chapters/rozdzial-17/17-15-algoritm-hoda.html">Poprawny algorytm ruchu</a></li><li><a href="/pl/chapters/rozdzial-17/17-16-vosem-linij-pobedy.html">Osiem linii płatnych</a></li><li><a href="/pl/chapters/rozdzial-17/17-17-pobeda-nichya-terminal.html">Wygrać, zremisować i terminal state</a></li><li><a href="/pl/chapters/rozdzial-17/17-18-model-a-ne-widgets.html">Od widgets-as-state do board model</a></li><li><a href="/pl/chapters/rozdzial-17/17-19-gamestate-dataclass.html">GameState z dataclass</a></li><li><a href="/pl/chapters/rozdzial-17/17-20-arhitektura-app.html">Architektura TicTacToeApp</a></li><li><a href="/pl/chapters/rozdzial-17/17-21-adaptivnoe-pole.html">Adaptacyjne pole gry</a></li><li><a href="/pl/chapters/rozdzial-17/17-22-vizualnyj-stil.html">X/O stylu wizualnego</a></li><li><a href="/pl/chapters/rozdzial-17/17-23-hover-preview.html">Hover preview przez bind()</a></li><li><a href="/pl/chapters/rozdzial-17/17-24-upravlenie-klaviaturoj.html">Sterowanie klawiaturą</a></li><li><a href="/pl/chapters/rozdzial-17/17-25-podsvetka-linii.html">Wyróżnianie linii zwycięskiej</a></li><li><a href="/pl/chapters/rozdzial-17/17-26-schyot-matchej.html">Wyniki meczów</a></li><li><a href="/pl/chapters/rozdzial-17/17-27-new-round-vs-new-match.html">New Round vs New Match</a></li><li><a href="/pl/chapters/rozdzial-17/17-28-testiruem-bez-tkinter.html">Testowanie gry bez Tkinter</a></li><li><a href="/pl/chapters/rozdzial-17/17-29-debug-labs.html">Debug Labs</a></li><li><a href="/pl/chapters/rozdzial-17/17-30-visual-effects-after.html">Visual effects i after()</a></li><li><a href="/pl/chapters/rozdzial-17/17-31-tic-tac-toe-pro-itogi.html">Tic-Tac-Toe Pro - Streszczenie rozdziału</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/17-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-01: Praktyka</a></li><li><a href="/pl/practice/17-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-03: Praktyka</a></li><li><a href="/pl/practice/17-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-04: Praktyka</a></li><li><a href="/pl/practice/17-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-05: Praktyka</a></li><li><a href="/pl/practice/17-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-06: Praktyka</a></li><li><a href="/pl/practice/17-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-07: Praktyka</a></li><li><a href="/pl/practice/17-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-08: Praktyka</a></li><li><a href="/pl/practice/17-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-09: Praktyka</a></li><li><a href="/pl/practice/17-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-10: Praktyka</a></li><li><a href="/pl/practice/17-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-11: Praktyka</a></li><li><a href="/pl/practice/17-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-12: Praktyka</a></li><li><a href="/pl/practice/17-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-13: Praktyka</a></li><li><a href="/pl/practice/17-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-14: Praktyka</a></li><li><a href="/pl/practice/17-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-15: Praktyka</a></li><li><a href="/pl/practice/17-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-16: Praktyka</a></li><li><a href="/pl/practice/17-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-17: Praktyka</a></li><li><a href="/pl/practice/17-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-18: Praktyka</a></li><li><a href="/pl/practice/17-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-19: Praktyka</a></li><li><a href="/pl/practice/17-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-20: Praktyka</a></li><li><a href="/pl/practice/17-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-21: Praktyka</a></li><li><a href="/pl/practice/17-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-22: Praktyka</a></li><li><a href="/pl/practice/17-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-23: Praktyka</a></li><li><a href="/pl/practice/17-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-24: Praktyka</a></li><li><a href="/pl/practice/17-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-25: Praktyka</a></li><li><a href="/pl/practice/17-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-26: Praktyka</a></li><li><a href="/pl/practice/17-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-27: Praktyka</a></li><li><a href="/pl/practice/17-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-28: Praktyka</a></li><li><a href="/pl/practice/17-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-29: Praktyka</a></li><li><a href="/pl/practice/17-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-30: Praktyka</a></li><li><a href="/pl/practice/17-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 17-31: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe_basic.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> tic_tac_toe_basic.py - Pierwszy prototyp (17.6)</a></li><li><a href="../../../projects/tkinter/tic-tac-toe/tic_tac_toe.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> tic_tac_toe.py - Ostateczna wersja Pro (17.31)</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-17/17-04-risuem-na-knopke.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-17/index.html">Rozdział 17</a> / Narysuj przycisk</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 17 · Projekt: „Kółko-krzyżyk”</div>
+<h1>Podczas naciśnięcia przycisku rysujemy na nim</h1>
+<p class="lede">Każdy przycisk powinien znać swój numer – jedna z najsłynniejszych subtelności Python. jest tu ukryta</p>
+<p>Każdy przycisk potrzebuje własnej funkcji obsługi klików, która wie o tym <em>jaka dokładnie</em>
+    przycisk jest naciskany. Sztuczka polega na podłączeniu <code class="inline">command</code> z numerem
+    przycisku — do tego używamy funkcji lambda z rozdziału 13:</p>
+<div class="code-block">
+<div class="code-label"><span>risuem_na_knopke.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> na_knopku_nazhali(indeks):
+    <span class="tok-kw">global</span> tekuschij_igrok
+
+    <span class="tok-kw">if</span> polya[indeks][<span class="tok-str">"text"</span>] != <span class="tok-str">""</span>:
+        <span class="tok-kw">return</span>   <span class="tok-com"># komórka już zajęta</span>
+
+    polya[indeks][<span class="tok-str">"text"</span>] = tekuschij_igrok
+    tekuschij_igrok = <span class="tok-str">"O"</span> <span class="tok-kw">if</span> tekuschij_igrok == <span class="tok-str">"X"</span> <span class="tok-kw">else</span> <span class="tok-str">"X"</span>
+
+<span class="tok-com"># przy tworzeniu każdego przycisku:</span>
+knopka.config(command=<span class="tok-kw">lambda</span> i=indeks: na_knopku_nazhali(i))</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Dlaczego lambda i=indeks a nie tylko lambda: na_knopku_nazhali(indeks)?</div>
+<div class="callout-body">Bez <code class="inline">i=indeks</code> wszystkie dziewięć przycisków pamiętało tę samą zmienną <code class="inline">indeks</code> — nie jego wartości w momencie tworzenia. W momencie kliknięcia cykl już dawno się zakończy, i <code class="inline">indeks</code> będzie 8 dla wszystkich przycisków jednocześnie. Domyślnie <code class="inline">i=indeks</code> „zamraża” aktualną wartość przy tworzeniu każdej lambdy — klasyczny i ważny niuans Python.</div>
+</div>
+</div>
+<figure style="margin:24px 0">
+<img alt="na przycisku pola 0 pojawił się X, status zmieniał się na Ruch Gracza: O" src="/assets/img/chapter-17/output/basic-first-move.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="260"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Rzeczywiste okno pełnego pliku prototypu: kliknięcie na pierwszą komórkę — na niej narysowano X, kolej przeszła do O.</figcaption>
+</figure>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Przetwarzanie kliknięcia na komórce pola</div>
+<div class="nc-sub">Moduł tkinter otwiera natywne okno Python — wykonaj lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="17-04">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/17-04/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["17-04"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="17-04"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-17/17-03-peremennye-knopki.html"><div class="dir">← Back</div><div class="lbl">Zmienne i przyciski</div></a><a class="next" href="/pl/chapters/rozdzial-17/17-05-proverka-pobedy.html"><div class="dir">Następny →</div><div class="lbl">Sprawdzanie zwycięstwa</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

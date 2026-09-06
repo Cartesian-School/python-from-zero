@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Jeszcze więcej ciekawostek z listami! — Python od zera — Cartesian School</title>
+<meta content="len, min, max, sum, listy zagnieżdżone (macierze), [[0]*3]*3 pułapki oraz generatory list (list comprehension)." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-11/11-04-eshche-o-spiskah.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-11/11-04-eshche-o-spiskah.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Jeszcze więcej ciekawostek z listami! — Python od zera — Cartesian School" />
+<meta property="og:description" content="len, min, max, sum, listy zagnieżdżone (macierze), [[0]*3]*3 pułapki oraz generatory list (list comprehension)." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Jeszcze więcej ciekawostek z listami! — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="len, min, max, sum, listy zagnieżdżone (macierze), [[0]*3]*3 pułapki oraz generatory list (list comprehension)." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Jeszcze więcej ciekawostek z listami! — Python od zera — Cartesian School","description":"len, min, max, sum, listy zagnieżdżone (macierze), [[0]*3]*3 pułapki oraz generatory list (list comprehension).","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-04-eshche-o-spiskah.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 11 · Dane</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-11/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-11/11-11-zachem-hranit-mnogo.html">Dlaczego przechowywać wiele wartości</a></li><li><a href="/pl/chapters/rozdzial-11/11-01-spiski-osnovy.html">Listy: podstawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-02-srezy-spiskov.html">Sekatory list</a></li><li><a href="/pl/chapters/rozdzial-11/11-12-izmenyaem-spisok.html">Zmiana lista</a></li><li><a href="/pl/chapters/rozdzial-11/11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="/pl/chapters/rozdzial-11/11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="/pl/chapters/rozdzial-11/11-03-operacii-so-spiskami.html">Potężne operacje list</a></li><li><a href="/pl/chapters/rozdzial-11/11-15-spiski-i-cikly.html">Listy i pętle</a></li><li><a href="/pl/chapters/rozdzial-11/11-16-ssylki-aliasing.html">Kompendium, aliasing, == i is</a></li><li><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html">Listy kopiowania</a></li><li><a class="active" href="/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html">Więcej o listach</a></li><li><a href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html">Mini Projekt: Kolorowa Gwiazda</a></li><li><a href="/pl/chapters/rozdzial-11/11-06-kortezhi.html">Krotki</a></li><li><a href="/pl/chapters/rozdzial-11/11-18-zip-i-raspakovka.html">zip() i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-11/11-07-mnozhestva.html">Zestawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-19-mnozhestva-operacii.html">Operacje setów i możliwość hasowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-08-slovari.html">Słowniki</a></li><li><a href="/pl/chapters/rozdzial-11/11-20-slovari-metody.html">Metody słowników</a></li><li><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html">Zagnieżdżone struktury</a></li><li><a href="/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html">Przemiany i comprehensions</a></li><li><a href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html">Mini Project: Nieskończone Kolory</a></li><li><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html">Jak wybrać odpowiednią strukturę</a></li><li><a href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html">Debugowanie kolekcji</a></li><li><a href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html">Mini-projekt: częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html">Mini-projekty z kolekcjami</a></li><li><a href="/pl/chapters/rozdzial-11/11-10-mini-proekt-perestanovka-itogi.html">Permutacja nazw i streszczenia</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/11-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-11: Praktyka</a></li><li><a href="/pl/practice/11-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-01: Praktyka</a></li><li><a href="/pl/practice/11-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-02: Praktyka</a></li><li><a href="/pl/practice/11-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-12: Praktyka</a></li><li><a href="/pl/practice/11-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-13: Praktyka</a></li><li><a href="/pl/practice/11-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-14: Praktyka</a></li><li><a href="/pl/practice/11-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-03: Praktyka</a></li><li><a href="/pl/practice/11-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-15: Praktyka</a></li><li><a href="/pl/practice/11-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-16: Praktyka</a></li><li><a href="/pl/practice/11-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-17: Praktyka</a></li><li><a href="/pl/practice/11-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-04: Praktyka</a></li><li><a href="/pl/practice/11-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-05: Praktyka</a></li><li><a href="/pl/practice/11-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-06: Praktyka</a></li><li><a href="/pl/practice/11-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-18: Praktyka</a></li><li><a href="/pl/practice/11-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-07: Praktyka</a></li><li><a href="/pl/practice/11-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-19: Praktyka</a></li><li><a href="/pl/practice/11-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-08: Praktyka</a></li><li><a href="/pl/practice/11-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-20: Praktyka</a></li><li><a href="/pl/practice/11-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-21: Praktyka</a></li><li><a href="/pl/practice/11-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-22: Praktyka</a></li><li><a href="/pl/practice/11-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-09: Praktyka</a></li><li><a href="/pl/practice/11-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-23: Praktyka</a></li><li><a href="/pl/practice/11-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-24: Praktyka</a></li><li><a href="/pl/practice/11-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-25: Praktyka</a></li><li><a href="/pl/practice/11-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-26: Praktyka</a></li><li><a href="/pl/practice/11-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-04-eshche-o-spiskah.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-11/index.html">Rozdział 11</a> / Więcej o listach</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 11 · Mnóstwo informacji!</div>
+<h1>Jeszcze ciekawsze rzeczy z listami!</h1>
+<p class="lede">Przydatne wbudowane funkcje, listy zagnieżdżone, znana pułapka mnożenia list zagnieżdżonych – oraz bardziej zwięzły sposób tworzenia nowych list.</p>
+<p>Kilka dodatkowych sztuczek, które często przydają się przy pracy z listami.</p>
+<h2>len(), min(), max(), sum()</h2>
+<div class="code-block">
+<div class="code-label"><span>vstroennye_funkcii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+<span class="tok-fn">print</span>(<span class="tok-fn">len</span>(chisla))   <span class="tok-com"># 6 — liczba elementów</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">min</span>(chisla))   <span class="tok-com"># 4</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">max</span>(chisla))   <span class="tok-com"># 42</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">sum</span>(chisla))   <span class="tok-com"># 108</span></code></pre>
+</div>
+<h2>Listy Listy (Podlisty) - Macierz</h2>
+<p>Elementem listy może być inny lista — tak powstają tabele (macierze):</p>
+<div class="code-block">
+<div class="code-label"><span>vlozhennye_spiski.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>matrix = [[<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>], [<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>], [<span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>]]
+<span class="tok-fn">print</span>(matrix[<span class="tok-num">0</span>])      <span class="tok-com"># [1, 2, 3] — pierwszy łańcuch znaków</span>
+<span class="tok-fn">print</span>(matrix[<span class="tok-num">0</span>][<span class="tok-num">1</span>])   <span class="tok-com">#2 jest drugim elementem pierwszej linijki</span>
+<span class="tok-fn">print</span>(matrix[<span class="tok-num">1</span>][<span class="tok-num">2</span>])   <span class="tok-com">#6 – łańcuch znaków 1, kolumna 2</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:inline-grid;grid-template-columns:repeat(4,auto);gap:6px;margin:0 auto"><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5"></div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">kolumna 0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">kolumna 1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">kolumna 2</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">łańcuch znaków 0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">2</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">3</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">łańcuch znaków 1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">4</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">5</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#5B24F9;color:#fff;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #5B24F9">6</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">łańcuch znaków 2</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">7</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">8</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">9</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">matrix[1][2] → 6 – najpierw łańcuch znaków, potem kolumna</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>perebor_matricy.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> row <span class="tok-kw">in</span> matrix:
+    <span class="tok-kw">for</span> value <span class="tok-kw">in</span> row:
+        <span class="tok-fn">print</span>(value, end=<span class="tok-str">' '</span>)
+    <span class="tok-fn">print</span>()</code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Zagnieżdżony lista + zagnieżdżona pętla — bezpośredni przeniesienie z rozdziału 10</div>
+<div class="callout-body">Zewnętrzna pętla idzie po łańcuch znaków, wewnętrzna — po wartościach w wierszu. To dokładnie ten sam wzorzec zagnieżdżonych pętli, co tabliczka mnożenia w rozdziale 10, tylko teraz dane są już gotowe w postaci macierzy, a nie obliczane na bieżąco.</div>
+</div>
+</div>
+<h2>Pułapka: [[0] * 3] * 3</h2>
+<p>chcę stworzyć siatkę 3×3 z zer w jednej linii — ale to częsty i podstępny błąd:</p>
+<div class="code-block">
+<div class="code-label"><span>lovushka_umnozheniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>grid = [[<span class="tok-num">0</span>] * <span class="tok-num">3</span>] * <span class="tok-num">3</span>
+grid[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(grid)   <span class="tok-com"># [[1, 0, 0], [1, 0, 0], [1, 0, 0]] – WSZYSTKIE linie się zmieniły!</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="[[0]*3]*3 tworzy JEDEN wewnętrzny lista i kopiuje do niego odnośnik trzy razy" data-diagram="block-diagram" role="img" style="width:100%;height:auto;max-width:516px" viewbox="0 0 516 240" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-27-arrowc" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><rect fill="#DBEAFE" height="60" rx="4" stroke="#2563EB" stroke-width="2" width="156" x="0.0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="78.0" y="44.0">grid[0]</tspan></text><line stroke="#B9A0FC" stroke-width="2.5" x1="78.0" x2="78.0" y1="70" y2="120"></line><rect fill="#DBEAFE" height="60" rx="4" stroke="#2563EB" stroke-width="2" width="156" x="180.0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="258.0" y="44.0">grid[1]</tspan></text><line stroke="#B9A0FC" stroke-width="2.5" x1="258.0" x2="258.0" y1="70" y2="120"></line><rect fill="#DBEAFE" height="60" rx="4" stroke="#2563EB" stroke-width="2" width="156" x="360.0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="438.0" y="44.0">grid[2]</tspan></text><line stroke="#B9A0FC" stroke-width="2.5" x1="438.0" x2="438.0" y1="70" y2="120"></line><line stroke="#B9A0FC" stroke-width="2.5" x1="78.0" x2="438.0" y1="120" y2="120"></line><path d="M258.0,120 V170" fill="none" marker-end="url(#pl-svg-27-arrowc)" stroke="#5B24F9" stroke-width="2.5"></path><rect fill="#5B24F9" height="60" rx="4" stroke="#3B0FBF" stroke-width="2" width="240" x="138.0" y="170"></rect><text fill="#fff" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" text-anchor="middle"><tspan x="258.0" y="205.0">[0, 0, 0]</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">[[0]*3]*3 tworzy JEDEN wewnętrzny lista i kopiuje do niego odnośnik trzy razy</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">*3 powtarza odwołanie, zamiast tworzyć trzy niezależne listy</div>
+<div class="callout-body"><code class="inline">[значение] * n</code> dla wartości niezmiennych (liczb, łańcuch znaków) działa bezpiecznie. Ale gdy <code class="inline">значение</code> sam jest listą, <code class="inline">* n</code> po prostu kopiuje odniesienie do tych samych wewnętrznych lista n czasów — dokładnie ta sama zasada aliasing z §11.9. Poprawnym sposobem utworzenia trzech NIEZALEŻNYCH wierszy jest comprehension:</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>pravilnaya_setka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>grid = [[<span class="tok-num">0</span>] * <span class="tok-num">3</span> <span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">3</span>)]
+grid[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(grid)   <span class="tok-com"># [[1, 0, 0], [0, 0, 0], [0, 0, 0]] - tylko pierwszy łańcuch znaków</span></code></pre>
+</div>
+<h2>Iteracja listy pętlą for</h2>
+<div class="code-block">
+<div class="code-label"><span>perebor_spiska_v4.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>fruits = [<span class="tok-str">„jabłko”</span>, <span class="tok-str">„banan”</span>, <span class="tok-str">„wiśnia”</span>]
+<span class="tok-kw">for</span> fruit <span class="tok-kw">in</span> fruits:
+    <span class="tok-fn">print</span>(fruit)</code></pre>
+</div>
+<div class="cvm">
+<div class="cvm-header">Budowanie listy: Pętla z generatorem append() → List</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Klasyczne podejście</div>
+<pre><code>kvadraty = []
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>):
+    kvadraty.append(n ** <span class="tok-num">2</span>)
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">Nowoczesny Python (list comprehension)</div>
+<pre><code>kvadraty = [n ** <span class="tok-num">2</span> <span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">6</span>)]
+<span class="tok-fn">print</span>(kvadraty)</code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> list comprehension (generator list) dla prostych przypadków — istnieje w Python od wersji 2.0, więc to nie kwestia nowości, a kwestia stylu: krócej i, przy pewnej praktyce, czyta się jak jedno zdanie („kwadrat n dla każdego n z zakresu”). Dla bardziej skomplikowanej logiki (z kilkoma warunkami lub efektami ubocznymi) pętla z <code class="inline">append()</code> często pozostaje jaśniejsze — nie zawsze jest „gorzej”</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: len/min/max/sum, listy zagnieżdżone, list comprehension</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="11-04"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/11-04/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-04"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-04"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html"><div class="dir">← Back</div><div class="lbl">Listy kopiowania</div></a><a class="next" href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html"><div class="dir">Następny →</div><div class="lbl">Mini Projekt: Kolorowa Gwiazda</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Praktyka: używamy __str__ i __eq__ – Python od zera – Cartesian School</title>
+<meta content="Klasa Tochka z __str__ i __eq__ – konsolidujemy specjalne metody w praktyce." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-14/14-22-primenyaem-dunder-metody.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-14/14-22-primenyaem-dunder-metody.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Praktyka: używamy __str__ i __eq__ – Python od zera – Cartesian School" />
+<meta property="og:description" content="Klasa Tochka z __str__ i __eq__ – konsolidujemy specjalne metody w praktyce." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Praktyka: używamy __str__ i __eq__ – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Klasa Tochka z __str__ i __eq__ – konsolidujemy specjalne metody w praktyce." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Praktyka: używamy __str__ i __eq__ – Python od zera – Cartesian School","description":"Klasa Tochka z __str__ i __eq__ – konsolidujemy specjalne metody w praktyce.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/14-22-primenyaem-dunder-metody.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 14 · Obiekty</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-14/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-14/14-01-chto-takoe-oop.html">Czym jest OOP?</a></li><li><a href="/pl/chapters/rozdzial-14/14-02-klassy.html">Klasy i obiekty o własnych wartościach
+★★★</a></li><li><a href="/pl/chapters/rozdzial-14/14-03-upravlyaem-obektami.html">Zarządzaj obiektami. Działania obiektowe</a></li><li><a href="/pl/chapters/rozdzial-14/14-04-gonka-turtle-obekty-itogi.html">Turtle Rasa Obiektów</a></li><li><a href="/pl/chapters/rozdzial-14/14-05-self-i-svyazyvanie-metodov.html">self i metody łączenia</a></li><li><a href="/pl/chapters/rozdzial-14/14-06-init-i-sozdanie-obekta.html">__init__ i tworzenie obiektu</a></li><li><a href="/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html">Atrybuty instancji i klas</a></li><li><a href="/pl/chapters/rozdzial-14/14-08-lovushka-obshchego-atributa.html">Powszechna pułapka atrybutów zmiennych</a></li><li><a href="/pl/chapters/rozdzial-14/14-09-mini-proekt-player.html">Mini-projekt: Player</a></li><li><a href="/pl/chapters/rozdzial-14/14-10-inkapsulyatsiya.html">Enkapsulacja</a></li><li><a href="/pl/chapters/rozdzial-14/14-11-property.html">property: obliczane atrybuty</a></li><li><a href="/pl/chapters/rozdzial-14/14-12-mini-proekt-rectangle.html">Mini-projekt: Rectangle</a></li><li><a href="/pl/chapters/rozdzial-14/14-13-kompozitsiya.html">Kompozycja: Obiekty wewnątrz obiektów</a></li><li><a href="/pl/chapters/rozdzial-14/14-14-mini-proekt-korzina-v2.html">Mini Projekt: Koszyk v2</a></li><li><a href="/pl/chapters/rozdzial-14/14-15-nasledovanie.html">Dziedzictwo</a></li><li><a href="/pl/chapters/rozdzial-14/14-16-super.html">super() i procedura rozwiązywania rozwiązań</a></li><li><a href="/pl/chapters/rozdzial-14/14-17-pereopredelenie-metodov.html">Nadpisywanie metod</a></li><li><a href="/pl/chapters/rozdzial-14/14-18-polimorfizm.html">Polimorfizm</a></li><li><a href="/pl/chapters/rozdzial-14/14-19-duck-typing.html">Duck typing</a></li><li><a href="/pl/chapters/rozdzial-14/14-20-mini-proekt-figury.html">Mini-projekt: kształty polimorficzne</a></li><li><a href="/pl/chapters/rozdzial-14/14-21-spetsialnye-metody.html">Metody specjalne</a></li><li><a class="active" href="/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html">Praktyka: Aplikuj __str__ i __eq__</a></li><li><a href="/pl/chapters/rozdzial-14/14-23-dataclasses.html">dataclasses</a></li><li><a href="/pl/chapters/rozdzial-14/14-24-praktika-dataclass.html">Praktyka: dataclass</a></li><li><a href="/pl/chapters/rozdzial-14/14-25-proektiruem-modeli.html">klasa czy nie? Projektowanie modeli</a></li><li><a href="/pl/chapters/rozdzial-14/14-26-mini-proekt-gonka-v2.html">Mini-Projekt: Race Turtle v2</a></li><li><a href="/pl/chapters/rozdzial-14/14-27-itogi-glavy.html">Podsumowanie rozdziału</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/14-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-01: Praktyka</a></li><li><a href="/pl/practice/14-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-02: Praktyka</a></li><li><a href="/pl/practice/14-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-03: Praktyka</a></li><li><a href="/pl/practice/14-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-04: Praktyka</a></li><li><a href="/pl/practice/14-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-05: Praktyka</a></li><li><a href="/pl/practice/14-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-06: Praktyka</a></li><li><a href="/pl/practice/14-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-07: Praktyka</a></li><li><a href="/pl/practice/14-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-08: Praktyka</a></li><li><a href="/pl/practice/14-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-09: Praktyka</a></li><li><a href="/pl/practice/14-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-10: Praktyka</a></li><li><a href="/pl/practice/14-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-11: Praktyka</a></li><li><a href="/pl/practice/14-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-12: Praktyka</a></li><li><a href="/pl/practice/14-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-13: Praktyka</a></li><li><a href="/pl/practice/14-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-14: Praktyka</a></li><li><a href="/pl/practice/14-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-15: Praktyka</a></li><li><a href="/pl/practice/14-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-16: Praktyka</a></li><li><a href="/pl/practice/14-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-17: Praktyka</a></li><li><a href="/pl/practice/14-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-18: Praktyka</a></li><li><a href="/pl/practice/14-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-19: Praktyka</a></li><li><a href="/pl/practice/14-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-20: Praktyka</a></li><li><a href="/pl/practice/14-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-21: Praktyka</a></li><li><a href="/pl/practice/14-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-22: Praktyka</a></li><li><a href="/pl/practice/14-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-23: Praktyka</a></li><li><a href="/pl/practice/14-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-24: Praktyka</a></li><li><a href="/pl/practice/14-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-25: Praktyka</a></li><li><a href="/pl/practice/14-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-26: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/14-22-primenyaem-dunder-metody.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-14/index.html">Rozdział 14</a> /Praktyka: dunder-metody</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 14 · Tworzenie rzeczywistych obiektów</div>
+<h1>Praktyka: Aplikuj __str__ i __eq__</h1>
+<p class="lede">Mała klasa Tochka to plac zabaw do utrwalania obu metod w Sekcji 14.21.</p>
+<h2>Praktyka: punkt na płaszczyźnie</h2>
+<p>Zastosuj obie metody z rozdziału 14.21 do małej klasy <code class="inline">Tochka
+    </code> jest współrzędną <code class="inline">x</code>, <code class="inline">y</code>:</p>
+<div class="code-block">
+<div class="code-label"><span>tochka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">class</span> Tochka:
+    <span class="tok-kw">def</span> __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    <span class="tok-kw">def</span> __str__(self):
+        <span class="tok-kw">return</span> <span class="tok-str">f"</span><span class="tok-str">(</span>{self.x}<span class="tok-str">, </span>{self.y}<span class="tok-str">)</span><span class="tok-str">"</span>
+
+    <span class="tok-kw">def</span> __eq__(self, other):
+        <span class="tok-kw">return</span> self.x == other.x <span class="tok-kw">and</span> self.y == other.y
+
+a = Tochka(<span class="tok-num">1</span>, <span class="tok-num">2</span>)
+b = Tochka(<span class="tok-num">1</span>, <span class="tok-num">2</span>)
+c = Tochka(<span class="tok-num">5</span>, <span class="tok-num">5</span>)
+
+<span class="tok-fn">print</span>(a)          <span class="tok-com"># (1, 2)</span>
+<span class="tok-fn">print</span>(a == b)      <span class="tok-com"># True — współrzędne się zgadzają</span>
+<span class="tok-fn">print</span>(a == c)      <span class="tok-com"># False</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">f-string i __str__ współpracują</div>
+<div class="callout-body"><code class="inline">f"Точка: {a}"</code> powoduje to samo <code class="inline">__str__</code>to i <code class="inline">print(a)</code> – każde miejsce, gdzie Python trzeba zamienić obiekt na łańcuch znaków dla człowieka, przechodzi przez tę metodę.</div>
+</div>
+</div>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">rasstoyanie</div>
+<p>Dodaj Tochka metodę rasstoyanie_do(self other), która zwraca odległość euklidesową do innego punktu: ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0,5.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: __str__ i __eq__ w praktyce</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="14-22"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/14-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-14/14-21-spetsialnye-metody.html"><div class="dir">← Back</div><div class="lbl">Metody specjalne</div></a><a class="next" href="/pl/chapters/rozdzial-14/14-23-dataclasses.html"><div class="dir">Następny →</div><div class="lbl">dataclasses</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

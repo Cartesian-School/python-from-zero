@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Atrybuty instancji i klasy — Python od zera — Cartesian School</title>
+<meta content="atrybut instancji vs atrybut klasy, przeszukiwanie obiektu, cieniowanie przypisania przez obiekt." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-14/14-07-atributy-ekzemplyara-i-klassa.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-14/14-07-atributy-ekzemplyara-i-klassa.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Atrybuty instancji i klasy — Python od zera — Cartesian School" />
+<meta property="og:description" content="atrybut instancji vs atrybut klasy, przeszukiwanie obiektu, cieniowanie przypisania przez obiekt." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Atrybuty instancji i klasy — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="atrybut instancji vs atrybut klasy, przeszukiwanie obiektu, cieniowanie przypisania przez obiekt." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Atrybuty instancji i klasy — Python od zera — Cartesian School","description":"atrybut instancji vs atrybut klasy, przeszukiwanie obiektu, cieniowanie przypisania przez obiekt.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/14-07-atributy-ekzemplyara-i-klassa.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 14 · Obiekty</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-14/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-14/14-01-chto-takoe-oop.html">Czym jest OOP?</a></li><li><a href="/pl/chapters/rozdzial-14/14-02-klassy.html">Klasy i obiekty o własnych wartościach
+★★★</a></li><li><a href="/pl/chapters/rozdzial-14/14-03-upravlyaem-obektami.html">Zarządzaj obiektami. Działania obiektowe</a></li><li><a href="/pl/chapters/rozdzial-14/14-04-gonka-turtle-obekty-itogi.html">Turtle Rasa Obiektów</a></li><li><a href="/pl/chapters/rozdzial-14/14-05-self-i-svyazyvanie-metodov.html">self i metody łączenia</a></li><li><a href="/pl/chapters/rozdzial-14/14-06-init-i-sozdanie-obekta.html">__init__ i tworzenie obiektu</a></li><li><a class="active" href="/pl/chapters/rozdzial-14/14-07-atributy-ekzemplyara-i-klassa.html">Atrybuty instancji i klas</a></li><li><a href="/pl/chapters/rozdzial-14/14-08-lovushka-obshchego-atributa.html">Powszechna pułapka atrybutów zmiennych</a></li><li><a href="/pl/chapters/rozdzial-14/14-09-mini-proekt-player.html">Mini-projekt: Player</a></li><li><a href="/pl/chapters/rozdzial-14/14-10-inkapsulyatsiya.html">Enkapsulacja</a></li><li><a href="/pl/chapters/rozdzial-14/14-11-property.html">property: obliczane atrybuty</a></li><li><a href="/pl/chapters/rozdzial-14/14-12-mini-proekt-rectangle.html">Mini-projekt: Rectangle</a></li><li><a href="/pl/chapters/rozdzial-14/14-13-kompozitsiya.html">Kompozycja: Obiekty wewnątrz obiektów</a></li><li><a href="/pl/chapters/rozdzial-14/14-14-mini-proekt-korzina-v2.html">Mini Projekt: Koszyk v2</a></li><li><a href="/pl/chapters/rozdzial-14/14-15-nasledovanie.html">Dziedzictwo</a></li><li><a href="/pl/chapters/rozdzial-14/14-16-super.html">super() i procedura rozwiązywania rozwiązań</a></li><li><a href="/pl/chapters/rozdzial-14/14-17-pereopredelenie-metodov.html">Nadpisywanie metod</a></li><li><a href="/pl/chapters/rozdzial-14/14-18-polimorfizm.html">Polimorfizm</a></li><li><a href="/pl/chapters/rozdzial-14/14-19-duck-typing.html">Duck typing</a></li><li><a href="/pl/chapters/rozdzial-14/14-20-mini-proekt-figury.html">Mini-projekt: kształty polimorficzne</a></li><li><a href="/pl/chapters/rozdzial-14/14-21-spetsialnye-metody.html">Metody specjalne</a></li><li><a href="/pl/chapters/rozdzial-14/14-22-primenyaem-dunder-metody.html">Praktyka: Aplikuj __str__ i __eq__</a></li><li><a href="/pl/chapters/rozdzial-14/14-23-dataclasses.html">dataclasses</a></li><li><a href="/pl/chapters/rozdzial-14/14-24-praktika-dataclass.html">Praktyka: dataclass</a></li><li><a href="/pl/chapters/rozdzial-14/14-25-proektiruem-modeli.html">klasa czy nie? Projektowanie modeli</a></li><li><a href="/pl/chapters/rozdzial-14/14-26-mini-proekt-gonka-v2.html">Mini-Projekt: Race Turtle v2</a></li><li><a href="/pl/chapters/rozdzial-14/14-27-itogi-glavy.html">Podsumowanie rozdziału</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/14-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-01: Praktyka</a></li><li><a href="/pl/practice/14-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-02: Praktyka</a></li><li><a href="/pl/practice/14-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-03: Praktyka</a></li><li><a href="/pl/practice/14-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-04: Praktyka</a></li><li><a href="/pl/practice/14-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-05: Praktyka</a></li><li><a href="/pl/practice/14-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-06: Praktyka</a></li><li><a href="/pl/practice/14-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-07: Praktyka</a></li><li><a href="/pl/practice/14-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-08: Praktyka</a></li><li><a href="/pl/practice/14-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-09: Praktyka</a></li><li><a href="/pl/practice/14-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-10: Praktyka</a></li><li><a href="/pl/practice/14-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-11: Praktyka</a></li><li><a href="/pl/practice/14-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-12: Praktyka</a></li><li><a href="/pl/practice/14-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-13: Praktyka</a></li><li><a href="/pl/practice/14-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-14: Praktyka</a></li><li><a href="/pl/practice/14-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-15: Praktyka</a></li><li><a href="/pl/practice/14-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-16: Praktyka</a></li><li><a href="/pl/practice/14-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-17: Praktyka</a></li><li><a href="/pl/practice/14-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-18: Praktyka</a></li><li><a href="/pl/practice/14-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-19: Praktyka</a></li><li><a href="/pl/practice/14-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-20: Praktyka</a></li><li><a href="/pl/practice/14-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-21: Praktyka</a></li><li><a href="/pl/practice/14-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-22: Praktyka</a></li><li><a href="/pl/practice/14-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-23: Praktyka</a></li><li><a href="/pl/practice/14-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-24: Praktyka</a></li><li><a href="/pl/practice/14-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-25: Praktyka</a></li><li><a href="/pl/practice/14-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 14-26: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-14/14-07-atributy-ekzemplyara-i-klassa.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-14/index.html">Rozdział 14</a> / Atrybuty instancji i klas</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 14 · Tworzenie rzeczywistych obiektów</div>
+<h1>Atrybuty instancji i klas</h1>
+<p class="lede">Jedna cecha może istnieć w obiekcie, a inna w samej klasie, która jest wspólna dla wszystkich. To nie to samo.</p>
+<h2>Dwa miejsca, gdzie atrybut może występować</h2>
+<p>Do tej pory wszystkie atrybuty były tworzone wewnątrz <code class="inline">__init__</code> przez
+    <code class="inline">self.имя = ...</code> jest <strong>atrybuty instancji</strong>, u
+    każdy obiekt ma swój własny. Ale atrybut może być również zadeklarowany bezpośrednio w ciele klasy, bez
+    <code class="inline">self</code> — to tak jest <strong>atrybut klasy</strong>, jeden za wszystkich
+    Obiekty jednocześnie:</p>
+<div class="code-block">
+<div class="code-label"><span>atribut_klassa.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">class</span> Sobaka:
+    vid = <span class="tok-str">„Dog”</span>          <span class="tok-com"># atrybut KLASY – jeden za wszystkich</span>
+
+    <span class="tok-kw">def</span> __init__(self, klichka, vozrast):
+        self.klichka = klichka    <span class="tok-com"># Atrybut INSTANCJI jest inny dla każdego</span>
+        self.vozrast = vozrast
+
+rex = Sobaka(<span class="tok-str">„Rex”</span>, <span class="tok-num">3</span>)
+sharik = Sobaka(<span class="tok-str">„Ball”</span>, <span class="tok-num">5</span>)
+<span class="tok-fn">print</span>(rex.vid, sharik.vid)   <span class="tok-com"># Pies Pies to częsta cecha</span></code></pre>
+</div>
+<div style="margin:24px 0">
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg aria-label="Atrybut klasy jest deklarowany w treści klasy; Atrybuty instancji znajdują się w __init__" data-diagram="uml-class" role="img" style="width:100%;height:auto;max-width:280px" viewbox="0 0 280 166" xmlns="http://www.w3.org/2000/svg"><rect fill="#EDE9FE" height="166" rx="2" stroke="#5B24F9" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#5B24F9" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" text-anchor="middle" x="140.0" y="26.0">Sobaka</text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="62">vid (atrybut klasowy)</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="90">klichka</tspan></text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5"><tspan x="26" y="118">vozrast</tspan></text><line stroke="#5B24F9" stroke-width="1.5" x1="10" x2="270" y1="128" y2="128"></line><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="13.5" font-weight="600"><tspan x="26" y="150">—</tspan></text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Atrybut klasy jest deklarowany w treści klasy; Atrybuty instancji znajdują się w __init__</figcaption></figure>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg aria-label="rex — vid odczytywane z klasy" data-diagram="uml-object" role="img" style="display:block;width:100%;height:auto" viewbox="0 0 280 134" xmlns="http://www.w3.org/2000/svg"><rect fill="#FCE7F3" height="134" rx="2" stroke="#DB2777" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#DB2777" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="700" text-anchor="middle" text-decoration="underline" x="140.0" y="26.0">rex : Sobaka</text><line stroke="#DB2777" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="72"><tspan fill="#6B6B7D">vid = </tspan>'Dog'</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="100"><tspan fill="#6B6B7D">klichka = </tspan>'Rex'</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="128"><tspan fill="#6B6B7D">vozrast = </tspan>3</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">rex — vid odczytywane z klasy</figcaption></figure></div>
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="width:min(100%, 280px);margin:0 auto"><svg aria-label="sharik to ta sama vid, ale nie jest to jego własna kopia" data-diagram="uml-object" role="img" style="display:block;width:100%;height:auto" viewbox="0 0 280 134" xmlns="http://www.w3.org/2000/svg"><rect fill="#FCE7F3" height="134" rx="2" stroke="#DB2777" stroke-width="2" width="260" x="10" y="0"></rect><rect fill="#DB2777" height="40" rx="0" width="260" x="10" y="0"></rect><text fill="#fff" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="700" text-anchor="middle" text-decoration="underline" x="140.0" y="26.0">sharik : Sobaka</text><line stroke="#DB2777" stroke-width="1.5" x1="10" x2="270" y1="40" y2="40"></line><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="72"><tspan fill="#6B6B7D">vid = </tspan>'Dog'</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="100"><tspan fill="#6B6B7D">klichka = </tspan>'Ball'</text><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13.5" x="26" y="128"><tspan fill="#6B6B7D">vozrast = </tspan>5</text></svg></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">sharik to ta sama vid, ale nie jest to jego własna kopia</figcaption></figure></div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Powszechne nieporozumienie: „atrybuty klasowe są kopiowane do każdego obiektu”</div>
+<div class="callout-body">To nieprawda. <code class="inline">vid</code> przechowywane RAZ, w samej klasie <code class="inline">Sobaka</code>. Kiedy piszesz <code class="inline">rex.vid</code>, Python pierwsze spojrzenia <code class="inline">vid</code> wśród atrybutów INSTANCJI <code class="inline">rex</code> – nie znajduje jej – i dopiero potem patrzy na klasę <code class="inline">Sobaka</code>, gdzie znajduje wspólną wartość. Żaden bajt <code class="inline">vid</code> nie jest kopiowany do <code class="inline">rex</code>.</div>
+</div>
+</div>
+<p>Jeśli ustawisz atrybut o tej samej nazwie na VIA OBJECT, Python utworzy nowy
+    Atrybut INSTANCE, który teraz „okultyfikuje”</p>
+<div class="code-block">
+<div class="code-label"><span>zatenenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>rex.vid = <span class="tok-str">„Kundel”</span>    <span class="tok-com"># tworzy vid na rex bez dotykania klasy</span>
+<span class="tok-fn">print</span>(rex.vid, sharik.vid)   <span class="tok-com"># Kundel – sharik niezmieniony</span></code></pre>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Atrybuty instancji i klas</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="14-07"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/14-07/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["14-07"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="14-07"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-14/14-06-init-i-sozdanie-obekta.html"><div class="dir">← Back</div><div class="lbl">__init__ i tworzenie obiektu</div></a><a class="next" href="/pl/chapters/rozdzial-14/14-08-lovushka-obshchego-atributa.html"><div class="dir">Następny →</div><div class="lbl">Powszechna pułapka atrybutów zmiennych</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -3,10 +3,8 @@
 (site_structure.py) — not a hand-maintained URL list, so it can't drift out
 of sync with the real pages.
 
-Practice pages are intentionally excluded: they are thin application shells
-around notebook content already represented on their parent theory page (see
-build_seo_meta.py, which also marks them noindex,follow) — including them
-would just add near-duplicate, low-value URLs to the index.
+All real course pages are included.  Practice routes carry localized notebook
+instructions and are first-class localized destinations in M02-I04.
 """
 
 from __future__ import annotations
@@ -20,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_structure import SITE_DIR, SITE_ORIGIN, iter_pages
 from localization import Routes
 
-EXCLUDED_KINDS = {"practice", "other"}
+EXCLUDED_KINDS = {"other"}
 OUT_PATH = SITE_DIR / "sitemap.xml"
 
 

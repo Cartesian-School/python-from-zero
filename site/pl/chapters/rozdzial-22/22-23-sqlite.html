@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>SQLite: Embedded Relational DBMS – Python od podstaw – Cartesian School</title>
+<meta content="SQLite jako wbudowany DBMS bez osobnego procesu serwera, sqlite3 modułu, połączenia, kursora i odpowiednich zastosowań." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-23-sqlite.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/22-23-sqlite.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-23-sqlite.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/22-23-sqlite.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="SQLite: Embedded Relational DBMS – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="SQLite jako wbudowany DBMS bez osobnego procesu serwera, sqlite3 modułu, połączenia, kursora i odpowiednich zastosowań." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-23-sqlite.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SQLite: Embedded Relational DBMS – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="SQLite jako wbudowany DBMS bez osobnego procesu serwera, sqlite3 modułu, połączenia, kursora i odpowiednich zastosowań." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"SQLite: Embedded Relational DBMS – Python od podstaw – Cartesian School","description":"SQLite jako wbudowany DBMS bez osobnego procesu serwera, sqlite3 modułu, połączenia, kursora i odpowiednich zastosowań.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-23-sqlite.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-23-sqlite.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 22 · Tworzenie stron internetowych</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-22/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html">Podstawy tworzenia stron internetowych: klient, serwer i Python</a></li><li><a href="/pl/chapters/rozdzial-22/22-02-html.html">HTML: struktura strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-03-css.html">CSS: projektowanie i układ elementów strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-04-javascript.html">JavaScript: programowanie w przeglądarce</a></li><li><a href="/pl/chapters/rozdzial-22/22-05-flask.html">Pierwsza aplikacja webowa na Flask</a></li><li><a href="/pl/chapters/rozdzial-22/22-06-itogi.html">Wyniki pierwszego projektu internetowego</a></li><li><a href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html">Jak przeglądarka pobiera stronę internetową</a></li><li><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html">URL: domena, ścieżka, parametry i fragment</a></li><li><a href="/pl/chapters/rozdzial-22/22-09-http.html">HTTP: żądania, odpowiedzi, metody i kody stanu</a></li><li><a href="/pl/chapters/rozdzial-22/22-10-https.html">HTTPS: zabezpieczenie połączenia ze stroną</a></li><li><a href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html">Routing w Flask: URL i funkcje obsługi</a></li><li><a href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html">Jinja: szablony danych HTML</a></li><li><a href="/pl/chapters/rozdzial-22/22-13-formy.html">HTML-forms i przesyłanie danych do serwera</a></li><li><a href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html">Pliki statyczne: CSS, obrazy i JavaScript</a></li><li><a href="/pl/chapters/rozdzial-22/22-15-json.html">JSON: format wymiany danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-16-api.html">HTTP API: wymiana danych między programami</a></li><li><a href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html">Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</a></li><li><a href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html">Porównanie Flask, Django i FastAPI</a></li><li><a href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html">WSGI i ASGI: komunikacji między aplikacją webową a serwerem</a></li><li><a href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html">Dlaczego aplikacja webowa potrzebuje bazy danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html">Relacyjne bazy danych: tabele, klucze i relacje</a></li><li><a href="/pl/chapters/rozdzial-22/22-22-sql.html">SQL: tworzymy, czytamy i edytujemy dane</a></li><li><a class="active" href="/pl/chapters/rozdzial-22/22-23-sqlite.html">SQLite: Wbudowany relacyjny DBMS</a></li><li><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</a></li><li><a href="/pl/chapters/rozdzial-22/22-25-nosql.html">NoSQL: głównych typów baz danych nierelacyjnych</a></li><li><a href="/pl/chapters/rozdzial-22/22-26-orm.html">ORM: pracy z bazą danych za pomocą Python obiektów</a></li><li><a href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html">Migracje schematów baz danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html">Transfer danych między bazami danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html">Flask i SQLite: zapisują dane w bazie danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html">Cookie i sesje: Status między HTTP- żądaniami</a></li><li><a href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html">Walidacja danych wejściowych i obsługa błędów</a></li><li><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html">Podstawy bezpieczeństwa aplikacji internetowych</a></li><li><a href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html">Automatyczne testowanie Flask- aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html">Rozwijanie Flask-aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html">Projekt końcowy: lista zadania dla Flask i SQLite</a></li><li><a href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html">Dalsze badania nad tworzeniem stron internetowych na Python</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/22-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Praktyka</a></li><li><a href="/pl/practice/22-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Praktyka</a></li><li><a href="/pl/practice/22-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Praktyka</a></li><li><a href="/pl/practice/22-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Praktyka</a></li><li><a href="/pl/practice/22-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Praktyka</a></li><li><a href="/pl/practice/22-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Praktyka</a></li><li><a href="/pl/practice/22-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Praktyka</a></li><li><a href="/pl/practice/22-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Praktyka</a></li><li><a href="/pl/practice/22-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Praktyka</a></li><li><a href="/pl/practice/22-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Praktyka</a></li><li><a href="/pl/practice/22-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Praktyka</a></li><li><a href="/pl/practice/22-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Praktyka</a></li><li><a href="/pl/practice/22-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Praktyka</a></li><li><a href="/pl/practice/22-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Praktyka</a></li><li><a href="/pl/practice/22-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Praktyka</a></li><li><a href="/pl/practice/22-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Praktyka</a></li><li><a href="/pl/practice/22-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Praktyka</a></li><li><a href="/pl/practice/22-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Praktyka</a></li><li><a href="/pl/practice/22-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Praktyka</a></li><li><a href="/pl/practice/22-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Praktyka</a></li><li><a href="/pl/practice/22-33/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Praktyka</a></li><li><a href="/pl/practice/22-35/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-23-sqlite.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-22/index.html">Rozdział 22</a> / SQLite</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 22 · Tworzenie stron internetowych z Python</div>
+<h1>SQLite: Wbudowany relacyjny DBMS</h1>
+<p class="lede">SQLite jest relacyjnym DBMS, który działa jako biblioteka w procesie aplikacji, bez osobnego serwera.</p>
+<p><strong>DBMS</strong> — system zarządzania bazą danych: oprogramowanie,
+    który tworzy, przechowuje, przetwarza zapytania i zarządza bazami danych. <strong>SQLite
+    </strong> to wbudowany relacyjny DBMS implementowany jako biblioteka programowa. W
+    W przeciwieństwie do PostgreSQL czy MySQL, SQLite nie wymaga osobnego procesu serwera bazy danych
+    dane: aplikacja uzyskuje dostęp do biblioteki SQLite bezpośrednio, w ramach własnej biblioteki
+    Proces.</p>
+<p>W normalnym użyciu plików zawartość bazy danych jest SQLite przechowywana w jednym głównym pliku
+    pliku. Podczas pracy SQLite może tworzyć dodatkowe pliki usługowe, takie jak
+    rollback journal lub WAL. SQLite również utrzymuje bazę danych w pamięci
+    (<code class="inline">:memory:</code>), która w ogóle nie zapisuje się na dysku — jest to wygodne,
+    na przykład do testów (rozdział 22.33).</p>
+<p>Pracować z SQLite w Python, <code class="inline">sqlite3</code>,
+    który zapewnia interfejs DB-API wersji 2.0. W zwykłych wersjach CPython jest dostępny bez instalacji
+    osobny pakiet przez pip, ale technicznie rzecz biorąc <code class="inline">sqlite3</code>
+    odnosi się do opcjonalnych modułów konkretnego zestawu interpretera i wykorzystuje
+    SQLite instalowane w systemie lub składane z Python.</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th></th><th>Konwencjonalny DBMS klient-serwer</th><th>SQLite</th></tr></thead>
+<tbody><tr><td>Oddzielny dodawca dokumentów</td><td>Tak, działa cały czas</td><td>None – Działa w procesie aplikacji</td></tr><tr><td>Główne przechowywanie</td><td>Zarządzane przez serwer bazy danych</td><td>Główny plik bazy danych (pliki serwisowe są możliwe journal/WAL)</td></tr><tr><td>Przygotowanie do rozpoczęcia</td><td>Zainstaluj i uruchom serwer, skonfiguruj dostęp</td><td>Nie wymaga osobnej konfiguracji serwera</td></tr><tr><td>Kilka serwerów aplikacji pisze jednocześnie</td><td>Standardowy scenariusz</td><td>Ograniczone wsparcie dla jednoczesnego nagrywania</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Gdzie SQLite szczególnie dobrze pasuje</div>
+<div class="callout-body">SQLite jest pełnoprawnym silnikiem SQL-, który jest również używany przez bardzo duże aplikacje, zarówno jako główne przechowywanie danych lokalnych, jak i jako część większego systemu. SQLite doskonale nadaje się do aplikacji lokalnych, szkoleń, prototypów, testów (Rozdział 22.33) oraz wielu małych i średnich wdrożeń, gdzie model współbieżnego dostępu jest SQLite wystarczający. Baza danych klient-serwer jest wybierana nie dlatego, że SQLite jest gorsza jako silnik, lecz wtedy, gdy kilka serwerów aplikacji musi niezawodnie zapisywać się równolegle do tej samej bazy, co jest szczegółowo omówione w Sekcji 22.24.</div>
+</div>
+</div>
+<h2>Połączenie i kursor</h2>
+<div class="code-block">
+<div class="code-label"><span>podklyuchenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> sqlite3
+
+baza = sqlite3.connect(<span class="tok-str">"zadachi.db"</span>)
+baza.row_factory = sqlite3.Row   <span class="tok-com"># Dostęp do kolumn według nazwy</span>
+
+kursor = baza.execute(<span class="tok-str">"SELECT id, title FROM tasks"</span>)
+<span class="tok-kw">for</span> stroka <span class="tok-kw">in</span> kursor:
+    <span class="tok-fn">print</span>(stroka[<span class="tok-str">"id"</span>], stroka[<span class="tok-str">"title"</span>])
+
+baza.close()</code></pre>
+</div>
+<p><code class="inline">sqlite3.connect(...)</code> otwiera się (lub tworzy, jeśli plik nadal jest
+    nie) pliku bazy danych. <code class="inline">row_factory = sqlite3.Row</code> pozwala
+    Określenie kolumn wyników po nazwie, a nie tylko przez indeks liczbowy, jest wygodniejsze i
+    jest bardziej niezawodny, zwłaszcza jeśli kolejność kolumn w zapytaniu zmienia się.</p>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Oddzielne połączenie dla każdego strumienia</div>
+<div class="callout-body">Domyślnie jedno połączenie <code class="inline">sqlite3.connect(...)</code> nie może być używany z wielu wątków bez ostrożności. Praktycznym sposobem organizacji połączeń w aplikacji Flask- jest otwarcie połączenia dla każdego żądania i natychmiastowe jego zamknięcie, jak pokazano w Sekcji 22.29.</div>
+</div>
+</div>
+<p>Oficjalna dokumentacja: <a href="https://sqlite.org/docs.html">SQLite</a>,
+    <a href="https://docs.python.org/3/library/sqlite3.html">Python — moduł sqlite3</a>.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: połączenie z SQLite przez sqlite3</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="22-23"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/22-23/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-23"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-23"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-22/22-22-sql.html"><div class="dir">← Back</div><div class="lbl">SQL: tworzymy, czytamy i edytujemy dane</div></a><a class="next" href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html"><div class="dir">Następny →</div><div class="lbl">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Projekt: Pixel art na siatce – Python od zera – Cartesian School</title>
+<meta content="Most między danymi a grafiką: macierz zer i jedynek, zagnieżdżone pętle, Turtle rysuje według danych — faktycznie wygenerowane serce z kwadratów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-12/12-22-setka-piksel-art.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-12/12-22-setka-piksel-art.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Projekt: Pixel art na siatce – Python od zera – Cartesian School" />
+<meta property="og:description" content="Most między danymi a grafiką: macierz zer i jedynek, zagnieżdżone pętle, Turtle rysuje według danych — faktycznie wygenerowane serce z kwadratów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Projekt: Pixel art na siatce – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Most między danymi a grafiką: macierz zer i jedynek, zagnieżdżone pętle, Turtle rysuje według danych — faktycznie wygenerowane serce z kwadratów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Projekt: Pixel art na siatce – Python od zera – Cartesian School","description":"Most między danymi a grafiką: macierz zer i jedynek, zagnieżdżone pętle, Turtle rysuje według danych — faktycznie wygenerowane serce z kwadratów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-22-setka-piksel-art.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 12 · Projekty</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-12/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-12/12-07-chto-takoe-proekt.html">Czym jest projekt</a></li><li><a href="/pl/chapters/rozdzial-12/12-08-stroim-proekt-po-shagam.html">Budowanie projektu krok po kroku</a></li><li><a href="/pl/chapters/rozdzial-12/12-01-chetnoe-ili-nechetnoe.html">Projekt: parzyste czy nieparzyste</a></li><li><a href="/pl/chapters/rozdzial-12/12-02-chaevye.html">Project: Czy napiwek jest wystarczający?</a></li><li><a href="/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html">Projekt: zgadnij liczbę, wersja 3</a></li><li><a href="/pl/chapters/rozdzial-12/12-11-analizator-teksta.html">Projekt: analizator tekstu i częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-12/12-13-zapisnaya-knizhka.html">: Notes</a></li><li><a href="/pl/chapters/rozdzial-12/12-14-zhurnal-i-korzina.html">Projekty: książka ocen i wózek na zakupy</a></li><li><a href="/pl/chapters/rozdzial-12/12-16-viktorina.html">Projekt: Quiz</a></li><li><a href="/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html">Projekty: Konsola poleceń i weryfikacja haseł</a></li><li><a href="/pl/chapters/rozdzial-12/12-20-studiya-mnogougolnikov.html">Projekt: studio wielokątów</a></li><li><a href="/pl/chapters/rozdzial-12/12-03-elka.html">Projekt: choinka bożonarodzeniowa</a></li><li><a href="/pl/chapters/rozdzial-12/12-04-spirali.html">Projekt: spirale!</a></li><li><a href="/pl/chapters/rozdzial-12/12-05-slozhnaya-mandala.html">Projekt: Złożona Mandala</a></li><li><a class="active" href="/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html">Projekt: Grafika pikselowa na siatce</a></li><li><a href="/pl/chapters/rozdzial-12/12-06-gonka-turtle-itogi.html">Project: Rasa Turtle i podsumowanie rozdziałów</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/12-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-07: Praktyka</a></li><li><a href="/pl/practice/12-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-08: Praktyka</a></li><li><a href="/pl/practice/12-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-01: Praktyka</a></li><li><a href="/pl/practice/12-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-02: Praktyka</a></li><li><a href="/pl/practice/12-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-09: Praktyka</a></li><li><a href="/pl/practice/12-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-10: Praktyka</a></li><li><a href="/pl/practice/12-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-11: Praktyka</a></li><li><a href="/pl/practice/12-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-12: Praktyka</a></li><li><a href="/pl/practice/12-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-13: Praktyka</a></li><li><a href="/pl/practice/12-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-14: Praktyka</a></li><li><a href="/pl/practice/12-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-15: Praktyka</a></li><li><a href="/pl/practice/12-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-16: Praktyka</a></li><li><a href="/pl/practice/12-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-17: Praktyka</a></li><li><a href="/pl/practice/12-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-18: Praktyka</a></li><li><a href="/pl/practice/12-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-19: Praktyka</a></li><li><a href="/pl/practice/12-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-20: Praktyka</a></li><li><a href="/pl/practice/12-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-21: Praktyka</a></li><li><a href="/pl/practice/12-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-03: Praktyka</a></li><li><a href="/pl/practice/12-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-04: Praktyka</a></li><li><a href="/pl/practice/12-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-05: Praktyka</a></li><li><a href="/pl/practice/12-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-22: Praktyka</a></li><li><a href="/pl/practice/12-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-22-setka-piksel-art.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-12/index.html">Rozdział 12</a> / Grafika pikselowa</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 12 · Wiele fascynujących mini-projektów!</div>
+<h1>Projekt: Grafika pikselowa na siatce</h1>
+<p class="lede">algorytm → danych → graf: zagnieżdżony lista decyduje, co rysować, a zagnieżdżona pętla decyduje jak.</p>
+<div style="display:flex;gap:24px;flex-wrap:wrap;margin:20px 0;padding:18px 22px;
+      background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="flex:2 1 260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Zastosowanie</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><code class="inline">nested list</code><code class="inline">nested for</code><code class="inline">Turtle</code></div>
+</div>
+<div style="flex:1 1 140px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Poziom</div>
+<div style="font-size:16px">★★★★ challenge</div>
+</div>
+<div style="flex:1 1 200px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<div style="font-size:16px">pixel art</div>
+</div>
+</div>
+<h2>Co tworzymy</h2>
+<p>Most między danymi a grafiką: macierz z zer i jedynek — oraz program, który rysuje
+    według niej obraz. <code class="inline">0</code> — pusto, <code class="inline">1</code> —
+    wypełniony kwadrat.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:inline-grid;grid-template-columns:repeat(6,auto);gap:6px;margin:0 auto"><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5"></div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">2</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">3</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">4</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">2</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">3</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#F1EEFC;color:#5B24F9;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">4</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">1</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div><div style="min-width:44px;padding:10px 12px;border-radius:8px;background:#fff;color:#0D0230;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;border:1.5px solid #E4E1F5">0</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">picture jest zagnieżdżony lista: 0 = pusty, 1 = wypełniony kwadrat</figcaption></figure>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>setka_piksel_art.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">360</span>, height=<span class="tok-num">360</span>)
+artist = turtle.Turtle()
+artist.speed(<span class="tok-num">0</span>)
+artist.hideturtle()
+artist.penup()
+
+picture = [
+    [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>],
+    [<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>],
+    [<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>],
+    [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>],
+    [<span class="tok-num">0</span>, <span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>],
+]
+
+razmer = <span class="tok-num">40</span>
+<span class="tok-kw">for</span> row_index, row <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(picture):
+    <span class="tok-kw">for</span> col_index, value <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(row):
+        <span class="tok-kw">if</span> value == <span class="tok-num">1</span>:
+            x = -<span class="tok-num">100</span> + col_index * razmer
+            y = <span class="tok-num">100</span> - row_index * razmer
+            artist.goto(x, y)
+            artist.pendown()
+            artist.fillcolor(<span class="tok-str">"#DB2777"</span>)
+            artist.begin_fill()
+            <span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+                artist.forward(razmer)
+                artist.right(<span class="tok-num">90</span>)
+            artist.end_fill()
+            artist.penup()
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Serce z wypełnionych kwadratów, narysowane według macierzy zer i jedynek" src="/assets/img/chapter-12/output/12-grid-art-heart.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Ta sama macierz rysowana przez zagnieżdżoną pętlę</figcaption>
+</figure>
+</div>
+</div>
+<h2>Algorytm</h2>
+<div class="code-block">
+<div class="code-label"><span>setka_piksel_art.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>picture = [
+    [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>],
+    [<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>],
+    [<span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>],
+    [<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>],
+    [<span class="tok-num">0</span>, <span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>],
+]
+
+razmer = <span class="tok-num">40</span>
+<span class="tok-kw">for</span> row_index, row <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(picture):
+    <span class="tok-kw">for</span> col_index, value <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(row):
+        <span class="tok-kw">if</span> value == <span class="tok-num">1</span>:
+            x = -<span class="tok-num">100</span> + col_index * razmer
+            y = <span class="tok-num">100</span> - row_index * razmer
+            artist.goto(x, y)
+            artist.pendown()
+            artist.begin_fill()
+            <span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+                artist.forward(razmer)
+                artist.right(<span class="tok-num">90</span>)
+            artist.end_fill()
+            artist.penup()</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Zagnieżdżona pętla – łańcuch znaków wiersz, kolumna po kolumnie</div>
+<div class="callout-body">Zewnętrzna pętla (rozdział 10) przechodzi po łańcuch znaków macierzy, wewnętrzna — po wartościach w wierszu; ta sama schematyczna jak w macierzy z rozdziału 11 (§11.11), tylko teraz dla każdej jednostki rysowany jest kwadrat, a nie tylko drukowana liczba.</div>
+</div>
+</div>
+<div class="exercise">
+<div class="exercise-stars">Challenge</div>
+<div class="exercise-title">Zmiana JEDNA: Twoje zdjęcie</div>
+<p>Zastąp picture własną macierzą zer i jedynek o rozmiarze 5×5 (lub innym rozmiarze) – litery, emotikony, dowolny wzór. Algorytm nie wymaga zmian.</p>
+</div>
+<h2><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Debug Lab</h2>
+<p>Co się stanie, jeśli pomieszasz miejsca w wzorze współrzędnych
+    <code class="inline">row_index</code> oraz <code class="inline">col_index</code>?</p>
+<div class="code-block">
+<div class="code-label"><span>debug_lab_grid.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>x = -<span class="tok-num">100</span> + row_index * razmer   <span class="tok-com"># było col_index</span>
+y = <span class="tok-num">100</span> - col_index * razmer    <span class="tok-com"># było row_index</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Obraz okaże się odbity lustrzanie (transponowany)</div>
+<div class="callout-body">Wiersze i kolumny zamieniają się — tam, gdzie powinna być szeroka pozioma część serca, pojawi się wydłużona pionowa część. Wzory współrzędnych muszą być bardzo starannie sprawdzane względem znaczenia każdego indeksu.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: pixel art w swojej matrycy</div>
+<div class="nc-sub">Moduł turtle otwiera natywne okno Python – uruchamiane lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="12-22">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/12-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["12-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="12-22"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-12/12-05-slozhnaya-mandala.html"><div class="dir">← Back</div><div class="lbl">Projekt: Złożona Mandala</div></a><a class="next" href="/pl/chapters/rozdzial-12/12-06-gonka-turtle-itogi.html"><div class="dir">Następny →</div><div class="lbl">Project: Rasa Turtle i podsumowanie rozdziałów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

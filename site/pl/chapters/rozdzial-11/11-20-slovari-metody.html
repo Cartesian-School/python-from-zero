@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Metody słownikowe — Python od zera — Cartesian School</title>
+<meta content="pop, popitem, update, setdefault, keys/values/items jako reprezentacje, kolejność wstawiania, membership według kluczy, haszowane klucze." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-20-slovari-metody.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-11/11-20-slovari-metody.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-20-slovari-metody.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-11/11-20-slovari-metody.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Metody słownikowe — Python od zera — Cartesian School" />
+<meta property="og:description" content="pop, popitem, update, setdefault, keys/values/items jako reprezentacje, kolejność wstawiania, membership według kluczy, haszowane klucze." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-20-slovari-metody.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Metody słownikowe — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="pop, popitem, update, setdefault, keys/values/items jako reprezentacje, kolejność wstawiania, membership według kluczy, haszowane klucze." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Metody słownikowe — Python od zera — Cartesian School","description":"pop, popitem, update, setdefault, keys/values/items jako reprezentacje, kolejność wstawiania, membership według kluczy, haszowane klucze.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-20-slovari-metody.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-20-slovari-metody.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 11 · Dane</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-11/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-11/11-11-zachem-hranit-mnogo.html">Dlaczego przechowywać wiele wartości</a></li><li><a href="/pl/chapters/rozdzial-11/11-01-spiski-osnovy.html">Listy: podstawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-02-srezy-spiskov.html">Sekatory list</a></li><li><a href="/pl/chapters/rozdzial-11/11-12-izmenyaem-spisok.html">Zmiana lista</a></li><li><a href="/pl/chapters/rozdzial-11/11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="/pl/chapters/rozdzial-11/11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="/pl/chapters/rozdzial-11/11-03-operacii-so-spiskami.html">Potężne operacje list</a></li><li><a href="/pl/chapters/rozdzial-11/11-15-spiski-i-cikly.html">Listy i pętle</a></li><li><a href="/pl/chapters/rozdzial-11/11-16-ssylki-aliasing.html">Kompendium, aliasing, == i is</a></li><li><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html">Listy kopiowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html">Więcej o listach</a></li><li><a href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html">Mini Projekt: Kolorowa Gwiazda</a></li><li><a href="/pl/chapters/rozdzial-11/11-06-kortezhi.html">Krotki</a></li><li><a href="/pl/chapters/rozdzial-11/11-18-zip-i-raspakovka.html">zip() i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-11/11-07-mnozhestva.html">Zestawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-19-mnozhestva-operacii.html">Operacje setów i możliwość hasowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-08-slovari.html">Słowniki</a></li><li><a class="active" href="/pl/chapters/rozdzial-11/11-20-slovari-metody.html">Metody słowników</a></li><li><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html">Zagnieżdżone struktury</a></li><li><a href="/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html">Przemiany i comprehensions</a></li><li><a href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html">Mini Project: Nieskończone Kolory</a></li><li><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html">Jak wybrać odpowiednią strukturę</a></li><li><a href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html">Debugowanie kolekcji</a></li><li><a href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html">Mini-projekt: częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html">Mini-projekty z kolekcjami</a></li><li><a href="/pl/chapters/rozdzial-11/11-10-mini-proekt-perestanovka-itogi.html">Permutacja nazw i streszczenia</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/11-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-11: Praktyka</a></li><li><a href="/pl/practice/11-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-01: Praktyka</a></li><li><a href="/pl/practice/11-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-02: Praktyka</a></li><li><a href="/pl/practice/11-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-12: Praktyka</a></li><li><a href="/pl/practice/11-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-13: Praktyka</a></li><li><a href="/pl/practice/11-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-14: Praktyka</a></li><li><a href="/pl/practice/11-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-03: Praktyka</a></li><li><a href="/pl/practice/11-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-15: Praktyka</a></li><li><a href="/pl/practice/11-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-16: Praktyka</a></li><li><a href="/pl/practice/11-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-17: Praktyka</a></li><li><a href="/pl/practice/11-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-04: Praktyka</a></li><li><a href="/pl/practice/11-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-05: Praktyka</a></li><li><a href="/pl/practice/11-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-06: Praktyka</a></li><li><a href="/pl/practice/11-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-18: Praktyka</a></li><li><a href="/pl/practice/11-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-07: Praktyka</a></li><li><a href="/pl/practice/11-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-19: Praktyka</a></li><li><a href="/pl/practice/11-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-08: Praktyka</a></li><li><a href="/pl/practice/11-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-20: Praktyka</a></li><li><a href="/pl/practice/11-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-21: Praktyka</a></li><li><a href="/pl/practice/11-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-22: Praktyka</a></li><li><a href="/pl/practice/11-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-09: Praktyka</a></li><li><a href="/pl/practice/11-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-23: Praktyka</a></li><li><a href="/pl/practice/11-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-24: Praktyka</a></li><li><a href="/pl/practice/11-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-25: Praktyka</a></li><li><a href="/pl/practice/11-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-26: Praktyka</a></li><li><a href="/pl/practice/11-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-20-slovari-metody.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-11/index.html">Rozdział 11</a> / Metody słowników</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 11 · Mnóstwo informacji!</div>
+<h1>Metody słowników</h1>
+<p class="lede">pop, update, setdefault i reprezentacje keys/values/items to narzędzia, bez których żaden prawdziwy słownik nie może się obejść.</p>
+<h2>pop() i popitem()</h2>
+<div class="code-block">
+<div class="code-label"><span>dict_pop.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">"name"</span>: <span class="tok-str">"Cartesian"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">13</span>, <span class="tok-str">"grade"</span>: <span class="tok-str">„7. klasa”</span>}
+age = student.pop(<span class="tok-str">"age"</span>)
+<span class="tok-fn">print</span>(student, age)   <span class="tok-com"># {'name': 'Cartesian', 'grade': '7 klasa'} 13</span></code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>dict_popitem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>last_pair = student.popitem()
+<span class="tok-fn">print</span>(last_pair)   <span class="tok-com"># ('grade', '7 klasa') — ostatnia dodana para</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">pop() słownik — według tonacji, nie pozycji</div>
+<div class="callout-body">W przeciwieństwie do <code class="inline">list.pop(index)</code>, w słowniku <code class="inline">.pop(key)</code> akceptuje KLUCZ, a nie pozycję numeryczną — słownik po prostu nie ma pozycji. Możesz przekazać wartość domyślną jako drugi argument, jeśli klucz może nie istnieć: <code class="inline">student.pop("phone", None)</code>.</div>
+</div>
+</div>
+<h2>update() — połączyć kilka par naraz</h2>
+<div class="code-block">
+<div class="code-label"><span>dict_update.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">"name"</span>: <span class="tok-str">"Cartesian"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">13</span>}
+student.update({<span class="tok-str">"age"</span>: <span class="tok-num">14</span>, <span class="tok-str">"city"</span>: <span class="tok-str">„Moskwa”</span>})
+<span class="tok-fn">print</span>(student)   <span class="tok-com">#age zastąpił city dodał</span></code></pre>
+</div>
+<h2>setdefault() - Dodaj wartość tylko wtedy, gdy klucz nie istnieje</h2>
+<div class="code-block">
+<div class="code-label"><span>setdefault.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>counts = {}
+word = <span class="tok-str">"python"</span>
+counts.setdefault(word, <span class="tok-num">0</span>)
+counts[word] += <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(counts)   <span class="tok-com"># {'python': 1}</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">setdefault() = „jeśli nie masz klucza, stwórz go z wartością domyślną”</div>
+<div class="callout-body"><code class="inline">counts.setdefault(word, 0)</code> nic nie robi, jeśli <code class="inline">word</code> już znajduje się w słowniku i tworzy rekord o wartości 0, jeśli nie było klucza — w obu przypadkach, po wywołaniu można bezpiecznie zapisać <code class="inline">counts[word] += 1</code>. Pełny algorytm obliczania częstotliwości słów tym podejściem znajduje się w §11.24.</div>
+</div>
+</div>
+<h2>keys(), values(), items() nie są zwykłymi listami</h2>
+<div class="code-block">
+<div class="code-label"><span>keys_values_items.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">"name"</span>: <span class="tok-str">"Cartesian"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">13</span>}
+<span class="tok-fn">print</span>(student.keys())     <span class="tok-com"># dict_keys(['name', 'age'])</span>
+<span class="tok-fn">print</span>(student.values())   <span class="tok-com"># dict_values(['Cartesian', 13])</span>
+<span class="tok-fn">print</span>(student.items())     <span class="tok-com"># dict_items([('name', 'Cartesian'), ('age', 13)])</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">To są „występy na żywo”</div>
+<div class="callout-body"><code class="inline">.keys()</code>, <code class="inline">.values()</code> oraz <code class="inline">.items()</code> obiekty reprezentacji zwracającej (<code class="inline">dict_keys</code> i tak dalej) — odzwierciedlają słownik w czasie rzeczywistym. Do iteracji pętlą nie ma to znaczenia, ale jeśli potrzebny jest konkretnie lista, opakuj w <code class="inline">list(student.keys())</code>.</div>
+</div>
+</div>
+<h2>Kolejność słownika</h2>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Nowoczesne Python zachowuje kolejność wstawiania</div>
+<div class="callout-body">Począwszy od Python 3.7, kolejność par w słowniku gwarantowana jest taka, jaką zostały dodane — jest to oficjalna gwarancja języka, a nie przypadkowa implementacja. Ale słownik pozostaje <strong>wyświetlenie</strong> (dostęp przez klucz) zamiast kolekcji pozycyjnej — nie pisz kodu opartego na pozycjach słownikowych liczb.</div>
+</div>
+</div>
+<h2>Sprawdzanie in - tylko klucze</h2>
+<div class="code-block">
+<div class="code-label"><span>membership_dict.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">"name"</span>: <span class="tok-str">"Cartesian"</span>, <span class="tok-str">"age"</span>: <span class="tok-num">13</span>}
+<span class="tok-fn">print</span>(<span class="tok-str">"name"</span> <span class="tok-kw">in</span> student)          <span class="tok-com">#True – taki KLUCZ istnieje</span>
+<span class="tok-fn">print</span>(<span class="tok-str">"Cartesian"</span> <span class="tok-kw">in</span> student)     <span class="tok-com"># False — to wartość, nie klucz!</span>
+<span class="tok-fn">print</span>(<span class="tok-str">"Cartesian"</span> <span class="tok-kw">in</span> student.values())   <span class="tok-com"># True — i tak poprawnie sprawdzić wartość</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">in słownik sprawdza klucze, a nie wartości</div>
+<div class="callout-body">Powszechny błąd początkujących: <code class="inline">value in my_dict</code> sprawdza, czy istnieje <code class="inline">value</code> wśród KLUCZY. Aby sprawdzić wartości, musisz wyraźnie zapisać <code class="inline">value in my_dict.values()</code>.</div>
+</div>
+</div>
+<h2>Klucze słownikowe muszą być również haszalne</h2>
+<div class="code-block">
+<div class="code-label"><span>hashable_keys.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>{[<span class="tok-str">"x"</span>, <span class="tok-str">"y"</span>]: <span class="tok-num">1</span>}
+<span class="tok-com"># TypeError: cannot use 'list' as a dict key (unhashable type: 'list')</span></code></pre>
+</div>
+<p>Ta sama zasada hashowalności z §11.16 – lista nie może być używana jako klucz słownikowy dla
+    z tego samego powodu, dla którego nie można go umieścić w zbiór.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: pop, update, setdefault, keys/values/items</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="11-20"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/11-20/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-20"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-20"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-11/11-08-slovari.html"><div class="dir">← Back</div><div class="lbl">Słowniki</div></a><a class="next" href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html"><div class="dir">Następny →</div><div class="lbl">Zagnieżdżone struktury</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

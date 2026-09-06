@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 8. Bawimy się literami i słowami — Python od zera — Cartesian School</title>
+<meta content="Python linie do pełnej głębi: tworzenie i cytowanie, escape, wieloliniowe i raw-stringi, indeksy i slicery z wykresami wizualnymi, niezmienność, dziesiątki metod, formatowanie f-XQ0łańcuch znakówme, wprowadzanie użytkowników, Unicode, debugowanie — oraz osiem mini-projektów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-08/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-08/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 8. Bawimy się literami i słowami — Python od zera — Cartesian School" />
+<meta property="og:description" content="Python linie do pełnej głębi: tworzenie i cytowanie, escape, wieloliniowe i raw-stringi, indeksy i slicery z wykresami wizualnymi, niezmienność, dziesiątki metod, formatowanie f-XQ0łańcuch znakówme, wprowadzanie użytkowników, Unicode, debugowanie — oraz osiem mini-projektów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-08/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 8. Bawimy się literami i słowami — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Python linie do pełnej głębi: tworzenie i cytowanie, escape, wieloliniowe i raw-stringi, indeksy i slicery z wykresami wizualnymi, niezmienność, dziesiątki metod, formatowanie f-XQ0łańcuch znakówme, wprowadzanie użytkowników, Unicode, debugowanie — oraz osiem mini-projektów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 8. Bawimy się literami i słowami — Python od zera — Cartesian School","description":"Python linie do pełnej głębi: tworzenie i cytowanie, escape, wieloliniowe i raw-stringi, indeksy i slicery z wykresami wizualnymi, niezmienność, dziesiątki metod, formatowanie f-XQ0łańcuch znakówme, wprowadzanie użytkowników, Unicode, debugowanie — oraz osiem mini-projektów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-08/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 8 · STRONA 1042</div>
+<h1>Zabawa literami i słowami</h1>
+<p>Python linie do pełnej głębi: tworzenie i cytowanie, escape, wieloliniowe i raw-stringi, indeksy i slicery z wykresami wizualnymi, niezmienność, dziesiątki metod, formatowanie f-XQ0łańcuch znakówme, wprowadzanie użytkowników, Unicode, debugowanie — oraz osiem mini-projektów.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~6–7 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> str i jego metody</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18 treningów</span><span><svg aria-hidden="true" class="cs-icon cs-icon--palette"><use href="/assets/icons/cartesian/icons.svg#icon-palette"></use></svg> wykresy dla indeksów i slicerów</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-08/08-01-chto-takoe-stroki.html"><span><span class="si-num">8.1</span>czym są struny?</span><span class="si-page">1045</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-11-ekranirovanie.html"><span><span class="si-num">8.2</span>Ucieczka: \n, \t i inni</span><span class="si-page">1051</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-12-mnogostrochnye-i-raw-stroki.html"><span><span class="si-num">8.3</span>Struny wieloliniowe i raw-struny</span><span class="si-page">1057</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-02-kavychki-konkatenaciya.html"><span><span class="si-num">8.4</span>Cudzysłowy, łączenie, powtarzanie</span><span class="si-page">1063</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-13-dlina-stroki.html"><span><span class="si-num">8.5</span>Długość linii: len()</span><span class="si-page">1068</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-03-dostup-k-simvolam.html"><span><span class="si-num">8.6</span>Indeksy wierszowe</span><span class="si-page">1072</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-14-srezy-stroki.html"><span><span class="si-num">8.7</span>Plasterki rzędowe</span><span class="si-page">1078</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-15-neizmenyaemost.html"><span><span class="si-num">8.8</span>Rzędy nie mogą być zmieniane</span><span class="si-page">1085</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-04-metody-strok.html"><span><span class="si-num">8.9</span>Metody łańcuch znaków: przypadki i space</span><span class="si-page">1090</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-16-metody-strok-poisk-i-razbor.html"><span><span class="si-num">8.10</span>Metody łańcuchowe: wyszukiwanie i parsowanie</span><span class="si-page">1095</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-17-metody-proverki.html"><span><span class="si-num">8.11</span>Metody weryfikacji: isalpha i inne</span><span class="si-page">1102</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-05-istina-lozh.html"><span><span class="si-num">8.12</span>in, porównanie i prawda</span><span class="si-page">1109</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-18-cikl-po-stroke.html"><span><span class="si-num">8.13</span>Iteracja przez linię w pętli</span><span class="si-page">1113</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html"><span><span class="si-num">8.14</span>Formatowanie łańcuch znaków</span><span class="si-page">1118</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-07-vvod-polzovatelya.html"><span><span class="si-num">8.15</span>Wprowadzanie od użytkownika</span><span class="si-page">1126</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-19-unikod-i-emodzi.html"><span><span class="si-num">8.16</span>Cyrylica, unicode i emoji</span><span class="si-page">1132</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-20-otladka-strok.html"><span><span class="si-num">8.17</span>Debugowanie problemów z łańcuchami</span><span class="si-page">1136</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-08-mini-proekt-turtle-tekst.html"><span><span class="si-num">8.18</span>Mini-projekt - Turtle tekstowy</span><span class="si-page">1145</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-21-mini-proekt-privetstvie-i-imya.html"><span><span class="si-num">8.19</span>Mini-projekt – pozdrowienia i pełne imię</span><span class="si-page">1148</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-09-mini-proekty-krik-perevorot.html"><span><span class="si-num">8.20</span>Mini-Projekty - Krzycz i Flip</span><span class="si-page">1153</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-22-mini-proekt-parol-i-email.html"><span><span class="si-num">8.21</span>Mini-projekt – hasło i e-mail</span><span class="si-page">1157</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-23-mini-proekt-schetchik-slov.html"><span><span class="si-num">8.22</span>Mini-projekt – licznik słów</span><span class="si-page">1164</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-10-mini-proekt-matematika-itogi.html"><span><span class="si-num">8.23</span>Mini-projekt – dynamiczna matematyka</span><span class="si-page">1170</span></a><a class="section-item" href="/pl/chapters/rozdzial-08/08-10-mini-proekt-matematika-itogi.html#itogi"><span><span class="si-num"></span>Podsumowanie</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

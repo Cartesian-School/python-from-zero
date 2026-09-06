@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 18. Projekt: Tkinter aplikacja do rysowania – Python od podstaw – Cartesian School</title>
+<meta content="Pełnoprawny edytor rysowania na Canvas: ołówek, figury, kolor, cofanie działań, zapisywanie i ładowanie — od pierwszego prototypu do architektury poziomu aplikacji." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-18/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-18/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 18. Projekt: Tkinter aplikacja do rysowania – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Pełnoprawny edytor rysowania na Canvas: ołówek, figury, kolor, cofanie działań, zapisywanie i ładowanie — od pierwszego prototypu do architektury poziomu aplikacji." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-18/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 18. Projekt: Tkinter aplikacja do rysowania – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Pełnoprawny edytor rysowania na Canvas: ołówek, figury, kolor, cofanie działań, zapisywanie i ładowanie — od pierwszego prototypu do architektury poziomu aplikacji." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 18. Projekt: Tkinter aplikacja do rysowania – Python od podstaw – Cartesian School","description":"Pełnoprawny edytor rysowania na Canvas: ołówek, figury, kolor, cofanie działań, zapisywanie i ładowanie — od pierwszego prototypu do architektury poziomu aplikacji.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-18/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 18 · STRONA 2928</div>
+<h1>Projekt: aplikacja do rysowania z Tkinter</h1>
+<p>Pełnoprawny edytor rysowania na Canvas: ołówek, figury, kolor, cofanie działań, zapisywanie i ładowanie — od pierwszego prototypu do architektury poziomu aplikacji.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~7 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--palette"><use href="/assets/icons/cartesian/icons.svg#icon-palette"></use></svg> Canvas + rysowanie interaktywne</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> ~30 treningów</span><span><svg aria-hidden="true" class="cs-icon cs-icon--palette"><use href="/assets/icons/cartesian/icons.svg#icon-palette"></use></svg> pełnoprawny projekt Paint</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-18/18-01-obyasnenie-nachalo.html"><span><span class="si-num">18.1</span>Co budujemy? Zaczynamy</span><span class="si-page">2932</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-02-ekran-holst.html"><span><span class="si-num">18.2</span>Ekran i płótno (Canvas)</span><span class="si-page">2936</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-03-menu-parametry.html"><span><span class="si-num">18.3</span>Paska Narzędzi i Opcje</span><span class="si-page">2939</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-04-mysh-linii.html"><span><span class="si-num">18.4</span>Pozycja myszy i rysowanie linii</span><span class="si-page">2944</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-05-figury.html"><span><span class="si-num">18.5</span>Kwadraty, prostokąty, koła i owale</span><span class="si-page">2949</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-06-razmer-cveta.html"><span><span class="si-num">18.6</span>Wybieramy rozmiar i kolor</span><span class="si-page">2953</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-07-polnaya-programma-itogi.html"><span><span class="si-num">18.7</span>Pierwszy Kompletny Program</span><span class="si-page">2958</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-08-mentalnaya-model.html"><span><span class="si-num">18.8</span>Canvas przechowuje obiekty, a nie piksele</span><span class="si-page">2969</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-09-sistema-koordinat.html"><span><span class="si-num">18.9</span>Układ współrzędnych Canvas</span><span class="si-page">2975</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-10-item-id.html"><span><span class="si-num">18.10</span>Item ID: co wraca create_*</span><span class="si-page">2981</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-11-tegi.html"><span><span class="si-num">18.11</span>Tagi: Grupuj i wybieraj elementy</span><span class="si-page">2985</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-12-zhest-myshi.html"><span><span class="si-num">18.12</span>Cykl życia gestu myszy</span><span class="si-page">2989</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-13-sostoyanie-risovaniya.html"><span><span class="si-num">18.13</span>Stan rysowania</span><span class="si-page">2994</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-14-karandash.html"><span><span class="si-num">18.14</span>Ołówek: ciągła kreska</span><span class="si-page">3005</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-15-instrument-liniya.html"><span><span class="si-num">18.15</span>Narzędzie liniowe</span><span class="si-page">3012</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-16-geometriya-pryamougolnika.html"><span><span class="si-num">18.16</span>Geometria prostokąta</span><span class="si-page">3017</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-17-geometriya-ovala.html"><span><span class="si-num">18.17</span>Geometria owalna</span><span class="si-page">3022</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-18-zhivoe-prevyu.html"><span><span class="si-num">18.18</span>Zapowiedź na żywo: coords()</span><span class="si-page">3025</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-19-redaktirovanie-elementov.html"><span><span class="si-num">18.19</span>itemconfig, move, delete</span><span class="si-page">3030</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-20-poryadok-sloev.html"><span><span class="si-num">18.20</span>Nakładająca się kolejność</span><span class="si-page">3034</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-21-sistema-cveta.html"><span><span class="si-num">18.21</span>System Kolorów</span><span class="si-page">3038</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-22-tolschina-kisti.html"><span><span class="si-num">18.22</span>Grubość pędzla</span><span class="si-page">3043</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-23-lastik.html"><span><span class="si-num">18.23</span>Gumka</span><span class="si-page">3046</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-24-otmena-deystviy.html"><span><span class="si-num">18.24</span>Cofnij działania (Undo)</span><span class="si-page">3052</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-25-povtor-deystviy.html"><span><span class="si-num">18.25</span>Powtarzanie czynności (Redo)</span><span class="si-page">3057</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-26-ochistka-holsta.html"><span><span class="si-num">18.26</span>Czyszczenie płótna</span><span class="si-page">3062</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-27-goryachie-klavishi.html"><span><span class="si-num">18.27</span>skróty klawiszowe</span><span class="si-page">3066</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-28-stroka-sostoyaniya.html"><span><span class="si-num">18.28</span>Pasek statusu</span><span class="si-page">3070</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-29-arhitektura-paintapp.html"><span><span class="si-num">18.29</span>PaintApp architektura</span><span class="si-page">3073</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-30-sohranenie-json.html"><span><span class="si-num">18.30</span>Zapisywanie i ładowanie JSON</span><span class="si-page">3080</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-31-debug-labs.html"><span><span class="si-num">18.31</span>Debug Labs</span><span class="si-page">3093</span></a><a class="section-item" href="/pl/chapters/rozdzial-18/18-32-paint-pro-itogi.html"><span><span class="si-num">18.32</span>Paint Pro — podsumowanie rozdziału</span><span class="si-page">3128</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

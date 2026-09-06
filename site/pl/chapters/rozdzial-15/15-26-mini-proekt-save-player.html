@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Mini-projekt: ratowanie Player — Python od zera — Cartesian School</title>
+<meta content="Mini-Projekt: dataclass Player z rozdziału 14 jest zapisywany do JSON i przywracany przez nową instancję – persistence jako rekonstrukcja stanu, a nie przetrwanie obiektu." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-15/15-26-mini-proekt-save-player.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-15/15-26-mini-proekt-save-player.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Mini-projekt: ratowanie Player — Python od zera — Cartesian School" />
+<meta property="og:description" content="Mini-Projekt: dataclass Player z rozdziału 14 jest zapisywany do JSON i przywracany przez nową instancję – persistence jako rekonstrukcja stanu, a nie przetrwanie obiektu." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mini-projekt: ratowanie Player — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Mini-Projekt: dataclass Player z rozdziału 14 jest zapisywany do JSON i przywracany przez nową instancję – persistence jako rekonstrukcja stanu, a nie przetrwanie obiektu." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Mini-projekt: ratowanie Player — Python od zera — Cartesian School","description":"Mini-Projekt: dataclass Player z rozdziału 14 jest zapisywany do JSON i przywracany przez nową instancję – persistence jako rekonstrukcja stanu, a nie przetrwanie obiektu.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-15/15-26-mini-proekt-save-player.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 15 · Pliki</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-15/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-15/15-01-zachem-fajly.html">Po co są pliki? Otwieranie i czytanie</a></li><li><a href="/pl/chapters/rozdzial-15/15-02-stroka-za-strokoj.html">Linia po linijce</a></li><li><a href="/pl/chapters/rozdzial-15/15-03-sozdanie-fajlov.html">Utwórz nowe pliki</a></li><li><a href="/pl/chapters/rozdzial-15/15-04-mini-proekt-itogi.html">Mini-projekt: Dziennik notatek</a></li><li><a href="/pl/chapters/rozdzial-15/15-05-fajl-i-papka.html">System plików, folderów i plików</a></li><li><a href="/pl/chapters/rozdzial-15/15-06-puti-absolyutnye-i-otnositelnye.html">Ścieżki: bezwzględne i względne</a></li><li><a href="/pl/chapters/rozdzial-15/15-07-tekushaya-rabochaya-directoriya.html">Bieżący katalog roboczy (CWD)</a></li><li><a href="/pl/chapters/rozdzial-15/15-08-pochemu-pathlib.html">pathlib.Path: ścieżki jako obiekty</a></li><li><a href="/pl/chapters/rozdzial-15/15-09-razbiraem-put.html">Rozkładanie ścieżki: name, stem, suffix, parent</a></li><li><a href="/pl/chapters/rozdzial-15/15-10-praktika-puti-i-cwd.html">Praktyka: Ścieżki i CWD</a></li><li><a href="/pl/chapters/rozdzial-15/15-11-file-object.html">open() zwraca obiekt pliku</a></li><li><a href="/pl/chapters/rozdzial-15/15-12-zhiznenny-cikl-i-with.html">Cykl życia pliku i with</a></li><li><a href="/pl/chapters/rozdzial-15/15-13-kursor-fajla.html">Kursor pliku: tell() i seek()</a></li><li><a href="/pl/chapters/rozdzial-15/15-14-chitaem-fajly.html">Przeczytaj akta: read(), readline(), readlines()</a></li><li><a href="/pl/chapters/rozdzial-15/15-15-pishem-i-rezhimy.html">Zapis do plików: write() i tryby r/w/a/x</a></li><li><a href="/pl/chapters/rozdzial-15/15-16-text-bytes-encoding.html">Tekst, bytes i kodowanie UTF-8</a></li><li><a href="/pl/chapters/rozdzial-15/15-17-binarnye-fajly-i-perevody-strok.html">Binarki i podziały linii</a></li><li><a href="/pl/chapters/rozdzial-15/15-18-pathlib-udobnye-metody.html">pathlib: read_text, write_text, read_bytes, write_bytes</a></li><li><a href="/pl/chapters/rozdzial-15/15-19-papki-exists-mkdir.html">Foldery: exists(), is_file(), mkdir()</a></li><li><a href="/pl/chapters/rozdzial-15/15-20-poisk-fajlov-glob.html">Wyszukiwanie plików: iterdir() i glob()</a></li><li><a href="/pl/chapters/rozdzial-15/15-21-pereimenovanie-kopirovanie-udalenie.html">Zmiana nazw, kopiowanie, usuwanie</a></li><li><a href="/pl/chapters/rozdzial-15/15-22-oshibki-fajlovoj-sistemy.html">Błędy systemu plików</a></li><li><a href="/pl/chapters/rozdzial-15/15-23-bolshie-fajly-i-potoki.html">Duże pliki i przetwarzanie strumieni</a></li><li><a href="/pl/chapters/rozdzial-15/15-24-kak-vybrat-format.html">Jak wybrać format przechowywania danych</a></li><li><a href="/pl/chapters/rozdzial-15/15-25-json-serializatsiya.html">JSON: zapisujemy struktury danych</a></li><li><a class="active" href="/pl/chapters/rozdzial-15/15-26-mini-proekt-save-player.html">Mini-projekt: ratowanie Player</a></li><li><a href="/pl/chapters/rozdzial-15/15-27-csv-tablitsy.html">CSV: tabele w formie tekstowej</a></li><li><a href="/pl/chapters/rozdzial-15/15-28-bezopasnaya-rabota-s-fajlami.html">Bezpieczne zarządzanie plikami</a></li><li><a href="/pl/chapters/rozdzial-15/15-29-mini-proekt-rekordy-i-nastrojki.html">Mini-projekt: tabela rekordów</a></li><li><a href="/pl/chapters/rozdzial-15/15-30-brauzer-vs-lokalny-disk.html">Przeglądarka i dysk lokalny: Dwa systemy plików</a></li><li><a href="/pl/chapters/rozdzial-15/15-31-itogi-glavy.html">Podsumowanie rozdziału: Zestaw narzędzi do plików</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/15-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-01: Praktyka</a></li><li><a href="/pl/practice/15-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-02: Praktyka</a></li><li><a href="/pl/practice/15-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-03: Praktyka</a></li><li><a href="/pl/practice/15-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-04: Praktyka</a></li><li><a href="/pl/practice/15-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-05: Praktyka</a></li><li><a href="/pl/practice/15-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-06: Praktyka</a></li><li><a href="/pl/practice/15-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-07: Praktyka</a></li><li><a href="/pl/practice/15-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-08: Praktyka</a></li><li><a href="/pl/practice/15-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-09: Praktyka</a></li><li><a href="/pl/practice/15-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-10: Praktyka</a></li><li><a href="/pl/practice/15-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-11: Praktyka</a></li><li><a href="/pl/practice/15-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-12: Praktyka</a></li><li><a href="/pl/practice/15-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-13: Praktyka</a></li><li><a href="/pl/practice/15-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-14: Praktyka</a></li><li><a href="/pl/practice/15-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-15: Praktyka</a></li><li><a href="/pl/practice/15-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-16: Praktyka</a></li><li><a href="/pl/practice/15-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-17: Praktyka</a></li><li><a href="/pl/practice/15-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-18: Praktyka</a></li><li><a href="/pl/practice/15-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-19: Praktyka</a></li><li><a href="/pl/practice/15-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-20: Praktyka</a></li><li><a href="/pl/practice/15-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-21: Praktyka</a></li><li><a href="/pl/practice/15-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-22: Praktyka</a></li><li><a href="/pl/practice/15-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-23: Praktyka</a></li><li><a href="/pl/practice/15-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-24: Praktyka</a></li><li><a href="/pl/practice/15-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-25: Praktyka</a></li><li><a href="/pl/practice/15-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-26: Praktyka</a></li><li><a href="/pl/practice/15-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-27: Praktyka</a></li><li><a href="/pl/practice/15-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-28: Praktyka</a></li><li><a href="/pl/practice/15-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-29: Praktyka</a></li><li><a href="/pl/practice/15-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 15-30: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-15/15-26-mini-proekt-save-player.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-15/index.html">Rozdział 15</a> / Mini-projekt: Player</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 15 · Python i akta</div>
+<h1>Mini-projekt: ratowanie Player</h1>
+<p class="lede">Obiekt z rozdziału 14 w końcu wie, jak przetrwać restart programu.</p>
+<p>Połącz rozdział 14 (dataclasses, obiekty) i rozdział 15 (JSON, pliki): zapisz i
+    Prześlij prawdziwą postać z gry.</p>
+<div class="code-block">
+<div class="code-label"><span>player_dataclass.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> dataclass, asdict
+
+@dataclass
+<span class="tok-kw">class</span> Player:
+    name: <span class="tok-fn">str</span>
+    score: <span class="tok-fn">int</span>
+    inventory: <span class="tok-fn">list</span>[<span class="tok-fn">str</span>]</code></pre>
+</div>
+<h2>Zachowanie</h2>
+<div class="code-block">
+<div class="code-label"><span>save_player.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">from</span> dataclasses <span class="tok-kw">import</span> asdict
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+player = Player(name=<span class="tok-str">"Anna"</span>, score=<span class="tok-num">1200</span>, inventory=[<span class="tok-str">„miecz”</span>, <span class="tok-str">„tarcza”</span>])
+
+<span class="tok-kw">with</span> Path(<span class="tok-str">"save.json"</span>).<span class="tok-fn">open</span>(<span class="tok-str">"w"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+    json.dump(asdict(player), f, ensure_ascii=<span class="tok-kw">False</span>, indent=<span class="tok-num">2</span>)</code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">asdict() jest skrótem od dataclass do słownika</div>
+<div class="callout-body"><code class="inline">dataclasses.asdict()</code> (rozdział 14) zamienia instancję dataclass w zwykły słownik — jeśli wszystkie wartości wewnątrz są już kompatybilne z JSON- (łańcuch znaków, liczby, listy, słowniki), wynik można przekazać bezpośrednio <code class="inline">json.dump()</code>.</div>
+</div>
+</div>
+<h2>Ładowanie</h2>
+<div class="code-block">
+<div class="code-label"><span>load_player.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> json
+<span class="tok-kw">from</span> pathlib <span class="tok-kw">import</span> Path
+
+<span class="tok-kw">with</span> Path(<span class="tok-str">"save.json"</span>).<span class="tok-fn">open</span>(<span class="tok-str">"r"</span>, encoding=<span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+    data = json.load(f)
+
+loaded_player = Player(**data)
+<span class="tok-fn">print</span>(loaded_player)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;flex-direction:column;align-items:center"><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">player : Player</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">name = "Anna"</div><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">score = 1200</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">asdict() + json.dump()</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#FEF3C7;border:2px solid #B45309;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#B45309">save.json</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#92603A;text-align:center">JSON-text na dysku</div></div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#E5E7EB;border:2px solid #0D0230;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#0D0230">program kończy się</div></div><div style="display:flex;flex-direction:column;align-items:center;margin:2px 0"><div style="font-size:12px;font-family:Inter,sans-serif;color:#6B6B7D;margin:2px 0">json.load() + Player(**data)</div><span style="font-size:20px;color:#B9A0FC">↓</span></div><div data-diagram-node="pipeline" style="min-width:220px;max-width:340px;padding:14px 20px;border-radius:4px;background:#EDE9FE;border:2px solid #5B24F9;text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#5B24F9">loaded_player : Player</div><div style="margin-top:8px;display:flex;flex-direction:column;gap:3px"><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">name = "Anna"</div><div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#6B6B7D;text-align:center">score = 1200</div></div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">loaded_player — TO NIE ten sam obiekt co player:, to nowa instancja, przywrócona z pliku.</figcaption></figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">To nie jest „ten sam” obiekt</div>
+<div class="callout-body">Po ponownym uruchomieniu programu <code class="inline">loaded_player</code> jest <strong>nowe</strong> egzemplarz <code class="inline">Player</code>zbudowany z danych pliku, a nie z obiektu, który istniał w poprzednim uruchomieniu programu. Po prostu ma ten sam stan — i to jest cel trwałości: nie po to, by zapisać sam obiekt Python, ale by przechować wystarczająco dużo danych, by przywrócić równoważny stan.</div>
+</div>
+</div>
+<div class="exercise">
+<div class="exercise-stars">Challenge</div>
+<div class="exercise-title">Dalej samodzielnie: JSON książka kontaktowa</div>
+<p>Weź książkę kontaktów z rozdziału 12 (słownik imię → numer telefonu) i dodaj do niej zapisy/ładowanie przez JSON, zgodnie z przykładem tej sekcji — wtedy kontakty przetrwają restart programu.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Zapisz i wczytaj Player</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="15-26"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/15-26/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["15-26"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="15-26"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-15/15-25-json-serializatsiya.html"><div class="dir">← Back</div><div class="lbl">JSON: zapisujemy struktury danych</div></a><a class="next" href="/pl/chapters/rozdzial-15/15-27-csv-tablitsy.html"><div class="dir">Następny →</div><div class="lbl">CSV: tabele w formie tekstowej</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

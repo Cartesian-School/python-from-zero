@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Formatowanie łańcuchów — Python od zera — Cartesian School</title>
+<meta content="szczegółowo f-strings: podstawienie, wyrażenia, formatowanie liczb, szerokość i wyrównanie – plus historyczny kontekst % i . format()." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-08/08-06-formatirovanie-strok.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-08/08-06-formatirovanie-strok.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Formatowanie łańcuchów — Python od zera — Cartesian School" />
+<meta property="og:description" content="szczegółowo f-strings: podstawienie, wyrażenia, formatowanie liczb, szerokość i wyrównanie – plus historyczny kontekst % i . format()." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Formatowanie łańcuchów — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="szczegółowo f-strings: podstawienie, wyrażenia, formatowanie liczb, szerokość i wyrównanie – plus historyczny kontekst % i . format()." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Formatowanie łańcuchów — Python od zera — Cartesian School","description":"szczegółowo f-strings: podstawienie, wyrażenia, formatowanie liczb, szerokość i wyrównanie – plus historyczny kontekst % i . format().","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/08-06-formatirovanie-strok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 8 · łańcuch znaków</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-08/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-08/08-01-chto-takoe-stroki.html">czym są struny?</a></li><li><a href="/pl/chapters/rozdzial-08/08-11-ekranirovanie.html">Ucieczka: \n, \t i inni</a></li><li><a href="/pl/chapters/rozdzial-08/08-12-mnogostrochnye-i-raw-stroki.html">Struny wieloliniowe i raw-struny</a></li><li><a href="/pl/chapters/rozdzial-08/08-02-kavychki-konkatenaciya.html">Cudzysłowy, łączenie, powtarzanie</a></li><li><a href="/pl/chapters/rozdzial-08/08-13-dlina-stroki.html">Długość linii: len()</a></li><li><a href="/pl/chapters/rozdzial-08/08-03-dostup-k-simvolam.html">Indeksy wierszowe</a></li><li><a href="/pl/chapters/rozdzial-08/08-14-srezy-stroki.html">Plasterki rzędowe</a></li><li><a href="/pl/chapters/rozdzial-08/08-15-neizmenyaemost.html">Rzędy nie mogą być zmieniane</a></li><li><a href="/pl/chapters/rozdzial-08/08-04-metody-strok.html">Metody łańcuch znaków: przypadki i space</a></li><li><a href="/pl/chapters/rozdzial-08/08-16-metody-strok-poisk-i-razbor.html">Metody łańcuchowe: wyszukiwanie i parsowanie</a></li><li><a href="/pl/chapters/rozdzial-08/08-17-metody-proverki.html">Metody weryfikacji: isalpha i inne</a></li><li><a href="/pl/chapters/rozdzial-08/08-05-istina-lozh.html">in, porównanie i prawda</a></li><li><a href="/pl/chapters/rozdzial-08/08-18-cikl-po-stroke.html">Iteracja przez linię w pętli</a></li><li><a class="active" href="/pl/chapters/rozdzial-08/08-06-formatirovanie-strok.html">Formatowanie łańcuch znaków</a></li><li><a href="/pl/chapters/rozdzial-08/08-07-vvod-polzovatelya.html">Wprowadzanie od użytkownika</a></li><li><a href="/pl/chapters/rozdzial-08/08-19-unikod-i-emodzi.html">Cyrylica, unicode i emoji</a></li><li><a href="/pl/chapters/rozdzial-08/08-20-otladka-strok.html">Debugowanie problemów z łańcuchami</a></li><li><a href="/pl/chapters/rozdzial-08/08-08-mini-proekt-turtle-tekst.html">Mini-projekt: tekst Turtle</a></li><li><a href="/pl/chapters/rozdzial-08/08-21-mini-proekt-privetstvie-i-imya.html">Mini-projekt: powitanie i imię i nazwisko</a></li><li><a href="/pl/chapters/rozdzial-08/08-09-mini-proekty-krik-perevorot.html">Mini-Projekty: Krzycz i Flip</a></li><li><a href="/pl/chapters/rozdzial-08/08-22-mini-proekt-parol-i-email.html">Mini-projekt: hasło i e-mail</a></li><li><a href="/pl/chapters/rozdzial-08/08-23-mini-proekt-schetchik-slov.html">Mini projekt: Licznik słów</a></li><li><a href="/pl/chapters/rozdzial-08/08-10-mini-proekt-matematika-itogi.html">Mini-projekt: dynamiczna matematyka i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/08-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-01: Praktyka</a></li><li><a href="/pl/practice/08-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-11: Praktyka</a></li><li><a href="/pl/practice/08-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-12: Praktyka</a></li><li><a href="/pl/practice/08-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-13: Praktyka</a></li><li><a href="/pl/practice/08-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-14: Praktyka</a></li><li><a href="/pl/practice/08-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-04: Praktyka</a></li><li><a href="/pl/practice/08-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-16: Praktyka</a></li><li><a href="/pl/practice/08-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-17: Praktyka</a></li><li><a href="/pl/practice/08-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-03: Praktyka</a></li><li><a href="/pl/practice/08-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-18: Praktyka</a></li><li><a href="/pl/practice/08-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-06: Praktyka</a></li><li><a href="/pl/practice/08-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-07: Praktyka</a></li><li><a href="/pl/practice/08-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-20: Praktyka</a></li><li><a href="/pl/practice/08-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-21: Praktyka</a></li><li><a href="/pl/practice/08-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-08: Praktyka</a></li><li><a href="/pl/practice/08-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-22: Praktyka</a></li><li><a href="/pl/practice/08-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-23: Praktyka</a></li><li><a href="/pl/practice/08-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 08-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-08/08-06-formatirovanie-strok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-08/index.html">Rozdział 8</a> / Formatowanie znaków znaków</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 8 · Zabawa literami i słowami</div>
+<h1>Formatowanie łańcuch znaków</h1>
+<p class="lede">f-strings to główne nowoczesne narzędzie do wstawiania wartości do tekstu. Przyjrzyjmy się im szczegółowo: od prostej podstawienia po wyrównanie kolumn.</p>
+<p>Już korzystaliśmy z f-łańcuch znaków począwszy od rozdziału 4 — teraz dokładnie przeanalizujemy formatowanie tekstu.</p>
+<h2>f-łańcuch znaków jest prostą podstawieniem</h2>
+<p>Cudzysłowem otwierającym poprzedza się litera <code class="inline">f</code>, ale w środku
+    Aparaty kręcone <code class="inline">{}</code> — nazwa zmiennej. Python samo wstawi
+    tam wartość:</p>
+<div class="code-block">
+<div class="code-label"><span>f_stroka_prostaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>name = <span class="tok-str">„Ada”</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Cześć, </span>{name}<span class="tok-str">!</span><span class="tok-str">"</span>)
+<span class="tok-com"># Cześć, Ada!</span></code></pre>
+</div>
+<h2>Wewnątrz {} można pisać wyrażenia</h2>
+<p>To nie jest tylko podstawienie imienia – KAŻDE Python- wyrażenie działa w nawiasach:
+    Arytmetyka, metoda wywoływania, cokolwiek:</p>
+<div class="code-block">
+<div class="code-label"><span>f_stroka_vyrazheniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>age = <span class="tok-num">5</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Za rok będzie </span>{age + <span class="tok-num">1</span>}<span class="tok-str">.</span><span class="tok-str">"</span>)           <span class="tok-com"># Za rok będzie ich 6.</span>
+
+name = <span class="tok-str">"cartesian"</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Wielka litera: </span>{name.upper()}<span class="tok-str">"</span>)            <span class="tok-com"># Wielkimi literami: CARTESIAN</span></code></pre>
+</div>
+<h2>Formatowanie liczb: precyzja i separatory</h2>
+<p>Po wartości można dodać dwukropek i <strong>specyfikacja formatu</strong> — jak
+    Aby wyświetlić numer:</p>
+<div class="code-block">
+<div class="code-label"><span>format_specifikatory.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>pi = <span class="tok-num">3.14159265</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Pi zaokrąglone: </span>{pi:<span class="tok-str">.2f</span>}<span class="tok-str">"</span>)   <span class="tok-com"># Pi zaokrąglone: 3,14 – 2 miejsca po przecinku</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span>{<span class="tok-num">1234567</span>:<span class="tok-str">,</span>}<span class="tok-str">"</span>)               <span class="tok-com">#1,234,567 – Separator Tysięcy</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span>{<span class="tok-num">0.4567</span>:<span class="tok-str">.1%</span>}<span class="tok-str">"</span>)              <span class="tok-com">#45,7% – udział procentowy</span></code></pre>
+</div>
+<p><code class="inline">.2f</code> brzmi tak: <code class="inline">f</code> jest liczbą z
+    zmiennoprzecinkowe, <code class="inline">.2</code> — zaokrąglić do 2 miejsc po przecinku.</p>
+<h2>Wyrównanie i szerokość</h2>
+<p>Liczba po dwukropku (bez kropki) określa minimalną szerokość pola — wygodne do wyrównywania tekstu w kolumnie:</p>
+<div class="code-block">
+<div class="code-label"><span>vyravnivanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> name, score <span class="tok-kw">in</span> [(<span class="tok-str">„Ada”</span>, <span class="tok-num">98</span>), (<span class="tok-str">„Alan”</span>, <span class="tok-num">87</span>), (<span class="tok-str">„Grace”</span>, <span class="tok-num">100</span>)]:
+    <span class="tok-fn">print</span>(<span class="tok-str">f"</span>{name:<span class="tok-str">&lt;8</span>}<span class="tok-str"> </span>{score:<span class="tok-str">&gt;5</span>}<span class="tok-str">"</span>)
+<span class="tok-com"># Ada 98</span>
+<span class="tok-com">#Alan 87</span>
+<span class="tok-com"># Grace     100</span></code></pre>
+</div>
+<div class="compare-table-wrap" style="overflow-x:auto">
+<table class="compare-table">
+<thead><tr><th>Specyfikator</th><th>Znaczenie</th></tr></thead>
+<tbody>
+<tr><td><code class="inline">{value:&lt;10}</code></td><td>po lewej szerokość pola wynosi 10</td></tr>
+<tr><td><code class="inline">{value:&gt;10}</code></td><td>po prawej krawędzi, szerokość pola 10</td></tr>
+<tr><td><code class="inline">{value:^10}</code></td><td>na środku, szerokość 10 kwadratów</td></tr>
+<tr><td><code class="inline">{value:.2f}</code></td><td>liczba ułamkowa, 2 miejsca po przecinku</td></tr>
+<tr><td><code class="inline">{value:,}</code></td><td>separator przecinków tysiąca przecinków</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Technika debugowania: f„{{value=}}”</div>
+<div class="callout-body">Jeśli umieścisz znak wewnątrz linii f- po wyrażeniu <code class="inline">=</code> — Python wyświetli zarówno wyrażenie, jak i jego wartość. Doskonałe do szybkiego sprawdzenia: <code class="inline">print(f"{{age=}}")</code> wycofa się <code class="inline">age=28</code> - bez ręcznego wpisywania „age =”</div>
+</div>
+</div>
+<div class="cvm">
+<div class="cvm-header">Formatowanie łańcuch znaków: % → . format() → Struny f-</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Podejście klasyczne (% i . format())</div>
+<pre><code>name = <span class="tok-str">"Cartesian"</span>
+age = <span class="tok-num">5</span>
+
+<span class="tok-com"># operator % — najstarszy sposób</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Witaj %s! Masz %d lat.”</span> % (name, age))
+
+<span class="tok-com">#. format() jest nowszy, ale wciąż rozwlekły</span>
+<span class="tok-fn">print</span>(<span class="tok-str">„Cześć, {}! Masz {} lat.”</span>.format(name, age))</code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">Modern Python 3.14 (struny f-strings)</div>
+<pre><code>name = <span class="tok-str">"Cartesian"</span>
+age = <span class="tok-num">5</span>
+
+<span class="tok-com">#f-łańcuch znaków wartości znajdują się dokładnie wewnątrz {}</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Cześć, </span>{name}<span class="tok-str">! Ty </span>{age}<span class="tok-str"> lat.</span><span class="tok-str">"</span>)
+
+<span class="tok-com"># działają także wyrażenia, nie tylko zmienne:</span>
+<span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Za rok będzie </span>{age + <span class="tok-num">1</span>}<span class="tok-str">.</span><span class="tok-str">"</span>)</code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> struny f-struny – pojawiły się w Python 3.6 i od tego czasu są standardem. Operator <code class="inline">%</code> , najstarsza metoda odziedziczona z języka C, nadal znajduje się w starym kodzie. <code class="inline">.format()</code> jest pośrednim krokiem między nimi. f-linie są najlepsze do czytania: wartość jest widoczna dokładnie tam, gdzie zostanie podstawiona, i możesz zapisać dowolne wyrażenia, nie tylko nazwy zmiennych.</div>
+</div>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Zaznacz „na stole”</div>
+<p>Wyjść linijka "Łącznie: 1234,5 → 1 234,50 ₽" (używając: ,,2f) dla wartości 1234,5), a osobno - "Zniżka: 15,0%" dla udziału 0,15 (stosując :,1%).</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: %, . format() i struny f-struny</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="08-06"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/08-06/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["08-06"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="08-06"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-08/08-18-cikl-po-stroke.html"><div class="dir">← Back</div><div class="lbl">Pętla po linii</div></a><a class="next" href="/pl/chapters/rozdzial-08/08-07-vvod-polzovatelya.html"><div class="dir">Następny →</div><div class="lbl">Wprowadzanie od użytkownika</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

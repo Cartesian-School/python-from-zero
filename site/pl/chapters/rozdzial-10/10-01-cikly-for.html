@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Powtarzanie i pierwszy cykl for – Python od zera – Cartesian School</title>
+<meta content="Powtarzanie jako trzecia struktura algorytmu, terminologia cyklu, pierwszy for oraz jego kanoniczny flowchart." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-01-cikly-for.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-01-cikly-for.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-01-cikly-for.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-01-cikly-for.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Powtarzanie i pierwszy cykl for – Python od zera – Cartesian School" />
+<meta property="og:description" content="Powtarzanie jako trzecia struktura algorytmu, terminologia cyklu, pierwszy for oraz jego kanoniczny flowchart." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-01-cikly-for.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Powtarzanie i pierwszy cykl for – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Powtarzanie jako trzecia struktura algorytmu, terminologia cyklu, pierwszy for oraz jego kanoniczny flowchart." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Powtarzanie i pierwszy cykl for – Python od zera – Cartesian School","description":"Powtarzanie jako trzecia struktura algorytmu, terminologia cyklu, pierwszy for oraz jego kanoniczny flowchart.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-01-cikly-for.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-01-cikly-for.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-01-cikly-for.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Cykle for</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Cykle magiczne! Cykle for</h1>
+<p class="lede">Wreszcie prawdziwa automatyzacja: zamiast powtarzać kod ręcznie, prosimy Python, by powtórzył go sam.</p>
+<h2>Zanim Python: powtarzalność wokół nas</h2>
+<p>Powtarzamy czynności cały czas, nawet nie myśląc: mycie zębów tymi samymi ruchami,
+    Maszerujemy tymi samymi krokami, śpiewamy zwrotkę za zwrotką tej samej melodii. <strong>Powtarzalność
+    jest odrębnym, niezależnym sposobem organizowania działania</strong>na równi z "zrób jedną rzecz
+    po drugiej" oraz "wybierz jedną z dwóch ścieżek".</p>
+<h2 id="tri-struktury">Trzy struktury algorytmu: przypominamy sobie</h2>
+<p>W rozdziale 9 omówiliśmy pierwsze dwie z trzech podstawowych struktur, z których składa się
+    każdy algorytm. Trzecia — <strong>powtarzalność</strong> jest tematem tego rozdziału.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Trzy struktury, z których budowany jest każdy algorytm</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">1 · Kolejność</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Kroki następują jeden po drugim</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">„Najpierw… potem… potem…”</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Rozdział 9</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">2 · Rozgałęzienie</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Wybór jednej ze ścieżek według warunku</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7"><code class="inline">if / elif / else</code></div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Rozdział 9</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">3 · Recenzja</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Ten sam blok w kółko</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7"><code class="inline">for</code> / <code class="inline">while</code></div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">Ten rozdział</div></div></div></figure>
+<h2>Co jest nie tak z tym kodem?</h2>
+<p>Oto kwadrat z rozdziału 6 — już znany kod: cztery identyczne bloki „krok do przodu, obrót”</p>
+<div class="code-block">
+<div class="code-label"><span>kvadrat_bez_cikla.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)</code></pre>
+</div>
+<p>Teraz wyobraź sobie, że nie potrzebujesz kwadratu, ale <strong>Dwudziestu</strong>. Skopiuj te dwie linie jeszcze 16 razy ręcznie — długo i łatwo popełnić błąd. Właśnie do takich powtarzających się bloków istnieją <strong>pętle</strong>: Sposób na powiedzenie Python „Powtarzaj to N raz”</p>
+<h2>Terminy pętli</h2>
+<p>Zanim napiszemy pierwszy cykl, ustalmy słowa, jakimi go opiszemy —
+    Potem spotkają się w całym rozdziale:</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Termin</th><th>Co to jest</th></tr></thead>
+<tbody><tr><td><strong>pętla</strong></td><td>konstrukcja, która powtarza ten sam blok kodu wielokrotnie</td></tr><tr><td><strong>Korpus Cyklu</strong></td><td>tym samym bloku kodu, który jest powtarzany (linie wcięte pod <code class="inline">for</code>/<code class="inline">while</code>)</td></tr><tr><td><strong>iteracja</strong></td><td>jednym przejściem przez treść cyklu, jednym "raz" z "powtórz N razy"</td></tr><tr><td><strong>warunek</strong></td><td>to, co pętla sprawdza, by zdecydować, czy kontynuować, czy zakończyć</td></tr><tr><td><strong>licznik</strong></td><td>zmienna, która liczy numer iteracji lub zmienia się z każdym krokiem</td></tr></tbody>
+</table>
+</div>
+<h2>Pętle for</h2>
+<p>Najczęstszym typem cyklu w Python jest <code class="inline">for</code>. Razem z
+    <code class="inline">range()</code> może powtórzyć blok kodu określoną liczbę razy:</p>
+<div class="code-block">
+<div class="code-label"><span>cikl_for.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">5</span>):
+    <span class="tok-fn">print</span>(i)</code></pre>
+</div>
+<h3>Rozkładamy na słowa</h3>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Część kodu</th><th>Co oznacza</th></tr></thead>
+<tbody><tr><td><code class="inline">for</code></td><td>„rozpoczęcie cyklu”</td></tr><tr><td><code class="inline">i</code></td><td>zmienna pętli — na każdym kroku pobiera kolejną wartość z <code class="inline">range(5)</code></td></tr><tr><td><code class="inline">in range(5)</code></td><td>Źródło wartości: Liczby od 0 do 4</td></tr><tr><td><code class="inline">:</code></td><td>wtedy zaczyna się treść cyklu (z wcięciem)</td></tr><tr><td><code class="inline">print(i)</code></td><td>ciało pętli — to, co powtarza się przy każdej iteracji</td></tr></tbody>
+</table>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="for i in range(5): print(i) to pięć iteracji tego samego ciała pętli" data-diagram="timeline" role="img" style="width:100%;height:auto;max-width:640px" viewbox="0 0 640 460" xmlns="http://www.w3.org/2000/svg"><line stroke="#B9A0FC" stroke-width="3" x1="28" x2="28" y1="44" y2="396"></line><circle cx="28" cy="44" fill="#5B24F9" r="9"></circle><circle cx="28" cy="44" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="40">Iteracja 1</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="62">i = 0 → print(0)</text><circle cx="28" cy="132" fill="#5B24F9" r="9"></circle><circle cx="28" cy="132" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="128">Iteracja 2</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="150">i = 1 → print(1)</text><circle cx="28" cy="220" fill="#5B24F9" r="9"></circle><circle cx="28" cy="220" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="216">Iteracja 3</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="238">i = 2 → print(2)</text><circle cx="28" cy="308" fill="#5B24F9" r="9"></circle><circle cx="28" cy="308" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="304">Iteracja 4</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="326">i = 3 → print(3)</text><circle cx="28" cy="396" fill="#5B24F9" r="9"></circle><circle cx="28" cy="396" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="392">Iteracja 5</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="414">i = 4 → print(4)</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">for i in range(5): print(i) to pięć iteracji tego samego ciała pętli</figcaption></figure>
+<h3 id="flowchart-for">Kanoniczny flowchart cyklu for</h3>
+<p>Ważne jest, aby od razu przyzwyczaić się do właściwego obrazu tego, co się dzieje: <code class="inline">for</code>
+    nie "magicznie wykonuje ciała N czasie" – na każdym etapie pyta "czy jest następny
+    element?", a jeśli tak, wykonuje ciało i ponownie pyta:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="for i in range(5): print(i) - Pętla za każdym razem żąda kolejnego elementu" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:745px" viewbox="15.0 0 745.0 398.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrowfc0" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-26-arrowfc0-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-26-arrowfc0-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-26-arrowfc0-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-26-arrowfc0)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="117.0">Uzyskaj następny</tspan><tspan x="160.0" y="135.0">element z range(5)</tspan></text><line marker-end="url(#pl-svg-26-arrowfc0)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,180.0 275.0,230.0 160.0,280.0 45.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="226.0">Są następujące</tspan><tspan x="160.0" y="244.0">randka?</tspan></text><line marker-end="url(#pl-svg-26-arrowfc0-g)" stroke="#059669" stroke-width="2.5" x1="275.0" x2="300.0" y1="230.0" y2="230.0"></line><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="287.5" y="220.0">TAK</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="202.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="235.0">print(i)</tspan></text><path d="M510.0,230.0 L570.0,230.0 L570.0,121.0 L265.0,121.0" fill="none" marker-end="url(#pl-svg-26-arrowfc0-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="578.0" y="175.5">temu</text><line marker-end="url(#pl-svg-26-arrowfc0-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="280.0" y2="306.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="186.0" y="293.0">NIE</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="306.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="337.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">for i in range(5): print(i) - Pętla za każdym razem żąda kolejnego elementu</figcaption></figure>
+<h3>Trasa Egzekucji</h3>
+<p>Tabela śledzenia to sposób śledzenia tego, co dzieje się w każdej iteracji, linia po linii. My
+    Będziemy korzystać z tej tabeli przez cały rozdział:</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Iteracja</th><th>i</th><th>Zakończenie (print)</th></tr></thead>
+<tbody><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>2</td><td>1</td><td>1</td></tr><tr><td>3</td><td>2</td><td>2</td></tr><tr><td>4</td><td>3</td><td>3</td></tr><tr><td>5</td><td>4</td><td>4</td></tr></tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">range() z różnymi argumentami — krótko</div>
+<div class="callout-body"><code class="inline">range(5)</code> — od 0 do 4. <code class="inline">range(2, 8)</code> — od 2 do 7. <code class="inline">range(0, 10, 2)</code> — od 0 do 8 z krokiem 2: 0, 2, 4, 6, 8. Szczegółowa analiza znajduje się na następnej stronie.</div>
+</div>
+</div>
+<h2>Gdy cykl zmienna nie jest potrzebny</h2>
+<p>Jeśli samo liczba powtórzeń jest ważna, a nie wartość licznika — tradycyjnie nazywa się ją
+    <code class="inline">_</code> (podkreślenie), sygnalizując „ta wartość
+    świadomie nie jest używana”:</p>
+<div class="cvm">
+<div class="cvm-header">Rozdział 6 Kwadrat: 8 linijek → 2 wersy</div>
+<div class="cvm-grid">
+<div class="cvm-col classic">
+<div class="cvm-label">Brak Pętli (Rozdział 6)</div>
+<pre><code>artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)
+artist.forward(<span class="tok-num">100</span>)
+artist.right(<span class="tok-num">90</span>)</code></pre>
+</div>
+<div class="cvm-col modern">
+<div class="cvm-label">Z cyklem for</div>
+<pre><code><span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">4</span>):
+    artist.forward(<span class="tok-num">100</span>)
+    artist.right(<span class="tok-num">90</span>)</code></pre>
+</div>
+</div>
+<div class="cvm-verdict"><strong>Co używać dzisiaj:</strong> pętla <code class="inline">for</code>. Nie jest „nowoczesny”</div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">_ jest konwencją, a nie specjalną składnią</div>
+<div class="callout-body"><code class="inline">_</code> to nazwa zmiennej powszechnej Python nie obsługuje jej w żaden specjalny sposób. To po prostu umowa między programistami: „celowo nie używamy tutaj wartości pętli.” <code class="inline">for x in range(4):</code> też zadziała, ale czytelnik kodu będzie miał mniej jasny sygnał.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: for cykl i terminologia</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-01"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-01/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-01"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-01"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/index.html"><div class="dir">← Back</div><div class="lbl">Przegląd rozdziału</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html"><div class="dir">Następny →</div><div class="lbl">range() szczegóły</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

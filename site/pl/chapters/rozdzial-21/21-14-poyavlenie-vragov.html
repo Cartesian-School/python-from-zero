@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Jak pojawiają się wrogowie – Python od zera – Cartesian School</title>
+<meta content="Timer pojawiania się wrogów w kilka sekund, z pozostałym czasem po interwale, bezpieczną koordynacją odrodzenia oraz dwoma typami przeciwników." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-21/21-14-poyavlenie-vragov.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-21/21-14-poyavlenie-vragov.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Jak pojawiają się wrogowie – Python od zera – Cartesian School" />
+<meta property="og:description" content="Timer pojawiania się wrogów w kilka sekund, z pozostałym czasem po interwale, bezpieczną koordynacją odrodzenia oraz dwoma typami przeciwników." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Jak pojawiają się wrogowie – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Timer pojawiania się wrogów w kilka sekund, z pozostałym czasem po interwale, bezpieczną koordynacją odrodzenia oraz dwoma typami przeciwników." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Jak pojawiają się wrogowie – Python od zera – Cartesian School","description":"Timer pojawiania się wrogów w kilka sekund, z pozostałym czasem po interwale, bezpieczną koordynacją odrodzenia oraz dwoma typami przeciwników.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-21/21-14-poyavlenie-vragov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 21 · Kosmiczny shooter</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-21/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-21/21-01-igra-import-init.html">Plan gry i przygotowanie projektów</a></li><li><a href="/pl/chapters/rozdzial-21/21-02-cikl-korabl.html">Pętla rozgrywki i statek gracza</a></li><li><a href="/pl/chapters/rozdzial-21/21-03-dvizhenie-vragi.html">Ruch statków i wrogowie</a></li><li><a href="/pl/chapters/rozdzial-21/21-04-strelba.html">Strzelanie: Tworzenie i przesuwanie pocisków</a></li><li><a href="/pl/chapters/rozdzial-21/21-05-tablo-scheta.html">Ocena i informacje na ekranie</a></li><li><a href="/pl/chapters/rozdzial-21/21-06-unichtozhenie.html">Uderzenia i kolizje</a></li><li><a href="/pl/chapters/rozdzial-21/21-07-game-over.html">Koniec gry i ekran zakończenia gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-08-polnyj-kod-itogi.html">Pierwsza działająca wersja gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-09-arhitektura-proekta.html">Dzielenie gry na klasy</a></li><li><a href="/pl/chapters/rozdzial-21/21-10-assety-i-zvuk.html">Zasoby gry: grafika i dźwięk</a></li><li><a href="/pl/chapters/rozdzial-21/21-11-vector2-tochnoe-dvizhenie.html">Dokładny ruch z Vector2</a></li><li><a href="/pl/chapters/rozdzial-21/21-12-igrovoe-pole-i-hud.html">Boisko i interfejs zawodnika</a></li><li><a href="/pl/chapters/rozdzial-21/21-13-skorostrelnost.html">Szybkostrzelność i odstępy między strzałami</a></li><li><a class="active" href="/pl/chapters/rozdzial-21/21-14-poyavlenie-vragov.html">Jak pojawiają się wrogowie</a></li><li><a href="/pl/chapters/rozdzial-21/21-15-stolknoveniya-i-schet.html">Trafianie wrogów i zdobywanie punktów</a></li><li><a href="/pl/chapters/rozdzial-21/21-16-uron-i-neuyazvimost.html">Życia, obrażenia i tymczasowa niewrażliwość</a></li><li><a href="/pl/chapters/rozdzial-21/21-17-slozhnost-i-volny.html">Jak wzrasta trudność gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-18-sostoyaniya-igry.html">Menu, Gra, Pauza i Koniec</a></li><li><a href="/pl/chapters/rozdzial-21/21-19-perezapusk.html">Restart gry bez ponownego uruchomienia programu</a></li><li><a href="/pl/chapters/rozdzial-21/21-20-animatsiya-vzryva.html">Animacja eksplozji</a></li><li><a href="/pl/chapters/rozdzial-21/21-21-zvukovye-effekty.html">Dźwięki wystrzału, trafienia i eksplozji</a></li><li><a href="/pl/chapters/rozdzial-21/21-22-zvyozdnyj-fon.html">Gwiazdy tła i kolejność rysunku</a></li><li><a href="/pl/chapters/rozdzial-21/21-23-otladka-shutera.html">Jak znaleźć i naprawić błędy w strzelance</a></li><li><a href="/pl/chapters/rozdzial-21/21-24-testiruemost.html">Jak uczynić grę wygodną do testów automatycznych</a></li><li><a href="/pl/chapters/rozdzial-21/21-25-finalnaya-arhitektura.html">Składanie ostatecznej wersji gry</a></li><li><a href="/pl/chapters/rozdzial-21/21-26-itogi-proekta.html">Co zbudowaliśmy i jak dalej rozwijać grę</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/21-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-01: Praktyka</a></li><li><a href="/pl/practice/21-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 2002: Praktyka</a></li><li><a href="/pl/practice/21-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-03: Praktyka</a></li><li><a href="/pl/practice/21-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-04: Praktyka</a></li><li><a href="/pl/practice/21-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> : Praktyka</a></li><li><a href="/pl/practice/21-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> : Praktyka</a></li><li><a href="/pl/practice/21-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-09: Praktyka</a></li><li><a href="/pl/practice/21-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-11: Praktyka</a></li><li><a href="/pl/practice/21-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-13: Praktyka</a></li><li><a href="/pl/practice/21-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-14: Praktyka</a></li><li><a href="/pl/practice/21-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-15: Praktyka</a></li><li><a href="/pl/practice/21-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-16: Praktyka</a></li><li><a href="/pl/practice/21-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-17: Praktyka</a></li><li><a href="/pl/practice/21-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-20: Praktyka</a></li><li><a href="/pl/practice/21-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 21-25: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/pygame/space-shooter/space_shooter.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> space_shooter.py</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-21/21-14-poyavlenie-vragov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-21/index.html">Rozdział 21</a> / Jak pojawiają się wrogowie</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 21 · Projekt: kosmiczny strzelec</div>
+<h1>Jak pojawiają się wrogowie</h1>
+<p class="lede">Timer pojawienia się w sekundach — z tym samym akumulatorem while-, co timer animacji w rozdziale 20.</p>
+<p>W sekcji 21.3 mierzyliśmy już czas do następnego wroga w sekundach: licznik zmniejszał się o
+    <code class="inline">dt</code> każdą klatkę, a po wyzwalaniu dodawałem interwał ponownie, i nie
+    przyjął ją, więc reszta nie została utracona. Teraz przenieśmy tę samą zasadę do finalnej części
+    architektura gry oraz uczynić timer odpowiednim dla interwału zmieniającego się wraz z
+    złożoność.</p>
+<div class="code-block">
+<div class="code-label"><span>fragment_spawn_timer.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>self.spawn_timer -= dt
+<span class="tok-kw">while</span> self.spawn_timer &lt;= <span class="tok-num">0.0</span>:
+    self._spawn_enemy()
+    self.spawn_timer += interval_poyavleniya_vraga(self.score)</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Dwa niezależne mechanizmy, nie jeden</div>
+<div class="callout-body"><code class="inline">self.spawn_timer += interval_poyavleniya_vraga(self.score)</code> — to, co potrzebne w każdym kadrze: pozostały czas ponad interwał nie jest odrzucany, lecz przenoszony na następnego przeciwnika, dokładnie tak samo jak w sekcji 21.3 i jak licznik animacji w sekcji 20.23. To zachowanie reszty działa również z zwykłym <code class="inline">if</code> — nie wymaga <code class="inline">while</code>. Sam <code class="inline">while</code> jest potrzebne do czegoś innego: jeśli jeden przetworzony krok trwałby dłużej niż kilka odstępów pojawiania się wrogów jednocześnie, szczerze mówiąc, stworzyłby kilku wrogów pod rząd podczas jednego wezwania, oraz <code class="inline">if</code> tylko przyspieszyłoby pojawienie się jednego wroga i po cichu traciło resztę zgromadzonego czasu.</div>
+</div>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">W tej konkretnej grze drugi przypadek jeszcze nie ma miejsca</div>
+<div class="callout-body">Ostateczna wersja gry ogranicza <code class="inline">dt</code> znaczenie <code class="inline">MAX_DT = 0.05</code> sekund przed każdą aktualizacją (ochrona przed skakaniem po pauzie debugera lub zamrożeniu systemu), a dolna granica interwału pojawiania się wrogów to <code class="inline">MIN_SPAWN_INTERVAL = 0.35</code> sekundy: nawet najdłuższa dopuszczalna klatka jest krótsza niż jakikolwiek możliwy odstęp między wrogami. Zatem ciało <code class="inline">while</code> w tej grze nie robi się już więcej niż raz na klatkę — i jest zapisane <code class="inline">if</code> kod zachowywałby się tutaj dokładnie tak samo. <code class="inline">while</code> pozostawiona jako bardziej ogólna i niezawodna technika: nie zepsuje się, jeśli później podniesiesz MAX_DT lub skracz interwał pojawiania się wrogów bardziej niż teraz, oraz <code class="inline">if</code> w tym przypadku musiałoby zostać zmienione.</div>
+</div>
+</div>
+<h2>Gdzie dokładnie pojawia się wróg?</h2>
+<p>Współrzędna X powinna zapewnić, że przeciwnik całkowicie mieści się na polu gry —
+    bez częściowego „przycinania”</p>
+<div class="code-block">
+<div class="code-label"><span>fragment_spawn_x.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> x_poyavleniya_vraga(rng, shirina_vraga, pole):
+    levaya, pravaya = pole.left, pole.right - shirina_vraga
+    <span class="tok-kw">if</span> pravaya &lt;= levaya:
+        <span class="tok-kw">return</span> <span class="tok-fn">float</span>(levaya)
+    <span class="tok-kw">return</span> rng.uniform(levaya, pravaya)</code></pre>
+</div>
+<p>To odrębna, czysta funkcja — akceptuje <code class="inline">rng</code> wyraźnym argumentem
+    (Rozdział 21.24 wyjaśnia dlaczego) zamiast zajmować się globalnym problemem <code class="inline">random</code>
+    bezpośrednio, dzięki czemu można ją wygodnie testować bez uruchamiania całej gry.</p>
+<h2>Dwa typy wrogów</h2>
+<figure style="margin:24px 0">
+<img alt="Real Window: Wielu przeciwników o różnych rozmiarach i kolorach zjeżdża na planszę jako grupa" src="/assets/img/chapter-21/output/08-enemy-wave.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="320"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Rzeczywiste okno — fala wrogów: małe, szybkie zwiadowce i większe myśliwce pojawiają się na przemian.</figcaption>
+</figure>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th></th><th>Scout (Zwiadowca)</th><th>Fighter (wojownik)</th></tr></thead>
+<tbody><tr><td>Speed</td><td>Powyżej</td><td>Poniżej</td></tr><tr><td>Rozmiar</td><td>mniej</td><td>Więcej</td></tr><tr><td>Punkty do zniszczenia</td><td>100</td><td>200</td></tr><tr><td>Prawdopodobieństwo pojawienia się</td><td>Wyżej na początku gry</td><td>Rośnie wraz z liczeniem (Rozdział 21.17)</td></tr></tbody>
+</table>
+</div>
+<div class="code-block">
+<div class="code-label"><span>fragment_enemy_spec.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>@dataclass(frozen=<span class="tok-kw">True</span>)
+<span class="tok-kw">class</span> EnemySpec:
+    name: <span class="tok-fn">str</span>
+    base_speed: <span class="tok-fn">float</span>
+    points: <span class="tok-fn">int</span>
+    image_key: <span class="tok-fn">str</span>
+
+ENEMY_SPECS = {
+    <span class="tok-str">"scout"</span>: EnemySpec(<span class="tok-str">"scout"</span>, base_speed=<span class="tok-num">150.0</span>, points=<span class="tok-num">100</span>, image_key=<span class="tok-str">"enemy_scout"</span>),
+    <span class="tok-str">"fighter"</span>: EnemySpec(<span class="tok-str">"fighter"</span>, base_speed=<span class="tok-num">85.0</span>, points=<span class="tok-num">200</span>, image_key=<span class="tok-str">"enemy_fighter"</span>),
+}</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">EnemySpec opisuje typ, a nie pojedynczego wroga</div>
+<div class="callout-body"><code class="inline">@dataclass</code> z rozdziału 14 automatycznie tworzy konstruktor dla czterech pól. Parametr <code class="inline">frozen=True</code> zabrania zmiany tych pól po utworzeniu obiektu: ogólna specyfikacja scout lub fighter pozostaje niezmieniona, a współrzędne i bieżąca prędkość są przechowywane w każdej instancji <code class="inline">Enemy</code>. Aby dodać typ wroga w ćwiczeniu 21.25, stwórz nowy <code class="inline">EnemySpec</code>zamiast modyfikować istniejący.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: timer pojawiania się wrogów</div>
+<div class="nc-sub">Zeskanowanie bezpośrednio w przeglądarce – nie wymaga instalacji Pygame</div>
+<div class="practice-inline-status" data-lesson-id="21-14">Praktyka kursuje lokalnie</div>
+</div>
+<a class="nc-btn" href="/pl/practice/21-14/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["21-14"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="21-14"]');
+        if (entry && entry.status === "completed-local" && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Wykonano lokalnie\u003c/strong> — wynik nie został sprawdzony automatycznie";
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-21/21-13-skorostrelnost.html"><div class="dir">← Back</div><div class="lbl">Szybkostrzelność i odstępy między strzałami</div></a><a class="next" href="/pl/chapters/rozdzial-21/21-15-stolknoveniya-i-schet.html"><div class="dir">Następny →</div><div class="lbl">Trafianie wrogów i zdobywanie punktów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

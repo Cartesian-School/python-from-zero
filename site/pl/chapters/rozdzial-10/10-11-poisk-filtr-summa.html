@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Wyszukiwanie, filtrowanie i streszczanie – Python od zera – Cartesian School</title>
+<meta content="Pętla+if jak prawdziwy algorytm: wyszukiwanie, liczenie, sumowanie, min/max, filtrowanie, pętla strażnik, FizzBuzz." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/10-11-poisk-filtr-summa.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/10-11-poisk-filtr-summa.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Wyszukiwanie, filtrowanie i streszczanie – Python od zera – Cartesian School" />
+<meta property="og:description" content="Pętla+if jak prawdziwy algorytm: wyszukiwanie, liczenie, sumowanie, min/max, filtrowanie, pętla strażnik, FizzBuzz." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Wyszukiwanie, filtrowanie i streszczanie – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Pętla+if jak prawdziwy algorytm: wyszukiwanie, liczenie, sumowanie, min/max, filtrowanie, pętla strażnik, FizzBuzz." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Wyszukiwanie, filtrowanie i streszczanie – Python od zera – Cartesian School","description":"Pętla+if jak prawdziwy algorytm: wyszukiwanie, liczenie, sumowanie, min/max, filtrowanie, pętla strażnik, FizzBuzz.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-11-poisk-filtr-summa.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 10 · Pętle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-10/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-10/10-01-cikly-for.html">Powtórzenie i pierwszy cykl for</a></li><li><a href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html">range() szczegółowo: start, stop, krok</a></li><li><a href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html">Indeks, Wartość, enumerate() i Akumulacja</a></li><li><a href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html">if w pętlach, zagnieżdżonych pętlach</a></li><li><a href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html">Iteracja strun i pętle while</a></li><li><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html">break, continue i loop-else</a></li><li><a class="active" href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html">Wyszukiwanie, filtrowanie i streszczenie</a></li><li><a href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html">Kontrola wejścia pętli</a></li><li><a href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html">Pętle debugowania: 10 najczęstszych błędów</a></li><li><a href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html">Zautomatyzuj kwadrat i dowolny kształt</a></li><li><a href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html">Automatycznie rysuj mandalę</a></li><li><a href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html">Losowe wzorce: wędrówki i gwiazdy</a></li><li><a href="/pl/chapters/rozdzial-10/10-15-setka-figur.html">Siatka kształtów: zagnieżdżone pętle w Turtle</a></li><li><a href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html">Spirale z łuków i wyniki</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/10-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-01: Praktyka</a></li><li><a href="/pl/practice/10-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-09: Praktyka</a></li><li><a href="/pl/practice/10-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-10: Praktyka</a></li><li><a href="/pl/practice/10-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-11: Praktyka</a></li><li><a href="/pl/practice/10-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-02: Praktyka</a></li><li><a href="/pl/practice/10-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-12: Praktyka</a></li><li><a href="/pl/practice/10-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-24: Praktyka</a></li><li><a href="/pl/practice/10-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-03: Praktyka</a></li><li><a href="/pl/practice/10-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-23: Praktyka</a></li><li><a href="/pl/practice/10-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-04: Praktyka</a></li><li><a href="/pl/practice/10-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-13: Praktyka</a></li><li><a href="/pl/practice/10-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-14: Praktyka</a></li><li><a href="/pl/practice/10-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-22: Praktyka</a></li><li><a href="/pl/practice/10-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-15: Praktyka</a></li><li><a href="/pl/practice/10-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-05: Praktyka</a></li><li><a href="/pl/practice/10-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-16: Praktyka</a></li><li><a href="/pl/practice/10-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-17: Praktyka</a></li><li><a href="/pl/practice/10-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-18: Praktyka</a></li><li><a href="/pl/practice/10-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-06: Praktyka</a></li><li><a href="/pl/practice/10-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-07: Praktyka</a></li><li><a href="/pl/practice/10-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-19: Praktyka</a></li><li><a href="/pl/practice/10-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-20: Praktyka</a></li><li><a href="/pl/practice/10-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-08: Praktyka</a></li><li><a href="/pl/practice/10-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 10-21: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/10-11-poisk-filtr-summa.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-10/index.html">Rozdział 10</a> / Wyszukiwanie i filtrowanie</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 10 · Trochę automatyzacji!</div>
+<h1>Wyszukiwanie, filtrowanie i streszczenie</h1>
+<p class="lede">Pętla w połączeniu z if jest już prawdziwym algorytmem: trzema najczęstszymi wzorcami, na których większość programów opiera się na cyklach.</p>
+<h2>Pętla + if = rzeczywiste algorytmy</h2>
+<p>Większość rzeczywistych problemów z pętlami to <code class="inline">for</code> lub
+    <code class="inline">while</code> w związku z <code class="inline">if</code>. Omówmy trzy
+    najczęstsze wzorce: wyszukiwanie, filtrowanie, sumowanie.</p>
+<h2>Szukanie (search)</h2>
+<div class="code-block">
+<div class="code-label"><span>poisk.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+iskomoe = <span class="tok-num">16</span>
+najdeno = <span class="tok-kw">False</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n == iskomoe:
+        najdeno = <span class="tok-kw">True</span>
+        <span class="tok-kw">break</span>
+
+<span class="tok-fn">print</span>(najdeno)</code></pre>
+</div>
+<h2>Liczenie (counting)</h2>
+<div class="code-block">
+<div class="code-label"><span>podschet.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>, <span class="tok-num">8</span>, <span class="tok-num">4</span>]
+chetnye = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        chetnye += <span class="tok-num">1</span>
+
+<span class="tok-fn">print</span>(chetnye)</code></pre>
+</div>
+<h2>Podsumowanie: ręczne i sum()</h2>
+<div class="code-block">
+<div class="code-label"><span>summa_vruchnuyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+summa = <span class="tok-num">0</span>
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    summa += n
+
+<span class="tok-fn">print</span>(summa)</code></pre>
+</div>
+<div class="code-block">
+<div class="code-label"><span>summa_cherez_sum.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+summa = <span class="tok-fn">sum</span>(chisla)
+<span class="tok-fn">print</span>(summa)</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">sum() nie jest magią, lecz ten sam cykl w środku</div>
+<div class="callout-body"><code class="inline">sum()</code> — funkcja wbudowana, która robi dokładnie to samo, co ręczna pętla z akumulatorem powyżej, tylko w jednej linijce. Warto najpierw napisać ręcznie (żeby zrozumieć, co się dzieje), a potem wiedzieć, że dla gotowego wyniku istnieje krótsza droga.</div>
+</div>
+</div>
+<h2>Podgląd: Znajdź niskie i wysokie</h2>
+<div class="code-block">
+<div class="code-label"><span>min_max_vruchnuyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+maksimum = chisla[<span class="tok-num">0</span>]
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n &gt; maksimum:
+        maksimum = n
+
+<span class="tok-fn">print</span>(maksimum)
+<span class="tok-com"># to samo, krócej: print(max(chisla))</span></code></pre>
+</div>
+<h2>Filtrowanie — zbieramy tylko potrzebne</h2>
+<div class="code-block">
+<div class="code-label"><span>filtraciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>chisla = [<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">15</span>, <span class="tok-num">16</span>, <span class="tok-num">23</span>, <span class="tok-num">42</span>]
+chetnye_chisla = []
+
+<span class="tok-kw">for</span> n <span class="tok-kw">in</span> chisla:
+    <span class="tok-kw">if</span> n % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        chetnye_chisla.append(n)
+
+<span class="tok-fn">print</span>(chetnye_chisla)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Wzorzec filtrowania: przejdź przez wszystkie elementy, zostawiając tylko te, które spełniły dany warunek" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:585px" viewbox="-345.0 0 585.0 610.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrowfc6" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-25-arrowfc6-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-25-arrowfc6-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-25-arrowfc6-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="-95.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="0.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-25-arrowfc6)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="62.0" y2="88.0"></line><polygon data-flow-shape="input-output" fill="#DBEAFE" points="-88.0,88.0 110.0,88.0 88.0,154.0 -110.0,154.0" stroke="#2563EB" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="117.0">chisla, pusty</tspan><tspan x="0.0" y="135.0">lista wyniku</tspan></text><line marker-end="url(#pl-svg-25-arrowfc6)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="0.0,180.0 115.0,230.0 0.0,280.0 -115.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="0.0" y="235.0">n % 2 == 0?</tspan></text><path d="M-115.0,230.0 H-200.0 V312.0" fill="none" marker-end="url(#pl-svg-25-arrowfc6-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="-157.5" y="218.0">TAK</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="-305.0" y="312.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="-200.0" y="345.0">dodać n do efektu</tspan></text><path d="M-200.0,368.0 V400.0 H0.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><path d="M115.0,230.0 H200.0 V400.0 H0.0" fill="none" stroke="#DB2777" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="157.5" y="218.0">NIE</text><circle cx="0.0" cy="400.0" fill="#B9A0FC" r="4.5"></circle><line marker-end="url(#pl-svg-25-arrowfc6)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="400.0" y2="426.0"></line><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-88.0,426.0 110.0,426.0 88.0,492.0 -110.0,492.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="455.0">powrót lista</tspan><tspan x="0.0" y="473.0">wynik</tspan></text><line marker-end="url(#pl-svg-25-arrowfc6)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="492.0" y2="518.0"></line><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="-95.0" y="518.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="0.0" y="549.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Wzorzec filtrowania: przejdź przez wszystkie elementy, zostawiając tylko te, które spełniły dany warunek</figcaption></figure>
+<h2>Pętla strażnicza — specjalna wartość jako sygnał zatrzymania</h2>
+<p><strong>Sentinel</strong> jest szczególnym znaczeniem, które samo w sobie nie jest częścią
+    danych, ale sygnalizuje „dane na zewnątrz”</p>
+<div class="code-block">
+<div class="code-label"><span>sentinel_cikl.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>summa = <span class="tok-num">0</span>
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    chislo = <span class="tok-fn">input</span>(<span class="tok-str">„Wprowadź liczbę (stop - koniec): ”</span>)
+    <span class="tok-kw">if</span> chislo == <span class="tok-str">"stop"</span>:
+        <span class="tok-kw">break</span>
+    summa += <span class="tok-fn">int</span>(chislo)
+
+<span class="tok-fn">print</span>(<span class="tok-str">„Ilość:”</span>, summa)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="cykl Sentinel: użytkownik decyduje, kiedy wyczerpują się dane" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:745px" viewbox="15.0 0 745.0 388.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-26-arrowfc7" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-26-arrowfc7-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-26-arrowfc7-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-26-arrowfc7-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-26-arrowfc7)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="121.0">summa = 0</tspan></text><line marker-end="url(#pl-svg-26-arrowfc7)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="144.0" y2="170.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,170.0 275.0,220.0 160.0,270.0 45.0,220.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="225.0">input == „stop”</tspan></text><path d="M275.0,220.0 H287.5 V186.0 H300.0" fill="none" marker-end="url(#pl-svg-26-arrowfc7-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="287.5" y="204.0">TAK</text><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="158.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="191.0">summa += int(wprowadzanie)</tspan></text><line marker-end="url(#pl-svg-26-arrowfc7)" stroke="#B9A0FC" stroke-width="2.5" x1="405.0" x2="405.0" y1="214.0" y2="226.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="226.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="255.0">zdobyć następną</tspan><tspan x="405.0" y="273.0">input</tspan></text><path d="M510.0,259.0 L570.0,259.0 L570.0,220.0 L275.0,220.0" fill="none" marker-end="url(#pl-svg-26-arrowfc7-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="578.0" y="239.5">temu</text><line marker-end="url(#pl-svg-26-arrowfc7-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="270.0" y2="296.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="186.0" y="283.0">NIE</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="296.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="327.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">cykl Sentinel: użytkownik decyduje, kiedy wyczerpują się dane</figcaption></figure>
+<h2>Opcjonalne: FizzBuzz</h2>
+<p>Klasyczne, ale nieobowiązkowe ćwiczenie rozgrzewkowe na pętle i warunki — jeśli ciekawi,
+    spróbuj napisać je samodzielnie zanim zobaczysz rozwiązanie:</p>
+<div class="code-block">
+<div class="code-label"><span>fizzbuzz.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">for</span> n <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">1</span>, <span class="tok-num">21</span>):
+    <span class="tok-kw">if</span> n % <span class="tok-num">15</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">FizzBuzz</span>)
+    <span class="tok-kw">elif</span> n % <span class="tok-num">3</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Fyzzz”</span>)
+    <span class="tok-kw">elif</span> n % <span class="tok-num">5</span> == <span class="tok-num">0</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">Buzz</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(n)</code></pre>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: wyszukiwanie, liczenie, stremywanie, filtrowanie</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-14"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-14/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-14"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-14"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: pętla sentinelowa</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="10-22"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/10-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["10-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="10-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-10/10-04-break-continue.html"><div class="dir">← Back</div><div class="lbl">break i continue</div></a><a class="next" href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html"><div class="dir">Następny →</div><div class="lbl">Kontrola wejścia pętli</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

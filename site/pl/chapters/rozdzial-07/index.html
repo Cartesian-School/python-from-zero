@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 7. Dogłębne zagłębienie się w Turtle – Python od zera – Cartesian School</title>
+<meta content="Turtle jak prawdziwy system graficzny: okno i płótno, tryby kolorów i colormode, osobno pióro i wypełnienie, geometria głębokiego koła, znaczki, tekst i współrzędne, wiele żółwi i clone(), debugowanie grafiki — oraz cztery mini-projekty, w tym zegar i cel współrzędnych." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-07/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-07/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-07/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-07/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 7. Dogłębne zagłębienie się w Turtle – Python od zera – Cartesian School" />
+<meta property="og:description" content="Turtle jak prawdziwy system graficzny: okno i płótno, tryby kolorów i colormode, osobno pióro i wypełnienie, geometria głębokiego koła, znaczki, tekst i współrzędne, wiele żółwi i clone(), debugowanie grafiki — oraz cztery mini-projekty, w tym zegar i cel współrzędnych." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-07/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 7. Dogłębne zagłębienie się w Turtle – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Turtle jak prawdziwy system graficzny: okno i płótno, tryby kolorów i colormode, osobno pióro i wypełnienie, geometria głębokiego koła, znaczki, tekst i współrzędne, wiele żółwi i clone(), debugowanie grafiki — oraz cztery mini-projekty, w tym zegar i cel współrzędnych." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 7. Dogłębne zagłębienie się w Turtle – Python od zera – Cartesian School","description":"Turtle jak prawdziwy system graficzny: okno i płótno, tryby kolorów i colormode, osobno pióro i wypełnienie, geometria głębokiego koła, znaczki, tekst i współrzędne, wiele żółwi i clone(), debugowanie grafiki — oraz cztery mini-projekty, w tym zegar i cel współrzędnych.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-07/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-07/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-07/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 7 · STRONA 836</div>
+<h1>Dogłębne zanurzenie się w Turtle</h1>
+<p>Turtle jak prawdziwy system graficzny: okno i płótno, tryby kolorów i colormode, osobno pióro i wypełnienie, geometria głębokiego koła, znaczki, tekst i współrzędne, wiele żółwi i clone(), debugowanie grafiki — oraz cztery mini-projekty, w tym zegar i cel współrzędnych.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~5–6 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> modułu turtle</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22 praktyki</span><span><svg aria-hidden="true" class="cs-icon cs-icon--palette"><use href="/assets/icons/cartesian/icons.svg#icon-palette"></use></svg> rzeczywiste wyniki dla każdego przykładu</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-07/07-01-nastraivaem-ekran.html"><span><span class="si-num">7.1</span>Ekran jako system graficzny</span><span class="si-page">839</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-10-colormode-i-cvet.html"><span><span class="si-num">7.2</span>colormode i kolory</span><span class="si-page">846</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-02-nastraivaem-grafiku.html"><span><span class="si-num">7.3</span>Konfiguracja samego Turtle</span><span class="si-page">854</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-11-pero-i-zalivka.html"><span><span class="si-num">7.4</span>Pióro i wypełnienie — to nie to samo</span><span class="si-page">858</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-12-speed-tracer-update.html"><span><span class="si-num">7.5</span>speed, tracer i update</span><span class="si-page">865</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-03-figury-bez-linij.html"><span><span class="si-num">7.6</span>Kształty bez linii, okręgów, punktów</span><span class="si-page">873</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-13-geometriya-okruzhnosti.html"><span><span class="si-num">7.7</span>Geometria koła</span><span class="si-page">881</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-04-dugi.html"><span><span class="si-num">7.8</span>Łuki</span><span class="si-page">887</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-14-circle-steps.html"><span><span class="si-num">7.9</span>circle(steps=...) — z okręgu na wielokąt</span><span class="si-page">892</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-05-eshche-vozmozhnosti.html"><span><span class="si-num">7.10</span>Stempelki i inne techniki</span><span class="si-page">900</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-06-tekst-na-ekrane.html"><span><span class="si-num">7.11</span>Jak rysować tekst na ekranie</span><span class="si-page">910</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-15-vyravnivanie-i-shrift.html"><span><span class="si-num">7.12</span>Wyrównanie i czcionka</span><span class="si-page">914</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-16-tekst-i-koordinaty.html"><span><span class="si-num">7.13</span>Tekst i układ współrzędnych</span><span class="si-page">923</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-17-forma-cherepashki.html"><span><span class="si-num">7.14</span>Turtle jako obiekt graficzny</span><span class="si-page">929</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-18-neskolko-cherepashek.html"><span><span class="si-num">7.15</span>Wiele żółwi</span><span class="si-page">940</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-19-clone.html"><span><span class="si-num">7.16</span>clone() — kopiować stan</span><span class="si-page">948</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-20-clear-reset-home.html"><span><span class="si-num">7.17</span>clear(), reset() i home()</span><span class="si-page">955</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-23-otladka-grafiki.html"><span><span class="si-num">7.18</span>Debugowanie grafiki</span><span class="si-page">966</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-07-mini-proekt-okruzhnost-kvadrat.html"><span><span class="si-num">7.19</span>Mini Projekt - Koło w kwadracie</span><span class="si-page">973</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-08-napravlenie-risovaniya.html"><span><span class="si-num">7.20</span>Zmieniamy kierunek rysowania</span><span class="si-page">987</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-21-mini-proekt-chasy.html"><span><span class="si-num">7.21</span>Mini-projekt – ponadczasowe zegary</span><span class="si-page">994</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-22-mini-proekt-mishen.html"><span><span class="si-num">7.22</span>Mini-projekt – koordynować cel</span><span class="si-page">1011</span></a><a class="section-item" href="/pl/chapters/rozdzial-07/07-09-mini-proekt-smajlik-itogi.html"><span><span class="si-num">7.23</span>Mini-projekt – emoji i wyniki</span><span class="si-page">1021</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

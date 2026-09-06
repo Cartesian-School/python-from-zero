@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 22. Tworzenie stron od Python do Python od zera do Cartesian School</title>
+<meta content="Wprowadzenie do struktury aplikacji internetowych: przeglądarka i serwer, HTTP i HTTPS, HTML/CSS/JavaScript, Flask, bazy danych, SQL, JSON i API. Bardziej szczegółowe studium kontynuowane jest w osobnym kursie z zakresu tworzenia stron internetowych na temat Python." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 22. Tworzenie stron od Python do Python od zera do Cartesian School" />
+<meta property="og:description" content="Wprowadzenie do struktury aplikacji internetowych: przeglądarka i serwer, HTTP i HTTPS, HTML/CSS/JavaScript, Flask, bazy danych, SQL, JSON i API. Bardziej szczegółowe studium kontynuowane jest w osobnym kursie z zakresu tworzenia stron internetowych na temat Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 22. Tworzenie stron od Python do Python od zera do Cartesian School" />
+<meta name="twitter:description" content="Wprowadzenie do struktury aplikacji internetowych: przeglądarka i serwer, HTTP i HTTPS, HTML/CSS/JavaScript, Flask, bazy danych, SQL, JSON i API. Bardziej szczegółowe studium kontynuowane jest w osobnym kursie z zakresu tworzenia stron internetowych na temat Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 22. Tworzenie stron od Python do Python od zera do Cartesian School","description":"Wprowadzenie do struktury aplikacji internetowych: przeglądarka i serwer, HTTP i HTTPS, HTML/CSS/JavaScript, Flask, bazy danych, SQL, JSON i API. Bardziej szczegółowe studium kontynuowane jest w osobnym kursie z zakresu tworzenia stron internetowych na temat Python.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 22 · STR. 3754</div>
+<h1>Tworzenie stron internetowych z Python</h1>
+<p>Wprowadzenie do struktury aplikacji internetowych: przeglądarka i serwer, HTTP i HTTPS, HTML/CSS/JavaScript, Flask, bazy danych, SQL, JSON i API. Bardziej szczegółowe studium kontynuowane jest w osobnym kursie z zakresu tworzenia stron internetowych na temat Python.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~8-10 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--note"><use href="/assets/icons/cartesian/icons.svg#icon-note"></use></svg> od HTTP-zapytania do Flask z bazą danych</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22 praktyki</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html"><span><span class="si-num">22.1</span>Podstawy tworzenia stron internetowych: klient, serwer i Python</span><span class="si-page">3760</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-02-html.html"><span><span class="si-num">22.2</span>HTML: struktura strony internetowej</span><span class="si-page">3770</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-03-css.html"><span><span class="si-num">22.3</span>CSS: projektowanie i układ elementów strony internetowej</span><span class="si-page">3777</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-04-javascript.html"><span><span class="si-num">22.4</span>JavaScript: programowanie w przeglądarce</span><span class="si-page">3787</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-05-flask.html"><span><span class="si-num">22.5</span>Pierwsza aplikacja webowa na Flask</span><span class="si-page">3798</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-06-itogi.html"><span><span class="si-num">22.6</span>Wyniki pierwszego projektu internetowego</span><span class="si-page">3809</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html"><span><span class="si-num">22.7</span>Jak przeglądarka pobiera stronę internetową</span><span class="si-page">3812</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html"><span><span class="si-num">22.8</span>URL: domena, ścieżka, parametry i fragment</span><span class="si-page">3819</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-09-http.html"><span><span class="si-num">22.9</span>HTTP: żądania, odpowiedzi, metody i kody stanu</span><span class="si-page">3825</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-10-https.html"><span><span class="si-num">22.10</span>HTTPS: zabezpieczenie połączenia ze stroną</span><span class="si-page">3833</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html"><span><span class="si-num">22.11</span>Routing w Flask: URL i funkcje obsługi</span><span class="si-page">3837</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html"><span><span class="si-num">22.12</span>Jinja: szablony danych HTML</span><span class="si-page">3845</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-13-formy.html"><span><span class="si-num">22.13</span>HTML-forms i przesyłanie danych do serwera</span><span class="si-page">3852</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html"><span><span class="si-num">22.14</span>Pliki statyczne: CSS, obrazy i JavaScript</span><span class="si-page">3858</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-15-json.html"><span><span class="si-num">22.15</span>JSON: format wymiany danych</span><span class="si-page">3862</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-16-api.html"><span><span class="si-num">22.16</span>HTTP API: wymiana danych między programami</span><span class="si-page">3869</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html"><span><span class="si-num">22.17</span>Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</span><span class="si-page">3875</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html"><span><span class="si-num">22.18</span>Porównanie Flask, Django i FastAPI</span><span class="si-page">3883</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html"><span><span class="si-num">22.19</span>WSGI i ASGI: komunikacji między aplikacją webową a serwerem</span><span class="si-page">3890</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html"><span><span class="si-num">22.20</span>Dlaczego aplikacja webowa potrzebuje bazy danych</span><span class="si-page">3897</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html"><span><span class="si-num">22.21</span>Relacyjne bazy danych: tabele, klucze i relacje</span><span class="si-page">3902</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-22-sql.html"><span><span class="si-num">22.22</span>SQL: tworzymy, czytamy i edytujemy dane</span><span class="si-page">3907</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-23-sqlite.html"><span><span class="si-num">22.23</span>SQLite: Wbudowany relacyjny DBMS</span><span class="si-page">3914</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html"><span><span class="si-num">22.24</span>PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</span><span class="si-page">3923</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-25-nosql.html"><span><span class="si-num">22.25</span>NoSQL: głównych typów baz danych nierelacyjnych</span><span class="si-page">3928</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-26-orm.html"><span><span class="si-num">22.26</span>ORM: pracy z bazą danych za pomocą Python obiektów</span><span class="si-page">3943</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html"><span><span class="si-num">22.27</span>Migracje schematów baz danych</span><span class="si-page">3948</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html"><span><span class="si-num">22.28</span>Transfer danych między bazami danych</span><span class="si-page">3954</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html"><span><span class="si-num">22.29</span>Flask i SQLite: zapisują dane w bazie danych</span><span class="si-page">3962</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-30-cookies-session.html"><span><span class="si-num">22.30</span>Cookie i sesje: Status między HTTP- żądaniami</span><span class="si-page">3973</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html"><span><span class="si-num">22.31</span>Walidacja danych wejściowych i obsługa błędów</span><span class="si-page">3980</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html"><span><span class="si-num">22.32</span>Podstawy bezpieczeństwa aplikacji internetowych</span><span class="si-page">3986</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html"><span><span class="si-num">22.33</span>Automatyczne testowanie Flask- aplikacji</span><span class="si-page">3996</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html"><span><span class="si-num">22.34</span>Rozwijanie Flask-aplikacji</span><span class="si-page">4002</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html"><span><span class="si-num">22.35</span>Projekt końcowy: lista zadania dla Flask i SQLite</span><span class="si-page">4010</span></a><a class="section-item" href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html"><span><span class="si-num">22.36</span>Dalsze badania nad tworzeniem stron internetowych na Python</span><span class="si-page">4019</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 10. Trochę automatyzacji! — Python od zera — Cartesian School</title>
+<meta content="Pętle for i while jako trzecia struktura algorytmu po rozgałęzieniu z rozdziału 9, range() i enumerate() bez mitów, break/continue/loop-else, zagnieżdżonych pętli, debugowania typowych błędów pętli — i wreszcie prawdziwej automatyzacji wszystkich rysunków z rozdziałów 6-7." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-10/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-10/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-10/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 10. Trochę automatyzacji! — Python od zera — Cartesian School" />
+<meta property="og:description" content="Pętle for i while jako trzecia struktura algorytmu po rozgałęzieniu z rozdziału 9, range() i enumerate() bez mitów, break/continue/loop-else, zagnieżdżonych pętli, debugowania typowych błędów pętli — i wreszcie prawdziwej automatyzacji wszystkich rysunków z rozdziałów 6-7." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-10/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 10. Trochę automatyzacji! — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Pętle for i while jako trzecia struktura algorytmu po rozgałęzieniu z rozdziału 9, range() i enumerate() bez mitów, break/continue/loop-else, zagnieżdżonych pętli, debugowania typowych błędów pętli — i wreszcie prawdziwej automatyzacji wszystkich rysunków z rozdziałów 6-7." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 10. Trochę automatyzacji! — Python od zera — Cartesian School","description":"Pętle for i while jako trzecia struktura algorytmu po rozgałęzieniu z rozdziału 9, range() i enumerate() bez mitów, break/continue/loop-else, zagnieżdżonych pętli, debugowania typowych błędów pętli — i wreszcie prawdziwej automatyzacji wszystkich rysunków z rozdziałów 6-7.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-10/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-10/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 10 · STRONA 1338</div>
+<h1>Trochę automatyzacji!</h1>
+<p>Pętle for i while jako trzecia struktura algorytmu po rozgałęzieniu z rozdziału 9, range() i enumerate() bez mitów, break/continue/loop-else, zagnieżdżonych pętli, debugowania typowych błędów pętli — i wreszcie prawdziwej automatyzacji wszystkich rysunków z rozdziałów 6-7.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~5 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--loop"><use href="/assets/icons/cartesian/icons.svg#icon-loop"></use></svg> for / while</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 24 treningów</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-10/10-01-cikly-for.html"><span><span class="si-num">10.1</span>Powtórzenie i pierwszy cykl for</span><span class="si-page">1341</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-01-cikly-for.html#tri-struktury"><span><span class="si-num"></span>Trzy struktury algorytmu: przypominamy sobie</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-01-cikly-for.html#flowchart-for"><span><span class="si-num"></span>Kanoniczny flowchart cyklu for</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-09-range-podrobno.html"><span><span class="si-num">10.2</span>range() szczegóły</span><span class="si-page">1355</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html"><span><span class="si-num">10.3</span>Indeks, wartość i enumerate()</span><span class="si-page">1363</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-10-enumerate-i-nakoplenie.html#analizator-teksta"><span><span class="si-num"></span>Mini-Projekt Analizatora Tekstu</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html"><span><span class="si-num">10.4</span>if w ciągu for cykli</span><span class="si-page">1376</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html#vlozhennye"><span><span class="si-num"></span>Zagnieżdżone pętle for</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-02-if-vlozhennye-cikly.html#tablica-umnozheniya"><span><span class="si-num"></span>Mini Projekt: Tablica mnożenia</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html"><span><span class="si-num">10.5</span>Iteracja po liniach, pętle while</span><span class="si-page">1384</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-03-perebor-strok-while.html#while-true"><span><span class="si-num"></span>Niekończąca się pętla i while True</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-04-break-continue.html"><span><span class="si-num">10.6</span>break, continue i loop-else</span><span class="si-page">1395</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-04-break-continue.html#cikl-komand"><span><span class="si-num"></span>Mini-projekt: cykl zespołów</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-11-poisk-filtr-summa.html"><span><span class="si-num">10.7</span>Wyszukiwanie, filtrowanie i streszczenie</span><span class="si-page">1408</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-12-proverka-vvoda.html"><span><span class="si-num">10.8</span>Kontrola wejścia pętli</span><span class="si-page">1419</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-05-mini-proekt-ugadaj-v2.html"><span><span class="si-num">10.9</span>Mini-projekt - „Zgadnij liczbę”</span><span class="si-page">1425</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-13-otladka-ciklov.html"><span><span class="si-num">10.10</span>Pętle debugowania: 10 najczęstszych błędów</span><span class="si-page">1432</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-06-avtomatiziruem-figury.html"><span><span class="si-num">10.11</span>Mini-projekt — automatyzacja kształtów</span><span class="si-page">1454</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-07-avtomatiziruem-mandalu.html"><span><span class="si-num">10.12</span>Mini-projekt — automatycznie rysujemy mandalę</span><span class="si-page">1472</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-14-sluchajnye-uzory.html"><span><span class="si-num">10.13</span>Losowe wzorce Turtle</span><span class="si-page">1483</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-15-setka-figur.html"><span><span class="si-num">10.14</span>Siatka kształtów: zagnieżdżone pętle w Turtle</span><span class="si-page">1490</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html"><span><span class="si-num">10.15</span>Spirale z łuków i wyniki</span><span class="si-page">1495</span></a><a class="section-item" href="/pl/chapters/rozdzial-10/10-08-spirali-itogi.html#itogi"><span><span class="si-num"></span>Podsumowanie rozdziału</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

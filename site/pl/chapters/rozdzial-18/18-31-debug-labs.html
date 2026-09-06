@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debug Labs typowe błędy rysowania – Python od zera – Cartesian School</title>
+<meta content="Sixteen rozmontowanych błędów aplikacji polegającej na rysowaniu Canvas: współrzędnych, podglądów, undo/redo, dialogów JSON." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-31-debug-labs.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-31-debug-labs.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-18/18-31-debug-labs.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debug Labs typowe błędy rysowania – Python od zera – Cartesian School" />
+<meta property="og:description" content="Sixteen rozmontowanych błędów aplikacji polegającej na rysowaniu Canvas: współrzędnych, podglądów, undo/redo, dialogów JSON." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-31-debug-labs.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debug Labs typowe błędy rysowania – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Sixteen rozmontowanych błędów aplikacji polegającej na rysowaniu Canvas: współrzędnych, podglądów, undo/redo, dialogów JSON." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debug Labs typowe błędy rysowania – Python od zera – Cartesian School","description":"Sixteen rozmontowanych błędów aplikacji polegającej na rysowaniu Canvas: współrzędnych, podglądów, undo/redo, dialogów JSON.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-18/18-31-debug-labs.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/18-31-debug-labs.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 18 · Rysowanka</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-18/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-18/18-01-obyasnenie-nachalo.html">Co budujemy? Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-18/18-02-ekran-holst.html">Ekran i płótno (Canvas)</a></li><li><a href="/pl/chapters/rozdzial-18/18-03-menu-parametry.html">Paska Narzędzi i Opcje</a></li><li><a href="/pl/chapters/rozdzial-18/18-04-mysh-linii.html">Pozycja myszy i rysowanie linii</a></li><li><a href="/pl/chapters/rozdzial-18/18-05-figury.html">Kwadraty, prostokąty, koła i owale</a></li><li><a href="/pl/chapters/rozdzial-18/18-06-razmer-cveta.html">Wybieramy rozmiar i kolor</a></li><li><a href="/pl/chapters/rozdzial-18/18-07-polnaya-programma-itogi.html">Pierwszy Kompletny Program</a></li><li><a href="/pl/chapters/rozdzial-18/18-08-mentalnaya-model.html">Canvas przechowuje obiekty, a nie piksele</a></li><li><a href="/pl/chapters/rozdzial-18/18-09-sistema-koordinat.html">Układ współrzędnych Canvas</a></li><li><a href="/pl/chapters/rozdzial-18/18-10-item-id.html">Item ID: co wraca create_*</a></li><li><a href="/pl/chapters/rozdzial-18/18-11-tegi.html">Tagi: Grupuj i wybieraj elementy</a></li><li><a href="/pl/chapters/rozdzial-18/18-12-zhest-myshi.html">Cykl życia gestu myszy</a></li><li><a href="/pl/chapters/rozdzial-18/18-13-sostoyanie-risovaniya.html">Stan rysowania</a></li><li><a href="/pl/chapters/rozdzial-18/18-14-karandash.html">Ołówek: ciągła kreska</a></li><li><a href="/pl/chapters/rozdzial-18/18-15-instrument-liniya.html">Narzędzie liniowe</a></li><li><a href="/pl/chapters/rozdzial-18/18-16-geometriya-pryamougolnika.html">Geometria prostokąta</a></li><li><a href="/pl/chapters/rozdzial-18/18-17-geometriya-ovala.html">Geometria owalna</a></li><li><a href="/pl/chapters/rozdzial-18/18-18-zhivoe-prevyu.html">Zapowiedź na żywo: coords()</a></li><li><a href="/pl/chapters/rozdzial-18/18-19-redaktirovanie-elementov.html">itemconfig, move, delete</a></li><li><a href="/pl/chapters/rozdzial-18/18-20-poryadok-sloev.html">Nakładająca się kolejność</a></li><li><a href="/pl/chapters/rozdzial-18/18-21-sistema-cveta.html">System Kolorów</a></li><li><a href="/pl/chapters/rozdzial-18/18-22-tolschina-kisti.html">Grubość pędzla</a></li><li><a href="/pl/chapters/rozdzial-18/18-23-lastik.html">Gumka</a></li><li><a href="/pl/chapters/rozdzial-18/18-24-otmena-deystviy.html">Cofnij działania (Undo)</a></li><li><a href="/pl/chapters/rozdzial-18/18-25-povtor-deystviy.html">Powtarzanie czynności (Redo)</a></li><li><a href="/pl/chapters/rozdzial-18/18-26-ochistka-holsta.html">Czyszczenie płótna</a></li><li><a href="/pl/chapters/rozdzial-18/18-27-goryachie-klavishi.html">skróty klawiszowe</a></li><li><a href="/pl/chapters/rozdzial-18/18-28-stroka-sostoyaniya.html">Pasek statusu</a></li><li><a href="/pl/chapters/rozdzial-18/18-29-arhitektura-paintapp.html">PaintApp architektura</a></li><li><a href="/pl/chapters/rozdzial-18/18-30-sohranenie-json.html">Zapisywanie i ładowanie JSON</a></li><li><a class="active" href="/pl/chapters/rozdzial-18/18-31-debug-labs.html">Debug Labs</a></li><li><a href="/pl/chapters/rozdzial-18/18-32-paint-pro-itogi.html">Paint Pro — podsumowanie rozdziału</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/18-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-02: Praktyka</a></li><li><a href="/pl/practice/18-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-03: Praktyka</a></li><li><a href="/pl/practice/18-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-04: Praktyka</a></li><li><a href="/pl/practice/18-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-05: Praktyka</a></li><li><a href="/pl/practice/18-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-06: Praktyka</a></li><li><a href="/pl/practice/18-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-07: Praktyka</a></li><li><a href="/pl/practice/18-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-09: Praktyka</a></li><li><a href="/pl/practice/18-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-10: Praktyka</a></li><li><a href="/pl/practice/18-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-11: Praktyka</a></li><li><a href="/pl/practice/18-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-12: Praktyka</a></li><li><a href="/pl/practice/18-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-13: Praktyka</a></li><li><a href="/pl/practice/18-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-14: Praktyka</a></li><li><a href="/pl/practice/18-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-15: Praktyka</a></li><li><a href="/pl/practice/18-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-16: Praktyka</a></li><li><a href="/pl/practice/18-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-17: Praktyka</a></li><li><a href="/pl/practice/18-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-18: Praktyka</a></li><li><a href="/pl/practice/18-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-19: Praktyka</a></li><li><a href="/pl/practice/18-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-20: Praktyka</a></li><li><a href="/pl/practice/18-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-21: Praktyka</a></li><li><a href="/pl/practice/18-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-22: Praktyka</a></li><li><a href="/pl/practice/18-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-23: Praktyka</a></li><li><a href="/pl/practice/18-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-24: Praktyka</a></li><li><a href="/pl/practice/18-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-25: Praktyka</a></li><li><a href="/pl/practice/18-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-26: Praktyka</a></li><li><a href="/pl/practice/18-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-27: Praktyka</a></li><li><a href="/pl/practice/18-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-28: Praktyka</a></li><li><a href="/pl/practice/18-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-29: Praktyka</a></li><li><a href="/pl/practice/18-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-30: Praktyka</a></li><li><a href="/pl/practice/18-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-31: Praktyka</a></li><li><a href="/pl/practice/18-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 18-32: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/tkinter/paint-app/paint_app_basic.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> paint_app_basic.py - Pierwszy prototyp (18.7)</a></li><li><a href="../../../projects/tkinter/paint-app/paint_app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> paint_app.py — wersja finalna Pro (18.32)</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-18/18-31-debug-labs.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-18/index.html">Rozdział 18</a> / Debug Labs</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 18 · Testowanie</div>
+<h1>Debug Labs typowe błędy rysowania</h1>
+<p class="lede">Każdy błąd tutaj występuje w prawdziwych projektach studenckich — naucz się rozpoznawać objaw, zanim otworzysz debugator.</p>
+<p>Mała kolekcja typowych błędów rysowników na Canvas — każdy z objawem i
+    poprawką. Część z nich widzieliście już wcześniej w rozdziale; tutaj są zebrane jako podręcznik.</p>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 1:Y wznosi się w górę jak Turtle</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>turtle_privychka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    <span class="tok-com"># 'znana' logika: im wyżej na ekranie, tym WIĘCEJ Y</span>
+    <span class="tok-kw">if</span> event.y &gt; start_y:
+        status.config(text=<span class="tok-str">„Moving UP”</span>)  <span class="tok-com"># nieprawidłowe dla Canvas!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Курсор двигается вниз по экрану, а статус говорит 'ВВЕРХ' —
+# логика была написана в терминах Turtle, а не Canvas.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Canvas Y rośnie W DÓŁ (Rozdział 18.9) — <code class="inline">event.y &gt; start_y</code> oznacza „kursor jest niższy niż wcześniej”</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>canvas_napravlenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    <span class="tok-kw">if</span> event.y &gt; start_y:
+        status.config(text=<span class="tok-str">„Poruszamy się w DÓŁ”</span>)  <span class="tok-com"># Prawdziwe: Y Wznosi się w dół</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 2: Nie pamiętałem punktu początkowego gestu</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>zabyli_start.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">pass</span>  <span class="tok-com"># zapomnieli zapisać event.x, event.y</span>
+
+<span class="tok-kw">def</span> on_drag(event):
+    canvas.create_line(start_x, start_y, event.x, event.y)  <span class="tok-com">#start_x nieokreślone</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># NameError: name 'start_x' is not defined —
+# программа падает на первом же движении мыши после нажатия.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">on_press()</code> musi zachować punkt początkowy (Rozdział 18.12) bez niego <code class="inline">on_drag()</code> po prostu nie wiadomo, gdzie narysować linię lub podgląd kształtu.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>sohranili_start.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">global</span> start_x, start_y
+    start_x, start_y = event.x, event.y</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 3: &amp;lt;Motion&amp;gt; zamiast &amp;lt;B1-Motion&amp;gt;</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>lyuboe_dvizhenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>canvas.bind(<span class="tok-str">"&lt;Motion&gt;"</span>, on_drag)   <span class="tok-com"># wyzwala się przy KAŻDYM ruchu myszy</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Линия рисуется, даже если кнопка мыши вообще не нажата —
+# достаточно просто провести курсором над холстом.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">&lt;Motion&gt;</code> reaguje na każdy ruch myszy nad widżetem. Aby rysować tylko podczas przeciągania, musisz <code class="inline">&lt;B1-Motion&gt;</code> – Rozdział 18.12 wyjaśnia różnicę.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>b1_motion.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>canvas.bind(<span class="tok-str">"&lt;B1-Motion&gt;"</span>, on_drag)   <span class="tok-com"># tylko przy wciśniętym lewym przycisku</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 4: Tysiące niepołączonych punktów zamiast linii</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>tochki_vmesto_linii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.create_oval(
+        event.x - <span class="tok-num">2</span>, event.y - <span class="tok-num">2</span>, event.x + <span class="tok-num">2</span>, event.y + <span class="tok-num">2</span>,
+        fill=<span class="tok-str">"black"</span>,
+    )</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Быстрое движение мыши оставляет заметные разрывы между кружками —
+# штрих выглядит рваным, а не гладким.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Okrąg dla każdego zdarzenia indywidualnego nie uwzględnia ścieżki MIĘDZY dwoma kolejnymi punktami. Rozdział 18.14 pokazuje rozwiązanie połączenia nowego punktu z poprzednim przez <code class="inline">create_line()</code>.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>linii_mezhdu_tochkami.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.create_line(last_x, last_y, event.x, event.y, width=<span class="tok-num">3</span>, capstyle=tk.ROUND)
+    <span class="tok-com"># last_x, last_y aktualizowane po każdym odcinku</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 5: Podgląd jest odtwarzany przy każdym Motion bez potrzeby</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>peresozdanie_prevyu.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.delete(preview_id)
+    preview_id = canvas.create_rectangle(start_x, start_y, event.x, event.y)</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Работает, но на каждое из десятков событий Motion в секунду
+# Canvas выбрасывает и заново строит один и тот же элемент.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Usunąć i stworzyć od nowa — to nie błąd w sensie „zepsute”, ale zbędna praca: Canvas już ma <code class="inline">coords()</code> dokładnie do aktualizacji istniejącego elementu (sekcja 18.18) — bez ponownego tworzenia.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>coords_vmesto_peresozdaniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_drag(event):
+    canvas.coords(preview_id, start_x, start_y, event.x, event.y)</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 6: Figurki zapowiedzi Lost id</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>poteryan_id.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_press(event):
+    canvas.create_rectangle(event.x, event.y, event.x, event.y, dash=(<span class="tok-num">4</span>, <span class="tok-num">2</span>))
+    <span class="tok-com"># id nie zapisany — preview_id nigdzie się nie pojawił</span>
+
+<span class="tok-kw">def</span> on_drag(event):
+    canvas.coords(preview_id, ...)  <span class="tok-com"># NameError: preview_id nie jest zdefiniowana</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># NameError на первом же движении мыши —
+# ссылаться не на что, id черновой фигуры потерян.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">create_*()</code> zwroty <code class="inline">item_id</code> (Rozdział 18.10), ale tylko jeśli zostanie ZAPISANE, w przeciwnym razie kształt zostanie narysowany, ale później nie będzie do czego się odwoływać.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>sohranili_id.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> on_press(event):
+    <span class="tok-kw">global</span> preview_id
+    preview_id = canvas.create_rectangle(event.x, event.y, event.x, event.y, dash=(<span class="tok-num">4</span>, <span class="tok-num">2</span>))</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 7: Prostokąt „przewraca”</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>ne_normalizovano.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> get_bounds():
+    <span class="tok-kw">return</span> start_x, start_y, current_x, current_y  <span class="tok-com"># z wyłączeniem kierunku</span>
+
+left, top, right, bottom = get_bounds()
+<span class="tok-kw">if</span> left &gt; right:
+    <span class="tok-kw">raise</span> ValueError(<span class="tok-str">„to niemożliwe”</span>)  <span class="tok-com"># ale przeciąganie w górę-i-lewo właśnie to daje!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Приложение падает с ValueError, если пользователь начал
+# перетаскивание из правого нижнего угла будущей фигуры.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Myszką można przeciągać w dowolnym z czterech kierunków (sekcja 18.16) – oczekiwanie na kod <code class="inline">left &lt;= right</code> bez wcześniejszej normalizacji działa tylko dla jednego z czterech kierunków.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>normalizovano.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>left, top, right, bottom = normalize_bounds(start_x, start_y, current_x, current_y)
+<span class="tok-com"># jest teraz left &lt;= right oraz top &lt;= bottom gwarantowane, niezależnie od kierunku</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 8: item_id używany jako indeks listy</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>id_kak_indeks.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>shapes = []
+item_id = canvas.create_rectangle(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">50</span>, <span class="tok-num">50</span>)
+shapes.append(<span class="tok-str">"rectangle"</span>)
+<span class="tok-fn">print</span>(shapes[item_id])   <span class="tok-com">#IndexError jeśli item_id więcej niż len(shapes) - 1</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># IndexError: list index out of range —
+# item_id не совпадает с порядковым номером в собственном списке кода.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">item_id</code> — wewnętrzny numer Canvas (rozdział 18.10), a nie pozycja na własnej liście figur. Używać go jako indeksu <code class="inline">shapes[item_id]</code> zdarzy się tylko przypadkowo.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>id_kak_klyuch_slovarya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>shapes_by_id = {}
+item_id = canvas.create_rectangle(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">50</span>, <span class="tok-num">50</span>)
+shapes_by_id[item_id] = <span class="tok-str">"rectangle"</span>   <span class="tok-com"># słownik — id jako KLUCZ, a nie indeks</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 9: Undo usuwa tylko ostatni segment kreski, a nie całą linię</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>chastichnaya_otmena.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> undo(self):
+    item_id = self.undo_stack.pop()   <span class="tok-com"># zakłada JEDEN id na akcję</span>
+    self.canvas.delete(item_id)</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После Ctrl+Z длинный карандашный штрих теряет только
+# последний маленький отрезок, а не исчезает целиком.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Jedno pociągnięcie ołówkiem to DUŻO segmentów <code class="inline">create_line()</code> (Rozdział 18.14), nie jeden element. Undo musi przechowywać cały lista id (lub liczby) dla KAŻDEJ akcji, a nie tylko jeden id (Rozdział 18.24).</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>otmena_celym_deystviem.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> undo(self):
+    shapes = self.undo_stack.pop()   <span class="tok-com"># lista postacie JEDNEGO działania</span>
+    <span class="tok-kw">del</span> self.document[<span class="tok-fn">len</span>(self.document) - <span class="tok-fn">len</span>(shapes):]
+    self.render_document()</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 10:Redo wskrzesza niezwiązane działanie</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>redo_bez_ochistki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> _commit_action(self, shapes):
+    self.document.extend(shapes)
+    self.undo_stack.append(shapes)
+    <span class="tok-com"># zapomniałem self.redo_stack.clear()</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Undo, затем новый рисунок, затем Redo —
+# и на холсте внезапно появляется фигура, никак не связанная с текущим рисунком.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Jeśli po Undo narysujesz coś nowego, stara gałąź redo już nie odpowiada aktualnemu dokumentowi. Rozdział 18.25 wymaga wyraźnego rozliczenia <code class="inline">redo_stack</code> przy każdej nowej akcji.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>redo_s_ochistkoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> _commit_action(self, shapes):
+    self.document.extend(shapes)
+    self.undo_stack.append(shapes)
+    self.redo_stack.clear()</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 11: Oczyściłem płótno, ale nie opowieść</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>ochistka_bez_istorii.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> clear_canvas(self):
+    self.canvas.delete(<span class="tok-str">"all"</span>)
+    self.document.clear()
+    <span class="tok-com">#undo_stack i redo_stack pozostają nietknięte!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># После 'Очистить' нажатие Ctrl+Z не делает ничего видимого —
+# а следующий Ctrl+Y возвращает на холст фигуры, которые
+# пользователь только что удалил кнопкой 'Очистить'.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Cichy błąd: <code class="inline">del document[len(document) - len(shapes):]</code> na pustym dokumencie — to jest <code class="inline">del document[-3:]</code>, że nic nie usuwa ani nie psuje. Ale anulowana „akcja” <code class="inline">redo_stack</code>, a następny Ctrl+Y wraca na płótno kształty wymazane przyciskiem Czyść. Historia opisuje dokument, który już nie istnieje: gdy <code class="inline">document</code> jest oczyszczony, <code class="inline">undo_stack</code> oraz <code class="inline">redo_stack</code> musi zostać oczyszczony razem z nim (Rozdział 18.26).</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>ochistka_s_istoriej.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> clear_canvas(self):
+    self.document.clear()
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 12: Anuluj colorchooser zapisuje None jako kolor</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>otmena_colorchooser.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> choose_custom_color(self):
+    _rgb, hex_color = colorchooser.askcolor()
+    self.set_color(hex_color)   <span class="tok-com"># nie testowałem hex_color na None!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Пользователь нажал 'Отмена' в диалоге —
+# следующая же попытка нарисовать линию падает: fill=None недопустим.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">askcolor()</code> zwroty <code class="inline">(None, None)</code> przy anulowaniu (Rozdział 18.21) – Ustawienie tego jako aktualnego koloru bez zaznaczania oznacza przerwanie rysunku przy następnej próbie.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>proverka_otmeny.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> choose_custom_color(self):
+    _rgb, hex_color = colorchooser.askcolor()
+    <span class="tok-kw">if</span> hex_color <span class="tok-kw">is</span> <span class="tok-kw">not</span> <span class="tok-kw">None</span>:
+        self.set_color(hex_color)</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 13: Anuluj dialog zapisu - Path('') zamiast wychodzić</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>otmena_sohraneniya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> save_document(self):
+    path_str = filedialog.asksaveasfilename()
+    Path(path_str).write_text(...)   <span class="tok-com"># nie sprawdziłem pustego sznurka!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Пользователь нажал 'Отмена' в диалоге сохранения —
+# программа пытается записать файл по пути текущей директории.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">asksaveasfilename()</code>/<code class="inline">askopenfilename()</code> zwracają pusty łańcuch znaków przy anulowaniu, a nie <code class="inline">None</code> , a nie wyjątek (Rozdział 18.30) — kod musi to zweryfikować przed użyciem ścieżki.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>proverka_otmeny_faila.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> save_document(self):
+    path_str = filedialog.asksaveasfilename()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> path_str:
+        <span class="tok-kw">return</span>
+    Path(path_str).write_text(...)</code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab: JSON załadowana, ale nie przerysowana Canvas</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>zagruzka_bez_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">"utf-8"</span>))
+    self.document = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">"items"</span>]]
+    <span class="tok-com">#forgot self.render_document()!</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># self.document правильно заполнен новыми фигурами,
+# но на экране всё ещё виден старый рисунок — или пустой холст.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Tak samo jak w rozdziale 17: Zmiana modelu bez wywołania renderowania nie dociera do ekranu. <code class="inline">load_from_path()</code> musi się zakończyć <code class="inline">render_document()</code> (rozdział 18.30).</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>zagruzka_s_render.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">"utf-8"</span>))
+    shapes = [Shape.from_dict(item) <span class="tok-kw">for</span> item <span class="tok-kw">in</span> data[<span class="tok-str">"items"</span>]]
+    self.document = shapes
+    self.undo_stack.clear()
+    self.redo_stack.clear()
+    self.render_document()   <span class="tok-com"># Bez tej linii ekran nie będzie wiedział o pobraniu</span>
+    <span class="tok-com"># (pełna wersja z uszkodzonym przetwarzaniem plików znajduje się w sekcji 18.30)</span></code></pre>
+</div>
+</div>
+</div>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 16: Uszkodzony plik usuwa aktualny rysunek</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>zagruzka_bez_proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    data = json.loads(path.read_text(encoding=<span class="tok-str">"utf-8"</span>))
+    self.document = [Shape.from_dict(i) <span class="tok-kw">for</span> i <span class="tok-kw">in</span> data[<span class="tok-str">"items"</span>]]  <span class="tok-com"># już zastąpiono!</span>
+    self.undo_stack.clear()
+    self.render_document()   <span class="tok-com"># ... I tylko tutaj wpadamy w zły kolor</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Открыли чужой JSON — рисунок, над которым работали час, исчез,
+# Ctrl+Z его не возвращает, а каждая новая линия снова падает:
+# _tkinter.TclError: unknown color name "not-a-color"</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p>Dokument został zastąpiony ZANIM wiadomo, że plik jest rysowany. Przeparsuj plik na zmienną lokalną i przypisz <code class="inline">self.document</code> dopiero po sukcesie (rozdział 18.30) — w przeciwnym razie jedna próba otwarcia niewłaściwego pliku zabiera zarówno rysunek, jak i historię oraz możliwość dalszego rysowania.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>zagruzka_s_proverkoj.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> load_from_path(self, path):
+    <span class="tok-kw">try</span>:
+        data = json.loads(path.read_text(encoding=<span class="tok-str">"utf-8"</span>))
+        shapes = [Shape.from_dict(i) <span class="tok-kw">for</span> i <span class="tok-kw">in</span> data[<span class="tok-str">"items"</span>]]
+        <span class="tok-kw">for</span> shape <span class="tok-kw">in</span> shapes:
+            self.canvas.winfo_rgb(shape.color)
+    <span class="tok-kw">except</span> (json.JSONDecodeError, KeyError, TypeError, ValueError, tk.TclError) <span class="tok-kw">as</span> exc:
+        messagebox.showerror(<span class="tok-str">„Plik nie mógł zostać otwarty”</span>, <span class="tok-fn">str</span>(exc))
+        <span class="tok-kw">return</span>
+    self.document = shapes
+    self.render_document()</code></pre>
+</div>
+</div>
+</div>
+<figure style="margin:24px 0">
+<img alt="Realne okno: Ta sama aplikacja powiększona – płótno zajmuje więcej miejsca, ale wcześniej narysowane kształty pozostają tego samego rozmiaru przy tych samych współrzędnych absolutnych" src="/assets/img/chapter-18/output/resized-window.png" style="width:100%;height:auto;border-radius:var(--radius-lg,20px);border:1px solid var(--color-border-default,#ddd);display:block" width="460"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--color-text-muted,#6B6B7D);margin-top:8px">Prawdziwe okno po przybliżeniu: Płótno się powiększyło, ale malowane kształty nie powiększyły się razem z nim – dokładnie to, co pokazuje Debug Lab 15 poniżej.</figcaption>
+</figure>
+<div style="margin:28px 0;padding:4px 4px 20px;border:2px dashed #DB2777;border-radius:var(--radius-lg,20px)">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px 6px">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:.05em;text-transform:uppercase;color:#DB2777">Debug Lab 15: Zmiana rozmiaru okna nie powoduje skalowania obrazu</div>
+</div>
+<div style="padding:0 20px">
+<div class="code-block">
+<div class="code-label"><span>resize_kak_masshtab.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com">#standby: jeśli rozciągniesz okno, stare kształty będą się z nim zbliżać</span>
+canvas.grid(row=<span class="tok-num">1</span>, column=<span class="tok-num">0</span>, sticky=<span class="tok-str">"nsew"</span>)
+<span class="tok-com"># ... Ale nikt nie przelicza istniejących współrzędnych create_line/rectangle/oval</span></code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code># Сам виджет Canvas становится больше вместе с окном —
+# но уже нарисованные фигуры остаются в прежних абсолютных координатах, не растут.</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Co widać na ekranie</figcaption>
+</figure>
+<p><code class="inline">sticky="nsew"</code> oraz wagi wierszy/kolumn (Rozdział 17) powodują, że sam widżet rośnie Canvas nie jest tym samym co automatyczne skalowanie współrzędnych już narysowanych kształtów. Rozdział 18.29 wyraźnie rozbija tę różnicę: większe płótno nie oznacza automatycznie większego rysunku.</p>
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#059669;margin:16px 0 8px">Poprawiony kod</div>
+<div class="code-block">
+<div class="code-label"><span>resize_kak_bolshe_mesta.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># Fair Model: Powiększone okno daje WIĘCEJ MIEJSCA na nowe kształty,</span>
+<span class="tok-com"># a nie rozciąga już istniejące — jeśli potrzebny ostatni, współrzędne</span>
+<span class="tok-com"># musiałaby być przeliczana ręcznie przy zmianie rozmiaru.</span></code></pre>
+</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Odtworzenie i naprawa błędów rysunku</div>
+<div class="nc-sub">Automatyczna kontrola — Debug Lab 11 (czyszczenie i historia) oraz Debug Lab 10 (redo po nowym działaniu)</div>
+<div class="practice-inline-status" data-lesson-id="18-31"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/18-31/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["18-31"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="18-31"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-18/18-30-sohranenie-json.html"><div class="dir">← Back</div><div class="lbl">Zapisywanie i ładowanie</div></a><a class="next" href="/pl/chapters/rozdzial-18/18-32-paint-pro-itogi.html"><div class="dir">Następny →</div><div class="lbl">Paint Pro — podsumowanie rozdziału</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

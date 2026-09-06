@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>HTTP: zapytania, odpowiedzi, metody i kody stanu — Python od zera — Cartesian School</title>
+<meta content="Z czego składa się HTTP- request and response oraz co oznacza kod statusu 2xx-5xx. GET/POST/PUT/PATCH/DELETE metody i grupy?" name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-09-http.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/22-09-http.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-09-http.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/22-09-http.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="HTTP: zapytania, odpowiedzi, metody i kody stanu — Python od zera — Cartesian School" />
+<meta property="og:description" content="Z czego składa się HTTP- request and response oraz co oznacza kod statusu 2xx-5xx. GET/POST/PUT/PATCH/DELETE metody i grupy?" />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-09-http.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="HTTP: zapytania, odpowiedzi, metody i kody stanu — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Z czego składa się HTTP- request and response oraz co oznacza kod statusu 2xx-5xx. GET/POST/PUT/PATCH/DELETE metody i grupy?" />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"HTTP: zapytania, odpowiedzi, metody i kody stanu — Python od zera — Cartesian School","description":"Z czego składa się HTTP- request and response oraz co oznacza kod statusu 2xx-5xx. GET/POST/PUT/PATCH/DELETE metody i grupy?","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-09-http.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-09-http.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 22 · Tworzenie stron internetowych</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-22/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html">Podstawy tworzenia stron internetowych: klient, serwer i Python</a></li><li><a href="/pl/chapters/rozdzial-22/22-02-html.html">HTML: struktura strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-03-css.html">CSS: projektowanie i układ elementów strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-04-javascript.html">JavaScript: programowanie w przeglądarce</a></li><li><a href="/pl/chapters/rozdzial-22/22-05-flask.html">Pierwsza aplikacja webowa na Flask</a></li><li><a href="/pl/chapters/rozdzial-22/22-06-itogi.html">Wyniki pierwszego projektu internetowego</a></li><li><a href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html">Jak przeglądarka pobiera stronę internetową</a></li><li><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html">URL: domena, ścieżka, parametry i fragment</a></li><li><a class="active" href="/pl/chapters/rozdzial-22/22-09-http.html">HTTP: żądania, odpowiedzi, metody i kody stanu</a></li><li><a href="/pl/chapters/rozdzial-22/22-10-https.html">HTTPS: zabezpieczenie połączenia ze stroną</a></li><li><a href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html">Routing w Flask: URL i funkcje obsługi</a></li><li><a href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html">Jinja: szablony danych HTML</a></li><li><a href="/pl/chapters/rozdzial-22/22-13-formy.html">HTML-forms i przesyłanie danych do serwera</a></li><li><a href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html">Pliki statyczne: CSS, obrazy i JavaScript</a></li><li><a href="/pl/chapters/rozdzial-22/22-15-json.html">JSON: format wymiany danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-16-api.html">HTTP API: wymiana danych między programami</a></li><li><a href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html">Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</a></li><li><a href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html">Porównanie Flask, Django i FastAPI</a></li><li><a href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html">WSGI i ASGI: komunikacji między aplikacją webową a serwerem</a></li><li><a href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html">Dlaczego aplikacja webowa potrzebuje bazy danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html">Relacyjne bazy danych: tabele, klucze i relacje</a></li><li><a href="/pl/chapters/rozdzial-22/22-22-sql.html">SQL: tworzymy, czytamy i edytujemy dane</a></li><li><a href="/pl/chapters/rozdzial-22/22-23-sqlite.html">SQLite: Wbudowany relacyjny DBMS</a></li><li><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</a></li><li><a href="/pl/chapters/rozdzial-22/22-25-nosql.html">NoSQL: głównych typów baz danych nierelacyjnych</a></li><li><a href="/pl/chapters/rozdzial-22/22-26-orm.html">ORM: pracy z bazą danych za pomocą Python obiektów</a></li><li><a href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html">Migracje schematów baz danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html">Transfer danych między bazami danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html">Flask i SQLite: zapisują dane w bazie danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html">Cookie i sesje: Status między HTTP- żądaniami</a></li><li><a href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html">Walidacja danych wejściowych i obsługa błędów</a></li><li><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html">Podstawy bezpieczeństwa aplikacji internetowych</a></li><li><a href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html">Automatyczne testowanie Flask- aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html">Rozwijanie Flask-aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html">Projekt końcowy: lista zadania dla Flask i SQLite</a></li><li><a href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html">Dalsze badania nad tworzeniem stron internetowych na Python</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/22-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Praktyka</a></li><li><a href="/pl/practice/22-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Praktyka</a></li><li><a href="/pl/practice/22-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Praktyka</a></li><li><a href="/pl/practice/22-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Praktyka</a></li><li><a href="/pl/practice/22-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Praktyka</a></li><li><a href="/pl/practice/22-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Praktyka</a></li><li><a href="/pl/practice/22-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Praktyka</a></li><li><a href="/pl/practice/22-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Praktyka</a></li><li><a href="/pl/practice/22-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Praktyka</a></li><li><a href="/pl/practice/22-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Praktyka</a></li><li><a href="/pl/practice/22-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Praktyka</a></li><li><a href="/pl/practice/22-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Praktyka</a></li><li><a href="/pl/practice/22-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Praktyka</a></li><li><a href="/pl/practice/22-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Praktyka</a></li><li><a href="/pl/practice/22-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Praktyka</a></li><li><a href="/pl/practice/22-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Praktyka</a></li><li><a href="/pl/practice/22-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Praktyka</a></li><li><a href="/pl/practice/22-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Praktyka</a></li><li><a href="/pl/practice/22-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Praktyka</a></li><li><a href="/pl/practice/22-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Praktyka</a></li><li><a href="/pl/practice/22-33/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Praktyka</a></li><li><a href="/pl/practice/22-35/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-09-http.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-22/index.html">Rozdział 22</a> / HTTP</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 22 · Tworzenie stron internetowych z Python</div>
+<h1>HTTP: żądania, odpowiedzi, metody i kody stanu</h1>
+<p class="lede">Wspólny zestaw reguł, według których przeglądarka i serwer wymieniają wiadomości.</p>
+<p><strong>HTTP</strong> (HyperText Transfer Protocol) to protokół wymiany aplikacji
+    Wiadomości między klientem a serwerem w sieci: określa wspólny zestaw reguł, na podstawie których
+    Przeglądarka i serwer wymieniają żądania i odpowiedzi. Każda wiadomość — prośba lub odpowiedź —
+    składa się z podobnych części.</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>HTTP-żądanie</th><th>HTTP- odpowiedź</th></tr></thead>
+<tbody><tr><td>Metoda: Co robić (GET, POST...)</td><td>Kod statusu: jak poszło (200, 404...)</td></tr><tr><td>Ścieżka: jaki zasób jest potrzebny</td><td>Tytuły: Metadane odpowiedzi</td></tr><tr><td>Nagłówki: metadane żądania</td><td>Sedno: Treść – HTML, JSON, plik...</td></tr><tr><td>Ciało: dane opcjonalne (np. formularz)</td><td></td></tr></tbody>
+</table>
+</div>
+<h2>Podstawowe metody HTTP</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Metoda</th><th>Znaczenie zwyczajne</th></tr></thead>
+<tbody><tr><td>GET</td><td>Uzyskaj dane — otwórz stronę, zobacz lista</td></tr><tr><td>POST</td><td>Wyślij nowe dane — dodaj zadanie, wyślij formularz</td></tr><tr><td>PUT</td><td>Całkowicie zastąpić istniejący zasób</td></tr><tr><td>PATCH</td><td>Częściowa modyfikacja istniejącego zasobu</td></tr><tr><td>DELETE</td><td>Usuń zasób</td></tr></tbody>
+</table>
+</div>
+<p>Są to powszechne konwencje, a nie prawo fizyczne: żadna z tych metod
+    zmusza serwer do określonego zachowania – Flask wykona każdy kod, który ty
+    zapis do handlera, niezależnie od metody. Ale przestrzeganie tych konwencji rzeczywiście
+    Aplikacja jest zrozumiała dla innych deweloperów oraz dla narzędzi takich jak pamięć podręczna przeglądarki.
+    Nie każda aplikacja korzysta ze wszystkich pięciu metod — mała strona sobie radzi
+    tylko GET i POST jak w sekcji 22.5.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">GET nie jest „bezpieczniejszy” niż POST — i odwrotnie</div>
+<div class="callout-body">GET i POST nie różnią się w ochronie przesyłanych danych: jest to określane przez protokół (HTTP lub HTTPS, sekcja 22.10), a nie przez metodę. Różnica jest inna: z definicji HTTP GET przeznaczony do odbierania danych i nie powinien powodować stopniowych zmian na serwerze — to podstawa zachowania przeglądarek, proxy cache'owych i innych narzędzi, które uznają GET za bezpieczne do powtarzania: odświeżanie strony lub zakładki nie powinno nic zmieniać. Dlatego usunięcie zadania przez link GET- jest złym pomysłem (sekcja 22.35 pokazuje poprawne): przypadkowe odświeżenie strony przez przeglądarkę nie powinno niczego usuwać.</div>
+</div>
+</div>
+<h2>Kody statusowe: Jak przebiegło żądanie</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Zakres</th><th>Znaczenie</th><th>Przykłady</th></tr></thead>
+<tbody><tr><td>2xx</td><td>Sukces</td><td>200 OK, 201 Created</td></tr><tr><td>3xx</td><td>Przekierowanie</td><td>302 Found, 303 See Other — „zasób musi być wyświetlany pod innym adresem”</td></tr><tr><td>4xx</td><td>Błąd klienta</td><td>400 Bad Request, 404 Not Found</td></tr><tr><td>5xx</td><td>Błąd serwera</td><td>500 Internal Server Error</td></tr></tbody>
+</table>
+</div>
+<p>Rozdział 22.13 pokazuje kod 303 w działaniu — jako część wzorca POST-Redirect-GET, a sekcja
+    22.31 — kody 400 i 404 podczas obsługi błędów wejściowych.</p>
+<h2>Treści wiadomości to nie tylko HTML</h2>
+<p>Ciało odpowiedzi HTTP- może zawierać stronę HTML-, ale równie łatwo — dane w formacie JSON
+    (sekcja 22.15), obraz, plik CSS-, plik JavaScript- lub dowolny inny plik. To właśnie
+    nagłówek <code class="inline">Content-Type</code> informuje przeglądarkę, jak zrozumieć ciało
+    Odpowiedź — <code class="inline">text/html</code>, <code class="inline">application/json</code>,
+    <code class="inline">image/png</code> i tak dalej.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Klasyfikacja kodów statusowych</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="22-09"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/22-09/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html"><div class="dir">← Back</div><div class="lbl">URL: domena, ścieżka, parametry i fragment</div></a><a class="next" href="/pl/chapters/rozdzial-22/22-10-https.html"><div class="dir">Następny →</div><div class="lbl">HTTPS: zabezpieczenie połączenia ze stroną</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Globalne i lokalne zmienne – Python od podstaw – Cartesian School</title>
+<meta content="LEGB — jak Python szuka nazwy (Local → Enclosing → Global → Builtins), zacienienie, UnboundLocalError i słowo kluczowe global." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-13/13-05-globalnye-lokalnye.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-13/13-05-globalnye-lokalnye.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Globalne i lokalne zmienne – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="LEGB — jak Python szuka nazwy (Local → Enclosing → Global → Builtins), zacienienie, UnboundLocalError i słowo kluczowe global." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Globalne i lokalne zmienne – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="LEGB — jak Python szuka nazwy (Local → Enclosing → Global → Builtins), zacienienie, UnboundLocalError i słowo kluczowe global." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Globalne i lokalne zmienne – Python od podstaw – Cartesian School","description":"LEGB — jak Python szuka nazwy (Local → Enclosing → Global → Builtins), zacienienie, UnboundLocalError i słowo kluczowe global.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-05-globalnye-lokalnye.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 13 · Funkcje</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-13/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-13/13-09-zachem-programme-funkcii.html">Dlaczego program potrzebuje funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-01-nastoyashaya-avtomatizaciya.html">Prawdziwa automatyzacja. Pierwsza funkcja</a></li><li><a href="/pl/chapters/rozdzial-13/13-10-vyzov-i-vozvrat-upravlenie.html">Co się dzieje podczas wywołania</a></li><li><a href="/pl/chapters/rozdzial-13/13-02-zachem-funkcii.html">Parametr i argument</a></li><li><a href="/pl/chapters/rozdzial-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Argumenty zmienne i niezmienne</a></li><li><a href="/pl/chapters/rozdzial-13/13-12-pozicionnye-i-imennye.html">Argumenty pozycyjne i nazwane</a></li><li><a href="/pl/chapters/rozdzial-13/13-04-argumenty.html">Wartości domyślne i *args</a></li><li><a href="/pl/chapters/rozdzial-13/13-13-args-kwargs-raspakovka.html">*args, **kwargs i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-13/13-14-positional-only-keyword-only.html">Positional-only i keyword-only</a></li><li><a href="/pl/chapters/rozdzial-13/13-03-vozvrashaem-otvet.html">Odpowiedz</a></li><li><a href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html">Wejście, Operacja, Wyjście: Funkcje czyste</a></li><li><a class="active" href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html">Zmienne globalne i lokalne</a></li><li><a href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html">Zagnieżdżone funkcje i nonlocal</a></li><li><a href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html">Stos wywołań i traceback</a></li><li><a href="/pl/chapters/rozdzial-13/13-18-proektiruem-funkciyu.html">Projektowanie dobrej funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-19-dokumentaciya-i-tipy.html">Dockstringi i wskazówki typu</a></li><li><a href="/pl/chapters/rozdzial-13/13-20-funkcii-kak-obekty.html">Funkcje jako obiekty</a></li><li><a href="/pl/chapters/rozdzial-13/13-06-lambda.html">Funkcje lambda</a></li><li><a href="/pl/chapters/rozdzial-13/13-21-funkcii-kak-konvejer.html">Funkcje jak taśma produkcyjna</a></li><li><a href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html">Refaktoryzacja projektów rozdziału 12</a></li><li><a href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html">Debug Lab: typowe błędy funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html">Funkcje testowania</a></li><li><a href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html">Mini-projekt: zadanie domowe z matematyki</a></li><li><a href="/pl/chapters/rozdzial-13/13-25-mini-proekt-analizator-v2.html">Mini-projekt: Analizator tekstu v2</a></li><li><a href="/pl/chapters/rozdzial-13/13-26-mini-proekt-konverter-i-utility.html">Mini-projekty: konwerter i narzędzia kolekcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html">Mini-projekt: Turtle Function Studio i wnioski</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/13-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-09: Praktyka</a></li><li><a href="/pl/practice/13-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-01: Praktyka</a></li><li><a href="/pl/practice/13-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-10: Praktyka</a></li><li><a href="/pl/practice/13-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-02: Praktyka</a></li><li><a href="/pl/practice/13-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-11: Praktyka</a></li><li><a href="/pl/practice/13-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-12: Praktyka</a></li><li><a href="/pl/practice/13-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-04: Praktyka</a></li><li><a href="/pl/practice/13-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-13: Praktyka</a></li><li><a href="/pl/practice/13-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-14: Praktyka</a></li><li><a href="/pl/practice/13-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-03: Praktyka</a></li><li><a href="/pl/practice/13-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-15: Praktyka</a></li><li><a href="/pl/practice/13-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-05: Praktyka</a></li><li><a href="/pl/practice/13-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-16: Praktyka</a></li><li><a href="/pl/practice/13-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-17: Praktyka</a></li><li><a href="/pl/practice/13-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-18: Praktyka</a></li><li><a href="/pl/practice/13-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-19: Praktyka</a></li><li><a href="/pl/practice/13-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-20: Praktyka</a></li><li><a href="/pl/practice/13-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-06: Praktyka</a></li><li><a href="/pl/practice/13-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-21: Praktyka</a></li><li><a href="/pl/practice/13-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-22: Praktyka</a></li><li><a href="/pl/practice/13-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-23: Praktyka</a></li><li><a href="/pl/practice/13-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-24: Praktyka</a></li><li><a href="/pl/practice/13-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-07: Praktyka</a></li><li><a href="/pl/practice/13-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-25: Praktyka</a></li><li><a href="/pl/practice/13-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-26: Praktyka</a></li><li><a href="/pl/practice/13-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-27: Praktyka</a></li><li><a href="/pl/practice/13-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-08: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-05-globalnye-lokalnye.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-13/index.html">Rozdział 13</a> / Zakres</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 13 · Automatyzacja z funkcjami</div>
+<h1>Zmienne globalne i lokalne</h1>
+<p class="lede">Gdzie „mieszka” zmienna i w jakiej kolejności Python jej szuka — model LEGB uwolni wielu dziwnych błędów.</p>
+<h2>Zmienne wewnątrz funkcji</h2>
+<p>Zmienna utworzona wewnątrz funkcji nazywana jest <strong>lokalny</strong> — ona
+    istnieje tylko wtedy, gdy funkcja jest uruchomiona i nie jest dostępna z zewnątrz:</p>
+<div class="code-block">
+<div class="code-label"><span>lokalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> moya_funkciya():
+    message = <span class="tok-str">„Mieszkam tylko wewnątrz funkcji”</span>
+    <span class="tok-fn">print</span>(message)
+
+moya_funkciya()
+<span class="tok-fn">print</span>(message)   <span class="tok-com">#NameError: message tutaj nie jest zdefiniowane</span></code></pre>
+</div>
+<h2>Zmienne globalne</h2>
+<p><strong>Global</strong> zmienna jest deklarowany poza wszystkimi cechami — i jest czytelny
+    W każdym z nich:</p>
+<div class="code-block">
+<div class="code-label"><span>globalnye_peremennye.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>course_name = <span class="tok-str">"Python"</span>
+
+<span class="tok-kw">def</span> lesson():
+    topic = <span class="tok-str">„Funkcje”</span>
+    <span class="tok-fn">print</span>(course_name)   <span class="tok-com"># Czytanie globalnie – Praca bez żadnych zastrzeżeń</span>
+    <span class="tok-fn">print</span>(topic)
+
+lesson()</code></pre>
+</div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:20px 0;align-items:flex-start">
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Globalna przestrzeń nazw" data-diagram="reference-diagram" role="img" style="width:100%;height:auto;max-width:370px" viewbox="0 0 370 154" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-28-arrowns" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="17" font-weight="700"><tspan x="0" y="45.0">course_name</tspan></text><line marker-end="url(#pl-svg-28-arrowns)" stroke="#5B24F9" stroke-width="2.5" x1="140" x2="192" y1="39.0" y2="39.0"></line><rect fill="#EDE9FE" height="46" rx="4" stroke="#5B24F9" stroke-width="2" width="160" x="200" y="16"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="15" text-anchor="middle"><tspan x="280.0" y="44.0">"Python"</tspan></text><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="17" font-weight="700"><tspan x="0" y="109.0">lesson</tspan></text><line marker-end="url(#pl-svg-28-arrowns)" stroke="#5B24F9" stroke-width="2.5" x1="140" x2="192" y1="103.0" y2="103.0"></line><rect fill="#EDE9FE" height="46" rx="4" stroke="#5B24F9" stroke-width="2" width="160" x="200" y="80"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="15" text-anchor="middle"><tspan x="280.0" y="108.0">FUNKCJA OBIEKTOWA</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Globalna przestrzeń nazw</figcaption></figure></div>
+<div style="flex:1 1 260px;min-width:220px"><figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Lokalna przestrzeń nazw lesson() podczas wywołania" data-diagram="reference-diagram" role="img" style="width:100%;height:auto;max-width:370px" viewbox="0 0 370 90" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-29-arrowns" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="17" font-weight="700"><tspan x="0" y="45.0">topic</tspan></text><line marker-end="url(#pl-svg-29-arrowns)" stroke="#5B24F9" stroke-width="2.5" x1="140" x2="192" y1="39.0" y2="39.0"></line><rect fill="#EDE9FE" height="46" rx="4" stroke="#5B24F9" stroke-width="2" width="160" x="200" y="16"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="15" text-anchor="middle"><tspan x="280.0" y="44.0">„Funkcje”</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Lokalna przestrzeń nazw lesson() podczas wywołania</figcaption></figure></div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Funkcja może patrzeć na zewnątrz, ale nie odwrotnie</div>
+<div class="callout-body">Funkcja może ODCZYTYWAĆ nazwy globalne, ale zmienne utworzone w niej nie są automatycznie widoczne z zewnątrz.</div>
+</div>
+</div>
+<h2>Cieniowanie (shadowing)</h2>
+<div class="code-block">
+<div class="code-label"><span>shadowing.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>name = <span class="tok-str">"GLOBAL"</span>
+
+<span class="tok-kw">def</span> demo():
+    name = <span class="tok-str">"LOCAL"</span>
+    <span class="tok-fn">print</span>(name)
+
+demo()
+<span class="tok-fn">print</span>(name)</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>LOCAL
+GLOBAL</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Lokalna nazwa name istnieje tylko w obrębie demo() i nie wpływa na globalną</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Lokalna nazwa przychodzi do globalnej nazwy o tej samej nazwie</div>
+<div class="callout-body">Wewnątrz <code class="inline">demo()</code> TWOIM tworzymy osobną lokalną nazwę <code class="inline">name</code> tymczasowo „przyćmiewa” <code class="inline">name</code> kod wewnątrz funkcji, ale nie zastępuje ani nie usuwa go.</div>
+</div>
+</div>
+<h2>LEGB: Python jak szuka imienia</h2>
+<p>Gdy Python napotyka nazwę, szuka jej w jasnej kolejności — ten model nazywa się
+    <strong>LEGB</strong>:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Local → Enclosing → Global → Builtins - Poszukiwania zatrzymują się przy pierwszym dopasowaniu" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:490px" viewbox="0 0 490 540" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-30-arrowel" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><polygon data-flow-shape="decision" fill="#5B24F9" points="120.0,10 230.0,42.0 120.0,74 10.0,42.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="120.0" y="47.0">L — Local?</tspan></text><path d="M230.0,42.0 L290.0,42.0" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="32.0">True</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="306.0,12.0 480.0,12.0 464.0,72.0 290.0,72.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle"><tspan x="385.0" y="47.0">znaleźli → używamy</tspan></text><path d="M120.0,74 L120.0,120" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#DB2777" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" x="134.0" y="101.0">False</text><polygon data-flow-shape="decision" fill="#5B24F9" points="120.0,120 230.0,152.0 120.0,184 10.0,152.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="120.0" y="157.0">E — Enclosing?</tspan></text><path d="M230.0,152.0 L290.0,152.0" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="142.0">True</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="306.0,122.0 480.0,122.0 464.0,182.0 290.0,182.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle"><tspan x="385.0" y="157.0">znaleźli → używamy</tspan></text><path d="M120.0,184 L120.0,230" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#DB2777" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" x="134.0" y="211.0">False</text><polygon data-flow-shape="decision" fill="#5B24F9" points="120.0,230 230.0,262.0 120.0,294 10.0,262.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="120.0" y="267.0">G — Global?</tspan></text><path d="M230.0,262.0 L290.0,262.0" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="252.0">True</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="306.0,232.0 480.0,232.0 464.0,292.0 290.0,292.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle"><tspan x="385.0" y="267.0">znaleźli → używamy</tspan></text><path d="M120.0,294 L120.0,340" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#DB2777" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" x="134.0" y="321.0">False</text><polygon data-flow-shape="decision" fill="#5B24F9" points="120.0,340 230.0,372.0 120.0,404 10.0,372.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="120.0" y="377.0">B — Builtins?</tspan></text><path d="M230.0,372.0 L290.0,372.0" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#059669" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="260.0" y="362.0">True</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="306.0,342.0 480.0,342.0 464.0,402.0 290.0,402.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle"><tspan x="385.0" y="377.0">znaleźli → używamy</tspan></text><path d="M120.0,404 L120.0,450" fill="none" marker-end="url(#pl-svg-30-arrowel)" stroke="#DB2777" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" x="134.0" y="431.0">False</text><rect data-flow-shape="process" fill="#EDE9FE" height="60" rx="2" stroke="#5B24F9" stroke-dasharray="5 4" stroke-width="2" width="190" x="25.0" y="450"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" text-anchor="middle"><tspan x="120.0" y="485.0">NameError</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Local → Enclosing → Global → Builtins - Poszukiwania zatrzymują się przy pierwszym dopasowaniu</figcaption></figure>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Litera</th><th>Co to jest</th><th>Przykład</th></tr></thead>
+<tbody><tr><td>L — Local</td><td>nazwy wewnątrz bieżącej funkcji</td><td><code class="inline">topic</code> w środku <code class="inline">lesson()</code></td></tr><tr><td>E — Enclosing</td><td>nazwy funkcji zewnętrznej dla funkcji zagnieżdżonej (§13.13)</td><td>spójrzmy dalej</td></tr><tr><td>G — Global</td><td>nazwy na poziomie modułu</td><td><code class="inline">course_name</code></td></tr><tr><td>B — Builtins</td><td>wbudowane nazwy Python</td><td><code class="inline">len</code>, <code class="inline">print</code></td></tr></tbody>
+</table>
+</div>
+<h2>UnboundLocalError — dlaczego to NIE jest przypadek</h2>
+<div class="code-block">
+<div class="code-label"><span>unbound_local.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>count = <span class="tok-num">10</span>
+
+<span class="tok-kw">def</span> increment():
+    count += <span class="tok-num">1</span>
+
+increment()</code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Przypisanie w dowolnym miejscu ciała sprawia, że nazwa jest lokalna W CAŁYM tkanku funkcji</div>
+<div class="callout-body">Python widzi <code class="inline">count += 1</code> (to <code class="inline">count = count + 1</code>) i z góry decyduje: <code class="inline">count</code> jest przypisana wewnątrz funkcji, więc jest to nazwa LOKALNA — w całym ciele funkcji, nie tylko po przypisaniu. Ale po prawej stronie <code class="inline">count + 1</code> próbuje CZYTAĆ <code class="inline">count</code> ZANIM pojawiło się lokalne znaczenie — stąd stąd <code class="inline">UnboundLocalError</code>. To nie jest zachowanie losowe, lecz bezpośrednia konsekwencja sposobu, w jaki Python wstępnie oznacza nazwy funkcji lokalnych.</div>
+</div>
+</div>
+<h2>global — jeśli naprawdę trzeba zmienić zmienną globalną</h2>
+<div class="code-block">
+<div class="code-label"><span>global_keyword.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>count = <span class="tok-num">10</span>
+
+<span class="tok-kw">def</span> increment():
+    <span class="tok-kw">global</span> count
+    count += <span class="tok-num">1</span>
+
+increment()
+<span class="tok-fn">print</span>(count)   <span class="tok-com"># 11</span></code></pre>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">global jest potrzebne tylko do zadania, nie do czytania</div>
+<div class="callout-body">Możesz po prostu ODCZYTAĆ zmienną globalną bez <code class="inline">global</code> (robiliśmy to już z <code class="inline">course_name</code> powyżej). <code class="inline">global</code> jest potrzebne tylko wtedy, gdy funkcja ma zamiar ZMIENIĆ (przydzielić) nazwę globalną.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">global działa, ale częściej istnieje lepszy sposób</div>
+<div class="callout-body"><code class="inline">global</code> nie jest zakazaną, ale często nie najlepszą praktyką: funkcje odczytujące parametry i zwracające wynik przez <code class="inline">return</code>łatwiej testować i ponownie używać, ponieważ ich zachowanie nie zależy od ukrytego stanu zewnętrznego. To nie jest absolutna zasada „zmienne globalne są zawsze złe”</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: zmienne lokalne, globalne i LEGB</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="13-05"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/13-05/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-05"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-05"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html"><div class="dir">← Back</div><div class="lbl">Wejście, Operacja, Wyjście: Funkcje czyste</div></a><a class="next" href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html"><div class="dir">Następny →</div><div class="lbl">Zagnieżdżone funkcje i nonlocal</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

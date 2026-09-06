@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rozdział 9. Słuchaj moich rozkazów!„ ”</title>
+<meta content="Jak dotąd nasze programy w większości wykonywały polecenia jedno po drugim. Teraz nauczymy ich, jak wybierać, które polecenie wykonać następne. Przeanalizujmy algorytmy i kontrolujmy przepływ, jak warunki tworzą rozdroża i jak Python podejmuje decyzje na True, False if/elif/else — i złóżmy pierwszą prawdziwą grę." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<style>
+  .chapter-hero {
+    background: radial-gradient(ellipse 900px 500px at 20% -20%, #2a1470 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+  .chapter-hero-inner { max-width: 900px; margin: 0 auto; }
+  .chapter-num { display: flex; align-items: flex-start; gap: 8px; font-family: 'JetBrains Mono', monospace; color: var(--blue-300); font-size: 15px; margin-bottom: var(--spacing-sm); }
+  .chapter-num img { width: 22px; height: 22px; display: block; flex-shrink: 0; }
+  .chapter-hero h1 { color: white; font-size: 44px; max-width: 640px; }
+  .chapter-hero p { color: var(--gray-400); font-size: 18px; max-width: 560px; margin-top: var(--spacing-md); }
+  .chapter-meta { display: flex; gap: var(--spacing-xl); margin-top: var(--spacing-xl); font-size: 14px; color: var(--blue-300); flex-wrap: wrap; }
+  .section-list { max-width: 900px; margin: var(--spacing-2xl) auto; padding: 0 var(--spacing-2xl); }
+  .section-item { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-md); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); text-decoration: none; color: var(--color-text-primary); }
+  .section-item:hover { border-color: var(--color-brand-blue); }
+  .section-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .section-item .si-num { font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; margin-right: var(--spacing-md); }
+  .section-item .si-page { flex: none; margin-left: var(--spacing-md); font-family: 'JetBrains Mono', monospace; color: var(--color-text-muted); font-size: 13px; }
+  .chapter-intro { max-width: 900px; margin: var(--spacing-2xl) auto 0; padding: 0 var(--spacing-2xl); }
+  @media (max-width: 860px) { .chapter-hero h1 { font-size: 30px; } }
+</style>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/index.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-09/index.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-09/index.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Rozdział 9. Słuchaj moich rozkazów!„ ”" />
+<meta property="og:description" content="Jak dotąd nasze programy w większości wykonywały polecenia jedno po drugim. Teraz nauczymy ich, jak wybierać, które polecenie wykonać następne. Przeanalizujmy algorytmy i kontrolujmy przepływ, jak warunki tworzą rozdroża i jak Python podejmuje decyzje na True, False if/elif/else — i złóżmy pierwszą prawdziwą grę." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-09/index.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rozdział 9. Słuchaj moich rozkazów!„ ”" />
+<meta name="twitter:description" content="Jak dotąd nasze programy w większości wykonywały polecenia jedno po drugim. Teraz nauczymy ich, jak wybierać, które polecenie wykonać następne. Przeanalizujmy algorytmy i kontrolujmy przepływ, jak warunki tworzą rozdroża i jak Python podejmuje decyzje na True, False if/elif/else — i złóżmy pierwszą prawdziwą grę." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Rozdział 9. Słuchaj moich rozkazów!„ ”","description":"Jak dotąd nasze programy w większości wykonywały polecenia jedno po drugim. Teraz nauczymy ich, jak wybierać, które polecenie wykonać następne. Przeanalizujmy algorytmy i kontrolujmy przepływ, jak warunki tworzą rozdroża i jak Python podejmuje decyzje na True, False if/elif/else — i złóżmy pierwszą prawdziwą grę.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-09/index.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"chapter","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<nav class="mobile-nav-panel" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/index.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<div class="chapter-hero">
+<div class="chapter-hero-inner">
+<div class="chapter-num"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>ROZDZIAŁ 9 · STRONA 1178</div>
+<h1>Wykonaj moje polecenie!</h1>
+<p>Jak dotąd nasze programy w większości wykonywały polecenia jedno po drugim. Teraz nauczymy ich, jak wybierać, które polecenie wykonać następne. Przeanalizujmy algorytmy i kontrolujmy przepływ, jak warunki tworzą rozdroża i jak Python podejmuje decyzje na True, False if/elif/else — i złóżmy pierwszą prawdziwą grę.</p>
+<div class="chapter-meta"><span><svg aria-hidden="true" class="cs-icon cs-icon--timer"><use href="/assets/icons/cartesian/icons.svg#icon-timer"></use></svg> ~6–7 godzin</span><span><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> algorytmy · Warunki · if/elif/else</span><span><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 24 treningów</span><span><svg aria-hidden="true" class="cs-icon cs-icon--game"><use href="/assets/icons/cartesian/icons.svg#icon-game"></use></svg> 5 mini-projektów</span></div>
+</div>
+</div>
+<div class="chapter-intro">
+</div>
+<div class="section-list">
+<a class="section-item" href="/pl/chapters/rozdzial-09/09-07-algoritmy-i-komandy.html"><span><span class="si-num">9.1</span>Algorytmy i polecenia</span><span class="si-page">1181</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-08-tri-struktury-i-vetvlenie.html"><span><span class="si-num">9.2</span>Trzy struktury algorytmu i rozgałęzienie</span><span class="si-page">1192</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-01-istina-ili-lozh.html"><span><span class="si-num">9.3</span>Prawda czy fałsz</span><span class="si-page">1201</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-02-sravnenie-i-reshenie.html"><span><span class="si-num">9.4</span>Porównujemy i podejmujemy decyzję</span><span class="si-page">1206</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-09-ravno-i-sravnenie-strok.html"><span><span class="si-num">9.5</span>Jaka jest różnica między = a == oraz jak porównywać łańcuch znaków</span><span class="si-page">1213</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-10-cepochki-sravnenij.html"><span><span class="si-num">9.6</span>Łańcuchy porównawcze</span><span class="si-page">1222</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-11-truthiness-i-none.html"><span><span class="si-num">9.7</span>Truthiness i None</span><span class="si-page">1226</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-03-if-inache.html"><span><span class="si-num">9.8</span>Jeśli tak się stanie, wykonuj polecenie!</span><span class="si-page">1231</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-12-elif-lestnica.html"><span><span class="si-num">9.9</span>elif — kilka opcji</span><span class="si-page">1241</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-13-neskolko-if-protiv-elif.html"><span><span class="si-num">9.10</span>Kilka if ≠ if/elif/else</span><span class="si-page">1248</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-14-and.html"><span><span class="si-num">9.11</span>and — wszystkie warunki naraz</span><span class="si-page">1254</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-15-or.html"><span><span class="si-num">9.12</span>or — przynajmniej jeden</span><span class="si-page">1257</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-16-not.html"><span><span class="si-num">9.13</span>not — odwróć warunek</span><span class="si-page">1261</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-04-neskolko-uslovij.html"><span><span class="si-num">9.14</span>Więcej niż jeden warunek!</span><span class="si-page">1264</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-17-short-circuit.html"><span><span class="si-num">9.15</span>Short-circuit: Python czasem leniwy</span><span class="si-page">1270</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-18-in-not-in.html"><span><span class="si-num">9.16</span>in / not in jako warunek</span><span class="si-page">1276</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-19-is-vs-ravno.html"><span><span class="si-num">9.17</span>is wady ==</span><span class="si-page">1280</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-20-vlozhennye-uslovija.html"><span><span class="si-num">9.18</span>Zagnieżdżone warunki</span><span class="si-page">1284</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html"><span><span class="si-num">9.19</span>Projektowanie warunków</span><span class="si-page">1290</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-22-otladka-logiki.html"><span><span class="si-num">9.20</span>Debugowanie błędów logicznych</span><span class="si-page">1298</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-05-mini-proekt-ugadaj-chislo.html"><span><span class="si-num">9.21</span>Mini-projekt – „Zgadnij liczbę”</span><span class="si-page">1306</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-23-mini-proekt-klub-i-pogoda.html"><span><span class="si-num">9.22</span>Mini-Projekty – Klub i Pogoda</span><span class="si-page">1319</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-24-mini-proekt-ocenki-i-komandy.html"><span><span class="si-num">9.23</span>Mini-projekty — oceny i polecenia</span><span class="si-page">1324</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-06-nakoplenie-uslovij-itogi.html"><span><span class="si-num">9.24</span>Warunki kumulują się i skutkują</span><span class="si-page">1330</span></a><a class="section-item" href="/pl/chapters/rozdzial-09/09-06-nakoplenie-uslovij-itogi.html#itogi"><span><span class="si-num"></span>Podsumowanie</span></a>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

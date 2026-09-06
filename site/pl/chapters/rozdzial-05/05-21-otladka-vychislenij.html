@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debugowanie Compute – Python od zera – Cartesian School</title>
+<meta content="Trzy typy błędów w obliczeniach Python — składniowe, schematyczne i związane z liczbami — oraz technika śledzenia wzorów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-05/05-21-otladka-vychislenij.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-05/05-21-otladka-vychislenij.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debugowanie Compute – Python od zera – Cartesian School" />
+<meta property="og:description" content="Trzy typy błędów w obliczeniach Python — składniowe, schematyczne i związane z liczbami — oraz technika śledzenia wzorów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debugowanie Compute – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Trzy typy błędów w obliczeniach Python — składniowe, schematyczne i związane z liczbami — oraz technika śledzenia wzorów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debugowanie Compute – Python od zera – Cartesian School","description":"Trzy typy błędów w obliczeniach Python — składniowe, schematyczne i związane z liczbami — oraz technika śledzenia wzorów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-21-otladka-vychislenij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 5 · Gra liczb</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-05/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-05/05-01-osnovnye-operacii.html">Wyrażenia i podstawowe operacje</a></li><li><a href="/pl/chapters/rozdzial-05/05-07-delenie-s-ostatkom.html">Podział z resztą</a></li><li><a href="/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html">Ujemne dzielenie całkowite przez floor</a></li><li><a href="/pl/chapters/rozdzial-05/05-02-specialnye-operacii.html">Stopnie naukowe i korzenie</a></li><li><a href="/pl/chapters/rozdzial-05/05-09-unarnye-operatory.html">Operatory unarne</a></li><li><a href="/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html">Kolejność przypisania i obliczeń</a></li><li><a href="/pl/chapters/rozdzial-05/05-10-associativnost.html">Skojarzenie operatorów</a></li><li><a href="/pl/chapters/rozdzial-05/05-11-skobki-i-formuly.html">Nawiasy i wzory ze zmiennych</a></li><li><a href="/pl/chapters/rozdzial-05/05-12-perevod-formul.html">Tłumaczenie wzorów: matematyka → Python</a></li><li><a href="/pl/chapters/rozdzial-05/05-04-matematicheskie-funkcii.html">Moduł math – Mapa Możliwości</a></li><li><a href="/pl/chapters/rozdzial-05/05-13-korni-rasstoyaniya.html">Korzenie i odległości</a></li><li><a href="/pl/chapters/rozdzial-05/05-14-gcd-lcm-faktorial.html">gcd, lcm, czynnikowy, comb, perm</a></li><li><a href="/pl/chapters/rozdzial-05/05-15-geometriya-s-math.html">Geometria z math</a></li><li><a href="/pl/chapters/rozdzial-05/05-16-trigonometriya.html">Trygonometria bez strachu</a></li><li><a href="/pl/chapters/rozdzial-05/05-17-logarifmy.html">Logarytmy i wykładniki</a></li><li><a href="/pl/chapters/rozdzial-05/05-05-sluchaynye-chisla.html">Moduł pseudolosowości random:</a></li><li><a href="/pl/chapters/rozdzial-05/05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="/pl/chapters/rozdzial-05/05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="/pl/chapters/rozdzial-05/05-20-seed.html">seed i powtarzalność</a></li><li><a class="active" href="/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html">Obliczania debugowania</a></li><li><a href="/pl/chapters/rozdzial-05/05-06-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/05-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-01: Praktyka</a></li><li><a href="/pl/practice/05-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 07-05: Praktyka</a></li><li><a href="/pl/practice/05-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-08: Praktyka</a></li><li><a href="/pl/practice/05-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-02: Praktyka</a></li><li><a href="/pl/practice/05-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-09: Praktyka</a></li><li><a href="/pl/practice/05-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-10: Praktyka</a></li><li><a href="/pl/practice/05-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-11: Praktyka</a></li><li><a href="/pl/practice/05-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-12: Praktyka</a></li><li><a href="/pl/practice/05-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-04: Praktyka</a></li><li><a href="/pl/practice/05-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-13: Praktyka</a></li><li><a href="/pl/practice/05-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-14: Praktyka</a></li><li><a href="/pl/practice/05-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-15: Praktyka</a></li><li><a href="/pl/practice/05-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-16: Praktyka</a></li><li><a href="/pl/practice/05-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-17: Praktyka</a></li><li><a href="/pl/practice/05-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-05: Praktyka</a></li><li><a href="/pl/practice/05-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-18: Praktyka</a></li><li><a href="/pl/practice/05-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-19: Praktyka</a></li><li><a href="/pl/practice/05-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-20: Praktyka</a></li><li><a href="/pl/practice/05-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-21: Praktyka</a></li><li><a href="/pl/practice/05-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-21-otladka-vychislenij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-05/index.html">Rozdział 5</a> / Obliczania debugowania</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 5 · Pobawmy się liczbami!</div>
+<h1>Obliczania debugowania</h1>
+<p class="lede">Niepoprawna liczba bez żadnego błędu — najbardziej podstępny typ błędu. Omówimy trzy przyczyny i niezawodny sposób ich wyszukiwania.</p>
+<p>Wzór z błędną liczbą jest znacznie bardziej podstępny niż błąd, który odpada
+    Program: Python nie powie ci, że coś jest nie tak. Spójrzmy, jak szukać takich problemów
+    świadomie, a nie metodą „zmieniałem się i patrzył”</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Trzy różne typy problemów — i trzy różne sposoby ich wyszukiwania" data-diagram="block-diagram" role="img" style="width:100%;height:auto;max-width:644px" viewbox="0 0 644 286" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-21-arrow" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker></defs><rect fill="#5B24F9" height="96" rx="4" width="240" x="202.0" y="10"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="16" font-weight="700" text-anchor="middle"><tspan x="322.0" y="43.0">Obliczenia nie dają</tspan><tspan x="322.0" y="63.0">efekt, że</tspan><tspan x="322.0" y="83.0">oczekiwane</tspan></text><line stroke="#5B24F9" stroke-width="2.5" x1="322.0" x2="322.0" y1="106" y2="133"></line><line stroke="#5B24F9" stroke-width="2.5" x1="98.0" x2="546.0" y1="133" y2="133"></line><path d="M98.0,133 V160" fill="none" marker-end="url(#pl-svg-21-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#EDE9FE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="0.0" y="160"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="98.0" y="186">Składnia</tspan><tspan x="98.0" y="204">błąd</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="98.0" y="236">program w ogóle nie</tspan><tspan x="98.0" y="250">zaczyna się – Python</tspan><tspan x="98.0" y="264">wskazuje na linię zanim...</tspan></text><path d="M322.0,133 V160" fill="none" marker-end="url(#pl-svg-21-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DBEAFE" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="224.0" y="160"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="322.0" y="186">Błąd w wzorze</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="322.0" y="218">program działa, ale</tspan><tspan x="322.0" y="232">liczy nie to, co</tspan><tspan x="322.0" y="246">jest priorytetem,...</tspan></text><path d="M546.0,133 V160" fill="none" marker-end="url(#pl-svg-21-arrow)" stroke="#B9A0FC" stroke-width="2.5"></path><rect fill="#DCFCE7" height="116" rx="4" stroke="#5B24F9" stroke-width="2" width="196" x="448.0" y="160"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="546.0" y="186">Funkcje</tspan><tspan x="546.0" y="204">reprezentacja liczb</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="11" text-anchor="middle"><tspan x="546.0" y="236">program działa i wydaje się działać</tspan><tspan x="546.0" y="250">byłoby poprawne, ale porównanie lub</tspan><tspan x="546.0" y="264">zaokrąglenie zachowuje się...</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Trzy różne typy problemów — i trzy różne sposoby ich wyszukiwania</figcaption></figure>
+<h2>1. Błąd składniowy</h2>
+<p>Najprostszy przypadek to taki, że program w ogóle się nie uruchamia, a Python wskazuje na konkretny
+    Nić i charakter jeszcze przed rozpoczęciem egzekucji:</p>
+<div class="code-block">
+<div class="code-label"><span>sintaksicheskaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># itog = (a + b * c</span>
+<span class="tok-com">#SyntaxError:'(' was never closed – Brakuje nawiasów końcowych</span></code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Liczenie nawiasów w parach</div>
+<div class="callout-body">Najpewniejszy sposób znalezienia niezakończonego nawiasu — policzyć otwierające i zamykające nawiasy w podejrzanym łańcuch znaków osobno; powinno ich być tyle samo.</div>
+</div>
+</div>
+<h2>2. Błąd w wzorze</h2>
+<p>Najbardziej niebezpieczną kategorią jest sytuacja, gdy program działa bez żadnego błędu, ale wynik jest nieprawidłowy.
+    Zazwyczaj istnieje jeden z trzech powodów, które już omówiliśmy w tym rozdziale:</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Przyczyna</th><th>Przykład</th><th>Gdzie to już widzieliśmy</th></tr></thead>
+<tbody><tr><td>zapomnianych nawiasów</td><td><code class="inline">4 + 7 + 9 / 3</code> zamiast <code class="inline">(4 + 7 + 9) / 3</code></td><td>sekcja „Nawiasy i formuły"</td></tr><tr><td>nie ta zmienna</td><td><code class="inline">print(shirina + shirina)</code> zamiast <code class="inline">print(perimetr)</code></td><td>sekcja „Nawiasy i formuły"</td></tr><tr><td>Zdezorientowany priorytet</td><td><code class="inline">-2 ** 2</code> nie jest tym samym co <code class="inline">(-2) ** 2</code></td><td>sekcja „Operatorzy uniarni”</td></tr></tbody>
+</table>
+</div>
+<h2>Sztuczka: Przerysuj wzór przez nazwane kroki</h2>
+<p>Gdy długa formuła daje podejrzany wynik, najpewniejszy sposób na znalezienie
+    Problem — podziel go na nazwane kroki pośrednie i wpisz każdy:</p>
+<div class="code-block">
+<div class="code-label"><span>trassirovka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># był jednym z łańcuch znaków, nie wiadomo, co poszło nie tak:</span>
+itog = (cena - skidka) * kolichestvo + dostavka / kolichestvo
+
+<span class="tok-com"># stał się — możesz zobaczyć każdy wynik pośredni:</span>
+cena_so_skidkoj = cena - skidka
+<span class="tok-fn">print</span>(<span class="tok-str">„Cena po rabacie:”</span>, cena_so_skidkoj)
+
+summa_za_tovar = cena_so_skidkoj * kolichestvo
+<span class="tok-fn">print</span>(<span class="tok-str">„Ilość za przedmiot:”</span>, summa_za_tovar)
+
+dostavka_na_edinicu = dostavka / kolichestvo
+<span class="tok-fn">print</span>(<span class="tok-str">„Dostawa na jednostkę:”</span>, dostavka_na_edinicu)
+
+itog = summa_za_tovar + dostavka_na_edinicu
+<span class="tok-fn">print</span>(<span class="tok-str">„Podsumowanie:”</span>, itog)</code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">łącznie = (100 − 10) × 3 + 15 / 3</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">cena po rabacie = 90</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">ilość na przedmiot = 270</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">dostawa na jednostkę = 5.0</div><div style="text-align:center;color:#B9A0FC;font-size:18px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#0D0230;text-align:center;padding:8px 0">łącznie = 275,0</div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Trace zamienia pojedynczy tajemniczy łańcuch znaków w sekwencję zrozumiałych, weryfikowalnych kroków</figcaption></figure>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">To tymczasowy kod, a nie stały</div>
+<div class="callout-body">Podział na nazwaną kroki — technika właśnie do <strong>debugowanie</strong>. Gdy wzór działa poprawnie, pośredni <code class="inline">print()</code> zwykle usuwane, ale czasem należy pozostawić znaczące nazwy zmiennych pośrednich — czynią kod jaśniejszym, nawet jeśli już nie jest debugowany.</div>
+</div>
+</div>
+<h2>3. Cechy reprezentacji liczb</h2>
+<p>Trzecia kategoria to kod poprawny składniowo, wzór również jest poprawny, ale wynik nadal jest
+    niespodzianki. Zazwyczaj powodem jest to, że już szczegółowo omówiliśmy to w rozdziale 4:</p>
+<div class="code-block">
+<div class="code-label"><span>float_lovushka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span> == <span class="tok-num">0.3</span>)          <span class="tok-com"># False! nie jest błędem, lecz cechą float</span>
+<span class="tok-fn">print</span>(<span class="tok-fn">round</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>, <span class="tok-num">10</span>) == <span class="tok-num">0.3</span>)  <span class="tok-com">#True – Porównanie tolerancji działa poprawnie</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Zobacz rozdział 4, aby uzyskać więcej szczegółów</div>
+<div class="callout-body">Dlaczego tak się dzieje i jak poprawnie float porównać, szczegółowo omówiono w sekcji „Poprawne porównanie float” <code class="inline">==</code> między float zachowuje się nieoczekiwanie — oznacza to, że sprawa dotyczy reprezentacji liczb, a nie błędu w formule.</div>
+</div>
+</div>
+<h2>Przewiduj przed startem</h2>
+<p>Najlepszym nawykiem przy debugowaniu jest budowanie go zanim pojawią się błędy: zanim go uruchomisz
+    kod, przewidź wynik. Jeśli przewidywanie nie pokrywa się z rzeczywistością, albo znalazłeś błąd,
+    albo źle zrozumieć kod. Oba przypadki należy analizować bez dalszego uruchamiania kodu.</p>
+<div class="exercise">
+<div class="exercise-stars">Podstawowa praktyka</div>
+<div class="exercise-title">Przewidzieć wynik</div>
+<p>Nie uruchamiając kodu, określ wynik: <code class="inline">итог = 2 + 3 * 4 ** 2 // 5</code>. Potem się sprawdz.</p>
+</div>
+<div class="exercise">
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Znajdź błąd w wzorze</div>
+<p>W kodzie <code class="inline">srednyaya_ocenka = ocenka1 + ocenka2 + ocenka3 / 3</code> jest błąd priorytetu. Znajdź i napraw go.</p>
+</div>
+<div class="exercise">
+<div class="exercise-stars">Challenge</div>
+<div class="exercise-title">Śledzenie wzoru</div>
+<p>Weź formułę obliczania łącznej kwoty zamówienia z uwzględnieniem rabatu i dostawy z powyższego przykładu i dodaj do niej śledzenie z czytelnymi nazwami zmiennych pośrednich.</p>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Obliczania debugowania</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="05-21"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/05-21/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-05/05-20-seed.html"><div class="dir">← Back</div><div class="lbl">seed i powtarzalność</div></a><a class="next" href="/pl/chapters/rozdzial-05/05-06-mini-proekt-itogi.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekty i podsumowania</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

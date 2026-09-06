@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Sprawdzanie danych wejściowych i obsługa błędów — Python od zera — Cartesian School</title>
+<meta content="Dlaczego walidacja po stronie serwera jest wymagana, niezależnie od JavaScript clean_title() w rozdziale roboczym oraz różnicy między błędami HTML- a JSON-." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-22/22-31-validaciya-oshibki.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-22/22-31-validaciya-oshibki.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Sprawdzanie danych wejściowych i obsługa błędów — Python od zera — Cartesian School" />
+<meta property="og:description" content="Dlaczego walidacja po stronie serwera jest wymagana, niezależnie od JavaScript clean_title() w rozdziale roboczym oraz różnicy między błędami HTML- a JSON-." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sprawdzanie danych wejściowych i obsługa błędów — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Dlaczego walidacja po stronie serwera jest wymagana, niezależnie od JavaScript clean_title() w rozdziale roboczym oraz różnicy między błędami HTML- a JSON-." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Sprawdzanie danych wejściowych i obsługa błędów — Python od zera — Cartesian School","description":"Dlaczego walidacja po stronie serwera jest wymagana, niezależnie od JavaScript clean_title() w rozdziale roboczym oraz różnicy między błędami HTML- a JSON-.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-31-validaciya-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 22 · Tworzenie stron internetowych</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-22/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-22/22-01-python-i-veb.html">Podstawy tworzenia stron internetowych: klient, serwer i Python</a></li><li><a href="/pl/chapters/rozdzial-22/22-02-html.html">HTML: struktura strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-03-css.html">CSS: projektowanie i układ elementów strony internetowej</a></li><li><a href="/pl/chapters/rozdzial-22/22-04-javascript.html">JavaScript: programowanie w przeglądarce</a></li><li><a href="/pl/chapters/rozdzial-22/22-05-flask.html">Pierwsza aplikacja webowa na Flask</a></li><li><a href="/pl/chapters/rozdzial-22/22-06-itogi.html">Wyniki pierwszego projektu internetowego</a></li><li><a href="/pl/chapters/rozdzial-22/22-07-put-zaprosa.html">Jak przeglądarka pobiera stronę internetową</a></li><li><a href="/pl/chapters/rozdzial-22/22-08-url-anatomiya.html">URL: domena, ścieżka, parametry i fragment</a></li><li><a href="/pl/chapters/rozdzial-22/22-09-http.html">HTTP: żądania, odpowiedzi, metody i kody stanu</a></li><li><a href="/pl/chapters/rozdzial-22/22-10-https.html">HTTPS: zabezpieczenie połączenia ze stroną</a></li><li><a href="/pl/chapters/rozdzial-22/22-11-flask-marshrutizaciya.html">Routing w Flask: URL i funkcje obsługi</a></li><li><a href="/pl/chapters/rozdzial-22/22-12-jinja-shablony.html">Jinja: szablony danych HTML</a></li><li><a href="/pl/chapters/rozdzial-22/22-13-formy.html">HTML-forms i przesyłanie danych do serwera</a></li><li><a href="/pl/chapters/rozdzial-22/22-14-staticheskie-fajly.html">Pliki statyczne: CSS, obrazy i JavaScript</a></li><li><a href="/pl/chapters/rozdzial-22/22-15-json.html">JSON: format wymiany danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-16-api.html">HTTP API: wymiana danych między programami</a></li><li><a href="/pl/chapters/rozdzial-22/22-17-veb-frejmvorki.html">Frameworki internetowe dla Python: Flask, Django, FastAPI i innych</a></li><li><a href="/pl/chapters/rozdzial-22/22-18-flask-django-fastapi.html">Porównanie Flask, Django i FastAPI</a></li><li><a href="/pl/chapters/rozdzial-22/22-19-wsgi-asgi.html">WSGI i ASGI: komunikacji między aplikacją webową a serwerem</a></li><li><a href="/pl/chapters/rozdzial-22/22-20-zachem-baza-dannyh.html">Dlaczego aplikacja webowa potrzebuje bazy danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-21-relyacionnaya-baza.html">Relacyjne bazy danych: tabele, klucze i relacje</a></li><li><a href="/pl/chapters/rozdzial-22/22-22-sql.html">SQL: tworzymy, czytamy i edytujemy dane</a></li><li><a href="/pl/chapters/rozdzial-22/22-23-sqlite.html">SQLite: Wbudowany relacyjny DBMS</a></li><li><a href="/pl/chapters/rozdzial-22/22-24-postgresql-mysql-sqlite.html">PostgreSQL, MySQL/MariaDB i SQLite: główne różnice</a></li><li><a href="/pl/chapters/rozdzial-22/22-25-nosql.html">NoSQL: głównych typów baz danych nierelacyjnych</a></li><li><a href="/pl/chapters/rozdzial-22/22-26-orm.html">ORM: pracy z bazą danych za pomocą Python obiektów</a></li><li><a href="/pl/chapters/rozdzial-22/22-27-migracii-shemy.html">Migracje schematów baz danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-28-perenos-dannyh.html">Transfer danych między bazami danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-29-flask-sqlite.html">Flask i SQLite: zapisują dane w bazie danych</a></li><li><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html">Cookie i sesje: Status między HTTP- żądaniami</a></li><li><a class="active" href="/pl/chapters/rozdzial-22/22-31-validaciya-oshibki.html">Walidacja danych wejściowych i obsługa błędów</a></li><li><a href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html">Podstawy bezpieczeństwa aplikacji internetowych</a></li><li><a href="/pl/chapters/rozdzial-22/22-33-testiruem-flask.html">Automatyczne testowanie Flask- aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-34-razvyortyvanie.html">Rozwijanie Flask-aplikacji</a></li><li><a href="/pl/chapters/rozdzial-22/22-35-itogovyj-proekt.html">Projekt końcowy: lista zadania dla Flask i SQLite</a></li><li><a href="/pl/chapters/rozdzial-22/22-36-chto-dalshe.html">Dalsze badania nad tworzeniem stron internetowych na Python</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/22-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-02: Praktyka</a></li><li><a href="/pl/practice/22-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-05: Praktyka</a></li><li><a href="/pl/practice/22-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-08: Praktyka</a></li><li><a href="/pl/practice/22-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-09: Praktyka</a></li><li><a href="/pl/practice/22-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-11: Praktyka</a></li><li><a href="/pl/practice/22-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-12: Praktyka</a></li><li><a href="/pl/practice/22-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-13: Praktyka</a></li><li><a href="/pl/practice/22-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-15: Praktyka</a></li><li><a href="/pl/practice/22-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-16: Praktyka</a></li><li><a href="/pl/practice/22-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-18: Praktyka</a></li><li><a href="/pl/practice/22-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-19: Praktyka</a></li><li><a href="/pl/practice/22-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-22: Praktyka</a></li><li><a href="/pl/practice/22-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-23: Praktyka</a></li><li><a href="/pl/practice/22-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-26: Praktyka</a></li><li><a href="/pl/practice/22-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-27: Praktyka</a></li><li><a href="/pl/practice/22-28/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-28: Praktyka</a></li><li><a href="/pl/practice/22-29/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-29: Praktyka</a></li><li><a href="/pl/practice/22-30/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-30: Praktyka</a></li><li><a href="/pl/practice/22-31/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-31: Praktyka</a></li><li><a href="/pl/practice/22-32/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-32: Praktyka</a></li><li><a href="/pl/practice/22-33/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-33: Praktyka</a></li><li><a href="/pl/practice/22-35/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 22-35: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="../../../projects/flask/todo-app/app.py"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/flask/todo-app/</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-22/22-31-validaciya-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-22/index.html">Rozdział 22</a> / Sprawdzanie danych</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 22 · Tworzenie stron internetowych z Python</div>
+<h1>Walidacja danych wejściowych i obsługa błędów</h1>
+<p class="lede">Formularz w przeglądarce to nie jedyny sposób wysłania żądania, dlatego weryfikacja na serwerze jest obowiązkowa.</p>
+<p>Rozdział 22.4 pokazywała weryfikację formularza w przeglądarce za pomocą JavaScript. To jest przydatne dla
+    użytkownik, ale nigdy jedyna linia obrony: żądanie może być wysłane bez żadnych
+    przeglądarka — na przykład program, który bezpośrednio uzyskuje dostęp do <code class="inline">/dobavit
+    </code> lub <code class="inline">/api/tasks</code>, bez żadnej linii JavaScript. Input
+    Dane muszą być ponownie weryfikowane po stronie serwera w każdej trasie, którą
+    akceptuje.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Nie ufaj opinii tylko dlatego, że pochodzi z twojej formy</div>
+<div class="callout-body">Formularz HTML z sekcji 22.13 ustawia <code class="inline">required</code> oraz <code class="inline">maxlength</code> — ale to są tylko powiadomienia przeglądarkowe, a nie gwarancja. Nic nie stoi na przeszkodzie, by wysłać POST- żądanie do <code class="inline">/dobavit</code> bezpośrednio, omijając formę i wszelkie jej ograniczenia.</div>
+</div>
+</div>
+<h2>Sprawdzenie w projekcie rozdziału</h2>
+<div class="code-block">
+<div class="code-label"><span>app.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>MAX_TITLE_LENGTH = <span class="tok-num">200</span>
+
+
+<span class="tok-kw">def</span> clean_title(raw_title):
+    title = raw_title.strip()
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> title <span class="tok-kw">or</span> <span class="tok-fn">len</span>(title) &gt; MAX_TITLE_LENGTH:
+        <span class="tok-kw">return</span> <span class="tok-kw">None</span>
+    <span class="tok-kw">return</span> title</code></pre>
+</div>
+<p><code class="inline">strip()</code> usuwa przypadkowe spacje na końcach (na przykład, jeśli
+    użytkownik nacisnął spację, a następnie Enter). Pusta łańcuch znaków po tym i za długa
+    łańcuch znaków — oba przypadki są uznawane za nieprawidłowe i zwracają <code class="inline">None</code>.</p>
+<h2>HTML-trasa i API-trasa reagują na błąd inaczej</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th></th><th>HTML-form (/dobavit)</th><th>API (/api/tasks)</th></tr></thead>
+<tbody><tr><td>Kto czyta odpowiedź</td><td>Człowiek w przeglądarce</td><td>Program</td></tr><tr><td>Reakcja na nieprawidłowe dane</td><td>flash(...) z tekstem czytelnym i przekierowaniem z powrotem (sekcja 22.30)</td><td>kod 400 i JSON ciało z opisem błędu</td></tr><tr><td>Przykładowa odpowiedź</td><td>Strona z listą zadań i wiadomością z góry</td><td><code class="inline">{{"error": "title не может быть пустым"}}</code></td></tr></tbody>
+</table>
+</div>
+<figure class="chapter-figure chapter-figure--wide">
+<img alt="Lista zadań z różowym komunikatem na górze: „Nazwa zadania nie może być pusta i nie dłuższa niż 200 znaków.”" loading="lazy" src="/assets/img/chapter-22/output/11-todo-validation-error.png"/>
+<figcaption>Prawdziwy efekt złożenia formularza tylko z odstępami: clean_title() zwrócił None, flash() pojawiła się wiadomość, przekierowanie wróciło na tę samą stronę, a zadanie nie zostało dodane.</figcaption>
+</figure>
+<div class="code-block">
+<div class="code-label"><span>app.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>data = request.get_json(silent=<span class="tok-kw">True</span>)
+<span class="tok-kw">if</span> <span class="tok-kw">not</span> <span class="tok-fn">isinstance</span>(data, <span class="tok-fn">dict</span>) <span class="tok-kw">or</span> <span class="tok-kw">not</span> <span class="tok-fn">isinstance</span>(data.get(<span class="tok-str">"title"</span>), <span class="tok-fn">str</span>):
+    <span class="tok-kw">return</span> jsonify({{<span class="tok-str">"error"</span>: <span class="tok-str">„title pole musi i musi być łańcuch znaków za linią”</span>}}), <span class="tok-num">400</span>
+title = clean_title(data[<span class="tok-str">"title"</span>])
+<span class="tok-kw">if</span> title <span class="tok-kw">is</span> <span class="tok-kw">None</span>:
+    <span class="tok-kw">return</span> jsonify({{<span class="tok-str">"error"</span>: <span class="tok-str">„title nie może być pusty i nie dłuższy niż 200 znaków”</span>}}), <span class="tok-num">400</span></code></pre>
+</div>
+<h2>404 — odwołanie do czegoś, czego nie ma</h2>
+<p>Jeśli spróbujesz oznaczyć jako wykonane lub usunąć zadanie nieistniejące
+    <code class="inline">id</code>trasa wzywa <code class="inline">abort(404)</code> —
+    Flask natychmiast zwraca standardową stronę błędu (lub JSON dla ścieżek API-, sekcja 22.9),
+    bez dalszego wykonywania kodu.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Zweryfikować dane wejściowe</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="22-31"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/22-31/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["22-31"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="22-31"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-22/22-30-cookies-session.html"><div class="dir">← Back</div><div class="lbl">Cookie i sesje: Status między HTTP- żądaniami</div></a><a class="next" href="/pl/chapters/rozdzial-22/22-32-bezopasnost.html"><div class="dir">Następny →</div><div class="lbl">Podstawy bezpieczeństwa aplikacji internetowych</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

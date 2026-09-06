@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debugowanie błędów logicznych – Python od zera – Cartesian School</title>
+<meta content="Błąd składniowy, błąd wykonania i błąd boolowski – metoda debugowania warunków, nazywając zmienne LC0LC." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-22-otladka-logiki.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-09/09-22-otladka-logiki.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-22-otladka-logiki.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-09/09-22-otladka-logiki.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debugowanie błędów logicznych – Python od zera – Cartesian School" />
+<meta property="og:description" content="Błąd składniowy, błąd wykonania i błąd boolowski – metoda debugowania warunków, nazywając zmienne LC0LC." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-22-otladka-logiki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debugowanie błędów logicznych – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Błąd składniowy, błąd wykonania i błąd boolowski – metoda debugowania warunków, nazywając zmienne LC0LC." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debugowanie błędów logicznych – Python od zera – Cartesian School","description":"Błąd składniowy, błąd wykonania i błąd boolowski – metoda debugowania warunków, nazywając zmienne LC0LC.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-09/09-22-otladka-logiki.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/09-22-otladka-logiki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 9 · Warunki i zasady</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-09/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-09/09-07-algoritmy-i-komandy.html">Algorytmy i polecenia</a></li><li><a href="/pl/chapters/rozdzial-09/09-08-tri-struktury-i-vetvlenie.html">Trzy struktury algorytmu i rozgałęzienie</a></li><li><a href="/pl/chapters/rozdzial-09/09-01-istina-ili-lozh.html">Prawda czy fałsz</a></li><li><a href="/pl/chapters/rozdzial-09/09-02-sravnenie-i-reshenie.html">Porównujemy i podejmujemy decyzję</a></li><li><a href="/pl/chapters/rozdzial-09/09-09-ravno-i-sravnenie-strok.html">Jaka jest różnica między = a == oraz jak porównywać łańcuch znaków</a></li><li><a href="/pl/chapters/rozdzial-09/09-10-cepochki-sravnenij.html">Łańcuchy porównawcze</a></li><li><a href="/pl/chapters/rozdzial-09/09-11-truthiness-i-none.html">Truthiness i None</a></li><li><a href="/pl/chapters/rozdzial-09/09-03-if-inache.html">Jeśli tak się stanie, wykonuj polecenie!</a></li><li><a href="/pl/chapters/rozdzial-09/09-12-elif-lestnica.html">elif — kilka opcji</a></li><li><a href="/pl/chapters/rozdzial-09/09-13-neskolko-if-protiv-elif.html">Kilka if ≠ if/elif/else</a></li><li><a href="/pl/chapters/rozdzial-09/09-14-and.html">and — wszystkie warunki naraz</a></li><li><a href="/pl/chapters/rozdzial-09/09-15-or.html">or — przynajmniej jeden</a></li><li><a href="/pl/chapters/rozdzial-09/09-16-not.html">not — odwróć warunek</a></li><li><a href="/pl/chapters/rozdzial-09/09-04-neskolko-uslovij.html">Więcej niż jeden warunek!</a></li><li><a href="/pl/chapters/rozdzial-09/09-17-short-circuit.html">Short-circuit: Python czasem leniwy</a></li><li><a href="/pl/chapters/rozdzial-09/09-18-in-not-in.html">in / not in jako warunek</a></li><li><a href="/pl/chapters/rozdzial-09/09-19-is-vs-ravno.html">is wady ==</a></li><li><a href="/pl/chapters/rozdzial-09/09-20-vlozhennye-uslovija.html">Zagnieżdżone warunki</a></li><li><a href="/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html">Projektowanie warunku: input, walidacja, granice</a></li><li><a class="active" href="/pl/chapters/rozdzial-09/09-22-otladka-logiki.html">Debugowanie błędów logicznych</a></li><li><a href="/pl/chapters/rozdzial-09/09-05-mini-proekt-ugadaj-chislo.html">Mini-projekt: „Zgadnij liczbę”</a></li><li><a href="/pl/chapters/rozdzial-09/09-23-mini-proekt-klub-i-pogoda.html">Mini-projekty: klub i pogoda</a></li><li><a href="/pl/chapters/rozdzial-09/09-24-mini-proekt-ocenki-i-komandy.html">Mini-projekty: oceny i zespoły</a></li><li><a href="/pl/chapters/rozdzial-09/09-06-nakoplenie-uslovij-itogi.html">Warunki kumulują się i skutkują</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/09-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-07: Praktyka</a></li><li><a href="/pl/practice/09-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-08: Praktyka</a></li><li><a href="/pl/practice/09-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-01: Praktyka</a></li><li><a href="/pl/practice/09-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-02: Praktyka</a></li><li><a href="/pl/practice/09-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-09: Praktyka</a></li><li><a href="/pl/practice/09-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-10: Praktyka</a></li><li><a href="/pl/practice/09-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-11: Praktyka</a></li><li><a href="/pl/practice/09-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-03: Praktyka</a></li><li><a href="/pl/practice/09-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-12: Praktyka</a></li><li><a href="/pl/practice/09-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-13: Praktyka</a></li><li><a href="/pl/practice/09-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-14: Praktyka</a></li><li><a href="/pl/practice/09-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-15: Praktyka</a></li><li><a href="/pl/practice/09-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-16: Praktyka</a></li><li><a href="/pl/practice/09-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-04: Praktyka</a></li><li><a href="/pl/practice/09-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-17: Praktyka</a></li><li><a href="/pl/practice/09-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-18: Praktyka</a></li><li><a href="/pl/practice/09-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-19: Praktyka</a></li><li><a href="/pl/practice/09-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-20: Praktyka</a></li><li><a href="/pl/practice/09-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-21: Praktyka</a></li><li><a href="/pl/practice/09-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-22: Praktyka</a></li><li><a href="/pl/practice/09-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-05: Praktyka</a></li><li><a href="/pl/practice/09-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-23: Praktyka</a></li><li><a href="/pl/practice/09-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-24: Praktyka</a></li><li><a href="/pl/practice/09-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 09-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-09/09-22-otladka-logiki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-09/index.html">Rozdział 9</a> / Debugowanie logiki</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 9 · Słuchaj mojego rozkazu!</div>
+<h1>Debugowanie błędów logicznych</h1>
+<p class="lede">Program może działać bez żadnego błędu i nadal dawać błędny wynik. Nauka metodycznego znajdowania takich błędów.</p>
+<h2>Błąd logiczny — to nie jest błąd Python</h2>
+<p>Program <code class="inline">if age &gt; 18:</code> jest wykonane perfekcyjnie i nie zdradza
+    Nie ma wątpliwości. Ale jeśli zgodnie z warunkami problemu „dostęp od 18. roku życia”
+    <strong>błąd logiczny</strong>: Python nie rozumiem, co miałeś na myśli.</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Typ błędu</th><th>Co się dzieje</th><th>Przykład</th></tr></thead>
+<tbody><tr><td>SyntaxError</td><td>Python nawet nie potrafi zacząć wykonywać kodu</td><td><code class="inline">if age &gt;= 18</code> (zapomniany dwukropek)</td></tr><tr><td>Runtime- błąd</td><td>program się zaczyna, ale mieści się w środku</td><td><code class="inline">age_text + 5</code> (str + int)</td></tr><tr><td>Błąd logiczny</td><td>program wykonuje się poprawnie, ale wynik jest błędny</td><td><code class="inline">if age &gt; 18</code> zamiast <code class="inline">&gt;=</code></td></tr></tbody>
+</table>
+</div>
+<h2>Metoda debugowania warunków</h2>
+<p>Gdy wynik warunku wydaje się niewłaściwy, nie zgaduj — wyprowadź wartości pośrednie:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Metoda debugowania warunków – od wyświetlania wartości po sprawdzanie każdej części osobno" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:1144px;min-width:1144px;" viewbox="0 0 1144 152" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-25-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">1. print</tspan><tspan x="92.0" y="50">znaczenia</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="78">age, has_ticket</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">2. print warunek</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="78">age &gt;= 18 and</tspan><tspan x="332.0" y="92">has_ticket</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">3. Granice</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="78">17, 18, 19</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="670" x2="714" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="720" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="812.0" y="32">4. Uprość</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="812.0" y="78">to rozłożyć na czynniki pierwsze</tspan></text><line marker-end="url(#pl-svg-25-arrow)" stroke="#5B24F9" stroke-width="2" x1="910" x2="954" y1="66.0" y2="66.0"></line><rect fill="#EDE9FE" height="112" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="960" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="1052.0" y="32">5. autor:</tspan><tspan x="1052.0" y="50">Indywidualne</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="1052.0" y="78">każdy podwarunek</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Metoda debugowania warunków – od wyświetlania wartości po sprawdzanie każdej części osobno</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>otladka_uslovij.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>age = <span class="tok-num">20</span>
+has_ticket = <span class="tok-kw">False</span>
+eligible = age &gt;= <span class="tok-num">18</span> <span class="tok-kw">and</span> has_ticket
+
+<span class="tok-fn">print</span>(<span class="tok-str">"age &gt;= 18:"</span>, age &gt;= <span class="tok-num">18</span>)
+<span class="tok-fn">print</span>(<span class="tok-str">"has_ticket:"</span>, has_ticket)
+<span class="tok-fn">print</span>(<span class="tok-str">"eligible:"</span>, eligible)
+<span class="tok-com"># age &gt;= 18: True</span>
+<span class="tok-com"># has_ticket: False</span>
+<span class="tok-com"># eligible: False</span></code></pre>
+</div>
+<p>Rozkładając skomplikowany stan na części i dedukując każdą osobno, możesz od razu zobaczyć, CO dokładnie
+    sprawiło, że wynik był fałszywy.</p>
+<h2>Znacząco nazywać zmienne booleowskie</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Dobre imię</th><th>Zła reputacja</th></tr></thead>
+<tbody><tr><td><code class="inline">is_ready</code></td><td><code class="inline">flag1</code></td></tr><tr><td><code class="inline">has_ticket</code></td><td><code class="inline">thing</code></td></tr><tr><td><code class="inline">can_enter</code></td><td><code class="inline">value2</code></td></tr><tr><td><code class="inline">needs_update</code></td><td><code class="inline">x</code></td></tr></tbody>
+</table>
+</div>
+<p>Konsolki <code class="inline">is_</code>, <code class="inline">has_</code>,
+    <code class="inline">can_</code>, <code class="inline">needs_</code> - opcjonalne
+    składnia, ale przydatna zasada: od razu widzisz, co zmienna przechowuje
+    <code class="inline">True</code>/<code class="inline">False</code>.</p>
+<h2>Zapisz zespolony warunek do zmiennej</h2>
+<div class="code-block">
+<div class="code-label"><span>imenovannoe_uslovie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>can_enter = age &gt;= <span class="tok-num">18</span> <span class="tok-kw">and</span> has_ticket
+
+<span class="tok-kw">if</span> can_enter:
+    <span class="tok-fn">print</span>(<span class="tok-str">„Przechodzicie”</span>)</code></pre>
+</div>
+<p><code class="inline">can_enter</code> czyta od razu – nie trzeba składać ponownie
+    ekspresja <code class="inline">age &gt;= 18 and has_ticket</code> za każdym razem, gdy
+    Wróć do tego kodu.</p>
+<div class="callout callout-tip">
+<div class="cs-icon-emblem cs-icon-emblem--launch"><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg></div>
+<div>
+<div class="callout-title">TROCHĘ GŁĘBIEJ TO WYRAŻENIE WARUNKOWE</div>
+<div class="callout-body">Gdy if/else jest już dobrze zrozumiały, warto znać zwartą formę dla PROSTEGO wyboru wartości: <code class="inline">status = "adult" if age &gt;= 18 else "minor"</code>. To nie jest zamiennik zwykłego if/else — jedynie wygoda dla jednej linii.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">match/case na przyszłość</div>
+<div class="callout-body">Istnieje także porównanie strukturalne w Python <code class="inline">match/case</code> w niektórych sytuacjach wielozmiennych. Przeanalizujemy to szczegółowo później — na razie wystarczy wiedzieć, że istnieje.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Debugowanie błędów logicznych</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="09-22"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/09-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["09-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="09-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-09/09-21-proektirovanie-uslovij.html"><div class="dir">← Back</div><div class="lbl">Projektowanie warunków</div></a><a class="next" href="/pl/chapters/rozdzial-09/09-05-mini-proekt-ugadaj-chislo.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekt: „Zgadnij liczbę”</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

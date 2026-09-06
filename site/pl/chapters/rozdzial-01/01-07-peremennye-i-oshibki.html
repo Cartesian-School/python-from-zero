@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Pierwsze zmienne i pierwsze błędy – Python od zera – Cartesian School</title>
+<meta content="Szczery obraz zmiennej jako nazwy wskazującej wartość — oraz pierwsze ciche doświadczenie odczytania komunikatu o błędzie (traceback) w Python." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-01/01-07-peremennye-i-oshibki.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-01/01-07-peremennye-i-oshibki.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-01/01-07-peremennye-i-oshibki.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-01/01-07-peremennye-i-oshibki.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Pierwsze zmienne i pierwsze błędy – Python od zera – Cartesian School" />
+<meta property="og:description" content="Szczery obraz zmiennej jako nazwy wskazującej wartość — oraz pierwsze ciche doświadczenie odczytania komunikatu o błędzie (traceback) w Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-01/01-07-peremennye-i-oshibki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Pierwsze zmienne i pierwsze błędy – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Szczery obraz zmiennej jako nazwy wskazującej wartość — oraz pierwsze ciche doświadczenie odczytania komunikatu o błędzie (traceback) w Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Pierwsze zmienne i pierwsze błędy – Python od zera – Cartesian School","description":"Szczery obraz zmiennej jako nazwy wskazującej wartość — oraz pierwsze ciche doświadczenie odczytania komunikatu o błędzie (traceback) w Python.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-01/01-07-peremennye-i-oshibki.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-01/01-07-peremennye-i-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 1 · Wiedziałeś?</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-01/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-01/01-01-chto-takoe-programmirovanie.html">Czym jest programowanie?</a></li><li><a href="/pl/chapters/rozdzial-01/01-04-istoriya-python.html">Historia Python</a></li><li><a href="/pl/chapters/rozdzial-01/01-05-sajt-dokumentaciya-pypi.html">python.org, dokumentacja i PyPI</a></li><li><a href="/pl/chapters/rozdzial-01/01-06-soobschestvo-i-filosofiya.html">Wspólnota i filozofia Python</a></li><li><a href="/pl/chapters/rozdzial-01/01-02-python-eto-veselo.html">Python — to zabawa!</a></li><li><a class="active" href="/pl/chapters/rozdzial-01/01-07-peremennye-i-oshibki.html">Pierwsze zmienne i pierwsze błędy</a></li><li><a href="/pl/chapters/rozdzial-01/01-03-kak-poluchit-maksimum.html">Jak w pełni wykorzystać książkę</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/01-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 01-01: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-01/01-07-peremennye-i-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-01/index.html">Rozdział 1</a> / Pierwsze zmienne i pierwsze błędy</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 1 · Wiedziałeś?</div>
+<h1>Pierwsze zmienne i pierwsze błędy</h1>
+<p class="lede">Jedno poprawne mentalne wyobrażenie zmiennej i pierwsze spokojne spotkanie z komunikatem o błędzie, na długo zanim cię zaskoczy.</p>
+<h2 id="peremennye">Pierwsze zmienne: jak Python je faktycznie przechowywać</h2>
+<p>W następnym rozdziale zaczniesz aktywnie używać zmiennych. Jedna jest mała, ale
+    Ważny obraz w głowie należy opanować już teraz — uchroni cię przed późniejszym zamieszaniem.</p>
+<div class="code-block">
+<div class="code-label"><span>peremennaya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>name = <span class="tok-str">"Anna"</span>
+<span class="tok-fn">print</span>(name)</code></pre>
+</div>
+<p>Łatwo (i błędnie) jest myśleć o zmiennej jako o „pudełku” <strong>imię — to skrót, który wskazuje na
+    wartość</strong>, a nie kontener, gdzie fizycznie znajduje się wartość.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;justify-content:center;flex-direction:column;align-items:center"><svg aria-label="name nie „zawiera”" data-diagram="reference-diagram" role="img" style="width:100%;height:auto;max-width:400px" viewbox="0 0 400 90" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="pl-svg-2-arrow2" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs>
+<text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="20" font-weight="700" x="10" y="52">name</text>
+<line marker-end="url(#pl-svg-2-arrow2)" stroke="#5B24F9" stroke-width="2.5" x1="95" x2="220" y1="45" y2="45"></line>
+<rect fill="#EDE9FE" height="60" rx="4" stroke="#5B24F9" stroke-width="2" width="160" x="230" y="15"></rect>
+<text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="17" text-anchor="middle" x="310" y="52">"Anna"</text>
+</svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">name nie „zawiera”</figcaption></figure>
+<div class="callout callout-info">
+<div class="cs-icon-emblem cs-icon-emblem--experiment"><svg aria-hidden="true" class="cs-icon cs-icon--experiment"><use href="/assets/icons/cartesian/icons.svg#icon-experiment"></use></svg></div>
+<div>
+<div class="callout-title">Co się dzieje</div>
+<div class="callout-body"><code class="inline">name = "Anna"</code> znaczy "niech nazwa zostanie <code class="inline">name</code> teraz oznacza wartość <code class="inline">"Anna"</code>" zamiast "włożyć tekst do pola o nazwie name". Szczegółowa struktura pamięci Python to temat na kolejne rozdziały; na razie ważne jest, by nie przyzwyczaić się do błędnego obrazu "pudełka".</div>
+</div>
+</div>
+<div class="exercise exercise-signal">
+<div class="cs-icon-emblem cs-icon-emblem--experiment"><svg aria-hidden="true" class="cs-icon cs-icon--experiment"><use href="/assets/icons/cartesian/icons.svg#icon-experiment"></use></svg></div>
+<div>
+<div class="exercise-stars">Podstawowa praktyka</div>
+<div class="exercise-title">Eksperyment</div>
+<p>W praktyce tej sekcji stwórz zmienną <code class="inline">name</code> swoim imieniem i nazwiskiem i wyjść przez <code class="inline">print(name)</code>. To przydziel <code class="inline">name</code> inne znaczenie i wydrukuj je ponownie — zauważ, że „etykieta”</p>
+</div>
+</div>
+<h2 id="oshibki-eto-normalno">Błędy są normalne</h2>
+<p>prędzej czy później każdy program wyrzuca błąd — i to nie jest znak, że coś poszło nie tak
+    katastrofalnie błędny. Spójrzmy na przykład teraz, gdy stopy są niskie.</p>
+<div class="code-block">
+<div class="code-label"><span>oshibka.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>print("Hello"</code></pre>
+</div>
+<p>Temu kodowi brakuje nawiasu zamykającego. Jeśli wykonasz taką linię, Python nie
+    zgaduje, o co ci chodziło — zamiast tego zatrzymuje się i wpisuje szczegółowy opis
+    Wywołano komunikat o błędzie <strong>traceback</strong> („śledzenie”</p>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">Typowy błąd początkującego</div>
+<div class="callout-body">Gdy widzisz długi tekst z błędem, łatwo wpadnie w panikę i pomyśleć, że „coś jest zepsute na zawsze”</div>
+</div>
+</div>
+<p>Przydatny nawyk przy widoku błędu — przeczytać <strong>ostatnie zdanie</strong>
+    traceback: tam zwykle krótko napisano, co dokładnie poszło nie tak. Wszystko powyżej — to droga, którą Python dotarł do problemu.</p>
+<div class="exercise exercise-signal">
+<div class="cs-icon-emblem cs-icon-emblem--debug"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg></div>
+<div>
+<div class="exercise-stars">★★ Zadanie samodzielne</div>
+<div class="exercise-title">Debug Lab</div>
+<p>W praktyce tej sekcji znajdziesz specjalnie zepsuty wiersz kodu. Przeczytaj traceback, znajdź wiersz z problemem i napraw go samodzielnie — tak samo jak w sekcji „Typowy błąd” poprzedniej praktyki tego rozdziału.</p>
+</div>
+</div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-01/01-02-python-eto-veselo.html"><div class="dir">← Back</div><div class="lbl">Python — to zabawa!</div></a><a class="next" href="/pl/chapters/rozdzial-01/01-03-kak-poluchit-maksimum.html"><div class="dir">Następny →</div><div class="lbl">Jak w pełni wykorzystać książkę</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

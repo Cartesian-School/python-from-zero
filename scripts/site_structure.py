@@ -27,7 +27,10 @@ SITE_DIR = ROOT / "site"
 SITE_ORIGIN = "https://www.cartesianschool.org"
 
 _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
-_DESC_RE = re.compile(r'<meta\s+name="description"\s+content="(.*?)"\s*/?>', re.S)
+_DESC_RE = re.compile(
+    r'''<meta(?=[^>]*\bname=["']description["'])(?=[^>]*\bcontent=(["'])(.*?)\1)[^>]*>''',
+    re.S,
+)
 _LANG_RE = re.compile(r'<html[^>]*\blang="([^"]*)"')
 
 
@@ -53,7 +56,7 @@ def _classify(url_path: str) -> str:
             break
     if url_path == "/index.html":
         return "home"
-    if url_path == "/predmetnyj-ukazatel.html":
+    if url_path in ("/predmetnyj-ukazatel.html", "/indeks-rzeczowy.html"):
         return "reference"
     if url_path.startswith("/front-matter/"):
         return "front-matter"
@@ -86,7 +89,7 @@ def iter_pages() -> list[PageRecord]:
                 path=path,
                 url_path=url_path,
                 title=html.unescape(title_m.group(1)) if title_m else None,
-                description=html.unescape(desc_m.group(1)) if desc_m else None,
+                description=html.unescape(desc_m.group(2)) if desc_m else None,
                 lang=lang_m.group(1) if lang_m else "ru",
                 kind=_classify(url_path),
             )

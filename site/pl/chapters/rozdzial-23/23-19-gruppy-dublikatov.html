@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Znajdujemy grupy duplikatów — Python od zera — Cartesian School</title>
+<meta content="find_duplicates() grupuje pliki najpierw według rozmiaru, potem według skrótu i potwierdza zgodność bajtów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-23/23-19-gruppy-dublikatov.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-23/23-19-gruppy-dublikatov.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Znajdujemy grupy duplikatów — Python od zera — Cartesian School" />
+<meta property="og:description" content="find_duplicates() grupuje pliki najpierw według rozmiaru, potem według skrótu i potwierdza zgodność bajtów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Znajdujemy grupy duplikatów — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="find_duplicates() grupuje pliki najpierw według rozmiaru, potem według skrótu i potwierdza zgodność bajtów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Znajdujemy grupy duplikatów — Python od zera — Cartesian School","description":"find_duplicates() grupuje pliki najpierw według rozmiaru, potem według skrótu i potwierdza zgodność bajtów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-23/23-19-gruppy-dublikatov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Część I · Git i GitHub od zera</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-23/23-01-ideya-trebovaniya.html">Co stworzymy: SafeSort</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-01-chto-takoe-git-github.html">Czym jest Git i czym jest GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-02-ustanavlivaem-git.html">Instaluj Git</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-03-pervaya-nastrojka.html">Pierwsze ustawienie Git</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-04-github-account.html">Tworzymy i chronimy konto GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-05-autentifikaciya.html">HTTPS, SSH i uwierzytelnianie</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-06-ssh.html">Konfigurujemy SSH</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-07-sozdaem-repozitorij.html">Tworzymy repozytorium SafeSort na GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-08-kloniruem.html">Sklonuj repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-09-lokalnyj-i-udalennyj.html">Lokalne i zdalne repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-10-working-tree-staging-commit.html">Gałąź, HEAD i origin/main</a></li></ul><div class="sidebar-title">Część II · Planowanie SafeSort GitHub</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-proj-01-repo-vs-project.html">Repository i GitHub Project – jaka jest różnica</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-02-luchshie-praktiki.html">Jak zaplanować Project: najlepsze praktyki</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-03-sozdaem-project.html">Tworzenie GitHub Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-05-board-table-roadmap.html">Board, Table i Roadmap</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-06-polya.html">Pola Project: wbudowane i niestandardowe</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-07-chernoviki.html">Szkice: Zadanie bez Issue</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-08-chernovik-v-issue.html">Zamień draft w Issue</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-09-issues.html">Stwórz Issues i dodaj do Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-17-issue-branch-pr.html">Pierwsza pętla: Issue → Branch → Pull Request</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-04-kopiruem-project.html">Opcjonalne · Skopiuj istniejący Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-10-redaktiruem-elementy.html">Nieobowiązkowo · Edytujemy elementy Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-11-filtr-sort-grupp.html">Nieobowiązkowo · Filtrujemy, sortujemy i grupujemy</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-12-upravlyaem-predstavleniyami.html">Opcjonalne · Zarządzanie widokami</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-13-avtomatizaciya.html">Opcjonalne · Wbudowana automatyzacja i auto-add</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-14-arhiviruem.html">Opcjonalne · Archiwizuj i przywracaj elementy</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-15-shablony.html">Opcjonalne · Szablony Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-16-insights.html">Opcjonalne · Insights i wykresy Project</a></li></ul><div class="sidebar-title">Część III · Tworzenie projektu Python-</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-02-repozitorij.html">Pierwszy commit w sklonowanym repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-03-readme.html">Pierwszy README projektu</a></li><li><a href="/pl/chapters/rozdzial-23/23-04-struktura-paketa.html">Planowanie struktury pakietu Python-</a></li><li><a href="/pl/chapters/rozdzial-23/23-05-pyproject-toml.html">pyproject.toml i ustawienie projektu</a></li><li><a href="/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html">Drużyna łańcuch znaków SafeSort</a></li></ul><div class="sidebar-title">Część IV · Wdrażanie SafeSort</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-07-pathlib.html">pathlib: pracujemy ze ścieżkami i katalogami</a></li><li><a href="/pl/chapters/rozdzial-23/23-08-skaniruem-katalog.html">Zeskanuj katalog</a></li><li><a href="/pl/chapters/rozdzial-23/23-09-isklyucheniya.html">Które katalogi nie wymagają przeglądania</a></li><li><a href="/pl/chapters/rozdzial-23/23-10-klassifikaciya.html">Zdefiniuj kategorię pliku</a></li><li><a href="/pl/chapters/rozdzial-23/23-11-plan-dejstvij.html">Od analizy do planu działania</a></li><li><a href="/pl/chapters/rozdzial-23/23-12-predvaritelnyj-prosmotr.html">Tryb Podglądu</a></li><li><a href="/pl/chapters/rozdzial-23/23-13-peremeshaem-fajly.html">Bezpiecznie przenoszcie pliki</a></li><li><a href="/pl/chapters/rozdzial-23/23-14-imya-zanyato.html">Co zrobić, jeśli nazwisko jest już zajęte</a></li><li><a href="/pl/chapters/rozdzial-23/23-15-zhurnal-operacij.html">Dziennik wykonanych operacji</a></li><li><a href="/pl/chapters/rozdzial-23/23-16-otmena-operacii.html">Cofnij ostatnią operację</a></li><li><a href="/pl/chapters/rozdzial-23/23-17-poisk-dublikatov.html">Znajdź identyczne pliki</a></li><li><a href="/pl/chapters/rozdzial-23/23-18-sha256.html">SHA-256 i hash zawartości pliku</a></li><li><a class="active" href="/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html">Znajdź grupy duplikatów</a></li><li><a href="/pl/chapters/rozdzial-23/23-20-oshibki-fajlovoj-sistemy.html">Obsługa błędów systemu plików</a></li><li><a href="/pl/chapters/rozdzial-23/23-21-logging.html">Dodaj log programu</a></li><li><a href="/pl/chapters/rozdzial-23/23-22-nastrojki-proekta.html">Ustawienia projektu</a></li></ul><div class="sidebar-title">część V · Sprawdzamy i automatyzujemy</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-23-pervye-testy.html">Pisanie pierwszych testów automatycznych</a></li><li><a href="/pl/chapters/rozdzial-23/23-24-testy-skanirovaniya.html">Sprawdź skan i klasyfikację</a></li><li><a href="/pl/chapters/rozdzial-23/23-25-testy-peremeshheniya.html">Sprawdź przeprowadzkę i anulowanie</a></li><li><a href="/pl/chapters/rozdzial-23/23-26-testy-dublikatov.html">Sprawdzamy wyszukiwanie duplikatów</a></li><li><a href="/pl/chapters/rozdzial-23/23-27-testy-cli.html">Sprawdzamy interfejs wiersza poleceń</a></li><li><a href="/pl/chapters/rozdzial-23/23-28-git-kommit.html">Zmiana samooceny i zaangażowanie dyscypliny</a></li><li><a href="/pl/chapters/rozdzial-23/23-29-github-pr.html">GitHub: używać Issue, branch i Pull Request</a></li><li><a href="/pl/chapters/rozdzial-23/23-30-github-actions.html">GitHub Actions: automatycznie wykonuje testy</a></li></ul><div class="sidebar-title">Część VI · Wydanie pierwszej wersji</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-31-versiya-reliz.html">Dokumentacja, wersja i pierwsze wydanie</a></li><li><a href="/pl/chapters/rozdzial-23/23-32-itogi-reliz.html">Rezultaty: pełna ścieżka projektu od pomysłu do premiery</a></li></ul><div class="sidebar-title">Aplikacja · Trening domowy</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-hw-index.html">Dodatkowa praktyka: sześć mini-projektów dla GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-01-kalkulyator.html">Projekt domowy A: kalkulator z Tkinter</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-02-generator-istorij.html">Generator losowych historii B: Projektu Domowego</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-03-kamen-nozhnicy-bumaga.html">Projekt domowy C: „Kamień, papier, nożyce”</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-04-otskakivayushie-myachi.html">Projekt domowy D: odbijające się piłki z Pygame</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-05-temperatura.html">Projekt Domowy E: Konwersja temperatury</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-06-zametki.html">Aplikacja Notes F: projekt domowy</a></li></ul><div class="sidebar-title">Praktyka: SafeSort</div><ul class="toc-list"><li><a href="/pl/practice/23-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-07: Praktyka</a></li><li><a href="/pl/practice/23-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-08: Praktyka</a></li><li><a href="/pl/practice/23-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-09: Praktyka</a></li><li><a href="/pl/practice/23-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-10: Praktyka</a></li><li><a href="/pl/practice/23-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-11: Praktyka</a></li><li><a href="/pl/practice/23-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-12: Praktyka</a></li><li><a href="/pl/practice/23-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-13: Praktyka</a></li><li><a href="/pl/practice/23-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-14: Praktyka</a></li><li><a href="/pl/practice/23-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-15: Praktyka</a></li><li><a href="/pl/practice/23-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-16: Praktyka</a></li><li><a href="/pl/practice/23-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-17: Praktyka</a></li><li><a href="/pl/practice/23-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-18: Praktyka</a></li><li><a href="/pl/practice/23-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-19: Praktyka</a></li><li><a href="/pl/practice/23-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-20: Praktyka</a></li><li><a href="/pl/practice/23-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-21: Praktyka</a></li><li><a href="/pl/practice/23-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-22: Praktyka</a></li><li><a href="/pl/practice/23-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-23: Praktyka</a></li><li><a href="/pl/practice/23-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-24: Praktyka</a></li></ul><div class="sidebar-title">Praktyka: projekty domowe</div><ul class="toc-list"><li><a href="/pl/practice/23-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-01: Praktyka</a></li><li><a href="/pl/practice/23-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-02: Praktyka</a></li><li><a href="/pl/practice/23-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-03: Praktyka</a></li><li><a href="/pl/practice/23-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-04: Praktyka</a></li><li><a href="/pl/practice/23-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-05: Praktyka</a></li><li><a href="/pl/practice/23-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-06: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="https://github.com/Cartesian-School/safesort"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> SafeSort — repozytorium źródłowe (GitHub)</a></li><li><a href="../../../projects/python/safesort/README.md"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/python/safesort/ jest podręcznikową kopią w tej książce</a></li><li><a href="https://github.com/Cartesian-School/python-mini-projects"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> python-mini-projects</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-23/23-19-gruppy-dublikatov.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-23/index.html">Rozdział 23</a> / Grupy duplikatów</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 23 · Część IV · Wdrażamy SafeSort</div>
+<h1>Znajdź grupy duplikatów</h1>
+<p class="lede">Jedna funkcja zamienia lista pliki w grupy potwierdzonych duplikatów i nic nie usuwa.</p>
+<div style="margin:0 0 24px;padding:12px 16px;background:var(--color-bg-surface,#FAFAFC);border-radius:14px;border:1px solid var(--color-border-default,#E4E1F5)"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5B24F9;margin-bottom:8px">SafeSort · Część 4 z 6</div><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:500;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:transparent;color:var(--gray-600)">Git i GitHub</span></span><span style="color:#D8D3F0;font-size:12px">→</span><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:500;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:transparent;color:var(--gray-600)">Planowanie</span></span><span style="color:#D8D3F0;font-size:12px">→</span><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:500;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:transparent;color:var(--gray-600)">Projekt</span></span><span style="color:#D8D3F0;font-size:12px">→</span><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:700;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:linear-gradient(90deg,var(--violet-500),var(--blue-500));color:#fff">Wdrożenie</span></span><span style="color:#D8D3F0;font-size:12px">→</span><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:500;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:transparent;color:var(--gray-600)">Testy i CI</span></span><span style="color:#D8D3F0;font-size:12px">→</span><span style="display:flex;align-items:center;gap:6px"><span style="font-family:Sora,sans-serif;font-weight:500;font-size:13px;padding:4px 10px;border-radius:999px;white-space:nowrap;background:transparent;color:var(--gray-600)">Premiera</span></span></div></div>
+<p>Za pomocą funkcji skrótu z poprzedniej strony, duplikowane wyszukiwanie grupuje pliki według
+    rozmiar, a według digestu SHA-256. Wiele implementacji na tym kończy.
+    SafeSort idzie o krok dalej: zanim rozważy potwierdzoną grupę, porównuje
+    Pliki w nim są wykonane bajt po bajcie.</p>
+<div class="code-block">
+<div class="code-label"><span>src/safesort/duplicates.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> files_equal(path_a: Path, path_b: Path, chunk_size: <span class="tok-fn">int</span> = DEFAULT_CHUNK_SIZE) -&gt; <span class="tok-fn">bool</span>:
+    <span class="tok-str">„Ostateczne potwierdzenie — zgodny skrót nie gwarantuje.”</span>
+    <span class="tok-kw">with</span> path_a.<span class="tok-fn">open</span>(<span class="tok-str">"rb"</span>) <span class="tok-kw">as</span> file_a, path_b.<span class="tok-fn">open</span>(<span class="tok-str">"rb"</span>) <span class="tok-kw">as</span> file_b:
+        <span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+            chunk_a = file_a.read(chunk_size)
+            chunk_b = file_b.read(chunk_size)
+            <span class="tok-kw">if</span> chunk_a != chunk_b:
+                <span class="tok-kw">return</span> <span class="tok-kw">False</span>
+            <span class="tok-kw">if</span> <span class="tok-kw">not</span> chunk_a:
+                <span class="tok-kw">return</span> <span class="tok-kw">True</span>
+
+<span class="tok-kw">def</span> find_duplicates(files: <span class="tok-fn">list</span>[FileInfo]) -&gt; <span class="tok-fn">list</span>[DuplicateGroup]:
+    by_size = defaultdict(<span class="tok-fn">list</span>)
+    <span class="tok-kw">for</span> file <span class="tok-kw">in</span> files:
+        by_size[file.size].append(file)
+
+    groups = []
+    <span class="tok-kw">for</span> size, candidates <span class="tok-kw">in</span> by_size.items():
+        <span class="tok-kw">if</span> <span class="tok-fn">len</span>(candidates) &lt; <span class="tok-num">2</span>:
+            <span class="tok-kw">continue</span>
+        by_digest = defaultdict(<span class="tok-fn">list</span>)
+        <span class="tok-kw">for</span> candidate <span class="tok-kw">in</span> candidates:
+            digest = sha256_file(candidate.path)
+            by_digest[digest].append(candidate)
+        <span class="tok-kw">for</span> digest, matched <span class="tok-kw">in</span> by_digest.items():
+            <span class="tok-kw">if</span> <span class="tok-fn">len</span>(matched) &lt; <span class="tok-num">2</span>:
+                <span class="tok-kw">continue</span>
+            exact_groups = []
+            <span class="tok-kw">for</span> candidate <span class="tok-kw">in</span> matched:
+                <span class="tok-kw">for</span> exact_group <span class="tok-kw">in</span> exact_groups:
+                    <span class="tok-kw">if</span> files_equal(exact_group[<span class="tok-num">0</span>].path, candidate.path):
+                        exact_group.append(candidate)
+                        <span class="tok-kw">break</span>
+                <span class="tok-kw">else</span>:
+                    exact_groups.append([candidate])
+            <span class="tok-kw">for</span> exact_group <span class="tok-kw">in</span> exact_groups:
+                <span class="tok-kw">if</span> <span class="tok-fn">len</span>(exact_group) &gt;= <span class="tok-num">2</span>:
+                    groups.append(DuplicateGroup(size=size, digest=digest, files=<span class="tok-fn">tuple</span>(exact_group)))
+    <span class="tok-kw">return</span> groups</code></pre>
+</div>
+<p>Jeden bucket o tej samej wielkości i digestie pozostaje jedynie zestawem kandydatów.
+    Algorytm porównuje kandydata z przedstawicielem każdej już znalezionej grupy: jeśli
+    dodaje się tam, w przeciwnym razie tworzy się nowa klasa. Dlatego nawet sztucznie przywołane
+    Kolizja SHA-256 może wygenerować wiele niezależnych grup o dokładnej zawartości.</p>
+<h2>Test-punkt kontrolny: dwa identyczne pliki</h2>
+<div class="code-block">
+<div class="code-label"><span>tests/test_duplicates.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> test_equal_content_forms_one_group(tmp_path):
+    a = tmp_path / <span class="tok-str">"a.bin"</span>
+    b = tmp_path / <span class="tok-str">"b.bin"</span>
+    a.write_bytes(<span class="tok-str">b"same"</span>)
+    b.write_bytes(<span class="tok-str">b"same"</span>)
+
+    groups = find_duplicates(scan(tmp_path, Config()))
+
+    <span class="tok-kw">assert</span> <span class="tok-fn">len</span>(groups) == <span class="tok-num">1</span>
+    <span class="tok-kw">assert</span> {item.path <span class="tok-kw">for</span> item <span class="tok-kw">in</span> groups[<span class="tok-num">0</span>].files} == {a, b}</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">files_equal() jest taka sama zasada, jak sha256_file(): czytać w blokach</div>
+<div class="callout-body">Uzgadnianie bajtów po bajcie odczytuje oba pliki w megabajtach i porównuje chunk do chunku, zamiast ładować całe pliki do pamięci — to samo rozważanie co na poprzedniej stronie o <code class="inline">sha256_file()</code>. Gdy tylko jeden z elementów nie pasuje, porównanie natychmiast ustaje: nie ma potrzeby dokończać czytania reszty wyraźnie różnych plików.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Puste pliki też mogą być duplikatami</div>
+<div class="callout-body">Dwa pliki zerobajtowe są identyczne: po prostu nie mają bajtów. <code class="inline">find_duplicates()</code> nie robi wyjątków w tym przypadku — naturalnie należą do tej samej grupy pod względem wielkości (<code class="inline">0</code>) i do jednej grupy na podstawie pustego digestu treści. Sprawdzimy to później osobnym testem.</div>
+</div>
+</div>
+<p>Rzeczywiste polecenia <code class="inline">duplicates</code> katalogu z trzema egzemplarzami
+    Pary meczów:</p>
+<figure style="margin:24px 0">
+<div style="background:var(--navy-950,#08011C);border-radius:var(--radius-md,14px);overflow:hidden;box-shadow:var(--shadow-sm)">
+<div style="display:flex;gap:6px;padding:10px 14px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08)">
+<span style="width:10px;height:10px;border-radius:50%;background:#EF4444"></span>
+<span style="width:10px;height:10px;border-radius:50%;background:#F5B93D"></span>
+<span style="width:10px;height:10px;border-radius:50%;background:#22C55E"></span>
+</div>
+<div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.75;overflow-x:auto"><div><span style="color:#8FB7FE">~/safesort $</span> <span style="color:#fff">safesort duplicates ~/Downloads</span></div><div style="color:#B4B4C4">Found 3 duplicate group(s):</div><div style="color:#B4B4C4">Group 1: 2 files, 2097289 bytes each, sha256=44f70488694a224316549d0752fe6fdec636df12d58e85681eacc85e180b1f8c</div><div style="color:#B4B4C4">  Downloads/bigfile_b.dat</div><div style="color:#B4B4C4">  Downloads/bigfile_a.dat</div><div style="color:#B4B4C4">Group 2: 2 files, 0 bytes each, sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div><div style="color:#B4B4C4">  Downloads/empty_b.bin</div><div style="color:#B4B4C4">  Downloads/empty_a.bin</div><div style="color:#B4B4C4">Group 3: 2 files, 28 bytes each, sha256=f3b439399a805a21e826bbd4111ca4c4615e492934f53bbb2be042e7c97530cc</div><div style="color:#B4B4C4">  Downloads/copy_of_notes.txt</div><div style="color:#B4B4C4">  Downloads/notes.txt</div></div>
+</div>
+</figure>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">duplicates informuje o grupach i nie usuwa plików</div>
+<div class="callout-body">Pierwsza wersja programu nie usuwa żadnego pliku z znalezionej grupy, a w kodzie <code class="inline">find_duplicates()</code> nie ma ani jednego wywołania, które usuwa pliki, nawet wyłączone lub wykluczone. Automatyczne usuwanie duplikatów jest celowo wykraczające poza zakres pierwszej wersji: decyzja, który z identycznych plików zachować, wymaga kontekstu, którego program nie posiada.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Grupuj pliki w duplikaty</div>
+<div class="nc-sub">Interaktywny Laptop w przeglądarce: Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="23-18"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/23-18/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["23-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="23-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div style="margin:24px 0;padding:16px 20px;background:var(--color-bg-surface,#FAFAFC);border-left:3px solid #059669;border-radius:0 12px 12px 0"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#059669;margin-bottom:6px">Checkpoint · Issue #9</div><div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;margin-bottom:8px">git commit -m "feat: add duplicate detection with byte-level confirmation"</div><div style="font-size:13.5px;color:#3A3A4A;line-height:1.5;margin-bottom:6px">Zlał się jak <a href="https://github.com/Cartesian-School/safesort/pull/20" style="color:#185DFA">Pull Request #20</a>. Trzy strony (23-17-23-19) książki odpowiadają jednemu PR w repozytorium: grupowanie według rozmiaru, hasza i potwierdzenia bajtów odnosi się do tego samego Issue, który jest wyjaśniony krok po kroku.</div><div style="font-size:13px;color:#6B6B7D">Status prawdziwego Project: <strong style="color:#059669">Done</strong></div></div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-23/23-18-sha256.html"><div class="dir">← Back</div><div class="lbl">SHA-256</div></a><a class="next" href="/pl/chapters/rozdzial-23/23-20-oshibki-fajlovoj-sistemy.html"><div class="dir">Następny →</div><div class="lbl">Błędy systemu plików</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

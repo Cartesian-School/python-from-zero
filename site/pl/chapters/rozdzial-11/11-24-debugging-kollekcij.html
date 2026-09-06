@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Debugowanie kolekcji: 14 powszechnych błędów – Python od zera – Cartesian School</title>
+<meta content="14 nazwanych typowych błędów przy pracy z listami, krotkami, zbiorami i słownikami — z przykładami i objaśnieniami." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-11/11-24-debugging-kollekcij.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-11/11-24-debugging-kollekcij.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Debugowanie kolekcji: 14 powszechnych błędów – Python od zera – Cartesian School" />
+<meta property="og:description" content="14 nazwanych typowych błędów przy pracy z listami, krotkami, zbiorami i słownikami — z przykładami i objaśnieniami." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Debugowanie kolekcji: 14 powszechnych błędów – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="14 nazwanych typowych błędów przy pracy z listami, krotkami, zbiorami i słownikami — z przykładami i objaśnieniami." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Debugowanie kolekcji: 14 powszechnych błędów – Python od zera – Cartesian School","description":"14 nazwanych typowych błędów przy pracy z listami, krotkami, zbiorami i słownikami — z przykładami i objaśnieniami.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-24-debugging-kollekcij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 11 · Dane</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-11/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-11/11-11-zachem-hranit-mnogo.html">Dlaczego przechowywać wiele wartości</a></li><li><a href="/pl/chapters/rozdzial-11/11-01-spiski-osnovy.html">Listy: podstawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-02-srezy-spiskov.html">Sekatory list</a></li><li><a href="/pl/chapters/rozdzial-11/11-12-izmenyaem-spisok.html">Zmiana lista</a></li><li><a href="/pl/chapters/rozdzial-11/11-13-append-extend-insert.html">append, extend, insert</a></li><li><a href="/pl/chapters/rozdzial-11/11-14-remove-pop-clear.html">remove, pop, clear, del</a></li><li><a href="/pl/chapters/rozdzial-11/11-03-operacii-so-spiskami.html">Potężne operacje list</a></li><li><a href="/pl/chapters/rozdzial-11/11-15-spiski-i-cikly.html">Listy i pętle</a></li><li><a href="/pl/chapters/rozdzial-11/11-16-ssylki-aliasing.html">Kompendium, aliasing, == i is</a></li><li><a href="/pl/chapters/rozdzial-11/11-17-kopirovanie-spiskov.html">Listy kopiowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-04-eshche-o-spiskah.html">Więcej o listach</a></li><li><a href="/pl/chapters/rozdzial-11/11-05-mini-proekt-zvezda.html">Mini Projekt: Kolorowa Gwiazda</a></li><li><a href="/pl/chapters/rozdzial-11/11-06-kortezhi.html">Krotki</a></li><li><a href="/pl/chapters/rozdzial-11/11-18-zip-i-raspakovka.html">zip() i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-11/11-07-mnozhestva.html">Zestawy</a></li><li><a href="/pl/chapters/rozdzial-11/11-19-mnozhestva-operacii.html">Operacje setów i możliwość hasowania</a></li><li><a href="/pl/chapters/rozdzial-11/11-08-slovari.html">Słowniki</a></li><li><a href="/pl/chapters/rozdzial-11/11-20-slovari-metody.html">Metody słowników</a></li><li><a href="/pl/chapters/rozdzial-11/11-21-vlozhennye-struktury.html">Zagnieżdżone struktury</a></li><li><a href="/pl/chapters/rozdzial-11/11-22-preobrazovaniya-i-comprehensions.html">Przemiany i comprehensions</a></li><li><a href="/pl/chapters/rozdzial-11/11-09-mini-proekt-cveta.html">Mini Project: Nieskończone Kolory</a></li><li><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html">Jak wybrać odpowiednią strukturę</a></li><li><a class="active" href="/pl/chapters/rozdzial-11/11-24-debugging-kollekcij.html">Debugowanie kolekcji</a></li><li><a href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html">Mini-projekt: częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-11/11-26-mini-proekty-kollekcii.html">Mini-projekty z kolekcjami</a></li><li><a href="/pl/chapters/rozdzial-11/11-10-mini-proekt-perestanovka-itogi.html">Permutacja nazw i streszczenia</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/11-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-11: Praktyka</a></li><li><a href="/pl/practice/11-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-01: Praktyka</a></li><li><a href="/pl/practice/11-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-02: Praktyka</a></li><li><a href="/pl/practice/11-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-12: Praktyka</a></li><li><a href="/pl/practice/11-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-13: Praktyka</a></li><li><a href="/pl/practice/11-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-14: Praktyka</a></li><li><a href="/pl/practice/11-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-03: Praktyka</a></li><li><a href="/pl/practice/11-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-15: Praktyka</a></li><li><a href="/pl/practice/11-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-16: Praktyka</a></li><li><a href="/pl/practice/11-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-17: Praktyka</a></li><li><a href="/pl/practice/11-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-04: Praktyka</a></li><li><a href="/pl/practice/11-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-05: Praktyka</a></li><li><a href="/pl/practice/11-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-06: Praktyka</a></li><li><a href="/pl/practice/11-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-18: Praktyka</a></li><li><a href="/pl/practice/11-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-07: Praktyka</a></li><li><a href="/pl/practice/11-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-19: Praktyka</a></li><li><a href="/pl/practice/11-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-08: Praktyka</a></li><li><a href="/pl/practice/11-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-20: Praktyka</a></li><li><a href="/pl/practice/11-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-21: Praktyka</a></li><li><a href="/pl/practice/11-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-22: Praktyka</a></li><li><a href="/pl/practice/11-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-09: Praktyka</a></li><li><a href="/pl/practice/11-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-23: Praktyka</a></li><li><a href="/pl/practice/11-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-24: Praktyka</a></li><li><a href="/pl/practice/11-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-25: Praktyka</a></li><li><a href="/pl/practice/11-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-26: Praktyka</a></li><li><a href="/pl/practice/11-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 11-10: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-11/11-24-debugging-kollekcij.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-11/index.html">Rozdział 11</a> / Debugowanie kolekcji</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 11 · Mnóstwo informacji!</div>
+<h1>Debugowanie kolekcji: 14 typowych błędów</h1>
+<p class="lede">IndexError, KeyError, append/extend zamieszania, aliasing, powierzchowne teksty i inne pułapki są w jednym miejscu, z przykładami i analizą.</p>
+<p>14 typowych błędów przy pracy z listami, krotkami, zbiorami i słownikami — każdy z
+    Przykład i wyjaśnienie. Pierwsze dwa będą analizowane osobno za pomocą diagramu, reszta będzie zwarta.</p>
+<h2>IndexError — wizualnie</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;justify-content:center"><div style="display:inline-block"><svg aria-label="items = ['A', 'B', 'C'] - Prawidłowe indeksy to tylko 0, 1, 2 (oraz -1, -2, -3)" role="img" style="width:100%;height:auto;max-width:188px" viewbox="0 0 188 114" xmlns="http://www.w3.org/2000/svg"><rect fill="#fff" height="52" rx="10" stroke="#0D0230" stroke-width="1.5" width="52" x="10" y="26"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" text-anchor="middle" x="36.0" y="58.0">A</text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="36.0" y="17">0</text><text fill="#DB2777" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="36.0" y="96">-3</text><rect fill="#fff" height="52" rx="10" stroke="#0D0230" stroke-width="1.5" width="52" x="68" y="26"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" text-anchor="middle" x="94.0" y="58.0">B</text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="94.0" y="17">1</text><text fill="#DB2777" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="94.0" y="96">-2</text><rect fill="#fff" height="52" rx="10" stroke="#0D0230" stroke-width="1.5" width="52" x="126" y="26"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" text-anchor="middle" x="152.0" y="58.0">C</text><text fill="#5B24F9" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="152.0" y="17">2</text><text fill="#DB2777" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" text-anchor="middle" x="152.0" y="96">-1</text></svg></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">items = ['A', 'B', 'C'] - Prawidłowe indeksy to tylko 0, 1, 2 (oraz -1, -2, -3)</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>indexerror.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>items = [<span class="tok-str">'A'</span>, <span class="tok-str">'B'</span>, <span class="tok-str">'C'</span>]
+<span class="tok-fn">print</span>(items[<span class="tok-num">3</span>])
+<span class="tok-com"># IndexError: list index out of range</span></code></pre>
+</div>
+<h2>KeyError — wizualnie</h2>
+<figure style="margin:24px 0;padding:20px 20px 12px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label='student ma tylko klucz "name" — wywołanie klucza "email" niczego nie znajduje i powoduje KeyError' data-diagram="reference-diagram" role="img" style="width:100%;height:auto;max-width:370px" viewbox="0 0 370 90" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-28-arrowns" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="17" font-weight="700"><tspan x="0" y="45.0">'name'</tspan></text><line marker-end="url(#pl-svg-28-arrowns)" stroke="#5B24F9" stroke-width="2.5" x1="140" x2="192" y1="39.0" y2="39.0"></line><rect fill="#EDE9FE" height="46" rx="4" stroke="#5B24F9" stroke-width="2" width="160" x="200" y="16"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="15" text-anchor="middle"><tspan x="280.0" y="44.0">'Anna'</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">student ma tylko klucz "name" — wywołanie klucza "email" niczego nie znajduje i powoduje KeyError</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>keyerror.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">'name'</span>: <span class="tok-str">'Anna'</span>}
+<span class="tok-fn">print</span>(student[<span class="tok-str">'email'</span>])
+<span class="tok-com"># KeyError: 'email'</span></code></pre>
+</div>
+<h2>12 kolejnych powszechnych błędów</h2>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">1 · IndexError</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>items = [<span class="tok-str">'A'</span>, <span class="tok-str">'B'</span>, <span class="tok-str">'C'</span>]
+<span class="tok-fn">print</span>(items[<span class="tok-num">3</span>])</code></pre>
+</div>
+<p style="margin-top:10px">Prawidłowe indeksy mieszczą się między 0 a len(items)-1 = 2. Indeks 3 nie istnieje.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">2 · KeyError</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">'name'</span>: <span class="tok-str">'Anna'</span>}
+<span class="tok-fn">print</span>(student[<span class="tok-str">'email'</span>])</code></pre>
+</div>
+<p style="margin-top:10px">W słowniku nie ma takiego klucza. Safer: student.get('email').</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">3 · ValueError od index()/remove()</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>fruits = [<span class="tok-str">'jabłko'</span>, <span class="tok-str">'banan'</span>]
+fruits.remove(<span class="tok-str">'wiśnia'</span>)</code></pre>
+</div>
+<p style="margin-top:10px">„wiśnia”</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">4 · TypeError: unhashable type</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>bad = {[<span class="tok-num">1</span>, <span class="tok-num">2</span>]: <span class="tok-str">„znaczenie”</span>}</code></pre>
+</div>
+<p style="margin-top:10px">Lista nie może być używana jako klucz słownikowy (ani element zbioru) — jest modyfikowalna, co oznacza, że nie jest haszalna (§11.16).</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">5 · append() zamiast extend()</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>]
+a.append([<span class="tok-num">3</span>, <span class="tok-num">4</span>])
+<span class="tok-fn">print</span>(a)   <span class="tok-com"># [1, 2, [3, 4]] zamiast [1, 2, 3, 4]</span></code></pre>
+</div>
+<p style="margin-top:10px">append() zawsze dodaje jeden obiekt. Aby dodać elementy Z listy, musisz extend().</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">6 · x = x.sort() — utrata listy</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>numbers = [<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span>]
+numbers = numbers.sort()
+<span class="tok-fn">print</span>(numbers)   <span class="tok-com"># None</span></code></pre>
+</div>
+<p style="margin-top:10px">sort() mutuje lista na miejscu i zwraca None. Przypisanie wyniku z powrotem usuwa lista.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">7 · Aliasing zamiast kopii</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]
+b = a
+b.append(<span class="tok-num">4</span>)
+<span class="tok-fn">print</span>(a)   <span class="tok-com"># też [1, 2, 3, 4]!</span></code></pre>
+</div>
+<p style="margin-top:10px">b = a nie kopiuje lista — oba nazwy wskazują na ten sam obiekt (§11.9). Należy b = a.copy().</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">8 · Płytka kopia i zagnieżdżony lista</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>original = [[<span class="tok-num">1</span>, <span class="tok-num">2</span>]]
+copy_ = original.copy()
+copy_[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">99</span>
+<span class="tok-fn">print</span>(original)   <span class="tok-com"># [[99, 2]] — również się zmieniło!</span></code></pre>
+</div>
+<p style="margin-top:10px">. copy() kopiuje tylko zewnętrzną lista—listy zagnieżdżone pozostają współdzielone (§11.10). Potrzeba copy.deepcopy().</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">9 · [[0]*3]*3 — łączna łańcuch znaków</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>grid = [[<span class="tok-num">0</span>] * <span class="tok-num">3</span>] * <span class="tok-num">3</span>
+grid[<span class="tok-num">0</span>][<span class="tok-num">0</span>] = <span class="tok-num">1</span>
+<span class="tok-fn">print</span>(grid)   <span class="tok-com"># WSZYSTKIE linie się zmieniły</span></code></pre>
+</div>
+<p style="margin-top:10px">*3 kopiuje odnośnik do tego samego wewnętrznego lista trzy razy. Użyj [[0]*3 for _ in range(3)].</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">10 · Edytuj listę podczas wyszukiwania</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>items = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>]
+<span class="tok-kw">for</span> x <span class="tok-kw">in</span> items:
+    <span class="tok-kw">if</span> x % <span class="tok-num">2</span> == <span class="tok-num">0</span>:
+        items.remove(x)
+<span class="tok-fn">print</span>(items)   <span class="tok-com"># nie to, czego oczekiwano</span></code></pre>
+</div>
+<p style="margin-top:10px">Usunięcie elementu przesuwa indeksy w trakcie iteracji — część wartości zostaje pominięta. Twórz nowy lista lub iteruj po kopii.</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">11 · {} zamiast set()</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>empty = {}
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(empty))   <span class="tok-com">#&lt;class 'dict'&gt;, nie set!</span></code></pre>
+</div>
+<p style="margin-top:10px">Pusty słownik i pusty zbiór wyglądają inaczej tylko w stanie niepustym. Pusty zbiór — zawsze set().</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">12 · Krotka pojedynczoelementowa bez przecinka</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>point = (<span class="tok-num">42</span>)
+<span class="tok-fn">print</span>(<span class="tok-kw">type</span>(point))   <span class="tok-com"># &lt;class 'int'&gt;</span></code></pre>
+</div>
+<p style="margin-top:10px">Krotka powstaje przez przecinek, a nie przez nawiasy. Jest to konieczne (42,).</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">13 · in w słowniku sprawdza klucze, nie wartości</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>student = {<span class="tok-str">'name'</span>: <span class="tok-str">'Anna'</span>}
+<span class="tok-fn">print</span>(<span class="tok-str">'Anna'</span> <span class="tok-kw">in</span> student)   <span class="tok-com"># False!</span></code></pre>
+</div>
+<p style="margin-top:10px">'Anna' to wartość, a nie klucz. Aby sprawdzić wartości: 'Anna' in student.values().</p>
+</div>
+<div style="margin:20px 0;padding:18px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:15px;color:#DB2777;margin-bottom:10px">14 · Kolejność zagnieżdżonego indeksu jest pomieszana</div>
+<div class="code-block">
+<div class="code-label"><span>bug.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>matrix = [[<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>], [<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>]]
+<span class="tok-fn">print</span>(matrix[<span class="tok-num">2</span>][<span class="tok-num">0</span>])   <span class="tok-com"># IndexError</span></code></pre>
+</div>
+<p style="margin-top:10px">matrix mają tylko 2 wiersze (indeksy 0 i 1) po 3 kolumny – najpierw łańcuch znaków, potem kolumnę, a nie odwrotnie.</p>
+</div>
+<div class="summary-box">
+<h3>Metoda debugowania: Śledzenie krok po kroku</h3>
+<ul><li>Przed uruchomieniem przewidź, co będzie w zmiennej — potem porównaj z rzeczywistym wynikiem.</li><li>W przypadku błędów indeksu/klucza wyraźnie określ ważny zakres lub lista kluczy.</li><li>Jeśli wynik to „dziwny, ale bez błędów”</li><li>print() po każdym kroku to najbardziej wiarygodny sposób, by znaleźć moment, w którym oczekiwania odbiegły od rzeczywistości.</li></ul>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: znajdujemy i poprawiamy błędy w kolekcjach</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="11-24"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/11-24/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["11-24"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="11-24"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-11/11-23-vybor-struktury.html"><div class="dir">← Back</div><div class="lbl">Jak wybrać odpowiednią strukturę</div></a><a class="next" href="/pl/chapters/rozdzial-11/11-25-slovar-chastoty-slov.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekt: częstotliwość słów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

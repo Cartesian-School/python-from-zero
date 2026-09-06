@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>statistics, inf i nan jest Python od zera to Cartesian School</title>
+<meta content="Moduł statistics do prostych obliczeń, a specjalne wartości float — inf i nan, w tym dlaczego nan != nan." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/04-21-statistics-i-inf-nan.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/04-21-statistics-i-inf-nan.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="statistics, inf i nan jest Python od zera to Cartesian School" />
+<meta property="og:description" content="Moduł statistics do prostych obliczeń, a specjalne wartości float — inf i nan, w tym dlaczego nan != nan." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="statistics, inf i nan jest Python od zera to Cartesian School" />
+<meta name="twitter:description" content="Moduł statistics do prostych obliczeń, a specjalne wartości float — inf i nan, w tym dlaczego nan != nan." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"statistics, inf i nan jest Python od zera to Cartesian School","description":"Moduł statistics do prostych obliczeń, a specjalne wartości float — inf i nan, w tym dlaczego nan != nan.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-21-statistics-i-inf-nan.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 4 · Liczby</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-04/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html">Czym jest liczba dla komputera</a></li><li><a href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html">int są liczbami całkowitymi bez strachu</a></li><li><a href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html">Układy liczbowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-02-kommentarii.html">Komentarze w obliczeniach</a></li><li><a href="/pl/chapters/rozdzial-04/04-08-operatory.html">Operatory arytmetyczne</a></li><li><a href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html">Kolejność wykonywania operacji</a></li><li><a href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html">Podział i reszta</a></li><li><a href="/pl/chapters/rozdzial-04/04-11-stepeni.html">Stopnie naukowe i abs()</a></li><li><a href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html">Mapa typów liczbowych</a></li><li><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html">float — liczby zmiennoprzecinkowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html">Dlaczego 0,1 + 0,2 nie jest równe 0,3</a></li><li><a href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html">Poprawne porównanie float</a></li><li><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html">Zaokrąglenie: round, floor, ceil, trunc</a></li><li><a href="/pl/chapters/rozdzial-04/04-16-decimal.html">Decimal jest dokładną arytmetyką dziesiętną</a></li><li><a href="/pl/chapters/rozdzial-04/04-17-fraction.html">Fraction — dokładne ułamki</a></li><li><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html">complex i cmath</a></li><li><a href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html">Konwersja typów liczb</a></li><li><a href="/pl/chapters/rozdzial-04/04-19-modul-math.html">Moduł math</a></li><li><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html">random i secrets</a></li><li><a class="active" href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html">statistics, inf i nan</a></li><li><a href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html">Błędy numeryczne i debugowanie</a></li><li><a href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/04-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-01: Praktyka</a></li><li><a href="/pl/practice/04-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-02: Praktyka</a></li><li><a href="/pl/practice/04-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-06: Praktyka</a></li><li><a href="/pl/practice/04-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-07: Praktyka</a></li><li><a href="/pl/practice/04-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-08: Praktyka</a></li><li><a href="/pl/practice/04-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-09: Praktyka</a></li><li><a href="/pl/practice/04-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-10: Praktyka</a></li><li><a href="/pl/practice/04-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-11: Praktyka</a></li><li><a href="/pl/practice/04-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-12: Praktyka</a></li><li><a href="/pl/practice/04-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-13: Praktyka</a></li><li><a href="/pl/practice/04-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-14: Praktyka</a></li><li><a href="/pl/practice/04-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-15: Praktyka</a></li><li><a href="/pl/practice/04-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-16: Praktyka</a></li><li><a href="/pl/practice/04-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-17: Praktyka</a></li><li><a href="/pl/practice/04-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-18: Praktyka</a></li><li><a href="/pl/practice/04-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-19: Praktyka</a></li><li><a href="/pl/practice/04-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-20: Praktyka</a></li><li><a href="/pl/practice/04-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-21: Praktyka</a></li><li><a href="/pl/practice/04-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-22: Praktyka</a></li><li><a href="/pl/practice/04-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-03: Praktyka</a></li><li><a href="/pl/practice/04-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-04: Praktyka</a></li><li><a href="/pl/practice/04-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-05: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-21-statistics-i-inf-nan.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-04/index.html">Rozdział 4</a> / statistics, inf i nan</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 4 · Python lubi liczby</div>
+<h1>statistics, inf i nan</h1>
+<p class="lede">Gotowe narzędzia statystyczne — i specjalne stany liczbowe, które warto umieć rozpoznać.</p>
+<h2 id="statistics">Moduł statistics</h2>
+<p>Proste obliczenia statystyczne są już w standardowej bibliotece — nie trzeba ich pisać
+    ręcznie:</p>
+<div class="code-block">
+<div class="code-label"><span>statistics_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> statistics
+
+scores = [<span class="tok-num">85</span>, <span class="tok-num">90</span>, <span class="tok-num">78</span>, <span class="tok-num">92</span>, <span class="tok-num">88</span>]
+
+<span class="tok-fn">print</span>(statistics.mean(scores))    <span class="tok-com">#86.6 — Medium</span>
+<span class="tok-fn">print</span>(statistics.median(scores))  <span class="tok-com">#88 to mediana (średnia w kolejności)</span></code></pre>
+</div>
+<h2 id="mode-stdev"><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg> tryb i odchylenie standardowe</h2>
+<div class="code-block">
+<div class="code-label"><span>mode_stdev.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> statistics
+
+scores = [<span class="tok-num">85</span>, <span class="tok-num">90</span>, <span class="tok-num">78</span>, <span class="tok-num">92</span>, <span class="tok-num">88</span>]
+
+<span class="tok-fn">print</span>(statistics.mode(scores))    <span class="tok-com"># Najczęściej stosowana wartość</span>
+<span class="tok-fn">print</span>(statistics.pstdev(scores))  <span class="tok-com"># odchylenie standardowe populacji</span></code></pre>
+</div>
+<p>To tylko niewielka część modułu <code class="inline">statistics</code> jest zadanie tego
+    Rozdział nie polega na przekształceniu kursu w statystykę, lecz po to, by pokazać: typowe obliczenia statystyczne
+    są już gotowe w Python roku i nie musisz za każdym razem ręcznie pisać średniej formuły.</p>
+<h2 id="inf-nan">Szczególne znaczenia: inf i nan</h2>
+<p>Oprócz regularnych liczb, <code class="inline">float</code> potrafi reprezentować kilka
+    specjalnych stanów:</p>
+<div class="code-block">
+<div class="code-label"><span>inf_nan_demo.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>positive_infinity = <span class="tok-fn">float</span>(<span class="tok-str">"inf"</span>)
+negative_infinity = <span class="tok-fn">float</span>(<span class="tok-str">"-inf"</span>)
+not_a_number = <span class="tok-fn">float</span>(<span class="tok-str">"nan"</span>)
+
+<span class="tok-fn">print</span>(positive_infinity)  <span class="tok-com"># inf</span>
+<span class="tok-fn">print</span>(not_a_number)       <span class="tok-com"># nan</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;color:#0D0230">Szczególne float znaczenia</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px"><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">inf</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">+∞</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">nieskończoność</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">math.isinf()</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">-inf</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">−∞</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">minus nieskończoność</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">math.isinf()</div></div><div style="background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:16px;padding:18px 20px"><div style="font-family:Sora,sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:#5B24F9;margin-bottom:10px">nan</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">nie liczba</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">not a number</div><div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230;line-height:1.7">math.isnan()</div></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Trzy szczególne stany, które może przyjąć float, są sprawdzane przez trzy różne funkcje</figcaption></figure>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">nan nie jest równy nawet samemu sobie</div>
+<div class="callout-body">Jedna z najbardziej nieoczekiwanych właściwości <code class="inline">nan</code>: porównanie <code class="inline">nan == nan</code> zwroty <code class="inline">False</code>. To nie jest błąd Python, a część standardu IEEE 754 (ten sam standard, o którym wspominaliśmy w rozdziale o float) — nan jest specjalnie zdefiniowany jako „nierówny niczemu, włącznie z samym sobą.")</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>nan_sravnenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>x = <span class="tok-fn">float</span>(<span class="tok-str">"nan"</span>)
+<span class="tok-fn">print</span>(x == x)  <span class="tok-com"># False!</span></code></pre>
+</div>
+<h2 id="proverki">Jak poprawnie sprawdzać te stany</h2>
+<div class="code-block">
+<div class="code-label"><span>proverki.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> math
+
+x = <span class="tok-fn">float</span>(<span class="tok-str">"nan"</span>)
+y = <span class="tok-fn">float</span>(<span class="tok-str">"inf"</span>)
+
+<span class="tok-fn">print</span>(math.isnan(x))     <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(math.isinf(y))     <span class="tok-com"># True</span>
+<span class="tok-fn">print</span>(math.isfinite(<span class="tok-num">5.0</span>))  <span class="tok-com">#True jest regularną liczbą skończoną</span></code></pre>
+</div>
+<p>Takie wartości nie są wymyślone — naprawdę pojawiają się w danych i obliczeniach: dzielenie,
+    które daje przepełnienie, brakujące dane w analizie, wynik nieokreślonej operacji.
+    Warto umieć je rozpoznać i świadomie obsłużyć, a nie dziwić się, skąd się wzięły.</p>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: statistics, inf i nan</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="04-21"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/04-21/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-21"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-21"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html"><div class="dir">← Back</div><div class="lbl">random i secrets</div></a><a class="next" href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html"><div class="dir">Następny →</div><div class="lbl">Błędy numeryczne i debugowanie</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

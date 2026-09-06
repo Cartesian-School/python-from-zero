@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Projekty: Konsola poleceń i weryfikacja haseł – Python od podstaw – Cartesian School</title>
+<meta content="Konsoli poleceń (while True + if/elif/else + break) oraz weryfikacji hasła przez gromadzenie flag Boole'a znak po znaku." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-12/12-18-konsol-i-validator.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-12/12-18-konsol-i-validator.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Projekty: Konsola poleceń i weryfikacja haseł – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Konsoli poleceń (while True + if/elif/else + break) oraz weryfikacji hasła przez gromadzenie flag Boole&#x27;a znak po znaku." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Projekty: Konsola poleceń i weryfikacja haseł – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Konsoli poleceń (while True + if/elif/else + break) oraz weryfikacji hasła przez gromadzenie flag Boole&#x27;a znak po znaku." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Projekty: Konsola poleceń i weryfikacja haseł – Python od podstaw – Cartesian School","description":"Konsoli poleceń (while True + if/elif/else + break) oraz weryfikacji hasła przez gromadzenie flag Boole'a znak po znaku.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-18-konsol-i-validator.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 12 · Projekty</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-12/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-12/12-07-chto-takoe-proekt.html">Czym jest projekt</a></li><li><a href="/pl/chapters/rozdzial-12/12-08-stroim-proekt-po-shagam.html">Budowanie projektu krok po kroku</a></li><li><a href="/pl/chapters/rozdzial-12/12-01-chetnoe-ili-nechetnoe.html">Projekt: parzyste czy nieparzyste</a></li><li><a href="/pl/chapters/rozdzial-12/12-02-chaevye.html">Project: Czy napiwek jest wystarczający?</a></li><li><a href="/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html">Projekt: zgadnij liczbę, wersja 3</a></li><li><a href="/pl/chapters/rozdzial-12/12-11-analizator-teksta.html">Projekt: analizator tekstu i częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-12/12-13-zapisnaya-knizhka.html">: Notes</a></li><li><a href="/pl/chapters/rozdzial-12/12-14-zhurnal-i-korzina.html">Projekty: książka ocen i wózek na zakupy</a></li><li><a href="/pl/chapters/rozdzial-12/12-16-viktorina.html">Projekt: Quiz</a></li><li><a class="active" href="/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html">Projekty: Konsola poleceń i weryfikacja haseł</a></li><li><a href="/pl/chapters/rozdzial-12/12-20-studiya-mnogougolnikov.html">Projekt: studio wielokątów</a></li><li><a href="/pl/chapters/rozdzial-12/12-03-elka.html">Projekt: choinka bożonarodzeniowa</a></li><li><a href="/pl/chapters/rozdzial-12/12-04-spirali.html">Projekt: spirale!</a></li><li><a href="/pl/chapters/rozdzial-12/12-05-slozhnaya-mandala.html">Projekt: Złożona Mandala</a></li><li><a href="/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html">Projekt: Grafika pikselowa na siatce</a></li><li><a href="/pl/chapters/rozdzial-12/12-06-gonka-turtle-itogi.html">Project: Rasa Turtle i podsumowanie rozdziałów</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/12-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-07: Praktyka</a></li><li><a href="/pl/practice/12-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-08: Praktyka</a></li><li><a href="/pl/practice/12-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-01: Praktyka</a></li><li><a href="/pl/practice/12-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-02: Praktyka</a></li><li><a href="/pl/practice/12-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-09: Praktyka</a></li><li><a href="/pl/practice/12-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-10: Praktyka</a></li><li><a href="/pl/practice/12-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-11: Praktyka</a></li><li><a href="/pl/practice/12-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-12: Praktyka</a></li><li><a href="/pl/practice/12-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-13: Praktyka</a></li><li><a href="/pl/practice/12-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-14: Praktyka</a></li><li><a href="/pl/practice/12-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-15: Praktyka</a></li><li><a href="/pl/practice/12-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-16: Praktyka</a></li><li><a href="/pl/practice/12-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-17: Praktyka</a></li><li><a href="/pl/practice/12-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-18: Praktyka</a></li><li><a href="/pl/practice/12-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-19: Praktyka</a></li><li><a href="/pl/practice/12-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-20: Praktyka</a></li><li><a href="/pl/practice/12-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-21: Praktyka</a></li><li><a href="/pl/practice/12-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-03: Praktyka</a></li><li><a href="/pl/practice/12-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-04: Praktyka</a></li><li><a href="/pl/practice/12-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-05: Praktyka</a></li><li><a href="/pl/practice/12-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-22: Praktyka</a></li><li><a href="/pl/practice/12-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-18-konsol-i-validator.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-12/index.html">Rozdział 12</a> / Konsola i Validator</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 12 · Wiele fascynujących mini-projektów!</div>
+<h1>Projekty: Konsola poleceń i weryfikacja haseł</h1>
+<p class="lede">Dwa sposoby czytać dane wejściowe użytkownika w pętli: polecenie po poleceniu i znak po znaku, akumulując stan.</p>
+<div style="display:flex;gap:24px;flex-wrap:wrap;margin:20px 0;padding:18px 22px;
+      background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="flex:2 1 260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Zastosowanie</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><code class="inline">while True</code><code class="inline">if/elif/else</code><code class="inline">break</code><code class="inline">strings</code><code class="inline">bool</code></div>
+</div>
+<div style="flex:1 1 140px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Poziom</div>
+<div style="font-size:16px">integracja</div>
+</div>
+<div style="flex:1 1 200px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<div style="font-size:16px">Konsola tekstowa/Weryfikacja</div>
+</div>
+</div>
+<h2 id="konsol-komand">Projekt: konsola poleceń</h2>
+<p>Prosta aplikacja tekstowa z poleceniami: <code class="inline">help</code>,
+    <code class="inline">hello</code>, <code class="inline">status</code>,
+    <code class="inline">exit</code>. Ten wzór — „niekończąca się pętla odczytu poleceń”</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Do exit – przeczytaj polecenie, rozpoznaj je, wykonaj, powtórz" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:885px" viewbox="-335.0 0 885.0 646.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-23-arrowfc4" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-23-arrowfc4-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-23-arrowfc4-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-23-arrowfc4-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-88.0,10.0 110.0,10.0 88.0,76.0 -110.0,76.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="39.0">pokaż lista</tspan><tspan x="0.0" y="57.0">drużyny</tspan></text><line marker-end="url(#pl-svg-23-arrowfc4)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="76.0" y2="102.0"></line><polygon data-flow-shape="input-output" fill="#DBEAFE" points="-88.0,102.0 110.0,102.0 88.0,158.0 -110.0,158.0" stroke="#2563EB" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="135.0">command = input()</tspan></text><line marker-end="url(#pl-svg-23-arrowfc4)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="158.0" y2="184.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="-105.0" y="184.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="213.0">znormalizować:</tspan><tspan x="0.0" y="231.0">.strip().lower()</tspan></text><line marker-end="url(#pl-svg-23-arrowfc4)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="250.0" y2="276.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="0.0,276.0 115.0,326.0 0.0,376.0 -115.0,326.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="0.0" y="322.0">command ==</tspan><tspan x="0.0" y="340.0">'exit'?</tspan></text><path d="M-115.0,326.0 H-200.0 V408.0" fill="none" marker-end="url(#pl-svg-23-arrowfc4-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="-157.5" y="314.0">TAK</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="-295.0" y="408.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="-200.0" y="439.0">ukończyć program</tspan></text><path d="M115.0,326.0 H200.0 V408.0" fill="none" marker-end="url(#pl-svg-23-arrowfc4-p)" stroke="#DB2777" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="157.5" y="314.0">NIE</text><polygon data-flow-shape="decision" fill="#5B24F9" points="200.0,408.0 315.0,458.0 200.0,508.0 85.0,458.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="200.0" y="454.0">znany</tspan><tspan x="200.0" y="472.0">drużyna?</tspan></text><path d="M85.0,458.0 H0.0 V540.0" fill="none" marker-end="url(#pl-svg-23-arrowfc4-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="42.5" y="446.0">TAK</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-88.0,540.0 110.0,540.0 88.0,606.0 -110.0,606.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="569.0">wykonać help /</tspan><tspan x="0.0" y="587.0">hello / status</tspan></text><path d="M315.0,458.0 H400.0 V540.0" fill="none" marker-end="url(#pl-svg-23-arrowfc4-p)" stroke="#DB2777" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="357.5" y="446.0">NIE</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="312.0,540.0 510.0,540.0 488.0,606.0 290.0,606.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="400.0" y="569.0">"Nieznane</tspan><tspan x="400.0" y="587.0">drużyna"</tspan></text><path d="M0.0,606.0 V638.0 H200.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><path d="M400.0,606.0 V638.0 H200.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><circle cx="200.0" cy="638.0" fill="#B9A0FC" r="4.5"></circle></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Do exit – przeczytaj polecenie, rozpoznaj je, wykonaj, powtórz</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>konsol_komand.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>history = []
+
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    command = <span class="tok-fn">input</span>(<span class="tok-str">"&gt; "</span>).strip().lower()
+    history.append(command)
+
+    <span class="tok-kw">if</span> command == <span class="tok-str">"exit"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Do zobaczenia!”</span>)
+        <span class="tok-kw">break</span>
+    <span class="tok-kw">elif</span> command == <span class="tok-str">"help"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Drużyny: help, hello, status, exit”</span>)
+    <span class="tok-kw">elif</span> command == <span class="tok-str">"hello"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Cześć!”</span>)
+    <span class="tok-kw">elif</span> command == <span class="tok-str">"status"</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Wykonanie komend: </span>{<span class="tok-fn">len</span>(history)}<span class="tok-str">"</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Nieznane dowództwo: </span>{command}<span class="tok-str">"</span>)</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>&gt; help
+Команды: help, hello, status, exit
+&gt; hello
+Привет!
+&gt; exit
+До встречи!</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Przykład deterministycznego wykonania</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">history jest regularnym lista</div>
+<div class="callout-body"><code class="inline">history</code> gromadzi wszystkie polecenia w kolejności ich otrzymania, dokładnie dla czego lista został stworzony (Rozdział 11): uporządkowana, zmienna kolekcja.</div>
+</div>
+</div>
+<h2 id="validator-parolya">Projekt: Weryfikacja nazwy użytkownika/hasła</h2>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">To edukacyjny ćwiczenie po łańcuch znakówach, a nie ochrona danych</div>
+<div class="callout-body">Poniżej przedstawiono praktykę pracy z flagami łańcuch znakówme i Boole'a, a NIE pełną polityką bezpieczeństwa haseł. Prawdziwa ochrona konta wymaga znacznie więcej (haszowanie, sól, menedżery haseł, limity prób) — na razie nie będziemy poruszać tego kursu.</div>
+</div>
+</div>
+<p>Zasady (edukacyjne): co najmniej 8 znaków, jest co najmniej jedna liczba, co najmniej jedna litera,
+    Nie ma żadnych luk.</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Iteruj przez łańcuch znaków znak po znaku, gromadząc trzy flagi Boole'a" data-diagram="process-flow" role="img" style="width:100%;height:auto;max-width:664px;" viewbox="0 0 664 166" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-24-arrow" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect fill="#EDE9FE" height="126" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="0" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="92.0" y="32">symbol</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="92.0" y="78">po jednym</tspan></text><line marker-end="url(#pl-svg-24-arrow)" stroke="#5B24F9" stroke-width="2" x1="190" x2="234" y1="73.0" y2="73.0"></line><rect fill="#EDE9FE" height="126" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="240" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="332.0" y="32">cifra? / bukva?</tspan><tspan x="332.0" y="50">/ probel?</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="332.0" y="78">sprawdzenie</tspan></text><line marker-end="url(#pl-svg-24-arrow)" stroke="#5B24F9" stroke-width="2" x1="430" x2="474" y1="73.0" y2="73.0"></line><rect fill="#EDE9FE" height="126" rx="4" stroke="#5B24F9" stroke-width="2" width="184" x="480" y="10"></rect><text fill="#0D0230" font-family="Sora, sans-serif" font-size="15" font-weight="700" text-anchor="middle"><tspan x="572.0" y="32">zaktualizować flagi</tspan></text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="12" text-anchor="middle"><tspan x="572.0" y="78">has_digit /</tspan><tspan x="572.0" y="92">has_letter /</tspan><tspan x="572.0" y="106">has_space</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Iteruj przez łańcuch znaków znak po znaku, gromadząc trzy flagi Boole'a</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>validator_parolya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>password = <span class="tok-fn">input</span>(<span class="tok-str">„Wymyśl hasło: ”</span>)
+
+has_digit = <span class="tok-kw">False</span>
+has_letter = <span class="tok-kw">False</span>
+has_space = <span class="tok-kw">False</span>
+
+<span class="tok-kw">for</span> ch <span class="tok-kw">in</span> password:
+    <span class="tok-kw">if</span> ch.isdigit():
+        has_digit = <span class="tok-kw">True</span>
+    <span class="tok-kw">elif</span> ch.isalpha():
+        has_letter = <span class="tok-kw">True</span>
+    <span class="tok-kw">elif</span> ch == <span class="tok-str">" "</span>:
+        has_space = <span class="tok-kw">True</span>
+
+dlinnyj_dostatochno = <span class="tok-fn">len</span>(password) &gt;= <span class="tok-num">8</span>
+
+<span class="tok-kw">if</span> dlinnyj_dostatochno <span class="tok-kw">and</span> has_digit <span class="tok-kw">and</span> has_letter <span class="tok-kw">and</span> <span class="tok-kw">not</span> has_space:
+    <span class="tok-fn">print</span>(<span class="tok-str">„Hasło pasuje do zasad treningowych.”</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">„Hasło nie pasuje:”</span>)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> dlinnyj_dostatochno:
+        <span class="tok-fn">print</span>(<span class="tok-str">„- za krótki (potrzeba 8+ znaków)”</span>)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> has_digit:
+        <span class="tok-fn">print</span>(<span class="tok-str">„- nie ma ani jednej liczby”</span>)
+    <span class="tok-kw">if</span> <span class="tok-kw">not</span> has_letter:
+        <span class="tok-fn">print</span>(<span class="tok-str">„- nie ma ani jednej litery”</span>)
+    <span class="tok-kw">if</span> has_space:
+        <span class="tok-fn">print</span>(<span class="tok-str">„- zawiera spację”</span>)</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Gromadzenie bogactwa poprzez flagi boole'owskie</div>
+<div class="callout-body"><code class="inline">has_digit</code>, <code class="inline">has_letter</code> oraz <code class="inline">has_space</code> są akumulatorami (Rozdział 10), tylko Booleany: każda postać może PRZEŁĄCZYĆ flagę <code class="inline">True</code>, i on pozostaje <code class="inline">True</code> do końca poszukiwań.</div>
+</div>
+</div>
+<h2><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Debug Lab</h2>
+<p>Jeśli jest używany <code class="inline">elif</code> zamiast trzech oddzielnych
+    <code class="inline">if</code> przy sprawdzaniu symbolu — niektóre symbole mogą być przetwarzane niepoprawnie. Na przykład, co jeśli reguła byłaby „jest znak specjalny”?</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">elif sprawdza tylko jedną gałąź na postać</div>
+<div class="callout-body">Dopóki zasady są wzajemnie wykluczające się (liczba/litera/spacja – postać nie może być dwoma z nich jednocześnie), <code class="inline">elif</code> działa poprawnie. Ale jeśli dodasz czek na inną, NIEWYKLUCZAJĄCĄ się własność (na przykład „jest wielką literą” <code class="inline">if</code>zamiast gałęzi w tym samym łańcuchu <code class="inline">elif</code>.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Konsola poleceń z historią</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="12-18"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/12-18/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["12-18"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="12-18"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Weryfikacja hasła zgodnie z zasadami nauki</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="12-19"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/12-19/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["12-19"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="12-19"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-12/12-16-viktorina.html"><div class="dir">← Back</div><div class="lbl">Projekt: Quiz</div></a><a class="next" href="/pl/chapters/rozdzial-12/12-20-studiya-mnogougolnikov.html"><div class="dir">Następny →</div><div class="lbl">Projekt: studio wielokątów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

@@ -14,6 +14,30 @@ import DOMPurify from "dompurify";
 
 const PROGRESS_KEY = "cartesian.python.progress.v1";
 
+const UI = {
+  ru: {
+    run: "Выполнить", error: "Ошибка", input: "Ввод для input()", submit: "Отправить",
+    waitingInput: "Ожидание ввода…", running: "Выполняется…", starting: "Запускается Python…",
+    ready: "Готово", startError: "Ошибка запуска Python: ", runningAll: "Выполняется всё…",
+    stopped: "Остановлено на ошибке", resetting: "Сброс среды…", checking: "Проверка результата…",
+    checkUnavailable: "Проверка не смогла выполниться. Сначала выполните все ячейки (Run All).",
+    result: "Результат", checkError: "Ошибка проверки: ",
+  },
+  pl: {
+    run: "Uruchom", error: "Błąd", input: "Dane wejściowe dla input()", submit: "Wyślij",
+    waitingInput: "Oczekiwanie na dane…", running: "Wykonywanie…", starting: "Uruchamianie Pythona…",
+    ready: "Gotowe", startError: "Błąd uruchamiania Pythona: ", runningAll: "Wykonywanie wszystkich komórek…",
+    stopped: "Zatrzymano z powodu błędu", resetting: "Resetowanie środowiska…", checking: "Sprawdzanie wyniku…",
+    checkUnavailable: "Nie można wykonać sprawdzenia. Najpierw uruchom wszystkie komórki (Uruchom wszystko).",
+    result: "Wynik", checkError: "Błąd sprawdzania: ",
+  },
+};
+
+function ui(key) {
+  const locale = document.documentElement.lang === "pl" ? "pl" : "ru";
+  return UI[locale][key];
+}
+
 function readProgress() {
   try {
     return JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
@@ -142,7 +166,7 @@ function renderCodeCell(cell, index, state) {
   wrapper.dataset.cellId = cell.id || `cell-${index}`;
 
   const toolbar = el("div", "nb-code-toolbar");
-  const runBtn = el("button", "nb-run-cell", "▶ Выполнить");
+  const runBtn = el("button", "nb-run-cell", `▶ ${ui("run")}`);
   const execLabel = el("span", "nb-exec-count", "");
   toolbar.appendChild(runBtn);
   toolbar.appendChild(execLabel);
@@ -211,7 +235,7 @@ function renderCodeCell(cell, index, state) {
     }
     if (res.error) {
       const box = el("div", "nb-output-error");
-      box.appendChild(el("div", "nb-error-title", `Ошибка: ${escapeHtml(res.error.name)}`));
+      box.appendChild(el("div", "nb-error-title", `${ui("error")}: ${escapeHtml(res.error.name)}`));
       box.appendChild(el("pre", "nb-error-message", escapeHtml(res.error.message)));
       output.appendChild(box);
     }
@@ -224,8 +248,8 @@ function renderCodeCell(cell, index, state) {
     const field = el("input", "nb-input-field");
     field.type = "text";
     field.autocomplete = "off";
-    field.setAttribute("aria-label", promptText || "Ввод для input()");
-    const submitBtn = el("button", "nb-input-submit", "Отправить");
+    field.setAttribute("aria-label", promptText || ui("input"));
+    const submitBtn = el("button", "nb-input-submit", ui("submit"));
     promptBox.appendChild(field);
     promptBox.appendChild(submitBtn);
     output.appendChild(promptBox);
@@ -259,7 +283,7 @@ function renderCodeCell(cell, index, state) {
     renderOutput(res);
     wrapper.classList.add(res.ok ? "nb-cell-ok" : "nb-cell-error");
     runBtn.disabled = false;
-    runBtn.textContent = "▶ Выполнить";
+    runBtn.textContent = `▶ ${ui("run")}`;
     return res;
   }
 
@@ -313,11 +337,11 @@ export async function initPracticeApp(config) {
   function handleInputRequest(prompt, cellId) {
     const runner = cellRunners.find((r) => r.wrapper.dataset.cellId === cellId);
     if (!runner) return;
-    setStatus("Ожидание ввода…", "loading");
+    setStatus(ui("waitingInput"), "loading");
     runner.wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
     runner.showInputPrompt(prompt, (value) => {
       state.bridge.submitInput(value);
-      setStatus("Выполняется…", "loading");
+      setStatus(ui("running"), "loading");
     });
   }
 
@@ -332,12 +356,12 @@ export async function initPracticeApp(config) {
   }
 
   let bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
-    if (s === "loading") setStatus("Запускается Python…", "loading");
+    if (s === "loading") setStatus(ui("starting"), "loading");
     else if (s === "ready") {
       versionLabel.textContent = `Python ${info.pythonVersion.split(" ")[0]} · Pyodide ${info.pyodideVersion}`;
-      setStatus("Готово", "ready");
+      setStatus(ui("ready"), "ready");
     } else if (s === "error") {
-      setStatus("Ошибка запуска Python: " + (error && error.message), "error");
+      setStatus(ui("startError") + (error && error.message), "error");
     }
   });
   bridge.onInputRequest = handleInputRequest;
@@ -371,17 +395,17 @@ export async function initPracticeApp(config) {
   runAllBtn.addEventListener("click", async () => {
     if (state.busy) return;
     setToolbarBusy(true);
-    setStatus("Выполняется всё…", "loading");
+    setStatus(ui("runningAll"), "loading");
     try {
       for (const runner of cellRunners) {
         runner.wrapper.scrollIntoView({ behavior: "smooth", block: "center" });
         const res = await runner.run();
         if (!res.ok && !runner.raisesException) {
-          setStatus("Остановлено на ошибке", "error");
+          setStatus(ui("stopped"), "error");
           return;
         }
       }
-      setStatus("Готово", "ready");
+      setStatus(ui("ready"), "ready");
     } finally {
       setToolbarBusy(false);
     }
@@ -390,7 +414,7 @@ export async function initPracticeApp(config) {
   resetBtn.addEventListener("click", async () => {
     if (state.busy) return;
     setToolbarBusy(true);
-    setStatus("Сброс среды…", "loading");
+    setStatus(ui("resetting"), "loading");
     bridge.terminate();
     state.execCounter = 0;
     state.lastCheckPassed = false;
@@ -402,12 +426,12 @@ export async function initPracticeApp(config) {
     }
     resultPanel.innerHTML = "";
     bridge = new PyodideBridge(workerUrl, ({ state: s, info, error }) => {
-      if (s === "loading") setStatus("Запускается Python…", "loading");
+      if (s === "loading") setStatus(ui("starting"), "loading");
       else if (s === "ready") {
         versionLabel.textContent = `Python ${info.pythonVersion.split(" ")[0]} · Pyodide ${info.pyodideVersion}`;
-        setStatus("Готово", "ready");
+        setStatus(ui("ready"), "ready");
       } else if (s === "error") {
-        setStatus("Ошибка запуска Python: " + (error && error.message), "error");
+        setStatus(ui("startError") + (error && error.message), "error");
       }
     });
     bridge.onInputRequest = handleInputRequest;
@@ -427,16 +451,16 @@ export async function initPracticeApp(config) {
     if (state.busy) return;
     setToolbarBusy(true);
     resultPanel.innerHTML = "";
-    setStatus("Проверка результата…", "loading");
+    setStatus(ui("checking"), "loading");
     try {
       const graderResp = await fetch(graderUrl);
       const graderCode = await graderResp.text();
       const res = await state.bridge.execute("__cartesian_grader__", graderCode);
       if (!res.ok || !res.result) {
         resultPanel.appendChild(
-          el("div", "practice-result practice-result-fail", "Проверка не смогла выполниться. Сначала выполните все ячейки (Run All).")
+          el("div", "practice-result practice-result-fail", ui("checkUnavailable"))
         );
-        setStatus("Готово", "ready");
+        setStatus(ui("ready"), "ready");
         return;
       }
       const parsed = JSON.parse(res.result);
@@ -448,7 +472,7 @@ export async function initPracticeApp(config) {
         "practice-result " + (parsed.passed ? "practice-result-pass" : "practice-result-fail")
       );
       box.appendChild(el("div", "practice-result-headline", parsed.passed ? "✓ PASS" : "✗ FAIL"));
-      box.appendChild(el("div", "practice-result-score", `Результат: ${parsed.score}%`));
+      box.appendChild(el("div", "practice-result-score", `${ui("result")}: ${parsed.score}%`));
       const list = el("ul", "practice-result-checks");
       (parsed.checks || []).forEach((c) => {
         list.appendChild(el("li", c.passed ? "check-pass" : "check-fail", `${c.passed ? "✓" : "✗"} ${escapeHtml(c.name)}`));
@@ -463,10 +487,10 @@ export async function initPracticeApp(config) {
         score: parsed.score,
         completedAt: new Date().toISOString(),
       });
-      setStatus("Готово", "ready");
+      setStatus(ui("ready"), "ready");
     } catch (err) {
-      resultPanel.appendChild(el("div", "practice-result practice-result-fail", "Ошибка проверки: " + escapeHtml(String(err))));
-      setStatus("Готово", "ready");
+      resultPanel.appendChild(el("div", "practice-result practice-result-fail", ui("checkError") + escapeHtml(String(err))));
+      setStatus(ui("ready"), "ready");
     } finally {
       setToolbarBusy(false);
     }

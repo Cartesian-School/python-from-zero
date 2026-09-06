@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Project: Guess the Number, Wersja 3 – Python od zera – Cartesian School</title>
+<meta content="Ostateczna wersja gry zgadywania: random, while, if/elif/else, licznik prób, pełny algorytm z diagramami blokowymi i ścieżką stanów." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-12/12-09-ugadaj-chislo-v3.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-12/12-09-ugadaj-chislo-v3.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Project: Guess the Number, Wersja 3 – Python od zera – Cartesian School" />
+<meta property="og:description" content="Ostateczna wersja gry zgadywania: random, while, if/elif/else, licznik prób, pełny algorytm z diagramami blokowymi i ścieżką stanów." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Project: Guess the Number, Wersja 3 – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Ostateczna wersja gry zgadywania: random, while, if/elif/else, licznik prób, pełny algorytm z diagramami blokowymi i ścieżką stanów." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Project: Guess the Number, Wersja 3 – Python od zera – Cartesian School","description":"Ostateczna wersja gry zgadywania: random, while, if/elif/else, licznik prób, pełny algorytm z diagramami blokowymi i ścieżką stanów.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-09-ugadaj-chislo-v3.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 12 · Projekty</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-12/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-12/12-07-chto-takoe-proekt.html">Czym jest projekt</a></li><li><a href="/pl/chapters/rozdzial-12/12-08-stroim-proekt-po-shagam.html">Budowanie projektu krok po kroku</a></li><li><a href="/pl/chapters/rozdzial-12/12-01-chetnoe-ili-nechetnoe.html">Projekt: parzyste czy nieparzyste</a></li><li><a href="/pl/chapters/rozdzial-12/12-02-chaevye.html">Project: Czy napiwek jest wystarczający?</a></li><li><a class="active" href="/pl/chapters/rozdzial-12/12-09-ugadaj-chislo-v3.html">Projekt: zgadnij liczbę, wersja 3</a></li><li><a href="/pl/chapters/rozdzial-12/12-11-analizator-teksta.html">Projekt: analizator tekstu i częstotliwość słów</a></li><li><a href="/pl/chapters/rozdzial-12/12-13-zapisnaya-knizhka.html">: Notes</a></li><li><a href="/pl/chapters/rozdzial-12/12-14-zhurnal-i-korzina.html">Projekty: książka ocen i wózek na zakupy</a></li><li><a href="/pl/chapters/rozdzial-12/12-16-viktorina.html">Projekt: Quiz</a></li><li><a href="/pl/chapters/rozdzial-12/12-18-konsol-i-validator.html">Projekty: Konsola poleceń i weryfikacja haseł</a></li><li><a href="/pl/chapters/rozdzial-12/12-20-studiya-mnogougolnikov.html">Projekt: studio wielokątów</a></li><li><a href="/pl/chapters/rozdzial-12/12-03-elka.html">Projekt: choinka bożonarodzeniowa</a></li><li><a href="/pl/chapters/rozdzial-12/12-04-spirali.html">Projekt: spirale!</a></li><li><a href="/pl/chapters/rozdzial-12/12-05-slozhnaya-mandala.html">Projekt: Złożona Mandala</a></li><li><a href="/pl/chapters/rozdzial-12/12-22-setka-piksel-art.html">Projekt: Grafika pikselowa na siatce</a></li><li><a href="/pl/chapters/rozdzial-12/12-06-gonka-turtle-itogi.html">Project: Rasa Turtle i podsumowanie rozdziałów</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/12-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-07: Praktyka</a></li><li><a href="/pl/practice/12-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-08: Praktyka</a></li><li><a href="/pl/practice/12-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-01: Praktyka</a></li><li><a href="/pl/practice/12-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-02: Praktyka</a></li><li><a href="/pl/practice/12-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-09: Praktyka</a></li><li><a href="/pl/practice/12-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-10: Praktyka</a></li><li><a href="/pl/practice/12-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-11: Praktyka</a></li><li><a href="/pl/practice/12-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-12: Praktyka</a></li><li><a href="/pl/practice/12-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-13: Praktyka</a></li><li><a href="/pl/practice/12-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-14: Praktyka</a></li><li><a href="/pl/practice/12-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-15: Praktyka</a></li><li><a href="/pl/practice/12-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-16: Praktyka</a></li><li><a href="/pl/practice/12-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-17: Praktyka</a></li><li><a href="/pl/practice/12-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-18: Praktyka</a></li><li><a href="/pl/practice/12-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-19: Praktyka</a></li><li><a href="/pl/practice/12-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-20: Praktyka</a></li><li><a href="/pl/practice/12-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-21: Praktyka</a></li><li><a href="/pl/practice/12-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-03: Praktyka</a></li><li><a href="/pl/practice/12-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-04: Praktyka</a></li><li><a href="/pl/practice/12-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-05: Praktyka</a></li><li><a href="/pl/practice/12-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-22: Praktyka</a></li><li><a href="/pl/practice/12-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 12-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-12/12-09-ugadaj-chislo-v3.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-12/index.html">Rozdział 12</a> / Zgadnij liczbę v3</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 12 · Wiele fascynujących mini-projektów!</div>
+<h1>Projekt: zgadnij liczbę, wersja 3</h1>
+<p class="lede">Pełny cykl rozwoju na znanej grze: wymagania → algorytm → schemat blokowy → tor stanu → kod.</p>
+<div style="display:flex;gap:24px;flex-wrap:wrap;margin:20px 0;padding:18px 22px;
+      background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="flex:2 1 260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Zastosowanie</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><code class="inline">random</code><code class="inline">while</code><code class="inline">if/elif/else</code><code class="inline">input()/int()</code><code class="inline">счётчик</code></div>
+</div>
+<div style="flex:1 1 140px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Poziom</div>
+<div style="font-size:16px">★★ średni</div>
+</div>
+<div style="flex:1 1 200px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<div style="font-size:16px">Gra tekstowa</div>
+</div>
+</div>
+<h2>Co tworzymy</h2>
+<p>Ostateczna, dopracowana wersja gry zgadywającej z rozdziałów 9-10 – z podsumowaniem prób i
+    Fajny efekt.</p>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>Загадано число от 1 до 100. Попробуйте угадать!
+Ваша попытка: 50
+Слишком много!
+Ваша попытка: 25
+Слишком мало!
+Ваша попытка: 37
+Поздравляем! Загадано было 37. Попыток: 3</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Przykład deterministycznego wykonania</figcaption>
+</figure>
+<h2>Wymagania</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Wymaganie</th><th>Jak sprawdzić</th></tr></thead>
+<tbody><tr><td>komputer wybiera liczbę całkowitą między 1 a 100</td><td><code class="inline">random.randint(1, 100)</code></td></tr><tr><td>gracz próbuje, aż zgadnie</td><td><code class="inline">while guess != secret</code></td></tr><tr><td>po każdej próbie – podpowiedź niewiele/dużo</td><td><code class="inline">if/elif/else</code></td></tr><tr><td>próby się liczą</td><td><code class="inline">attempts += 1</code></td></tr><tr><td>gra kończy się poprawną odpowiedzią</td><td>cyklu kończy się wynik</td></tr></tbody>
+</table>
+</div>
+<h2>Algorytm: Pętla zewnętrzna</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Dopóki nie zgadniesz – poproś o próbę, porównaj, zasubstruuj, zwiększ licznik" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:745px" viewbox="15.0 0 745.0 398.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-23-arrowfc0" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-23-arrowfc0-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-23-arrowfc0-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-23-arrowfc0-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="10.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="41.0">START</tspan></text><line marker-end="url(#pl-svg-23-arrowfc0)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="62.0" y2="88.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="55.0" y="88.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="160.0" y="117.0">secret = random,</tspan><tspan x="160.0" y="135.0">attempts = 0</tspan></text><line marker-end="url(#pl-svg-23-arrowfc0)" stroke="#B9A0FC" stroke-width="2.5" x1="160.0" x2="160.0" y1="154.0" y2="180.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="160.0,180.0 275.0,230.0 160.0,280.0 45.0,230.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="160.0" y="235.0">guess != secret</tspan></text><path d="M275.0,230.0 H287.5 V191.0 H300.0" fill="none" marker-end="url(#pl-svg-23-arrowfc0-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="287.5" y="214.0">TAK</text><rect data-flow-shape="process" fill="#EDE9FE" height="66" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="158.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="187.0">zapytać guess,</tspan><tspan x="405.0" y="205.0">porównać, dać...</tspan></text><line marker-end="url(#pl-svg-23-arrowfc0)" stroke="#B9A0FC" stroke-width="2.5" x1="405.0" x2="405.0" y1="224.0" y2="236.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="300.0" y="236.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="405.0" y="269.0">attempts += 1</tspan></text><path d="M510.0,264.0 L570.0,264.0 L570.0,230.0 L275.0,230.0" fill="none" marker-end="url(#pl-svg-23-arrowfc0-v)" stroke="#5B24F9" stroke-width="2.5"></path><text fill="#5B24F9" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="start" x="578.0" y="247.0">temu</text><line marker-end="url(#pl-svg-23-arrowfc0-p)" stroke="#DB2777" stroke-width="2.5" x1="160.0" x2="160.0" y1="280.0" y2="306.0"></line><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="186.0" y="293.0">NIE</text><rect data-flow-shape="terminator" fill="#0D0230" height="52" rx="26.0" stroke="#5B24F9" stroke-width="2" width="190" x="65.0" y="306.0"></rect><text fill="#fff" font-family="Sora, sans-serif" font-size="14" font-weight="700" text-anchor="middle"><tspan x="160.0" y="337.0">KONIEC</tspan></text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Dopóki nie zgadniesz – poproś o próbę, porównaj, zasubstruuj, zwiększ licznik</figcaption></figure>
+<h2>Algorytm: co dzieje się podczas jednej próby</h2>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="Jedna próba: porównać i podpowiedzieć — cały ten blok powtarza się w pętli while powyżej" data-diagram="flowchart" role="img" style="width:100%;height:auto;max-width:900px" viewbox="-350.0 0 900.0 544.0" xmlns="http://www.w3.org/2000/svg"><defs><marker id="pl-svg-24-arrowfc1" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#B9A0FC"></path></marker><marker id="pl-svg-24-arrowfc1-g" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#059669"></path></marker><marker id="pl-svg-24-arrowfc1-p" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#DB2777"></path></marker><marker id="pl-svg-24-arrowfc1-v" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0,0 L10,5 L0,10 z" fill="#5B24F9"></path></marker></defs><polygon data-flow-shape="input-output" fill="#DBEAFE" points="-88.0,10.0 110.0,10.0 88.0,76.0 -110.0,76.0" stroke="#2563EB" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="39.0">guess =</tspan><tspan x="0.0" y="57.0">int(input(...))</tspan></text><line marker-end="url(#pl-svg-24-arrowfc1)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="76.0" y2="102.0"></line><rect data-flow-shape="process" fill="#EDE9FE" height="56" rx="2" stroke="#5B24F9" stroke-width="2" width="210" x="-105.0" y="102.0"></rect><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="135.0">attempts += 1</tspan></text><line marker-end="url(#pl-svg-24-arrowfc1)" stroke="#B9A0FC" stroke-width="2.5" x1="0.0" x2="0.0" y1="158.0" y2="184.0"></line><polygon data-flow-shape="decision" fill="#5B24F9" points="0.0,184.0 115.0,234.0 0.0,284.0 -115.0,234.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="0.0" y="230.0">guess ==</tspan><tspan x="0.0" y="248.0">secret?</tspan></text><path d="M-115.0,234.0 H-200.0 V316.0" fill="none" marker-end="url(#pl-svg-24-arrowfc1-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="-157.5" y="222.0">TAK</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-288.0,316.0 -90.0,316.0 -112.0,382.0 -310.0,382.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="-200.0" y="345.0">Gratulacje!</tspan><tspan x="-200.0" y="363.0">Próby: attempts</tspan></text><path d="M115.0,234.0 H200.0 V316.0" fill="none" marker-end="url(#pl-svg-24-arrowfc1-p)" stroke="#DB2777" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="157.5" y="222.0">NIE</text><polygon data-flow-shape="decision" fill="#5B24F9" points="200.0,316.0 315.0,366.0 200.0,416.0 85.0,366.0" stroke="#3B0FBF" stroke-width="2"></polygon><text fill="#fff" font-family="Sora, sans-serif" font-size="13" font-weight="700" text-anchor="middle"><tspan x="200.0" y="371.0">guess &lt; secret?</tspan></text><path d="M85.0,366.0 H0.0 V448.0" fill="none" marker-end="url(#pl-svg-24-arrowfc1-g)" stroke="#059669" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#059669" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="42.5" y="354.0">TAK</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="-88.0,448.0 110.0,448.0 88.0,504.0 -110.0,504.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="0.0" y="481.0">Za mało!</tspan></text><path d="M315.0,366.0 H400.0 V448.0" fill="none" marker-end="url(#pl-svg-24-arrowfc1-p)" stroke="#DB2777" stroke-linejoin="miter" stroke-width="2.5"></path><text fill="#DB2777" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" text-anchor="middle" x="357.5" y="354.0">NIE</text><polygon data-flow-shape="input-output" fill="#DCFCE7" points="312.0,448.0 510.0,448.0 488.0,504.0 290.0,504.0" stroke="#059669" stroke-width="2"></polygon><text fill="#0D0230" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle"><tspan x="400.0" y="481.0">Za dużo!</tspan></text><path d="M0.0,504.0 V536.0 H200.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><path d="M400.0,504.0 V536.0 H200.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><circle cx="200.0" cy="536.0" fill="#B9A0FC" r="4.5"></circle><path d="M-200.0,382.0 V568.0 H0.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><path d="M200.0,536.0 V568.0 H0.0" fill="none" stroke="#B9A0FC" stroke-linejoin="miter" stroke-width="2.5"></path><circle cx="0.0" cy="568.0" fill="#B9A0FC" r="4.5"></circle></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Jedna próba: porównać i podpowiedzieć — cały ten blok powtarza się w pętli while powyżej</figcaption></figure>
+<h2>Condition Track</h2>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Próba</th><th>guess</th><th>secret</th><th>Rezultat</th></tr></thead>
+<tbody><tr><td>1</td><td>50</td><td>37</td><td>za dużo</td></tr><tr><td>2</td><td>25</td><td>37</td><td>za mało</td></tr><tr><td>3</td><td>37</td><td>37</td><td>zgadywał, cykl się kończy</td></tr></tbody>
+</table>
+</div>
+<h2>Ostateczny Kod</h2>
+<div class="code-block">
+<div class="code-label"><span>ugadaj_chislo_v3.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> random
+
+secret = random.randint(<span class="tok-num">1</span>, <span class="tok-num">100</span>)
+attempts = <span class="tok-num">0</span>
+guess = <span class="tok-kw">None</span>
+
+<span class="tok-fn">print</span>(<span class="tok-str">„Zgaduje się liczbę od 1 do 100. Spróbuj zgadnąć!”</span>)
+
+<span class="tok-kw">while</span> guess != secret:
+    guess = <span class="tok-fn">int</span>(<span class="tok-fn">input</span>(<span class="tok-str">„Twoja próba: ”</span>))
+    attempts += <span class="tok-num">1</span>
+    <span class="tok-kw">if</span> guess &lt; secret:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Za mało!”</span>)
+    <span class="tok-kw">elif</span> guess &gt; secret:
+        <span class="tok-fn">print</span>(<span class="tok-str">„Za dużo!”</span>)
+    <span class="tok-kw">else</span>:
+        <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Gratulacje! To było życzenie </span>{secret}<span class="tok-str">. Próby: </span>{attempts}<span class="tok-str">"</span>)</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">W praktyce liczba jest stała, a nie losowa</div>
+<div class="callout-body">Strona pokazuje prawdziwe <code class="inline">random.randint(1, 100)</code> — dokładnie tak powinna działać gra. W notatniku praktyki tajna liczba jest wcześniej ustalona, a wprowadzenie jest wstawiane automatycznie — w przeciwnym razie automatyczna weryfikacja wyniku byłaby niedeterministyczna.</div>
+</div>
+</div>
+<h2><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Debug Lab</h2>
+<p>Co się stanie, jeśli sznurek <code class="inline">attempts = 0</code> przypadkowo przełożyłem
+    wewnątrz cyklu <code class="inline">while</code>? Sprawdź zgadywanka przed czytaniem
+    Następny.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">attempts zawsze będzie 1</div>
+<div class="callout-body">Dokładnie ten sam błąd, co w §12.2 Debug Lab: licznik, zerowany w obrębie pętli, nigdy nie kumuluje wartości — przy każdej iteracji jest tworzony od nowa.</div>
+</div>
+</div>
+<h2>Poziom 3: ograniczenie prób</h2>
+<p>Utrudnimy wymagania: gra kończy się porażką po 10 nieudanych próbach.</p>
+<div class="code-block">
+<div class="code-label"><span>ugadaj_chislo_limit.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>max_attempts = <span class="tok-num">10</span>
+
+<span class="tok-kw">while</span> guess != secret <span class="tok-kw">and</span> attempts &lt; max_attempts:
+    ...
+
+<span class="tok-kw">if</span> guess == secret:
+    <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Zwycięstwo dla </span>{attempts}<span class="tok-str"> prób!</span><span class="tok-str">"</span>)
+<span class="tok-kw">else</span>:
+    <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Liczby się skończyły. Życzenie zostało złożone </span>{secret}<span class="tok-str">.</span><span class="tok-str">"</span>)</code></pre>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Zgadnij liczbę, wersja 3</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="12-09"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/12-09/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["12-09"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="12-09"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka (★★★): ograniczenie liczby prób</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="12-10"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/12-10/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["12-10"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="12-10"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-12/12-02-chaevye.html"><div class="dir">← Back</div><div class="lbl">Project: Czy napiwek jest wystarczający?</div></a><a class="next" href="/pl/chapters/rozdzial-12/12-11-analizator-teksta.html"><div class="dir">Następny →</div><div class="lbl">Projekt: analizator tekstu i częstotliwość słów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

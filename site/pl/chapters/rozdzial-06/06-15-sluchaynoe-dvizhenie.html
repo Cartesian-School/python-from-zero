@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Losowy ruch — Python od zera — Cartesian School</title>
+<meta content="Random walk w Turtle: mały krok i losowy obrót, powtarzane wielokrotnie — z ustalonym seed dla powtarzalności." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-06/06-15-sluchaynoe-dvizhenie.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-06/06-15-sluchaynoe-dvizhenie.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-06/06-15-sluchaynoe-dvizhenie.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-06/06-15-sluchaynoe-dvizhenie.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Losowy ruch — Python od zera — Cartesian School" />
+<meta property="og:description" content="Random walk w Turtle: mały krok i losowy obrót, powtarzane wielokrotnie — z ustalonym seed dla powtarzalności." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-06/06-15-sluchaynoe-dvizhenie.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Losowy ruch — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Random walk w Turtle: mały krok i losowy obrót, powtarzane wielokrotnie — z ustalonym seed dla powtarzalności." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Losowy ruch — Python od zera — Cartesian School","description":"Random walk w Turtle: mały krok i losowy obrót, powtarzane wielokrotnie — z ustalonym seed dla powtarzalności.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-06/06-15-sluchaynoe-dvizhenie.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-06/06-15-sluchaynoe-dvizhenie.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 6 · Turtle</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-06/index.html">Zaczynamy (przegląd rozdziału)</a></li><li><a href="/pl/chapters/rozdzial-06/06-01-pristupaem.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-06/06-09-koordinaty.html">Współrzędne: środek (0, 0)</a></li><li><a href="/pl/chapters/rozdzial-06/06-02-dvizhenie-vpered-nazad.html">Ruszanie Turtle</a></li><li><a href="/pl/chapters/rozdzial-06/06-10-napravlenie-i-ugol.html">Kierunek i kąt</a></li><li><a href="/pl/chapters/rozdzial-06/06-03-povorot-cherepashki.html">Zmieniamy kierunek</a></li><li><a href="/pl/chapters/rozdzial-06/06-11-pervye-figury.html">Pierwsze liczby i wzór 360/n</a></li><li><a href="/pl/chapters/rozdzial-06/06-04-mini-proekty-figury.html">Mini-projekty: kwadrat i sześciokąt</a></li><li><a href="/pl/chapters/rozdzial-06/06-05-sokraschennye-priemy.html">Techniki skrócone</a></li><li><a href="/pl/chapters/rozdzial-06/06-12-pero-vverh-vniz.html">Podnieś i opuść długopis</a></li><li><a href="/pl/chapters/rozdzial-06/06-07-goto-kvadrat.html">goto() i panel współrzędnych</a></li><li><a href="/pl/chapters/rozdzial-06/06-13-cvet-tolschina-vid.html">Kolor, grubość i wygląd zewnętrzny</a></li><li><a href="/pl/chapters/rozdzial-06/06-14-zalivka-krug-tochka.html">Wypełnienie, Okrąglenie, Łuk i Punkt</a></li><li><a href="/pl/chapters/rozdzial-06/06-06-sluchaynye-tochki.html">Losowe punkty na ekranie</a></li><li><a class="active" href="/pl/chapters/rozdzial-06/06-15-sluchaynoe-dvizhenie.html">Losowy ruch</a></li><li><a href="/pl/chapters/rozdzial-06/06-16-risuem-po-koordinatam.html">Rysowanie według współrzędnych</a></li><li><a href="/pl/chapters/rozdzial-06/06-17-otladka-turtle.html">Debugowanie Turtle</a></li><li><a href="/pl/chapters/rozdzial-06/06-18-mini-proekty.html">Mini-projekty</a></li><li><a href="/pl/chapters/rozdzial-06/06-08-mandala-itogi.html">Mandala i streszczenie</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/06-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-02: Praktyka</a></li><li><a href="/pl/practice/06-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-09: Praktyka</a></li><li><a href="/pl/practice/06-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-10: Praktyka</a></li><li><a href="/pl/practice/06-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-19: Praktyka</a></li><li><a href="/pl/practice/06-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-03: Praktyka</a></li><li><a href="/pl/practice/06-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-11: Praktyka</a></li><li><a href="/pl/practice/06-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-20: Praktyka</a></li><li><a href="/pl/practice/06-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-04: Praktyka</a></li><li><a href="/pl/practice/06-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-12: Praktyka</a></li><li><a href="/pl/practice/06-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-07: Praktyka</a></li><li><a href="/pl/practice/06-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-13: Praktyka</a></li><li><a href="/pl/practice/06-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-14: Praktyka</a></li><li><a href="/pl/practice/06-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-06: Praktyka</a></li><li><a href="/pl/practice/06-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-15: Praktyka</a></li><li><a href="/pl/practice/06-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-16: Praktyka</a></li><li><a href="/pl/practice/06-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-17: Praktyka</a></li><li><a href="/pl/practice/06-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-18: Praktyka</a></li><li><a href="/pl/practice/06-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 06-08: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-06/06-15-sluchaynoe-dvizhenie.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-06/index.html">Rozdział 6</a> / Losowy ruch</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 6 · Rysujemy fajne rzeczy za pomocą Turtle</div>
+<h1>Losowy ruch</h1>
+<p class="lede">Mały krok i losowy zakręt, powtarzany wiele razy, i otrzymujesz krętą, niepowtarzalną trajektorię.</p>
+<p>Łącząc mały krok do przodu z losowym obrotem w każdej iteracji, można uzyskać
+    niepowtarzalna, organicznie wyglądająca trajektoria — technika zwana "losową"
+    wędrując" (random walk).</p>
+<h2>Pomysł — najpierw bez kodu</h2>
+<p>Wyobraź sobie: zrób mały krok, lekko skręć w losowym kierunku, krok jeszcze raz, jeszcze raz
+    Przypadkowy zwrot akcji – i to tyle razy z rzędu. Brak planu, tylko powtarzanie tego samego
+    Małe rozwiązanie.</p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin:24px 0;align-items:flex-start">
+<div style="flex:1 1 340px;min-width:280px">
+<div class="code-block">
+<div class="code-label"><span>sluchaynoe_dvizhenie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+<span class="tok-kw">import</span> random
+
+random.seed(<span class="tok-num">3</span>)
+screen = turtle.Screen()
+screen.setup(width=<span class="tok-num">420</span>, height=<span class="tok-num">420</span>)
+artist = turtle.Turtle()
+artist.pensize(<span class="tok-num">2</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.speed(<span class="tok-num">0</span>)
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">40</span>):
+    artist.forward(<span class="tok-num">15</span>)
+    artist.right(random.randint(-<span class="tok-num">60</span>, <span class="tok-num">60</span>))
+
+screen.exitonclick()</code></pre>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:260px">
+<div style="font-family:Sora,sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;
+          text-transform:uppercase;color:#5B24F9;margin-bottom:8px">Rezultat</div>
+<figure style="margin:0;padding:14px;background:var(--color-bg-surface,#FAFAFC);
+          border-radius:var(--radius-lg,20px)">
+<img alt="Kręta fioletowa linia wędrująca po oknie bez wyraźnego kierunku" src="/assets/img/chapter-06/output/06-15-random-walk.png" style="width:100%;height:auto;border-radius:12px;display:block;background:#fff"/>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">Losowy spacer: 40 małych kroków, za każdym razem z losowym obrotem od −60° do 60°</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="cs-icon-emblem cs-icon-emblem--launch"><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg></div>
+<div>
+<div class="callout-title">wyprzedzanie faktów</div>
+<div class="callout-body">Poniższy kod wykorzystuje pętlę <code class="inline">for</code> — omówimy go szczegółowo później. Na razie nie trzeba rozumieć całej składni pętli: ważny jest sam pomysł — mały krok i przypadkowy obrót, powtarzane wiele razy.</div>
+</div>
+</div>
+<div class="code-block">
+<div class="code-label"><span>sluchaynoe_dvizhenie_kod.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">import</span> turtle
+<span class="tok-kw">import</span> random
+
+random.seed(<span class="tok-num">3</span>)   <span class="tok-com"># ustalić seed odtwarzanego obrazu</span>
+screen = turtle.Screen()
+artist = turtle.Turtle()
+artist.pensize(<span class="tok-num">2</span>)
+artist.pencolor(<span class="tok-str">"#5B24F9"</span>)
+artist.speed(<span class="tok-num">0</span>)
+
+<span class="tok-kw">for</span> <span class="tok-kw">_</span> <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-num">40</span>):
+    artist.forward(<span class="tok-num">15</span>)
+    artist.right(random.randint(-<span class="tok-num">60</span>, <span class="tok-num">60</span>))</code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">Spróbuj się zmienić</div>
+<div class="callout-body">Usuń <code class="inline">random.seed(3)</code> - Ścieżka będzie nowa za każdym razem, gdy ją przebijesz. Zmień zasięg <code class="inline">randint(-60, 60)</code> na przykład węższą <code class="inline">(-15, 15)</code> ścieżka stanie się bardziej bezpośrednia i przewidywalna.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Ruch losowy</div>
+<div class="nc-sub">Moduł turtle otwiera natywne okno Python – uruchamiane lokalnie w VS Code, PyCharm lub Jupyter</div>
+<div class="practice-inline-status" data-lesson-id="06-15"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/06-15/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["06-15"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="06-15"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-06/06-06-sluchaynye-tochki.html"><div class="dir">← Back</div><div class="lbl">Losowe Punkty</div></a><a class="next" href="/pl/chapters/rozdzial-06/06-16-risuem-po-koordinatam.html"><div class="dir">Następny →</div><div class="lbl">Rysowanie według współrzędnych</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

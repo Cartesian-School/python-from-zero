@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Zagnieżdżone funkcje i nonlocal – Python od zera – Cartesian School</title>
+<meta content="Funkcja w funkcji, Enclosing z LEGB, nonlocal słowo kluczowe, szybkie wprowadzenie do zamknięcia." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-13/13-16-vlozhennye-funkcii-nonlocal.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-13/13-16-vlozhennye-funkcii-nonlocal.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Zagnieżdżone funkcje i nonlocal – Python od zera – Cartesian School" />
+<meta property="og:description" content="Funkcja w funkcji, Enclosing z LEGB, nonlocal słowo kluczowe, szybkie wprowadzenie do zamknięcia." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zagnieżdżone funkcje i nonlocal – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Funkcja w funkcji, Enclosing z LEGB, nonlocal słowo kluczowe, szybkie wprowadzenie do zamknięcia." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Zagnieżdżone funkcje i nonlocal – Python od zera – Cartesian School","description":"Funkcja w funkcji, Enclosing z LEGB, nonlocal słowo kluczowe, szybkie wprowadzenie do zamknięcia.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-16-vlozhennye-funkcii-nonlocal.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 13 · Funkcje</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-13/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-13/13-09-zachem-programme-funkcii.html">Dlaczego program potrzebuje funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-01-nastoyashaya-avtomatizaciya.html">Prawdziwa automatyzacja. Pierwsza funkcja</a></li><li><a href="/pl/chapters/rozdzial-13/13-10-vyzov-i-vozvrat-upravlenie.html">Co się dzieje podczas wywołania</a></li><li><a href="/pl/chapters/rozdzial-13/13-02-zachem-funkcii.html">Parametr i argument</a></li><li><a href="/pl/chapters/rozdzial-13/13-11-izmenyaemye-i-nezmenyaemye-argumenty.html">Argumenty zmienne i niezmienne</a></li><li><a href="/pl/chapters/rozdzial-13/13-12-pozicionnye-i-imennye.html">Argumenty pozycyjne i nazwane</a></li><li><a href="/pl/chapters/rozdzial-13/13-04-argumenty.html">Wartości domyślne i *args</a></li><li><a href="/pl/chapters/rozdzial-13/13-13-args-kwargs-raspakovka.html">*args, **kwargs i rozpakowywanie</a></li><li><a href="/pl/chapters/rozdzial-13/13-14-positional-only-keyword-only.html">Positional-only i keyword-only</a></li><li><a href="/pl/chapters/rozdzial-13/13-03-vozvrashaem-otvet.html">Odpowiedz</a></li><li><a href="/pl/chapters/rozdzial-13/13-15-funkcii-vhod-vyhod.html">Wejście, Operacja, Wyjście: Funkcje czyste</a></li><li><a href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html">Zmienne globalne i lokalne</a></li><li><a class="active" href="/pl/chapters/rozdzial-13/13-16-vlozhennye-funkcii-nonlocal.html">Zagnieżdżone funkcje i nonlocal</a></li><li><a href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html">Stos wywołań i traceback</a></li><li><a href="/pl/chapters/rozdzial-13/13-18-proektiruem-funkciyu.html">Projektowanie dobrej funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-19-dokumentaciya-i-tipy.html">Dockstringi i wskazówki typu</a></li><li><a href="/pl/chapters/rozdzial-13/13-20-funkcii-kak-obekty.html">Funkcje jako obiekty</a></li><li><a href="/pl/chapters/rozdzial-13/13-06-lambda.html">Funkcje lambda</a></li><li><a href="/pl/chapters/rozdzial-13/13-21-funkcii-kak-konvejer.html">Funkcje jak taśma produkcyjna</a></li><li><a href="/pl/chapters/rozdzial-13/13-22-refaktoring-glavy-12.html">Refaktoryzacja projektów rozdziału 12</a></li><li><a href="/pl/chapters/rozdzial-13/13-23-debug-lab-funkcii.html">Debug Lab: typowe błędy funkcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-24-testirovanie-funkcij.html">Funkcje testowania</a></li><li><a href="/pl/chapters/rozdzial-13/13-07-mini-proekt-domashka.html">Mini-projekt: zadanie domowe z matematyki</a></li><li><a href="/pl/chapters/rozdzial-13/13-25-mini-proekt-analizator-v2.html">Mini-projekt: Analizator tekstu v2</a></li><li><a href="/pl/chapters/rozdzial-13/13-26-mini-proekt-konverter-i-utility.html">Mini-projekty: konwerter i narzędzia kolekcji</a></li><li><a href="/pl/chapters/rozdzial-13/13-08-mini-proekt-figury-itogi.html">Mini-projekt: Turtle Function Studio i wnioski</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/13-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-09: Praktyka</a></li><li><a href="/pl/practice/13-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-01: Praktyka</a></li><li><a href="/pl/practice/13-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-10: Praktyka</a></li><li><a href="/pl/practice/13-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-02: Praktyka</a></li><li><a href="/pl/practice/13-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-11: Praktyka</a></li><li><a href="/pl/practice/13-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-12: Praktyka</a></li><li><a href="/pl/practice/13-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-04: Praktyka</a></li><li><a href="/pl/practice/13-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-13: Praktyka</a></li><li><a href="/pl/practice/13-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-14: Praktyka</a></li><li><a href="/pl/practice/13-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-03: Praktyka</a></li><li><a href="/pl/practice/13-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-15: Praktyka</a></li><li><a href="/pl/practice/13-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-05: Praktyka</a></li><li><a href="/pl/practice/13-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-16: Praktyka</a></li><li><a href="/pl/practice/13-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-17: Praktyka</a></li><li><a href="/pl/practice/13-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-18: Praktyka</a></li><li><a href="/pl/practice/13-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-19: Praktyka</a></li><li><a href="/pl/practice/13-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-20: Praktyka</a></li><li><a href="/pl/practice/13-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-06: Praktyka</a></li><li><a href="/pl/practice/13-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-21: Praktyka</a></li><li><a href="/pl/practice/13-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-22: Praktyka</a></li><li><a href="/pl/practice/13-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-23: Praktyka</a></li><li><a href="/pl/practice/13-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-24: Praktyka</a></li><li><a href="/pl/practice/13-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-07: Praktyka</a></li><li><a href="/pl/practice/13-25/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-25: Praktyka</a></li><li><a href="/pl/practice/13-26/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-26: Praktyka</a></li><li><a href="/pl/practice/13-27/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-27: Praktyka</a></li><li><a href="/pl/practice/13-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 13-08: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-13/13-16-vlozhennye-funkcii-nonlocal.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-13/index.html">Rozdział 13</a> / Funkcje zagnieżdżone</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 13 · Automatyzacja z funkcjami</div>
+<h1>Zagnieżdżone funkcje i nonlocal</h1>
+<p class="lede">Funkcję można zdefiniować bezpośrednio wewnątrz innej funkcji — i nonlocal pozwala jej zmieniać nazwę funkcji obejmującej, a nie tylko ją odczytywać.</p>
+<h2>Funkcja w obrębie funkcji</h2>
+<p>Funkcję można zdefiniować bezpośrednio wewnątrz ciała innej funkcji:</p>
+<div class="code-block">
+<div class="code-label"><span>vlozhennaya_funkciya.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> outer():
+    message = <span class="tok-str">"Hello"</span>
+
+    <span class="tok-kw">def</span> inner():
+        <span class="tok-fn">print</span>(message)
+
+    inner()
+
+outer()</code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">inner widzi message jest Enclosing LEGB</div>
+<div class="callout-body"><code class="inline">inner()</code> nie ma własnego <code class="inline">message</code>, ale znajduje go w funkcji obejmującej <code class="inline">outer()</code> — to litera „E” (Enclosing) z drabinki LEGB (§13.12).</div>
+</div>
+</div>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">Wgłębienie nie jest ozdobą, lecz deklaracją gniazdowania</div>
+<div class="callout-body">Gdy przypadkowo przesuniesz <code class="inline">def inner():</code> poziom wcięcia jest mniejszy niż konieczne, nie będzie już zagnieżdżony w <code class="inline">outer</code> — i odwrotnie. Wcięcie dosłownie określa, która funkcja jest „wewnątrz”</div>
+</div>
+</div>
+<h2>nonlocal</h2>
+<p>Podobnie jak w przypadku zmiennych globalnych, można swobodnie odczytać nazwę z funkcji obejmującej, oraz
+    oto ZMIANA (przypisuj) – musisz wyraźnie zapytać:</p>
+<div class="code-block">
+<div class="code-label"><span>nonlocal.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> outer():
+    count = <span class="tok-num">0</span>
+
+    <span class="tok-kw">def</span> inner():
+        <span class="tok-kw">nonlocal</span> count
+        count += <span class="tok-num">1</span>
+
+    inner()
+    inner()
+    <span class="tok-fn">print</span>(count)
+
+outer()</code></pre>
+</div>
+<figure style="margin:24px 0">
+<pre style="background:#0D0230;color:#E7DEFF;border-radius:var(--radius-lg,20px);
+        padding:18px 22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14px;
+        line-height:1.7"><code>2</code></pre>
+<figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:10px">nonlocal pozwalało inner() modyfikować count z outer() zamiast tworzyć lokalną kopię</figcaption>
+</figure>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">nonlocal — to NIE global</div>
+<div class="callout-body"><code class="inline">nonlocal</code> szuka nazwy w NAJBLIŻSZEJ odpowiedniej funkcji obejmującej — nie na poziomie modułu. Jeśli usunąć <code class="inline">nonlocal count</code>otrzymasz ten sam błąd <code class="inline">UnboundLocalError</code>jak w §13.12 — z tego samego powodu: przypisanie w ramach <code class="inline">inner</code> by się dobrze <code class="inline">count</code> lokalnej nazwy <code class="inline">inner</code>.</div>
+</div>
+</div>
+<h2><svg aria-hidden="true" class="cs-icon cs-icon--launch"><use href="/assets/icons/cartesian/icons.svg#icon-launch"></use></svg> Trochę głębiej — zamknięcie (closure)</h2>
+<p>Funkcja zagnieżdżona potrafi „zapamiętać” wartości z funkcji otaczającej nawet po tym,
+    jak wywołanie zewnętrzne już się zakończyło:</p>
+<div class="code-block">
+<div class="code-label"><span>closure.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> make_greeter(name):
+    <span class="tok-kw">def</span> greet():
+        <span class="tok-fn">print</span>(<span class="tok-str">f"</span><span class="tok-str">Cześć, </span>{name}<span class="tok-str">!</span><span class="tok-str">"</span>)
+    <span class="tok-kw">return</span> greet
+
+greet_anna = make_greeter(<span class="tok-str">"Anna"</span>)
+greet_anna()   <span class="tok-com">#Hey Anna! — chociaż make_greeter już skończył pracę</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">Zamknięcie to temat na przyszłość</div>
+<div class="callout-body">Tak się nazywa <strong>zamknięcie</strong> — <code class="inline">greet</code> dostęp „zabiera ze sobą” <code class="inline">name</code>. Wystarczy tu zauważyć, że w ogóle tak się dzieje — szczegółowa analiza zamknięć i ich praktycznych zastosowań (dekoratorów i nie tylko) nie została uwzględniona w tym rozdziale.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: funkcje zagnieżdżone i nonlocal</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="13-16"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/13-16/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["13-16"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="13-16"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-13/13-05-globalnye-lokalnye.html"><div class="dir">← Back</div><div class="lbl">Zmienne globalne i lokalne</div></a><a class="next" href="/pl/chapters/rozdzial-13/13-17-stek-vyzovov.html"><div class="dir">Następny →</div><div class="lbl">Stos wywołań i traceback</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

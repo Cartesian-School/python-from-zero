@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Drużyna łańcuch znaków SafeSort – Python od podstaw – Cartesian School</title>
+<meta content="argparse, add_subparsers() i pięć podzespołów SafeSort: scan, plan, apply, duplicates, undo." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-23/23-06-komandnaya-stroka.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-23/23-06-komandnaya-stroka.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Drużyna łańcuch znaków SafeSort – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="argparse, add_subparsers() i pięć podzespołów SafeSort: scan, plan, apply, duplicates, undo." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Drużyna łańcuch znaków SafeSort – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="argparse, add_subparsers() i pięć podzespołów SafeSort: scan, plan, apply, duplicates, undo." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Drużyna łańcuch znaków SafeSort – Python od podstaw – Cartesian School","description":"argparse, add_subparsers() i pięć podzespołów SafeSort: scan, plan, apply, duplicates, undo.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-23/23-06-komandnaya-stroka.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Część I · Git i GitHub od zera</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/index.html">Przegląd rozdziału</a></li><li><a href="/pl/chapters/rozdzial-23/23-01-ideya-trebovaniya.html">Co stworzymy: SafeSort</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-01-chto-takoe-git-github.html">Czym jest Git i czym jest GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-02-ustanavlivaem-git.html">Instaluj Git</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-03-pervaya-nastrojka.html">Pierwsze ustawienie Git</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-04-github-account.html">Tworzymy i chronimy konto GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-05-autentifikaciya.html">HTTPS, SSH i uwierzytelnianie</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-06-ssh.html">Konfigurujemy SSH</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-07-sozdaem-repozitorij.html">Tworzymy repozytorium SafeSort na GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-08-kloniruem.html">Sklonuj repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-09-lokalnyj-i-udalennyj.html">Lokalne i zdalne repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-git-10-working-tree-staging-commit.html">Gałąź, HEAD i origin/main</a></li></ul><div class="sidebar-title">Część II · Planowanie SafeSort GitHub</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-proj-01-repo-vs-project.html">Repository i GitHub Project – jaka jest różnica</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-02-luchshie-praktiki.html">Jak zaplanować Project: najlepsze praktyki</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-03-sozdaem-project.html">Tworzenie GitHub Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-05-board-table-roadmap.html">Board, Table i Roadmap</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-06-polya.html">Pola Project: wbudowane i niestandardowe</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-07-chernoviki.html">Szkice: Zadanie bez Issue</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-08-chernovik-v-issue.html">Zamień draft w Issue</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-09-issues.html">Stwórz Issues i dodaj do Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-17-issue-branch-pr.html">Pierwsza pętla: Issue → Branch → Pull Request</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-04-kopiruem-project.html">Opcjonalne · Skopiuj istniejący Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-10-redaktiruem-elementy.html">Nieobowiązkowo · Edytujemy elementy Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-11-filtr-sort-grupp.html">Nieobowiązkowo · Filtrujemy, sortujemy i grupujemy</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-12-upravlyaem-predstavleniyami.html">Opcjonalne · Zarządzanie widokami</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-13-avtomatizaciya.html">Opcjonalne · Wbudowana automatyzacja i auto-add</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-14-arhiviruem.html">Opcjonalne · Archiwizuj i przywracaj elementy</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-15-shablony.html">Opcjonalne · Szablony Project</a></li><li><a href="/pl/chapters/rozdzial-23/23-proj-16-insights.html">Opcjonalne · Insights i wykresy Project</a></li></ul><div class="sidebar-title">Część III · Tworzenie projektu Python-</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-02-repozitorij.html">Pierwszy commit w sklonowanym repozytorium</a></li><li><a href="/pl/chapters/rozdzial-23/23-03-readme.html">Pierwszy README projektu</a></li><li><a href="/pl/chapters/rozdzial-23/23-04-struktura-paketa.html">Planowanie struktury pakietu Python-</a></li><li><a href="/pl/chapters/rozdzial-23/23-05-pyproject-toml.html">pyproject.toml i ustawienie projektu</a></li><li><a class="active" href="/pl/chapters/rozdzial-23/23-06-komandnaya-stroka.html">Drużyna łańcuch znaków SafeSort</a></li></ul><div class="sidebar-title">Część IV · Wdrażanie SafeSort</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-07-pathlib.html">pathlib: pracujemy ze ścieżkami i katalogami</a></li><li><a href="/pl/chapters/rozdzial-23/23-08-skaniruem-katalog.html">Zeskanuj katalog</a></li><li><a href="/pl/chapters/rozdzial-23/23-09-isklyucheniya.html">Które katalogi nie wymagają przeglądania</a></li><li><a href="/pl/chapters/rozdzial-23/23-10-klassifikaciya.html">Zdefiniuj kategorię pliku</a></li><li><a href="/pl/chapters/rozdzial-23/23-11-plan-dejstvij.html">Od analizy do planu działania</a></li><li><a href="/pl/chapters/rozdzial-23/23-12-predvaritelnyj-prosmotr.html">Tryb Podglądu</a></li><li><a href="/pl/chapters/rozdzial-23/23-13-peremeshaem-fajly.html">Bezpiecznie przenoszcie pliki</a></li><li><a href="/pl/chapters/rozdzial-23/23-14-imya-zanyato.html">Co zrobić, jeśli nazwisko jest już zajęte</a></li><li><a href="/pl/chapters/rozdzial-23/23-15-zhurnal-operacij.html">Dziennik wykonanych operacji</a></li><li><a href="/pl/chapters/rozdzial-23/23-16-otmena-operacii.html">Cofnij ostatnią operację</a></li><li><a href="/pl/chapters/rozdzial-23/23-17-poisk-dublikatov.html">Znajdź identyczne pliki</a></li><li><a href="/pl/chapters/rozdzial-23/23-18-sha256.html">SHA-256 i hash zawartości pliku</a></li><li><a href="/pl/chapters/rozdzial-23/23-19-gruppy-dublikatov.html">Znajdź grupy duplikatów</a></li><li><a href="/pl/chapters/rozdzial-23/23-20-oshibki-fajlovoj-sistemy.html">Obsługa błędów systemu plików</a></li><li><a href="/pl/chapters/rozdzial-23/23-21-logging.html">Dodaj log programu</a></li><li><a href="/pl/chapters/rozdzial-23/23-22-nastrojki-proekta.html">Ustawienia projektu</a></li></ul><div class="sidebar-title">część V · Sprawdzamy i automatyzujemy</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-23-pervye-testy.html">Pisanie pierwszych testów automatycznych</a></li><li><a href="/pl/chapters/rozdzial-23/23-24-testy-skanirovaniya.html">Sprawdź skan i klasyfikację</a></li><li><a href="/pl/chapters/rozdzial-23/23-25-testy-peremeshheniya.html">Sprawdź przeprowadzkę i anulowanie</a></li><li><a href="/pl/chapters/rozdzial-23/23-26-testy-dublikatov.html">Sprawdzamy wyszukiwanie duplikatów</a></li><li><a href="/pl/chapters/rozdzial-23/23-27-testy-cli.html">Sprawdzamy interfejs wiersza poleceń</a></li><li><a href="/pl/chapters/rozdzial-23/23-28-git-kommit.html">Zmiana samooceny i zaangażowanie dyscypliny</a></li><li><a href="/pl/chapters/rozdzial-23/23-29-github-pr.html">GitHub: używać Issue, branch i Pull Request</a></li><li><a href="/pl/chapters/rozdzial-23/23-30-github-actions.html">GitHub Actions: automatycznie wykonuje testy</a></li></ul><div class="sidebar-title">Część VI · Wydanie pierwszej wersji</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-31-versiya-reliz.html">Dokumentacja, wersja i pierwsze wydanie</a></li><li><a href="/pl/chapters/rozdzial-23/23-32-itogi-reliz.html">Rezultaty: pełna ścieżka projektu od pomysłu do premiery</a></li></ul><div class="sidebar-title">Aplikacja · Trening domowy</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-23/23-hw-index.html">Dodatkowa praktyka: sześć mini-projektów dla GitHub</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-01-kalkulyator.html">Projekt domowy A: kalkulator z Tkinter</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-02-generator-istorij.html">Generator losowych historii B: Projektu Domowego</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-03-kamen-nozhnicy-bumaga.html">Projekt domowy C: „Kamień, papier, nożyce”</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-04-otskakivayushie-myachi.html">Projekt domowy D: odbijające się piłki z Pygame</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-05-temperatura.html">Projekt Domowy E: Konwersja temperatury</a></li><li><a href="/pl/chapters/rozdzial-23/23-hw-06-zametki.html">Aplikacja Notes F: projekt domowy</a></li></ul><div class="sidebar-title">Praktyka: SafeSort</div><ul class="toc-list"><li><a href="/pl/practice/23-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-07: Praktyka</a></li><li><a href="/pl/practice/23-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-08: Praktyka</a></li><li><a href="/pl/practice/23-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-09: Praktyka</a></li><li><a href="/pl/practice/23-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-10: Praktyka</a></li><li><a href="/pl/practice/23-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-11: Praktyka</a></li><li><a href="/pl/practice/23-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-12: Praktyka</a></li><li><a href="/pl/practice/23-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-13: Praktyka</a></li><li><a href="/pl/practice/23-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-14: Praktyka</a></li><li><a href="/pl/practice/23-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-15: Praktyka</a></li><li><a href="/pl/practice/23-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-16: Praktyka</a></li><li><a href="/pl/practice/23-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-17: Praktyka</a></li><li><a href="/pl/practice/23-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-18: Praktyka</a></li><li><a href="/pl/practice/23-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-19: Praktyka</a></li><li><a href="/pl/practice/23-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-20: Praktyka</a></li><li><a href="/pl/practice/23-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-21: Praktyka</a></li><li><a href="/pl/practice/23-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-22: Praktyka</a></li><li><a href="/pl/practice/23-23/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-23: Praktyka</a></li><li><a href="/pl/practice/23-24/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-24: Praktyka</a></li></ul><div class="sidebar-title">Praktyka: projekty domowe</div><ul class="toc-list"><li><a href="/pl/practice/23-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-01: Praktyka</a></li><li><a href="/pl/practice/23-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-02: Praktyka</a></li><li><a href="/pl/practice/23-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-03: Praktyka</a></li><li><a href="/pl/practice/23-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-04: Praktyka</a></li><li><a href="/pl/practice/23-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-05: Praktyka</a></li><li><a href="/pl/practice/23-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 23-06: Praktyka</a></li></ul><div class="sidebar-title">Kod źródłowy</div><ul class="toc-list"><li><a href="https://github.com/Cartesian-School/safesort"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> SafeSort — repozytorium źródłowe (GitHub)</a></li><li><a href="../../../projects/python/safesort/README.md"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> projects/python/safesort/ jest podręcznikową kopią w tej książce</a></li><li><a href="https://github.com/Cartesian-School/python-mini-projects"><svg aria-hidden="true" class="cs-icon cs-icon--code"><use href="/assets/icons/cartesian/icons.svg#icon-code"></use></svg> python-mini-projects</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-23/23-06-komandnaya-stroka.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-23/index.html">Rozdział 23</a> / Zespół łańcuch znaków</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 23 · Część III · Tworzymy projekt Python-</div>
+<h1>Drużyna łańcuch znaków SafeSort</h1>
+<p class="lede">argparse analizuje pięć podinstrukcji SafeSort i przypisuje każdej osobnej funkcji obsługi.</p>
+<div aria-label="Postanowienia w projekcie SafeSort" class="stage-tracker-compact"><span>SafeSort · Część 3 z 6</span><strong>Projekt</strong></div>
+<figure style="margin:24px 0;padding:20px 24px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><div style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px"><svg aria-hidden="true" class="cs-icon cs-icon--folder"><use href="/assets/icons/cartesian/icons.svg#icon-folder"></use></svg><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">src/safesort/</span></div><div style="margin-left:11px;padding-left:17px;border-left:2px solid #E4E1F5"><div style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px"><svg aria-hidden="true" class="cs-icon cs-icon--file"><use href="/assets/icons/cartesian/icons.svg#icon-file"></use></svg><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">__init__.py</span></div><div style="display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:8px;background:#EAF1FF"><svg aria-hidden="true" class="cs-icon cs-icon--file"><use href="/assets/icons/cartesian/icons.svg#icon-file"></use></svg><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#0D0230">cli.py</span><span style="margin-left:8px;font-size:11px;font-weight:700;color:var(--blue-600);letter-spacing:.02em">NOWE</span></div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:12px">Pierwszy plik z prawdziwą logiką: cli.py.</figcaption></figure>
+<p>SafeSort będzie sterowany pięcioma podkomendami: <code class="inline">scan</code>,
+    <code class="inline">plan</code>, <code class="inline">apply</code>,
+    <code class="inline">duplicates</code> oraz <code class="inline">undo</code>. Do analizy
+    Moduł odpowiedzi na argumenty wiersza poleceń <code class="inline">argparse</code> z
+    standardowej biblioteki — to on generuje tekst <code class="inline">--help</code>.</p>
+<div class="code-block">
+<div class="code-label"><span>src/safesort/cli.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">def</span> build_parser() -&gt; argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog=<span class="tok-str">"safesort"</span>,
+        description=(
+            <span class="tok-str">"SafeSort: a safe, non-destructive file organizer. "</span>
+            <span class="tok-str">"scan/plan/duplicates are read-only; 'apply' sorts and 'undo' restores files."</span>
+        ),
+    )
+    subparsers = parser.add_subparsers(dest=<span class="tok-str">"command"</span>, required=<span class="tok-kw">True</span>)
+
+    scan_parser = subparsers.add_parser(<span class="tok-str">"scan"</span>, help=<span class="tok-str">"..."</span>)
+    scan_parser.add_argument(<span class="tok-str">"root"</span>, <span class="tok-kw">type</span>=Path, help=<span class="tok-str">"Directory to scan."</span>)
+    <span class="tok-com"># ... Podobnie dla plan, apply, duplicates, undo</span>
+    <span class="tok-kw">return</span> parser</code></pre>
+</div>
+<div class="callout callout-tip">
+<div>
+<div class="callout-title">add_subparsers(dest="command", required=True)</div>
+<div class="callout-body"><code class="inline">dest="command"</code> umieszcza nazwę wywołanego podpokarmu w <code class="inline">args.command</code>. <code class="inline">required=True</code> wymusza argparse samodzielne wygenerowanie wyraźnego błędu, jeśli użytkownik uruchomi <code class="inline">safesort</code> bez żadnego podpolecenia nie musisz pisać tego czeku ręcznie.</div>
+</div>
+</div>
+<h2>Od rozdzielonych argumentów do wyniku</h2>
+<p>Każda podinstrukcja odpowiada jednej funkcji obsługi, a słownik wiąże nazwę
+    Polecenia o pożądanej funkcji:</p>
+<div class="code-block">
+<div class="code-label"><span>src/safesort/cli.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>_HANDLERS = {
+    <span class="tok-str">"scan"</span>: cmd_scan,
+    <span class="tok-str">"plan"</span>: cmd_plan,
+    <span class="tok-str">"apply"</span>: cmd_apply,
+    <span class="tok-str">"duplicates"</span>: cmd_duplicates,
+    <span class="tok-str">"undo"</span>: cmd_undo,
+}
+
+<span class="tok-kw">def</span> main(argv: <span class="tok-fn">list</span>[<span class="tok-fn">str</span>] | <span class="tok-kw">None</span> = <span class="tok-kw">None</span>) -&gt; <span class="tok-fn">int</span>:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    handler = _HANDLERS[args.command]
+    <span class="tok-kw">return</span> handler(args)</code></pre>
+</div>
+<p>Taki słownik — ten sam trik co w grze „Kamień, papier, nożyczki” z załącznika do tej części: zamiast łańcucha <code class="inline">if args.command == "scan": ... elif ...
+    </code> potrzebną funkcję po prostu wyszukuje się po kluczu.</p>
+<p>Każda funkcja obsługi zwraca liczbę całkowitą: <code class="inline">0</code> at
+    niezerowa wartość błędu to kod zwrotny programu, który
+    widzi system operacyjny i każdy skrypt, który wywołuje <code class="inline">safesort</code>
+    z innego miejsca.</p>
+<p>Zainstaluj pakiet i uruchom polecenie — argparse generuje tekst pomocy sam, bez
+    pojedynczego wiersza napisanego ręcznie:</p>
+<figure style="margin:24px 0">
+<div style="background:var(--navy-950,#08011C);border-radius:var(--radius-md,14px);overflow:hidden;box-shadow:var(--shadow-sm)">
+<div style="display:flex;gap:6px;padding:10px 14px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08)">
+<span style="width:10px;height:10px;border-radius:50%;background:#EF4444"></span>
+<span style="width:10px;height:10px;border-radius:50%;background:#F5B93D"></span>
+<span style="width:10px;height:10px;border-radius:50%;background:#22C55E"></span>
+</div>
+<div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.75;overflow-x:auto"><div><span style="color:#8FB7FE">~/safesort $</span> <span style="color:#fff">safesort --help</span></div><div style="color:#B4B4C4">usage: safesort [-h] {scan,plan,apply,duplicates,undo} ...</div><div> </div><div style="color:#B4B4C4">SafeSort: a safe, non-destructive file organizer. scan/plan/duplicates are</div><div style="color:#B4B4C4">read-only; 'apply' sorts and 'undo' restores files.</div><div> </div><div style="color:#B4B4C4">positional arguments:</div><div style="color:#B4B4C4">  {scan,plan,apply,duplicates,undo}</div><div style="color:#B4B4C4">    scan                List files found under ROOT, grouped by category</div><div style="color:#B4B4C4">                        (read-only).</div><div style="color:#B4B4C4">    plan                Show the moves that would be made under ROOT, without</div><div style="color:#B4B4C4">                        changing anything (read-only).</div><div style="color:#B4B4C4">    apply               Move files under ROOT into Sorted/&lt;category&gt;/ and</div><div style="color:#B4B4C4">                        record an undo manifest.</div><div style="color:#B4B4C4">    duplicates          Report groups of files with identical content under</div><div style="color:#B4B4C4">                        ROOT (read-only, never deletes).</div><div style="color:#B4B4C4">    undo                Undo the most recent 'apply' run recorded under ROOT.</div><div> </div><div style="color:#B4B4C4">options:</div><div style="color:#B4B4C4">  -h, --help            show this help message and exit</div></div>
+</div>
+</figure>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Analizowanie argumentów wiersza poleceń</div>
+<div class="nc-sub">Interaktywny Laptop w przeglądarce: Python 3.14 przez Pyodide, bez instalacji</div>
+<div class="practice-inline-status" data-lesson-id="23-07"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/23-07/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["23-07"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="23-07"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div style="margin:20px 0;padding:14px 18px;background:var(--color-bg-surface,#FAFAFC);border-radius:12px;font-size:13.5px"><div style="font-weight:700;color:#6B6B7D;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px">Oficjalna dokumentacja</div><div style="margin:3px 0"><a href="https://docs.python.org/3/library/argparse.html" style="color:#185DFA">argparse — Parser for command-line options</a></div></div>
+<div class="summary-box">
+<h3>Krótko</h3>
+<ul><li>argparse.ArgumentParser add_subparsers() analizuje pięć podkomend SafeSort i sam tworzy tekst — help.</li><li>dest=„command”</li><li>Każdy handler zwraca 0 przy sukcesie i wartość różną od zera przy błędzie — to jest kod zwrotny całego programu.</li></ul>
+</div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-23/23-05-pyproject-toml.html"><div class="dir">← Back</div><div class="lbl">pyproject.toml</div></a><a class="next" href="/pl/chapters/rozdzial-23/23-07-pathlib.html"><div class="dir">Następny →</div><div class="lbl">pathlib: ścieżki i katalogi</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

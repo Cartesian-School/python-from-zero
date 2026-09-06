@@ -18,7 +18,8 @@ run after every rebuild.
 Practice pages (thin application shells wrapping notebook content that's
 already represented on their parent theory page) are marked noindex,follow —
 sound SEO judgment: the shell has near-duplicate content, but internal link
-equity to the theory page should still be followed.
+equity to the theory page should still be followed. This holds for every
+locale a practice page is published in, RU and PL alike.
 """
 
 from __future__ import annotations
@@ -151,9 +152,9 @@ def _seo_block(page: PageRecord, all_pages: list[PageRecord], routes: Routes | N
     return "\n".join(parts)
 
 
-def inject(page: PageRecord, all_pages: list[PageRecord]) -> bool:
+def inject(page: PageRecord, all_pages: list[PageRecord], routes: Routes | None = None) -> bool:
     text = page.path.read_text(encoding="utf-8")
-    block = _seo_block(page, all_pages)
+    block = _seo_block(page, all_pages, routes)
 
     start = text.find(MARKER_START)
     end = text.find(MARKER_END)
@@ -172,9 +173,10 @@ def inject(page: PageRecord, all_pages: list[PageRecord]) -> bool:
 
 def main() -> None:
     pages = iter_pages()
+    routes = Routes()
     changed = 0
     for page in pages:
-        if inject(page, pages):
+        if inject(page, pages, routes):
             changed += 1
     print(f"SEO-мета: обработано {len(pages)} страниц, изменено {changed}.")
 

@@ -99,16 +99,21 @@ jobs:
           python scripts/build_manifest.py
           python scripts/build_projects.py
           python scripts/build_site_index.py
-          python scripts/build_site_index_pl.py
+
+      - name: Generate complete Polish course and shared practice client
+        run: |
+          python scripts/build_polish_course.py
           python scripts/build_front_matter_pl.py
           python scripts/build_license_page_pl.py
-          python scripts/inject_ru_author_switcher.py
+          npm --prefix web run build
+          python scripts/inject_language_switchers.py
 
       - name: Generate SEO metadata, sitemap.xml, llms-full.txt
         run: |
           python scripts/build_seo_meta.py
           python scripts/build_sitemap.py
           python scripts/build_llms_full.py
+          python scripts/build_llms_pl.py
 
       - name: Run course test suite
         run: pytest tests/

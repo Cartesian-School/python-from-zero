@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Terminal, shell i PATH – Python od podstaw – Cartesian School</title>
+<meta content="Czym jest terminal, shell, polecenie i argument – oraz jak zmienna środowisko PATH decyduje, który program będzie działał pod nazwą python." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-02/02-04-terminal-shell-i-path.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-02/02-04-terminal-shell-i-path.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Terminal, shell i PATH – Python od podstaw – Cartesian School" />
+<meta property="og:description" content="Czym jest terminal, shell, polecenie i argument – oraz jak zmienna środowisko PATH decyduje, który program będzie działał pod nazwą python." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Terminal, shell i PATH – Python od podstaw – Cartesian School" />
+<meta name="twitter:description" content="Czym jest terminal, shell, polecenie i argument – oraz jak zmienna środowisko PATH decyduje, który program będzie działał pod nazwą python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Terminal, shell i PATH – Python od podstaw – Cartesian School","description":"Czym jest terminal, shell, polecenie i argument – oraz jak zmienna środowisko PATH decyduje, który program będzie działał pod nazwą python.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-02/02-04-terminal-shell-i-path.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 2 · Instalacja Python</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-02/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-02/02-01-govorim-na-yazyke-kompyutera.html">Co dokładnie instalujemy?</a></li><li><a class="active" href="/pl/chapters/rozdzial-02/02-04-terminal-shell-i-path.html">Terminal, shell i PATH</a></li><li><a href="/pl/chapters/rozdzial-02/02-02-windows.html">Instalacja na Windows</a></li><li><a href="/pl/chapters/rozdzial-02/02-03-mac.html">Instalacja na macOS</a></li><li><a href="/pl/chapters/rozdzial-02/02-05-linux.html">Instalacja na Linux</a></li><li><a href="/pl/chapters/rozdzial-02/02-06-kakoj-python-zapushen.html">Który Python tak naprawdę się rozbiega</a></li><li><a href="/pl/chapters/rozdzial-02/02-07-vscode-ustanovka-i-rasshireniya.html">VS Code: instalacja i rozszerzenia</a></li><li><a href="/pl/chapters/rozdzial-02/02-08-vscode-konfiguraciya.html">VS Code: interpreter i przepływ pracy</a></li><li><a href="/pl/chapters/rozdzial-02/02-09-pycharm.html">PyCharm: projekt, interpretator, środowisko</a></li><li><a href="/pl/chapters/rozdzial-02/02-10-zachem-nuzhny-venv.html">Środowiska wirtualne – dlaczego są potrzebne</a></li><li><a href="/pl/chapters/rozdzial-02/02-11-sozdanie-venv.html">Stwórz . venv</a></li><li><a href="/pl/chapters/rozdzial-02/02-12-pervyj-paket.html">Zainstaluj pierwszy pakiet</a></li><li><a href="/pl/chapters/rozdzial-02/02-13-pip-pipx-venv-virtualenv-uv.html">pip, pipx, venv, virtualenv, uv</a></li><li><a href="/pl/chapters/rozdzial-02/02-14-conda-i-anaconda.html">conda, Miniconda, Miniforge, Anaconda</a></li><li><a href="/pl/chapters/rozdzial-02/02-15-ide-i-okruzheniya.html">Jak IDE, Python i środowisko są powiązane</a></li><li><a href="/pl/chapters/rozdzial-02/02-16-diagnostika.html">Typowe problemy i diagnoza</a></li><li><a href="/pl/chapters/rozdzial-02/02-17-rekomendacii-i-itogi.html">Rekomendacje Cartesian School i efekty</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-02/02-04-terminal-shell-i-path.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-02/index.html">Rozdział 2</a> / Terminal, shell i PATH</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 2 · Ustaw Python!</div>
+<h1>Terminal, shell i PATH</h1>
+<p class="lede">Jedno z ważniejszych wyjaśnień tego rozdziału: co naprawdę dzieje się, gdy wprowadzasz polecenie i naciskasz Enter.</p>
+<h2 id="terminal-i-shell">Terminal i shell</h2>
+<p><strong>Terminal</strong> jest okno programu, w którym wpisujesz polecenia tekstowe i widzisz
+    Odpowiedź tekstowa na komputerze. <strong>Shell</strong> (powłoka poleceń) to program, który
+    Wewnątrz terminala faktycznie odczytuje twoje polecenie i decyduje, co z nim zrobić. Na Windows tego
+    Zazwyczaj PowerShell lub klasyczne cmd, na macOS i Linux – najczęściej <code class="inline">zsh</code>
+    lub <code class="inline">bash</code>.</p>
+<p>Komenda zazwyczaj składa się z nazwy programu i, w razie potrzeby, <strong>argumenty</strong> —
+    dodatkowe słowa po niej: w <code class="inline">python --version</code> sam w sobie
+    <code class="inline">python</code> — drużyna, a <code class="inline">--version</code> jest argumentem.</p>
+<h2 id="puti">Ścieżka, system plików i aktualny folder</h2>
+<p>Shell zawsze „stoi” <strong>obecna działalność
+    folder</strong> (current directory). <strong>Ścieżka</strong> (path) to adres pliku lub folderu
+    w systemie plików. Ścieżka może wyglądać:</p>
+<ul>
+<li><strong>absolutny</strong> — zaczyna się od korzenia dysku, np.
+        <code class="inline">C:\Users\anna\project</code> lub <code class="inline">/home/anna/project</code>,
+        i działa z dowolnego miejsca;</li>
+<li><strong>krewny</strong> jest na przykład liczona z bieżącego folderu
+        <code class="inline">./project</code> czy po prostu <code class="inline">project</code>.</li>
+</ul>
+<h2 id="peremennaya-path">PATH zmienna środowiskowa</h2>
+<p>Kiedy wpisujesz krótką komendę typu <code class="inline">python</code>komputer nie
+    szuka pliku na całym dysku — to zajęłoby zbyt dużo czasu. Zamiast tego shell patrzy na
+    specjalny folder lista — <strong>zmienna środowiskowa PATH</strong> — i sprawdza je względem
+    kolejki w określonej kolejności, aż znajdzie plik wykonywalny o tej nazwie.</p>
+<div class="code-block">
+<div class="code-label"><span>PATH (Linux/macOS, uproszczone)</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>/usr/local/bin
+/usr/bin
+/bin
+~/.local/bin</code></pre>
+</div>
+<p>Jeśli wybierzesz numer <code class="inline">python</code>, shell sprawdzimy
+    <code class="inline">/usr/local/bin/python</code>, więc <code class="inline">/usr/bin/python</code>
+    i tak dalej, i uruchamia pierwszy znany plik. Jeśli żaden z folderów nie PATH takim plikiem
+    Nie – zobaczysz błąd taki jak <code class="inline">command not found</code> (macOS/Linux) lub
+    <code class="inline">'python' is not recognized...</code> (Windows).</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto"><svg aria-label="Co się dzieje, gdy naciśniesz Enter po wydanym poleceniu" data-diagram="timeline" role="img" style="width:100%;height:auto;max-width:640px" viewbox="0 0 640 460" xmlns="http://www.w3.org/2000/svg"><line stroke="#B9A0FC" stroke-width="3" x1="28" x2="28" y1="44" y2="396"></line><circle cx="28" cy="44" fill="#5B24F9" r="9"></circle><circle cx="28" cy="44" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="40">Wpisujesz komendę</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="62">na przykład, python</text><circle cx="28" cy="132" fill="#5B24F9" r="9"></circle><circle cx="28" cy="132" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="128">Shell dostaje tekst</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="150">program powłoki</text><circle cx="28" cy="220" fill="#5B24F9" r="9"></circle><circle cx="28" cy="220" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="216">Wyszukiwanie według PATH</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="238">shell sprawdza foldery po kolei</text><circle cx="28" cy="308" fill="#5B24F9" r="9"></circle><circle cx="28" cy="308" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="304">Znaleziono plik wykonywalny</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="326">zwycięstwa w pierwszym meczu</text><circle cx="28" cy="396" fill="#5B24F9" r="9"></circle><circle cx="28" cy="396" fill="#fff" r="4"></circle><text fill="#0D0230" font-family="Sora, sans-serif" font-size="16" font-weight="700" x="56" y="392">Zespół jest uruchamiany</text><text fill="#6B6B7D" font-family="Inter, sans-serif" font-size="13" x="56" y="414">lub „command not found”</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Co się dzieje, gdy naciśniesz Enter po wydanym poleceniu</figcaption></figure>
+<div class="callout callout-warning">
+<div class="cs-icon-emblem cs-icon-emblem--warning"><svg aria-hidden="true" class="cs-icon cs-icon--warning"><use href="/assets/icons/cartesian/icons.svg#icon-warning"></use></svg></div>
+<div>
+<div class="callout-title">Typowy błąd</div>
+<div class="callout-body">Jeśli Twój komputer ma <strong>dwa różne Python</strong>, a w PATH nie są one wymienione w oczekiwanej kolejności – <code class="inline">python</code> może mieć zupełnie inną wersję niż ta, którą właśnie zainstalowałeś. Rozdział 2.6 nauczy cię, jak to sprawdzić.</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="cs-icon-emblem cs-icon-emblem--note"><svg aria-hidden="true" class="cs-icon cs-icon--note"><use href="/assets/icons/cartesian/icons.svg#icon-note"></use></svg></div>
+<div>
+<div class="callout-title">Oficjalne źródło</div>
+<div class="callout-body">Szczegółowe wyjaśnienie zmiennych środowiskowych znajduje się w dokumentacji Twojego systemu operacyjnego; o samym Python zobacz sekcję "Using Python on Unix platforms" / "Using Python on Windows" na docs.python.org.</div>
+</div>
+</div>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-02/02-01-govorim-na-yazyke-kompyutera.html"><div class="dir">← Back</div><div class="lbl">Co dokładnie instalujemy?</div></a><a class="next" href="/pl/chapters/rozdzial-02/02-02-windows.html"><div class="dir">Następny →</div><div class="lbl">Instalacja na Windows</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

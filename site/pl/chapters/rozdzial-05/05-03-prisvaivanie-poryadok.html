@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Przydział i kolejność obliczeń – Python od zera – Cartesian School</title>
+<meta content="Skrócone operatory przypisania (+=, -= i inne) oraz pełna mapa priorytetu operacji w Python." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-05/05-03-prisvaivanie-poryadok.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-05/05-03-prisvaivanie-poryadok.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Przydział i kolejność obliczeń – Python od zera – Cartesian School" />
+<meta property="og:description" content="Skrócone operatory przypisania (+=, -= i inne) oraz pełna mapa priorytetu operacji w Python." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Przydział i kolejność obliczeń – Python od zera – Cartesian School" />
+<meta name="twitter:description" content="Skrócone operatory przypisania (+=, -= i inne) oraz pełna mapa priorytetu operacji w Python." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Przydział i kolejność obliczeń – Python od zera – Cartesian School","description":"Skrócone operatory przypisania (+=, -= i inne) oraz pełna mapa priorytetu operacji w Python.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-03-prisvaivanie-poryadok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 5 · Gra liczb</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-05/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-05/05-01-osnovnye-operacii.html">Wyrażenia i podstawowe operacje</a></li><li><a href="/pl/chapters/rozdzial-05/05-07-delenie-s-ostatkom.html">Podział z resztą</a></li><li><a href="/pl/chapters/rozdzial-05/05-08-otricatelnoe-delenie.html">Ujemne dzielenie całkowite przez floor</a></li><li><a href="/pl/chapters/rozdzial-05/05-02-specialnye-operacii.html">Stopnie naukowe i korzenie</a></li><li><a href="/pl/chapters/rozdzial-05/05-09-unarnye-operatory.html">Operatory unarne</a></li><li><a class="active" href="/pl/chapters/rozdzial-05/05-03-prisvaivanie-poryadok.html">Kolejność przypisania i obliczeń</a></li><li><a href="/pl/chapters/rozdzial-05/05-10-associativnost.html">Skojarzenie operatorów</a></li><li><a href="/pl/chapters/rozdzial-05/05-11-skobki-i-formuly.html">Nawiasy i wzory ze zmiennych</a></li><li><a href="/pl/chapters/rozdzial-05/05-12-perevod-formul.html">Tłumaczenie wzorów: matematyka → Python</a></li><li><a href="/pl/chapters/rozdzial-05/05-04-matematicheskie-funkcii.html">Moduł math – Mapa Możliwości</a></li><li><a href="/pl/chapters/rozdzial-05/05-13-korni-rasstoyaniya.html">Korzenie i odległości</a></li><li><a href="/pl/chapters/rozdzial-05/05-14-gcd-lcm-faktorial.html">gcd, lcm, czynnikowy, comb, perm</a></li><li><a href="/pl/chapters/rozdzial-05/05-15-geometriya-s-math.html">Geometria z math</a></li><li><a href="/pl/chapters/rozdzial-05/05-16-trigonometriya.html">Trygonometria bez strachu</a></li><li><a href="/pl/chapters/rozdzial-05/05-17-logarifmy.html">Logarytmy i wykładniki</a></li><li><a href="/pl/chapters/rozdzial-05/05-05-sluchaynye-chisla.html">Moduł pseudolosowości random:</a></li><li><a href="/pl/chapters/rozdzial-05/05-18-randint-randrange-uniform.html">randint, randrange, uniform</a></li><li><a href="/pl/chapters/rozdzial-05/05-19-choice-sample-shuffle.html">choice, choices, sample, shuffle</a></li><li><a href="/pl/chapters/rozdzial-05/05-20-seed.html">seed i powtarzalność</a></li><li><a href="/pl/chapters/rozdzial-05/05-21-otladka-vychislenij.html">Obliczania debugowania</a></li><li><a href="/pl/chapters/rozdzial-05/05-06-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/05-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-01: Praktyka</a></li><li><a href="/pl/practice/05-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 07-05: Praktyka</a></li><li><a href="/pl/practice/05-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-08: Praktyka</a></li><li><a href="/pl/practice/05-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-02: Praktyka</a></li><li><a href="/pl/practice/05-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-09: Praktyka</a></li><li><a href="/pl/practice/05-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-10: Praktyka</a></li><li><a href="/pl/practice/05-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-11: Praktyka</a></li><li><a href="/pl/practice/05-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-12: Praktyka</a></li><li><a href="/pl/practice/05-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-04: Praktyka</a></li><li><a href="/pl/practice/05-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-13: Praktyka</a></li><li><a href="/pl/practice/05-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-14: Praktyka</a></li><li><a href="/pl/practice/05-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-15: Praktyka</a></li><li><a href="/pl/practice/05-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-16: Praktyka</a></li><li><a href="/pl/practice/05-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-17: Praktyka</a></li><li><a href="/pl/practice/05-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-05: Praktyka</a></li><li><a href="/pl/practice/05-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-18: Praktyka</a></li><li><a href="/pl/practice/05-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-19: Praktyka</a></li><li><a href="/pl/practice/05-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-20: Praktyka</a></li><li><a href="/pl/practice/05-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-21: Praktyka</a></li><li><a href="/pl/practice/05-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 05-06: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-05/05-03-prisvaivanie-poryadok.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-05/index.html">Rozdział 5</a> / Przydział i kolejność</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 5 · Pobawmy się liczbami!</div>
+<h1>Kolejność przypisania i obliczeń</h1>
+<p class="lede">Krótszy wpis o zmiennych – oraz pełna mapa tego, co pojawia się najpierw, a co później.</p>
+<h2>Operacje przydziałowe</h2>
+<p>Zmiana zmiennej „opartej na samej sobie” <code class="inline">score = score + 10</code> możliwe, ale
+    Python oferuje krótszy wpis:</p>
+<div class="code-block">
+<div class="code-label"><span>prisvaivanie.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>score = <span class="tok-num">0</span>
+score += <span class="tok-num">10</span>   <span class="tok-com"># to samo, co score = score + 10</span>
+<span class="tok-fn">print</span>(score)  <span class="tok-com"># 10</span>
+
+score -= <span class="tok-num">3</span>    <span class="tok-com"># score = score - 3</span>
+<span class="tok-fn">print</span>(score)  <span class="tok-com"># 7</span></code></pre>
+</div>
+<div class="callout callout-info">
+<div>
+<div class="callout-title">To tworzy NOWY obiekt, a nie zmienia stary</div>
+<div class="callout-body">Jak dowiedzieliśmy się w rozdziałach 3 i 4, liczby w Python są niezmienne. <code class="inline">score += 10</code> nie „dodaje” <code class="inline">0</code> — Python oblicza <code class="inline">score + 10</code>, tworzy nowy obiekt <code class="inline">10</code> i ponownie wiąże nazwę <code class="inline">score</code> do tego. Na zewnątrz wygląda to na zmianę, ale w środku to dokładnie ten sam mechanizm, który widzieliśmy w rozdziale 4 <code class="inline">age = age + 1</code>.</div>
+</div>
+</div>
+<p>Takie skróty istnieją dla wszystkich głównych operatorów:</p>
+<div style="overflow-x:auto;margin:20px 0">
+<table class="compare-table">
+<thead><tr><th>Skrócone nagranie</th><th>Pełne nagranie</th></tr></thead>
+<tbody><tr><td><code class="inline">x += n</code></td><td><code class="inline">x = x + n</code></td></tr><tr><td><code class="inline">x -= n</code></td><td><code class="inline">x = x - n</code></td></tr><tr><td><code class="inline">x *= n</code></td><td><code class="inline">x = x * n</code></td></tr><tr><td><code class="inline">x /= n</code></td><td><code class="inline">x = x / n</code></td></tr><tr><td><code class="inline">x //= n</code></td><td><code class="inline">x = x // n</code></td></tr><tr><td><code class="inline">x %= n</code></td><td><code class="inline">x = x % n</code></td></tr><tr><td><code class="inline">x **= n</code></td><td><code class="inline">x = x ** n</code></td></tr></tbody>
+</table>
+</div>
+<h2 id="poryadok">Co jest pierwsze?</h2>
+<p>Już widzieliśmy kawałki tego obrazu osobno — teraz zbierzemy pełną mapę priorytetu
+    operatorów rozdziału 5, od najwyższego do najniższego:</p>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)"><div style="display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:12px;margin-bottom:8px"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#5B24F9;min-width:64px">()</div><div style="font-size:14px;color:#0D0230">nawiasy zawsze są pierwsze</div></div><div style="display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:12px;margin-bottom:8px"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#5B24F9;min-width:64px">**</div><div style="font-size:14px;color:#0D0230">potęgowanie</div></div><div style="display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:12px;margin-bottom:8px"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#5B24F9;min-width:64px">+x  -x</div><div style="font-size:14px;color:#0D0230">operator jednoargumentowy plus/minus</div></div><div style="display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:12px;margin-bottom:8px"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#5B24F9;min-width:64px">*  /  //  %</div><div style="font-size:14px;color:#0D0230">mnożenie, dzielenie, dzielenie całkowite, reszta</div></div><div style="display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--color-bg-canvas,#fff);border:1.5px solid var(--color-border-default,#E4E1F5);border-radius:12px;margin-bottom:8px"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#5B24F9;min-width:64px">+  -</div><div style="font-size:14px;color:#0D0230">dodatku, odejmowanie</div></div><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">Pełna mapa priorytetu operatorów w tym rozdziale — od najwyższego do najniższego</figcaption></figure>
+<div class="code-block">
+<div class="code-label"><span>poryadok.py</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">2</span> + <span class="tok-num">3</span> * <span class="tok-num">4</span>)     <span class="tok-com">#14 - Najpierw 3 * 4 = 12, potem + 2</span>
+<span class="tok-fn">print</span>((<span class="tok-num">2</span> + <span class="tok-num">3</span>) * <span class="tok-num">4</span>)   <span class="tok-com"># 20 — nawiasy zmieniają kolejność</span></code></pre>
+</div>
+<figure style="margin:24px 0;padding:20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px);overflow-x:auto;display:flex;flex-direction:column;align-items:center"><svg aria-label="2 + 3 * 4 = 14 – mnożenie jest wykonywane głębiej w drzewie, czyli wcześniej" role="img" style="width:100%;height:auto;max-width:250px" viewbox="0 0 250 188" xmlns="http://www.w3.org/2000/svg"><line stroke="#B9A0FC" stroke-width="2" x1="125.0" x2="35.0" y1="30" y2="66"></line><line stroke="#B9A0FC" stroke-width="2" x1="125.0" x2="170.0" y1="30" y2="66"></line><line stroke="#B9A0FC" stroke-width="2" x1="170.0" x2="125.0" y1="86" y2="122"></line><line stroke="#B9A0FC" stroke-width="2" x1="170.0" x2="215.0" y1="86" y2="122"></line><circle cx="125.0" cy="20" fill="#5B24F9" r="18"></circle><text fill="#fff" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" text-anchor="middle" x="125.0" y="25">+</text><rect fill="#FAFAFC" height="32" rx="9" stroke="#5B24F9" stroke-width="1.5" width="52" x="9.0" y="60"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" text-anchor="middle" x="35.0" y="81">2</text><circle cx="170.0" cy="76" fill="#5B24F9" r="18"></circle><text fill="#fff" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" text-anchor="middle" x="170.0" y="81">*</text><rect fill="#FAFAFC" height="32" rx="9" stroke="#5B24F9" stroke-width="1.5" width="52" x="99.0" y="116"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" text-anchor="middle" x="125.0" y="137">3</text><rect fill="#FAFAFC" height="32" rx="9" stroke="#5B24F9" stroke-width="1.5" width="52" x="189.0" y="116"></rect><text fill="#0D0230" font-family="JetBrains Mono, monospace" font-size="14" text-anchor="middle" x="215.0" y="137">4</text></svg><figcaption style="text-align:center;font-size:13px;color:var(--ink-soft,#6B6B7D);margin-top:8px">2 + 3 * 4 = 14 – mnożenie jest wykonywane głębiej w drzewie, czyli wcześniej</figcaption></figure>
+<p>Drzewo pokazuje to samo co priorytet: <code class="inline">*</code> zainwestowany
+    głębszy, więc najpierw oblicza się, a jego wynik staje się jednym z operandów
+    <code class="inline">+</code>.</p>
+<div class="callout callout-warning">
+<div>
+<div class="callout-title">W razie wątpliwości używaj nawiasów</div>
+<div class="callout-body">Nawet gdy kolejność jest formalnie jasna, nawiasy sprawiają, że kod jest bardziej uczciwy dla osoby, która go będzie czytać (w tym dla ciebie za sześć miesięcy). <code class="inline">(a + b) * c</code> czyta się szybciej niż trzeba przypominać sobie zasady priorytetu.</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Przypisanie i kolejność obliczeń</div>
+<div class="nc-sub">Ten sam laptop co w sekcji Degrees and Roots – porusza ten temat również</div>
+<div class="practice-inline-status" data-lesson-id="05-02"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/05-02/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["05-02"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="05-02"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-05/05-09-unarnye-operatory.html"><div class="dir">← Back</div><div class="lbl">Operatory unarne</div></a><a class="next" href="/pl/chapters/rozdzial-05/05-10-associativnost.html"><div class="dir">Następny →</div><div class="lbl">Skojarzenie operatorów</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>

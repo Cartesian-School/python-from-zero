@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Błędy liczbowe i debugowanie — Python od zera — Cartesian School</title>
+<meta content="Dziewięć laboratoriów debugowania kodu liczbowego: ZeroDivisionError, ValueError, błąd float i wybór właściwego typu liczbowego." name="description"/>
+<link href="/assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/css/theory.css" rel="stylesheet"/>
+<!-- cartesian:seo-meta:start -->
+<link rel="canonical" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html" />
+<link rel="alternate" hreflang="ru" href="https://www.cartesianschool.org/chapters/glava-04/04-22-chislovye-oshibki.html" />
+<link rel="alternate" hreflang="pl" href="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.cartesianschool.org/chapters/glava-04/04-22-chislovye-oshibki.html" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Cartesian School" />
+<meta property="og:title" content="Błędy liczbowe i debugowanie — Python od zera — Cartesian School" />
+<meta property="og:description" content="Dziewięć laboratoriów debugowania kodu liczbowego: ZeroDivisionError, ValueError, błąd float i wybór właściwego typu liczbowego." />
+<meta property="og:url" content="https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html" />
+<meta property="og:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Błędy liczbowe i debugowanie — Python od zera — Cartesian School" />
+<meta name="twitter:description" content="Dziewięć laboratoriów debugowania kodu liczbowego: ZeroDivisionError, ValueError, błąd float i wybór właściwego typu liczbowego." />
+<meta name="twitter:image" content="https://www.cartesianschool.org/assets/img/logo.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Błędy liczbowe i debugowanie — Python od zera — Cartesian School","description":"Dziewięć laboratoriów debugowania kodu liczbowego: ZeroDivisionError, ValueError, błąd float i wybór właściwego typu liczbowego.","url":"https://www.cartesianschool.org/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html","inLanguage":"pl","isPartOf":{"@type":"WebSite","name":"Cartesian School","url":"https://www.cartesianschool.org/index.html","inLanguage":"pl"},"learningResourceType":"lesson","isAccessibleForFree":true}</script>
+<!-- cartesian:seo-meta:end -->
+<link href="/assets/css/localization.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="/pl/index.html">
+<img alt="Cartesian School" src="/assets/img/logo.png"/>
+<span class="brand-word">Cartesian<span class="school">School</span></span>
+</a>
+<ul class="top-nav"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul>
+<button aria-controls="mobile-nav-panel" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button"><span aria-hidden="true" class="nav-toggle__bars"><span></span><span></span><span></span></span></button>
+<div class="language-switcher-desktop"><nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-22-chislovye-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav></div>
+</header>
+<div class="layout">
+<nav class="sidebar" id="mobile-nav-panel">
+<div class="mobile-nav-links"><div aria-hidden="true" class="mobile-nav-hero"><img alt="" class="mobile-nav-hero__mark" src="/assets/img/logo.png"/><span class="brand-word mobile-nav-hero__word">Cartesian<span class="school">School</span></span><span class="mobile-nav-hero__tag">Python 3.14 · Interaktywny kurs</span></div><ul class="toc-list"><li><a href="/pl/index.html#o-kurse">O kursie</a></li><li><a class="active" href="/pl/index.html#glavy">Rozdziały</a></li><li><a href="/pl/index.html#praktika">Praktyka</a></li><li><a href="/pl/index.html#proekty">Projekty</a></li><li><a href="/pl/index.html#spravochnik">Kompendium</a></li></ul></div>
+<div class="sidebar-title">Rozdział 4 · Liczby</div><ul class="toc-list"><li><a href="/pl/chapters/rozdzial-04/index.html">Zaczynamy</a></li><li><a href="/pl/chapters/rozdzial-04/04-01-chisla-i-peremennye.html">Czym jest liczba dla komputera</a></li><li><a href="/pl/chapters/rozdzial-04/04-06-int-glubzhe.html">int są liczbami całkowitymi bez strachu</a></li><li><a href="/pl/chapters/rozdzial-04/04-07-sistemy-schisleniya.html">Układy liczbowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-02-kommentarii.html">Komentarze w obliczeniach</a></li><li><a href="/pl/chapters/rozdzial-04/04-08-operatory.html">Operatory arytmetyczne</a></li><li><a href="/pl/chapters/rozdzial-04/04-09-poryadok-operacij.html">Kolejność wykonywania operacji</a></li><li><a href="/pl/chapters/rozdzial-04/04-10-delenie-i-ostatok.html">Podział i reszta</a></li><li><a href="/pl/chapters/rozdzial-04/04-11-stepeni.html">Stopnie naukowe i abs()</a></li><li><a href="/pl/chapters/rozdzial-04/04-03-vidy-chisel.html">Mapa typów liczbowych</a></li><li><a href="/pl/chapters/rozdzial-04/04-12-float-osnovy.html">float — liczby zmiennoprzecinkowe</a></li><li><a href="/pl/chapters/rozdzial-04/04-13-pochemu-01-02.html">Dlaczego 0,1 + 0,2 nie jest równe 0,3</a></li><li><a href="/pl/chapters/rozdzial-04/04-14-sravnenie-float.html">Poprawne porównanie float</a></li><li><a href="/pl/chapters/rozdzial-04/04-15-okruglenie.html">Zaokrąglenie: round, floor, ceil, trunc</a></li><li><a href="/pl/chapters/rozdzial-04/04-16-decimal.html">Decimal jest dokładną arytmetyką dziesiętną</a></li><li><a href="/pl/chapters/rozdzial-04/04-17-fraction.html">Fraction — dokładne ułamki</a></li><li><a href="/pl/chapters/rozdzial-04/04-18-kompleksnye-chisla.html">complex i cmath</a></li><li><a href="/pl/chapters/rozdzial-04/04-04-preobrazovanie-tipov.html">Konwersja typów liczb</a></li><li><a href="/pl/chapters/rozdzial-04/04-19-modul-math.html">Moduł math</a></li><li><a href="/pl/chapters/rozdzial-04/04-20-random-i-secrets.html">random i secrets</a></li><li><a href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html">statistics, inf i nan</a></li><li><a class="active" href="/pl/chapters/rozdzial-04/04-22-chislovye-oshibki.html">Błędy numeryczne i debugowanie</a></li><li><a href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html">Mini-projekty i podsumowania</a></li></ul><div class="sidebar-title">Praktyka</div><ul class="toc-list"><li><a href="/pl/practice/04-01/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-01: Praktyka</a></li><li><a href="/pl/practice/04-02/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-02: Praktyka</a></li><li><a href="/pl/practice/04-06/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-06: Praktyka</a></li><li><a href="/pl/practice/04-07/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-07: Praktyka</a></li><li><a href="/pl/practice/04-08/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-08: Praktyka</a></li><li><a href="/pl/practice/04-09/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-09: Praktyka</a></li><li><a href="/pl/practice/04-10/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-10: Praktyka</a></li><li><a href="/pl/practice/04-11/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-11: Praktyka</a></li><li><a href="/pl/practice/04-12/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-12: Praktyka</a></li><li><a href="/pl/practice/04-13/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-13: Praktyka</a></li><li><a href="/pl/practice/04-14/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-14: Praktyka</a></li><li><a href="/pl/practice/04-15/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-15: Praktyka</a></li><li><a href="/pl/practice/04-16/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-16: Praktyka</a></li><li><a href="/pl/practice/04-17/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-17: Praktyka</a></li><li><a href="/pl/practice/04-18/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-18: Praktyka</a></li><li><a href="/pl/practice/04-19/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-19: Praktyka</a></li><li><a href="/pl/practice/04-20/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-20: Praktyka</a></li><li><a href="/pl/practice/04-21/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-21: Praktyka</a></li><li><a href="/pl/practice/04-22/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-22: Praktyka</a></li><li><a href="/pl/practice/04-03/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-03: Praktyka</a></li><li><a href="/pl/practice/04-04/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-04: Praktyka</a></li><li><a href="/pl/practice/04-05/index.html"><svg aria-hidden="true" class="cs-icon cs-icon--practice"><use href="/assets/icons/cartesian/icons.svg#icon-practice"></use></svg> 04-05: Praktyka</a></li></ul>
+<nav class="language-switcher" aria-label="Język"><a lang="ru" hreflang="ru" href="/chapters/glava-04/04-22-chislovye-oshibki.html">RU</a><span aria-hidden="true"> | </span><span lang="pl" aria-current="true">PL</span></nav>
+</nav>
+<article>
+<div class="breadcrumb"><a href="/pl/index.html">Python od zera</a> / <a href="/pl/chapters/rozdzial-04/index.html">Rozdział 4</a> / Błędy numeryczne i debugowanie</div>
+<div class="section-kicker"><img alt="" aria-hidden="true" src="/assets/img/brand/python-logo-mark.svg"/>Rozdział 4 · Python lubi liczby</div>
+<h1>Błędy numeryczne i debugowanie</h1>
+<p class="lede">Dziewięć krótkich laboratoriów — od prawdziwych wyjątków po prawidłowe, ale nieoczekiwane wyniki liczbowe.</p>
+<p>zebrałem dziewięć krótkich laboratoriów — niektóre z nich dotyczyły prawdziwych błędów z wyjątekm,
+    część dotyczy ważnego, ale nieoczekiwanego wyniku numerycznego. Ważne jest, aby umieć rozróżnić te dwa
+    Scenariusz.</p>
+<div style="margin:24px 0;padding:24px 20px;background:var(--color-bg-surface,#FAFAFC);border-radius:var(--radius-lg,20px)">
+<div style="text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:17px;color:#0D0230;margin-bottom:20px">Co poszło nie tak?</div>
+<div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap">
+<div style="flex:1;min-width:230px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+<div style="width:100%;box-sizing:border-box;padding:14px 16px;background:#5B24F9;color:#fff;
+            border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">Python przestał z wyjątekm</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;text-align:center;line-height:1.7">ZeroDivisionError<br/>ValueError<br/>TypeError</div>
+<div style="color:#B9A0FC;font-size:20px">↓</div>
+<div style="width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid #5B24F9;
+            border-radius:14px;text-align:center;font-size:13px;color:#0D0230">Przeczytaj traceback i napraw przyczynę</div>
+</div>
+<div style="flex:1;min-width:230px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:10px">
+<div style="width:100%;box-sizing:border-box;padding:14px 16px;background:#5B24F9;color:#fff;
+            border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">Kod wykonywany bez wyjątku</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0D0230;text-align:center;line-height:1.7">Ale efekt wygląda niespodziewanie</div>
+<div style="color:#B9A0FC;font-size:20px">↓</div>
+<div style="width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid #5B24F9;
+            border-radius:14px;text-align:center;font-size:13px;color:#0D0230">Sprawdzanie modelu matematycznego i reprezentacji liczb</div>
+</div>
+</div>
+<div style="text-align:center;color:#B9A0FC;font-size:22px;margin:14px 0">↓</div>
+<div style="max-width:420px;margin:0 auto;box-sizing:border-box;padding:14px 18px;background:#5B24F9;color:#fff;
+        border-radius:14px;text-align:center;font-family:Sora,sans-serif;font-weight:700;font-size:14px">
+        Poprawiamy kod, oczekiwania lub wybór typu liczbowego
+      </div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 1. Dlaczego 10/2 daje 5,0?</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">10</span> / <span class="tok-num">2</span>)</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> wynik — <code class="inline">5.0</code>, nie <code class="inline">5</code>.</p>
+<p><strong>Wyjaśnienie:</strong> Operator <code class="inline">/</code> w Python ZAWSZE zwraca float (Rozdział 4.7), nawet gdy dzieli się całkowicie.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 2. Dlaczego int(3.99) jest równe 3?</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-num">3.99</span>))</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> wynik — <code class="inline">3</code>, nie <code class="inline">4</code>.</p>
+<p><strong>Wyjaśnienie:</strong> <code class="inline">int()</code> odrzuca część ułamkową (obcinanie do zera), a nie zaokrągla (dział 4.16).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 3. Dlaczego porównanie 0,1 + 0,2 == 0,3 nie działa?</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span> == <span class="tok-num">0.3</span>)</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> wynik — <code class="inline">False</code>.</p>
+<p><strong>Wyjaśnienie:</strong> float przechowuje przybliżenie (Rozdział 4.11) – zastosowanie <code class="inline">math.isclose()</code> zamiast <code class="inline">==</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 4. Dlaczego Decimal(0.1) wygląda dziwnie?</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-kw">from</span> decimal <span class="tok-kw">import</span> Decimal
+<span class="tok-fn">print</span>(Decimal(<span class="tok-num">0.1</span>))</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> wynikiem jest długa, niekołowa frakcja, a nie <code class="inline">0.1</code>.</p>
+<p><strong>Wyjaśnienie:</strong> argument jest float, co oznacza, że przybliżenie z sekcji 4.11 miało miejsce PRZED utworzeniem Decimal. Use <code class="inline">Decimal("0.1")</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 5. Dlaczego 7 // 3 różni się od 7/3?</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-num">7</span> // <span class="tok-num">3</span>)
+<span class="tok-fn">print</span>(<span class="tok-num">7</span> / <span class="tok-num">3</span>)</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> <code class="inline">2</code> przeciw <code class="inline">2.333...</code>.</p>
+<p><strong>Wyjaśnienie:</strong> <code class="inline">//</code> jest dzieleniem całkowitym (odrzuca część ułamkową wyniku), <code class="inline">/</code> — zwykłe dzielenie, zawsze float.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 6. Przewidź: -7 // 3 i -7 % 3</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(-<span class="tok-num">7</span> // <span class="tok-num">3</span>)
+<span class="tok-fn">print</span>(-<span class="tok-num">7</span> % <span class="tok-num">3</span>)</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> <code class="inline">-3</code> oraz <code class="inline">2</code> nie jest tym, czego wielu się spodziewa.</p>
+<p><strong>Wyjaśnienie:</strong> <code class="inline">//</code> zaokrągla do minus nieskończoności zamiast zera (Rozdział 4.7).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 7. Popraw: int(„FF”</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-fn">print</span>(<span class="tok-fn">int</span>(<span class="tok-str">"FF"</span>))</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> ValueError: invalid literal for int() with base 10: 'FF'</p>
+<p><strong>Wyjaśnienie:</strong> bez wskazania podstawy <code class="inline">int()</code> oczekuje zapisu dziesiętnego. Należy: <code class="inline">int("FF", 16)</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 8. Napraw ZeroDivisionError</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code>price = <span class="tok-num">100</span>
+quantity = <span class="tok-num">0</span>
+<span class="tok-fn">print</span>(price / quantity)</code></pre>
+</div>
+<p><strong>Obserwacja:</strong> ZeroDivisionError: division by zero.</p>
+<p><strong>Wyjaśnienie:</strong> przed dzieleniem warto sprawdzić dzielnik pod kątem zera, jeśli może być zerowy — szczegółowe warunki będą w następnym rozdziale; tutaj wystarczy poznać sam typ błędu.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-debug">
+<div>
+<div class="callout-title"><svg aria-hidden="true" class="cs-icon cs-icon--debug"><use href="/assets/icons/cartesian/icons.svg#icon-debug"></use></svg> Laboratorium 9. Wybierz właściwy typ numeru</div>
+<div class="callout-body">
+<div class="code-block">
+<div class="code-label"><span>przewidzieć i uruchomić</span><button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-block').querySelector('code').innerText)">Kopia</button></div>
+<pre><code><span class="tok-com"># Zadanie: oblicz dokładną kwotę czeku w rublach i kopiejkach</span></code></pre>
+</div>
+<p><strong>Obserwacja:</strong> float może dawać błąd w ułamkowych ilościach.</p>
+<p><strong>Wyjaśnienie:</strong> właściwy wybór pieniędzy — <code class="inline">Decimal</code> (Rozdział 4.14) zamiast <code class="inline">float</code>.</p>
+</div>
+</div>
+</div>
+<div class="notebook-card">
+<div>
+<div class="nc-title">Praktyka: Debugowanie numerycznych numerów błędów</div>
+<div class="nc-sub">interaktywny laptop bezpośrednio w przeglądarce – znajdź i napraw typowe problemy numeryczne</div>
+<div class="practice-inline-status" data-lesson-id="04-22"></div>
+</div>
+<a class="nc-btn" href="/pl/practice/04-22/index.html">Otwórz praktykę →</a>
+</div>
+<script>
+    (function () {
+      try {
+        var all = JSON.parse(localStorage.getItem("cartesian.python.progress.v1") || "{}");
+        var entry = all["04-22"];
+        var el = document.querySelector('.practice-inline-status[data-lesson-id="04-22"]');
+        if (entry && entry.passed && el) {
+          el.innerHTML = "\u003cstrong style=\"color:#15803d\">✓ Praktyka zaliczona\u003c/strong> — Wynik: " + entry.score + '%';
+        }
+      } catch (e) {}
+    })();
+    </script>
+<div class="section-nav"><a href="/pl/chapters/rozdzial-04/04-21-statistics-i-inf-nan.html"><div class="dir">← Back</div><div class="lbl">statistics, inf i nan</div></a><a class="next" href="/pl/chapters/rozdzial-04/04-05-mini-proekt-itogi.html"><div class="dir">Następny →</div><div class="lbl">Mini-projekty i podsumowania</div></a></div>
+</article>
+</div>
+<script defer="" src="/assets/js/nav.js"></script>
+</body>
+</html>
