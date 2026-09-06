@@ -58,10 +58,14 @@ def test_forbidden_synonyms_contract():
 
 
 def test_missing_translation():
+    # home/front-matter-author/front-matter-license are real M02-I03 approved
+    # pairs now; practice-03-01 stays untranslated in this milestone (chapter
+    # bodies/exercise bodies are explicitly out of scope), so it still models
+    # the missing-translation case this test targets.
     routes = Routes()
-    assert routes.available('home') == {'ru':'/index.html'}
-    assert routes.alternates('/index.html') == {}
-    switch = BeautifulSoup(routes.switcher('home', 'ru'), 'html.parser')
+    assert routes.available('practice-03-01') == {'ru': '/practice/03-01/index.html'}
+    assert routes.alternates('/practice/03-01/index.html') == {}
+    switch = BeautifulSoup(routes.switcher('practice-03-01', 'ru'), 'html.parser')
     assert switch.select_one('[aria-disabled="true"]')['lang'] == 'pl'
     assert not switch.select('a')
 
@@ -139,7 +143,7 @@ def test_stale_and_publication_gates(tmp_path):
 
 def test_approved_requires_evidence():
     data = read_json(MANIFEST_DIR / 'routes.json')
-    data['pages']['home']['variants']['pl']['status'] = 'approved'
+    data['pages']['practice-03-01']['variants']['pl']['status'] = 'approved'
     with pytest.raises(ValueError):
         validate_routes(data)
 

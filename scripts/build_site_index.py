@@ -211,9 +211,9 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 </head>
 <body>
 
-{site_header("o-kurse")}
+{site_header("o-kurse", page_id="home")}
 <nav class="mobile-nav-panel" id="mobile-nav-panel">
-  {mobile_nav_links("o-kurse")}
+  {mobile_nav_links("o-kurse", page_id="home")}
 </nav>
 
 <section class="home-hero" aria-labelledby="course-hero-title">

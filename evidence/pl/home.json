@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "rubric_id": "M02-PL-SHELL-REVIEW-v1",
+  "record_id": "M02-PL-HOME-R001",
+  "page_id": "home",
+  "language": "pl",
+  "source_locale": "ru",
+  "target_locale": "pl",
+  "unit": {
+    "source_path": "scripts/build_site_index.py",
+    "source_sha256": "7a97172844bfef07dcfd9ff0890d601be7410572880306dfd2259fd274ac0ec1",
+    "target_source_path": "manifest/i18n/content/pl/home.json",
+    "target_sha256": "30bd1f1365a0b4d4a9db7b13932aac825e081994aad793c6304b751d66be7887",
+    "rendered_output_path": "/pl/index.html"
+  },
+  "terminology": {
+    "contract_path": "manifest/i18n/pl_terminology.json",
+    "contract_sha256": "1d1bee654628b800b82f0d09c26d9cca5938e8064c19b27503a76055297971da"
+  },
+  "reviewer": {
+    "reviewer_id": "claude-m02-i03-agent",
+    "display_name": "Claude Sonnet 5 (M02-I03 agent QA pass)",
+    "reviewer_type": "ai_assistant",
+    "reviewed_at": "2026-09-05T23:56:21Z"
+  },
+  "checks": {
+    "fidelity_status": "pass",
+    "terminology_status": "pass",
+    "language_quality_status": "pass",
+    "code_preservation_status": "pass",
+    "link_integrity_status": "pass",
+    "russian_leakage_status": "pass",
+    "accessibility_status": "pass"
+  },
+  "sections": [
+    {
+      "name": "hero",
+      "status": "pass",
+      "notes": "Kicker/H1/lede/CTA translated; protected terms (Python, Python 3.14) preserved; count phrases built via localization.polish_count() against pl_terminology exercise forms."
+    },
+    {
+      "name": "about (O kursie)",
+      "status": "pass",
+      "notes": "Lead, two body paragraphs, three highlights and the four stat labels translated; numeric metrics (chapters/pages/projects/lessons) unchanged, sourced from the same manifests as RU."
+    },
+    {
+      "name": "format (cztery etapy)",
+      "status": "pass",
+      "notes": "All four stage cards (meta/title/body/output) translated; decorative SVG icons reused unmodified."
+    },
+    {
+      "name": "roadmap (Rozdziały)",
+      "status": "pass",
+      "notes": "24 chapter titles translated as catalog metadata; cards render as non-interactive spans (aria-disabled + Tłumaczenie niedostępne title) since lesson bodies are not translated; a visible note explains this."
+    },
+    {
+      "name": "practice (Praktyka)",
+      "status": "pass",
+      "notes": "Group summaries only (title + Polish-inflected count via polish_count()); filters translated but non-interactive; no per-lesson catalog exposed, avoiding untranslated exercise titles."
+    },
+    {
+      "name": "projects (Projekty)",
+      "status": "pass",
+      "notes": "13 project cards: title/description translated from content/pl/home.json; protected technical tags reused verbatim; the 8 non-technical RU topic words (e.g. \"Игры\", \"Файлы\") are translated via topic_translations; cards render disabled (no /projects/<id>/ route exists yet)."
+    },
+    {
+      "name": "reference (Kompendium)",
+      "status": "pass",
+      "notes": "9 cards translated; O autorze and Licencja are real links to the two other approved PL pages; PDF/EPUB remain real links explicitly labeled \"wersja rosyjska\"; the remaining 5 cards (index, wprowadzenie, recenzent, CLI, official resources) render disabled since those target pages are not translated."
+    },
+    {
+      "name": "footer",
+      "status": "pass",
+      "notes": "Shared site_footer(locale='pl') renders the Polish brand line and a real link to the approved PL license page."
+    }
+  ],
+  "notes": "Full homepage shell rebuilt via scripts/build_site_index_pl.py, independent of the RU builder. Automated scan confirms zero Cyrillic codepoints in visible text or aria-label/title/alt attributes (scripts/validate_pl_leakage.py). Terminology scan confirms required nav/section labels (Praktyka, Rozdział, Kompendium) and rejects forbidden synonyms (scripts/validate_pl_terminology.py). Link scan confirms no dead or misleading /pl/ hrefs (only o-autorze.html, licencja.html, the RU-labeled PDF/EPUB, and the shared RU|PL switcher are real anchors). Reviewed as mechanical QA + linguistic audit per M02-I03 governance; final production merge still requires Product Owner sign-off on Polish phrasing and visual review.",
+  "decision": {
+    "status": "approved",
+    "decided_by": "claude-m02-i03-agent",
+    "decided_at": "2026-09-05T23:56:21Z"
+  }
+}

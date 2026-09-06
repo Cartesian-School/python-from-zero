@@ -185,7 +185,10 @@ const TOP_NAV = [
       await page.click('.nav-toggle');
       const expandedAfterOpen = await page.locator('.nav-toggle').getAttribute('aria-expanded');
       ok('aria-expanded="true" after opening', expandedAfterOpen === 'true');
-      const linkCount = await page.locator('#mobile-nav-panel a').count();
+      // Scoped to .toc-list so the optional RU|PL language-switcher link
+      // (a sibling of .toc-list, present once a page has an approved PL
+      // counterpart) never affects this count.
+      const linkCount = await page.locator('#mobile-nav-panel .toc-list a').count();
       ok('drawer contains all 5 top-nav links', linkCount === 5);
 
       for (const [label, fragment, expectedHeading] of TOP_NAV) {

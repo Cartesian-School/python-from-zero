@@ -4590,13 +4590,14 @@ NAV_KEYS = [
 TOP_NAV_ITEMS = [(anchor, UI_STRINGS[DEFAULT_LOCALE][key]) for anchor, key in NAV_KEYS]
 
 
-def _locale_home(locale: str, routes: Routes | None) -> str:
-    if locale == DEFAULT_LOCALE:
-        return "/index.html"
-    home = (routes or Routes()).available("home").get(locale)
-    if home is None:
-        raise ValueError("Localized navigation requires an available homepage")
-    return home
+def _locale_home(locale: str, routes: Routes | None = None) -> str:
+    """A locale's own home path is a fixed structural fact (its prefix plus
+    index.html), never approval-gated — that gating applies only to
+    cross-locale navigation (Routes.switcher()). Gating this too would make
+    a locale's own homepage unable to render its own header before its
+    route is approved, which is circular: the approval decision itself
+    depends on the rendered page existing."""
+    return LOCALES[locale]["prefix"] + "/index.html"
 
 
 def _top_nav_items_html(active_section: str | None, li_class: str = "", *,
@@ -5700,7 +5701,7 @@ def _temperature_converter_scene() -> str:
   </g>"""
 
 
-def _notes_app_scene() -> str:
+def _notes_app_scene(locale: str = DEFAULT_LOCALE) -> str:
     """Bespoke web illustration for notes-app: a compact text-editor window
     — title, unsaved-state dot, save icon, and four text lines where the
     last one visibly types out with a following caret — that then saves
@@ -5715,10 +5716,11 @@ def _notes_app_scene() -> str:
     unchanged — this scene is consumed only by project_illustration(), so
     the accepted publication byte contract for this project is untouched.
     """
-    return """
+    title = {"pl": "Notatka"}.get(locale, "Заметка")
+    return f"""
   <rect class="notes-window" x="70" y="20" width="260" height="185" rx="18" fill="#fff" opacity=".97"/>
   <g class="notes-header">
-    <text x="86" y="40" font-family="'Sora', sans-serif" font-weight="700" font-size="14" fill="var(--navy-900)" opacity=".85">Заметка</text>
+    <text x="86" y="40" font-family="'Sora', sans-serif" font-weight="700" font-size="14" fill="var(--navy-900)" opacity=".85">{title}</text>
     <circle class="notes-unsaved" cx="284" cy="35" r="4.5" fill="var(--amber-500)" opacity=".2"/>
     <g class="notes-save">
       <rect x="300" y="26" width="18" height="18" rx="4" fill="var(--blue-500)"/>
@@ -5923,7 +5925,7 @@ def _rock_paper_scissors_scene() -> str:
   </g>"""
 
 
-def project_illustration(project_id: str) -> str:
+def project_illustration(project_id: str, locale: str = DEFAULT_LOCALE) -> str:
     """Self-contained 16:9 inline SVG illustration for one real project, used
     both on the homepage Projects card and the project's own detail page.
     Purely decorative (the card/page title carries the accessible name), so
@@ -5951,7 +5953,7 @@ def project_illustration(project_id: str) -> str:
     elif project_id == "temperature-converter":
         scene = _temperature_converter_scene()
     elif project_id == "notes-app":
-        scene = _notes_app_scene()
+        scene = _notes_app_scene(locale)
     elif project_id == "safesort":
         scene = _safesort_scene()
     else:
@@ -6001,7 +6003,7 @@ def project_publication_illustration(project_id: str) -> str:
 </svg>"""
 
 
-def practice_illustration() -> str:
+def practice_illustration(locale: str = DEFAULT_LOCALE) -> str:
     """Compact "write -> run -> verify -> progress" editorial illustration for the
     homepage Practice section intro — deliberately iconographic (one small code
     card, one bright focal Run node, one small result card, a tiny progress
@@ -6011,7 +6013,9 @@ def practice_illustration() -> str:
     counts, filters, and progress remain driven by practice_manifest.json and
     progress.js; this scene never repeats or implies those exact figures.
     """
-    return """<svg class="practice-art" viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    result_label = {"pl": "WYNIK"}.get(locale, "РЕЗУЛЬТАТ")
+    cycle_label = {"pl": "PISZ → URUCHOM → SPRAWDŹ"}.get(locale, "ПИШИ → ЗАПУСКАЙ → ПРОВЕРЯЙ")
+    return f"""<svg class="practice-art" viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
   <defs>
     <linearGradient id="practice-bg" x1=".05" y1="0" x2=".95" y2="1">
       <stop offset="0" stop-color="#171044"/><stop offset="1" stop-color="#09021f"/>
@@ -6066,7 +6070,7 @@ def practice_illustration() -> str:
 
   <g class="practice-card">
     <rect x="384" y="70" width="150" height="86" rx="16" fill="#fff" opacity=".96"/>
-    <text x="400" y="92" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#6B6B7D" letter-spacing="1">РЕЗУЛЬТАТ</text>
+    <text x="400" y="92" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#6B6B7D" letter-spacing="1">{result_label}</text>
     <text class="practice-result-idle" x="400" y="134" font-family="JetBrains Mono, monospace" font-size="18" fill="#B4B4C4">···</text>
     <text class="practice-result-value" x="400" y="134" font-family="JetBrains Mono, monospace" font-size="26" font-weight="700" fill="#0D0230" opacity="0">12</text>
     <circle cx="500" cy="118" r="15" fill="none" stroke="#0D0230" stroke-width="2" opacity=".2"/>
@@ -6083,13 +6087,14 @@ def practice_illustration() -> str:
     <circle cx="314" cy="326" r="7" fill="none" stroke="#8FB7FE" stroke-width="2" opacity=".35"/>
   </g>
 
-  <text x="32" y="340" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8fb7fe" opacity=".55" letter-spacing="1">ПИШИ → ЗАПУСКАЙ → ПРОВЕРЯЙ</text>
+  <text x="32" y="340" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8fb7fe" opacity=".55" letter-spacing="1">{cycle_label}</text>
 </svg>"""
 
 
-def reference_illustration() -> str:
+def reference_illustration(locale: str = DEFAULT_LOCALE) -> str:
     """Decorative handbook/index map for the homepage reference section."""
-    return """<svg class="reference-art" viewBox="0 0 620 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    map_label = {"pl": "INDEKS / MAPA WIEDZY"}.get(locale, "УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ")
+    return f"""<svg class="reference-art" viewBox="0 0 620 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
   <defs>
     <linearGradient id="reference-bg" x1=".08" y1="0" x2=".92" y2="1">
       <stop offset="0" stop-color="#171044"/><stop offset="1" stop-color="#09021f"/>
@@ -6124,7 +6129,7 @@ def reference_illustration() -> str:
   <g class="reference-art__nodes" fill="#09021f" stroke="#8fb7fe" stroke-width="2">
     <circle cx="73" cy="307" r="6"/><circle cx="235" cy="231" r="6"/><circle cx="443" cy="214" r="6"/><circle cx="565" cy="103" r="6"/>
   </g>
-  <text x="48" y="52" fill="#8fb7fe" opacity=".62" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">УКАЗАТЕЛЬ / КАРТА ЗНАНИЙ</text>
+  <text x="48" y="52" fill="#8fb7fe" opacity=".62" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2">{map_label}</text>
 </svg>"""
 
 
