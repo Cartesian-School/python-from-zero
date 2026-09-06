@@ -98,10 +98,11 @@
     "decision": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "decided_by", "decided_at"],
+      "required": ["status", "decided_by", "decider_type", "decided_at"],
       "properties": {
-        "status": {"enum": ["approved", "rejected", "needs_rework"]},
+        "status": {"enum": ["reviewed", "approved", "rejected", "needs_rework"]},
         "decided_by": {"type": "string", "minLength": 1},
+        "decider_type": {"enum": ["human", "ai_assistant"]},
         "decided_at": {"type": "string", "format": "date-time"}
       }
     }

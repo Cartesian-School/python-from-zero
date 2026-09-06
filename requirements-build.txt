@@ -1,0 +1,9 @@
+# Build-time Python dependencies shared by GitHub Actions and the Vercel
+# build (scripts/build_vercel.sh -> scripts/validate_pl_review.py).
+#
+# jsonschema must be declared here explicitly rather than relied upon as a
+# transitive dependency of nbformat: Vercel's build environment does not
+# install nbformat, so validate_pl_review.py's `from jsonschema import
+# Draft202012Validator` previously failed with ModuleNotFoundError there
+# even though GitHub Actions happened to have it via nbformat.
+jsonschema==4.26.0

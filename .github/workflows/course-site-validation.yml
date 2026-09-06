@@ -62,7 +62,8 @@ jobs:
 
       - name: Install Python test dependencies
         run: >-
-          python -m pip install pytest pygame-ce Flask nbformat build
+          python -m pip install -r requirements-build.txt
+          pytest pygame-ce Flask nbformat build
           pypdf==6.16.1 beautifulsoup4 lxml WeasyPrint==69.0 EbookLib epubcheck==5.1.0
 
       - name: Install SafeSort (editable — tests/test_chapter23_safesort.py imports it)
@@ -74,6 +75,12 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
+      # Canonical regeneration sequence (must match scripts/build_vercel.sh and
+      # docs/LOCALIZATION-RU-PL.md exactly — page builders and the RU|PL switcher
+      # injection first, then the SEO/sitemap/llms post-processors that inject
+      # canonical/hreflang/JSON-LD into the pages those builders just wrote.
+      # Running pytest before the post-processors leaves freshly regenerated
+      # pages without their SEO block and fails tests/test_pl_shell.py.
       - name: Regenerate Chapters 23 and 24 from source builders
         run: |
           python scripts/build_notebooks_ch23.py
@@ -90,6 +97,12 @@ jobs:
           python scripts/build_front_matter_pl.py
           python scripts/build_license_page_pl.py
           python scripts/inject_ru_author_switcher.py
+
+      - name: Generate SEO metadata, sitemap.xml, llms-full.txt
+        run: |
+          python scripts/build_seo_meta.py
+          python scripts/build_sitemap.py
+          python scripts/build_llms_full.py
 
       - name: Run course test suite
         run: pytest tests/

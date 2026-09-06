@@ -59,7 +59,11 @@ def test_pl_homepage_seo():
     }
     assert soup.select_one('meta[property="og:locale"]')['content'] == 'pl_PL'
     title = soup.title.get_text()
-    assert 'Python od zera' not in title or True  # title uses hero h1, not the course_title suffix
+    assert title.strip()
+    assert 'Python od zera' in title
+    assert not any('Ѐ' <= ch <= 'ӿ' for ch in title), f'Cyrillic leaked into PL title: {title!r}'
+    ru_title = BeautifulSoup((SITE_DIR / 'index.html').read_text(encoding='utf-8'), 'html.parser').title.get_text()
+    assert title != ru_title
     description = soup.select_one('meta[name="description"]')['content']
     assert description and 'бесплатный' not in description.lower()
 
@@ -182,19 +186,9 @@ def test_pl_review_validate_passes_on_current_repo_state():
     assert validate_pl_review.validate() == len(APPROVED_PAGE_IDS)
 
 
-@pytest.mark.parametrize('mutation', ['target_sha256', 'terminology_hash', 'decision_status', 'page_id'])
-def test_pl_review_fails_closed(tmp_path, monkeypatch, mutation):
+def _validate_tampered_home_record(tmp_path, monkeypatch, record):
+    """Write `record` as evidence/pl/home.json's evidence and run validate()."""
     import json
-
-    record = read_json(ROOT / 'evidence/pl/home.json')
-    if mutation == 'target_sha256':
-        record['unit']['target_sha256'] = '0' * 64
-    elif mutation == 'terminology_hash':
-        record['terminology']['contract_sha256'] = '0' * 64
-    elif mutation == 'decision_status':
-        record['decision']['status'] = 'rejected'
-    elif mutation == 'page_id':
-        record['page_id'] = 'front-matter-author'
 
     tampered_path = tmp_path / 'tampered-home.json'
     tampered_path.write_text(json.dumps(record), encoding='utf-8')
@@ -205,6 +199,58 @@ def test_pl_review_fails_closed(tmp_path, monkeypatch, mutation):
     # loads our tampered file instead of the real evidence/pl/home.json.
     routes.pages['home']['variants']['pl']['evidence_path'] = str(tampered_path)
     monkeypatch.setattr(validate_pl_review, 'Routes', lambda: routes)
+    return validate_pl_review.validate()
 
-    with pytest.raises(AssertionError):
-        validate_pl_review.validate()
+
+@pytest.mark.parametrize('mutation', ['target_sha256', 'terminology_hash', 'decision_status', 'page_id'])
+def test_pl_review_fails_closed(tmp_path, monkeypatch, mutation):
+    record = read_json(ROOT / 'evidence/pl/home.json')
+    if mutation == 'target_sha256':
+        record['unit']['target_sha256'] = '0' * 64
+    elif mutation == 'terminology_hash':
+        record['terminology']['contract_sha256'] = '0' * 64
+    elif mutation == 'decision_status':
+        record['decision']['status'] = 'rejected'
+    elif mutation == 'page_id':
+        record['page_id'] = 'front-matter-author'
+
+    with pytest.raises(validate_pl_review.PLReviewValidationError):
+        _validate_tampered_home_record(tmp_path, monkeypatch, record)
+
+
+def test_pl_review_ai_final_approval_fails_closed(tmp_path, monkeypatch):
+    """An AI assistant may never grant final 'approved' status, even for its
+    own QA-passed review — decision.status == 'approved' REQUIRES a human
+    decider (M02-I03 governance repair)."""
+    record = read_json(ROOT / 'evidence/pl/home.json')
+    record['decision']['status'] = 'approved'
+    record['decision']['decider_type'] = 'ai_assistant'
+    record['decision']['decided_by'] = 'claude-m02-i03-agent'
+
+    with pytest.raises(validate_pl_review.PLReviewValidationError, match='AI final approval'):
+        _validate_tampered_home_record(tmp_path, monkeypatch, record)
+
+
+def test_pl_review_human_approval_after_ai_qa_passes(tmp_path, monkeypatch):
+    """An AI QA reviewer plus a separate, explicit human approval decision is
+    the one combination allowed to reach decision.status == 'approved'."""
+    record = read_json(ROOT / 'evidence/pl/home.json')
+    assert record['reviewer']['reviewer_type'] == 'ai_assistant'
+    record['decision']['status'] = 'approved'
+    record['decision']['decider_type'] = 'human'
+    record['decision']['decided_by'] = 'product-owner'
+
+    assert _validate_tampered_home_record(tmp_path, monkeypatch, record) == len(APPROVED_PAGE_IDS)
+
+
+def test_pl_review_rejects_invalid_date_time_format(tmp_path, monkeypatch):
+    """manifest/schemas/pl_review.schema.json declares "format": "date-time"
+    on reviewed_at/decided_at; the validator must actually enforce it (via
+    jsonschema's FormatChecker) rather than silently accepting any string."""
+    from jsonschema.exceptions import ValidationError
+
+    record = read_json(ROOT / 'evidence/pl/home.json')
+    record['decision']['decided_at'] = 'not-a-valid-date-time'
+
+    with pytest.raises(ValidationError):
+        _validate_tampered_home_record(tmp_path, monkeypatch, record)

@@ -212,6 +212,8 @@ ABOUT_PARAGRAPHS = "".join(
     f"<p>{p.format(chapters_phrase=CHAPTERS_PHRASE, lessons_phrase=LESSONS_PHRASE, projects_phrase=PROJECTS_PHRASE)}</p>"
     for p in ABOUT["paragraphs"]
 )
+ROADMAP_SUB = ROADMAP["sub"].format(chapters_phrase=CHAPTERS_PHRASE)
+PROJECTS_SUB = PROJECTS_COPY["sub"].format(projects_phrase=PROJECTS_PHRASE)
 ABOUT_HIGHLIGHTS = "".join(
     f'<li><span class="about-highlight__mark" aria-hidden="true">{i:02d}</span><span>{html.escape(h)}</span></li>'
     for i, h in enumerate(ABOUT["highlights"], start=1)
@@ -525,7 +527,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <div class="home-section panel-canvas" id="glavy">
   <div class="kicker-label">{html.escape(ROADMAP["kicker_label"])}</div>
   <h2>{html.escape(ROADMAP["heading"])}</h2>
-  <p class="sub">{html.escape(ROADMAP["sub"])}</p>
+  <p class="sub">{html.escape(ROADMAP_SUB)}</p>
   <p class="sub">{html.escape(ROADMAP["note"])}</p>
 
   <div class="pcb-board">
@@ -589,7 +591,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
 <div class="home-section panel-canvas" id="proekty">
   <div class="kicker-label">{html.escape(PROJECTS_COPY["kicker_label"])}</div>
   <h2>{html.escape(PROJECTS_COPY["heading"])}</h2>
-  <p class="sub">{html.escape(PROJECTS_COPY["sub"])}</p>
+  <p class="sub">{html.escape(PROJECTS_SUB)}</p>
   <div class="projects-grid">{PROJECTS_GRID_HTML}</div>
 </div>
 
