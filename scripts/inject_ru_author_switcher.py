@@ -55,6 +55,18 @@ def inject() -> None:
     html = TARGET.read_text(encoding="utf-8")
     html = re.sub(re.escape(START) + r".*?" + re.escape(END), "", html, flags=re.S)
 
+    # The switcher needs localization.css (hides the desktop switcher at the
+    # mobile breakpoint, supplies contrast/focus styles) — inject the link
+    # once, right after the existing theory.css link.
+    css_pattern = r'(<link rel="stylesheet" href="\.\./assets/css/theory\.css" />)'
+    css_block = START + '<link rel="stylesheet" href="../assets/css/localization.css" />' + END
+    html, count = re.subn(
+        css_pattern,
+        lambda m: m.group(1) + css_block,
+        html, count=1,
+    )
+    assert count == 1, "could not find theory.css link in ob-avtore.html"
+
     # Callable replacements (not backslash-template strings) so literal HTML
     # in the injected block is never misread as a regex backreference.
     desktop_pattern = r'(<ul class="top-nav">.*?</ul>\n)(  <button class="nav-toggle")'

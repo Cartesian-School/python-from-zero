@@ -4859,6 +4859,10 @@ def render_page(
         nav_html += f'<a href="{html.escape(nav.next_href)}" class="next"><div class="dir">{UI_STRINGS[locale]["nav_next"]}</div><div class="lbl">{html.escape(next_label)}</div></a>'
     nav_html += "</div>"
 
+    # Only loaded when a switcher can actually render (page_id set) — every
+    # existing RU caller omits page_id, so this never changes their output.
+    locale_css = f'<link rel="stylesheet" href="{root}assets/css/localization.css" />\n' if page_id else ""
+
     return _render_icon_markers(f"""<!DOCTYPE html>
 <html lang="{LOCALES[locale]['html_lang']}">
 <head>
@@ -4871,7 +4875,7 @@ def render_page(
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/css/theory.css" />
-</head>
+{locale_css}</head>
 <body>
 
 {site_header(active_section, page_id=page_id, locale=locale, routes=routes)}
