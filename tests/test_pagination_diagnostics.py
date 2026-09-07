@@ -268,15 +268,10 @@ def test_chapter_record_schema_is_stable(report) -> None:
 
 
 _EXPECTED_RENDER_EXPERIMENT_NAMES = {
-    "no_recto_right_hand",
     "no_project_forced_break",
     "no_break_inside_avoid",
-    "font_98pt",
-    "line_height_135",
-    "combined_p0_p1",
     "no_callout_avoid",
     "no_code_block_avoid",
-    "project_hero_45mm",
 }
 
 
