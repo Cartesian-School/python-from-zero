@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+import book_shared as bs
 from book_pipeline import SUPPORTED_LANGUAGES
 from book_pipeline import pagination_diagnostics as diag
 from book_pipeline.locales import get_locale
@@ -102,11 +103,39 @@ def test_ru_and_pl_reports_share_identical_schema(report_ru, report_pl) -> None:
 def test_blank_and_near_empty_thresholds_are_deterministic(
     word_count, expected_blank, expected_near_empty, expected_very_sparse, expected_sparse
 ) -> None:
-    page = diag.PageRecord(number=1, category="chapter_content", chapter_number=1, project_slug=None, word_count=word_count, char_count=word_count * 5)
+    page = diag.PageRecord(
+        number=1, category="chapter_content", chapter_number=1, project_slug=None,
+        word_count=word_count, char_count=word_count * 5, body_word_count=word_count,
+    )
     assert page.is_blank is expected_blank
     assert page.is_near_empty is expected_near_empty
     assert page.is_very_sparse is expected_very_sparse
     assert page.is_sparse is expected_sparse
+
+
+@pytest.mark.parametrize("body_word_count,expected", [(0, True), (1, False)])
+def test_body_effectively_empty_threshold_is_deterministic(body_word_count, expected) -> None:
+    """is_body_effectively_empty is keyed on body_word_count (post chrome-
+    strip), independent of raw word_count — a page with plenty of raw
+    (chrome-inclusive) words can still be body-effectively-empty, and vice
+    versa is impossible by construction (stripping only ever removes text)."""
+    page = diag.PageRecord(
+        number=1, category="chapter_content", chapter_number=1, project_slug=None,
+        word_count=50, char_count=250, body_word_count=body_word_count,
+    )
+    assert page.is_body_effectively_empty is expected
+
+
+@pytest.mark.parametrize(
+    "text,page_number,book_title,expected",
+    [
+        ("КАК ПОЛУЧИТЬ МАКСИМУМ ОТ ЭТОЙ КНИГИ\n43", 43, "Python с нуля", "КАК ПОЛУЧИТЬ МАКСИМУМ ОТ ЭТОЙ КНИГИ"),
+        ("Запустите локально: python paint_app.py\nPYTHON С НУЛЯ\n2496", 2496, "Python с нуля", "Запустите локально: python paint_app.py"),
+        ("body only, no chrome", 7, "Python с нуля", "body only, no chrome"),
+    ],
+)
+def test_strip_known_page_chrome_is_deterministic(text, page_number, book_title, expected) -> None:
+    assert diag._strip_known_page_chrome(text, page_number=page_number, book_title=book_title) == expected
 
 
 def test_classification_is_deterministic_across_repeated_runs(report_ru) -> None:
@@ -152,14 +181,19 @@ def test_category_totals_sum_to_total_pages(report) -> None:
     assert sum(report["category_totals"].values()) == report["totals"]["total_pages"]
 
 
-def test_no_true_blank_pages_found_but_thresholds_still_meaningful(report) -> None:
+def test_no_raw_zero_word_pages_found_but_thresholds_still_meaningful(report) -> None:
     """Documented, evidence-backed corpus fact (see the M02-I07 report):
-    zero literal zero-word pages exist in either book, but the near-empty/
-    very-sparse thresholds still classify a substantial minority of pages —
-    this test pins that finding so a future content/layout change that
-    reintroduces (or removes) it is visible in the diff."""
+    zero pages have zero words under RAW pypdf extraction in either book —
+    this does NOT by itself prove no page is visually/body empty, since raw
+    extraction includes running headers/folios (see PageRecord.is_blank's
+    docstring and body_effectively_empty_pages for the partial, stricter
+    secondary signal). The near-empty/very-sparse thresholds still classify
+    a substantial minority of pages; this test pins both findings so a
+    future content/layout change that reintroduces (or removes) them is
+    visible in the diff."""
     assert report["totals"]["blank_pages"] == 0
     assert report["totals"]["near_empty_pages"] > 0
+    assert report["totals"]["body_effectively_empty_pages"] >= 0
 
 
 # ---------------------------------------------------------------------------
@@ -195,8 +229,8 @@ _EXPECTED_TOP_LEVEL_KEYS = {
     "recto_policy", "forced_page_breaks", "break_inside_avoid", "components", "geometry", "pages",
 }
 _EXPECTED_TOTALS_KEYS = {
-    "total_pages", "blank_pages", "near_empty_pages", "pages_under_25_words",
-    "pages_under_50_words", "pages_under_100_words", "pages_under_150_words",
+    "total_pages", "blank_pages", "body_effectively_empty_pages", "near_empty_pages",
+    "pages_under_25_words", "pages_under_50_words", "pages_under_100_words", "pages_under_150_words",
     "mean_words_per_page", "median_words_per_page", "p10_words_per_page",
     "p25_words_per_page", "p75_words_per_page", "p90_words_per_page",
     "max_words_per_page", "mean_characters_per_page", "median_characters_per_page",
@@ -212,7 +246,8 @@ def test_metrics_schema_is_stable(report) -> None:
 def test_page_record_schema_is_stable(report) -> None:
     expected_page_keys = {
         "number", "category", "chapter_number", "project_slug",
-        "word_count", "char_count", "is_blank", "is_near_empty", "is_very_sparse", "is_sparse",
+        "word_count", "char_count", "body_word_count",
+        "is_blank", "is_near_empty", "is_very_sparse", "is_sparse", "is_body_effectively_empty",
     }
     assert set(report["pages"][0]) == expected_page_keys
 
@@ -224,3 +259,93 @@ def test_chapter_record_schema_is_stable(report) -> None:
         "near_empty_pages", "very_sparse_pages",
     }
     assert set(report["chapters"][0]) == expected_chapter_keys
+
+
+# ---------------------------------------------------------------------------
+# Render-experiment schema (declared names + computed fields), WITHOUT
+# paying the ~10-15 minute/language cost of real WeasyPrint rendering.
+# ---------------------------------------------------------------------------
+
+
+_EXPECTED_RENDER_EXPERIMENT_NAMES = {
+    "no_recto_right_hand",
+    "no_project_forced_break",
+    "no_break_inside_avoid",
+    "font_98pt",
+    "line_height_135",
+    "combined_p0_p1",
+    "no_callout_avoid",
+    "no_code_block_avoid",
+    "project_hero_45mm",
+}
+
+
+def test_declared_render_experiments_are_well_formed() -> None:
+    """Static check (no rendering): every declared experiment has at least
+    one (old, new) CSS patch pair, each a distinct, non-empty string pair —
+    catches an experiment declared but left empty/no-op."""
+    assert set(diag.RENDER_EXPERIMENTS) == _EXPECTED_RENDER_EXPERIMENT_NAMES
+    for name, patches in diag.RENDER_EXPERIMENTS.items():
+        assert isinstance(patches, list) and patches, f"{name} declares no patches"
+        for old, new in patches:
+            assert isinstance(old, str) and old
+            assert isinstance(new, str) and new
+            assert old != new, f"{name}: patch is a no-op ({old!r})"
+
+
+def test_declared_render_experiment_patches_target_real_css(report_ru) -> None:
+    """Every declared patch's ``old`` substring must actually be present in
+    the canonical print stylesheet — a stale/renamed CSS rule would
+    otherwise fail silently until someone runs the slow --render-experiments
+    path by hand (see run_render_experiments' own RuntimeError guard, which
+    this test exercises the precondition for without paying its cost)."""
+    css = bs.build_print_css(book_title=get_locale("ru").book_title, page_abbrev=get_locale("ru").page_abbrev)
+    for name, patches in diag.RENDER_EXPERIMENTS.items():
+        for old, _new in patches:
+            assert old in css, f"{name}: patch target not found in current CSS: {old[:60]!r}"
+
+
+def test_run_render_experiments_produces_expected_schema(monkeypatch) -> None:
+    """Exercises run_render_experiments' REAL control flow (patch
+    application, build_full_html for every variant, delta/pct computation)
+    with only the expensive WeasyPrint render step faked out — so this
+    verifies the exact fields the task requires (weasyprint_pages,
+    page_delta_vs_baseline, page_delta_pct_vs_baseline, and that every
+    declared experiment name appears in each) without a ~10-15 minute cost.
+    """
+    import sys as _sys
+    import types
+
+    from book_pipeline.locales import get_locale as _get_locale
+    from book_pipeline.model import CanonicalBookLoader
+
+    class _FakeDoc:
+        def __init__(self, page_count: int) -> None:
+            self.pages = list(range(page_count))
+
+    class _FakeHTML:
+        def __init__(self, *, string: str, base_url: str) -> None:
+            # Deterministic pseudo page-count that varies with the patched
+            # CSS's length, so different variants produce different (fake)
+            # page counts and the delta/pct arithmetic is exercised for real.
+            self._page_count = 1000 + (len(string) % 97)
+
+        def render(self):
+            return _FakeDoc(self._page_count)
+
+    monkeypatch.setitem(_sys.modules, "weasyprint", types.SimpleNamespace(HTML=_FakeHTML))
+
+    config = _get_locale("ru")
+    model = CanonicalBookLoader.load(config)
+    result = diag.run_render_experiments(config, model)
+
+    assert set(result) == {"note", "weasyprint_pages", "page_delta_vs_baseline", "page_delta_pct_vs_baseline"}
+    assert set(result["weasyprint_pages"]) == {"baseline", *_EXPECTED_RENDER_EXPERIMENT_NAMES}
+    assert set(result["page_delta_vs_baseline"]) == _EXPECTED_RENDER_EXPERIMENT_NAMES
+    assert set(result["page_delta_pct_vs_baseline"]) == _EXPECTED_RENDER_EXPERIMENT_NAMES
+
+    baseline = result["weasyprint_pages"]["baseline"]
+    for name in _EXPECTED_RENDER_EXPERIMENT_NAMES:
+        expected_delta = result["weasyprint_pages"][name] - baseline
+        assert result["page_delta_vs_baseline"][name] == expected_delta
+        assert result["page_delta_pct_vs_baseline"][name] == pytest.approx(100 * expected_delta / baseline, abs=0.01)

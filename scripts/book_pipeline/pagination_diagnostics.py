@@ -87,6 +87,46 @@ def _word_count(text: str) -> int:
     return len(text.split())
 
 
+def _strip_known_page_chrome(text: str, *, page_number: int, book_title: str) -> str:
+    """Best-effort, PARTIAL removal of print running-header/folio chrome from
+    a page's raw extracted text, for a stricter "body word count" than
+    ``word_count`` alone.
+
+    ``word_count`` is computed from raw ``pypdf`` text extraction, which
+    includes the page's running header and folio (per book_shared.
+    build_print_css's ``@top-*``/``@bottom-center`` rules) — so
+    ``word_count == 0`` would only ever be true for a page with NO
+    body content, no running header, AND no folio, which given this
+    stylesheet essentially never happens. It does NOT prove the page's body
+    is empty.
+
+    This function strips only the TWO chrome elements identifiable with
+    certainty from the committed artifacts:
+
+    1. The page's own folio (``@bottom-center { content: counter(page); }``)
+       — always exactly this page's own number, as a trailing text line.
+    2. The constant book-title running header shown on right-hand pages
+       (``@page :right { @top-right { content: "<book_title>"; ...
+       text-transform: uppercase; } }``) — an exact, page-independent
+       string, matched case-insensitively since the rendered glyphs are
+       uppercase.
+
+    It deliberately does NOT strip the DYNAMIC chapter/lesson-title running
+    header shown on left-hand pages (``string(chaptitle)``, i.e. whichever
+    <h1> was most recently rendered) — that text varies per physical page
+    and is not reliably reconstructible from the committed artifacts alone
+    without tracking every source page's own heading position, which is out
+    of scope here. A page whose only extracted content is that dynamic
+    header will therefore still show as "body non-empty" under this
+    function — see the module's documented limitation.
+    """
+    lines = text.split("\n")
+    if lines and lines[-1].strip() == str(page_number):
+        lines = lines[:-1]
+    normalized_title = book_title.strip().casefold()
+    return "\n".join(line for line in lines if line.strip().casefold() != normalized_title)
+
+
 def _percentile(sorted_values: list[float], p: float) -> float:
     if not sorted_values:
         return 0.0
@@ -126,9 +166,16 @@ class PageRecord:
     project_slug: str | None
     word_count: int
     char_count: int
+    body_word_count: int
 
     @property
     def is_blank(self) -> bool:
+        """Zero words under RAW pypdf extraction. Given this stylesheet
+        always renders a running header and/or folio, this proves only
+        "no extractable text of any kind, including chrome" — NOT "the
+        page's body is visually/textually empty". See ``is_body_effectively_
+        empty`` for the (still partial — see _strip_known_page_chrome)
+        chrome-stripped signal."""
         return self.word_count <= BLANK_MAX_WORDS
 
     @property
@@ -143,6 +190,16 @@ class PageRecord:
     def is_sparse(self) -> bool:
         return self.word_count < SPARSE_MAX_WORDS
 
+    @property
+    def is_body_effectively_empty(self) -> bool:
+        """Zero words after stripping the page's own folio and the constant
+        book-title running header (see _strip_known_page_chrome). Still a
+        PARTIAL signal — it does not strip the dynamic per-page chapter/
+        lesson-title running header — so this can undercount, but it can
+        never OVERcount relative to a true visual-blank determination the
+        way raw ``is_blank`` can."""
+        return self.body_word_count <= BLANK_MAX_WORDS
+
     def to_dict(self) -> dict:
         return {
             "number": self.number,
@@ -151,10 +208,12 @@ class PageRecord:
             "project_slug": self.project_slug,
             "word_count": self.word_count,
             "char_count": self.char_count,
+            "body_word_count": self.body_word_count,
             "is_blank": self.is_blank,
             "is_near_empty": self.is_near_empty,
             "is_very_sparse": self.is_very_sparse,
             "is_sparse": self.is_sparse,
+            "is_body_effectively_empty": self.is_body_effectively_empty,
         }
 
 
@@ -291,6 +350,7 @@ def _classify_pages(inputs: DiagnosticsInputs) -> list[PageRecord]:
     if missing:
         raise RuntimeError(f"page classification left {len(missing)} page(s) uncategorized: {missing[:10]}...")
 
+    book_title = config.book_title
     return [
         PageRecord(
             number=page_no,
@@ -299,18 +359,29 @@ def _classify_pages(inputs: DiagnosticsInputs) -> list[PageRecord]:
             project_slug=records[page_no]["project_slug"],
             word_count=_word_count(inputs.page_texts[page_no - 1]),
             char_count=len(inputs.page_texts[page_no - 1]),
+            body_word_count=_word_count(
+                _strip_known_page_chrome(inputs.page_texts[page_no - 1], page_number=page_no, book_title=book_title)
+            ),
         )
         for page_no in range(1, total_pages + 1)
     ]
 
 
 def _totals(pages: list[PageRecord]) -> dict:
+    """``blank_pages`` counts zero-text pages under RAW pypdf extraction,
+    which includes running headers/folios (see PageRecord.is_blank) — it
+    proves only "no extractable text of any kind", not "the page's body is
+    visually/textually empty". ``body_effectively_empty_pages`` is a
+    stricter, still-partial secondary signal (see
+    PageRecord.is_body_effectively_empty / _strip_known_page_chrome) that
+    strips the two chrome elements identifiable with certainty."""
     words = [p.word_count for p in pages]
     chars = [p.char_count for p in pages]
     sorted_words = sorted(words)
     return {
         "total_pages": len(pages),
         "blank_pages": sum(p.is_blank for p in pages),
+        "body_effectively_empty_pages": sum(p.is_body_effectively_empty for p in pages),
         "near_empty_pages": sum(p.is_near_empty for p in pages),
         "pages_under_25_words": sum(1 for w in words if w < 25),
         "pages_under_50_words": sum(1 for w in words if w < 50),
@@ -384,9 +455,9 @@ def _chapter_diagnostics(pages: list[PageRecord], meta: dict) -> list[dict]:
 def _recto_policy_report(pages: list[PageRecord], chapters: list[dict]) -> dict:
     """Deterministic evidence about the recto (right-hand) chapter-start
     policy, WITHOUT assuming a literal zero-word filler page exists (the RU
-    and PL corpora both have zero true blank pages — see the report's
-    executive summary): flags the page immediately preceding each chapter
-    opener as a "recto candidate" whenever it is functionally near-empty
+    and PL corpora both have zero raw zero-word pages — see totals.
+    blank_pages and its documented raw-extraction caveat): flags the page
+    immediately preceding each chapter opener as a "recto candidate" whenever it is functionally near-empty
     (< NEAR_EMPTY_MAX_WORDS) and belongs to the PRECEDING chapter's own
     content, i.e. it is not itself front matter/TOC. This is the strongest
     deterministic signal available from text extraction alone; the render
@@ -554,6 +625,37 @@ RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
         ),
         (".project-entry { break-before: page; }", ".project-entry { break-before: auto; }"),
     ],
+    # Isolate the two highest-frequency break-inside:avoid components
+    # individually (see the M02-I07 report, section 8): the combined
+    # no_break_inside_avoid ceiling below does not by itself say which
+    # selector accounts for how much of it.
+    "no_callout_avoid": [
+        (
+            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
+            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: auto; }",
+        ),
+    ],
+    "no_code_block_avoid": [
+        (
+            ".code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: avoid; overflow: hidden; }",
+            ".code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: auto; overflow: hidden; }",
+        ),
+    ],
+    # Isolates the .project-hero HEIGHT specifically, distinct from
+    # no_project_forced_break above (which removes the forced page break
+    # itself). This is a DIFFERENT mechanism: even with the forced break
+    # kept, a shorter hero may leave enough room on the project's own first
+    # page for its trailing .notebook-card, needing no second page at all.
+    # 45mm is the proposed value (a moderate cut from the current 62mm,
+    # picked as the midpoint of the 40-45mm range this audit proposes) —
+    # this experiment reports its OWN measured delta rather than reusing
+    # no_project_forced_break's, which measures a different rule entirely.
+    "project_hero_45mm": [
+        (
+            ".project-entry .project-hero { width: 100%; height: 62mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }",
+            ".project-entry .project-hero { width: 100%; height: 45mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }",
+        ),
+    ],
 }
 
 _BREAK_INSIDE_AVOID_CSS_LINES = (
@@ -615,13 +717,17 @@ def run_render_experiments(config: BookLocaleConfig, model: CanonicalBookModel) 
     results = {"baseline": render_with(None)}
     for name, patches in RENDER_EXPERIMENTS.items():
         results[name] = render_with(patches)
+    baseline = results["baseline"]
+    deltas = {name: value - baseline for name, value in results.items() if name != "baseline"}
     return {
         "note": (
             "weasyprint_pages excludes the merged cover page (add 1 for the final PDF's physical "
-            "page count). page_delta_vs_baseline is negative when the variant produces FEWER pages."
+            "page count). page_delta_vs_baseline is negative when the variant produces FEWER pages. "
+            "page_delta_pct_vs_baseline is that delta as a percentage of the baseline page count."
         ),
         "weasyprint_pages": results,
-        "page_delta_vs_baseline": {name: value - results["baseline"] for name, value in results.items() if name != "baseline"},
+        "page_delta_vs_baseline": deltas,
+        "page_delta_pct_vs_baseline": {name: round(100 * delta / baseline, 2) for name, delta in deltas.items()},
     }
 
 

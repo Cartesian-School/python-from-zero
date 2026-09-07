@@ -41,7 +41,9 @@ def _run(language: str, *, render_experiments: bool) -> Path:
     totals = report["totals"]
     print(
         f"  {language}: {totals['total_pages']} pages, "
-        f"{totals['blank_pages']} blank, {totals['near_empty_pages']} near-empty, "
+        f"{totals['blank_pages']} zero-text (raw extraction), "
+        f"{totals['body_effectively_empty_pages']} body-effectively-empty (chrome-stripped), "
+        f"{totals['near_empty_pages']} near-empty, "
         f"median {totals['median_words_per_page']} words/page"
     )
     print(f"  Wrote: {out_path.relative_to(ROOT)}")
