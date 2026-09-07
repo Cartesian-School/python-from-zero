@@ -117,6 +117,28 @@ def resolve_svg_css_vars(html_fragment: str) -> str:
     return fix_svg_case(html_fragment)
 
 
+def extract_page_title(html_text: str) -> str:
+    """Return a page's own displayed title straight from its rendered <h1>.
+
+    Locale-agnostic: lets a language edition whose pages have no separate
+    canonical-metadata source of truth (e.g. PL, a machine-translated mirror
+    of the RU site) derive TOC/spine labels from what a reader actually sees
+    on the page, instead of maintaining a second, independently authored
+    title list that could drift from the real page content.
+    """
+    soup = BeautifulSoup(html_text, "lxml")
+    hero_h1 = soup.select_one(".chapter-hero h1")
+    if hero_h1:
+        return hero_h1.get_text(strip=True)
+    article_h1 = soup.select_one("article h1")
+    if article_h1:
+        return article_h1.get_text(strip=True)
+    any_h1 = soup.find("h1")
+    if any_h1:
+        return any_h1.get_text(strip=True)
+    raise RuntimeError("no <h1> found to derive a page title")
+
+
 def rewrite_links(tag, *, site_origin: str) -> None:
     """Point package-external links at the real production site.
 
