@@ -18,7 +18,7 @@ from chapter_metadata import chapters
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 PRACTICE_PATH = ROOT / "manifest" / "practice_manifest.json"
-EPUB_PATH = ROOT / "book" / "epub" / "python-s-nulya.epub"
+EPUB_PATH = ROOT / "book" / "epub" / "python-s-nulya-ru.epub"
 
 
 def text(node) -> str:

@@ -67,8 +67,8 @@ def mode_of(entry: dict) -> str:
 MODE_LABELS = {"browser": "В браузере", "local": "Локально", "adapted": "В браузере · адаптировано"}
 MODE_CLASS = {"browser": "mode-browser", "local": "mode-local", "adapted": "mode-adapted"}
 
-# Percent-encoded "готовая книга.pdf" — matches build_pdf.py's OUT filename exactly.
-PDF_HREF = "/book/pdf/%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0.pdf"
+# Matches build_pdf.py's OUT filename exactly.
+PDF_HREF = "/book/pdf/python-s-nulya-ru.pdf"
 
 CHAPTERS = chapters()
 
@@ -754,7 +754,7 @@ HTML = _render_icon_markers(f"""<!DOCTYPE html>
       <span class="ri">[[icon:file]]</span>
       <div class="reference-card__copy"><div class="rt">Скачать PDF</div><div class="rs">Вся книга целиком</div></div><span class="reference-card__arrow" aria-hidden="true">↓</span>
     </a>
-    <a class="reference-card" href="/book/epub/python-s-nulya.epub">
+    <a class="reference-card" href="/book/epub/python-s-nulya-ru.epub">
       <span class="ri">[[icon:device]]</span>
       <div class="reference-card__copy"><div class="rt">Скачать EPUB</div><div class="rs">Для читалок и мобильных устройств</div></div><span class="reference-card__arrow" aria-hidden="true">↓</span>
     </a>

@@ -43,7 +43,7 @@ PRACTICE_MANIFEST = ROOT / "manifest/practice_manifest.json"
 
 CYRILLIC = re.compile(r"[\u0400-\u04ff]")
 SKIP_TEXT_PARENTS = {"code", "pre", "script", "style"}
-TRANSLATED_ATTRIBUTES = ("alt", "title", "aria-label", "aria-description", "placeholder")
+TRANSLATED_ATTRIBUTES = ("alt", "title", "aria-label", "aria-description", "placeholder", "data-label")
 FRONT_MATTER_NAMES = {
     "vvedenie.html": "wprowadzenie.html",
     "ob-avtore.html": "o-autorze.html",
@@ -331,10 +331,15 @@ def _translate_html_document(source: str, tm: TranslationMemory, ru_url: str,
 
     _namespace_svg_ids(soup)
 
-    # PL publications are intentionally out of scope; label existing RU books.
+    # A genuine Polish PDF/EPUB edition exists (see scripts/build_pdf_pl.py /
+    # scripts/build_epub_pl.py) — point book download links at those PL
+    # artifacts rather than the RU ones passed through untouched above.
     for anchor in soup.find_all("a", href=True):
-        if anchor["href"].startswith("/book/") and "wersja rosyjska" not in anchor.get_text(" ", strip=True).lower():
-            anchor.append(NavigableString(" — wersja rosyjska"))
+        href = anchor["href"]
+        if href.startswith("/book/pdf/"):
+            anchor["href"] = "/book/pdf/python-od-zera-pl.pdf"
+        elif href.startswith("/book/epub/"):
+            anchor["href"] = "/book/epub/python-od-zera-pl.epub"
 
     rendered = str(soup)
     # JS/JSON string literals embedded in <script> blocks (practice config

@@ -32,8 +32,8 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 LICENSE_PAGE = SITE / "front-matter" / "litsenziya.html"
-PDF_PATH = ROOT / "book" / "pdf" / "готовая книга.pdf"
-EPUB_PATH = ROOT / "book" / "epub" / "python-s-nulya.epub"
+PDF_PATH = ROOT / "book" / "pdf" / "python-s-nulya-ru.pdf"
+EPUB_PATH = ROOT / "book" / "epub" / "python-s-nulya-ru.epub"
 
 CC_IDENTIFIER = "CC BY-NC-SA 4.0"
 CC_CANONICAL_URL = "https://creativecommons.org/licenses/by-nc-sa/4.0/"

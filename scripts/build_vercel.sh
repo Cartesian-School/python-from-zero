@@ -98,11 +98,14 @@ mkdir -p "${DIST_DIR}/projects"
 # here; see scripts/build_practice_pages.py and web/ for how they're produced.
 cp -a "${ROOT_DIR}/site/." "${DIST_DIR}/"
 
-# Publication downloads — paths must match the relative links already used in
-# site/index.html ("../book/pdf/..." and "../book/epub/..."), which resolve to
-# /book/pdf/... and /book/epub/... once site/ is deployed at the domain root.
-cp "${ROOT_DIR}/book/pdf/готовая книга.pdf"      "${DIST_DIR}/book/pdf/готовая книга.pdf"
-cp "${ROOT_DIR}/book/epub/python-s-nulya.epub"    "${DIST_DIR}/book/epub/python-s-nulya.epub"
+# Publication downloads — paths must match the links already used in
+# site/index.html and site/pl/index.html ("/book/pdf/..." and
+# "/book/epub/..."), which resolve as-is once site/ is deployed at the
+# domain root.
+cp "${ROOT_DIR}/book/pdf/python-s-nulya-ru.pdf"    "${DIST_DIR}/book/pdf/python-s-nulya-ru.pdf"
+cp "${ROOT_DIR}/book/epub/python-s-nulya-ru.epub"  "${DIST_DIR}/book/epub/python-s-nulya-ru.epub"
+cp "${ROOT_DIR}/book/pdf/python-od-zera-pl.pdf"    "${DIST_DIR}/book/pdf/python-od-zera-pl.pdf"
+cp "${ROOT_DIR}/book/epub/python-od-zera-pl.epub"  "${DIST_DIR}/book/epub/python-od-zera-pl.epub"
 
 # Jupyter practice — referenced from chapter pages via "../../../notebooks/...".
 cp -a "${ROOT_DIR}/notebooks/."       "${DIST_DIR}/notebooks/"
