@@ -156,9 +156,46 @@ def page_pairs() -> list[PagePair]:
     return sorted(pairs, key=lambda item: item.page_id)
 
 
+# Pipeline-generated pagination labels are structured metadata, not prose:
+# site_lib.py's chapter-opener renderer produces "ГЛАВА {n} · СТР. {page}"
+# purely from the chapter/page numbers (see its f-string). A pagination
+# change must not create new TranslationMemory requirements for every
+# chapter/page-number combination it happens to produce — that would mean
+# hand-translating dozens of one-off numeric strings on every repagination.
+_CHAPTER_OPENER_LABEL_RU = re.compile(r"^ГЛАВА (\d+) · СТР\. (\d+)$")
+
+GENERATED_LABEL_TEMPLATES: dict[str, dict[str, str]] = {
+    "pl": {
+        "chapter_opener": "ROZDZIAŁ {chapter} · STRONA {page}",
+    },
+}
+
+
+def translate_generated_text(source: str, target_locale: str) -> str | None:
+    """Deterministically localize a recognized generated-label pattern.
+
+    Returns the localized equivalent (with numeric values preserved
+    exactly) for the small, explicitly supported set of structural,
+    pipeline-generated strings — currently just the chapter-opener
+    "ГЛАВА N · СТР. X" label. Returns ``None`` for everything else
+    (ordinary human-authored prose, or a locale with no generated-label
+    wording defined), in which case the caller must fall back to
+    ``TranslationMemory.translate()``. Never raises.
+    """
+    templates = GENERATED_LABEL_TEMPLATES.get(target_locale)
+    if not templates:
+        return None
+    match = _CHAPTER_OPENER_LABEL_RU.match(source.strip())
+    if match and "chapter_opener" in templates:
+        chapter, page = match.group(1), match.group(2)
+        return templates["chapter_opener"].format(chapter=chapter, page=page)
+    return None
+
+
 class TranslationMemory:
-    def __init__(self, *, collect: bool) -> None:
+    def __init__(self, *, collect: bool, target_locale: str = "pl") -> None:
         self.collect = collect
+        self.target_locale = target_locale
         if TM_PATH.is_file():
             raw = _read_json(TM_PATH)
             self.entries: dict[str, str] = raw.get("entries", {})
@@ -175,6 +212,9 @@ class TranslationMemory:
     def translate(self, source: str) -> str:
         if not CYRILLIC.search(source):
             return source
+        generated = translate_generated_text(source, self.target_locale)
+        if generated is not None:
+            return generated
         key = self._key(source)
         self.sources[key] = source
         target = self.entries.get(key)
