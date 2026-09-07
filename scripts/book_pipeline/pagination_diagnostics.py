@@ -73,14 +73,6 @@ BREAK_INSIDE_AVOID_SELECTORS = (
     ".notebook-card",
     ".compare-table tr",
 )
-FORCED_BREAK_SELECTORS = {
-    "chapter-hero-recto": ".chapter-hero { break-before: right; }",
-    "chapter-break": ".chapter-break { break-before: page; }",
-    "project-entry": ".project-entry { break-before: page; }",
-    "toc-page": ".toc-page { break-before: page; }",
-    "copyright-page": ".copyright-page { break-before: page; break-after: page; }",
-    "title-page": ".title-page { break-after: page; }",
-}
 
 
 def _word_count(text: str) -> int:
@@ -602,13 +594,23 @@ def _geometry_report() -> dict:
 # Render experiments (opt-in, slow): measured, not guessed, page-count deltas.
 # ---------------------------------------------------------------------------
 
+# M02-I07 Phase 2A measured five levers by diffing them against the PRE-
+# Phase-2B baseline: recto->page, project-hero 62mm->45mm, font 10.3->9.8pt,
+# and line-height 1.48->1.35 were all proposals to CHANGE the then-current
+# CSS. Phase 2B (this pipeline's current baseline) already ships four of
+# those five changes (recto relaxation, project-hero 45mm, font 9.8pt,
+# line-height 1.40 — a more conservative value than the 1.35 Phase 2A
+# measured, per the Phase 2B ticket's explicit instruction). Re-running
+# those experiments against the NEW baseline would try to patch CSS text
+# that no longer exists (there is no more "break-before: right" or "62mm"
+# or "10.3pt" to remove) — they were retired, not "still testing something",
+# once their proposal shipped. Only levers Phase 2B deliberately did NOT
+# implement remain as live experiments below: the .project-entry forced
+# break was explicitly KEPT this pass (see the Phase 2B ticket's PROJECT
+# ENTRY POLICY), and the break-inside:avoid family was only PARTIALLY
+# addressed (code blocks over the 18-line threshold split; everything else,
+# including short code blocks and all callouts, still avoids breaking).
 RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
-    "no_recto_right_hand": [
-        (
-            ".chapter-hero { page: opener; break-before: right;",
-            ".chapter-hero { page: opener; break-before: page;",
-        ),
-    ],
     "no_project_forced_break": [
         (".project-entry { break-before: page; }", ".project-entry { break-before: auto; }"),
     ],
@@ -616,19 +618,12 @@ RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
         (selector_css.replace("avoid", "auto", 1), selector_css)  # placeholder, filled below
         for selector_css in ()
     ],
-    "font_98pt": [("font-size: 10.3pt; line-height: 1.48;", "font-size: 9.8pt; line-height: 1.48;")],
-    "line_height_135": [("font-size: 10.3pt; line-height: 1.48;", "font-size: 10.3pt; line-height: 1.35;")],
-    "combined_p0_p1": [
-        (
-            ".chapter-hero { page: opener; break-before: right;",
-            ".chapter-hero { page: opener; break-before: page;",
-        ),
-        (".project-entry { break-before: page; }", ".project-entry { break-before: auto; }"),
-    ],
     # Isolate the two highest-frequency break-inside:avoid components
-    # individually (see the M02-I07 report, section 8): the combined
-    # no_break_inside_avoid ceiling below does not by itself say which
-    # selector accounts for how much of it.
+    # individually (see the M02-I07 Phase 2A report, section 8): the
+    # combined no_break_inside_avoid ceiling above does not by itself say
+    # which selector accounts for how much of it. Post-Phase-2B, this now
+    # measures the REMAINING ceiling (code blocks at/under the 18-line
+    # splittable threshold, plus every callout regardless of size).
     "no_callout_avoid": [
         (
             ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
@@ -639,21 +634,6 @@ RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
         (
             ".code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: avoid; overflow: hidden; }",
             ".code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: auto; overflow: hidden; }",
-        ),
-    ],
-    # Isolates the .project-hero HEIGHT specifically, distinct from
-    # no_project_forced_break above (which removes the forced page break
-    # itself). This is a DIFFERENT mechanism: even with the forced break
-    # kept, a shorter hero may leave enough room on the project's own first
-    # page for its trailing .notebook-card, needing no second page at all.
-    # 45mm is the proposed value (a moderate cut from the current 62mm,
-    # picked as the midpoint of the 40-45mm range this audit proposes) —
-    # this experiment reports its OWN measured delta rather than reusing
-    # no_project_forced_break's, which measures a different rule entirely.
-    "project_hero_45mm": [
-        (
-            ".project-entry .project-hero { width: 100%; height: 62mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }",
-            ".project-entry .project-hero { width: 100%; height: 45mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }",
         ),
     ],
 }

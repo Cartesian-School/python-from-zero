@@ -156,9 +156,46 @@ def page_pairs() -> list[PagePair]:
     return sorted(pairs, key=lambda item: item.page_id)
 
 
+# Pipeline-generated pagination labels are structured metadata, not prose:
+# site_lib.py's chapter-opener renderer produces "ГЛАВА {n} · СТР. {page}"
+# purely from the chapter/page numbers (see its f-string). A pagination
+# change must not create new TranslationMemory requirements for every
+# chapter/page-number combination it happens to produce — that would mean
+# hand-translating dozens of one-off numeric strings on every repagination.
+_CHAPTER_OPENER_LABEL_RU = re.compile(r"^ГЛАВА (\d+) · СТР\. (\d+)$")
+
+GENERATED_LABEL_TEMPLATES: dict[str, dict[str, str]] = {
+    "pl": {
+        "chapter_opener": "ROZDZIAŁ {chapter} · STRONA {page}",
+    },
+}
+
+
+def translate_generated_text(source: str, target_locale: str) -> str | None:
+    """Deterministically localize a recognized generated-label pattern.
+
+    Returns the localized equivalent (with numeric values preserved
+    exactly) for the small, explicitly supported set of structural,
+    pipeline-generated strings — currently just the chapter-opener
+    "ГЛАВА N · СТР. X" label. Returns ``None`` for everything else
+    (ordinary human-authored prose, or a locale with no generated-label
+    wording defined), in which case the caller must fall back to
+    ``TranslationMemory.translate()``. Never raises.
+    """
+    templates = GENERATED_LABEL_TEMPLATES.get(target_locale)
+    if not templates:
+        return None
+    match = _CHAPTER_OPENER_LABEL_RU.match(source.strip())
+    if match and "chapter_opener" in templates:
+        chapter, page = match.group(1), match.group(2)
+        return templates["chapter_opener"].format(chapter=chapter, page=page)
+    return None
+
+
 class TranslationMemory:
-    def __init__(self, *, collect: bool) -> None:
+    def __init__(self, *, collect: bool, target_locale: str = "pl") -> None:
         self.collect = collect
+        self.target_locale = target_locale
         if TM_PATH.is_file():
             raw = _read_json(TM_PATH)
             self.entries: dict[str, str] = raw.get("entries", {})
@@ -175,6 +212,9 @@ class TranslationMemory:
     def translate(self, source: str) -> str:
         if not CYRILLIC.search(source):
             return source
+        generated = translate_generated_text(source, self.target_locale)
+        if generated is not None:
+            return generated
         key = self._key(source)
         self.sources[key] = source
         target = self.entries.get(key)
@@ -285,6 +325,73 @@ def _namespace_svg_ids(soup: BeautifulSoup) -> None:
                 element[attr] = value
 
 
+_PROTECTED_WHITESPACE_BLOCK = re.compile(
+    r"(<(?:pre|code|script|style|textarea)\b[^>]*>.*?</(?:pre|code|script|style|textarea)>)",
+    re.I | re.S,
+)
+_INTERTAG_WHITESPACE_RUN = re.compile(r">([ \t\r\n]+)<")
+
+
+def _canonicalize_intertag_run(match: "re.Match[str]") -> str:
+    run = match.group(1)
+    canonical = "\n" if "\n" in run else " "
+    return ">" + canonical + "<"
+
+
+def normalize_generated_html_whitespace(rendered: str) -> str:
+    """Canonicalize insignificant inter-tag whitespace in generated HTML.
+
+    ``BeautifulSoup(source, "html.parser")`` reparses and reserializes the
+    RU source's whitespace-only text nodes (``str(soup)``). PR #117 found
+    that stdlib ``html.parser`` does not treat the exact character count of
+    such a node as part of any stable contract: a literal two-space run
+    between ``</div>`` and ``<button>`` in the RU source came back out of
+    the parser as a single space locally — confirmed directly via
+    ``BeautifulSoup(...).find(...).previous_sibling`` — and a *separate*
+    whitespace-only node elsewhere (around the same generated nav-toggle
+    button, once a newline is involved) drifted between zero and one space
+    across CPython patch releases (3.14.6 local vs 3.14.7 CI). Both are the
+    same class of bug: the parser, not this codebase, decides how many
+    whitespace characters survive, and that decision isn't guaranteed
+    stable.
+
+    Every whitespace-only text node sitting directly between two tags is
+    layout formatting, never meaningful content — HTML's own whitespace-
+    collapse rule already renders any such run as at most one visible
+    space regardless of how many characters it contains. So this collapses
+    every one of them to a single fixed representative — a bare newline if
+    the run contained one, otherwise a single space — which changes zero
+    rendered pixels while making the serialized bytes independent of
+    whatever the parser happened to decide. Runs are canonicalized by
+    length category (has-newline vs. no-newline), not simply dropped,
+    preserving the "some gap vs. no gap at all" distinction in case a
+    future template ever puts meaningful adjacent-inline-element spacing
+    directly between two tags (none does today: this codebase's one actual
+    inline separator, " | ", lives inside a single ``<span>``, never as a
+    bare text node between two tags).
+
+    This is scoped to ``_translate_html_document``'s own output only — it
+    cannot see whitespace that a *later* pipeline stage newly splices
+    together (see inject_language_switchers.py's own narrower,
+    locale-agnostic fix for that specific case).
+
+    Content inside pre/code/script/style/textarea, where whitespace is
+    significant, is never touched.
+
+    Idempotent: ``normalize_generated_html_whitespace`` applied twice
+    yields the same result as applied once (a canonical single-space or
+    single-newline run matches the same pattern and re-canonicalizes to
+    itself).
+    """
+    parts = _PROTECTED_WHITESPACE_BLOCK.split(rendered)
+    # re.split with a capturing group yields alternating
+    # [unprotected, protected, unprotected, protected, ...]; only the
+    # even-indexed (unprotected) segments are eligible for normalization.
+    for index in range(0, len(parts), 2):
+        parts[index] = _INTERTAG_WHITESPACE_RUN.sub(_canonicalize_intertag_run, parts[index])
+    return "".join(parts)
+
+
 def _translate_html_document(source: str, tm: TranslationMemory, ru_url: str,
                              route_map: dict[str, str]) -> str:
     soup = BeautifulSoup(source, "html.parser")
@@ -342,6 +449,11 @@ def _translate_html_document(source: str, tm: TranslationMemory, ru_url: str,
             anchor["href"] = "/book/epub/python-od-zera-pl.epub"
 
     rendered = str(soup)
+    # Canonicalize insignificant layout whitespace right where the parser
+    # produced it (see docstring) — before any later regex-based stage,
+    # which is deterministic string manipulation and cannot reintroduce
+    # environment-sensitive whitespace, gets a chance to depend on it.
+    rendered = normalize_generated_html_whitespace(rendered)
     # JS/JSON string literals embedded in <script> blocks (practice config
     # chapterTitle/lessonTitle, manual-completion status text, JSON-LD SEO
     # payloads) are opaque to the prose translator above; translate them here.
@@ -789,11 +901,28 @@ def _repair_translation_memory_bing(workers: int) -> None:
     print(f"Repaired {len(broken)} damaged translation records")
 
 
+def _reset_pl_root(*, collect: bool) -> None:
+    """Clear site/pl/ ahead of a full rebuild.
+
+    NEVER destructive in --collect mode. --collect is a diagnostic pass
+    (discover which source strings still need a PL translation, without
+    requiring the full corpus to already be translated) — it must not risk
+    deleting the currently-published PL site. A normal (non-collect) build
+    still fails closed on the first missing translation via
+    TranslationMemory.translate()'s KeyError, but by then this function has
+    already run; --collect exists precisely so that check can be done
+    first, on the CURRENT site/pl/, without that risk.
+    """
+    if collect:
+        return
+    if PL_ROOT.exists():
+        shutil.rmtree(PL_ROOT)
+
+
 def build(*, collect: bool) -> None:
     pairs = page_pairs()
     route_map = {pair.ru_url: pair.pl_url for pair in pairs}
-    if PL_ROOT.exists():
-        shutil.rmtree(PL_ROOT)
+    _reset_pl_root(collect=collect)
     tm = TranslationMemory(collect=collect)
     for index, pair in enumerate(pairs, 1):
         translated = _translate_html_document(

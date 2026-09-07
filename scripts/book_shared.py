@@ -233,6 +233,69 @@ def extract_project(html_text: str, *, site_origin: str) -> str:
     return resolve_svg_css_vars(f"<html><body>{inner}</body></html>")
 
 
+# M02-I07 Phase 2B: a code block only fragments across a physical page if it
+# carries this class (see the print CSS's `.code-block--splittable` rule).
+# 18 physical source lines was chosen, not guessed: an audit of every
+# .code-block across the RU chapter corpus (1,458 blocks) found the
+# distribution 1-5 lines: 841 (57.7%), 6-10: 338 (23.2%), 11-15: 153 (10.5%),
+# 16-18: 52 (3.6%), 19-25: 38 (2.6%), 26-40: 28 (1.9%), 41+: 8 (0.5%) — i.e.
+# roughly 94.9% of all code blocks are 18 lines or shorter and keep
+# `break-inside: avoid` completely untouched. Only the long tail (5.1%, 74
+# blocks) — genuinely long listings where forcing the whole block onto one
+# page is what causes the trailing-whitespace waste Phase 2A measured — may
+# split. This sits at the conservative (safer, fewer blocks affected) end of
+# the 16-18 range the M02-I07 Phase 2B ticket specified.
+CODE_BLOCK_SPLITTABLE_LINE_THRESHOLD = 18
+_CODE_BLOCK_SPLITTABLE_CLASS = "code-block--splittable"
+
+
+def classify_splittable_code_blocks(
+    content: str, *, threshold: int = CODE_BLOCK_SPLITTABLE_LINE_THRESHOLD
+) -> str:
+    """Tag every ``.code-block`` whose ``<pre><code>`` content spans more than
+    ``threshold`` physical source lines with ``code-block--splittable``,
+    leaving every shorter block's markup (and its default ``break-inside:
+    avoid``) completely untouched.
+
+    Applied once during canonical page normalization (book_pipeline.model),
+    so it runs identically for every language and both publication formats
+    — the classification decision itself never looks at ``language``, only
+    at the code block's own text content. It is inert for EPUB: EPUB's own
+    stylesheet (site/assets/css/theory.css) defines no rule for this class,
+    so the added attribute has no visual effect there; only the PDF print
+    stylesheet's ``.code-block--splittable`` rule (see
+    book_shared.build_print_css) acts on it.
+
+    Source-line count is a PROXY for a code block's rendered physical
+    height, not the height itself: a single very long logical line that
+    wraps substantially under the print column's ``word-break: break-word``
+    can span several physical rows while still counting as "1 line" here.
+    This is a known, accepted limitation for this pass — see the M02-I07
+    Phase 2B evidence report's visual-QA findings for whether it produced
+    any observable mis-classification in practice.
+    """
+    if "code-block" not in content:
+        return content
+    soup = BeautifulSoup(content, "lxml")
+    changed = False
+    for block in soup.find_all("div", class_="code-block"):
+        code_element = block.find("code")
+        if code_element is None:
+            continue
+        text = code_element.get_text()
+        line_count = text.count("\n") + 1 if text.strip() else 0
+        if line_count > threshold:
+            classes = block.get("class", [])
+            if _CODE_BLOCK_SPLITTABLE_CLASS not in classes:
+                block["class"] = [*classes, _CODE_BLOCK_SPLITTABLE_CLASS]
+                changed = True
+    if not changed:
+        return content
+    body = soup.find("body")
+    inner = "".join(str(c) for c in body.contents) if body else str(soup)
+    return f"<html><body>{inner}</body></html>"
+
+
 def strip_wrapper(content: str) -> str:
     return content[len("<html><body>"):-len("</body></html>")]
 
@@ -689,7 +752,8 @@ def write_pdf_pagination_metadata(
             "continuous Arabic physical folios thereafter"
         ),
         "chapter_start_policy": (
-            "recto/right-hand via break-before:right; inserted blank pages count"
+            "fresh page via break-before:page (Phase 2B, M02-I07: relaxed from "
+            "recto/right-hand break-before:right)"
         ),
         "total_pages": final_total_pages,
         "fonts": font_records,
@@ -757,7 +821,7 @@ def build_print_css(*, book_title: str, page_abbrev: str) -> str:
   --callout-debug-bg: #fde8e8; --callout-debug-border: #dc2626;
 }
 * { box-sizing: border-box; }
-body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 10.3pt; line-height: 1.48; color: var(--color-text-primary); }
+body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 9.8pt; line-height: 1.40; color: var(--color-text-primary); }
 h1, h2, h3 { font-family: 'DejaVu Sans', sans-serif; color: var(--navy-900); break-after: avoid; }
 h1 { font-size: 21pt; margin: 0 0 10pt; string-set: chaptitle content(); }
 h2 { font-size: 14.5pt; margin: 20pt 0 8pt; padding-top: 4pt; border-top: 1px solid var(--color-border-default); }
@@ -773,6 +837,17 @@ table:not(.compare-table) th { font-family: 'DejaVu Sans', sans-serif; font-size
 code, pre { font-family: 'DejaVu Sans Mono', monospace; }
 code.inline { background: var(--color-bg-surface); padding: 1px 4px; border-radius: 3px; font-size: 9.2pt; }
 .code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: avoid; overflow: hidden; }
+/* Only code blocks long enough to be classified `code-block--splittable`
+   (scripts/book_shared.py's classify_splittable_code_blocks(), applied
+   during canonical page normalization — see book_pipeline/model.py) may
+   fragment across a page boundary; every other code block keeps the
+   `break-inside: avoid` above intact. `overflow: visible` is required here
+   because WeasyPrint (like other renderers) will not fragment a box whose
+   overflow is clipped, and CSS Fragmentation's default box-decoration-break
+   ("slice") already gives a clean look at the split: the border/background
+   simply stops at the bottom of the first fragment and resumes at the top
+   of the next, with no duplicated border in the middle. */
+.code-block--splittable { break-inside: auto; overflow: visible; }
 .code-block .code-label { background: var(--navy-900); color: #cbd5ff; font-size: 8.6pt; padding: 5pt 9pt; font-family: 'DejaVu Sans Mono', monospace; letter-spacing: .02em; }
 .code-block .copy-btn { display: none; }
 .code-block pre { margin: 0; padding: 9pt 11pt; font-size: 8.8pt; line-height: 1.42; white-space: pre-wrap; word-break: break-word; }
@@ -816,7 +891,7 @@ code.inline { background: var(--color-bg-surface); padding: 1px 4px; border-radi
 .section-item { display: block; padding: 5pt 7pt; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin-bottom: 4pt; text-decoration: none; color: var(--color-text-primary); }
 .section-item .si-num { font-family: 'DejaVu Sans Mono', monospace; color: var(--color-text-muted); font-size: 8pt; margin-right: 6pt; }
 .section-item .si-page { float: right; font-family: 'DejaVu Sans Mono', monospace; color: var(--color-text-muted); font-size: 8pt; }
-.chapter-hero { page: opener; break-before: right; padding-top: 26pt; }
+.chapter-hero { page: opener; break-before: page; padding-top: 26pt; }
 .chapter-hero::before { content: ""; display: block; width: 32pt; height: 3pt; background: var(--color-brand-blue); border-radius: var(--radius-full); margin-bottom: 12pt; }
 .chapter-hero .chapter-num { font-family: 'DejaVu Sans Mono', monospace; color: var(--color-brand-blue); font-size: 9.5pt; letter-spacing: .04em; margin-bottom: 6pt; }
 .chapter-hero .chapter-num::after { content: " · __PAGE_ABBREV__ " counter(page); }
@@ -920,7 +995,7 @@ div[id^="marker-page-24-"] article[data-future-course] { break-inside: avoid-pag
 
 /* ---------- Projects appendix ---------- */
 .project-entry { break-before: page; }
-.project-entry .project-hero { width: 100%; height: 62mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }
+.project-entry .project-hero { width: 100%; height: 45mm; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 12pt; }
 .project-entry .project-hero svg { display: block; width: 100%; height: 100%; }
 .project-meta-row { margin: 4pt 0 10pt; }
 .project-topic { display: inline-block; font-family: 'DejaVu Sans', sans-serif; font-size: 8.5pt; font-weight: 700; background: var(--color-bg-surface); color: var(--color-text-muted); padding: 2pt 8pt; border-radius: var(--radius-full); margin: 0 4pt 4pt 0; }

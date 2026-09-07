@@ -15,7 +15,34 @@ CSS = '<link rel="stylesheet" href="/assets/css/localization.css" />'
 SWITCHER_RE = re.compile(
     r'<nav(?=[^>]*\bclass="language-switcher")[^>]*>.*?</nav>', re.S
 )
-EMPTY_DESKTOP_RE = re.compile(r'<div class="language-switcher-desktop">\s*</div>')
+EMPTY_DESKTOP_RE = re.compile(
+    r'[ \t\r\n]*<div class="language-switcher-desktop">\s*</div>[ \t\r\n]*'
+)
+
+
+def _remove_empty_desktop_div(match: "re.Match[str]") -> str:
+    """Collapse the empty desktop-switcher div together with whatever
+    whitespace-only runs flank it into one canonical run.
+
+    Deleting just the div (leaving its neighbors alone) can splice two
+    previously separate — and separately parser-normalized — whitespace
+    runs into one new adjacent run that nothing has canonicalized yet.
+    PR #117: the homepage template places this div *before* the
+    nav-toggle button (every other page's template places it after,
+    right where ``_collapse_blank_run_before`` below already handles the
+    equivalent merge before ``</header>``), so removing it left a bare
+    newline (from before the div) directly adjacent to a bare space (from
+    after the div) — "\\n " right before ``<button>`` — whose exact
+    byte count stdlib html.parser does not treat as part of any stable
+    contract (confirmed to already vary for this exact node between local
+    and CI CPython patch releases). Collapsing the whole removed span
+    (div plus its flanking whitespace) to a single canonical run — a bare
+    newline if any part of the removed span contained one, otherwise a
+    single space — fixes this at the exact point of removal, without
+    touching any of the surrounding hand-authored RU/PL markup.
+    """
+    removed = match.group(0)
+    return "\n" if "\n" in removed else (" " if removed else "")
 
 
 def _collapse_blank_run_before(source: str, literal: str) -> str:
@@ -36,7 +63,7 @@ def _collapse_blank_run_before(source: str, literal: str) -> str:
 
 def _inject(path: Path, switcher: str) -> None:
     source = SWITCHER_RE.sub("", path.read_text(encoding="utf-8"))
-    source = EMPTY_DESKTOP_RE.sub("", source)
+    source = EMPTY_DESKTOP_RE.sub(_remove_empty_desktop_div, source)
     source = _collapse_blank_run_before(source, "</header>")
     if not re.search(r'<link[^>]+href="/assets/css/localization\.css"[^>]*>', source):
         source = source.replace("</head>", CSS + "\n</head>", 1)
