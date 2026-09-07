@@ -1,47 +1,77 @@
 #!/usr/bin/env python3
-"""Single reproducible entry point for the book publication pipeline.
+"""Canonical CLI entry point for the book publication pipeline.
 
-    python scripts/build_book.py
+    python scripts/build_book.py --language ru --format pdf
+    python scripts/build_book.py --language ru --format epub
+    python scripts/build_book.py --language pl --format pdf
+    python scripts/build_book.py --language pl --format epub
+    python scripts/build_book.py --language ru --format all
+    python scripts/build_book.py --all
 
-Runs, in order: RU EPUB -> RU PDF (which itself fails loudly on any
-pagination/cover problem, per build_pdf.py) -> PL EPUB -> PL PDF -> combined
-artifact validation (validate_book.py) for both locales. Stops at the first
-stage that fails — a broken EPUB or missing chapter must never be masked by
-a "successful" later stage. Every stage's own script remains independently
-runnable for iterating on one artifact at a time; this just wires them into
-one command for the full, must-pass publication build.
-
-Output:
-    book/pdf/python-s-nulya-ru.pdf
-    book/epub/python-s-nulya-ru.epub
-    book/pdf/python-od-zera-pl.pdf
-    book/epub/python-od-zera-pl.epub
+Every combination routes through the exact same canonical pipeline
+(book_pipeline.build_book) — language selects locale content, format selects
+the publication adapter; see docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md.
+Stops at the first target that fails — a broken EPUB or missing chapter must
+never be masked by a "successful" later stage. When more than one target is
+built in a single invocation, the combined artifacts are validated
+(validate_book.py) at the end.
 """
 
+from __future__ import annotations
+
+import argparse
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SCRIPTS = ROOT / "scripts"
-PYTHON = sys.executable
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from book_pipeline import SUPPORTED_FORMATS, SUPPORTED_LANGUAGES, build_book
 
 
-def run_stage(label: str, script: str) -> None:
-    print(f"\n{'=' * 60}\n{label}\n{'=' * 60}")
-    result = subprocess.run([PYTHON, str(SCRIPTS / script)], cwd=ROOT)
-    if result.returncode != 0:
-        print(f"\nСБОРКА ОСТАНОВЛЕНА: {label} завершился с ошибкой (exit {result.returncode}).", file=sys.stderr)
-        sys.exit(result.returncode)
+def _parse_args(argv: list[str]) -> list[tuple[str, str]]:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--language", choices=sorted(SUPPORTED_LANGUAGES), help="Language edition to build")
+    parser.add_argument(
+        "--format", choices=[*sorted(SUPPORTED_FORMATS), "all"], help="Publication format to build ('all' for every supported format)"
+    )
+    parser.add_argument(
+        "--all", action="store_true", help="Build the full supported language x format matrix"
+    )
+    args = parser.parse_args(argv)
+
+    if args.all:
+        if args.language or args.format:
+            parser.error("--all cannot be combined with --language/--format")
+        return [(language, fmt) for language in SUPPORTED_LANGUAGES for fmt in SUPPORTED_FORMATS]
+
+    if not args.language or not args.format:
+        parser.error("--language and --format are required unless --all is given")
+
+    formats = SUPPORTED_FORMATS if args.format == "all" else (args.format,)
+    return [(args.language, fmt) for fmt in formats]
 
 
-def main() -> None:
-    run_stage("1/5 — RU EPUB", "build_epub.py")
-    run_stage("2/5 — RU PDF (includes pagination gate)", "build_pdf.py")
-    run_stage("3/5 — PL EPUB", "build_epub_pl.py")
-    run_stage("4/5 — PL PDF (includes pagination gate)", "build_pdf_pl.py")
-    run_stage("5/5 — Validation (RU + PL PDF/EPUB)", "validate_book.py")
-    print(f"\n{'=' * 60}\nПубликация собрана и провалидирована успешно.\n{'=' * 60}")
+def main(argv: list[str] | None = None) -> None:
+    targets = _parse_args(sys.argv[1:] if argv is None else argv)
+
+    for language, output_format in targets:
+        label = f"{language} x {output_format}"
+        print(f"\n{'=' * 60}\nBuilding {label}\n{'=' * 60}")
+        try:
+            build_book(language=language, output_format=output_format)
+        except Exception as exc:
+            print(f"\nBUILD STOPPED: {label} failed: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+    if len(targets) > 1:
+        print(f"\n{'=' * 60}\nValidating combined publication artifacts\n{'=' * 60}")
+        result = subprocess.run([sys.executable, str(ROOT / "scripts" / "validate_book.py")], cwd=ROOT)
+        if result.returncode != 0:
+            sys.exit(result.returncode)
+
+    print(f"\n{'=' * 60}\nPublication build complete.\n{'=' * 60}")
 
 
 if __name__ == "__main__":
