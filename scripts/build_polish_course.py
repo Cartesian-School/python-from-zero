@@ -325,6 +325,51 @@ def _namespace_svg_ids(soup: BeautifulSoup) -> None:
                 element[attr] = value
 
 
+_PROTECTED_WHITESPACE_BLOCK = re.compile(
+    r"(<(?:pre|code|script|style|textarea)\b[^>]*>.*?</(?:pre|code|script|style|textarea)>)",
+    re.I | re.S,
+)
+_INTERTAG_LAYOUT_WHITESPACE = re.compile(r">[ \t\r\n]*\n[ \t\r\n]*<")
+
+
+def normalize_generated_html_whitespace(rendered: str) -> str:
+    """Canonicalize insignificant inter-tag whitespace in generated HTML.
+
+    ``BeautifulSoup(source, "html.parser")`` reparses and reserializes the
+    RU source's whitespace-only text nodes verbatim (``str(soup)``). PR
+    #117 found that the exact run of spaces/tabs stdlib ``html.parser``
+    keeps around a newline in one such node is not guaranteed stable
+    across CPython patch releases (observed: 3.14.6 local vs 3.14.7 CI),
+    producing a spurious ``git diff`` on an otherwise byte-identical
+    rebuild.
+
+    A whitespace-only text node between two tags that contains a newline
+    is always page-layout indentation from site_lib.py's hand-authored
+    templates, never meaningful inline spacing — HTML's whitespace-
+    collapse rule already renders any such run, regardless of how many
+    spaces/tabs surround the newline, as a single collapsed space. So
+    collapsing every one of them to the same canonical form (a bare
+    newline, no surrounding spaces/tabs) changes zero rendered pixels
+    while making the serialized bytes deterministic.
+
+    A whitespace run with no newline (e.g. the deliberate single space
+    that separates two inline switcher labels) is left untouched, since
+    its presence or absence is visually significant. Content inside
+    pre/code/script/style/textarea, where whitespace is significant, is
+    never touched either.
+
+    Idempotent: ``normalize_generated_html_whitespace`` applied twice
+    yields the same result as applied once.
+    """
+    parts = _PROTECTED_WHITESPACE_BLOCK.split(rendered)
+    # re.split with a capturing group yields alternating
+    # [unprotected, protected, unprotected, protected, ...]; only the
+    # even-indexed (unprotected) segments are eligible for normalization.
+    for index in range(0, len(parts), 2):
+        parts[index] = _INTERTAG_LAYOUT_WHITESPACE.sub(">\n<", parts[index])
+    return "".join(parts)
+
+
 def _translate_html_document(source: str, tm: TranslationMemory, ru_url: str,
                              route_map: dict[str, str]) -> str:
     soup = BeautifulSoup(source, "html.parser")
@@ -382,6 +427,11 @@ def _translate_html_document(source: str, tm: TranslationMemory, ru_url: str,
             anchor["href"] = "/book/epub/python-od-zera-pl.epub"
 
     rendered = str(soup)
+    # Canonicalize insignificant layout whitespace right where the parser
+    # produced it (see docstring) — before any later regex-based stage,
+    # which is deterministic string manipulation and cannot reintroduce
+    # environment-sensitive whitespace, gets a chance to depend on it.
+    rendered = normalize_generated_html_whitespace(rendered)
     # JS/JSON string literals embedded in <script> blocks (practice config
     # chapterTitle/lessonTitle, manual-completion status text, JSON-LD SEO
     # payloads) are opaque to the prose translator above; translate them here.
