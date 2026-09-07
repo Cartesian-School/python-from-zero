@@ -789,11 +789,28 @@ def _repair_translation_memory_bing(workers: int) -> None:
     print(f"Repaired {len(broken)} damaged translation records")
 
 
+def _reset_pl_root(*, collect: bool) -> None:
+    """Clear site/pl/ ahead of a full rebuild.
+
+    NEVER destructive in --collect mode. --collect is a diagnostic pass
+    (discover which source strings still need a PL translation, without
+    requiring the full corpus to already be translated) — it must not risk
+    deleting the currently-published PL site. A normal (non-collect) build
+    still fails closed on the first missing translation via
+    TranslationMemory.translate()'s KeyError, but by then this function has
+    already run; --collect exists precisely so that check can be done
+    first, on the CURRENT site/pl/, without that risk.
+    """
+    if collect:
+        return
+    if PL_ROOT.exists():
+        shutil.rmtree(PL_ROOT)
+
+
 def build(*, collect: bool) -> None:
     pairs = page_pairs()
     route_map = {pair.ru_url: pair.pl_url for pair in pairs}
-    if PL_ROOT.exists():
-        shutil.rmtree(PL_ROOT)
+    _reset_pl_root(collect=collect)
     tm = TranslationMemory(collect=collect)
     for index, pair in enumerate(pairs, 1):
         translated = _translate_html_document(
