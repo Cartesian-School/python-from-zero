@@ -28,7 +28,7 @@ class BookLocaleConfig:
     language: str
     html_lang: str
     site: Path
-    assets_root: Path  # shared assets/CSS live only under the RU site tree
+    assets_root: Path  # site tree that physically owns the shared assets/CSS this locale reuses
 
     # -- book metadata ------------------------------------------------------
     book_title: str

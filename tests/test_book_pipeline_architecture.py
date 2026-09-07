@@ -188,10 +188,13 @@ def test_compatibility_wrapper_is_thin(language: str, output_format: str) -> Non
 
 
 def test_unsupported_language_fails_explicitly() -> None:
+    # "en" is deliberately not used here: it is an explicitly planned future
+    # locale (contract section 9), not a permanently invalid one. Use a
+    # sentinel that can never become a real locale code instead.
     with pytest.raises(ValueError, match="unsupported language"):
-        get_locale("en")
+        get_locale("xx-invalid")
     with pytest.raises(ValueError, match="unsupported language"):
-        build_book(language="en", output_format="pdf")
+        build_book(language="xx-invalid", output_format="pdf")
 
 
 def test_unsupported_format_fails_explicitly() -> None:
