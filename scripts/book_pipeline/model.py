@@ -8,12 +8,14 @@ these stages is shared by every language and every publication format:
     rendering -> [format adapter]
 
 ``CanonicalBookLoader.load`` performs all of it up to and including common
-semantic rendering: it reads each page's HTML from disk exactly once and
+semantic rendering: it reads each page's HTML from disk exactly once,
 extracts its stable content fragment (article body, chapter opener hero, or
-project detail) via the same book_shared functions for every language and
-every format. The PDF and EPUB adapters each receive the identical
-``CanonicalBookModel`` and apply only their own format-specific presentation
-transform on top (print pagination markers vs. reflowable XHTML packaging).
+project detail), and applies common normalization (currently: tagging long
+code blocks as splittable — M02-I07 Phase 2B) via the same book_shared
+functions for every language and every format. The PDF and EPUB adapters
+each receive the identical ``CanonicalBookModel`` and apply only their own
+format-specific presentation transform on top (print pagination markers vs.
+reflowable XHTML packaging).
 """
 
 from __future__ import annotations
@@ -62,6 +64,14 @@ def _read(site, rel_path: str) -> str:
     return (site / rel_path).read_text(encoding="utf-8")
 
 
+def _normalize(content: str) -> str:
+    """Common post-extraction normalization shared by every page, language,
+    and downstream format (M02-I07 Phase 2B): tags long code blocks so only
+    the PDF adapter's print stylesheet may let them fragment across a page
+    boundary. A no-op for content with no ``.code-block`` at all."""
+    return bs.classify_splittable_code_blocks(content)
+
+
 class CanonicalBookLoader:
     """Locale-independent source loader. Every language goes through this
     exact same algorithm; a language contributes only its config's content
@@ -73,7 +83,7 @@ class CanonicalBookLoader:
             PageModel(
                 rel_path=rel_path,
                 title=title,
-                content=bs.extract_article(_read(config.site, rel_path), site_origin=SITE_ORIGIN),
+                content=_normalize(bs.extract_article(_read(config.site, rel_path), site_origin=SITE_ORIGIN)),
             )
             for rel_path, title in config.front_matter
         )
@@ -88,7 +98,7 @@ class CanonicalBookLoader:
                     if index == 0
                     else bs.extract_article(html_text, site_origin=SITE_ORIGIN)
                 )
-                pages.append(PageModel(rel_path=rel_path, title=title, content=content))
+                pages.append(PageModel(rel_path=rel_path, title=title, content=_normalize(content)))
             chapters.append(
                 ChapterModel(
                     number=number,
@@ -103,9 +113,11 @@ class CanonicalBookLoader:
                 slug=entry.slug,
                 title=entry.title,
                 rel_path=f"projects/{entry.slug}/index.html",
-                content=bs.extract_project(
-                    _read(config.site, f"projects/{entry.slug}/index.html"),
-                    site_origin=SITE_ORIGIN,
+                content=_normalize(
+                    bs.extract_project(
+                        _read(config.site, f"projects/{entry.slug}/index.html"),
+                        site_origin=SITE_ORIGIN,
+                    )
                 ),
             )
             for entry in config.project_entries
@@ -114,7 +126,7 @@ class CanonicalBookLoader:
         index_page = PageModel(
             rel_path=config.index_relpath,
             title=config.toc_index_label,
-            content=bs.extract_article(_read(config.site, config.index_relpath), site_origin=SITE_ORIGIN),
+            content=_normalize(bs.extract_article(_read(config.site, config.index_relpath), site_origin=SITE_ORIGIN)),
         )
 
         return CanonicalBookModel(
