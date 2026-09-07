@@ -33,12 +33,12 @@ MarkupSafe, itsdangerous, click, blinker). Дополнительных мер (
 
 ## EPUB и PDF
 
-`scripts/build_epub.py` собирает `book/epub/python-s-nulya.epub` из уже готовых HTML-страниц
-сайта: извлекает `<article>` (обычные страницы) или `.chapter-hero`+`.section-list`
-(страницы-открывашки глав) через BeautifulSoup/lxml, убирает элементы навигации сайта и
-ссылки на файлы вне EPUB-пакета (ноутбуки, исходники проектов — превращаются в обычный текст,
-а не мёртвые ссылки), собирает сквозное оглавление. Проверено через `epubcheck`
-(pip-пакет, оборачивает официальный Java-валидатор) — 0 ошибок.
+`scripts/build_epub.py` собирает `book/epub/python-s-nulya-ru.epub` из уже готовых
+HTML-страниц сайта: извлекает `<article>` (обычные страницы) или
+`.chapter-hero`+`.section-list` (страницы-открывашки глав) через BeautifulSoup/lxml,
+убирает элементы навигации сайта и ссылки на файлы вне EPUB-пакета (ноутбуки, исходники
+проектов — превращаются в обычный текст, а не мёртвые ссылки), собирает сквозное оглавление.
+Проверено через `epubcheck` (pip-пакет, оборачивает официальный Java-валидатор) — 0 ошибок.
 
 `scripts/build_pdf.py` переиспользует то же извлечение контента из `build_epub.py`, но
 склеивает всё в один HTML-документ с печатной типографикой (WeasyPrint) — обложка, разрыв
@@ -52,6 +52,15 @@ PDF через pypdf и генерирует
 физической пагинации для открывашек сайта и homepage; `manifest/coverage_manifest.json`
 хранит только состояние покрытия учебного материала.
 
+`scripts/book_shared.py` содержит locale-agnostic часть этого конвейера (извлечение
+контента, переписывание ссылок, SVG-фиксы, упаковка EPUB, якоря/пагинация PDF) —
+переиспользуется как RU-сборщиками (`build_epub.py`/`build_pdf.py`), так и их PL-парами
+(`build_epub_pl.py`/`build_pdf_pl.py`, читают `site/pl/` и пишут
+`book/epub/python-od-zera-pl.epub` / `book/pdf/python-od-zera-pl.pdf`). PL-пагинация
+пишется отдельно в `data/book-pagination-pl.json`, чтобы не задевать RU-only
+`book_pagination.py`. `scripts/build_book.py` запускает весь конвейер (RU → PL →
+`validate_book.py`) одной командой.
+
 ## Валидация
 
 - `python -m compileall <path>` — синтаксическая проверка
@@ -61,4 +70,4 @@ PDF через pypdf и генерирует
   несколько модулей, создающих собственное окно/экран при импорте, не конфликтовали внутри
   одного процесса
 - `python scripts/run_notebook.py <path.ipynb>` — выполнение ноутбука через nbclient «сверху вниз» (создаётся на следующем шаге)
-- `python -m epubcheck book/epub/python-s-nulya.epub` — валидация EPUB по официальному стандарту
+- `python -m epubcheck book/epub/python-s-nulya-ru.epub` — валидация EPUB по официальному стандарту (аналогично для `book/epub/python-od-zera-pl.epub`)

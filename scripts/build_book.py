@@ -3,17 +3,19 @@
 
     python scripts/build_book.py
 
-Runs, in order: EPUB build -> PDF build (which itself fails loudly on any
-pagination/cover problem, per build_pdf.py) -> combined artifact validation
-(validate_book.py). Stops at the first stage that fails — a broken EPUB or
-missing chapter must never be masked by a "successful" later stage. Every
-stage's own script remains independently runnable for iterating on one
-artifact at a time; this just wires them into one command for the full,
-must-pass publication build.
+Runs, in order: RU EPUB -> RU PDF (which itself fails loudly on any
+pagination/cover problem, per build_pdf.py) -> PL EPUB -> PL PDF -> combined
+artifact validation (validate_book.py) for both locales. Stops at the first
+stage that fails — a broken EPUB or missing chapter must never be masked by
+a "successful" later stage. Every stage's own script remains independently
+runnable for iterating on one artifact at a time; this just wires them into
+one command for the full, must-pass publication build.
 
 Output:
-    book/pdf/готовая книга.pdf
-    book/epub/python-s-nulya.epub
+    book/pdf/python-s-nulya-ru.pdf
+    book/epub/python-s-nulya-ru.epub
+    book/pdf/python-od-zera-pl.pdf
+    book/epub/python-od-zera-pl.epub
 """
 
 import subprocess
@@ -34,9 +36,11 @@ def run_stage(label: str, script: str) -> None:
 
 
 def main() -> None:
-    run_stage("1/3 — EPUB", "build_epub.py")
-    run_stage("2/3 — PDF (includes pagination gate)", "build_pdf.py")
-    run_stage("3/3 — Validation (PDF + EPUB)", "validate_book.py")
+    run_stage("1/5 — RU EPUB", "build_epub.py")
+    run_stage("2/5 — RU PDF (includes pagination gate)", "build_pdf.py")
+    run_stage("3/5 — PL EPUB", "build_epub_pl.py")
+    run_stage("4/5 — PL PDF (includes pagination gate)", "build_pdf_pl.py")
+    run_stage("5/5 — Validation (RU + PL PDF/EPUB)", "validate_book.py")
     print(f"\n{'=' * 60}\nПубликация собрана и провалидирована успешно.\n{'=' * 60}")
 
 

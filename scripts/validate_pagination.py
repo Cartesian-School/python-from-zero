@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from chapter_metadata import chapters
 
 ROOT = Path(__file__).resolve().parent.parent
-PDF_PATH = ROOT / "book" / "pdf" / "готовая книга.pdf"
+PDF_PATH = ROOT / "book" / "pdf" / "python-s-nulya-ru.pdf"
 PAGINATION_PATH = ROOT / "data" / "book-pagination.json"
 HOMEPAGE_PATH = ROOT / "site" / "index.html"
 
@@ -120,12 +120,13 @@ def validate(*, portable: bool = False) -> list[str]:
         # which installs the renderer/parser toolchain. Vercel's portable
         # deployment gate still binds the committed PDF bytes to the sidecar,
         # homepage, and all opener labels without mutable build-time installs.
+        import book_shared as bs
         import build_pdf
         from pypdf import PdfReader
 
-        if metadata.get("source_date_epoch") != int(build_pdf.SOURCE_DATE_EPOCH):
+        if metadata.get("source_date_epoch") != int(bs.PDF_SOURCE_DATE_EPOCH):
             errors.append("build renderer SOURCE_DATE_EPOCH contract drift")
-        canonical_fontconfig_policy = build_pdf.validate_fontconfig_policy()
+        canonical_fontconfig_policy = bs.validate_fontconfig_policy()
         if fontconfig_policy != canonical_fontconfig_policy:
             errors.append("pagination Fontconfig policy drift")
         reader = PdfReader(str(PDF_PATH))
@@ -215,11 +216,17 @@ def validate(*, portable: bool = False) -> list[str]:
         errors.append("homepage exact total-page statistic drift")
 
     if not portable:
-        font_records = build_pdf.validate_font_files()
+        font_records = bs.validate_font_files()
         full_html, _chapter_markers, _page_markers, _project_marker = (
             build_pdf.build_full_html()
         )
-        current_fingerprint = build_pdf.source_fingerprint(full_html, font_records)
+        current_fingerprint = bs.pdf_source_fingerprint(
+            full_html,
+            font_records,
+            build_pdf.COVER_PDF,
+            layout_version_tag=build_pdf.LAYOUT_VERSION_TAG,
+            weasyprint_version=build_pdf.WEASYPRINT_VERSION,
+        )
         if metadata.get("generated_from") != f"sha256:{current_fingerprint}":
             errors.append("pagination metadata fingerprint is stale for current book inputs")
 
