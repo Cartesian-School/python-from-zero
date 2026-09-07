@@ -329,44 +329,66 @@ _PROTECTED_WHITESPACE_BLOCK = re.compile(
     r"(<(?:pre|code|script|style|textarea)\b[^>]*>.*?</(?:pre|code|script|style|textarea)>)",
     re.I | re.S,
 )
-_INTERTAG_LAYOUT_WHITESPACE = re.compile(r">[ \t\r\n]*\n[ \t\r\n]*<")
+_INTERTAG_WHITESPACE_RUN = re.compile(r">([ \t\r\n]+)<")
+
+
+def _canonicalize_intertag_run(match: "re.Match[str]") -> str:
+    run = match.group(1)
+    canonical = "\n" if "\n" in run else " "
+    return ">" + canonical + "<"
 
 
 def normalize_generated_html_whitespace(rendered: str) -> str:
     """Canonicalize insignificant inter-tag whitespace in generated HTML.
 
     ``BeautifulSoup(source, "html.parser")`` reparses and reserializes the
-    RU source's whitespace-only text nodes verbatim (``str(soup)``). PR
-    #117 found that the exact run of spaces/tabs stdlib ``html.parser``
-    keeps around a newline in one such node is not guaranteed stable
-    across CPython patch releases (observed: 3.14.6 local vs 3.14.7 CI),
-    producing a spurious ``git diff`` on an otherwise byte-identical
-    rebuild.
+    RU source's whitespace-only text nodes (``str(soup)``). PR #117 found
+    that stdlib ``html.parser`` does not treat the exact character count of
+    such a node as part of any stable contract: a literal two-space run
+    between ``</div>`` and ``<button>`` in the RU source came back out of
+    the parser as a single space locally — confirmed directly via
+    ``BeautifulSoup(...).find(...).previous_sibling`` — and a *separate*
+    whitespace-only node elsewhere (around the same generated nav-toggle
+    button, once a newline is involved) drifted between zero and one space
+    across CPython patch releases (3.14.6 local vs 3.14.7 CI). Both are the
+    same class of bug: the parser, not this codebase, decides how many
+    whitespace characters survive, and that decision isn't guaranteed
+    stable.
 
-    A whitespace-only text node between two tags that contains a newline
-    is always page-layout indentation from site_lib.py's hand-authored
-    templates, never meaningful inline spacing — HTML's whitespace-
-    collapse rule already renders any such run, regardless of how many
-    spaces/tabs surround the newline, as a single collapsed space. So
-    collapsing every one of them to the same canonical form (a bare
-    newline, no surrounding spaces/tabs) changes zero rendered pixels
-    while making the serialized bytes deterministic.
+    Every whitespace-only text node sitting directly between two tags is
+    layout formatting, never meaningful content — HTML's own whitespace-
+    collapse rule already renders any such run as at most one visible
+    space regardless of how many characters it contains. So this collapses
+    every one of them to a single fixed representative — a bare newline if
+    the run contained one, otherwise a single space — which changes zero
+    rendered pixels while making the serialized bytes independent of
+    whatever the parser happened to decide. Runs are canonicalized by
+    length category (has-newline vs. no-newline), not simply dropped,
+    preserving the "some gap vs. no gap at all" distinction in case a
+    future template ever puts meaningful adjacent-inline-element spacing
+    directly between two tags (none does today: this codebase's one actual
+    inline separator, " | ", lives inside a single ``<span>``, never as a
+    bare text node between two tags).
 
-    A whitespace run with no newline (e.g. the deliberate single space
-    that separates two inline switcher labels) is left untouched, since
-    its presence or absence is visually significant. Content inside
-    pre/code/script/style/textarea, where whitespace is significant, is
-    never touched either.
+    This is scoped to ``_translate_html_document``'s own output only — it
+    cannot see whitespace that a *later* pipeline stage newly splices
+    together (see inject_language_switchers.py's own narrower,
+    locale-agnostic fix for that specific case).
+
+    Content inside pre/code/script/style/textarea, where whitespace is
+    significant, is never touched.
 
     Idempotent: ``normalize_generated_html_whitespace`` applied twice
-    yields the same result as applied once.
+    yields the same result as applied once (a canonical single-space or
+    single-newline run matches the same pattern and re-canonicalizes to
+    itself).
     """
     parts = _PROTECTED_WHITESPACE_BLOCK.split(rendered)
     # re.split with a capturing group yields alternating
     # [unprotected, protected, unprotected, protected, ...]; only the
     # even-indexed (unprotected) segments are eligible for normalization.
     for index in range(0, len(parts), 2):
-        parts[index] = _INTERTAG_LAYOUT_WHITESPACE.sub(">\n<", parts[index])
+        parts[index] = _INTERTAG_WHITESPACE_RUN.sub(_canonicalize_intertag_run, parts[index])
     return "".join(parts)
 
 
