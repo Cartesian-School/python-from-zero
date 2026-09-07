@@ -31,35 +31,55 @@ API (`import pygame` работает без изменений), у котор�
 MarkupSafe, itsdangerous, click, blinker). Дополнительных мер (аналогичных `pygame-ce`) не
 потребовалось.
 
-## EPUB и PDF
+## EPUB и PDF: единый канонический конвейер сборки книги
 
-`scripts/build_epub.py` собирает `book/epub/python-s-nulya-ru.epub` из уже готовых
-HTML-страниц сайта: извлекает `<article>` (обычные страницы) или
-`.chapter-hero`+`.section-list` (страницы-открывашки глав) через BeautifulSoup/lxml,
-убирает элементы навигации сайта и ссылки на файлы вне EPUB-пакета (ноутбуки, исходники
-проектов — превращаются в обычный текст, а не мёртвые ссылки), собирает сквозное оглавление.
-Проверено через `epubcheck` (pip-пакет, оборачивает официальный Java-валидатор) — 0 ошибок.
+Начиная с M02-I06, публикация книги — это ОДИН язык-независимый,
+формат-параметризованный конвейер (`scripts/book_pipeline/`), а не отдельные
+RU/PL-реализации на формат. Обязывающая архитектура закреплена в
+`docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md`. Канонический вызов:
 
-`scripts/build_pdf.py` переиспользует то же извлечение контента из `build_epub.py`, но
-склеивает всё в один HTML-документ с печатной типографикой (WeasyPrint) — обложка, разрыв
-страницы перед каждой главой, нумерация страниц. Все десять файлов шрифтов и их SHA-256
-закреплены; отдельная Fontconfig-политика исключает системный Noto Color Emoji, чтобы
-рендер использовал только репозиторный emoji-subset. После рендеринга скрипт находит
-первые физические страницы всех глав через якоря WeasyPrint, проверяет финальное дерево
-PDF через pypdf и генерирует
-`data/book-pagination.json` с 24 диапазонами, общим числом страниц, версиями рендера,
-форматом и fingerprint входных данных. Этот generated-файл — единственный источник
-физической пагинации для открывашек сайта и homepage; `manifest/coverage_manifest.json`
-хранит только состояние покрытия учебного материала.
+```bash
+python scripts/build_book.py --language ru --format pdf
+python scripts/build_book.py --language ru --format epub
+python scripts/build_book.py --language pl --format pdf
+python scripts/build_book.py --language pl --format epub
+python scripts/build_book.py --language ru --format all   # оба формата
+python scripts/build_book.py --all                        # вся матрица + validate_book.py
+```
 
-`scripts/book_shared.py` содержит locale-agnostic часть этого конвейера (извлечение
-контента, переписывание ссылок, SVG-фиксы, упаковка EPUB, якоря/пагинация PDF) —
-переиспользуется как RU-сборщиками (`build_epub.py`/`build_pdf.py`), так и их PL-парами
-(`build_epub_pl.py`/`build_pdf_pl.py`, читают `site/pl/` и пишут
-`book/epub/python-od-zera-pl.epub` / `book/pdf/python-od-zera-pl.pdf`). PL-пагинация
-пишется отдельно в `data/book-pagination-pl.json`, чтобы не задевать RU-only
-`book_pagination.py`. `scripts/build_book.py` запускает весь конвейер (RU → PL →
-`validate_book.py`) одной командой.
+Программный эквивалент — `book_pipeline.build_book(language=..., output_format=...)`.
+`language` — только входной параметр (выбирает `BookLocaleConfig` из
+`scripts/book_pipeline/locale_ru.py` / `locale_pl.py`: заголовки, права, локализованные
+подписи TOC/copyright, пути вывода). `output_format` — только выходной параметр (выбирает
+`pdf_adapter.build()` или `epub_adapter.build()`).
+
+Конвейер: язык → `BookLocaleConfig` (`book_pipeline/locales.py`) → канонический
+загрузчик контента `CanonicalBookLoader` (`book_pipeline/model.py`) — читает HTML-страницы
+сайта РОВНО ОДИН РАЗ и извлекает их стабильный фрагмент (`<article>`,
+`.chapter-hero`+`.section-list` или карточка проекта) через locale-agnostic функции
+`scripts/book_shared.py` — → неизменяемый `CanonicalBookModel` (главы, front-matter,
+проекты, предметный указатель) → формат-адаптер. PDF- и EPUB-адаптеры получают ОДНУ И ТУ ЖЕ
+модель; ни один из них не хранит собственный список глав, переводы или порядок страниц.
+
+`book_pipeline/pdf_adapter.py` склеивает модель в один HTML-документ с печатной
+типографикой (WeasyPrint) — обложка, титул, copyright, оглавление с `target-counter`,
+разрыв страницы перед каждой главой, колонтитулы. Все десять файлов шрифтов и их SHA-256
+закреплены; отдельная Fontconfig-политика исключает системный Noto Color Emoji. После
+рендеринга адаптер находит физические страницы глав через якоря WeasyPrint, проверяет
+финальное дерево PDF через pypdf и пишет `<language>.pagination_output_path`
+(`data/book-pagination.json` для RU, `data/book-pagination-pl.json` для PL) — 24
+диапазона, общее число страниц, версии рендера, fingerprint входных данных. Этот
+generated-файл — единственный источник физической пагинации для открывашек сайта и
+homepage.
+
+`book_pipeline/epub_adapter.py` пакует ту же модель в EPUB (EbookLib): метаданные, общий
+`theory.css`/`project.css`, ассеты (всегда из RU `site/assets/` — у `site/pl/` своих
+ассетов нет), сквозные spine/TOC/nav. Проверяется через `epubcheck` — 0 ошибок.
+
+`scripts/build_epub.py`, `scripts/build_epub_pl.py`, `scripts/build_pdf.py`,
+`scripts/build_pdf_pl.py` остались как тонкие обёртки обратной совместимости — каждая
+вызывает `book_pipeline.build_book(...)` с фиксированными `language`/`output_format` и не
+содержит собственной логики публикации.
 
 ## Валидация
 
