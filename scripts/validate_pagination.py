@@ -121,8 +121,13 @@ def validate(*, portable: bool = False) -> list[str]:
         # deployment gate still binds the committed PDF bytes to the sidecar,
         # homepage, and all opener labels without mutable build-time installs.
         import book_shared as bs
-        import build_pdf
         from pypdf import PdfReader
+
+        from book_pipeline import pdf_adapter
+        from book_pipeline.locales import get_locale
+        from book_pipeline.model import CanonicalBookLoader
+
+        ru_config = get_locale("ru")
 
         if metadata.get("source_date_epoch") != int(bs.PDF_SOURCE_DATE_EPOCH):
             errors.append("build renderer SOURCE_DATE_EPOCH contract drift")
@@ -217,15 +222,16 @@ def validate(*, portable: bool = False) -> list[str]:
 
     if not portable:
         font_records = bs.validate_font_files()
+        ru_model = CanonicalBookLoader.load(ru_config)
         full_html, _chapter_markers, _page_markers, _project_marker = (
-            build_pdf.build_full_html()
+            pdf_adapter.build_full_html(ru_model, ru_config)
         )
         current_fingerprint = bs.pdf_source_fingerprint(
             full_html,
             font_records,
-            build_pdf.COVER_PDF,
-            layout_version_tag=build_pdf.LAYOUT_VERSION_TAG,
-            weasyprint_version=build_pdf.WEASYPRINT_VERSION,
+            ru_config.cover_pdf_path,
+            layout_version_tag=pdf_adapter.LAYOUT_VERSION_TAG,
+            weasyprint_version=pdf_adapter.WEASYPRINT_VERSION,
         )
         if metadata.get("generated_from") != f"sha256:{current_fingerprint}":
             errors.append("pagination metadata fingerprint is stale for current book inputs")
