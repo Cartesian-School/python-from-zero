@@ -83,6 +83,18 @@ Both EPUB builds (RU and PL) failed transiently on the first `--all` attempt wit
 
 `epub_adapter.py` does not call `build_print_css()` — confirmed by diffing every RU/PL EPUB chapter XHTML file against `main`. **The EPUBs are NOT byte-identical to `main`** — every one of the 24 chapter files in each language differs, but **only** in embedded page-number cross-references (`.chapter-num`'s "· STRONA N" / "· СТР. N" label, and each `.si-page` span's value) that mirror the PDF's own new pagination. This is the exact same category of change Phase 2B's own EPUB diff documented (there: the added `code-block--splittable` class attribute; here: page-number digits) — a legitimate, expected consequence of the page count changing, not evidence that EPUB's own stylesheet or layout logic was touched. `theory.css` (packaged verbatim into both EPUBs) and each package's `.opf` metadata are unaffected.
 
+## 7a. Correction — the EPUBs above were not actually rebuilt (found during final pre-PR validation)
+
+Section 7's claim above is **wrong for the bytes that were actually committed** on this branch until commit `af9cfb63`. A final, independent pre-PR validation pass diffed the committed EPUBs against a fresh rebuild and found both `book/epub/python-s-nulya-ru.epub` and `book/epub/python-od-zera-pl.epub` still carried **pre-Phase-2C-A** chapter-opener page-number labels in all 24 chapters of both languages (e.g. RU chapter 1 showed "СТР. 11", the old 2361-page-era number, not the current "СТР. 10") — 48/48 chapter-opener labels checked (24 chapters × 2 languages) matched the old pagination, 0/48 matched the new. `scripts/validate_book.py`'s `epubcheck` pass does not catch this, since it validates EPUB structural conformance only, not page-number-label freshness against `data/book-pagination*.json`.
+
+Root cause: the original build attempt's EPUB stage failed transiently (Section 6) and the retry that followed evidently did not fully replace the previously-committed (Phase 2B-era) EPUB bytes before they were staged and committed in `dd580b3c`.
+
+**Fixed in `af9cfb63`:** both EPUBs rebuilt again via the unmodified `scripts/build_book.py --format epub` (once per language). Verified this time: all 48 chapter-opener labels now match the current 2097/2035-page pagination exactly, `epubcheck` reports 0 errors for both, and `manifest/i18n/ru_baseline.json`'s frozen `epub.sha256` (which Section 8's `ru_baseline.json` update below had correctly updated for `pdf.sha256`/`pages` but missed for `epub.sha256`, since the stale EPUB bytes matched what was frozen) was corrected to match. `pytest tests/ -q` went 385 passed/1 failed → 386 passed/0 failed as a direct result.
+
+Current, correct SHA-256:
+- `book/epub/python-s-nulya-ru.epub`: `cde31690987bbe6c245f78d04556d7820d90854251774178b4f60230d3996cb1`
+- `book/epub/python-od-zera-pl.epub`: `72b4aaf3e66075721726259b000e3900453e950850e15ef9cf45318053b5dc22`
+
 ## 8. Site/localization regeneration — full RU+PL closure (mirrors `0d4e72e2` + `348fc46a`)
 
 `data/book-pagination.json`'s new RU page numbers are a declared input to every RU chapter opener's embedded "ГЛАВА N · СТР. X" label, every mini-TOC `.si-page` value, and the homepage's "Страниц в книге" stat. This phase reproduced Phase 2B's own two-stage post-merge remediation in full, both stages, on this branch:
