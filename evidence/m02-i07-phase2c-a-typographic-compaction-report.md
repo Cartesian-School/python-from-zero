@@ -83,23 +83,29 @@ Both EPUB builds (RU and PL) failed transiently on the first `--all` attempt wit
 
 `epub_adapter.py` does not call `build_print_css()` — confirmed by diffing every RU/PL EPUB chapter XHTML file against `main`. **The EPUBs are NOT byte-identical to `main`** — every one of the 24 chapter files in each language differs, but **only** in embedded page-number cross-references (`.chapter-num`'s "· STRONA N" / "· СТР. N" label, and each `.si-page` span's value) that mirror the PDF's own new pagination. This is the exact same category of change Phase 2B's own EPUB diff documented (there: the added `code-block--splittable` class attribute; here: page-number digits) — a legitimate, expected consequence of the page count changing, not evidence that EPUB's own stylesheet or layout logic was touched. `theory.css` (packaged verbatim into both EPUBs) and each package's `.opf` metadata are unaffected.
 
-## 8. Site/localization regeneration (mirrors Phase 2B's own post-merge remediation, commit `0d4e72e2`)
+## 8. Site/localization regeneration — full RU+PL closure (mirrors `0d4e72e2` + `348fc46a`)
 
-`data/book-pagination.json`'s new RU page numbers are a declared input to every RU chapter opener's embedded "ГЛАВА N · СТР. X" label, every mini-TOC `.si-page` value, and the homepage's "Страниц в книге" stat — exactly as Phase 2B found and fixed in `0d4e72e2 fix(site): resync RU pagination labels after Phase 2B page-count change`. This phase reproduced that same, precedented remediation:
+`data/book-pagination.json`'s new RU page numbers are a declared input to every RU chapter opener's embedded "ГЛАВА N · СТР. X" label, every mini-TOC `.si-page` value, and the homepage's "Страниц в книге" stat. This phase reproduced Phase 2B's own two-stage post-merge remediation in full, both stages, on this branch:
 
-- Regenerated all 24 RU chapter openers (`scripts/build_chapter_01.py` … `_24.py`) and the RU homepage (`scripts/build_site_index.py`), then re-ran the SEO-meta (`scripts/build_seo_meta.py`) and language-switcher (`scripts/inject_language_switchers.py`) injection passes — both idempotent, separate pipeline stages that chapter/homepage regeneration strips and that must be re-applied afterward.
-- `manifest/i18n/routes.json`: refreshed the `home` page's tracked source hash via `localization.source_hash()` (its declared dependency, `data/book-pagination.json`, changed). **Left the `pl` variant's `source_sha256` untouched**, matching `0d4e72e2`'s own precedent exactly: `build_polish_course.py` requires live/offline MT resources not available in this environment and unconditionally deletes `site/pl/` before rebuilding (confirmed destructive even by inspection of its own `_reset_pl_root()` guard) — attempting it blind is explicitly out of scope for this phase, per the task's own "no destructive git command" instruction and this project's own established pattern of treating full PL re-sync as separate follow-up work.
-- `manifest/i18n/ru_baseline.json`: updated the frozen RU PDF/EPUB `sha256` and page count (2361→2097) to the actually-rebuilt artifacts — no generator script exists for this file; updated directly against the rebuilt PDF/EPUB, matching `0d4e72e2`'s own approach.
+**Stage 1 — RU resync (mirrors `0d4e72e2`).** Regenerated all 24 RU chapter openers (`scripts/build_chapter_01.py` … `_24.py`) and the RU homepage (`scripts/build_site_index.py`), then re-ran the SEO-meta (`scripts/build_seo_meta.py`) and language-switcher (`scripts/inject_language_switchers.py`) injection passes — both idempotent, separate pipeline stages that chapter/homepage regeneration strips and that must be re-applied afterward. `manifest/i18n/ru_baseline.json`: updated the frozen RU PDF/EPUB `sha256` and page count (2361→2097) to the actually-rebuilt artifacts.
 
-**Known, accepted consequence — identical in kind to Phase 2B's own `0d4e72e2`:** 4 tests now fail, all for the single, documented reason that the PL homepage was not re-translated/re-synced: `tests/test_localization.py::test_frozen_baseline` ("Unapproved PL output: /pl/index.html"), and 3 in `tests/test_pl_shell.py` (`test_complete_corpus_contract`, `test_every_route_is_an_exact_publishable_pair`, `test_all_polish_pages_have_no_accidental_cyrillic`). This is the exact same failure signature Phase 2B's own remediation produced and explicitly accepted as a "separate PL-content-sync follow-up." **Recommended as a separate follow-up once MT resources are available** — exactly as Phase 2B's own report recommended, and exactly what later closed it there (`348fc46a fix(i18n): restore RU<->PL homepage bilingual availability after Phase 2B`).
+**Stage 2 — PL resync (mirrors `348fc46a`).** An initial version of this phase left the `pl` variant's `source_sha256` untouched, reproducing the exact 4-test failure signature Phase 2B's own `0d4e72e2` amendment had left behind — **this was independently identified as the wrong closure**: Product Owner review had already explicitly rejected exactly this state once before (`348fc46a`'s own commit message: *"leaving the PL homepage's pagination-derived fields stale ... is a production regression on the completed M02-I04 bilingual site, not an acceptable side effect of a PDF-pagination ticket"*). Correction applied, reproducing `348fc46a`'s own technique with this run's numbers:
+
+- **Root cause (pre-existing, confirmed again):** PL chapter openers and the PL homepage stat have always mirrored **RU's** page numbers, not translated PL content — `build_polish_course.py`'s `page_pairs()` declares `data/book-pagination.json` as the `home` route's tracked dependency regardless of locale. No translation work is required, only copying already-correct digits.
+- **Fix, without invoking the unsafe full-site rebuild:** a throwaway script (`sync_pl_pagination.py`) copied RU's already-regenerated numbers onto PL's markup **positionally**, via exact substring replacement only (never an HTML re-parse/re-serialize) — the `.chapter-num` trailing page number and every `.si-page` span, matched by index against RU's structurally-identical section-list order (verified: identical `.si-page` counts in every one of the 24 chapters between languages), plus the homepage's `about-stat--pages` digit. Touched exactly 25 files: the PL homepage and all 24 PL chapter openers.
+- **Verified surgical:** every one of the 25 changed files, diffed against its pre-change (`HEAD`) state with every digit run replaced by a placeholder, produces **zero non-digit differences** — confirmed programmatically, same check `348fc46a` used.
+- `manifest/i18n/routes.json`: `home.variants.pl.source_sha256` set equal to `home.source.sha256` — the canonical "in sync" state `build_polish_course.py`'s own `_write_routes()` would compute on success, not a workaround.
+- Re-ran the idempotent `inject_language_switchers.py`, `build_seo_meta.py`, and `build_sitemap.py`: RU↔PL switcher links restored on both homepages (PL no longer shows `aria-disabled`), reciprocal `hreflang` (ru/pl/x-default) restored on both homepages, `sitemap.xml` required **no changes** (already byte-identical, matching `348fc46a`'s own finding).
+
+**`build_polish_course.py` itself was never invoked** — still destructive (unconditional `shutil.rmtree(PL_ROOT)` outside its already-fixed `--collect` no-op path) and requires live/offline MT resources not available in this environment; not needed here since no new translation was required, only digit resync.
 
 ## 9. Test suite result
 
 ```
-pytest tests/ -q   →   382 passed, 4 failed (see Section 8 — single documented, precedented cause)
+pytest tests/ -q   →   386 passed, 0 failed
 ```
 
-Baseline check (pristine `main`, changes stashed): `pytest tests/ -q` → **362 passed, 0 failed.** All 4 remaining failures on this branch are confirmed real, single-root-cause consequences of this phase's legitimate page-count change (not pre-existing on `main`, not unrelated flakiness) — traced individually, reproduced deterministically, and matched precisely against an already-accepted precedent from the immediately preceding phase.
+Fully green. All 4 previously-failing tests (`test_localization.py::test_frozen_baseline`, and 3 in `test_pl_shell.py`) now pass. Additional validators, all PASS: `validate_localization.py` (RU paths=1160), `validate_pl_complete.py` (routes=1160, chapters=24, lessons=624, practice=493, projects=13), `validate_pl_leakage.py` (zero Cyrillic leakage, 1653 approved PL pages), `validate_pl_terminology.py` (terminology contract holds, 1160 approved PL pages), `validate_seo.py` (2307 pages, sitemap.xml, robots.txt valid). `validate_book.py`: PASS, PDF page counts and EPUB behavior **unaffected** by this website-only work — RU 2097 pages / PL 2035 pages, both EPUBs 0 `epubcheck` errors, identical to Section 3/7's figures. This confirms the site-sync work touched no book/PDF/EPUB artifact.
 
 ## 10. Visual spot-check
 
@@ -119,21 +125,43 @@ This is the **first compaction layer only**. RU 2097 / PL 2035 pages remains wel
 python scripts/build_book.py --all                             → RU/PL PDF succeeded; RU/PL EPUB failed transiently
                                                                     (zipfile timestamp error), succeeded on retry
 python scripts/validate_book.py                                 → PASS (RU 2097p/1221 bookmarks, PL 2035p/1221
-                                                                    bookmarks; both EPUBs 0 epubcheck errors)
+                                                                    bookmarks; both EPUBs 0 epubcheck errors) —
+                                                                    re-confirmed PASS, unaffected, after the PL
+                                                                    site-sync closure below
 python scripts/build_book.py --language pl --format pdf (2nd run) → byte-identical to the 1st run (PDF + pagination JSON)
 python scripts/analyze_book_pagination.py --all                  → evidence/m02-i07-pagination-diagnostics-{ru,pl}.json
                                                                     written; RU median 109 words/page, PL median 111
-pytest tests/ -q                                                 → 382 passed, 4 failed (Section 8/9)
+pytest tests/ -q                                                 → 386 passed, 0 failed
 pytest tests/ -q  (pristine main, stashed)                       → 362 passed, 0 failed
+python scripts/validate_localization.py                          → PASS: RU paths=1160; M01/PDF/EPUB unchanged
+python scripts/validate_pl_complete.py                            → PASS: routes=1160, chapters=24, lessons=624,
+                                                                       practice=493, projects=13
+python scripts/validate_pl_leakage.py                             → PASS: zero Cyrillic leakage, 1653 approved PL pages
+python scripts/validate_pl_terminology.py                         → PASS: terminology contract holds, 1160 approved
+                                                                       PL pages
+python scripts/validate_seo.py                                    → PASS: 2307 pages, sitemap.xml, robots.txt valid
 ```
+
+**Production-integrity closure confirmed** (mirrors `348fc46a`'s own checklist):
+- RU homepage's language switcher links to PL again (`<a lang="pl" hreflang="pl" href="/pl/index.html">PL</a>`, no longer `aria-disabled`).
+- PL homepage's language switcher links to RU (unaffected throughout).
+- Reciprocal `hreflang` (ru/pl/x-default) present on both homepages again.
+- `sitemap.xml` required no changes — already byte-identical, matching `348fc46a`'s own finding.
+- `manifest/i18n/routes.json`'s `home` route marks the PL variant available/current (`pl.source_sha256 == source.sha256`).
+- PL homepage displays the new RU-sourced page count (2097 — mirrors this site's pre-existing, pre-Phase-2B single-shared-dependency design, not a new convention).
+- All 24 PL chapter openers' "ROZDZIAŁ N · STRONA X" labels and every mini-TOC `.si-page` value are current (25 files, digit-only changes, verified surgical — Section 8).
+- No unrelated PL content changed — verified programmatically (digit-only diff against `HEAD`) across all 25 touched files.
+- PDF page counts unaffected: RU 2097 / PL 2035 (this closure touched no CSS, canonical model code, or PDF/EPUB artifact — confirmed via `git status -- book/ data/` showing zero changes, and `validate_book.py` re-run clean).
+- EPUB behavior unaffected — 0 `epubcheck` errors both languages.
+- No educational content changed at any point in this phase or this closure.
 
 **Before-PR checklist:**
 - RU PDF builds: **yes** (2097 pages).
-- PL PDF builds: **yes** (2035 pages).
+- PL PDF builds: **yes** (2035 pages) — confirmed completely unaffected by the site-sync closure (byte-identical `sha256`, zero `git status` changes under `book/`/`data/`).
 - EPUB unchanged: **no** — changed only in pagination-derived digits (Section 7), same class of change as Phase 2B's own EPUB diff, confirmed harmless.
 - One canonical pipeline: **yes** — `scripts/build_book.py` unmodified in shape; only shared CSS changed.
 - No content loss: **yes** — words-per-page increased (Section 4); RU/PL frozen route inventories otherwise unchanged; visual spot-check clean.
 - Diagrams not newly damaged: **yes** — flowchart page-break spot-check clean (Section 10).
 - No clipping/overlap: **yes** (Section 10).
 - Git diff deterministic: **yes** (Section 5).
-- All tests pass: **no** — 4 known, precedented, documented failures (Section 8/9), identical in kind and cause to an already-accepted Phase 2B failure signature; recommended as separate PL-content-sync follow-up, not a blocker for this typography-only integration.
+- All tests pass: **yes** — 386 passed, 0 failed, after closing the PL site-sync gap exactly as `348fc46a` established (Section 8).
