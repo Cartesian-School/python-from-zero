@@ -821,13 +821,13 @@ def build_print_css(*, book_title: str, page_abbrev: str) -> str:
   --callout-debug-bg: #fde8e8; --callout-debug-border: #dc2626;
 }
 * { box-sizing: border-box; }
-body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 9.8pt; line-height: 1.40; color: var(--color-text-primary); }
+body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 9.8pt; line-height: 1.26; color: var(--color-text-primary); }
 h1, h2, h3 { font-family: 'DejaVu Sans', sans-serif; color: var(--navy-900); break-after: avoid; }
-h1 { font-size: 21pt; margin: 0 0 10pt; string-set: chaptitle content(); }
-h2 { font-size: 14.5pt; margin: 20pt 0 8pt; padding-top: 4pt; border-top: 1px solid var(--color-border-default); }
-h3 { font-size: 12pt; margin: 14pt 0 6pt; }
-p { margin: 0 0 8pt; orphans: 3; widows: 3; }
-ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
+h1 { font-size: 18pt; line-height: 1.1; margin: 0 0 5.5pt; string-set: chaptitle content(); }
+h2 { font-size: 13pt; margin: 12pt 0 5pt; padding-top: 4pt; border-top: 1px solid var(--color-border-default); }
+h3 { font-size: 10.5pt; margin: 8.5pt 0 3.5pt; }
+p { margin: 0 0 4.5pt; orphans: 3; widows: 3; }
+ul, ol { margin: 0 0 4.5pt; padding-left: 18pt; }
 li { margin-bottom: 3pt; }
 li > ul, li > ol { margin-top: 3pt; margin-bottom: 0; }
 a { color: var(--color-brand-blue); text-decoration: none; }
@@ -850,13 +850,13 @@ code.inline { background: var(--color-bg-surface); padding: 1px 4px; border-radi
 .code-block--splittable { break-inside: auto; overflow: visible; }
 .code-block .code-label { background: var(--navy-900); color: #cbd5ff; font-size: 8.6pt; padding: 5pt 9pt; font-family: 'DejaVu Sans Mono', monospace; letter-spacing: .02em; }
 .code-block .copy-btn { display: none; }
-.code-block pre { margin: 0; padding: 9pt 11pt; font-size: 8.8pt; line-height: 1.42; white-space: pre-wrap; word-break: break-word; }
+.code-block pre { margin: 0; padding: 7pt 8.5pt; font-size: 8.8pt; line-height: 1.32; white-space: pre-wrap; word-break: break-word; }
 .tok-kw { color: #7c3aed; font-weight: 600; }
 .tok-str { color: #059669; }
 .tok-com { color: #6b7280; font-style: italic; }
 .tok-num { color: #d97706; }
 .tok-fn { color: #2563eb; }
-.callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }
+.callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; background: var(--color-bg-surface); break-inside: avoid; }
 /* The web layout is a flex row with a ~24px icon emblem beside the text;
    print never declared a size for that icon, so its SVG rendered at an
    unconstrained default size and pushed the actual title/body text far down
@@ -876,10 +876,10 @@ code.inline { background: var(--color-bg-surface); padding: 1px 4px; border-radi
 .callout-warning { background: var(--callout-warning-bg); border-left-color: var(--callout-warning-border); }
 .callout-security { background: var(--callout-security-bg); border-left-color: var(--callout-security-border); }
 .callout-debug { background: var(--callout-debug-bg); border-left-color: var(--callout-debug-border); }
-.exercise { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; break-inside: avoid; }
+.exercise { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; break-inside: avoid; }
 .exercise-stars { color: var(--amber-500); font-size: 8.5pt; }
 .exercise-title { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; font-size: 9.5pt; }
-.summary-box { background: var(--color-bg-surface); border-radius: var(--radius-lg); padding: 8pt 12pt; margin: 10pt 0; break-inside: avoid; }
+.summary-box { background: var(--color-bg-surface); border-radius: var(--radius-lg); padding: 5pt 12pt; margin: 6pt 0; break-inside: avoid; }
 .summary-box ul { margin: 4pt 0 0 16pt; }
 .cvm { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 8pt 0; break-inside: avoid; overflow: hidden; }
 .cvm-header { background: var(--color-bg-surface); font-weight: 700; font-family: 'DejaVu Sans', sans-serif; padding: 5pt 9pt; font-size: 8.8pt; }
@@ -916,27 +916,28 @@ code.inline { background: var(--color-bg-surface); padding: 1px 4px; border-radi
 .idx-term { flex: 1; min-width: 0; }
 .idx-page { flex: none; font-family: 'DejaVu Sans Mono', monospace; color: var(--color-text-muted); }
 .idx-note { color: var(--color-text-muted); font-size: 8pt; }
-.title-page { page: unnumbered; break-after: page; text-align: center; padding-top: 70mm; }
+.title-page { page: unnumbered; break-after: page; text-align: center; padding-top: 45mm; }
 .title-page .kicker { font-family: 'DejaVu Sans Mono', monospace; color: var(--color-brand-blue); letter-spacing: 2px; font-size: 9.5pt; }
-.title-page h1 { font-size: 27pt; margin: 12pt 0 6pt; string-set: none; }
-.title-page .subtitle { font-size: 12pt; color: var(--color-text-muted); margin-bottom: 36pt; }
-.title-page .author { font-size: 11pt; font-weight: 700; margin-top: 50pt; }
+.title-page h1 { font-size: 27pt; margin: 8pt 0 4pt; string-set: none; }
+.title-page .subtitle { font-size: 12pt; color: var(--color-text-muted); margin-bottom: 20pt; }
+.title-page .author { font-size: 11pt; font-weight: 700; margin-top: 30pt; }
 .title-page .author-role { font-size: 9.5pt; color: var(--color-text-muted); }
 .chapter-break { break-before: page; }
 
 /* ---------- Copyright page ---------- */
-.copyright-page { page: unnumbered; break-before: page; break-after: page; font-size: 9pt; line-height: 1.4; color: var(--color-text-muted); padding-top: 8mm; }
-.copyright-page p { margin: 0 0 7pt; font-size: 9pt; }
-.copyright-page .cp-title { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; color: var(--color-text-primary); font-size: 11pt; margin-bottom: 4pt; }
+.copyright-page { page: unnumbered; break-before: page; break-after: page; font-size: 9pt; line-height: 1.3; color: var(--color-text-muted); padding-top: 4mm; }
+.copyright-page p { margin: 0 0 4pt; font-size: 9pt; }
+.copyright-page .cp-title { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; color: var(--color-text-primary); font-size: 11pt; margin-bottom: 3pt; }
 
 /* ---------- Table of contents ---------- */
 .toc-page { break-before: page; }
 .toc-page h1 { string-set: none; }
-.toc-part-title { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .05em; color: var(--color-brand-blue); margin: 12pt 0 5pt; }
+.toc-part-title { font-family: 'DejaVu Sans', sans-serif; font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .05em; color: var(--color-brand-blue); margin: 6.5pt 0 3pt; }
 .toc-part-title:first-child { margin-top: 0; }
 .toc-entry {
   display: flex; justify-content: space-between; align-items: baseline; gap: 10pt;
-  text-decoration: none; color: var(--color-text-primary); font-size: 9.5pt; padding: 2.5pt 0;
+  text-decoration: none; color: var(--color-text-primary); font-size: 9.5pt; padding: 1.25pt 0;
+  line-height: 1.18;
   border-bottom: 1px dotted var(--color-border-default);
 }
 .toc-entry.toc-chapter { font-weight: 700; margin-top: 6pt; border-bottom: none; padding-bottom: 0; }
