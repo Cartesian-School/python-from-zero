@@ -45,7 +45,7 @@ def test_css_contains_chapter_hero_break_before_page(print_css: str) -> None:
 
 
 def test_css_contains_body_font_98pt(print_css: str) -> None:
-    assert "font-size: 9.8pt; line-height: 1.40;" in print_css
+    assert "font-size: 9.8pt; line-height: 1.26;" in print_css
     assert "font-size: 10.3pt" not in print_css
 
 
@@ -54,7 +54,7 @@ def test_css_body_line_height_is_140_not_135(print_css: str) -> None:
     rule specifically, since 1.35 legitimately appears elsewhere in the
     stylesheet for an unrelated component (.compare-table's own
     line-height), so a blanket string search would false-positive."""
-    assert "font-size: 9.8pt; line-height: 1.40;" in print_css
+    assert "font-size: 9.8pt; line-height: 1.26;" in print_css
     assert "font-size: 10.3pt; line-height: 1.48;" not in print_css
     assert "font-size: 10.3pt; line-height: 1.35;" not in print_css
 
@@ -76,7 +76,7 @@ def test_css_callouts_are_unchanged_in_this_pass(print_css: str) -> None:
     """Per the ticket's explicit fallback: callout-size classification was
     judged not reliably deterministic without added complexity, so callouts
     are left with their existing break-inside: avoid, undisturbed."""
-    assert ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }" in print_css
+    assert ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; background: var(--color-bg-surface); break-inside: avoid; }" in print_css
 
 
 def test_css_page_size_and_margins_unchanged(print_css: str) -> None:

@@ -626,8 +626,8 @@ RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
     # splittable threshold, plus every callout regardless of size).
     "no_callout_avoid": [
         (
-            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
-            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: auto; }",
+            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
+            ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; background: var(--color-bg-surface); break-inside: auto; }",
         ),
     ],
     "no_code_block_avoid": [
@@ -640,9 +640,9 @@ RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
 
 _BREAK_INSIDE_AVOID_CSS_LINES = (
     ".code-block { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 10pt 0; break-inside: avoid; overflow: hidden; }",
-    ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
-    ".exercise { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: 6pt 10pt; margin: 8pt 0; break-inside: avoid; }",
-    ".summary-box { background: var(--color-bg-surface); border-radius: var(--radius-lg); padding: 8pt 12pt; margin: 10pt 0; break-inside: avoid; }",
+    ".callout { border: 1px solid var(--color-border-default); border-left: 3.5pt solid var(--color-brand-blue); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; background: var(--color-bg-surface); break-inside: avoid; }",
+    ".exercise { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: 4pt 10pt; margin: 5pt 0; break-inside: avoid; }",
+    ".summary-box { background: var(--color-bg-surface); border-radius: var(--radius-lg); padding: 5pt 12pt; margin: 6pt 0; break-inside: avoid; }",
     ".cvm { border: 1px solid var(--color-border-default); border-radius: var(--radius-md); margin: 8pt 0; break-inside: avoid; overflow: hidden; }",
     ".chapter-figure { margin: 10pt auto; break-inside: avoid; }",
     ".idx-entry { display: flex; justify-content: space-between; gap: 6pt; padding: 3pt 0; font-size: 9pt; border-bottom: 1px dotted var(--color-border-default); break-inside: avoid; }",
