@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 brand-aligned visual refinement complete — ready for Product Owner review**
+Status: **v1 major professional refinement complete — ready for Product Owner review**
 
-Six rounds of live Product Owner review/direction have shaped this file so far:
+Seven rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -34,6 +34,17 @@ Six rounds of live Product Owner review/direction have shaped this file so far:
    diagram-connector misalignment and an uncontrolled callout-grid mismatch found
    during the audit, and rebuilt the QA page's sequence diagram at a legible size.
    See "Brand-aligned visual refinement (sixth round)" below.
+7. **Major professional refinement**: Product Owner judged the cover weak, the
+   illustration library too small, and the system underdeveloped relative to a real
+   book/brand. Rebuilt the Cover's center node around a faithful vector reproduction
+   of the **real Python logo** (extracted from the site's own SVG source, not an
+   abstract mark); expanded the illustration library from 8 to 27 components,
+   including a `ProjectCard` variant set for all 13 real Cartesian School projects and
+   a `LogoSet` (Python logo + a flat vector adaptation of the Cartesian School app
+   icon + a componentized wordmark); added a chapter-subject-tied topic badge to the
+   Chapter Opener; re-audited every diagram/callout page and every front/back-matter
+   page for weak or bare treatment. See "Major professional refinement (seventh
+   round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1205,6 +1216,175 @@ data). Extra spacing was added anyway as a safety margin. A live-app check is
 recommended to put this to rest visually, alongside the general recommendation to
 confirm the new illustration palette's contrast/vibrancy in a real viewing
 environment.
+
+## Major professional refinement (seventh round)
+
+Product Owner direction was explicit and critical: "the current result is not yet
+good enough" — the cover was weak (an abstract "Py / 3.14" mark, not a real logo),
+the illustration library was too small, and the visual system needed to cover every
+real project on the Cartesian School site plus proper logo treatment throughout.
+
+### Real Python logo — `Book/Illustration/PythonCore` (`103:52`)
+
+Previous rounds used an abstract circular "Py / 3.14" badge as the Cover's center
+node — explicitly called out this round as not acceptable. Fixed at the source
+instead of cosmetically:
+
+1. Fetched `https://www.cartesianschool.org/assets/img/brand/python-logo-mark.svg`
+   directly via `curl` (not `WebFetch`, which strips path/gradient data) — the
+   authentic two-snake Python mark the site itself uses, Inkscape-authored, with the
+   official PSF brand gradients (blue `#5A9FD4→#306998`, yellow `#FFD43B→#FFE873`).
+2. The raw path data used SVG `h`/`v` shorthand (same class of bug as round 6's
+   "Invalid command at H") and mixed relative/absolute commands. Wrote a small
+   standalone SVG-path normalizer (`svg_path_normalize.py`, kept in the session
+   scratchpad, not committed — a normalization utility, not book content) to convert
+   both paths to absolute `M`/`L`/`C`/`Z` commands Figma's `vectorPaths` accepts, and
+   to compute the true combined bounding box (≈112.6 × 113.3 units — confirms the
+   parse was correct; the official mark is close to square).
+3. Built `PythonCore` as two vector nodes (`Snake/Blue`, `Snake/Yellow`) with linear
+   gradients matching the exact brand hex values, origin-shifted so the artwork sits
+   at a clean (0,0) origin. The eye holes render as true cutouts via `NONZERO`
+   winding — no manual boolean subtraction needed, matching the original file.
+4. Verified `node.rescale(scale)` (not `resize()`, which distorts vectors — see round
+   6's post-mortem) scales a vector proportionally with no distortion, confirmed with
+   a disposable 100×50 test rectangle before touching the real logo. All logo
+   instances in this round are placed via `mainComponent.createInstance()` +
+   `.rescale()`, never `.resize()`.
+
+### Cover redesign (`43:3`) — real logo now the focal element
+
+Rather than rebuild the Cover's composition from scratch (the `HeroNetwork` network
+of 4 technical panels around a center node was already strong, brand-aligned, and
+vector-native from round 6 — preserving what works per this round's explicit
+instruction), the center node's content was replaced at the **master component**
+level (`88:2`, `HeroNetwork`): removed the `Py`/`3.14` text layers (`88:13`, `88:14`),
+inserted a `PythonCore` instance, sized to 68px (up from an initial 58px pass — the
+larger size gives it clear focal presence within the existing 86px dark badge without
+crowding the dashed outer ring), centered on the badge. Because the Cover's
+`HeroNetwork` instance (`89:2`) is not overridden away from its master, this change
+propagates automatically — the Cover now shows the real Python logo without touching
+the Cover frame directly. Verified via screenshot: the real logo now reads
+immediately at the composition's center, kicker/title spacing below remains clean
+(re-confirms round 6's conclusion that the suspected kicker/title overlap was a
+compressed-screenshot artifact, not a real defect — still clean this round).
+
+### Illustration library — expanded from 8 to 27 components
+
+New page-06 additions, all vector-native, all using the existing
+`illustration_color_roles` tokens (no new variables were needed):
+
+| Component | Node ID | What it is |
+| --- | --- | --- |
+| `PythonCore` | `103:52` | Real Python logo, see above. |
+| `LogoSet/CartesianMark` | `107:54` | Flat vector **adaptation** of the site's 3D-rendered app icon (`assets/img/logo.png`, a glossy layered-lens squircle mark) — simplified to 3 stacked flat ellipses in the illustration palette. The original is a photoreal 3D render; per the vector-first rule, this is a deliberate flat reinterpretation, not a raster embed or a screenshot. |
+| `LogoSet/CartesianWordmark` | `107:114` | Componentized version of the "Cartesian" + violet "School" text lockup already used ad hoc on Cover/Title/AboutCartesianSchool/EndPage — now a single reusable source of truth (Inter Bold 21.17pt, exact colors matched from the live Cover text). |
+| `ProjectCard` (variant set, `Project=<key>`) | `110:312` | **All 13 real Cartesian School mini-projects** from `cartesianschool.org/index.html#proekty` (verified via direct `curl` — real titles, descriptions, and `data-project` keys, not invented): paint-app, snake, bouncing-ball, space-shooter, todo-app, calculator, story-generator, rock-paper-scissors, bouncing-balls-oop, temperature-converter, notes-app, tic-tac-toe, safesort. Each card: a category tag (real tech — Tkinter/Pygame/Flask/CLI/OOP), a small custom vector icon distilling the project's real subject (e.g. a thermometer for temperature-converter, a 3×3 grid with X/O for tic-tac-toe, a folder+checkmark for SafeSort), title, and a trimmed real description from the site copy. |
+| `TechIcon` (variant set, `Topic=<name>`) | `112:89` | 8 flat topic glyphs — Function, Loop, Conditional, List, Dict, Class, Exception, Module — covering the core CS/Python concepts the book's chapters actually teach. Built for use in section headers and chapter-opener subject badges. |
+| `DiagramAccent` (variant set, `Piece=<name>`) | `112:102` | 4 precision connector primitives — ArrowRight, ArrowDown, NodeDot, CornerConnector — arrowhead tips authored exactly centered on the shaft centerline, for constructing custom flow diagrams beyond `Book/Component/Diagram`. |
+
+The 8 components from round 6 (`CartesianGrid`, `NodeConnector`, `GraphPanel`,
+`CodePanel`, `AppPanel`, `GamePanel`, `HeroNetwork`, `ChapterMotif`) are unchanged
+except `HeroNetwork`'s center node (see Cover section above).
+
+**Logos, explicitly**: per the Product Owner's literal requirement ("there must be
+all logos in the images"), the library's `LogoSet` group is the canonical, organized
+home for both brand marks (Python + Cartesian School) — used deliberately in 4
+places, not blanket-applied everywhere: the Cover (Python, already existed via
+`HeroNetwork`), the Title page footer (small Python mark next to the brand line,
+`114:83`), the About Cartesian School page (`CartesianMark`, giving a previously bare
+page real brand identity, `115:5`), and the End Page closing moment (small Python
+mark above the wordmark, a printer's-mark convention, `115:2`). No other logo assets
+were identified as belonging to the course/book ecosystem, so no others were added.
+
+### Chapter Opener (`15:9`) — subject-tied motif added
+
+Added a small circular badge (`113:110`, `113:111`) showing the `TechIcon` matching
+this reference chapter's real subject (`Topic=Dict`, since the reference chapter is
+"Хеш-таблицы и коллизии" / hash tables — a dictionary-adjacent topic) to the left,
+balancing the existing `ChapterMotif` (Code theme) accent on the right. This
+demonstrates the intended per-chapter pattern for production use: pick the `TechIcon`
+`Topic` matching each real chapter's subject (e.g. `List` for the lists chapter,
+`Exception` for the exception-handling chapter). The page remains a book page, not a
+poster — one small badge, no new full-bleed graphics, body copy untouched.
+
+### Full diagram/callout re-audit — no new defects found
+
+Re-screenshotted `Book/Component/Diagram` (`12:4`), the `DiagramCallout` page
+(`18:115`, including its 2×2 callout grid), and the QA page's Book Sequence Overview
+(`93:19`) at close zoom. All three remain correct: arrowheads centered on their
+shafts, connector lines meeting box edges cleanly, the callout grid's row-2 controlled
+equalization from round 6 still holds, and the sequence diagram still has exactly the
+9 arrows it should (no stray diagonal, no missing arrowhead). Round 6's fixes held —
+no regressions, nothing new to fix.
+
+### Front/back-matter re-review — every page checked, most already correct
+
+Screenshotted Title, Copyright, About Author, From Author, TOC, TOC Continuation,
+Index, About Cartesian School, Colophon, End Page, and the 5 canonical body-page
+archetypes (Standard, ChapterOpener, CodeHeavy, Table, DiagramCallout). Finding:
+most of these are **correctly, deliberately plain** — real published books keep
+copyright/colophon/index/TOC pages text-only, and adding illustration there would be
+exactly the "nonsense illustration" the brief warned against. Two pages were
+genuinely bare in a way that under-served their own purpose and were improved:
+
+- **Title page** (`45:6`): added a small `PythonCore` mark beside the
+  "Cartesian School · cartesianschool.org" footer line (`114:83`) — a restrained,
+  conventional title-page brand touch.
+- **About Cartesian School** (`48:22`): this page's entire purpose is introducing the
+  brand, yet it previously had no brand mark at all beyond a small text wordmark —
+  added a 56px `CartesianMark` instance (`115:5`) above the copy, repositioning the
+  wordmark beside it. This was the single weakest page found in the re-review.
+- **End Page** (`48:55`): added a small `PythonCore` mark above the closing wordmark
+  (`115:2`) — a classic printer's-mark convention for a book's final leaf.
+
+### Build defects found and fixed (seventh round)
+
+1. **Default black stroke on new vector nodes.** `figma.createVector()` inherited a
+   1px black stroke from the file's last-used style in three places this round (the
+   Python logo's two snake paths, and the space-shooter `ProjectCard` ship icon) —
+   invisible in the vector path data itself, only visible on screenshot. Fixed by
+   explicitly setting `strokes = []` on every fill-mode vector going forward (added to
+   the shared `vecN`/`vec` helpers used for all subsequent batches).
+2. **`combineAsVariants` naming corruption via slash-style component names.** Naming
+   the pre-combine components `Book/Illustration/TechIcon/Function` (full path, no
+   `Property=Value` form) caused Figma to auto-derive garbled variant property names
+   from the slash segments (`=Illustration, =TechIcon, =Function`) — a different root
+   cause from round 3's "called combineAsVariants twice" bug, same symptom. Fixed by
+   renaming all 12 affected children (`TechIcon`'s 8, `DiagramAccent`'s 4) to
+   `Topic=<Name>` / `Piece=<Name>` after combining. `ProjectCard`'s 13 children were
+   named `Project=<key>` *before* combining and were unaffected — this is now the
+   documented correct pattern: **always name pre-combine components in
+   `Property=Value` form**, never as a slash path.
+3. **Stray extra function argument silently broken 5 of 8 `TechIcon` glyphs.** An
+   early version of the icon-drawing helper was called with an extra positional
+   `'strokeOnly'` string argument before the real options object on every
+   stroke-only vector — the options object landed as a 5th (unused) argument, so
+   `opts.strokeOnly` was `undefined` on a string, and the vectors rendered as solid
+   fills instead of stroked outlines (visible as filled blobs instead of thin
+   brackets/braces on Function, Loop's arrowhead, Conditional, List, Dict, Exception,
+   Module). Caught by screenshotting the batch immediately rather than assuming the
+   code ran correctly; fixed by deleting the broken batch and rebuilding with the
+   correct 4-argument call signature.
+
+### QA result (seventh round)
+
+| Check | Result |
+| --- | --- |
+| Cover center uses the real Python logo, not an abstract mark | ✅ vector-native `PythonCore`, exact brand gradients, propagates from `HeroNetwork` master |
+| Illustration library significantly expanded | ✅ 8 → 27 components (`PythonCore`, `LogoSet` ×2, `ProjectCard` ×13, `TechIcon` ×8, `DiagramAccent` ×4) |
+| All 13 real site projects represented as reusable assets | ✅ real titles/descriptions/tech tags from `cartesianschool.org/index.html#proekty`, custom vector icon per project, none pasted as screenshots |
+| Logos organized and used deliberately, not blanket-applied | ✅ `LogoSet` on page 06; Python mark on Cover/Title/EndPage; Cartesian mark on About Cartesian School — 4 deliberate placements, not every page |
+| Chapter Opener shows a subject-tied motif | ✅ `TechIcon Topic=Dict` badge added, matching the reference chapter's real subject |
+| Diagram/callout precision re-checked | ✅ no regressions found on `12:4`, `18:115`, or `93:19` |
+| Weak pages reworked, strong pages preserved | ✅ Title/About Cartesian School/End Page improved; Copyright/AboutAuthor/TOC/Index/Colophon left as-is (correctly plain) |
+| Vector-first, no raster/screenshot shortcuts | ✅ Python logo from normalized SVG source; Cartesian app icon flattened to native vectors, not embedded as the fetched `.png` |
+| No canonical publishing-pipeline changes | ✅ confirmed by diff — design-system docs only |
+
+As in every round: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly — all verification is via `get_screenshot`
+and `get_metadata`. A live Figma app check remains the standard recommendation before
+final Product Owner sign-off, particularly to confirm the new Python-logo gradient
+rendering and the `ProjectCard` grid's print-scale legibility.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 

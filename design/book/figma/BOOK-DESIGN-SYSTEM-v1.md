@@ -228,3 +228,16 @@ marked N/A: no such distinct content exists in the book yet.
 Full node IDs, the content-audit findings, recto/verso publication rules, and QA
 evidence are in `design/book/figma/HANDOFF-v1-build-log.md` — this document is not
 duplicated here to avoid drift between the two.
+
+## 12. Illustration library (implemented)
+
+A vector-native `Book/Illustration/*` library (page `06 — Illustration Library`)
+supplies every non-typographic visual used across the system: a real Python logo
+(extracted from the Cartesian School site's own SVG source, not an abstract mark), a
+`LogoSet` organizing both the Python and Cartesian School brand marks, a
+`ProjectCard` set covering all 13 real projects from the Cartesian School site, topic
+glyphs (`TechIcon`) for the core CS/Python concepts the book teaches, and precision
+connector primitives (`DiagramAccent`) for constructing flow diagrams. Everything in
+this library is built from native Figma vectors or normalized SVG path data — no
+raster images or pasted screenshots. Full component list, node IDs, and source
+provenance for every asset are in `design/book/figma/HANDOFF-v1-build-log.md`.
