@@ -145,6 +145,15 @@ editorial_assets:
   - Book/Editorial/QRCode/CartesianSchool  # real QR encoding https://www.cartesianschool.org, decoded with pyzbar to confirm the payload before import
   - Book/Editorial/Barcode/PlaceholderISSN  # placeholder Code128 barcode, digits "0000000000000" — reserved for the final production ISSN/registration barcode
 
+# Eleventh round (complete End Page rebuild): the four atomic assets above are
+# reused as plain instances directly on Book/Page/EndPage. Deliberately NOT
+# wrapped into higher-level components (e.g. "EditorialAuthorClosing",
+# "PublicationIdentifier", "QRBrandLink") — the End Page is used exactly once in
+# this book, so there is no second call site to justify a reusable wrapper, and
+# doing so would be over-componentizing a one-off page composition. See
+# HANDOFF-v1-build-log.md "Complete End Page rebuild (eleventh round)" →
+# "Componentization decision".
+
 constraints:
   locale_specific_component_forks: forbidden
   diagram_fragmentation: forbidden

@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 art-direction pass complete — ready for Product Owner review**
+Status: **v1 End Page complete rebuild finished — ready for Product Owner review**
 
-Ten rounds of live Product Owner review/direction have shaped this file so far:
+Eleven rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -81,6 +81,24 @@ Ten rounds of live Product Owner review/direction have shaped this file so far:
     Page's logo lockup had drifted away from its own heading/URL group during a
     prior edit. See "Publication identifier block — ISSN/barcode panel and QR code
     (tenth round)" below.
+11. **Complete End Page rebuild**: the Product Owner rejected the End Page outright
+    rather than requesting further patches — content compressed into the upper-left,
+    a dominant background grid, a thumbnail-sized portrait, a too-short bio, a
+    disconnected floating QR code, and a giant white ISSN/barcode slab reading as a
+    pasted retail label. Torn down completely (28 nodes removed, keeping only the
+    non-printing VERSO tag) and rebuilt from a blank page as three integrated
+    zones — a substantial authorial closing (large real portrait + a 114-word
+    verified biography + a real expertise line), "О книге" (a 74-word verified book
+    summary), and a Cartesian School closing identity (real lockup + real
+    institutional line + real URLs + the real QR code, integrated into the row
+    rather than floating) — over a new restrained atmospheric background (soft
+    glows, two thin luminous wave arcs, a few particles; the dominant Cartesian
+    grid was removed entirely for this page). The ISSN/barcode block was redesigned
+    from a 460×120 slab into a 190×54 compact "publisher imprint" module. Also
+    corrected the author's Russian name (`Siergej Sobolewski` → `Сергей
+    Соболевский`) everywhere it appears in reader-facing content file-wide — 9
+    occurrences across the Cover, Title, Copyright, About Author, Colophon, and End
+    Page. See "Complete End Page rebuild (eleventh round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1813,6 +1831,193 @@ cannot drive the live Figma app directly — verification is via `get_screenshot
 `get_metadata`, direct numerical bounds-checking, and (for the QR code specifically)
 an independent `pyzbar` decode of the generated image before it was ever uploaded to
 Figma.
+
+## Complete End Page rebuild (eleventh round)
+
+The Product Owner's direction this round was explicit: do not patch the existing
+composition — the End Page (`48:55`) was rejected outright for compressed
+upper-left content, a dominant grid, a thumbnail portrait, a too-short bio, a
+disconnected floating QR code, and a giant white ISSN/barcode slab. Rebuilt from a
+blank page.
+
+### Russian name normalization (done first, file-wide, before touching the page)
+
+Audited every text node file-wide for `Siergej Sobolewski` / `Соболевски`
+(cross-checked against the repo's own canonical source, `scripts/author_profile.py`
+`NAME_RU = "Сергей Соболевски"` — this round's brief explicitly requested the
+standard Russian adjectival form `Соболевский` instead, which is also the
+linguistically conventional Russification of `-ewski` surnames; **note for the
+Product Owner**: the repo's Python source (`author_profile.py`,
+`build_front_matter.py`) still uses the older `Соболевски` spelling — this Figma
+fix only touches the design system's displayed text, not the canonical pipeline's
+source strings, so the two will disagree until/unless the repo source is updated
+separately). Found and corrected 9 occurrences:
+
+| Node | Page | Before | After |
+| --- | --- | --- | --- |
+| `40:119` | 02 — Page Archetypes (`AuthorCredit` master) | `Siergej Sobolewski` | `Сергей Соболевский` |
+| `40:124` | 02 — Page Archetypes (`ImprintBlock` master) | `© Siergej Sobolewski / Cartesian School...` | `© Сергей Соболевский / Cartesian School...` |
+| `I43:10;40:119` | 03 — Front Matter (Cover, `AuthorCredit` instance) | `Siergej Sobolewski` | `Сергей Соболевский` |
+| `I45:11;40:119` | 03 — Front Matter (Title, `AuthorCredit` instance) | `Siergej Sobolewski` | `Сергей Соболевский` |
+| `45:126` | 03 — Front Matter (Copyright page) | `Siergej Sobolewski — Software & AI Engineer...` | `Сергей Соболевский — Software & AI Engineer...` |
+| `I45:128;40:124` | 03 — Front Matter (Copyright, `ImprintBlock` instance) | `© Siergej Sobolewski / Cartesian School...` | `© Сергей Соболевский / Cartesian School...` |
+| `45:138` | 03 — Front Matter (About Author page) | `Сергей Соболевски (Siergej Sobolewski), основатель...` | `Сергей Соболевский, основатель...` (redundant Cyrillic+Latin duplicate collapsed to one correct name) |
+| `71:4` | 04 — Back Matter (Colophon, Author row) | `Siergej Sobolewski — Software & AI Engineer...` | `Сергей Соболевский — Software & AI Engineer...` |
+| `154:394` | 04 — Back Matter (old End Page, since rebuilt) | `Siergej Sobolewski` | `Сергей Соболевский` |
+
+Verified zero remaining occurrences of the old spelling with a second, independent
+file-wide sweep after the fix. English/Polish content and all technical
+identifiers, filenames, and URLs were left untouched, per the brief.
+
+### Teardown
+
+Removed all 28 content children of `48:55` (kept only the non-printing `VERSO`
+canvas tag, `50:24`) — confirmed via a before/after child-count diff, not assumed.
+A first teardown attempt was silently rolled back by an unrelated script error
+later in the same `use_figma` call (an SVG path with comma-separated Bezier control
+points that Figma's path parser rejected) — Figma appears to roll back an entire
+script's mutations on an uncaught exception, a new gotcha worth recording: **split
+risky/unverified operations (like hand-written vector path data) into their own
+script, separate from structural changes you need to keep even if the risky part
+fails.**
+
+### New architecture — three integrated zones over a redesigned atmosphere
+
+**Background** (built first, directly on the cleared page): the dominant
+`CartesianGrid` instance was removed entirely for this page (kept for the Cover,
+where it suits the technical hero). Replaced with two large, low-opacity,
+asymmetrically-placed blurred glows (`166:68` upper-right violet, `166:69`
+lower-left blue — deliberately off-center, unlike the Cover's centered glow, so the
+two pages don't feel like copies of each other), two thin luminous wave-arc vectors
+(`166:70`, `166:71`, echoing the real logo's own layered-lens curves rather than a
+literal repeat of the Cover's hub-and-spoke network), and 5 faint particle dots
+(`166:72`–`166:76`).
+
+**Zone A — Об авторе** (`167:2` dash through `167:8`, y≈56–476, roughly the upper
+half): a real 180×225px portrait (`167:4`, up from 84×105 — more than double the
+linear size, using the same real `Book/Editorial/Portrait/Author` master from round
+9) beside the name (`167:5`, corrected spelling), role (`167:6`, exact wording from
+the brief: `Software & AI Engineer · основатель Cartesian School`), a genuinely
+substantial 114-word biography (`167:7`), and a real expertise line (`167:8`) — see
+below for exact text and sourcing.
+
+**Zone B — О книге** (`167:9`–`167:11`, y≈506–644): a 74-word book summary, same
+verified-content discipline as every other round.
+
+**Zone C — Cartesian School** (`167:12`–`167:22`, y≈684–922): heading, the real
+`CartesianLockup` instance (`167:14`, `Format=Horizontal, Theme=Dark`), a real
+institutional sentence reused verbatim from the already-approved About Cartesian
+School page copy (not the brief's example wording — "use existing verified wording
+where available" took priority once the real sentence was confirmed to exist),
+the real URLs (`167:16`), the real QR code integrated into the same row rather than
+floating separately (`167:17`, plus a small `167:18` "Cartesian School online"
+label — the brief's suggested subtle label, chosen over relying on the adjacent URL
+alone since the QR sits to the right of the URL line, not directly beside it), and
+the redesigned compact ISSN/barcode module (`167:19`–`167:22`).
+
+### ISSN/barcode module — redesigned, not just repositioned
+
+Old: `460×120px`, spanning most of the content width, plain white rounded rect with
+a drop shadow — read as "a giant slab" per the brief. New (`167:19`): `190×54px`,
+aligned lower-right beneath the QR code, `cornerRadius: 3` (barely rounded, avoiding
+the "web-card" look the brief explicitly rejected), no shadow. Contains the same
+placeholder values as before — `ISSN 0000-0000` (`167:20`/`167:21`) and a Code128
+barcode reading `0000000000000` (`167:22`, rescaled from the same real component
+built in round 10, `160:111`) — resized down to `96×32px` with quiet-zone margins
+verified numerically: `8px` to the panel's right edge, `~11px` to its bottom edge.
+
+### Build defects found and fixed (eleventh round)
+
+1. **Script-level rollback on an uncaught exception silently discarded earlier
+   mutations.** Covered above under Teardown — the fix pattern (separate risky ops
+   into their own script) is now the standing practice for any future vector-path
+   work in this file.
+2. **Fixed-size text boxes don't clip Figma's own overflow, but do make layout math
+   wrong if trusted at face value.** The bio and institutional-line text were first
+   given `resize()`-only fixed heights as size estimates; both rendered *past* that
+   nominal box (harmlessly — Figma does not crop `NONE`-autoresize text, it simply
+   keeps rendering), but every element positioned below them using the wrong,
+   too-small assumed height. Fixed by setting `textAutoResize = 'HEIGHT'` on both
+   and reading back the *real* resulting height before computing the next zone's
+   position — this is now the standing pattern for any multi-paragraph text block
+   whose height isn't already known.
+3. **Expertise line box very slightly exceeded the page's right edge** (a cosmetic
+   layout slip, not a visible defect — the actual left-aligned text never reached
+   that far) — caught by a numeric off-canvas sweep of every child's bounds, not
+   just a visual read; corrected to end exactly at the `600px` content margin used
+   throughout the page.
+
+### QA result (eleventh round)
+
+| Check | Result |
+| --- | --- |
+| Complete rebuild, not an incremental patch | ✅ full teardown (28 nodes) confirmed via before/after child count, rebuilt from empty |
+| Portrait no longer thumbnail-sized | ✅ 84×105 → 180×225 (2.14× linear, ~35% of text-safe width) |
+| Bio substantial, not too short | ✅ 114 words (target 110–160), verified against `author_profile.py` — no invented employers/dates/awards |
+| About the Book present and integrated | ✅ 74 words (target 70–110), grounded in real chapter/project titles |
+| QR code no longer a disconnected floating object | ✅ integrated into the Cartesian School row beside the URL/lockup block |
+| ISSN/barcode block no longer a giant slab | ✅ 460×120 → 190×54, compact, lower-right, minimal rounding, no shadow |
+| Background grid no longer dominant | ✅ `CartesianGrid` removed for this page; replaced with restrained glow/wave/particle atmosphere |
+| No web-dashboard-card look | ✅ no bordered boxes, no UI chips — headings, dashes, and flowing text only (the ISSN module is the one deliberate "physical object" contrast, per the brief) |
+| Page uses real Cartesian School lockup, not a redraw | ✅ `167:14`, same real asset family as every prior round |
+| Russian name corrected everywhere reader-facing | ✅ 9/9 occurrences fixed, verified with a second independent sweep |
+| No technical identifiers/URLs/English content altered | ✅ confirmed by diff — only RU reader-facing text nodes touched |
+| No overflow, clipping, or off-canvas content nodes | ✅ numeric bounds check on every child; only intentional atmosphere bleeds and the canvas-only VERSO tag exceed the page rect |
+| Cover ↔ End Page read as one book | ✅ same background variable, same dash/heading/typography language, distinct content and distinct (asymmetric vs. centered) atmosphere so neither page duplicates the other |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no RU/PL/EN-specific formatting logic added anywhere |
+
+### Final Russian editorial text (for reference)
+
+**Об авторе:**
+> Сергей Соболевский — инженер с более чем двадцатилетней практикой: от
+> embedded-систем, авионики и радиолокационных комплексов до операционных систем и
+> safety-critical разработки по практикам DO-178C. Опыт охватывает низкоуровневую
+> инженерию и инфраструктуру с контролируемыми границами отказа.
+>
+> Сегодня фокус — production AI и cloud-native инфраструктура: RAG-системы, IBM
+> watsonx, Kubernetes, DevOps, observability и agentic-архитектуры, где результат
+> должен быть воспроизводимым и проверяемым. Автор инженерных систем GuardBSD,
+> AstraDesk, AeroNerve, PySH и ECLI.
+>
+> Сергей — основатель инженерной компании Glaeron LLC и Cartesian School, где
+> соединяет практическую инженерию с преподаванием: пишет технические книги и
+> разрабатывает образовательные программы для инженеров. Его инженерный опыт лёг в
+> основу метода этого курса — объяснять программирование точно и проверяемо, как
+> инженеру, которого готовят к настоящей работе, но с самого первого шага.
+
+Expertise line: `AI / ML · EMBEDDED SYSTEMS · RADAR & AVIONICS · CLOUD-NATIVE`
+(all four terms verified against `author_profile.py`'s `SPECIALIZATIONS`/`DOMAINS`
+lists). GameDev, robotics, drones, and mobile apps — suggested as possible bio
+topics in the brief — were deliberately **omitted**: nothing in the repo verifies
+them for this author, and the brief itself only asked for coverage "where
+verified."
+
+**О книге:**
+> «Python с нуля» — практический курс программирования: от первых строк кода и
+> основ языка до алгоритмов, структур данных и реальных инженерных задач. Книга
+> последовательно проходит путь от переменных и циклов до графики на Turtle,
+> приложений на Tkinter, игр на Pygame, веб-разработки и автоматизации. 24 главы
+> построены на практических упражнениях и реальных проектах — от «Крестики-нолики»
+> и «Змейки» до полноценного космического шутера и собственной CLI-утилиты SafeSort
+> на GitHub. Каждая тема закрепляется работающим кодом, а не абстрактными
+> примерами.
+
+### Componentization decision
+
+The brief suggested `EditorialAuthorClosing`, `PublicationIdentifier`, and
+`QRBrandLink` as possible reusable components "if useful." None were created as
+formal Figma components: the End Page is used exactly once in this book, so there
+is no second call site to justify a reusable wrapper, and the brief's own
+instruction ("do not over-componentize one-off decorative elements") argues against
+it. The actual reusable pieces already exist and were reused, not rebuilt: `Book/
+Editorial/Portrait/Author`, `Book/Illustration/LogoSet/CartesianLockup`, `Book/
+Editorial/QRCode/CartesianSchool`, and `Book/Editorial/Barcode/PlaceholderISSN` —
+all instanced onto the page, none redrawn.
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`
+(including a native 100%-scale render for this round's explicit "100% zoom" QA
+request), `get_metadata`, and direct numerical bounds-checking of every child node.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
