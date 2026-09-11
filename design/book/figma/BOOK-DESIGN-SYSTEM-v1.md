@@ -231,13 +231,18 @@ duplicated here to avoid drift between the two.
 
 ## 12. Illustration library (implemented)
 
-A vector-native `Book/Illustration/*` library (page `06 — Illustration Library`)
-supplies every non-typographic visual used across the system: a real Python logo
-(extracted from the Cartesian School site's own SVG source, not an abstract mark), a
-`LogoSet` organizing both the Python and Cartesian School brand marks, a
-`ProjectCard` set covering all 13 real projects from the Cartesian School site, topic
-glyphs (`TechIcon`) for the core CS/Python concepts the book teaches, and precision
-connector primitives (`DiagramAccent`) for constructing flow diagrams. Everything in
-this library is built from native Figma vectors or normalized SVG path data — no
-raster images or pasted screenshots. Full component list, node IDs, and source
+A `Book/Illustration/*` library (page `06 — Illustration Library`) supplies every
+non-typographic visual used across the system: a real Python logo (vector, extracted
+from the Cartesian School site's own SVG source), a `LogoSet` with the real
+Cartesian School icon and lockup imported directly from `cartesian_logo/` (vector
+icon, raster lockups at native resolution — never an invented approximation), a
+`ProjectCard` set covering all 13 real projects from the Cartesian School site,
+topic glyphs (`TechIcon`), and precision connector primitives (`DiagramAccent`). A
+separate `Book/Editorial/Portrait/*` tier holds real photographs (the author
+portrait and the Guido van Rossum portrait already used in the book's own content)
+— kept visually and organizationally distinct from the brand/technical/icon
+families, and never converted into fake vector illustrations. Diagrams, icons, and
+brand marks are vector-native wherever the real source permits it; the two
+exceptions (raster logo lockups, real photographs) use the actual authentic files,
+not screenshots or invented substitutes. Full component list, node IDs, and source
 provenance for every asset are in `design/book/figma/HANDOFF-v1-build-log.md`.

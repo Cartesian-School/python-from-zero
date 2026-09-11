@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 integrated cover/closing redesign complete — ready for Product Owner review**
+Status: **v1 art-direction pass complete — ready for Product Owner review**
 
-Eight rounds of live Product Owner review/direction have shaped this file so far:
+Nine rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -57,6 +57,21 @@ Eight rounds of live Product Owner review/direction have shaped this file so far
    near-blank End Page with a dark closing spread in the Cover's exact background
    color, carrying the same atmosphere and the real logo. See "Integrated cover/
    closing redesign (eighth round)" below.
+9. **Final art direction, brand correction, QA-flow rebuild, authorial closing
+   page**: the About Cartesian School page still used a small standalone icon as
+   its primary identity statement (reads as an app icon, not a publisher imprint) —
+   replaced with the real horizontal lockup. The QA-only Book Sequence Overview
+   diagram had a real geometry bug (connectors anchored well below the boxes they
+   were meant to join, arrowheads floating in free space) — rebuilt as one
+   precisely-connected 3-phase flow (Front Matter → Body ×24 → Back Matter). The End
+   Page, while no longer blank, was still just a logo + URL — rebuilt into a real
+   editorial closing page with the actual author photograph, a real book summary,
+   a real author bio, and the Cartesian School identity, sharing the Cover's exact
+   tonal family. Added the real author portrait and the real Guido van Rossum
+   portrait (already used in the book's own Chapter 1) to a new, separate
+   "Editorial / Photographic Assets" tier in the illustration library. See "Final
+   art direction, brand correction, QA-flow rebuild, authorial closing page (ninth
+   round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1523,6 +1538,170 @@ As in every round: this environment runs headlessly against the Figma Plugin API
 cannot drive the live Figma app directly — verification is via `get_screenshot` and
 `get_metadata`. A live Figma app check remains the standard recommendation, especially
 to confirm the glow/blur effects render as intended at true print resolution.
+
+## Final art direction, brand correction, QA-flow rebuild, authorial closing page (ninth round)
+
+Four independent Product Owner findings this round, each with a distinct root cause.
+
+### 1. About Cartesian School — wrong brand treatment (`48:22`)
+
+The page's primary identity statement was a standalone 56×56 `CartesianIcon`
+instance (`146:679`) — correct as an *asset* (real, vector, from round 8) but wrong
+as a *treatment*: a lone app-icon-style mark reads as a settings/preferences screen,
+not an imprint page. Removed the icon, the hand-drawn accent dash, and the
+hand-typeset "CartesianSchool" text; replaced with a single real
+`Book/Illustration/LogoSet/CartesianLockup` instance (`152:746`, `Format=Horizontal,
+Theme=Light` — the light-background variant was already in the library from round
+8, unused until now) at 240×60, the actual size a real book imprint page would use.
+Body copy and links reflowed beneath it. Audited every other real-logo placement in
+the file for the same class of error (Cover, Title, End Page) — all already use the
+lockup or icon at an appropriately authoritative scale; About Cartesian School was
+the only page with the "tiny icon as primary identity" problem.
+
+### 2. Book Sequence Overview — real geometry bug, full rebuild (`93:19` → `153:19`)
+
+Confirmed the reported defect by reading raw coordinates before touching anything:
+cards sat at `y=72` with **inconsistent heights** (17 / 34 / 85px depending on label
+length), while every connector line was fixed at `y=118` — for a 17px-tall card
+(bottom edge at 89) the connector 29px below is nowhere near it; for an 85px-tall
+card (bottom edge at 157) the same connector is 39px *above* the card's bottom,
+crossing through it. Every arrowhead was therefore either floating in free space or
+overlapping card text, exactly as reported, and the row-wrap from TOC (row 1, right
+end) to CHAPTER (row 2, left end) had no connector at all, breaking the reading
+flow.
+
+Deleted the frame's contents entirely and rebuilt as one compact, strictly-orthogonal
+diagram, three vertically-stacked phase bands connected by centered vertical
+arrows (avoiding the row-wrap/diagonal-connector class of bug from round 6's
+post-mortem entirely, rather than re-attempting it):
+
+- **FRONT MATTER** — 6 uniform 140×48 boxes (Cover → Title → Copyright → About
+  Author → From Author/Introduction → TOC), horizontal arrows between each.
+- **BODY** — one macro-node (960×130, tinted fill, distinct from the plain boxes)
+  containing an internal 3-step micro-sequence (Chapter Opener → Theory → Code /
+  Table / Diagram) and a "× 24 CHAPTERS" badge — per the brief, this is preferable
+  to 24 repeated boxes and cannot be misread as a second pipeline.
+- **BACK MATTER** — 4 uniform 222×48 boxes (Index → About Cartesian School →
+  Colophon → End Page), same treatment as Front Matter.
+
+Heading is now plainly "FULL BOOK SEQUENCE"; the "design-system QA reference only —
+not a publishing pipeline" line is a visually secondary 9pt gray subtitle directly
+beneath it (previously baked into the oversized frame *name*, not shown as an
+in-canvas subtitle).
+
+**Numerical verification** (not just visual — read every line's actual
+`x/y/rotation/width` and reconstructed true endpoints): every horizontal arrow's `y`
+equals its row's box centerline exactly (front matter centerline `114` = `90 + 48/2`;
+back matter centerline `376` = `352 + 48/2`; body-inner centerline `71` = `50 + 42/2`);
+every arrow's start `x` equals the preceding box's right edge exactly, and its
+arrowhead tip (`x2`) equals the following box's left edge exactly; both vertical
+connectors run from one band's exact bottom edge to the next band's exact top edge
+(`138→180` into the macro-node, `310→352` out of it) at the shared horizontal center
+(`x=520`). No connector terminates in free space; no arrowhead is off-center.
+
+### 3. End Page — from "logo + URL" to a real editorial closing page (`48:55`)
+
+Round 8 fixed the "blank page" problem but left a page that was still just a mark
+and two link lines — correct tonally, but not yet "a true closing page of a
+professionally published technical book." Rebuilt around three real, sourced
+content blocks stacked with a violet dash-rule ahead of each heading (echoing the
+Cover's own kicker-rule motif):
+
+1. **О книге** — a factual summary grounded in real TOC content already in this
+   file/the repo: Turtle graphics, Tkinter apps, Pygame games, automation, and named
+   real projects (Крестики-нолики, Змейка, the Pygame space-shooter, the SafeSort
+   CLI utility) — no invented statistics, no claim not already backed by an existing
+   chapter title or `ProjectCard`.
+2. **Об авторе** — the real author portrait (see below) beside the name, the
+   **exact existing `AuthorCredit` role string** already used on the Cover
+   ("Software & AI Engineer, основатель Cartesian School" — reused verbatim, not
+   retyped, for zero drift risk) and the real short bio already approved on the
+   About Author page (`45:138`), trimmed of its redundant name/role lead-in only
+   (the fact itself, not the wording, was already stated above it).
+3. **Cartesian School** — the real dark horizontal lockup plus the real
+   `cartesianschool.org` / `github.com/Cartesian-School` URLs (unchanged from round
+   8, repositioned).
+
+The round-8 atmosphere (grid + glow) was rebalanced rather than removed: reduced in
+opacity so it supports the new text instead of competing with it, and the glow was
+moved and enlarged toward the bottom of the page so the remaining negative space
+below the content reads as a deliberate "closing light" (a real, common convention
+for a book's final leaf) rather than accidental dead space — content was also
+shifted down 90px as a whole to center its visual weight on the page instead of
+crowding the top.
+
+### 4. Real portraits added to the illustration library
+
+Located both required photographs directly in the repo (not scraped from the web):
+
+| Component | Node ID | Source | Provenance |
+| --- | --- | --- | --- |
+| `Book/Editorial/Portrait/Author` | `153:739` | `site/assets/img/author/siergej-sobolewski.jpg` | The canonical author photo — the same path is `PORTRAIT_JPG` in `scripts/author_profile.py`, the single source of truth the site's own homepage and front-matter author page both already use. 456×570px native. |
+| `Book/Editorial/Portrait/GuidoVanRossum` | `153:740` | `site/assets/img/people/guido-van-rossum.jpg` | The same file already embedded in the book's real content, `scripts/build_chapter_01.py`, Chapter 1 § "Рождение Python: 1989–1991" — with an existing, real credit line: "Фото: Kushal Das, лицензия CC BY-SA 4.0 (изображение обрезано и сжато для сайта)." 480×640px native. |
+
+Both were uploaded via the Figma asset-upload API and set as component fills at
+their native aspect ratio (see build defect #1 below for how). Both component
+`description` fields document source path, original dimensions, crop rule ("crop an
+instance, never this master"), permitted use, and a recommended minimum print size
+— per the brief's documentation requirement. Organized under a new page-06 heading,
+**"EDITORIAL / PHOTOGRAPHIC ASSETS — real photographs, kept separate from
+brand/technical/icon assets. Never converted to fake vector illustrations."**,
+visually separated from the `LogoSet`/`ProjectCard`/`TechIcon`/`DiagramAccent`
+groups above it.
+
+**Recommended placement audit** (documented, not auto-applied — the brief is
+explicit that this portrait must not be added indiscriminately): grepped the actual
+chapter source for every Guido/Python-history mention. Chapter 1 already discusses
+Python's origin at length (CWI, the ABC language, the 1989 Christmas-holiday start,
+the Monty Python name origin, the 0.9.0/1.0/2.0/3.0 release history) and already
+embeds this exact photo inline at § "Рождение Python: 1989–1991". No other chapter
+touches Python history. **Recommendation: no book-page placement is needed** — the
+canonical pipeline's Chapter 1 already uses this asset correctly; the library copy
+exists so the *design system* has a documented, reusable reference for any future
+editorial/marketing use (e.g. a back-cover blurb, a press kit), not to duplicate
+content the book already has.
+
+### Build defects found and fixed (ninth round)
+
+1. **Raster upload produced an empty component (blank white render).** Following
+   the round-8 pattern (`frame.children` → move each into a fresh `COMPONENT` →
+   `frame.remove()`) for the two portrait uploads produced a component with
+   `childCount: 0` and no fill — the upload endpoint's returned frame apparently
+   held the image directly (or in a structure the move loop didn't traverse) rather
+   than in a single child `RECTANGLE`, so nothing was actually moved before the
+   source frame was deleted. Diagnosed by re-reading the created component's
+   `children`/`fills` after the fact (both empty) rather than assuming success from
+   a clean `use_figma` return. Fixed permanently, without depending on the
+   upload response's internal structure at all: every `upload_assets` POST returns
+   an `imageHash` in its JSON response — set that hash directly as
+   `component.fills = [{ type: 'IMAGE', scaleMode: 'FIT', imageHash }]`. This is now
+   the documented, reliable pattern for any future photographic asset import in
+   this file.
+
+### QA result (ninth round)
+
+| Check | Result |
+| --- | --- |
+| About Cartesian School uses an authoritative lockup, not a lone icon | ✅ real `Format=Horizontal, Theme=Light` instance at 240×60 |
+| No other page has the same "tiny icon as identity" issue | ✅ audited Cover/Title/End Page — all already correctly scaled |
+| Book Sequence Overview connectors meet box edges/centerlines exactly | ✅ verified numerically from raw node coordinates, not just visually |
+| Book Sequence Overview reads as one continuous flow, not two diagrams | ✅ 3 stacked bands, 2 centered vertical connectors, no row-wrap diagonal |
+| Book Sequence Overview cannot be mistaken for a second pipeline | ✅ heading "FULL BOOK SEQUENCE" + explicit secondary subtitle; `×24` badge, not 24 boxes |
+| End Page is a real editorial closing page, not logo + URL | ✅ real portrait + real book summary + real author bio + real brand identity |
+| End Page content is 100% sourced, nothing invented | ✅ TOC-grounded book summary; `AuthorCredit`'s exact existing role string; the already-approved About Author bio, trimmed not rewritten |
+| Real author portrait added, sourced correctly | ✅ `site/assets/img/author/siergej-sobolewski.jpg`, the same file `author_profile.py` already treats as canonical |
+| Real Guido van Rossum portrait added, sourced correctly | ✅ `site/assets/img/people/guido-van-rossum.jpg`, the same file already used in `build_chapter_01.py` with its real CC BY-SA 4.0 credit preserved in the component description |
+| Guido portrait not applied indiscriminately | ✅ audited chapter content; documented that Chapter 1 already uses it correctly and no other placement is recommended |
+| Editorial assets kept visually/organizationally separate from brand/technical assets | ✅ new labeled section on page 06, positioned below the existing groups |
+| Cover ↔ End Page read as a coherent pair | ✅ identical background variable, matching grid/glow language, matching typography — but distinct content (technical hero vs. human/editorial close) |
+| No overflow, clipping, or off-canvas nodes | ✅ full-page composite screenshots of the library, Cover, End Page, About Cartesian School, and Book Sequence Overview checked after every structural change |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no RU/PL/EN-specific logic added anywhere, no second publishing path introduced |
+
+As in every round: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly — verification is via `get_screenshot`,
+`get_metadata`, and (this round, for the connector geometry) direct numerical
+reconstruction of line endpoints from raw node properties. A live Figma app check
+remains the standard recommendation before final Product Owner sign-off.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
