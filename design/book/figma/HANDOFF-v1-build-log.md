@@ -1,35 +1,32 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **IN PROGRESS — BLOCKED on Figma API rate limit**
+Status: **v1 COMPLETE — ready for Product Owner visual review**
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
-`component-inventory.yaml`. It exists so work can resume without re-deriving IDs.
+`component-inventory.yaml`. It exists so work can be reviewed and, if needed, resumed
+without re-deriving IDs.
 
 ## File
 
-- **Figma file URL:** <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8>
+- **Figma file URL:** <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8/Cartesian-School-%E2%80%94-Book-Design-System-v1>
 - **File key:** `m19Q51E0vmVek8r4TCJCd8`
 - **File name:** "Cartesian School — Book Design System v1"
-- **Plan used:** "Solo" (team key `team::1126324353100957433`, Full seat)
-  - Note: the "Cartesian School" Figma team (`team::1677084431316389117`) only has a
-    **View** seat for this account and cannot create/edit files. The file was created
-    under the personal "Solo" plan instead. If the design system should live in the
-    Cartesian School team, it needs to be moved there by someone with Edit access on
-    that team, or the account's seat on that team needs to be upgraded to Full/Dev.
-- **Figma plan tier:** Starter — 3-page limit, ~20 MCP tool calls/month. Both limits
-  were hit during this session (see Blocker below).
+- **Plan used:** "Solo" (team key `team::1126324353100957433`, Full seat), **tier: Pro**
+  (upgraded from Starter mid-project — see "Rate-limit history" below).
+  - Note: the "Cartesian School" Figma team (`team::1677084431316389117`) still only
+    has a **View** seat for this account and cannot host an editable file. **Open
+    question for the Product Owner**: transfer/duplicate this file into that team once
+    edit access is available, or keep it under "Solo" and share a view link?
 
-## Pages (2 of 3 Starter-plan page slots used)
+## Pages
 
-| Page | Node ID | Purpose |
+| Page | Node ID | Contents |
 | --- | --- | --- |
-| `01 — Foundations (Cover, Tokens, Typography)` | `0:1` | Cover, token documentation, Typography reference frame |
-| `02 — Page Archetypes (6 reference frames)` | `2:4` | Standard Page, Chapter Opener, Code-Heavy, Table, Diagram/Callout |
+| `01 — Foundations (Cover, Tokens, Typography)` | `0:1` | Typography reference frame (`Book/Reference/Typography`, node `8:2`) |
+| `02 — Page Archetypes (6 reference frames)` | `2:4` | Shared component shelf + the 5 page-archetype reference frames |
 
-One page slot is still free on the Starter plan if a third is needed later.
-
-## Variables created (6 collections, 87 variables) — DONE
+## Variables — 6 collections, 89 variables total — DONE
 
 All variables follow `figma-variables.yaml`: physical mm/pt values are the canonical
 documentation tokens (scope `[]`, not bound to any Figma property); a parallel set of
@@ -37,20 +34,19 @@ px-equivalent variables (1 mm = 4 px, 1 pt = 1.41111 px) is bound to actual Figm
 properties (`FONT_SIZE`, `LINE_HEIGHT`, `WIDTH_HEIGHT`, `GAP`) so the canvas renders at
 true physical proportion. Color primitives are unscoped (hidden) raw values; semantic
 color variables alias them with explicit fill/stroke/text scopes — nothing uses
-`ALL_SCOPES`.
+`ALL_SCOPES` anywhere in the file.
 
 | Collection | Variable Collection ID | Mode | Vars | Contents |
 | --- | --- | --- | --- | --- |
 | Page Geometry | `VariableCollectionId:3:2` | `3:0` "Value" | 15 | trim 165×235mm, mirrored margins (inner 20mm/outer 15mm/top 18mm/bottom 20mm), text measure 130mm, px equivalents, `meta/figma_scale_px_per_mm = 4` |
 | Spacing | `VariableCollectionId:3:18` | `3:1` "Value" | 13 | `baseline_pt=12`; xs/sm/md/lg/xl/xxl in mm (1.5/2/3/4/6/9) + px |
-| Typography — Canonical (pt) | `VariableCollectionId:3:32` | `3:2` "Value" | 19 | one `type/<role>` FLOAT per approved pt value (body 10, chapter_title 24, code 9, table_body 8.5, etc.) — documentation source of truth |
+| Typography — Canonical (pt) | `VariableCollectionId:3:32` | `3:2` "Value" | 19 | one `type/<role>` FLOAT per approved pt value — documentation source of truth |
 | Typography — Figma (px) | `VariableCollectionId:3:52` | `3:3` "Value" | 18 | `size/<role>` bound to `FONT_SIZE`, `lineheight/body` + `lineheight/code` bound to `LINE_HEIGHT` |
-| Color Primitives | `VariableCollectionId:3:102` | `3:6` "Value" | 23 | indigo/violet/gray/amber/green/sky/red raw hex values, scope `[]` |
-| Color Semantic | `VariableCollectionId:3:127` | `3:7` "Print" | 18 | `color/paper`, `color/text-primary`, `color/brand-indigo`, `color/warning(-surface)`, `color/code-surface`, `color/table-header-surface`, etc. — all alias primitives |
+| Color Primitives | `VariableCollectionId:3:102` | `3:6` "Value" | 24 | indigo/violet/gray/amber/green/sky/red raw hex values, scope `[]` |
+| Color Semantic | `VariableCollectionId:3:127` | `3:7` "Print" | **20** | 18 original roles + 2 added this session: `color/python-insight` (`VariableID:10:2`, aliases `indigo/600`) and `color/python-insight-surface` (`VariableID:10:3`, aliases `indigo/50`) — needed for the `Callout/PythonInsight` variant, not covered by warning/info/success/danger |
 
-Full name → variable-ID maps are in `/tmp` build state from this session (not committed;
-regenerate via `figma.variables.getLocalVariablesAsync()` if the file is reopened for
-continuation — see Resume Protocol below).
+(Corrects a typo in the original checkpoint: Color Primitives has 24 variables, not 23 —
+miscounted in the first handoff pass, verified by direct read this session.)
 
 ### Font selection (approved — none copied from the Lafore reference)
 
@@ -60,97 +56,184 @@ continuation — see Resume Protocol below).
 | Headings / UI / captions / tables / running head / page number | **Inter** (Regular/Medium/SemiBold/Bold/ExtraBold/Italic) | Contemporary geometric sans, distinct from reference's PragmaticaC |
 | Code | **JetBrains Mono** (Regular) | Purpose-built code face, distinct from reference's LetterGothic |
 
-All three are broadly available, open-license, and confirmed present in this Figma
-account's font list (`listAvailableFontsAsync`) before use.
+## Text styles — 18 created — DONE
 
-## Text styles — NOT YET CREATED (blocked)
+All bound to the Typography — Figma (px) variables (or explicit percent line-height for
+roles without an approved leading value). Retried twice against the rate limit before
+the plan upgrade (see history below) — both attempts were rejected before any write
+executed (Figma's plugin transactions roll back atomically), so nothing needed
+cleanup; the third attempt, after the upgrade, succeeded outright.
 
-A `use_figma` call to create all 17 `Book/Typography/*` text styles (Body, BodyItalic,
-Section, MajorSection, ChapterLabel, ChapterTitle, TOCTitle, RunningHead, PageNumber,
-Code, ListingCaption, TableCaption, TableHeader, TableBody, TableNote, FigureCaption,
-DiagramText) was submitted and **hit the Figma MCP rate limit mid-call**. Figma's
-transactional rollback means nothing from that call was persisted — the file has
-**zero text styles** right now, only the variable collections above.
+| Style | Node ID | Font | Size (canonical pt → bound px) |
+| --- | --- | --- | --- |
+| Book/Typography/Body | `S:7587e740ec6a5e53268a900dbf3df3c0559a65d5,` | Source Serif 4 Regular | 10pt → 14.11px, leading 12pt → 16.93px |
+| Book/Typography/BodyItalic | `S:dbf24c274026bce7d991c3c9fd668304c37c6bb6,` | Source Serif 4 Italic | 10pt → 14.11px |
+| Book/Typography/Section | `S:fe045fe70193cb6d46007d9a3699d3bd698ba2cf,` | Inter Bold | 14pt → 19.76px |
+| Book/Typography/MajorSection | `S:80e38d0d0683b130ace847c496723f129913e630,` | Inter Bold | 16pt → 22.58px |
+| Book/Typography/ChapterLabel | `S:ad2f6babeb8d51cfb48e898ac72efa0a246b8b78,` | Inter Bold | 20pt → 28.22px |
+| Book/Typography/ChapterTitle | `S:6efdd836b5ccbabe15482efacb5b24347db437bf,` | Inter Extra Bold | 24pt → 33.87px |
+| Book/Typography/TOCTitle | `S:d3f4f392cce0cd9f1d8246f48f83721eaa35243e,` | Inter Extra Bold | 24pt → 33.87px |
+| Book/Typography/TOCEntry | `S:3b486630c04384bf677bee2c6934754275977910,` | Inter Regular | 9pt → 12.70px (added — defined in `adopted-values.yaml`, not explicitly in the original 17-name list) |
+| Book/Typography/RunningHead | `S:5ffaaa9acdbb0181a324d01059181c3e398b36a7,` | Inter Regular | 9pt → 12.70px |
+| Book/Typography/PageNumber | `S:40cfcb1878c79d512eb4496f60eda094ecb0cf1c,` | Inter Medium | 10.5pt → 14.82px |
+| Book/Typography/Code | `S:aab7ec060817db8554af84a002256c9250a364cc,` | JetBrains Mono Regular | 9pt → 12.70px, leading 10.75pt → 15.17px |
+| Book/Typography/ListingCaption | `S:cd76d7ca9bb85a04bb7f5ce9f3a10eed349a9719,` | Inter Italic | 9pt → 12.70px |
+| Book/Typography/TableCaption | `S:89cc5d00daa28030b909494ee856b07aac35bb60,` | Inter Medium | 9pt → 12.70px |
+| Book/Typography/TableHeader | `S:417989d5ee58d65ad684783b17c2ce72450e3400,` | Inter Semi Bold | 8.5pt → 11.99px |
+| Book/Typography/TableBody | `S:7120a8b15c1a622ea9af34cc3378dcb87cbd35d4,` | Inter Regular | 8.5pt → 11.99px |
+| Book/Typography/TableNote | `S:39f2fc4e9bd8d820da2c61c5c854543c714ae2e1,` | Inter Regular | 8pt → 11.29px |
+| Book/Typography/FigureCaption | `S:91a9c9749e118992d55c451caaa818943b577269,` | Inter Regular | 8.5pt → 11.99px |
+| Book/Typography/DiagramText | `S:39355ff20c08c14a0e0737dafc294c124beda6b4,` | Inter Medium | 9pt → 12.70px (>=9pt effective minimum) |
 
-## The 6 canonical reference frames — NOT YET CREATED (blocked)
+## Components — 10 created — DONE
 
-None of the required frames (Typography, Standard Page, Chapter Opener, Code-Heavy
-Page, Table Page, Diagram/Callout Page) have been created yet. Page `2:4` exists but
-is empty.
+| Component | Node ID | Notes |
+| --- | --- | --- |
+| Book/Component/RunningHead | `9:2` | 9pt, quiet, mirrored left/right label pair, bottom rule |
+| Book/Component/PageNumber | `9:5` | Renamed from an interim "Folio" name to match `component-inventory.yaml` exactly |
+| Book/Component/Callout | `10:24` (component set) | 4 variants via `Role` property: `Warning` (`10:4`), `Info` (`10:9`), `Verification` (`10:14`), `PythonInsight` (`10:19`). Icon + label + accent border + surface tint — color is never the only signal |
+| Book/Component/CodeBlock | `11:2` | JetBrains Mono 9pt, compact padding, real selectable text (not a screenshot) |
+| Book/Component/ListingCaption | `11:4` | 9pt, placed immediately below its listing |
+| Book/Component/Table | `11:6` | Semantic frame-built table (no native Figma table primitive exists); caption 9pt / header 8.5pt / body 8.5pt / note 8pt |
+| Book/Component/FigureCaption | `12:2` | 8.5pt, documented as an atomic pair with its figure |
+| Book/Component/Diagram | `12:4` | Renamed from an interim "DiagramContainer" name to match `component-inventory.yaml`. Orthogonal (right-angle) connectors only, 3 labeled nodes, ≥9pt effective label text |
+| Book/Component/ChapterHeader | `13:2` | Label (20pt) + title (24pt) + compact deck, restrained accent bar |
+| Book/Component/SectionHeader | `21:103` | Added this session (present in `component-inventory.yaml`, not yet built in the prior checkpoint): MajorSection (16pt) + Section (14pt) pair |
 
-## Retry attempted 2026-09-08 (same session, reduced scope)
+**Deferred, not built this round** (out of the explicit scope given for this pass —
+flagged for a follow-up, not silently dropped):
 
-Per Product Owner decision, scope was narrowed to just: finish text styles + the
-Typography reference frame, defer the other 5 frames. The text-style creation call
-was retried immediately and was **rejected again** with the same
-"You've reached the Figma MCP tool call limit on the Starter plan" error, confirming
-this is a hard **monthly** quota exhaustion, not a per-call fluke — reducing scope
-does not unblock it, since even one more write call is refused. **Text styles and the
-Typography frame remain uncreated.** No further Figma MCP calls were attempted this
-session. Per the user, the Figma plan is expected to be upgraded in ~3 days; resume
-from here once that lands.
+- `Book/Component/Callout/AntiPattern` (❌) and `Callout/Milestone` (🎉) — the component
+  is built as a variant set, so adding these later is a matter of adding two more
+  variants to the existing `10:24` set, not rebuilding it.
+- `Book/Component/TableContinuation` (repeated-header continuation behavior) and a
+  generic `Book/Component/Figure` (distinct from `FigureCaption`) — both listed in
+  `component-inventory.yaml` but not requested in this pass's component list.
 
-## Blocker: Figma MCP rate limit on Starter plan
+## The 6 canonical reference frames — DONE
 
-Per Figma's own `rate-limits-access.md`: a **Starter** plan is capped at **~20 MCP
-tool calls per month**, regardless of seat type. This session's tool calls (file
-inspection, `get_libraries`, `get_metadata`, and the `use_figma` calls used to create
-the 2 pages and 6 variable collections) exhausted that quota, and the next call
-(text style creation) was rejected outright:
+| # | Frame | Node ID | Page |
+| --- | --- | --- | --- |
+| 1 | Typography | `8:2` (`Book/Reference/Typography`) | `01 — Foundations` (`0:1`) |
+| 2 | Standard Page | `14:2` (`Book/Page/Standard`) | `02 — Page Archetypes` (`2:4`) |
+| 3 | Chapter Opener | `15:9` (`Book/Page/ChapterOpener`) | `02 — Page Archetypes` (`2:4`) |
+| 4 | Code-Heavy Page | `16:13` (`Book/Page/CodeHeavy`) | `02 — Page Archetypes` (`2:4`) |
+| 5 | Table Page | `17:22` (`Book/Page/Table`) | `02 — Page Archetypes` (`2:4`) |
+| 6 | Diagram & Callout Page | `18:115` (`Book/Page/DiagramCallout`) | `02 — Page Archetypes` (`2:4`) |
 
-> "You've reached the Figma MCP tool call limit on the Starter plan."
+All 5 page-archetype frames (2-6) are built at true physical trim (660×940px = 165×235mm
+at the repo's 4px/mm convenience scale), with a non-printing dashed margin guide at the
+mirrored text-safe area (80px inner / 60px outer / 72px top / 80px bottom = 20/15/18/20mm),
+a `RunningHead` instance, and a `PageNumber` instance placed at the outer edge — modeled
+as a recto (right-hand) page; a verso page mirrors the margins and folio position.
+Sample content is Russian, for review readability only — structure is language-independent
+(no RU-specific components exist; PL/EN would use the same components with different text).
 
-Remaining scope — 17 text styles, 6 fully composed reference frames (each requiring
-multiple `use_figma` calls per the incremental-build discipline the Figma skill
-mandates), a QA/screenshot pass, and foundations documentation pages — needs on the
-order of 40–60+ further tool calls. That is not achievable on the current plan without
-either:
+**Note on frame naming**: `Book/Page/DiagramCallout` is a new archetype name, not present
+in the original `component-inventory.yaml` 18-page list (which has separate `Figure` and
+`Diagram` page entries) — it merges both concerns into the single "Diagram & Callout Page"
+this task's brief explicitly asked for. **Open question for the Product Owner**: keep
+this merged page as the canonical archetype, or split it into two later?
 
-1. **Upgrading the Figma plan** (Professional: 200 calls/day, 15/min) for the "Solo"
-   team, or upgrading the seat/plan under which this file lives — a billing decision,
-   not something to do without explicit approval; or
-2. **Waiting for the monthly quota to reset** and continuing across multiple sessions,
-   spending the ~20 calls/month budget carefully; or
-3. **Reducing v1 scope** (e.g. ship only the Typography frame + tokens as v1, defer
-   the other 5 archetypes to a follow-up pass).
+## Rate-limit history
 
-No further Figma MCP calls will be made until a Product Owner decision on the above.
+1. **First session**: Starter plan (~20 MCP calls/month) exhausted while creating the 6
+   variable collections. Text-style creation was rejected mid-call.
+2. **Retry, same session, reduced scope**: rejected again immediately — confirmed a hard
+   monthly quota, not a per-call fluke.
+3. **This session**: `whoami` confirmed the "Solo" plan is now **tier: pro**. All
+   subsequent writes succeeded normally (200 calls/day, 15/min budget). No further rate
+   limiting encountered.
 
-## Resume protocol (reduced v1 scope, per Product Owner decision)
+## Build notes / defects found and fixed during this session
 
-Agreed reduced scope for the remainder of v1: text styles + the Typography reference
-frame only. The other 5 reference frames (Standard Page, Chapter Opener, Code-Heavy,
-Table, Diagram/Callout) are explicitly deferred to a follow-up pass after this v1 is
-reviewed — do not build them until asked.
+- **Text clipping bug**: the `Callout` master component's inner text column was created
+  with a fixed 420px width. When the Diagram & Callout page needed a 2×2 grid of
+  narrower (~253px) callout instances, their body text clipped instead of wrapping.
+  Fixed by changing the master component's content column to `layoutSizingHorizontal:
+  FILL` — this self-heals every existing and future instance, since it's a master-
+  component-level fix, not a per-instance patch.
+- **Page overflow**: the Diagram & Callout page's first layout (diagram + caption + 4
+  stacked callouts) ran 116px past the physical page height. Fixed by rebuilding the
+  callout section as a 2×2 grid instead of a 4-row stack — content now ends at y=710
+  against an 860px safe-area bottom (no overflow).
+- **Component shelf overlap**: master components were initially positioned by
+  assumption rather than measured height, causing the `CodeBlock` (187px tall) to
+  overlap the row below it. Fixed by re-laying the shelf out using each row's actual
+  measured max height.
+- **Diagram arrow direction**: connector arrowheads initially pointed backward (toward
+  the source instead of the destination) due to a rotation-sign assumption. Fixed by
+  flipping the rotation from +90° to -90°, verified visually.
 
-1. Re-open <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8>.
-2. Confirm quota has reset or the plan has been upgraded (retry a single cheap
-   read-only call, e.g. `get_metadata` with no `nodeId`, before attempting writes).
-3. Run one read-only `use_figma` call to reconstruct the `{name → id}` map for all 6
-   variable collections (`figma.variables.getLocalVariableCollectionsAsync()` +
-   `getVariableByIdAsync` per member) — cheaper than re-deriving from this doc's table
-   if IDs are needed precisely.
-4. Create the 17 `Book/Typography/*` text styles using the exact font/size/role table
-   in this doc (the script was written and rejected twice by the rate limit, never by
-   a logic error — reuse it as-is).
-5. Build the Typography reference frame on page `02 — Page Archetypes` (`2:4`): one
-   sample block per style showing size, line-height, weight, and semantic role label,
-   per `BOOK-DESIGN-SYSTEM-v1.md` frame 1 spec.
-6. Run a `get_screenshot` QA pass on the Typography frame; check against the approved
-   metrics table before calling v1 done.
-7. Update this file's status tables and `design/book/figma/README.md` as each stage
-   completes. Only after that — and only if asked — resume the other 5 frames.
+## QA result
+
+Performed against the approved metrics in `BOOK-DESIGN-SYSTEM-v1.md`,
+`adopted-values.yaml`, and `reference-metrics.yaml`:
+
+| Check | Result |
+| --- | --- |
+| Page geometry (165×235mm / 660×940px) | ✅ all 5 page frames exact |
+| Mirrored margins (inner 20mm/outer 15mm/top 18mm/bottom 20mm) | ✅ verified via guide rectangle bounds on every page frame |
+| Typography bound to tokens, not hardcoded | ✅ every text node uses a `Book/Typography/*` style or an explicit variable-bound size |
+| No text below approved minimums | ✅ smallest is 8pt (table note), matches spec floor |
+| Diagram labels ≥9pt effective | ✅ `DiagramText` style = 9pt / 12.70px |
+| Code = 9pt | ✅ `Code` style, JetBrains Mono |
+| Body = 10/12pt | ✅ `Body`/`BodyItalic`, 1.20 ratio via bound line-height variable |
+| Table text = 8–9pt system | ✅ caption 9 / header 8.5 / body 8.5 / note 8 |
+| Semantic emoji rules | ✅ one emoji max per callout heading, only on unnumbered semantic headings, never on numbered section/chapter headings, same icon per role across all 4 usages |
+| No locale-specific layout duplication | ✅ single component/frame set; RU is sample content only |
+| No overflow/clipping | ✅ both defects found (above) were fixed and re-verified visually |
+| Fonts approved (no Lafore fonts) | ✅ Source Serif 4 / Inter / JetBrains Mono only, confirmed via `listAvailableFontsAsync` before use |
+| Visual identity — Cartesian School, not Lafore | ✅ restrained indigo/violet, no oversized cards/gradients/heavy shadows, dense print-first layout, confirmed across all screenshots |
+| Screenshots captured | ✅ every component and frame screenshotted during the build; final tidy overview screenshots taken of both pages |
+
+**One non-blocking observation**: the 🐍 (Python insight) emoji renders as a fallback
+glyph (a running-figure icon) in the headless screenshot service used for this QA pass,
+while ⚠️/ℹ️/✅ render correctly. The underlying character is the correct U+1F40D
+codepoint — this is very likely a limitation of the screenshot renderer's font stack,
+not a defect in the file itself. **Recommend the Product Owner confirm by opening the
+file directly in the Figma app** before sign-off.
+
+Cosmetic note: JetBrains Mono renders `->` and `==` as programming-font ligatures in
+code samples (e.g. `->` shows as a single arrow glyph). This is a font feature — the
+underlying characters are the literal ASCII text, unchanged and fully selectable.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
-- **Page count**: Starter plan hard-caps Figma files at 3 pages. The 18 archetypes and
-  6 reference frames could not each get a dedicated page as component-inventory.yaml's
-  `Book/Page/*` naming implies one-per-archetype; the plan consolidates them onto 2
-  pages using Sections instead. This does not change component names or token
-  structure, only Figma page organization.
-- **File location**: created under the personal "Solo" plan, not the "Cartesian
-  School" team, because the account's seat on that team is View-only (see File
-  section above).
-- Everything else — trim size, margins, text measure, type scale, font-family class
-  assignments, color role list, semantic icon set — matches the approved spec exactly;
-  no metric deviations were introduced.
+- **File location**: still hosted under the personal "Solo" plan, not the "Cartesian
+  School" team (View-seat only for this account). Unresolved — see "File" section.
+- **Component naming fixes applied this session**: renamed two components to match
+  `component-inventory.yaml` exactly (`Folio` → `PageNumber`, `DiagramContainer` →
+  `Diagram`). If anything already referenced the old names outside this file, update
+  those references.
+- **Callout component structure**: built as one `COMPONENT_SET` with a `Role` variant
+  property (4 variants) rather than as 6 separate flat components named
+  `Book/Component/Callout/<Role>`. This is the more correct Figma pattern (one
+  component, one set of variants) and is functionally equivalent, but the literal
+  path-style names from `component-inventory.yaml` don't exist as separate components.
+  AntiPattern and Milestone variants are not yet added (see "Deferred" list above).
+- **`Book/Page/DiagramCallout`** is a new merged archetype name not in the original
+  18-page list — see "Open question" under the frames table above.
+- **Page count**: still 2 Figma pages (not one per archetype) — this worked fine even
+  after the Pro upgrade (Pro removes the 3-page cap, but reorganizing wasn't necessary
+  or requested), organized via named frames/sections instead. No token or component
+  structure was affected by this choice.
+- Everything else — trim size, margins, text measure, full type scale, font-family
+  class assignments, color role list, semantic icon set — matches the approved spec
+  exactly; no metric deviations were introduced.
+
+## Resume / extension protocol (for the deferred items above)
+
+1. Re-open <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8>.
+2. To add `AntiPattern`/`Milestone` callout variants: read component set `10:24`,
+   create 2 more variant components following the existing 4 as a template (icon ❌ /
+   🎉, using `color/danger(-surface)` and a new milestone color respectively — no
+   milestone-specific semantic color variable exists yet, would need to be added),
+   then `figma.combineAsVariants` is not re-appliable to an existing set — instead add
+   the new components as children of the existing `COMPONENT_SET` node directly and
+   register the `Role` variant property value on each.
+3. To split `Book/Page/DiagramCallout` into separate `Figure`/`Diagram` archetype
+   pages, or to add the remaining 12 archetypes from `component-inventory.yaml`'s
+   18-page list: follow the same pattern as frames 2–6 (660×940 frame, margin guide
+   rectangle, `RunningHead`/`PageNumber` instances, compose from the existing shared
+   components).
