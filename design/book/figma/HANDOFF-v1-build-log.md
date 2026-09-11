@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 visual cleanup complete — ready for Product Owner review**
+Status: **v1 final live cleanup complete — ready for Product Owner review**
 
-Four rounds of live Product Owner review/direction have shaped this file so far:
+Five rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -20,6 +20,12 @@ Four rounds of live Product Owner review/direction have shaped this file so far:
    pages read as sparse/prototype-like — see "Visual cleanup (fourth post-review
    round)" below for the new QA page, the reorganized component library, and the
    three front-matter redesigns.
+5. **Final live QA pass**: a re-audit found page 02 already clean (see below — this
+   appears to have been a stale-view report, not a live defect), confirmed author-name
+   spelling is already 100% consistent, and — while investigating the Colophon
+   readability concern — uncovered and fixed a **systemic font-sizing bug** affecting
+   nearly every ad-hoc text element across the front/back matter system. See "Final
+   live visual cleanup (fifth post-review round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -865,6 +871,158 @@ API and cannot drive the live Figma app directly — a live 100% zoom pass is st
 recommended final gate, particularly for the Cover's new geometric motif (color
 contrast and hairline rendering can differ slightly between the headless renderer and
 a real browser/app).
+
+## Final live visual cleanup (fifth post-review round)
+
+### 1. Page 02 overlap claim — re-audited, not reproducible in the current file
+
+The Product Owner reported page `02 — Page Archetypes` still showing QA/stress content
+overlapping canonical archetypes. A fresh, complete re-audit was performed two
+independent ways before touching anything:
+
+1. `get_metadata` dump of the entire page — zero nodes named `STRESS TEST *`, `RU
+   (long)`, `PL (long)`, `EN (long)`, `TOC stress row`, or any of the 12 node IDs
+   moved to the QA page in the previous round appeared anywhere on page 02.
+2. A fresh full-page screenshot — visually confirmed the same: 8 labeled component
+   groups, a 154px gap, then the clean 3×2 archetype grid, no overlap.
+3. `figma.root.children` confirmed there is exactly one page named "02 — Page
+   Archetypes" (no duplicate/stale page with a similar name causing confusion), and
+   the QA page (`55:2`) was confirmed to hold all 12 expected stress-test nodes.
+
+**Conclusion**: page 02 was already clean, matching exactly what commit `a2e071fc`
+(the previous round) produced. This looks like a stale render on the reviewer's side
+rather than a live defect — no changes were needed or made to page 02's layout in
+this round beyond the font-size fixes described below (which apply everywhere, not
+specifically to page 02).
+
+### 2. Author-name consistency — already 100% consistent; one gap filled
+
+Searched every text node across all 5 pages for "Sobolewski" and "Соболевск". Result:
+**every single occurrence** (8 total, across Cover, Title, AboutAuthor, and Copyright)
+already uses the canonical spelling **"Siergej Sobolewski"** (Latin) / **"Сергей
+Соболевски"** (Cyrillic) — matching `scripts/author_profile.py` and
+`scripts/book_pipeline/locale_ru.py` exactly. No "Siergiej" (extra "i") variant exists
+anywhere in the design content. (That spelling only appears in this Figma account's
+own profile display name from `whoami` — unrelated to, and never copied into, any
+page content.)
+
+One real gap found: **Colophon had no author line at all.** Added one, matching the
+same spelling and role text used everywhere else:
+
+> Автор: Siergej Sobolewski — Software & AI Engineer, основатель Cartesian School
+
+New node: `71:2` (Row), inserted above the existing "Издание:" row on `Book/Page/
+Colophon` (`48:28`); all 8 existing rows shifted down to make room.
+
+### 3. The real bug: a systemic pt→px conversion error in ad-hoc text
+
+While verifying the Colophon readability requirement (point 4), a check of the
+Colophon's actual `fontSize` property against its `textStyleId` revealed the text was
+**not bound to any approved text style** — it was a raw `fontSize = 8` set directly in
+the build script. Compared against the confirmed-correct `Book/Typography/Body` style
+(bound, `fontSize = 14.11px` for its canonical 10pt), this exposed a systemic error:
+
+**Root cause**: this design system's own convention (`figma-variables.yaml`) requires
+every physical point size to be converted to Figma pixels via `pt × 1.4111` (since the
+page canvas itself is scaled 4px/mm, and 1pt = 0.352778mm, so `1pt → 1.4111px` is the
+necessary conversion for text to render at its true physical size on that scaled
+canvas). Text bound to an approved `Book/Typography/*` style already had this
+conversion applied correctly (via the `Typography — Figma (px)` variable collection).
+But **every ad-hoc text node created directly with `.fontSize = N`** (intending "N
+pt") was never converted — it rendered at literally `N` pixels, roughly **41% smaller
+than intended** (e.g. intended 8pt rendered as if it were only ~5.7pt-equivalent).
+
+This affected nearly every piece of ad-hoc text added across the front/back matter
+system and two shared components — dozens of nodes across:
+
+- **Components** (fixes apply to every instance automatically): `Callout` label text
+  on all 6 variants (`10:4`, `10:9`, `10:14`, `10:19`, `37:113`, `37:118`, intended
+  9.5pt), `BookTitle` title/subtitle on both variants (`40:111`, `40:114`), `Author
+  Credit` (`40:118`), `ImprintBlock` (`40:121`), `TOCEntry`/`TOCChapterEntry`/
+  `TOCSectionEntry` (`42:111`, `42:115`, `42:120`), `IndexEntry` (`42:124`),
+  `ColophonBlock` (`42:128`), and the `Figure` placeholder label (`39:122`).
+- **Pages** (fixed directly, since these were built with inline ad-hoc text rather
+  than component instances): `Cover` (`43:3` — wordmark, kicker), `Title` (`45:6` —
+  kicker, publisher line), `Copyright` (`45:124` — title/byline/ISBN/GitHub lines),
+  `FromAuthor` (`45:140` — the FromAuthor↔Введение mapping note), `TOC` (`47:14`) and
+  `TOCContinuation` (`47:98`) — all 24 chapter rows plus the 3 front-matter/index
+  reference rows, `Index` (`48:2` — subhead + all 16 terms), `AboutCartesianSchool`
+  (`48:22` — wordmark/website/GitHub), `Colophon` (`48:28` — note + all 8 rows),
+  `EndPage` (`48:55` — wordmark/website).
+
+Text already bound to an approved `Book/Typography/*` style (all body prose, all
+headings, all captions) was **already correct** and untouched — only unbound ad-hoc
+text needed fixing. Canvas metadata (RECTO/VERSO tags, archetype-name labels, band
+labels, section titles like "COMPONENT LIBRARY —…") was deliberately **left
+unconverted**, consistent with the round-4 decision that this class of label is
+tooling/design-system metadata, not printed book content, and doesn't need physical
+pt-accuracy. Two attempts accidentally caught RECTO/VERSO tags in a blanket sweep
+(`50:19`, `50:20`, `50:21`, `50:23`) — caught immediately and reverted to `7.5px`,
+matching the other tags.
+
+### 4. Knock-on layout defects the size correction exposed — all fixed
+
+Correcting font sizes (~41% larger everywhere) exposed several latent layout bugs
+that had been masked by the previous, too-small text:
+
+- **Dotted TOC/index leaders wrapped to 2 lines.** The leader text (160 repeated `.`
+  characters, meant to always overflow and get naturally cut off by its `FILL` width)
+  was short enough to fit on one line at the old undersized font, but wrapped at the
+  corrected size, ballooning row heights. Fixed by shortening every leader to 30
+  dots — comfortably fits on one line at the corrected size everywhere it's used
+  (`TOCEntry`, `TOCChapterEntry`, `TOCSectionEntry` masters, and all inline rows on
+  `TOC`/`TOCContinuation`).
+- **Chapter-number column too narrow for some digit pairs.** The chapter-number
+  prefix (`"20."`, `"22."`, `"23."`, `"24."`) was in a `FIXED` 18px-wide box — just
+  wide enough at the old font, but chapters without a narrow "1" digit (20, 22, 23,
+  24) now overflowed that box and wrapped their trailing "." onto its own line,
+  visibly breaking those four rows on `TOCContinuation`. Fixed by widening the column
+  to 26px across all 24 chapter rows on both `TOC` and `TOCContinuation`.
+- **Copyright page's imprint block overlapped the ISBN/GitHub lines below it** once
+  it grew from the font correction — the lines after it were still positioned at
+  their old (too-close) offsets. Recomputed the whole vertical flow from actual
+  measured heights.
+- **Colophon rows with 2-line wrapped labels overlapped the row below them** for the
+  same reason. Recomputed all 9 rows (8 original + the new Author row) from actual
+  heights.
+- **On the QA page itself**, the RU/PL/EN `BookTitle` stress instances grew
+  substantially once the `BookTitle` master was corrected (proving the fix cascades
+  to instances, which is correct behavior) and started overlapping the TOC/Index
+  stress rows below them. Recomputed that page's internal layout too — this is
+  QA-only content, not a canonical-page defect, but was fixed for cleanliness anyway.
+
+Every one of these was caught by re-measuring actual post-fix heights via
+`get_metadata` and/or a screenshot before moving on — none were assumed fixed without
+verification.
+
+### 5. Additional final-cleanup action
+
+Moved the "Book Sequence Overview" frame (`51:14`) from page `03 — Front Matter` to
+page `05 — QA & Stress Tests`. It was never overlapping anything and was explicitly
+labeled "design-system QA reference only — not a publishing pipeline" — moving it
+keeps that self-description consistent with where it actually lives, and reduces any
+risk of it being mistaken for canonical front-matter content.
+
+### Final live QA result (this round)
+
+| Check | Result |
+| --- | --- |
+| Page 02 stress-content overlap | ✅ re-audited — not reproducible; already clean since commit `a2e071fc` |
+| Author name consistency (Cover/Title/Copyright/AboutAuthor/Colophon) | ✅ 100% consistent "Siergej Sobolewski" / "Сергей Соболевски"; added the one missing occurrence (Colophon) |
+| Copyright vertical composition | ✅ anchor heading retained from round 4; the font-size-correction overlap it introduced was found and fixed |
+| Colophon minimum readable size | ✅ **root cause fixed at the source** — all Colophon text (and everything else affected) now renders at its true intended pt size, not just "raised to 8pt" as a patch |
+| No duplicate components | ✅ verified via a name-count sweep on every page — zero duplicates |
+| No stress-test remnants outside page 05 | ✅ verified via metadata + screenshot on pages 01-04 |
+| No overlapping frames | ✅ verified on every page |
+| No hidden obsolete copies / off-canvas nodes | ✅ swept every page for nodes with absolute x or y beyond 5000 — none found |
+| All 16 canonical frames re-verified at this round's corrected sizes | ✅ Cover, Title, Copyright, AboutAuthor, FromAuthor, TOC, TOCContinuation, Standard, ChapterOpener, CodeHeavy, Table, DiagramCallout, Index, AboutCartesianSchool, Colophon, EndPage all re-screenshotted |
+
+As in every prior round: this environment runs headlessly against the Figma Plugin
+API and cannot drive the live Figma app directly. Given that this round's central
+finding was specifically about text rendering at the *correct physical size* — the
+one category of defect most sensitive to actual on-screen/print rendering — a live
+100% zoom pass in the real Figma app is especially recommended before final sign-off
+this time.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
