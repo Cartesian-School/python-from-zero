@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 major professional refinement complete — ready for Product Owner review**
+Status: **v1 integrated cover/closing redesign complete — ready for Product Owner review**
 
-Seven rounds of live Product Owner review/direction have shaped this file so far:
+Eight rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -45,6 +45,18 @@ Seven rounds of live Product Owner review/direction have shaped this file so far
    Chapter Opener; re-audited every diagram/callout page and every front/back-matter
    page for weak or bare treatment. See "Major professional refinement (seventh
    round)" below.
+8. **Integrated cover/closing redesign**: round 7's `LogoSet` icon and wordmark were
+   flat vector *approximations* the Product Owner correctly rejected as invented
+   substitutes — replaced with the actual repo assets from `cartesian_logo/` (a real
+   vector import of `favicon.svg`, and the real raster lockups). The Cover's hero
+   illustration was also judged too sparse — four panels floating far from a tiny
+   center badge with large dead zones above/below. Rebuilt `HeroNetwork` as a single
+   integrated "hub and spoke" composition (panels pulled ~40% closer, short glowing
+   beams instead of long pipes, a soft blurred glow plus a low-opacity grid texture
+   behind the badge), enlarged it to fill the Cover's content width, and replaced the
+   near-blank End Page with a dark closing spread in the Cover's exact background
+   color, carrying the same atmosphere and the real logo. See "Integrated cover/
+   closing redesign (eighth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1385,6 +1397,132 @@ cannot drive the live Figma app directly — all verification is via `get_screen
 and `get_metadata`. A live Figma app check remains the standard recommendation before
 final Product Owner sign-off, particularly to confirm the new Python-logo gradient
 rendering and the `ProjectCard` grid's print-scale legibility.
+
+## Integrated cover/closing redesign (eighth round)
+
+Product Owner direction was explicit: the previous round's Cartesian School "logo"
+in the illustration library was a **hand-drawn flat vector approximation** of the
+real app icon, not the real thing — an invented substitute, forbidden going forward.
+Separately, the Cover's hero network read as "too separated," with panels far from
+the center and large unstyled gaps above/below it, and the End Page was "a tiny logo
+floating in a blank page."
+
+### Real logo assets — replacing the invented approximation
+
+Audited `cartesian_logo/` in the repo directly (15 files) before changing anything.
+Found the folder mixes canonical brand assets with drafts/marketing collateral that
+must NOT be used as a generic mark: `big_logo.png` is a promotional banner for an
+unrelated "see your new site live before you pay" campaign; `jajo.png`,
+`cartesian_logo_concept.png`, `cartesian_logo_ok.png` are drafts/duplicates. The
+canonical set actually used:
+
+| Asset | Repo source | How it was imported |
+| --- | --- | --- |
+| `Book/Illustration/LogoSet/CartesianIcon` (`139:239`) | `cartesian_logo/favicon.svg` | Uploaded via the Figma asset-upload API as `image/svg+xml` — Figma imports SVG as an **editable vector node tree** (358 real vector paths reproducing the exact gradient-band icon), not a raster embed. This is the real icon, self-contained with its own rounded-square tile, safe on both dark and light surfaces. |
+| `Book/Illustration/LogoSet/CartesianLockup` (`139:244`, variant set `Format=Horizontal\|Stacked` × `Theme=Dark\|Light`) | `cartesian_logo/logo-full-dark.png`, `logo-full-light.png`, `logo_bar_dark.png`, `logo_bar_light.png` | Uploaded as raster image fills at their native resolution (2508×627 / 1448×1086), corrected from the upload API's default 400×300 `FILL` frame (which cropped/distorted them) to their true aspect ratio with `FIT` scale mode. |
+
+Both fake components (`Book/Illustration/LogoSet/CartesianMark` — the flat 3-ellipse
+approximation — and `Book/Illustration/LogoSet/CartesianWordmark`) were deleted
+outright, **after** verifying zero remaining instances file-wide (`findAllWithCriteria`
+across every page). Two real usages were swapped first: the Cover's corner mark
+(`43:3`) and the About Cartesian School page's brand moment (`48:22`) now both use
+real `CartesianIcon`/`CartesianLockup` instances instead of the fake mark.
+
+### Cover (`43:3`) — integrated hero, not four floating boxes
+
+Rebuilt `HeroNetwork` (`88:2`, the single shared master — verified it has exactly one
+usage file-wide, so this is a safe direct edit, not a one-off Cover hack):
+
+1. **Pulled all 4 panels ~40% closer to the center** (canvas shrunk 520×460 →
+   480×380) and **enlarged the Python badge's ring/circle** proportionally.
+2. **Replaced the 4 long orthogonal connector pipes with short straight beams** —
+   each computed geometrically from the panel's inner corner to the exact point where
+   it crosses the center ring's circle (`center + ring_radius × unit_vector`), so
+   every beam meets the ring tangentially and precisely, with a small route-node dot
+   at the meeting point. This reads as a "hub and spoke" cluster instead of a
+   circuit-board wiring diagram, and is far denser than the original long-pipe layout.
+3. **Added atmosphere**: a `CartesianGrid` instance (rescaled, 35% opacity) and a
+   blurred violet glow ellipse (`LAYER_BLUR`, radius 50) behind the badge, with
+   `clipsContent: true` + `cornerRadius: 18` on the master so the texture reads as a
+   deliberate bounded "stage" rather than a texture with a visible stray edge.
+4. **Enlarged the Cover's hero instance to near-full content width** (297×236 → the
+   full native 480×380, i.e. ~1.6× larger) and **replaced the hand-placed icon +
+   hand-typeset "CartesianSchool" text with a single real `CartesianLockup`
+   (`Format=Horizontal, Theme=Dark`) instance** for pixel-perfect brand fidelity.
+5. **Added a footer anchor** (thin rule + `cartesianschool.org` + a small "CARTESIAN
+   SCHOOL BOOK SERIES" series tag, mirroring the Title page's footer language) so the
+   page no longer trails into unstyled dead space at the bottom.
+
+Because `HeroNetwork` is a shared master, all of these fixes also improve the
+`06 — Illustration Library` documentation copy, not just the Cover.
+
+### End Page (`48:55`) — a true closing spread, not a blank page with a mark
+
+Previously: white background (`color/paper`), a 28px `PythonCore` mark and small text
+floating alone with no supporting composition. Rebuilt from scratch:
+
+1. **Background changed from white to the exact same fill the Cover uses**
+   (`primitive/indigo/900`, `VariableID:3:103` — not the illustration palette's
+   `bg-deep`, which is a different, darker shade; matched to the Cover's literal
+   variable so the two pages are provably identical in tone, not just similar).
+2. **Added the same atmospheric backdrop as the Cover**: a large `CartesianGrid`
+   instance (30% opacity) and a large blurred violet glow (`LAYER_BLUR`, radius 90)
+   centered on the page.
+3. **Centerpiece**: the real `CartesianIcon` vector (enlarged to 110px) plus the
+   verified-accurate "Cartesian" (white) + "School" (brand violet) wordmark set as
+   real text beneath it. A raster `CartesianLockup` was tried here first and reverted
+   — those lockup PNGs are flat opaque RGB rectangles (no alpha channel), so at
+   large centerpiece scale they read as a pasted sticker against the atmospheric
+   background; the transparent vector icon has no such seam and integrates cleanly.
+   (The raster lockups remain the right choice for smaller badge-scale placements —
+   used as-is on the Cover — where a self-contained tile reads as a normal logo
+   badge.)
+4. Added a thin violet rule and the real `cartesianschool.org · github.com/
+   Cartesian-School` URLs beneath — factual, sourced from the same real links already
+   used on the About Cartesian School page, no invented closing copy.
+
+### Build defects found and fixed (eighth round)
+
+1. **Upload API's default 400×300 frame distorted the raster lockups.** The asset
+   upload endpoint places new raster images in a fixed-size frame at `FILL` scale
+   mode when no target node is given — for images far from a 4:3 ratio (2508×627 is
+   ~4:1) this crops/zooms into an unrecognizable sliver. Fixed by resizing each frame
+   to the image's true aspect ratio and switching the fill's `scaleMode` to `FIT`.
+2. **`combineAsVariants` auto-arrange overlap.** After combining the 4 `CartesianLockup`
+   variants, the two `Format=Stacked` children (300px wide) were placed only 150px
+   apart by Figma's auto-grid, overlapping — the same class of issue as round 7's
+   `TechIcon` naming corruption, different symptom (position, not name, since these
+   were correctly named `Format=X, Theme=Y` before combining). Fixed by explicitly
+   repositioning the two Stacked children after combining, as with every other
+   variant set in this file.
+3. **Oversized master dwarfed the library page layout.** The `CartesianIcon`
+   component was left at the SVG's native 1254×1254 after import — large enough to
+   visually overlap the `CartesianLockup` set positioned nearby. Fixed with
+   `node.rescale(140/1254)` (not `resize()`, which would distort the 358 vector
+   paths) and repositioned both groups with a clean gap.
+
+### QA result (eighth round)
+
+| Check | Result |
+| --- | --- |
+| Cover no longer sparse; hero reads as one integrated illustration | ✅ panels pulled ~40% closer, short precise beams, shared glow/grid backdrop |
+| Cover enlarged to use the page's content width | ✅ 297×236 → 480×380 (~1.6×) |
+| Cover branding visible and real | ✅ real `CartesianLockup` instance, no invented mark |
+| Real Python logo still correct and well anchored | ✅ unchanged `PythonCore` vector, now sitting in a denser, better-lit composition |
+| End Page no longer a blank page with a tiny mark | ✅ full atmospheric composition, real icon + wordmark centerpiece |
+| End Page tonally connected to the Cover | ✅ identical background variable (`primitive/indigo/900`), same grid + glow language |
+| Real Cartesian School logo assets used from `cartesian_logo/` | ✅ `favicon.svg` (vector icon), `logo-full-dark/light.png`, `logo_bar_dark/light.png` (lockups) |
+| No fake logo remains | ✅ `CartesianMark`/`CartesianWordmark` deleted after confirming zero instances file-wide |
+| Illustration library materially stronger | ✅ `CartesianIcon` + 4-variant `CartesianLockup` replace 2 fake components; all 13 real `ProjectCard`s from round 7 untouched and verified intact |
+| Live projects section reviewed | ✅ re-confirmed against `cartesianschool.org/index.html#proekty`; the round-7 `ProjectCard` set already covers all 13 real projects, so no rebuild was needed — verified, not assumed |
+| No overflow, clipping, or broken instances | ✅ full-page composite screenshots of the library, Cover, and End Page checked for collisions after every structural change |
+| No layout damage to other canonical frames | ✅ `HeroNetwork` has exactly one other usage (the Cover, fixed intentionally); `CartesianMark` had exactly two usages, both migrated before deletion |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only |
+
+As in every round: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly — verification is via `get_screenshot` and
+`get_metadata`. A live Figma app check remains the standard recommendation, especially
+to confirm the glow/blur effects render as intended at true print resolution.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
