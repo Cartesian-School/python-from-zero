@@ -2,14 +2,36 @@ meta:
   id: CARTESIAN-FIGMA-BOOK-COMPONENTS-001
   status: draft-for-visual-approval
 
+# Front/back matter naming note (see HANDOFF-v1-build-log.md "Front & back matter
+# system" section for full detail, node IDs, and source-content provenance):
+# the pages actually implemented in Figma use the names given in a later,
+# more specific build instruction and differ from a few of this file's
+# original placeholder names below:
+#   Book/Page/FrontCover -> implemented as Book/Page/Cover
+#   Book/Page/HalfTitle  -> not implemented as a separate page from Title
+#                           (no distinct half-title content exists in the book)
+#   Book/Page/Preface    -> implemented as Book/Page/FromAuthor, using the
+#                           book's real "Введение" (Introduction) content —
+#                           a distinct "From the Author" preface does not
+#                           exist separately in the source, so this avoids
+#                           inventing content or duplicating the same text
+#                           under two archetypes
+#   Book/Page/Contents   -> implemented as Book/Page/TOC (+ TOCContinuation,
+#                           since the book's real 24-chapter TOC does not
+#                           fit a single page at approved type sizes)
+# Additional back-matter pages beyond this original list were implemented per
+# the later instruction: Book/Page/AboutCartesianSchool, Book/Page/Colophon,
+# Book/Page/EndPage. Book/Page/ConclusionOrFinalWord, Book/Page/Glossary, and
+# Book/Page/References were evaluated and marked N/A/deferred — no such
+# distinct content exists in the book (see HANDOFF log for the audit).
 pages:
-  - Book/Page/FrontCover
-  - Book/Page/HalfTitle
+  - Book/Page/Cover
   - Book/Page/Title
   - Book/Page/Copyright
   - Book/Page/AboutAuthor
-  - Book/Page/Preface
-  - Book/Page/Contents
+  - Book/Page/FromAuthor
+  - Book/Page/TOC
+  - Book/Page/TOCContinuation
   - Book/Page/ChapterOpener
   - Book/Page/Standard
   - Book/Page/ProseCode
@@ -22,6 +44,9 @@ pages:
   - Book/Page/ProjectOpener
   - Book/Page/ChapterSummary
   - Book/Page/Index
+  - Book/Page/AboutCartesianSchool
+  - Book/Page/Colophon
+  - Book/Page/EndPage
 
 typography:
   - Book/Typography/ChapterTitle
@@ -53,6 +78,10 @@ components:
   - Book/Component/Figure
   - Book/Component/Diagram
   - Book/Component/FigureCaption
+  # Implemented as ONE component set (Book/Component/Callout) with a "Role"
+  # variant property, rather than 6 separate flat components — the more
+  # correct Figma pattern (one component, one set of variants) and
+  # functionally equivalent. All 6 semantic roles below are complete.
   - Book/Component/Callout/Warning
   - Book/Component/Callout/PythonInsight
   - Book/Component/Callout/Info
@@ -62,6 +91,16 @@ components:
   - Book/Component/PracticeLinkPrint
   - Book/Component/ProjectHeader
   - Book/Component/ChapterSummary
+  # Front/back matter components (added for the front/back matter system —
+  # see HANDOFF-v1-build-log.md for node IDs and content provenance)
+  - Book/Component/BookTitle
+  - Book/Component/AuthorCredit
+  - Book/Component/ImprintBlock
+  - Book/Component/TOCEntry
+  - Book/Component/TOCChapterEntry
+  - Book/Component/TOCSectionEntry
+  - Book/Component/IndexEntry
+  - Book/Component/ColophonBlock
 
 constraints:
   locale_specific_component_forks: forbidden

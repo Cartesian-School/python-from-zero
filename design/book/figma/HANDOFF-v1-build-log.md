@@ -1,9 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 vertical-sizing fix complete — ready for Product Owner re-review**
+Status: **v1 front/back matter system complete — ready for Product Owner review**
 
-Two rounds of live Product Owner review have now found and fixed blocking visual
-defects:
+Three rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -12,6 +11,10 @@ defects:
    "Vertical-sizing fix (second post-review round)" below for the full detail: exact
    root cause, sizing properties before/after, affected node IDs, and an RU/PL/EN
    language-robustness stress test.
+3. **Missing scope**: the file only covered internal body-page archetypes, with no
+   front matter (cover, title, copyright, about author, preface, TOC) or back matter
+   (index, colophon, etc.) — see "Front & back matter system" below for the full
+   content audit, every new page/component/node ID, and QA evidence.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -497,6 +500,233 @@ only changes were sizing-mode properties (`counterAxisSizingMode`,
 corrected back), padding (bound to a spacing token, net *larger* than before, not
 cramped), `clipsContent` (relaxed, not tightened), and Y-position recalculation. No
 text was clipped, hidden, or truncated to make anything fit.
+
+## Front & back matter system
+
+Product Owner live review identified that the file only covered internal body-page
+archetypes (Typography, Standard, ChapterOpener, CodeHeavy, Table, DiagramCallout) with
+no front matter or back matter — required before v1 can be considered visually
+complete for a physical book. This section documents the content audit performed
+first (per the explicit instruction not to invent editorial content), everything
+built, every node ID, and the QA/stress-test evidence.
+
+### Content audit (performed before any Figma work)
+
+A full repository audit (read-only, no files modified) was run first to determine
+what front/back matter content actually exists, so nothing in the new frames is
+invented. Full findings:
+
+| Item | Status | Source |
+| --- | --- | --- |
+| Book title (RU "Python с нуля", PL "Python od zera") | **EXISTS** | `scripts/book_pipeline/locale_ru.py:27`, `locale_pl.py:32` |
+| Subtitle ("программирование, графика, приложения и игры") | **EXISTS** | `locale_ru.py:28` |
+| Author (Siergej Sobolewski / Сергей Соболевски) + role | **EXISTS** (one internal inconsistency flagged — see below) | `locale_ru.py:30`, `author_profile.py:13-15`, `README.md:120-122` |
+| Cover design source | **EXISTS** | `design/adobe/cover_concept_v1.html` (+ PL variant), merged into the final PDF by `pdf_adapter.py:156-175` |
+| Title page (distinct from cover) | **EXISTS** | `scripts/book_pipeline/pdf_adapter.py:45-54`, `build_title_page()` |
+| Copyright / imprint / license | **EXISTS** (no ISBN — none found anywhere) | `pdf_adapter.py:57-73`, `LICENSE.md`, `LICENSE-CONTENT.md`, `LICENSE-CODE.md`, `scripts/build_license_page.py` |
+| About the Author | **EXISTS**, print text is a subset of the web page | `scripts/build_front_matter.py:34-151` — richer bio material is marked `.web-presentation` and stripped by `extract_article()` (`scripts/book_shared.py:176-186`) before print/EPUB packaging; only the lede + 2 "core" paragraphs survive into print |
+| "From the Author" / Preface, distinct from Introduction | **NOT FOUND** | — |
+| Introduction ("Введение") | **EXISTS** | `scripts/build_front_matter.py:191-247`, `build_vvedenie()` |
+| Acknowledgements | **NOT FOUND** | — |
+| Table of Contents structure | **EXISTS**, fully data-driven | `pdf_adapter.py:76-101`, `scripts/chapter_metadata.py` (real titles for all 24 chapters), `locale_ru.py:69-73` (front-matter entry list) |
+| Glossary | **NOT FOUND / not planned** | Confirmed absent from `BOOK-DESIGN-SYSTEM-v1.md` §5 and `archetypes/README.md`'s own archetype lists |
+| Index | **EXISTS**, real curated terms | `scripts/build_index.py:22-96` |
+| Conclusion / epilogue (distinct back-matter section) | **NOT FOUND** — chapter 24 is a regular numbered chapter, not back matter | `scripts/build_chapter_24.py:810-829` |
+| Bibliography / References (formal citation list) | **NOT FOUND** | — |
+| "About Cartesian School" (dedicated page) | Fragmented — real mission sentence exists, no dedicated page | `build_front_matter.py:120-127` (reused verbatim) |
+| Colophon (dedicated page) | Not found as authored text; real facts exist to assemble one | Pipeline name, layout version tag, WeasyPrint, edition identifiers, font licenses — see Colophon section below |
+| Website / GitHub URLs | **EXISTS** | `README.md:24,126,127` |
+
+**Author-role discrepancy flagged, not resolved**: `author_profile.py` (web bio) says
+"Founder & CEO · Senior Systems & AI Engineer"; the book pipeline's cover/title/
+copyright config (`locale_ru.py:30`) says "Software & AI Engineer, основатель
+Cartesian School" — the Figma frames use the **book-pipeline wording**, since that's
+literally what appears on the real cover/title/copyright today. Product Owner should
+resolve which is canonical.
+
+### New Figma pages
+
+| Page | Node ID |
+| --- | --- |
+| `03 — Front Matter` | `36:2` |
+| `04 — Back Matter` | `36:3` |
+
+### Front-matter frames
+
+| Frame | Node ID | Content used |
+| --- | --- | --- |
+| `Book/Page/Cover` | `43:3` | Real title/subtitle/author/kicker; dark indigo ground, reversed `BookTitle` (Scale=Cover), restrained violet accent rule — no gradients, no web-hero styling |
+| `Book/Page/Title` | `45:6` | Same real facts, quiet `BookTitle` (Scale=TitlePage) + publisher line |
+| `Book/Page/Copyright` | `45:124` | Real edition/license/rights text via `ImprintBlock` (`40:121`); **ISBN explicitly stated as not yet assigned** — never invented |
+| `Book/Page/AboutAuthor` | `45:135` | The 2 real print-surviving "core" paragraphs only — the richer `.web-presentation` bio material was deliberately excluded, since it is stripped before print in the real pipeline |
+| `Book/Page/FromAuthor` | `45:140` | Real "Введение" heading + real opening paragraph, verbatim from `build_vvedenie()`; an on-page note explains the FromAuthor→Введение mapping (no distinct preface exists) |
+| `Book/Page/TOC` | `47:14` | Real front-matter entries (Об авторе/О техническом рецензенте/Введение) + real chapters 1–14 (exact titles from `chapter_metadata.py`) |
+| `Book/Page/TOCContinuation` | `47:98` | Real chapters 15–24 + index entry — created because the real 24-chapter TOC does not fit one page at approved type sizes (measured: single-page attempt overflowed by 44px; two-page split fits with 256px/449px of margin respectively) |
+
+Chapter **page numbers in the TOC are illustrative** (not real pagination output —
+no such output exists yet); chapter **titles and order are real**.
+
+### Back-matter frames
+
+| Frame | Node ID | Content used |
+| --- | --- | --- |
+| `Book/Page/Index` | `48:2` | Real terms from `scripts/build_index.py` (representative selection, explicitly labeled as such — not exhaustive), two-column layout |
+| `Book/Page/AboutCartesianSchool` | `48:22` | Real mission sentence reused verbatim from the About-the-Author print text (not new marketing prose) + real website/GitHub URLs |
+| `Book/Page/Colophon` | `48:28` | Only verified facts: edition identifier (`cartesian-school-python-s-nulya-2026`), layout version tag (`cartesian-school-book-layout-v1`), WeasyPrint, license names, third-party font license locations. **Font list explicitly marked "предварительно" (provisional)** — the design doc's own font choice is not yet finalized, and the colophon says so rather than stating it as settled fact |
+| `Book/Page/EndPage` | `48:55` | Minimal: Cartesian School mark + real website URL only |
+
+### Deferred / N/A back-matter archetypes (per the audit — not silently dropped)
+
+| Archetype | Status | Why |
+| --- | --- | --- |
+| `Book/Page/ConclusionOrFinalWord` | **N/A** | No distinct conclusion/epilogue exists — chapter 24 is a regular numbered chapter, not back matter; building this page would misrepresent chapter content as back matter |
+| `Book/Page/Glossary` | **N/A** | Not found, not planned — absent from the design docs' own archetype lists |
+| `Book/Page/References` | **N/A** | No bibliography/citation list exists anywhere in the book |
+| `Book/Page/Introduction` (as a separate frame from FromAuthor) | **Not built, deliberately** | Would duplicate the exact same "Введение" content already shown in `FromAuthor` — the instruction was explicit not to duplicate content merely to create another page |
+
+One related discovery, not in scope but worth recording: "О техническом рецензенте"
+(About the Technical Reviewer) is a real front-matter page whose reviewer-name slot is
+intentionally left as a TBD callout in the actual book source
+(`build_front_matter.py:159-166`) pending Product Owner assignment. Not built as a
+Figma frame (not requested), but the TOC's front-matter entry list includes it as a
+real page title.
+
+### New components
+
+| Component | Node ID | Notes |
+| --- | --- | --- |
+| `Book/Component/BookTitle` | `40:117` (set) | Variants: `Scale=Cover` (`40:111`, large, reversed-out), `Scale=TitlePage` (`40:114`, quiet). Both wrap-capable (`textAutoResize: HEIGHT` + `FILL` width) — see stress test below |
+| `Book/Component/AuthorCredit` | `40:118` | Name + role, reused on cover/title/copyright |
+| `Book/Component/ImprintBlock` | `40:121` | Compact 8pt legal text stack for the copyright page |
+| `Book/Component/TOCEntry` | `42:111` | Generic single-level row: title + dotted leader + page number |
+| `Book/Component/TOCChapterEntry` | `42:115` | Chapter-level: numbered prefix (accent color) + bold title + leader + page number |
+| `Book/Component/TOCSectionEntry` | `42:120` | Section-level: indented, quieter, smaller than chapter row |
+| `Book/Component/IndexEntry` | `42:124` | Term + inline page refs (traditional index convention, no leader) + indented sub-term line |
+| `Book/Component/ColophonBlock` | `42:128` | Label/value row for production metadata |
+| `Book/Component/TableContinuation` | `39:111` | Previously deferred — completed. Repeats the header row for a table split across a page break |
+| `Book/Component/Figure` | `39:122` | Previously deferred — completed. Generic illustration/screenshot placeholder (diagonal-hatch pattern + label), distinct from `Diagram` (which is specifically for node+connector technical diagrams) |
+
+All dotted TOC/index leaders are built from a `FILL`-width text node repeating `.`
+160 times — a standard Figma trick that always overflows its own bounds and gets
+naturally clipped by the row's layout, so the leader always reaches exactly to the
+page-number column regardless of title length.
+
+### Semantic callout set — now complete (6 of 6 roles)
+
+The two previously-deferred variants were added this round: **AntiPattern** (❌,
+`color/danger` + `color/danger-surface`) and **Milestone** (🎉, two **new** semantic
+color variables — `color/milestone` and `color/milestone-surface`, `VariableID:37:111`
+/ `VariableID:37:112`, aliasing `violet/600` / `violet/100` — no existing role fit a
+celebratory/completion tone, so this is a deliberate, minimal, documented addition,
+not scope creep).
+
+**Component-set node ID changed**: `Book/Component/Callout`'s set ID changed from
+`10:24` to **`37:123`** during this round (see "Build defects found and fixed" below
+for why). The four original variant *component* IDs are unchanged (`10:4`, `10:9`,
+`10:14`, `10:19`) — only the wrapping set node was recreated. Anything that referenced
+the set by ID (not by name) needs updating to `37:123`.
+
+### Build defects found and fixed this round
+
+1. **Corrupted the Callout set while extending it.** Appending the two new variant
+   components to the existing set (`10:24`) and then calling
+   `figma.combineAsVariants()` again on its full child list was wrong — `combineAsVariants`
+   creates a **new** `COMPONENT_SET` node from scratch, and because the individual
+   variants' names had lost their clean `Role=Value` format by that point, the result
+   was a garbled set (name `"Book"`, children named things like `"=Component,
+   =Callout, =Warning"`). Fixed without rebuilding: renamed the set and all 6
+   children back to their canonical `Role=<Value>` / `Book/Component/Callout` names,
+   which caused Figma to correctly re-derive the `Role` variant property with all 6
+   options. Verified an existing page instance (`18:135`) still resolved to its
+   original main component (`10:4`) throughout — instances were never broken, only
+   the set/variant naming.
+2. **New variants collapsed to ~100-159px width.** `AntiPattern` and `Milestone` were
+   built with their inner "Content" column set to `FILL` width from the start (correct,
+   matching the round-2 fix), but the *outer* component was never given an anchoring
+   width — with the outer at `HUG` and the inner at `FILL`, Figma resolved the
+   circular sizing by collapsing to a near-minimum width, forcing the body text to
+   wrap into ~17 lines (height ballooned to 301px). The original 4 variants avoided
+   this only because they inherited a frozen 480px width from earlier build history.
+   Fixed by explicitly setting `layoutSizingHorizontal: FIXED` + `resize(480, height)`
+   on both new variants, matching the other 4 — heights corrected to 81px/98px.
+3. **`BookTitle` cover variant had an accidental opaque preview-backdrop fill.**
+   While authoring the component library, a dark preview-only background color was
+   set on the `Scale=Cover` master (`40:111`) so its white reversed text stayed
+   legible in isolation — but this fill was never cleared, so every instance carried
+   the same solid rectangle, visible as a mismatched dark box behind the title on the
+   actual Cover page. Caught immediately via the Cover screenshot; fixed by setting
+   `fills = []` on the master, which corrected the live Cover instance automatically.
+
+### Language-robustness stress test (RU/PL/EN) — front/back matter components
+
+Per the instruction to test structural robustness rather than create language-specific
+forks, the *same* components were stress-tested with deliberately long content:
+
+| Component | Test | Result |
+| --- | --- | --- |
+| `BookTitle` (Scale=TitlePage) | Long RU title (~80 chars) + long subtitle | Grows to 193px, wraps cleanly, no clipping |
+| `BookTitle` (Scale=TitlePage) | Long PL title (~85 chars) + long subtitle | Grows to 178px, wraps cleanly, no clipping |
+| `BookTitle` (Scale=TitlePage) | Long EN title (~89 chars) + long subtitle | Grows to 221px, wraps cleanly, no clipping |
+| `TOCChapterEntry` pattern | Deliberately long RU chapter title (~115 chars) | Row grows from 22px to 44px (2 lines), dotted leader and page number remain aligned, no clipping |
+| `IndexEntry` | Deliberately long RU term (~120 chars) + long sub-term | Grows from 24px to 56px, term wraps to 2 lines, sub-term wraps and stays indented, no clipping |
+
+**Result: PASS** for all five. No language-specific component variant was created.
+
+### Full book-sequence overview
+
+A design-system QA reference frame ("Book Sequence Overview") was created showing the
+conceptual front-to-back flow: Cover → Title → Copyright → About Author → From
+Author/Introduction → TOC → [Chapter Opener → Theory → Code/Table/Diagram, repeating
+per chapter] → Index → About Cartesian School → Colophon → End Page. Node ID: `51:14`,
+on page `03 — Front Matter`. This is explicitly a QA/documentation aid, not part of
+the canonical publishing pipeline.
+
+### Recto/verso rules (documented as publication rules, not language rules)
+
+Tagged directly on each frame (small `RECTO`/`VERSO` label, top-right corner) and
+recorded here as the canonical rule set — applies identically to every language
+edition:
+
+| Page | Side | Rule |
+| --- | --- | --- |
+| Cover | Recto | Unpaginated; always the first leaf |
+| Title | Recto | Standard convention — the title page opens a recto |
+| Copyright | Verso | Conventionally the back of the title page |
+| About Author | Recto | Falls naturally recto following a verso copyright page |
+| From Author / Introduction | Recto | Major front-matter sections open recto |
+| TOC | Recto (continuation: Verso) | TOC opens recto; continuation page falls verso |
+| Chapter openers | Recto (existing rule, unchanged) | A blank verso is inserted by the print adapter if needed to force this — this is a **pagination/publication rule**, never a per-language decision |
+| Index | Recto | Back matter's first section conventionally opens recto |
+| About Cartesian School / Colophon | No strict requirement | Order-dependent on final back-matter page count |
+| End Page | Verso (final leaf) | Typically falls verso as the book's last leaf |
+
+No blank pages were added in Figma merely for aesthetics — where a rule would require
+one (e.g. forcing a chapter to recto), that's noted as a pagination-adapter
+responsibility, not something modeled as a static blank frame here.
+
+### QA result (front/back matter round)
+
+| Check | Result |
+| --- | --- |
+| No text overflow across any of the 11 new frames | ✅ verified via `get_metadata` content-bottom vs. safe-area-bottom math on every frame, plus visual screenshots |
+| No clipping | ✅ |
+| No accidental white fills | ✅ (carried forward from the round-2 fix; every new auto-layout wrapper this round had `fills` explicitly set — either transparent or an intentional token-bound color) |
+| All text-containing components HUG vertically | ✅ — built using the same `counterAxisSizingMode: AUTO` / `layoutSizingVertical: HUG` recipe established in round 2 |
+| No fixed-height text containers unless justified | ✅ — the only fixed dimensions are intentional (page trim 660×940, `Figure` placeholder's representative 300px height, fixed-width leader/page-number columns) |
+| No unsafe-area breach | ✅ — every frame's content-bottom measured against the 860px safe-area boundary before moving on |
+| Long RU/PL/EN titles wrap correctly | ✅ — see stress test table above |
+| TOC entries handle long titles | ✅ — see stress test table above |
+| Page numbers align | ✅ — right-aligned fixed-width column in every TOC/index row |
+| Index entries handle long terms | ✅ — see stress test table above |
+| Copyright/legal text remains readable | ✅ — 8pt floor, never below the approved print-readability minimum |
+| Visual hierarchy consistent, same Cartesian School family | ✅ — same 3 fonts, same indigo/violet identity, same spacing tokens throughout front/back matter as the body archetypes |
+| Front matter and body pages feel like one publication | ✅ (subjective — recommend Product Owner confirm visually) |
+| Back matter feels intentional, not an afterthought | ✅ (subjective — recommend Product Owner confirm visually) |
+
+As in prior rounds: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly — recommend a live 100% zoom pass before
+final sign-off, particularly for the Cover (color/contrast in a real viewing
+environment) and the two-column Index layout.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 

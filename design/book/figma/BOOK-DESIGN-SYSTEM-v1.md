@@ -214,3 +214,17 @@ Binding architecture remains:
 - language = input/configuration only
 - publication format = output behavior only
 - no language-specific layout forks
+
+## 11. Front & back matter (implemented)
+
+The 6 internal body-page archetypes above are complemented by a full front-matter
+(Cover, Title, Copyright, About Author, From Author, TOC + continuation) and
+back-matter (Index, About Cartesian School, Colophon, End Page) system, built after a
+repository content audit so no editorial content was invented — real book title,
+author identity, license terms, Introduction text, and all 24 real chapter titles are
+used throughout. Conclusion, Glossary, and References archetypes were evaluated and
+marked N/A: no such distinct content exists in the book yet.
+
+Full node IDs, the content-audit findings, recto/verso publication rules, and QA
+evidence are in `design/book/figma/HANDOFF-v1-build-log.md` — this document is not
+duplicated here to avoid drift between the two.
