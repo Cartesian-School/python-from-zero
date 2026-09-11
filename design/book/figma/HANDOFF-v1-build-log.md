@@ -2,7 +2,7 @@
 
 Status: **v1 art-direction pass complete — ready for Product Owner review**
 
-Nine rounds of live Product Owner review/direction have shaped this file so far:
+Ten rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -72,6 +72,15 @@ Nine rounds of live Product Owner review/direction have shaped this file so far:
    "Editorial / Photographic Assets" tier in the illustration library. See "Final
    art direction, brand correction, QA-flow rebuild, authorial closing page (ninth
    round)" below.
+10. **Publication identifier block — ISSN/barcode panel and QR code**: added a
+    white publication-identifier utility panel to the End Page's lower zone
+    (placeholder `ISSN 0000-0000` plus a placeholder Code128 barcode reading
+    `0000000000000`) and a real, verified-scannable QR code encoding
+    `https://www.cartesianschool.org` beside the Cartesian School brand block. Also
+    fixed a real layout regression found while making room for these: the End
+    Page's logo lockup had drifted away from its own heading/URL group during a
+    prior edit. See "Publication identifier block — ISSN/barcode panel and QR code
+    (tenth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1702,6 +1711,108 @@ cannot drive the live Figma app directly — verification is via `get_screenshot
 `get_metadata`, and (this round, for the connector geometry) direct numerical
 reconstruction of line endpoints from raw node properties. A live Figma app check
 remains the standard recommendation before final Product Owner sign-off.
+
+## Publication identifier block — ISSN/barcode panel and QR code (tenth round)
+
+### Pre-existing regression found and fixed first
+
+Before adding anything new, re-read the End Page's raw coordinates (per this
+engagement's standing rule: verify current state before editing) and found the
+`CartesianLockup` instance had drifted to `y=830`, isolated in the bottom glow, while
+its own "Cartesian School" heading (`y=596`) and the URL line (`y=637`) remained
+correctly grouped together — a real, live layout defect from an earlier edit, not
+something introduced this round but not previously caught either. Fixed by moving
+the lockup back to `y=624`, directly under its heading, and removed a now-redundant
+decorative rule between the heading and the URL line (the heading's own dash accent
+already provides that separation, matching the "О книге"/"Об авторе" sections above
+it).
+
+### Real QR code (`Book/Editorial/QRCode/CartesianSchool`, `160:110`)
+
+Generated with the `qrcode` Python library (installed into the repo's existing
+`.venv` — no new project dependency, a build-time tool only) at error-correction
+level M, encoding the literal string `https://www.cartesianschool.org`. **Verified
+scannable before import**: decoded the generated PNG with `pyzbar` and confirmed the
+decoded payload is byte-for-byte `https://www.cartesianschool.org` — this is a real,
+functional QR code, not a decorative pseudo-QR pattern. Uploaded via the Figma
+asset-upload API and set as the component's fill using the returned `imageHash`
+directly (the reliable pattern established last round, after the "moved children
+into an empty component" bug) rather than trying to relocate auto-generated child
+nodes.
+
+Placed as an instance (`160:112`) on the End Page beside the Cartesian School
+lockup and URL line — same visual band, right-aligned to the content margin
+(`x=528`, `72×72px`, margin to the page's right content edge exactly `0`, i.e. flush
+with the same margin the lockup's left edge uses) — with a small "Visit Cartesian
+School" caption beneath it. Quiet zone: the source PNG already includes a 2-module
+border baked in from generation; no additional cropping was applied.
+
+### Placeholder ISSN barcode (`Book/Editorial/Barcode/PlaceholderISSN`, `160:111`)
+
+Generated with the `python-barcode` library, Code128 symbology, encoding the literal
+digit string `0000000000000` (13 characters — Code128 has no mandatory check digit
+appended to the human-readable caption, so the visible text is exactly what was
+requested, not a computed variant). Rendered at print-appropriate settings (300 DPI,
+explicit module width/height, quiet zone, 9pt caption) so it reads as a credible,
+professionally-typeset placeholder rather than a rough sketch. Uploaded the same way
+as the QR code (`imageHash` set directly on the component fill).
+
+### White publication identifier panel (`160:114`)
+
+A single white rounded-rectangle panel (`460×120px`, `cornerRadius: 6`, subtle drop
+shadow for a "printed sticker" feel) placed in the End Page's lower content zone,
+directly below the Cartesian School/QR row — the End Page option from the brief's
+two suggested placements, chosen because the Colophon page is a dense, all-text
+back-matter page where a barcode panel would compete with existing tabular content,
+while the End Page's lower zone was still open space the atmosphere alone wasn't
+using. Contains, left to right:
+
+- **ISSN label + value** (`160:115`, `160:116`): "ISSN" in small tracked-out gray
+  caps above **`0000-0000`** in bold black — the editorial rendering the brief asked
+  for (a hyphenated 8-digit display value; if a future internal registration ever
+  needs the digits-only form, it is the same characters with the hyphen removed:
+  `00000000`).
+- **The placeholder barcode instance** (`160:117`), right-aligned inside the panel
+  with a `16px` margin to both the panel's right and bottom edges, and a `24px` gap
+  from the ISSN value — verified numerically (not just visually) after placement:
+  `panel.right − barcode.right = 16`, `panel.bottom − barcode.bottom = 16`,
+  `barcode.left − issnValue.right = 24`. No element touches the panel's edge.
+
+### Compositional integration
+
+The panel and QR code were not simply dropped onto the existing page — the section
+they extend was already mid-redesign this round (fixing the drifted lockup), so the
+whole lower third was rebuilt together: lockup → URL (left column) and QR code +
+caption (right column) share one row, then the white panel spans below both,
+filling what was previously bare atmosphere-only space down to a clean `60px`
+bottom margin (was closer to `370px` of unbroken dark space before this round's
+`lockup + panel` additions). The white panel's high contrast against the
+`primitive/indigo/900` background was treated as a deliberate accent — the one
+bright, "physical object" moment on an otherwise atmospheric page — rather than
+softened or blended in, per the brief's explicit direction.
+
+### QA result (tenth round)
+
+| Check | Result |
+| --- | --- |
+| White ISSN/barcode panel added, editorially integrated | ✅ `160:114`, End Page lower zone, print-credible sizing |
+| Visible ISSN placeholder matches spec | ✅ "ISSN 0000-0000" (hyphenated editorial form) |
+| Visible barcode digits match spec | ✅ "0000000000000" (13 zeros, baked into the barcode image) |
+| Barcode looks like a real, credible print barcode | ✅ Code128, 300 DPI, proper quiet zone and caption typesetting |
+| Real QR code added and verified scannable | ✅ `160:110`/`160:112`, decoded with `pyzbar` before import — not a decorative pattern |
+| QR code points to the correct URL | ✅ confirmed decoded payload `https://www.cartesianschool.org` (exact string) |
+| QR/barcode elements reduce, not add to, empty space | ✅ ~370px of previously bare space now holds the lockup fix + QR row + panel |
+| Editorial hierarchy preserved | ✅ О книге / Об авторе sections untouched; new elements confined to the Cartesian School closing band |
+| Utility elements don't overpower the closing message | ✅ panel and QR sit below/beside the brand block, not above or competing with the author/book content |
+| No overflow, clipping, or off-canvas nodes | ✅ verified panel/barcode/QR bounds numerically and via full-page screenshot |
+| Placeholder utility, not wired into the publishing pipeline | ✅ both images are static Figma component fills (`imageHash` references) with no code, script, or build-step dependency anywhere in the repo |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only |
+
+As in every round: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly — verification is via `get_screenshot`,
+`get_metadata`, direct numerical bounds-checking, and (for the QR code specifically)
+an independent `pyzbar` decode of the generated image before it was ever uploaded to
+Figma.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
