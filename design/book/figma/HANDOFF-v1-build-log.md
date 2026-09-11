@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 front/back matter system complete — ready for Product Owner review**
+Status: **v1 visual cleanup complete — ready for Product Owner review**
 
-Three rounds of live Product Owner review/direction have shaped this file so far:
+Four rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -15,6 +15,11 @@ Three rounds of live Product Owner review/direction have shaped this file so far
    front matter (cover, title, copyright, about author, preface, TOC) or back matter
    (index, colophon, etc.) — see "Front & back matter system" below for the full
    content audit, every new page/component/node ID, and QA evidence.
+4. **Final visual cleanup**: stress-test content was left overlapping canonical page
+   frames, the component library was disorganized, and the Cover/Title/Copyright
+   pages read as sparse/prototype-like — see "Visual cleanup (fourth post-review
+   round)" below for the new QA page, the reorganized component library, and the
+   three front-matter redesigns.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -727,6 +732,139 @@ As in prior rounds: this environment runs headlessly against the Figma Plugin AP
 cannot drive the live Figma app directly — recommend a live 100% zoom pass before
 final sign-off, particularly for the Cover (color/contrast in a real viewing
 environment) and the two-column Index layout.
+
+## Visual cleanup (fourth post-review round)
+
+A live Product Owner review of the completed front/back matter system asked for a
+final visual cleanup pass: stress-test content was overlapping canonical frames, the
+component library was scattered, page labels were inconsistent, and Cover/Title/
+Copyright read as sparse or prototype-like. This section documents every change.
+
+### 1. New page: `05 — QA & Stress Tests` (`55:2`)
+
+All stress-test content was moved off the canonical pages onto this new dedicated
+page — it had been sitting at absolute canvas coordinates that visually overlapped
+the `Standard`/`ChapterOpener`/`CodeHeavy` archetype frames' own coordinate space on
+page `02` (confirmed by comparing bounding boxes before moving anything: the stress
+content spanned y=1450–1683, directly inside the frames' y=1087–2027 span).
+
+**Nodes moved** (from page `02 — Page Archetypes` to page `05 — QA & Stress Tests`,
+then re-laid-out into a clean vertical arrangement with section headers):
+
+| Node | Content |
+| --- | --- |
+| `33:111`, `33:116`, `33:121` | PL/EN Callout language-robustness stress test + its label |
+| `49:111` | "FRONT/BACK MATTER STRESS TEST" section label |
+| `49:112`, `49:115` | RU long-title `BookTitle` stress instance + tag |
+| `49:116`, `49:119` | PL long-title `BookTitle` stress instance + tag |
+| `49:120`, `49:123` | EN long-title `BookTitle` stress instance + tag |
+| `49:124` | TOC long-line stress row |
+| `49:130` | Long multi-line `IndexEntry` stress instance |
+
+Canonical pages (`01`, `02`, `03`, `04`) now contain only production components,
+canonical archetypes, and clean design-system examples — no QA/test artifacts.
+
+### 2. Page `02 — Page Archetypes` reorganized
+
+**Component library** (top of the page, y=0–2626) reorganized from a loosely scattered
+layout into 8 clearly labeled, divided groups, in dependency-ish order:
+
+1. Navigation / running elements — `RunningHead` (`9:2`), `PageNumber` (`9:5`)
+2. Typography / headings — `ChapterHeader` (`13:2`), `SectionHeader` (`21:103`)
+3. Code — `CodeBlock` (`11:2`), `ListingCaption` (`11:4`)
+4. Tables — `Table` (`11:6`), `TableContinuation` (`39:111`)
+5. Figures / diagrams — `Figure` (`39:122`), `FigureCaption` (`12:2`), `Diagram` (`12:4`)
+6. Callouts — the 6-variant `Callout` set (`37:123`)
+7. Front matter — `BookTitle` set (`40:117`), `AuthorCredit` (`40:118`), `ImprintBlock`
+   (`40:121`), `TOCEntry` (`42:111`), `TOCChapterEntry` (`42:115`), `TOCSectionEntry`
+   (`42:120`)
+8. Back matter — `IndexEntry` (`42:124`), `ColophonBlock` (`42:128`)
+
+Each group has a bold indigo label + a divider rule; the old ungrouped "SHARED
+COMPONENTS" label (`20:103`) was removed as superseded.
+
+A page-level dark backdrop rectangle (`57:103`) was added **behind** (not inside) the
+`BookTitle` "Scale=Cover" library preview — its master correctly has a transparent
+fill for production use (white reversed text needs a dark page behind it, which every
+real Cover instance already provides), but that made the *library preview itself*
+show invisible white-on-white text. The backdrop is a page-level decoration for
+browsability only; it does not touch the component.
+
+**Page archetypes** (bottom of the page, y=2760+) repositioned into a clean 3-column
+×2-row grid with consistent 40px gaps: `Standard` (`14:2`), `ChapterOpener` (`15:9`),
+`CodeHeavy` (`16:13`) in row 1; `Table` (`17:22`), `DiagramCallout` (`18:115`) in row
+2. A section title separates this zone from the component library above, with a
+generous 134px vertical gap between the two zones.
+
+### 3. Standardized page labels
+
+Every archetype frame across pages `02`, `03`, and `04` (16 frames total) now carries
+one consistent label: `Book/Page/<Name>`, Inter Semi Bold 10pt, 2% letter-spacing,
+`color/text-secondary`, positioned at the frame's top-left corner minus 20px vertical
+offset (i.e. just above the frame, outside its printable bounds — these are
+design-system canvas metadata, never part of the printed page). This is distinct
+from, and positioned differently than, the existing `RECTO`/`VERSO` tags (which stay
+inside the frame's top-right corner, serving a different documented purpose).
+
+### 4. Front-matter visual polish
+
+**`Book/Page/Cover` (`43:3`)** — was structurally correct but visually sparse. Added a
+contained "Cartesian plot" motif: a bordered 280×280px box with a faint 6×6 grid,
+bold center axes, and three small plotted points suggesting a simple parabola — a
+restrained, literal nod to "Cartesian" coordinates (not a random illustration, not a
+gradient, not a shadow). This required two attempts: the first version used
+unbounded full-width grid lines with no visual containment, which read as unfinished
+rather than systematic — replaced with the bounded, bordered box described above.
+Kicker/title were moved up against the box's bottom edge to create a single strong
+focal cluster; the author credit was moved from y=820 to y=760 to reduce (not
+eliminate — some bottom breathing room is appropriate for a cover) the dead space
+below.
+
+**`Book/Page/Title` (`45:6`)** — was large empty space (0–340px) with content
+centered in the remaining area, reading as "centered content in an empty page" per
+the review's own description. Rebuilt around a deliberate typeset block: a thin
+indigo rule opens the block at y=260, kicker/title/author stack immediately below it,
+a full-width subtle rule closes the block, and the publisher line sits below that —
+the classic bracketed title-page convention, not simply vertical centering.
+
+**`Book/Page/Copyright` (`45:124`)** — content started at y=560 with nothing above it,
+reading as "detached" per the review. Rebuilt with a clear anchor at the top: a short
+indigo rule + a new heading ("Издание и авторские права" / "Publication & Copyright")
+at y≈140, with the existing title/author/imprint/ISBN/GitHub lines moved up
+immediately beneath it in one continuous block ending at y=395. The lower half of the
+page is now intentional whitespace following a clearly anchored block, not a
+detached fragment.
+
+### 5. Back-matter check (no changes needed)
+
+Reviewed `Colophon` (`48:28`) and `Index` (`48:2`) at full resolution: the Colophon's
+8pt label/value rows were already column-aligned (fixed 150px label column,
+consistently), with 10px row spacing that reads as comfortable rather than cramped —
+no change made. The Index's two-column layout already balances its 248px/248px
+columns around a 24px gutter — no change made. Both were re-screenshotted this round
+as part of the final QA pass below.
+
+### Final visual QA (this round)
+
+| Check | Result |
+| --- | --- |
+| Stress-test content fully separated from canonical pages | ✅ moved to `05 — QA & Stress Tests`, verified via before/after `get_metadata` bounding-box comparison |
+| Page `02` archetype frames aligned to a clear grid, consistent spacing | ✅ 3×2 grid, 40px gaps, verified via screenshot |
+| Component library separated into a dedicated, non-interfering zone | ✅ 8 labeled groups, 134px gap before the archetype-frame zone |
+| Consistent archetype labels (font/size/color/position) | ✅ all 16 frames across pages `02`/`03`/`04` use the identical label recipe |
+| Cover strengthened without becoming a marketing page | ✅ contained geometric motif, no gradients/shadows, no illustration |
+| Title page reads as intentionally typeset | ✅ bracketed rule structure replacing plain centering |
+| Copyright page has a clear anchor, not detached content | ✅ heading + rule anchor at top, content block immediately below |
+| Colophon smallest text readable, columns aligned | ✅ verified at full resolution, no change needed |
+| Index gutter balanced | ✅ verified at full resolution, no change needed |
+| No overflow / clipping / accidental fills introduced by this round's changes | ✅ every edited frame re-screenshotted after its change |
+| Cartesian School identity consistent across all pages | ✅ same 3 fonts, same indigo/violet/motif language used in the Cover's new geometric accent, Title's rule, and Copyright's anchor rule |
+
+As in every prior round: this environment runs headlessly against the Figma Plugin
+API and cannot drive the live Figma app directly — a live 100% zoom pass is still the
+recommended final gate, particularly for the Cover's new geometric motif (color
+contrast and hairline rendering can differ slightly between the headless renderer and
+a real browser/app).
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
