@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 final live cleanup complete — ready for Product Owner review**
+Status: **v1 brand-aligned visual refinement complete — ready for Product Owner review**
 
-Five rounds of live Product Owner review/direction have shaped this file so far:
+Six rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -26,6 +26,14 @@ Five rounds of live Product Owner review/direction have shaped this file so far:
    readability concern — uncovered and fixed a **systemic font-sizing bug** affecting
    nearly every ad-hoc text element across the front/back matter system. See "Final
    live visual cleanup (fifth post-review round)" below.
+6. **Brand-aligned visual refinement**: the system was too plain/typographic and
+   didn't yet feel connected to the Cartesian School website. Extracted the site's
+   actual hero visual language (node/connector network, coordinate grid, technical
+   panels) into a new vector-native `Book/Illustration/*` library, redesigned the
+   Cover around it, added a themed accent to the Chapter Opener, fixed a real
+   diagram-connector misalignment and an uncontrolled callout-grid mismatch found
+   during the audit, and rebuilt the QA page's sequence diagram at a legible size.
+   See "Brand-aligned visual refinement (sixth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -1023,6 +1031,180 @@ finding was specifically about text rendering at the *correct physical size* —
 one category of defect most sensitive to actual on-screen/print rendering — a live
 100% zoom pass in the real Figma app is especially recommended before final sign-off
 this time.
+
+## Brand-aligned visual refinement (sixth round)
+
+Product Owner direction: the system was visually correct but "too typographic" and
+not yet connected to the Cartesian School website's identity. Directive was explicit
+— extract/adapt the site's actual SVG-based visual language as reusable vector-native
+Figma components, not screenshots. This section covers the site audit, the new
+illustration library, and every page it touches.
+
+### Site visual-language audit (source of truth, not invented)
+
+Fetched the live homepage (`cartesianschool.org`) HTML + `homepage.css` directly (not
+via a markdown-converting fetch, which strips styling) to extract real CSS values,
+not approximations:
+
+- **Hero structure**: a central "core" node (`.hero-core`, circular, dashed orbit
+  ring) connected by orthogonal lines (`.hero-connector-lines`, right-angle paths
+  with small circle "route nodes" at bends) to four technical panels: **Code**
+  (a real Python snippet), **Graph** (`.hero-plot` — axis + bezier curve + tangent
+  vector + two marked points, literally a small Cartesian plot), **App** (bar chart +
+  control strip), **Game** (orthogonal trajectory + target rings + sprite + dashed
+  collision box).
+- **Background texture**: `.hero-system__grid` — a fine repeating grid
+  (`rgba(143,183,254,.065)`, 36px spacing) radially masked to fade at the edges.
+- **Real hex palette** (grep'd directly from the CSS, not eyeballed from a screenshot):
+  deep backgrounds `#08011C` / `#0B0724` / `#15104A`; brand blue `#2767EC` / `#3866EF`
+  / `#185DFA` / `#8FB7FE`; violet `#5B24F9` / `#8355FA` / `#C9A6FF`; a status-green
+  `#1FAE63`.
+
+This is the same restrained indigo/violet family already used for the interior print
+palette, but noticeably more saturated and dark-background-oriented — confirming the
+Product Owner's instinct that the interior palette alone reads as too muted/typographic
+next to the site's actual brand presence.
+
+### New color tokens (site-derived, additive — interior palette untouched)
+
+Added as a **separate layer**, explicitly not replacing the restrained interior print
+palette (which stays exactly as approved for body-page reading comfort):
+
+- 12 new primitives in Color Primitives (`VariableID:82:2`-`82:13`): the real hex
+  values above, each described in its own variable as "extracted from
+  cartesianschool.org homepage hero."
+- 8 new semantic roles in Color Semantic (`VariableID:82:15`-`82:22`):
+  `color/illustration-bg-deep`, `-bg-core`, `-accent-blue`, `-accent-blue-soft`,
+  `-accent-violet`, `-accent-violet-soft`, `-accent-violet-tint`, `-status-live`.
+  Documented in `figma-variables.yaml` under a new `illustration_color_roles` list,
+  separate from the interior `color_roles` list.
+
+### New page: `06 — Illustration Library` (`82:14`)
+
+### New components — `Book/Illustration/*` (8 items)
+
+| Component | Node ID | Adapted from | Notes |
+| --- | --- | --- | --- |
+| `CartesianGrid` | `83:33` | `.hero-system__grid` | 360×240px fine grid + radial-gradient fade overlay simulating the site's edge mask. Background texture only — never behind body text. |
+| `NodeConnector` | `83:62` | `.hero-route-nodes` / `.hero-connector-lines` | Atomic unit: circle node + line + arrowhead. The base pattern the larger network is built from. |
+| `GraphPanel` | `85:2` | `.hero-plot` | Axis + bezier curve + tangent vector + 2 marked points — a genuine mini Cartesian plot, not decoration. |
+| `CodePanel` | `85:10` | `.hero-module--code` | Real JetBrains Mono snippet in a bordered card — selectable text, not a screenshot. |
+| `AppPanel` | `87:15` | `.hero-module--app` | Bar chart + control strip, matching the site's UI-panel motif. |
+| `GamePanel` | `87:24` | `.hero-module--game` | Orthogonal trajectory + target rings + sprite + dashed collision box. |
+| `HeroNetwork` | `88:2` | `.hero-system` (full) | The composed illustration: core node + 4 orthogonal connectors + instances of all 4 panels above. Primary use: Cover. |
+| `ChapterMotif` | `91:139` (set) | — | Variant set (`Theme=Graph/Code/Game/App`), each a compact instance of the matching panel, sized for a chapter-opener corner accent. |
+
+All panels use `clipsContent: true` (a real bug — see "Build defects" below) and the
+new illustration color tokens exclusively; none use raster images.
+
+### Cover redesign (`43:3`)
+
+Removed the previous round's simple bordered plot-box motif (nodes `59:132`-`59:147`)
+and replaced it with a `HeroNetwork` instance (scaled to 86%, `89:2`) as the primary
+focal illustration — the core node reads "Py / 3.14" (an abstract mark, not a copy of
+Python's trademarked logo). Kicker/title/author were repositioned to flow beneath it
+with generous spacing. The cover now visually announces "Cartesian School" the moment
+it's seen, rather than relying on typography alone.
+
+### Chapter Opener enhancement (`15:9`)
+
+Added a `ChapterMotif` instance (`92:103`, Theme=Code — matches this reference
+chapter's algorithmic subject matter) at 72% scale in the top-right corner, plus a
+thin horizontal rule extending from the left margin to meet it — a restrained
+"engineering composition" touch. The chapter label/title/deck remain the clear
+primary focus; the motif is a supporting accent, not a competing element. In real
+production use, pick the `Theme` variant matching each chapter's actual subject
+(Graph for math/turtle/data chapters, Code for fundamentals/algorithms, App for
+GUI/Tkinter/Flask, Game for Turtle-games/Pygame) — documented on the component itself.
+
+### Diagram connector misalignment — found and fixed (`12:4`)
+
+Re-auditing `Book/Component/Diagram` (used on `DiagramCallout`) per the review's
+explicit request to re-check connector centering found a real, confirmed bug: the
+connector lines and arrowheads were fixed at `y=80`/`y=76`, left over from *before*
+round 5's font-size fix changed the node boxes' height (56px → 34px, new vertical
+center 69px). The connectors were never re-centered when the boxes changed —
+an 11px vertical misalignment, visible on close inspection. Fixed by recomputing
+both connectors' `y` from the actual node centers. This affects every page using this
+component (currently `DiagramCallout`).
+
+### Callout grid alignment — controlled equalization (`18:145`, `18:150`)
+
+Per this round's explicit direction ("paired blocks should align to the top and
+bottom boundaries of the taller item"), reversed the previous round's deliberate
+choice to let paired callouts hug independently. Row 2 of the `DiagramCallout` 2×2
+grid (Verification: 137px, PythonInsight: 154px) now shares a single controlled
+height (154px, the taller card) via `layoutSizingVertical: FIXED` on both — text was
+never shrunk, only the shorter card's box grew to match. Row 1 was already naturally
+equal (137px/137px) and needed no change.
+
+### QA page — Book Sequence Overview rebuilt for legibility (`93:19`, was `51:14`)
+
+The diagram was confirmed too small on inspection: 110×64px boxes, cramped text, and
+no visual connection between the two rows. Deleted and rebuilt: boxes now 150×92px,
+label text 13pt (was smaller, unbound), consistent arrow connectors between every
+step in both rows. A first attempt added a diagonal connector bridging the row wrap
+(TOC → Chapter Opener) — this read as confusing rather than clarifying (an unconventional
+long diagonal crossing the whole diagram) and was removed; a cleanup pass to remove
+it initially deleted the wrong arrowhead (a legitimate one between "From Author" and
+"TOC") by an overly broad position filter — caught immediately via a full arrowhead
+count/position audit and corrected: the real stray diagonal arrowhead was removed and
+the legitimate one restored.
+
+### Build defects found and fixed during the illustration-library build
+
+1. **`resize()` misuse on `LINE` nodes for verticals.** Both the Cover's earlier plot
+   motif and the new `CartesianGrid` component initially tried to create vertical
+   grid lines via `line.resize(0, height)` — Figma's `LINE` node type only has a true
+   "width" (length) dimension; setting height doesn't reorient it. This produced
+   invisible zero-length lines. Fixed by creating horizontal-length lines and setting
+   `rotation = -90` instead — the correct, reliable technique for vertical lines in
+   the Plugin API.
+2. **Vector nodes distorted by a post-hoc `.resize()` call.** `GraphPanel`'s curve/
+   axis/vector paths were built with absolute coordinates already matching their
+   intended position, then a `.resize(160, 100)` call was mistakenly applied
+   afterward — this rescaled the paths from their own tight bounding box (not the
+   intended 160×100 frame), stretching the artwork far outside the panel's visible
+   card. Fixed by removing the resize call entirely — a vector's own path coordinates
+   should be authored directly at their final size, never resized after the fact.
+3. **Missing `clipsContent` on new panel components.** None of the four technical
+   panels had `clipsContent: true` set, so defect #2 above wasn't visually contained
+   by the card border — content overflowed visibly past the rounded rectangle. Fixed
+   on all four panels going forward (`makePanelShell` helper now sets it by default).
+4. **SVG `H`/`V` path shorthand not supported.** Figma's `vectorPaths` parser rejects
+   the SVG shorthand commands `H`/`V` (horizontal-line-to / vertical-line-to) with
+   "Invalid command at H" — every orthogonal path in this round (trajectory, game
+   panel) was written with explicit `L x y` commands instead.
+5. **Illustration Library page layout collisions.** Components built across several
+   separate `use_figma` calls were positioned without checking combined bounds
+   against earlier calls — `GraphPanel`/`AppPanel` overlapped `CartesianGrid`, and
+   `ChapterMotif` overlapped `HeroNetwork`. Caught via a full-page metadata dump
+   before considering the library "done," and fixed with one clean re-layout pass
+   (grid → panels row → full network → motif set, each in its own vertical band).
+
+### QA result (this round)
+
+| Check | Result |
+| --- | --- |
+| Cover visibly stronger, brand-aligned, vector-driven | ✅ `HeroNetwork` instance, no raster |
+| Chapter Opener visibly improved, still readable | ✅ themed accent + rule, title remains primary focus |
+| Illustration library reusable, named systematically, derived from the site | ✅ 8 components, all under `Book/Illustration/*`, each documented with its CSS source class |
+| No screenshot-based lazy solution | ✅ every element built from Figma vector/shape primitives; nothing pasted from a site screenshot |
+| Diagram connectors centered on node boxes | ✅ fixed the 11px misalignment found on `12:4` |
+| Semantic callout grid alignment | ✅ row 2 controlled-equalized, no accidental mismatch |
+| QA page sequence diagram legible | ✅ rebuilt larger, connectors verified complete (9/9 arrows present) |
+| No canonical publishing pipeline changes | ✅ confirmed by diff — design-system files only |
+
+As in every round: this environment runs headlessly against the Figma Plugin API and
+cannot drive the live Figma app directly. One specific note from this round: a
+suspected Cover kicker/title overlap was investigated via three independent methods
+(isolated node screenshots of each element, and precise `get_metadata` coordinates)
+and found to be a **misread of a compressed composite screenshot**, not a real
+defect — both elements are correctly spaced (confirmed a clean gap in the underlying
+data). Extra spacing was added anyway as a safety margin. A live-app check is
+recommended to put this to rest visually, alongside the general recommendation to
+confirm the new illustration palette's contrast/vibrancy in a real viewing
+environment.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
