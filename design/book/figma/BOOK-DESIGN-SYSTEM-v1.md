@@ -241,7 +241,11 @@ topic glyphs (`TechIcon`), and precision connector primitives (`DiagramAccent`).
 separate `Book/Editorial/Portrait/*` tier holds real photographs (the author
 portrait and the Guido van Rossum portrait already used in the book's own content)
 — kept visually and organizationally distinct from the brand/technical/icon
-families, and never converted into fake vector illustrations. Diagrams, icons, and
+families, and never converted into fake vector illustrations. A `CircuitBoard`
+motherboard/PCB trace pattern (Cover background substrate) and a
+`PortraitFrame/Cybernetic` corner-bracket frame (End Page author portrait) push the
+system's visual language toward a restrained, futuristic engineering aesthetic
+without turning any page into a dashboard or a poster. Diagrams, icons, and
 brand marks are vector-native wherever the real source permits it; the two
 exceptions (raster logo lockups, real photographs) use the actual authentic files,
 not screenshots or invented substitutes. Full component list, node IDs, and source

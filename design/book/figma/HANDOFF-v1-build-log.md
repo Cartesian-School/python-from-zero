@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 End Page complete rebuild finished — ready for Product Owner review**
+Status: **v1 futuristic engineering art-direction pass finished — ready for Product Owner review**
 
-Eleven rounds of live Product Owner review/direction have shaped this file so far:
+Twelve rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -99,6 +99,20 @@ Eleven rounds of live Product Owner review/direction have shaped this file so fa
     Соболевский`) everywhere it appears in reader-facing content file-wide — 9
     occurrences across the Cover, Title, Copyright, About Author, Colophon, and End
     Page. See "Complete End Page rebuild (eleventh round)" below.
+12. **Futuristic engineering art direction**: two new visual motifs pushed the
+    system further toward the requested "elegant, engineering-oriented" language.
+    The Cover's side margins and top/bottom strips — genuinely empty until now —
+    gained a vector-native PCB/motherboard circuit-trace background (orthogonal
+    routing, via dots, chip outlines with pin ticks), deliberately confined outside
+    the text-bearing center column so title/subtitle/author contrast is
+    unaffected. The End Page's author portrait gained a cybernetic corner-bracket
+    frame (4 L-brackets, 4 node points, one leader-line "PORTRAIT · VERIFIED" tag),
+    turning it into a featured "author identity module." A real bug was found and
+    fixed in the process: reassigning `vectorPaths` on an *already-positioned*
+    existing vector node — rather than creating a fresh one — caused Figma to
+    compound the new path's coordinates on top of the node's existing offset,
+    flinging a leader line's line segment into the middle of unrelated body text.
+    See "Futuristic engineering art direction (twelfth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -2018,6 +2032,89 @@ As in every round: this environment runs headlessly against the Figma Plugin API
 and cannot drive the live Figma app directly — verification is via `get_screenshot`
 (including a native 100%-scale render for this round's explicit "100% zoom" QA
 request), `get_metadata`, and direct numerical bounds-checking of every child node.
+
+## Futuristic engineering art direction (twelfth round)
+
+Product Owner direction: push the visual language further toward "futuristic,
+elegant, engineering-oriented" — specifically a motherboard/circuitry environment
+behind the Cover, and a cybernetic editorial frame around the End Page's author
+portrait. Both were built as new reusable `Book/Illustration/*` library components,
+then instanced onto the two pages.
+
+### Cover — circuit-board background (`Book/Illustration/CircuitBoard`, `171:82`)
+
+Audited the Cover's actual empty space first rather than guessing: the title,
+subtitle, kicker, and author credit already occupy the full `x: 60–600` content
+column, and the `HeroNetwork` instance already carries its own internal grid/glow
+texture — so the *genuinely* empty areas are the `60px` side margins (`x < 60` and
+`x > 600`) running the page's full height, plus a top strip above the logo lockup
+and a bottom strip below the footer. Built the circuit pattern (59 vector/ellipse
+children: orthogonal traces, via dots, and 4 small chip outlines with pin ticks)
+confined to exactly those regions — two vertical "edge bus" traces the full page
+height, short connector stubs reaching toward the `HeroNetwork`'s left/right edges
+(so the hero visually "plugs into" the substrate rather than floating over it), and
+two chip/trace clusters in the top-right and bottom strips. Instanced on the Cover
+(`171:228`) at the very back of the z-order, `28%` opacity — visible as texture,
+never competing with text. Verified by direct inspection that zero circuit
+geometry falls inside the `x: 60–600` text column.
+
+### End Page — cybernetic portrait frame (`Book/Illustration/PortraitFrame/Cybernetic`, `172:82`)
+
+Built as a reusable component sized around a `180×225` reference portrait area (an
+`8px` margin frame, so it can be reused for any portrait of that size, not just this
+one instance): 4 L-shaped corner brackets, 4 open-circle node points at the edge
+midpoints, and one leader line ending in a small `PORTRAIT · VERIFIED` monospace-
+style tag. The tag was deliberately routed **straight down** from the bottom-right
+bracket, staying within the portrait's own horizontal footprint — an earlier
+version routed it diagonally further right and it would have landed inside the
+adjacent biography text column; caught before shipping by computing the tag's
+absolute position against the known text-column bounds, not by eye. Instanced on
+the End Page (`173:2`) aligned so its margin exactly wraps the existing
+`Book/Editorial/Portrait/Author` instance — no change to the portrait itself, the
+photo, or its size.
+
+### Build defect found and fixed (twelfth round)
+
+**Reassigning `vectorPaths` on an existing, already-positioned vector node
+compounds the new path's coordinates on top of the node's current offset**, rather
+than treating them as fresh absolute-in-parent coordinates. Sequence that triggered
+it: a vector was created at parent-relative `(188, 233)` (Figma normalizes a
+*freshly created* vector's `x/y` to the path's own min-coordinate — this part
+works correctly and is used throughout this file). Later, in a follow-up edit, that
+*same* vector's `.vectorPaths` was reassigned to new path data using coordinates
+in the same numeric range (`"M 188 233 L 188 255"`) to redirect the leader line
+straight down instead of diagonally. Because the node already had a non-zero
+`x/y`, Figma applied the new path's coordinates as **local to the node's existing
+frame**, landing the geometry at `(188+188, 233+233) = (376, 466)` — 2× the
+intended position, and far enough away to land inside the "О книге" paragraph as a
+stray vertical line. Caught by a deep recursive scan for any node (including
+nested inside instances) whose `absoluteBoundingBox` intersected the visible
+artifact's screen region — visual inspection alone found the symptom, but only a
+coordinate-level search found the actual node. **Standing rule going forward: to
+change an existing vector's path, delete it and create a fresh one with the new
+absolute-coordinate data, rather than reassigning `.vectorPaths` in place** — this
+is the only combination confirmed safe across this entire engagement.
+
+### QA result (twelfth round)
+
+| Check | Result |
+| --- | --- |
+| Cover no longer has large empty background areas | ✅ side margins + top/bottom strips now carry a real circuit substrate |
+| Circuit background reads as integrated, not floating/random | ✅ connector stubs reach toward the `HeroNetwork`'s edges; two edge-bus traces run the full page height |
+| Title/subtitle/author/logo contrast unaffected | ✅ verified zero circuit geometry inside the `x: 60–600` text column; `28%` instance opacity |
+| Cover not cluttered or "decorated" | ✅ single low-opacity vector layer, restrained density, all-orthogonal geometry |
+| End Page portrait has a premium cybernetic frame | ✅ 4 corner brackets, 4 node points, 1 leader tag — not a gaming HUD (no bright colors, no clutter, matches the page's existing violet/blue-soft accents exactly) |
+| Portrait frame doesn't collide with adjacent text | ✅ tag routed straight down within the portrait's own footprint after the diagonal version was caught and rejected pre-ship |
+| No stray artifacts anywhere on the End Page | ✅ the displaced leader-line bug was found and fixed; verified with a fresh screenshot showing zero anomalies |
+| Book Sequence Overview re-checked | ✅ **already correct** — re-screenshotted and visually re-verified against the round 9/11 fix; connector alignment, spacing, and sequence logic all still clean; no changes made (none were needed) |
+| Illustration library stays organized after these additions | ✅ new "FUTURISTIC / ENGINEERING PRIMITIVES" section added; the full-page `CircuitBoard` master was found colliding with 4 other components after being scaled to real page size — rescaled to a `320px`-wide thumbnail and relocated to a clear area, verified with a full pairwise bounding-box collision sweep across every top-level library node |
+| Real Cartesian School logo assets still correctly used | ✅ unchanged from round 8 — no new logo treatment introduced or needed this round |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no language-specific pipeline fork introduced |
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`,
+`get_metadata`, and (for this round's stray-vector bug specifically) a recursive
+`absoluteBoundingBox` search that a purely visual read would not have located.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
