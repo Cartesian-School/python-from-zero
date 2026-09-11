@@ -1,6 +1,12 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 COMPLETE — ready for Product Owner visual review**
+Status: **v1 fixes complete — ready for Product Owner re-review**
+
+A live Product Owner review of the previous "v1 COMPLETE" state found blocking visual
+defects (white backgrounds inside colored callouts, and text overflow/wrap issues on
+several frames). Both root causes are documented and fixed below — see "Visual defect
+fixes (post-review round)" for the full detail the Product Owner asked for: exact
+defects, root causes, fixes, affected node IDs, and QA evidence.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -197,6 +203,141 @@ file directly in the Figma app** before sign-off.
 Cosmetic note: JetBrains Mono renders `->` and `==` as programming-font ligatures in
 code samples (e.g. `->` shows as a single arrow glyph). This is a font feature — the
 underlying characters are the literal ASCII text, unchanged and fully selectable.
+
+## Visual defect fixes (post-review round)
+
+A live Product Owner review of the "v1 COMPLETE" state (previous section of this log)
+found blocking defects that the headless screenshot QA pass had missed or under-
+weighted. This section documents each defect, its exact root cause, the fix, and the
+affected node IDs — verified against the actual Figma document properties (fills,
+`strokeAlign`, `textAutoResize`, `layoutSizingHorizontal`), not just screenshots.
+
+### Defect 1 — white background rectangles inside colored callouts
+
+**Symptom**: in the `Callout` component (all 4 semantic variants) and in the `Table`
+header row, text appeared to sit on a paler/whiter patch instead of directly on the
+intended tinted surface.
+
+**Root cause**: `figma.createAutoLayout()` (and `figma.createFrame()`) default to an
+**opaque white solid fill** unless explicitly cleared. Two inner wrapper frames were
+created this way and never had their fill cleared:
+
+- the `Content` auto-layout frame inside each `Callout` variant (holds the label +
+  body text) — sat on top of the variant's own semantic surface color (e.g.
+  `color/warning-surface`), rendering a white layer over part of the tinted card.
+- the `Cell` auto-layout frame used for every header and body cell inside `Table` —
+  sat on top of the header row's `color/table-header-surface` tint, making the header
+  row render as plain white instead of the intended indigo tint.
+
+**Fix**: set `fills = []` (fully transparent) on every `Content` and `Cell` wrapper.
+Because these are **master component** fixes, every existing instance on every page
+inherited the correction automatically — no per-instance patches were needed.
+
+**Affected node IDs**:
+
+- `Book/Component/Callout` variants — `Content` frames: `10:6` (Warning), `10:11`
+  (Info), `10:16` (Verification), `10:21` (PythonInsight)
+- `Book/Component/Table` (`11:6`) — all 20 `Cell` frames across the header row and 4
+  body rows (found via `findAll(n => n.name === "Cell")`, not individually enumerated
+  by ID since they're structural, not named uniquely)
+
+**Also fixed defensively** (same root cause, present but not visually broken since
+these sit against the white page paper rather than a tint): cleared `fills = []` on
+the root frames of `Book/Component/ChapterHeader` (`13:2`), `Book/Component/
+SectionHeader` (`21:103`), `Book/Component/ListingCaption` (`11:4`), and
+`Book/Component/FigureCaption` (`12:2`).
+
+### Defect 2 — text overflow / no-wrap text nodes
+
+**Symptom**: reported as text crossing component/page bounds, especially flagged on
+Chapter Opener, Code-Heavy Page, and Diagram & Callout Page.
+
+**Root cause A — missing wrap configuration**: several text nodes were created with
+`characters` set but **no** `textAutoResize`/width configuration, leaving Figma's
+default `textAutoResize: "WIDTH_AND_HEIGHT"` in effect — single-line, auto-width, **no
+wrap capability at all**. For the sample RU text used, the un-wrapped width happened to
+fit inside the 520px safe column, so this rendered correctly by coincidence, not by
+design — a longer chapter title (a longer RU title, or a PL/EN translation) would have
+extended past the page's right margin with nothing to stop it. This is the literal
+mechanism behind "must wrap long titles if needed... remain language-independent for
+RU/PL/EN."
+
+**Fix**: applied the same recipe used elsewhere in the file — `textAutoResize =
+"HEIGHT"` plus `layoutSizingHorizontal = "FILL"` (parent is already auto-layout in
+every case) — to every text node that lacked it:
+
+- `Book/Component/ChapterHeader` (`13:2`): label text `13:4` ("Глава 14"), title text
+  `13:5` ("Хеш-таблицы и коллизии"). The deck text (`13:6`) already had correct
+  FIXED-width + HEIGHT config from the original build and was left unchanged.
+- `Book/Component/SectionHeader` (`21:103`): both text children, `21:104` and `21:105`.
+- `Book/Component/ListingCaption` (`11:4`): text `11:5`.
+- `Book/Component/FigureCaption` (`12:2`): text `12:3`.
+- `Book/Component/Diagram` (`12:4`): all 3 node-label texts (`12:6`, `12:8`, `12:10`).
+- `Book/Component/Table` (`11:6`): the caption text `11:7` and the note text `11:54`
+  (both direct children of the table's root, not inside a `Cell`).
+- `Book/Component/Callout` label text (the small uppercase role label, e.g. "ЧАСТАЯ
+  ОШИБКА") in all 4 variants — same fix, for the same PL/EN-length-robustness reason.
+
+**Root cause B — an unrealistic code line length**: the Code-Heavy page's `CodeBlock`
+instance (`16:20`) contained the line `self._buckets: list[list[tuple]] = [[] for _ in
+range(size)]`, long enough that Figma's word-wrap (correctly configured — this text
+node already had `textAutoResize: HEIGHT` + `FILL` from the original build) broke it
+mid-statement after "in", onto a orphaned `range(size)]` line. Technically not a pixel
+overflow (the container grew to fit), but it reads as a layout defect in a print-code
+context and violates "wrap only where the source formatting allows, otherwise choose a
+realistic line length."
+
+**Fix**: reformatted the sample to drop the inline generic type annotation on that one
+line (`self._buckets = [[] for _ in range(size)]`), which fits the 496px code column
+with no line exceeding it. No config/property changed — content only. Node: `16:20`'s
+text child.
+
+**Root cause C — zero-margin grid**: the Diagram & Callout page's 2×2 callout grid
+(`18:135`, `18:140`, `18:145`, `18:150`) was sized so the right column's right edge
+landed **exactly** on the print-safe-area boundary (x=600, safe area is 80–600px).
+Combined with the `Callout` frame's default `strokeAlign: CENTER` (which renders half
+the 1px stroke weight outside the node's nominal bounding box), the border could
+visibly breach the safe area by up to 0.5px at 100% zoom — not visible in a downscaled
+screenshot, exactly the kind of thing the Product Owner's live-app review would catch
+that the headless renderer wouldn't.
+
+**Fix**: two changes — (1) set `strokeAlign = "INSIDE"` on the `Callout` component set
+and on `Table`'s grid/row frames, so borders always render fully inside the nominal
+bounding box everywhere in the file, not just on this page; (2) narrowed the grid
+columns from 253px to 244px and added an 8px inset from each safe-area edge, so the
+right column's right edge now sits at x=588 — a 12px margin, not flush.
+
+### QA re-verification (this round)
+
+Re-screenshotted every affected frame after each fix and confirmed by direct property
+read (not just visual inspection) that: `Content`/`Cell` fills are empty arrays; text
+nodes have `textAutoResize: "HEIGHT"` and `layoutSizingHorizontal: "FILL"`; `strokeAlign`
+is `"INSIDE"` on all bordered components; the 2×2 grid's right edge is at 588px against
+a 600px safe-area boundary. Frames re-checked: `Book/Component/Callout` (master set),
+`Book/Page/Standard` (`14:2`, uses an Info callout instance), `Book/Page/ChapterOpener`
+(`15:9`), `Book/Page/CodeHeavy` (`16:13`, uses a Warning callout instance),
+`Book/Page/Table` (`17:22`), `Book/Page/DiagramCallout` (`18:115`, all 4 variants). No
+overflow, no clipping, no white-patch artifacts remained in any of them, including on
+pages where a *fixed instance* of the callout was used rather than the master directly
+— confirming the master-component fix correctly propagated to every instance without
+needing per-instance patches.
+
+**Not independently re-verifiable from this environment**: this build runs headlessly
+against the Figma Plugin API and cannot drive the live Figma web/desktop app directly.
+Per the Product Owner's instruction, **please confirm the fixes visually in the live
+Figma app at 100% zoom** before final sign-off — the property-level fixes above are
+verified at the data level (which is a stronger guarantee for the *mechanism* of the
+bugs than a screenshot), but a live-app pixel check is still the right final gate for
+anything display/rendering-specific.
+
+### No component geometry changed beyond what's listed above
+
+Trim size, margins, text measure, and every approved type-scale value (20pt chapter
+label, 24pt chapter title, 9pt code, 8.5/8.5/8pt table system, etc.) are unchanged. The
+only geometry change was the Diagram & Callout page's grid column width (253px →
+244px) and position, to create a safe margin; everything else was a fill/stroke/text-
+config property fix or a content-only edit (the code sample), not a size or spacing
+change to any approved token.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
