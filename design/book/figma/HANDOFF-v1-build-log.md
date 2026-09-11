@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 futuristic engineering art-direction pass finished — ready for Product Owner review**
+Status: **v1 full professional Cover/End Page rebuild finished — ready for Product Owner review**
 
-Twelve rounds of live Product Owner review/direction have shaped this file so far:
+Thirteen rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -113,6 +113,22 @@ Twelve rounds of live Product Owner review/direction have shaped this file so fa
     compound the new path's coordinates on top of the node's existing offset,
     flinging a leader line's line segment into the middle of unrelated body text.
     See "Futuristic engineering art direction (twelfth round)" below.
+13. **Full professional Cover/End Page rebuild**: round 12's circuit background was
+    judged a "failed direction" — confined to thin traces in the margins only,
+    reading as timid rather than premium (and a real bug meant it was actually
+    displaying at just 320×456, a corner of the page, not full size — see below).
+    Deleted it outright and rebuilt as `Book/Illustration/MotherboardSystem`: a
+    substantially richer, four-layer full-page circuit system (a quiet base dot
+    grid, long structural bus traces that run the whole page including behind the
+    title/hero at low opacity, dense chip/trace detail clusters, and bold "power
+    rail" accents visually connecting to the hero) — genuinely integrated into the
+    whole composition, not border decoration. The End Page's atmosphere was also
+    torn down and rebuilt with three soft structured glows, four layered luminous
+    wave arcs, a sparse circuit echo, and a richer particle field; its cybernetic
+    portrait frame gained a glow halo, double-bracket corner detail, and blueprint-
+    style measurement ticks. The author biography was expanded from 114 to 134
+    verified words. See "Full professional Cover/End Page rebuild (thirteenth
+    round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -2115,6 +2131,137 @@ As in every round: this environment runs headlessly against the Figma Plugin API
 and cannot drive the live Figma app directly — verification is via `get_screenshot`,
 `get_metadata`, and (for this round's stray-vector bug specifically) a recursive
 `absoluteBoundingBox` search that a purely visual read would not have located.
+
+## Full professional Cover/End Page rebuild (thirteenth round)
+
+Product Owner direction: treat round 12's Cover/End Page background art as a
+**failed direction** — not a cosmetic tweak target, a full discard-and-rebuild.
+
+### A real bug discovered during the audit, before any redesign work
+
+Re-reading the Cover's actual current state (standing practice before every
+round's changes) found the round-12 `CircuitBoard` instance on the Cover was only
+**320×456px** — a small corner of the 660×940 page — not the full-page background
+it was meant to be. Root cause: the same "resize/rescale a component *after*
+creating instances elsewhere" bug documented in rounds 8 and 12, but this time
+self-inflicted in round 12 itself — the library master was rescaled down to a
+320px-wide thumbnail *after* the Cover instance already existed, silently shrinking
+that instance too. This alone explains much of why round 12's cover background
+read as weak: it was never actually covering the page. Deleted the broken instance
+and the old master outright (after confirming zero other references) rather than
+trying to repair it in place.
+
+### Cover — `Book/Illustration/MotherboardSystem` (`180:82`, instanced as `181:285`)
+
+Built as a genuinely dense, four-layer system, each layer a separate frame with
+its own opacity so the composition reads with real depth rather than a flat wash:
+
+| Layer | Content | Opacity | Coverage |
+| --- | --- | --- | --- |
+| `Layer/BaseGrid` | A quiet 33px dot-matrix grid | `5%` | Full page |
+| `Layer/BusLines` | 8 long multi-segment traces with via dots at bends — real structural routing, several crossing directly behind the title/kicker/hero at very low visibility | `10%` | Full page, including behind text |
+| `Layer/DetailZones` | Dense trace + chip clusters (some chips with a subtle fill, not just outline) in the top/bottom strips and side margins | `22%` | Margins + top/bottom strips |
+| `Layer/PowerRails` | 5 bold 2.2px accent traces with large via nodes, explicitly routed toward the `HeroNetwork`'s bounding box edges, plus one vertical rail running from the hero straight down through the footer | `34%` | Concentrated around the hero and page center |
+
+This satisfies the explicit requirement that the background "may pass behind the
+title block and hero block at low opacity" and must feel "integrated into the
+whole page, not confined only to empty border areas" — the `BusLines` and
+`PowerRails` layers deliberately cross the center column, at opacity calibrated
+low enough that title/subtitle/author contrast is unaffected (confirmed by
+screenshot, not just by the opacity number). Instanced on the Cover (`181:285`) at
+the very back of the z-order, full page size, no per-instance opacity reduction
+(the layer-level opacities already do that work).
+
+### End Page — atmosphere and portrait frame rebuilt
+
+**Atmosphere** (all previous round-11/12 elements deleted, rebuilt fresh):
+
+- Three structured glows instead of two (`Atmosphere/GlowTop`, `GlowLowerLeft`,
+  `GlowMidRight`) — asymmetric placement, still distinct from the Cover's centered
+  hero glow so the two pages don't read as copies.
+- Four layered luminous wave arcs instead of two (`Wave1`–`Wave4`), varied stroke
+  weight and opacity for real depth rather than two flat lines.
+- A sparse circuit echo (`Atmosphere/CircuitEcho`, 8 elements) — a deliberately
+  much quieter, smaller-scale gesture toward the Cover's motherboard language,
+  tying the two pages together without the End Page trying to *be* the Cover.
+- A richer particle field — 12 particles with varied size/opacity (was 5, all
+  identical).
+
+**Portrait frame** (`Book/Illustration/PortraitFrame/Cybernetic`, `172:82` —
+enriched in place, not replaced, since the existing 4-bracket/4-node/1-tag
+structure was sound, just "too weak"):
+
+- A soft violet glow halo behind the whole frame (`GlowHalo`, blurred ellipse).
+- Double-bracket corner detail — a smaller inset tick mark at each of the 4
+  corners, layered with the existing main brackets for a more "engineered,"
+  less minimal look.
+- Blueprint-style measurement tick marks along the right edge (5 short
+  perpendicular ticks).
+- A first attempt also added a matching top-left leader + "AUTHOR · PROFILE" tag
+  to balance the existing bottom-right one — caught immediately by screenshot
+  review overlapping the "Об авторе" heading (there isn't enough vertical
+  clearance above the portrait for a second leader+tag) and removed before it
+  shipped, rather than shrinking the heading or fighting the collision.
+
+**Biography expanded**: 114 → 134 verified words (a middle ground between the
+brief's request for "richer and more authoritative" and round-13's own request not
+to sacrifice layout safety) — added the `Developer Systems` domain (CLI/TUI and
+Python tooling for developers, a genuinely relevant detail for a Python book) and
+a line about the stakes of safety-critical work ("где цена ошибки особенно
+высока" / "область, где цена ошибки особенно высока"). No new employers, dates,
+or credentials were introduced — every added clause maps to an existing
+`author_profile.py` fact already used in earlier rounds.
+
+### Build defect found and fixed (thirteenth round) — cascading layout math
+
+Expanding the bio's word count grew its rendered height (`280px → 364px → settled
+at 308px` after a subsequent trim), and every element below it (`Expertise line`
+through the ISSN/barcode panel) needed to shift to match. Two mistakes were made
+and caught before shipping, not after:
+
+1. **A `+84` shift applied by matching a generic node name (`"Dash"`, `"Heading"`)
+   accidentally moved the *first* section's own dash/heading** (which sits *above*
+   the bio, not below it) down into the portrait's vertical range — the heading
+   text became invisible, hidden behind the portrait image in z-order. Fixed by
+   reverting those two specific nodes by ID rather than by name.
+2. **The first attempt at recomputing the cascade positioned the ISSN/barcode
+   panel 30–70px below the page's own bottom edge** (`940px`) — an off-canvas
+   overflow that a purely visual "does it look right" check at normal zoom could
+   easily miss (the overflow was below the visible frame boundary in some
+   screenshot crops). Caught by explicitly computing and returning `finalBottom`
+   and `marginToPageBottom` from the layout script itself, not by eye. Fixed by a
+   combination of tightening every inter-zone gap and trimming the bio by ~20
+   words, landing at a verified `50.5px` safety margin above the page's bottom
+   edge — confirmed numerically, then re-confirmed visually.
+
+**Standing rule reinforced this round**: any script that repositions a batch of
+nodes by name must use exact node IDs when multiple nodes share a purpose-based
+name (e.g. every section heading is named `"Heading"`) — matching by name alone is
+only safe when the name is unique on the page.
+
+### QA result (thirteenth round)
+
+| Check | Result |
+| --- | --- |
+| Cover background is substantial, not "a few weak lines near the edges" | ✅ 4-layer system, ~90 vector/ellipse elements, full-page coverage |
+| Circuit language integrated into the whole page, not just borders | ✅ `BusLines` and `PowerRails` layers deliberately cross the center column at calibrated low opacity |
+| Title/subtitle/author/logo contrast preserved | ✅ verified by screenshot at full resolution — no legibility loss anywhere |
+| Cover hero connects visually to the background system | ✅ `PowerRails` layer routes 5 bold accent traces toward the `HeroNetwork`'s edges |
+| Cover doesn't look like a generic sci-fi/gaming poster | ✅ restrained orthogonal geometry only, no bright saturated colors, no glow overload |
+| End Page background substantially richer than before | ✅ 3 glows (was 2), 4 waves (was 2), 12 particles (was 5), plus a new sparse circuit echo |
+| End Page tonally related to the Cover without duplicating it | ✅ same palette/atmosphere *language*, asymmetric (End Page) vs. centered (Cover) composition, circuit echo present but far quieter than the Cover's own system |
+| Portrait frame significantly improved | ✅ glow halo + double-bracket corners + measurement ticks added; still zero collision with adjacent text (a first attempt at a second tag was caught and removed) |
+| Biography richer and more authoritative | ✅ 114 → 134 verified words; new domain (developer tooling) and stakes framing added, nothing invented |
+| Russian author name correct everywhere on both pages | ✅ `Сергей Соболевский` confirmed on both the Cover and End Page screenshots this round |
+| QR/ISSN/barcode integration | ✅ unchanged placement/sizing from round 10/11 (already compact and graceful), verified still correct after the layout cascade |
+| No overflow, clipping, or off-canvas nodes | ✅ numeric bounds check across the whole End Page; the cascading-layout overflow bug above was caught and fixed *before* being reported as done |
+| Illustration library stays organized | ✅ the new full-page `MotherboardSystem` master was moved off the crowded canvas area entirely (kept as a pure source component) and a separately-scaled thumbnail instance created for display — applying the round-8/12 lesson about never rescaling a master with live instances elsewhere |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no language-specific pipeline fork introduced |
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`
+at native page resolution, `get_metadata`, and explicit numeric bounds/overlap
+computation for every layout change this round touched.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
