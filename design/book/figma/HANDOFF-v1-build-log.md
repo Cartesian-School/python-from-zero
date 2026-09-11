@@ -1,12 +1,17 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 fixes complete — ready for Product Owner re-review**
+Status: **v1 vertical-sizing fix complete — ready for Product Owner re-review**
 
-A live Product Owner review of the previous "v1 COMPLETE" state found blocking visual
-defects (white backgrounds inside colored callouts, and text overflow/wrap issues on
-several frames). Both root causes are documented and fixed below — see "Visual defect
-fixes (post-review round)" for the full detail the Product Owner asked for: exact
-defects, root causes, fixes, affected node IDs, and QA evidence.
+Two rounds of live Product Owner review have now found and fixed blocking visual
+defects:
+
+1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
+   see "Visual defect fixes (post-review round)" below.
+2. **Vertical overflow**: text still protruding below the bottom edge of callout
+   cards, caused by a fixed-height outer component that couldn't grow — see
+   "Vertical-sizing fix (second post-review round)" below for the full detail: exact
+   root cause, sizing properties before/after, affected node IDs, and an RU/PL/EN
+   language-robustness stress test.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -338,6 +343,160 @@ only geometry change was the Diagram & Callout page's grid column width (253px �
 244px) and position, to create a safe margin; everything else was a fill/stroke/text-
 config property fix or a content-only edit (the code sample), not a size or spacing
 change to any approved token.
+
+## Vertical-sizing fix (second post-review round)
+
+A second live Product Owner review, after the surface/wrap fixes above, found text
+still protruding below the bottom edge of multiple callout cards on
+`Book/Page/DiagramCallout`. This was explicitly diagnosed as a **vertical sizing**
+defect, not a font-size or horizontal-wrap problem, and the fix below changes no
+approved typography value.
+
+### Root cause
+
+Every `Book/Component/Callout` variant is a `HORIZONTAL`-layout component, built with
+`figma.createComponent()` plus a manually-assigned `layoutMode`, rather than
+`figma.createAutoLayout()`. Manually flipping `layoutMode` this way does **not** set
+sensible sizing defaults the way the `createAutoLayout()` helper does — it left
+`counterAxisSizingMode` (the **vertical** axis, since horizontal is the *primary* axis
+for a `HORIZONTAL` layout) at Figma's raw default of `"FIXED"`, pinned to whatever
+height (100px) existed when the component was first authored. The inner "Content"
+column was already correctly configured to `HUG` vertically — but the **outer card**
+could not grow to contain it. When the Diagram/Callout page's 2×2 grid narrowed the
+cards to 244px wide (an earlier fix, for a different defect), the same body text now
+needed *more* lines to wrap at the narrower width — more height than the fixed 100px
+ever allowed — so it rendered past the card's visible bottom edge. The instances on
+the page had this same `FIXED`/100px lock baked in explicitly, because an earlier
+`.resize()` call (from the very first grid-margin fix) resets **both** axes' sizing
+mode to `FIXED` as a side effect, re-freezing the height at whatever value was current
+at that moment.
+
+The exact same manually-set-`HORIZONTAL`-layout-without-fixing-the-counter-axis
+pattern was also found, by audit, in `Book/Component/ListingCaption` and
+`Book/Component/FigureCaption` — both latent (not yet visibly broken, since their
+sample captions are short one-liners), fixed proactively. `Book/Component/CodeBlock`
+and `Book/Component/Table` were audited and found **already correct** (both use
+`VERTICAL` layout with `layoutSizingVertical: HUG` already set from the original
+build) — no change was needed there.
+
+### Sizing properties: before → after
+
+| Node | Property | Before | After |
+| --- | --- | --- | --- |
+| `10:4`/`10:9`/`10:14`/`10:19` (Callout variants) | `counterAxisSizingMode` | `FIXED` | `AUTO` |
+| `10:4`/`10:9`/`10:14`/`10:19` | `layoutSizingVertical` | `FIXED` | `HUG` |
+| `10:4`/`10:9`/`10:14`/`10:19` | height | `100` (all four, regardless of content) | `81` / `81` / `81` / `98` (Warning/Info/Verification/PythonInsight, at the master's 480px width) |
+| `10:4`/`10:9`/`10:14`/`10:19` | padding (top/bottom/left/right) | `14/14/16/16` (arbitrary) | `16/16/16/16`, all four **bound to** `spacing/lg_px` (`VariableID:3:27`) |
+| `10:6`/`10:11`/`10:16`/`10:21` (Content wrappers) | `clipsContent` | `true` | `false` (defensive — Content was already sized correctly, but a clipping wrapper is a latent risk) |
+| `11:4` (ListingCaption) | `counterAxisSizingMode` / `layoutSizingVertical` | `FIXED` / `FIXED` | `AUTO` / `HUG` |
+| `12:2` (FigureCaption) | `counterAxisSizingMode` / `layoutSizingVertical` | `FIXED` / `FIXED` | `AUTO` / `HUG` |
+| `18:135`/`18:140`/`18:145`/`18:150` (page grid instances) | `layoutSizingVertical` / height | `FIXED` / `100` (all four) | `HUG` / `132` / `132` / `132` / `149` |
+| `18:132` (FigureCaption instance) | `layoutSizingVertical` / height | `FIXED` / `100` | `HUG` / `22` |
+| `14:12` (Standard Page callout instance) | `layoutSizingVertical` / height | `FIXED` / `100` | `HUG` / `81` |
+| `16:25` (Code-Heavy callout instance) | `layoutSizingVertical` / height | `FIXED` / `100` | `HUG` / `81` |
+| `16:22` (Code-Heavy ListingCaption instance) | `layoutSizingVertical` / height | `FIXED` / `100` | `HUG` / `23` |
+
+**Self-correction during this fix**: the first attempt at fixing `ListingCaption`/
+`FigureCaption` mistakenly set **both** `primaryAxisSizingMode` and
+`counterAxisSizingMode` to `AUTO`, which also hugged the *horizontal* axis — shrinking
+their instances' width to auto-fit the caption text (292px and 381px) instead of the
+intended fixed 520px column width. Caught immediately by re-reading the instance
+widths after the change, and corrected by restoring `primaryAxisSizingMode: FIXED` +
+`layoutSizingHorizontal: FIXED` at 520px on both masters and both affected instances
+(`18:132`, `16:22`) — only the vertical axis was meant to change.
+
+### Page grid decision (point 6 of the review): natural HUG, not forced equal-height rows
+
+The Product Owner's instructions allowed either outcome: "each card grows naturally to
+content" (preferred/default) or forced row-equalization "if required for visual
+balance." This fix takes the **preferred/default path** — each of the 4 cards HUGs
+independently to its own content height (132/132/132/149px) rather than being forced
+to a shared fixed row height. Rationale: forcing equal heights would require
+re-introducing a `FIXED` height on at least one card (set to the row's tallest
+member) — exactly the anti-pattern the review is correcting elsewhere in the same
+instructions ("never a fixed maximum"). The natural result (screenshotted below) reads
+as balanced in practice; row 2 is only 17px taller than row 1. If the Product Owner
+prefers strict equal-height rows after seeing this, it's a follow-up: compute
+`max(row.heights)`, then set `layoutSizingVertical: FIXED` + `resize()` to that value
+on the shorter card only — never shrinking either.
+
+### Page layout recomputation (`Book/Page/DiagramCallout`, `18:115`)
+
+Because the grid cards grew taller (as intended), the fixed Y-offsets used for row 2
+and the elements above the grid (carried over from the previous fix round, which used
+the old fixed-100px heights) had to be recalculated from the actual post-fix heights
+to avoid a *new* overlap:
+
+| Element | Y before this fix | Y after (recomputed from measured heights) |
+| --- | --- | --- |
+| FigureCaption instance (`18:132`) | 353 | 353 (unchanged — diagram height didn't change) |
+| "Семантические вставки…" label (`18:134`) | 469 | 391 (caption shrank from 100px→22px) |
+| Grid row 1 top (`18:135`, `18:140`) | 496 | 418 |
+| Grid row 2 top (`18:145`, `18:150`) | 610 | 564 (row 1 is now 132px tall, not a flat 100px assumption) |
+| Content bottom | 710 | 713 |
+| Safe-area bottom (unchanged) | 860 | 860 |
+
+Final content bottom (713px) leaves 147px of margin against the 860px safe-area
+boundary — comfortable headroom, so the fallback options (compressing whitespace above
+the grid, reducing inter-card gap, or moving the grid upward) were **not** needed.
+
+### Language-robustness stress test (RU/PL/EN)
+
+Per the review's explicit requirement, the *same* `Book/Component/Callout` `Warning`
+variant (no new variant, no language-specific fork) was instantiated twice more with
+deliberately long content, at the same 244px width used by the page grid, and added to
+the shared-components shelf on page `02 — Page Archetypes` as permanent documented
+evidence:
+
+| Instance | Node ID | Content | Result |
+| --- | --- | --- | --- |
+| RU (existing, in the live grid) | `18:135` | "Не забывайте, что списки в Python изменяемы…" (~100 chars) | 132px, no overflow |
+| PL stress test | `33:111` | "Nie zapominaj, że listy w Pythonie są mutowalne… co bywa źródłem trudnych do wykrycia błędów w większych programach." (~210 chars, deliberately longer) | **200px**, wraps to 7 lines, full bottom padding visible, no clipping |
+| EN stress test | `33:116` | "Remember that lists in Python are mutable… a frequent source of subtle bugs in larger programs." (~195 chars, deliberately longer) | **183px**, wraps to 6 lines, full bottom padding visible, no clipping |
+
+**Result: PASS.** The same component safely accommodates RU, PL, and EN content of
+substantially different lengths purely through the HUG-vertical fix — no
+language-specific component variant was created or is needed.
+
+**Build note on this stress test**: the first attempt at building these two instances
+had a bug in the *test script itself* (not the product) — it selected the target text
+node by `fontSize >= 12`, which also matched the callout's icon glyph (15px) before
+reaching the real body text (also ≥12px), overwriting the icon with the long paragraph
+and producing a pathological 1px-wide wrapped column (height ballooned to 1535px).
+Caught immediately via `get_metadata`, deleted, and rebuilt using structural indexing
+(`instance.children[1].children[1]` for the body, `.children[1].children[0]` for the
+label) instead of a property-based guess.
+
+### QA evidence captured this round
+
+Screenshots taken and visually confirmed after the fix:
+
+- `Book/Component/Callout` master set (`10:24`) — all 4 variants, correctly
+  proportioned heights (81/81/81/98px), no overlap between variants in the set frame
+- `Book/Page/DiagramCallout` (`18:115`) — full page, all 4 grid cards fully contained
+  with visible bottom padding after the last text line
+- `Book/Page/Standard` (`14:2`) and `Book/Page/CodeHeavy` (`16:13`) — re-verified,
+  their callout/caption instances now correctly sized (81px and 23px respectively,
+  down from a padded-out 100px) with no regression
+- PL stress-test callout (`33:111`) and EN stress-test callout (`33:116`) individually
+- Full six-frame page overview at high resolution
+
+**Not independently re-verifiable from this environment**: as before, this build runs
+headlessly against the Figma Plugin API and cannot drive the live Figma app directly.
+The property-level verification above (`counterAxisSizingMode`, `layoutSizingVertical`,
+measured heights) directly confirms the document state, which is a stronger guarantee
+for the sizing *mechanism* than a screenshot — but a live-app 100% zoom pass is still
+the right final gate before sign-off.
+
+### Confirmation: no font size or line-height was reduced
+
+Per the review's explicit constraints — verified by inspection, not just by claim: no
+text style's `fontSize` or bound `lineHeight` variable was touched in this round. The
+only changes were sizing-mode properties (`counterAxisSizingMode`,
+`layoutSizingVertical`, `layoutSizingHorizontal` on two nodes that were then
+corrected back), padding (bound to a spacing token, net *larger* than before, not
+cramped), `clipsContent` (relaxed, not tightened), and Y-position recalculation. No
+text was clipped, hidden, or truncated to make anything fit.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
