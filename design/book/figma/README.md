@@ -4,11 +4,32 @@ Store Figma design-file links, page/node IDs, component mappings, review notes, 
 
 Figma remains a design and review surface only. The canonical book pipeline remains the sole publishing implementation.
 
-## v1 build — Cover art-direction reconstruction complete, ready for Product Owner review
+## v1 build — Computational Core / Data Fabric rebuild complete, ready for Product Owner review
 
 - **Figma file:** <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8/Cartesian-School-%E2%80%94-Book-Design-System-v1>
 - **File key:** `m19Q51E0vmVek8r4TCJCd8`
-- **Status:** Sixteen rounds of live Product Owner review/direction so far. Rounds
+- **Status:** Seventeen rounds of live Product Owner review/direction so far.
+  Round 17 was a full art-direction rebuild of the Cover hero: the Product Owner
+  correctly rejected round 16's result as "Python surrounded by four dashboard
+  widgets" in a rigid 2×2 grid — a compositional failure independent of how
+  clean the underlying connector geometry was. The four `GraphPanel`/`CodePanel`/
+  `GamePanel`/`AppPanel` instances had their rectangular card chrome (fill,
+  stroke, divider) stripped, then were rescaled and repositioned asymmetrically
+  as floating data fragments at varying distance/scale from a rebuilt, off-center
+  Python computational core (new dashed/solid orbital rings, irregular orbit
+  nodes, sparse coordinate ticks). Four organic tendrils of visibly different
+  curvature/weight replace the old symmetric radial beams. The background's
+  `Layer/DetailZones` — 105 literal DIP-chip-package nodes, a "literal
+  motherboard diagram" — was deleted and replaced with 16 sparse schematic
+  marks; `Layer/CoreField`'s concentric glow and dissolving grid were
+  regenerated centered exactly on the new core position. Verified with numeric
+  bounding-box sweeps (zero collisions after one fix), close-crop screenshots of
+  every protected zone, and full-page renders at thumbnail/half/full size. The
+  End Page was inspected and found already consistent with the new Cover's
+  visual language; it was not modified. Full detail, node IDs, and the
+  self-rejection checklist are in the HANDOFF log's "Full art-direction rebuild
+  — Computational Core / Data Fabric (seventeenth round)" section.
+- Sixteen earlier rounds of Product Owner review/direction preceded this one. Rounds
   1-5 covered callout surface/sizing fixes, the complete front/back matter system,
   and a systemic pt→px text-sizing bug (see below). Round 6 extracted the Cartesian
   School website's hero visual language into an 8-component vector-native

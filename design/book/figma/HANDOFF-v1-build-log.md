@@ -2581,6 +2581,128 @@ at native resolution, targeted close-crop screenshots of every protected zone, a
 explicit numeric bounding-box checks cross-referenced against the visual crops
 rather than trusted alone.
 
+## Full art-direction rebuild — Computational Core / Data Fabric (seventeenth round)
+
+The Product Owner rejected the round-16 result as an art-direction failure: despite
+fixing the hard-clip rectangle, the hero still read as **Python surrounded by four
+equally-weighted rectangular dashboard cards** in a rigid 2×2 grid with straight
+compass-point beams — one of the explicit failure conditions for this round. This
+was correct. The instruction was explicit: this was not a patch round, the hero
+composition itself was to be treated as a failure and substantially rebuilt around
+the concept **"Python as the computational core inside a futuristic data fabric,"**
+while preserving all approved typography, branding, page geometry, and content.
+
+### Root problem confirmed visually
+
+A full-resolution screenshot of `Book/Page/Cover` (`43:3`) before this round showed
+exactly the rejected composition: `GraphPanel`/`CodePanel` top row, `GamePanel`/
+`AppPanel` bottom row, each an opaque bordered card, radiating four symmetric
+curved beams to a centered Python core. This is a legitimate defect regardless of
+how technically clean round 16's connector geometry was — the failure is
+compositional, not geometric.
+
+### `Book/Illustration/HeroNetwork` (`88:2`) — full hero rebuild
+
+**Deleted:** the two old concentric ring ellipses (`88:11`, `88:12`), all 4 straight
+radial "Beam" glow+core vector pairs (`193:827`–`193:834`), the 4 small `Node/*`
+dot ellipses (`140:55/57/59/61`), and the 4 `PanelGlow/*` ellipses (`213:1039`–
+`213:1042`) — the entire symmetric hub-and-spoke apparatus from round 16.
+
+**Rebuilt as an asymmetric computational core:**
+
+- The Python core (`Book/Illustration/PythonCore` instance `104:2`) was rescaled
+  (`node.rescale()`, proportional, no distortion) from 68×68.6 to 74×74.65 and
+  moved off-center to local `(256, 180)` within the 480×380 hero frame — roughly
+  3–4% right and 3% up from true center, per the round's asymmetry guidance,
+  without requiring a full re-tune of the page-level background (see CoreField
+  below, which was recentered to match exactly).
+- New core assembly, back-to-front: `Core/Disc` (`220:4`, deep-indigo grounding
+  disc), `Core/Ring/Inner` (`220:5`, dashed, subtle), `Core/Ring/Outer` (`220:6`,
+  thin solid) — replacing the old plain double-ring with a dashed/solid pairing
+  that reads as an orbital field rather than a UI avatar frame.
+- 3 irregular `Core/OrbitNode` dots (`220:7`–`220:9`) placed at non-cardinal angles
+  (40°, 165°, 260°) — deliberately not a symmetric compass pattern.
+- 2 sparse `Core/CoordinateTick` cross-marks (`220:10`, `220:11`) — a restrained
+  Cartesian-plane reference near the core, not a grid.
+
+**GRAPH / CODE / GAME / APP redesigned as data fragments, not cards:** the same
+four component instances (`88:15`, `88:23`, `88:27`, `88:35`) were kept — the
+label text, spline/code/trajectory/bar iconography inside each is real, existing,
+reusable content — but each instance's own fill+stroke (the rectangular "card"
+body) was overridden to transparent, its internal divider rule hidden, then
+rescaled (0.75–0.85×, proportional) and repositioned asymmetrically instead of on
+a grid: Graph upper-left `(18,18)`, Code upper-right and higher `(300,10)`, Game
+lower-left and farthest from the core `(10,295)`, App lower-right and closest to
+the core `(345,255)`. A soft individual `FragmentGlow/*` halo (4 ellipses,
+`223:2228`–`223:2231`) grounds each fragment without a hard edge.
+
+**Connecting tendrils, not spokes:** 4 new glow+core vector pairs
+(`Tendril/Graph`, `Tendril/Code`, `Tendril/App`, `Tendril/Game`) link each
+fragment toward the core ring with visibly different curvature, length, and
+weight — Game's is a faint dashed trace ("merging" rather than a solid beam) —
+deliberately avoiding the four-identical-spokes "wheel" look that made round 16's
+technically-correct connectors still read as a dashboard.
+
+### `Book/Illustration/MotherboardSystem` (`180:82`) — background delittered
+
+- **`Layer/DetailZones`**: deleted all 105 literal DIP-chip-package nodes (8
+  `Chip` rectangles with 74 `Trace` pin-legs and 23 `Via` dots) — the actual
+  cause of the "literal motherboard diagram" failure condition. Replaced with 16
+  sparse `Schematic/Node` + `Schematic/CoordinateTick` marks at the same 8
+  general page zones, at a fraction of the visual weight — "occasional nodes"
+  and "coordinate references," not chip iconography.
+- **`Layer/CoreField`** (`209:808`): deleted and regenerated at the new core
+  position. The 4-stop concentric glow (`CoreGlow` ×4) and the radially-dissolving
+  cross-fragment grid (201 `GridFragment` vectors, same 34px lattice and
+  quadratic falloff formula as round 16) are now centered on `(346, 512)` in
+  Cover space — the exact new off-center Python-core position — instead of the
+  old `(330, 522)`, so the strongest light in the page still lands exactly on the
+  logo.
+- **`Layer/BaseGrid`** (609-dot point matrix), **`Layer/BusLines`**, **`Layer/
+  PowerRails`**, and **`Layer/LuminousFlow`** (the flowing data-wave curves) were
+  left untouched — inspected individually via isolated layer screenshots and
+  confirmed to already match the desired restrained "distant structure" / "data
+  flow" character; re-doing working elements was avoided per the instruction to
+  prioritize the actual defect over busywork.
+
+### Verification
+
+- Full-page screenshots after each phase (hero core, background delitter,
+  tendrils) confirmed the 2×2 grid impression was gone from the first pass.
+- A numeric bounding-box sweep of every line-bearing background layer
+  (`LuminousFlow`, `BusLines`, `PowerRails`, `DetailZones`) against the title,
+  logo, author, footer, and all 4 fragment zones returned **zero collisions**.
+- A second sweep of the hero's own new tendrils/glows against all 6 label/code
+  text nodes found one true near-miss — `Tendril/Code`'s start point sat 1px
+  inside the code-text block's bounding box — and it was fixed by deleting and
+  recreating the vector (per the standing rule: never reassign `vectorPaths` on
+  an already-positioned vector) with a path that clears the text block with
+  margin; re-verified at zero overlap.
+- Close-crop screenshots (via `node.screenshot({contentsOnly:false})`, which
+  correctly composites overlapping siblings, unlike a screenshot of an empty
+  overlay frame) of the title zone, the core/hero interior, and the author/
+  footer zone all confirmed clean, uncrossed compositions.
+- Full-cover renders at 165×235 (25%-equivalent) and 330×470 (50%-equivalent)
+  confirmed a strong, immediately legible silhouette at thumbnail size and a
+  coherent computational environment at half-size — not just at 100%.
+- The End Page (`48:55`) was inspected and found to already share the Cover's
+  visual DNA (same indigo/violet field, same flowing-curve language, same
+  corner-bracket/node portrait frame) — no changes were made to it this round.
+
+### Self-rejection checklist (seventeenth round)
+
+| Failure condition | Present? |
+| --- | --- |
+| Obvious 2×2 card grid | No — fragments are asymmetric in position, scale, and distance from the core |
+| Python surrounded by four dashboard widgets | No — cards' rectangular chrome removed; content now floats as data fragments |
+| Random vertical traces / lines crossing hero or text | No — zero numeric collisions after fix; verified visually at close crop |
+| Motherboard decoration without compositional purpose | No — 105-node literal chip-package layer deleted |
+| Excessive symmetry | No — off-center core, irregular orbit-node angles, 4 differently-scaled/positioned fragments |
+| Cyberpunk / game-HUD appearance | No — restrained single accent stroke weight, no neon, no scan-line motifs |
+| Looks like a website screenshot / slide / app dashboard | No — no card borders, no button/UI affordances remain |
+| End Page regressed | No — inspected only, zero nodes modified |
+| Pipeline files touched | No — diff scoped to `design/book/figma/*.md`/`*.yaml` only |
+
 ## Deviations from the approved spec (for Product Owner awareness)
 
 - **File location**: still hosted under the personal "Solo" plan, not the "Cartesian
