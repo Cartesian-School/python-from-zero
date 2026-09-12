@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 luminous flow art-direction pass finished — ready for Product Owner review**
+Status: **v1 Cover cleanup complete — ready for Product Owner review**
 
-Fourteen rounds of live Product Owner review/direction have shaped this file so far:
+Fifteen rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -144,6 +144,16 @@ Fourteen rounds of live Product Owner review/direction have shaped this file so 
     request. Gave the ISSN/barcode module a "PUBLICATION DATA" label and small
     corner ticks so it reads as a deliberate engineered plate rather than a pasted
     sticker. See "Luminous flow art direction (fourteenth round)" below.
+15. **Cover cleanup**: round 14's `Layer/LuminousFlow` had overreached — two of its
+    six trajectories were near-vertical curves spanning the page's *full height*,
+    reading as dirty scratches rather than elegant flow, and (combined with two
+    literal full-height vertical segments left over in `Layer/BusLines` from round
+    13) cut straight through the hero panels, the title, the author credit, and
+    the footer. A third curve's arc dipped into the gap between the hero's GAME
+    and APP panels, visibly crossing the hero's interior. Removed all of them
+    (6 nodes), plus an unrelated vertical "power rail" accent that cut through the
+    author credit text, without touching the End Page (out of scope this round —
+    it remains accepted as-is). See "Cover cleanup (fifteenth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -2361,6 +2371,85 @@ As in every round: this environment runs headlessly against the Figma Plugin API
 and cannot drive the live Figma app directly — verification is via `get_screenshot`
 at native page resolution, `get_metadata`, and explicit pairwise overlap/bounds
 computation.
+
+## Cover cleanup (fifteenth round)
+
+Product Owner direction was scoped tightly: fix the Cover only, do not touch the
+accepted End Page, and remove specific "dirty vertical line" defects rather than
+redesigning anything further.
+
+### Audit — the exact offenders, found by direct inspection
+
+Screenshotted the Cover at native resolution and confirmed the complaint visually:
+two long, nearly-straight lines ran the page's **entire height**, cutting through
+the title, the hero's `GRAPH`/`APP` panel corners, the author credit, and the
+footer. Traced them to specific nodes rather than guessing:
+
+| Node(s) | Layer | What it was | Span |
+| --- | --- | --- | --- |
+| `193:1824`/`193:1825` | `Layer/LuminousFlow` | A round-14 "flow" curve (`M 90 -20 C 30 250 140 500 70 940`) — the bow was too shallow relative to its length to read as a curve at all | Full page height, `x≈70-140` |
+| `193:1826`/`193:1827` | `Layer/LuminousFlow` | The mirrored curve on the right (`M 610 -20 C 660 300 560 620 600 940`) | Full page height, `x≈590-660` |
+| `180:701`/`180:703` | `Layer/BusLines` | Two literal straight verticals left over from round 13 (`[[0,500],[60,500],[60,940]]` and its mirror) | `440px`, `x=60`/`x=600` |
+
+All six deleted. A second, more targeted check then found a **third** flow curve
+(`193:1820`/`193:1821`, `M -30 620 C 200 560 380 760 690 660`) whose arc dipped
+into the gap between the hero's `GAME` and `APP` panels — confirmed genuinely
+visible there (not just a bounding-box coincidence) by rendering an isolated
+zoomed crop of that exact region before and after removal. Deleted it and its
+accompanying light-spark (`193:1832`/`193:1833`).
+
+While auditing, also found and removed a single vertical "power rail" accent
+(`181:197` + its via dot `181:198`, from round 13's `Layer/PowerRails`) that ran
+from the hero's bottom edge down through the author credit text — it didn't cross
+the hero itself, but it did cut through "Software & AI Engineer, основатель
+Cartesian School," which the brief explicitly lists as a protected line. Removed
+for consistency with the same "no lines through text" principle, even though it
+wasn't named in the original complaint.
+
+**What was kept, deliberately**: the two remaining `LuminousFlow` sweeps (now
+gently horizontal, sitting above the title and below the hero — verified neither
+crosses the hero or any text line), the quiet `BaseGrid` dot-matrix (5% opacity,
+whole-page, already present in every prior round without complaint), the
+`DetailZones` chip/trace clusters (confined to margins, outside the hero), and
+the hero's own curved glow-duplicate beam connectors from round 14 (unaffected —
+they connect the panels *to* the Python core, which is the hero's own internal
+composition, not background decoration crossing it).
+
+### Verification — numeric, not just visual
+
+After every removal, re-ran a bounding-box intrusion check of all `Motherboard
+System` layers (excluding `BaseGrid`, whose 5% opacity has never been flagged as
+an issue) against the hero's exact rectangle (`x:90–570, y:332–712` on the
+Cover). Final result: **zero intrusions** — confirmed twice, once immediately
+after the six obvious deletions and again after the third curve was found and
+removed.
+
+### End Page — untouched, confirmed by scope
+
+No `Book/Page/EndPage` (`48:55`) node was read, referenced, or modified this
+round. The atmosphere, portrait frame, biography, and utility block from rounds
+11-14 remain exactly as they were.
+
+### QA result (fifteenth round)
+
+| Check | Result |
+| --- | --- |
+| Ugly full-height vertical lines removed | ✅ 6 nodes deleted (`193:1824/1825/1826/1827`, `180:701/703`) |
+| No background lines visually cross the hero | ✅ a third, less obvious offender found via zoomed-crop inspection and removed; numeric bounding-box sweep confirms zero remaining intrusions |
+| Cover still feels rich, not emptied out | ✅ base grid, margin chip/trace clusters, 2 remaining horizontal flow sweeps, and the hero's own curved beams all retained |
+| Composition cleaner and more professional | ✅ confirmed by side-by-side before/after screenshot comparison |
+| Title area visually protected | ✅ no line crosses the kicker, title, or subtitle — verified by screenshot |
+| Author line visually protected | ✅ the stray vertical power-rail accent crossing it was found and removed (not in the original complaint, but the same principle applies) |
+| Central hero remains the main focal point | ✅ unchanged, now with a visually cleaner surrounding field |
+| Branding unaffected | ✅ real Cartesian School lockup and real Python logo untouched |
+| End Page untouched | ✅ zero nodes on `48:55` read or modified this round |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only |
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`
+at native page resolution (including an isolated zoomed crop of the specific
+region where the third offending curve was suspected) and explicit numeric
+bounding-box intrusion checks, not visual impression alone.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
