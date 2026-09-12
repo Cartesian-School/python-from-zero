@@ -2742,3 +2742,80 @@ technically-correct connectors still read as a dashboard.
    18-page list: follow the same pattern as frames 2–6 (660×940 frame, margin guide
    rectangle, `RunningHead`/`PageNumber` instances, compose from the existing shared
    components).
+
+## Promote approved Cover-E to canonical Cover (twentieth round)
+
+The Product Owner approved the Round 19B polished `Book/Concept/Cover-E` (`252:236`) as
+the final art direction. This round promoted it into the canonical production Cover
+without redesigning anything.
+
+### What changed
+
+- **`Book/Page/Cover` `43:3` — node ID preserved.** The frame was *not* deleted and
+  recreated. Only its internal artwork children were replaced.
+- Retired from `43:3`: `Book/Illustration/MotherboardSystem — Cover` (`181:285`) and
+  `Book/Illustration/HeroNetwork — Cover` (`131:78`). Both masters remain in the
+  illustration library; only the Cover instances were removed.
+- Added at child index 0: `Book/Illustration/CoverDataFabric — Cover` (`264:4011`),
+  an instance of the new component `264:2641`.
+- `43:10`'s author-role text was set to the approved `#A78BFA` (was `#7C3AED`),
+  matching the contrast lift approved in Round 19B. Instance-level override; the
+  `AuthorCredit` master (`40:118`) is unchanged.
+- Everything else in `43:3` was left untouched in place: the kicker (`43:6`),
+  `BookTitle` (`43:7`), `AuthorCredit` (`43:10`), RECTO (`50:14`), the real
+  `CartesianLockup` (`143:501`), footer rule (`143:502`), domain tag (`143:503`) and
+  series tag (`143:504`). No shared component was detached or recreated.
+
+### New component
+
+`Book/Illustration/CoverDataFabric` (`264:2641`), page `06 — Illustration Library`,
+660×940, 12 semantic layers, built from 42 of the 60 assets in the committed SVG
+library at `assets/cover_art/svg/`. It carries the real `Book/Illustration/PythonCore`
+master (`103:52`) as a live nested instance at 214 × 215.89 pt, optical centre
+(310, 527).
+
+**Language independence is structural, not conventional.** The component contains no
+title, subtitle, author, footer or lockup text — those live on the page that
+instantiates it. The only text inside is decorative mathematical/code glyph texture
+(`∂`, `∇`, `λ`, `argmin`, `x**2`, …), which is locale-neutral. One artwork therefore
+serves every language edition; language remains an input parameter to the single
+canonical book pipeline, which this round did not touch.
+
+The production Cover does **not** reference the concept frame: the artwork instance's
+main component lives in the illustration library, not on `07 — Cover Concepts`.
+
+### Verification
+
+- **Pixel equivalence vs the approved concept `252:236`:** 22 of 620,400 pixels differ
+  (0.004%), maximum channel delta 5 — anti-aliasing from component instancing only.
+- **Safe zones:** re-run against `43:3` with the committed guide assets in a QA-only
+  overlay (`264:5535`). Zero decorative collisions with lockup, kicker, title,
+  subtitle, author or footer. No guides were embedded in `43:3`.
+- **Structural:** `43:3` is 660×940 with 10 children; no raster background (the only
+  image fill is the pre-existing real `CartesianLockup` brand asset); all editorial
+  text remains live text in shared component instances, nothing flattened; artwork
+  remains fully editable vector.
+- **No duplicate Cover frame.** A second node named `Book/Page/Cover` on
+  `03 — Front Matter` was checked and is `62:14`, an 88×12 TEXT caption above the
+  frame — part of the page's existing labelling convention, not a cover.
+- Scale QA passed at 100%, 50%, 25% and ~14% thumbnail: Python, the title hierarchy
+  and the Cartesian School lockup all survive thumbnail reduction; fine ticks,
+  topology lines and code glyphs drop out without leaving noise.
+
+### Preserved design evidence (unmodified)
+
+`252:236` approved concept · `259:1222` pre-polish snapshot · `261:1989` before/after
+QA · `264:4762` canonical-vs-Cover-E comparison · `264:5535` canonical safe-zone
+overlay.
+
+### Frozen / untouched
+
+End Page `48:55` (78 children, unchanged). The canonical publishing pipeline, the PDF
+and EPUB adapters, the locale architecture and
+`docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md` were not modified.
+
+### Open print-preflight item
+
+Fine decorative text/glyph outlining remains a print-preflight item: `code_stream_01`'s
+glyphs are live text that Figma renders with a substituted font (Inter, in place of the
+SVG's monospace stack). This does not block promotion.

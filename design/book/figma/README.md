@@ -4,11 +4,31 @@ Store Figma design-file links, page/node IDs, component mappings, review notes, 
 
 Figma remains a design and review surface only. The canonical book pipeline remains the sole publishing implementation.
 
-## v1 build — Computational Core / Data Fabric rebuild complete, ready for Product Owner review
+## v1 build — canonical Cover promoted from approved Cover-E, ready for Product Owner review
 
 - **Figma file:** <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8/Cartesian-School-%E2%80%94-Book-Design-System-v1>
 - **File key:** `m19Q51E0vmVek8r4TCJCd8`
-- **Status:** Seventeen rounds of live Product Owner review/direction so far.
+- **Canonical Cover:** `Book/Page/Cover` `43:3` (node ID preserved across the promotion)
+- **Cover artwork component:** `Book/Illustration/CoverDataFabric` `264:2641`
+  (page `06 — Illustration Library`)
+- **Status:** Twenty rounds of live Product Owner review/direction. Round 20 promoted
+  the approved Cover-E art direction into the canonical production Cover. The legacy
+  `MotherboardSystem`/`HeroNetwork` Cover instances were retired in favour of a single
+  `Book/Illustration/CoverDataFabric` component instance; `43:3` kept its node ID and
+  all of its existing shared editorial components (`BookTitle`, `AuthorCredit`, the
+  real `CartesianLockup`, kicker, footer rule/domain/series, RECTO) untouched in place.
+  The artwork component holds **no** editorial or locale text, so one artwork serves
+  every language edition — the language remains an input parameter to the single
+  canonical book pipeline, which this round did not modify. Equivalence against the
+  approved concept `252:236` was verified by pixel diff: 22 of 620,400 pixels differ
+  (0.004%, max channel delta 5 — anti-aliasing only). Rounds 18–19 preceded it: the
+  art-direction reset that produced Cover-E, the decomposition of that artwork into the
+  committed 60-asset SVG library at `assets/cover_art/svg/`, the rebuild of Cover-E from
+  that library, and a bounded optical-polish pass (Python core 226→214 pt, softer
+  dominant-wave glow, selective core thinning). Concept `252:236`, its pre-polish
+  snapshot `259:1222` and the before/after QA `261:1989` are preserved as immutable
+  design evidence.
+- Seventeen earlier rounds preceded those.
   Round 17 was a full art-direction rebuild of the Cover hero: the Product Owner
   correctly rejected round 16's result as "Python surrounded by four dashboard
   widgets" in a rigid 2×2 grid — a compositional failure independent of how
