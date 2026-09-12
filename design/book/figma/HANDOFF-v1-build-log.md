@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 Cover cleanup complete — ready for Product Owner review**
+Status: **v1 Cover art-direction reconstruction complete — ready for Product Owner review**
 
-Fifteen rounds of live Product Owner review/direction have shaped this file so far:
+Sixteen rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -154,6 +154,21 @@ Fifteen rounds of live Product Owner review/direction have shaped this file so f
     (6 nodes), plus an unrelated vertical "power rail" accent that cut through the
     author credit text, without touching the End Page (out of scope this round —
     it remains accepted as-is). See "Cover cleanup (fifteenth round)" below.
+16. **Cover art-direction reconstruction**: the Product Owner rejected round 15 as
+    "technically correct but artistically insufficient" — subtractive cleanup only,
+    and the hero still read as "a rectangle pasted into the middle." This round is
+    additive, not subtractive: removed `HeroNetwork`'s own isolated grid/glow
+    backdrop and hard clipping boundary entirely, and replaced it with a new
+    `Layer/CoreField` on the Cover's own background (a 4-stop concentric glow plus
+    a 196-fragment radially-fading "dissolving grid" with no rectangular edge at
+    all), so the hero's panels now emerge from a continuous atmospheric field
+    instead of sitting inside a boxed sub-canvas. Added 4 cardinal "reach-in"
+    traces connecting the background directly to the core ring (through the real
+    gaps between panels), giving the Python core 8 visible connection points
+    instead of 4. Added 3 more varied data-flow trajectories at different scales
+    plus traveling-pulse markers, and a soft individual glow behind each of the 4
+    technical panels so they read as lit subsystems rather than flat cards. See
+    "Cover art-direction reconstruction (sixteenth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -2450,6 +2465,121 @@ and cannot drive the live Figma app directly — verification is via `get_screen
 at native page resolution (including an isolated zoomed crop of the specific
 region where the third offending curve was suspected) and explicit numeric
 bounding-box intrusion checks, not visual impression alone.
+
+## Cover art-direction reconstruction (sixteenth round)
+
+Product Owner direction was explicit that round 15 — while technically correct —
+was "artistically insufficient because it was only subtractive cleanup," and that
+this round must be a real reconstruction: the hero still read as "typography
+placed above, a rectangular UI panel inserted in the middle, a few motherboard
+decorations around the edges." This round adds substantial new structure rather
+than removing more of the old.
+
+### Root cause of the "pasted rectangle" feeling — found and eliminated at the source
+
+`Book/Illustration/HeroNetwork` (`88:2`) had its own self-contained backdrop: a
+`CartesianGrid` instance (`141:54`) and a glow ellipse (`141:83`), both hard-clipped
+to the component's `480×380` rounded-rect bounds (`clipsContent: true`). No matter
+how the *surrounding* Cover background was enriched in rounds 12-15, this inner
+backdrop always terminated in a crisp edge — the actual mechanism producing "a
+rectangle pasted in the middle," independent of how much circuitry surrounded it.
+Deleted both nodes and set `hero.clipsContent = false` — the root fix, not a patch
+on top of it.
+
+### `Layer/CoreField` — the replacement, built on the Cover's own background (`180:82`)
+
+A new layer, positioned to render behind the hero's panels but as part of the same
+continuous field as every other Cover background layer:
+
+- **A 4-stop concentric glow** (760×640 at 7% down to 200×190 at 20% opacity, blur
+  35-130px), centered exactly on the hero's core (`330, 522` in Cover-space) —
+  this is the actual mechanism that removes the hard edge: a glow has no boundary
+  by construction, it simply fades to nothing.
+- **A 196-fragment "dissolving grid"**: instead of continuous grid *lines* (which
+  would need an explicit fade mask, reintroducing an edge), small cross-shaped
+  fragments are placed on a 34px lattice, each with its own opacity computed from
+  its distance to the core center (`opacity = 0.05 + falloff² × 0.20`, quadratic
+  falloff, zero beyond a 320px radius) — a genuinely fragmenting, thinning grid
+  with no rectangular cutoff anywhere, satisfying the brief's explicit "partial
+  grid rather than full rectangle" / "broken boundary" suggestion literally.
+
+### Hero integrated into the field — 4 cardinal "reach-in" connectors
+
+The hero's 4 existing diagonal beams (round 14) connect each panel to the core at
+NE/NW/SE/SW. Added 4 new glow-duplicate traces at N/S/E/W, each starting in open
+field space and terminating with a via node exactly on the core ring's edge —
+routed through the *real* gaps between panels (verified geometrically: the
+Graph/Code gap and Game/App gap for the vertical connectors, the Graph/Game gap
+and Code/App gap for the horizontal ones), so no trace crosses a panel. The core
+now has 8 visible connection points instead of 4, reading as a genuine hub rather
+than a card with some wires.
+
+### Panel-level integration — individual glows
+
+Added one soft blurred ellipse glow behind each of the 4 technical panels
+(Graph/Code: blue and violet respectively, Game/App: violet and blue, for color
+rhythm), `14%` opacity, inserted behind the panels in `HeroNetwork`'s own z-order.
+Each panel now reads as a lit subsystem embedded in the field rather than a flat
+card with a hard border.
+
+### Data-flow layer — more varied trajectories, not "two giant arcs"
+
+Round 15 left 3 full-width sweeps of similar scale. Added 3 shorter, differently-
+scaled trajectories this round: two tight-radius curves tucked into the side
+margins directly beside the hero (avoiding the hero's `x:90-570` bounds), and one
+quiet, low-opacity trajectory in the gap between the hero and the author credit
+(verified to stay above `y=746`, the author text's top edge). Added 6 more
+traveling-pulse markers (glow+core dot pairs) distributed along the existing
+sweeps to suggest signal propagation rather than static lines. Two pulse markers
+initially placed near the subtitle's actual text line (`y≈289-299`, inside the
+generous `Title+Subtitle` protection zone) were found during a numeric check and
+removed even though they were only 2px and low-opacity — not worth the risk to
+the round's most explicit protection requirement.
+
+### Verification — numeric and visual, at every stage
+
+This round used a stricter verification discipline than previous rounds, per the
+brief's explicit "self-rejection rule": after each addition, both a full Cover
+screenshot *and* targeted close-crop screenshots of the title zone, the hero
+interior, and the author/footer zone were captured and inspected before moving to
+the next stage — not just a single screenshot at the end. A bounding-box check of
+every new layer against the panel rectangles and text zones was also run; the
+majority of "hits" were confirmed harmless (grid fragments sitting behind opaque
+panels, or within generously-sized protection-zone rectangles but not actually
+touching glyphs — confirmed by the close-crop screenshots), and the two genuine
+near-misses (the pulse markers above) were removed rather than argued away.
+
+### Self-rejection checklist (per the brief's explicit list)
+
+| Rejection criterion | Verdict |
+| --- | --- |
+| "It still looks like a rectangle pasted into the middle." | No — `clipsContent` boundary removed at the source; glow has no edge |
+| "Most of the page is still visually empty." | No — continuous field texture from margin to margin |
+| "The background is just a few decorative lines." | No — 4-layer system (grid fragments, chip clusters, varied flow curves, concentric glow) |
+| "The circuitry looks random." | No — clusters remain distinct compositions in the margins; new elements are geometrically justified (reach-ins route through real panel gaps) |
+| "The page looks like a presentation slide / dashboard." | No — atmospheric glow field, not a bordered UI panel |
+| "The title competes with the background." | No — verified by close-crop screenshot, zero glyph interference |
+| "The central image looks detached from the page." | No — 8-point connection topology ties it directly into the field |
+| "The new result is mainly deletion rather than redesign." | No — this round is net-additive (new `Layer/CoreField`, 4 reach-ins, 3 new flow curves, 4 panel glows); the only deletions were the root-cause backdrop and 2 risky pulse markers |
+| "The changes are too minor to be visible in before/after." | No — see QA result table below |
+
+### QA result (sixteenth round)
+
+| Check | Result |
+| --- | --- |
+| Hard rectangle around the hero eliminated | ✅ `clipsContent` removed at the source; verified via isolated `HeroNetwork` screenshot showing no boundary |
+| Hero integrated with the surrounding field | ✅ 4-stop concentric glow + dissolving grid + 4 cardinal reach-ins, verified visually and numerically |
+| No background element crosses a panel or text zone visibly | ✅ close-crop screenshots of title, hero, and author/footer zones all clean; 2 borderline pulse markers removed proactively |
+| Cover richer, not just cleaner | ✅ net-additive: `Layer/CoreField` (200 nodes), 4 reach-in connectors, 3 new flow curves, 4 panel glows |
+| Real Python logo and Cartesian School branding unaffected | ✅ neither `PythonCore` nor the `CartesianLockup` instance was touched this round |
+| End Page untouched | ✅ zero nodes on `48:55` read or modified |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no language-specific pipeline fork introduced |
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`
+at native resolution, targeted close-crop screenshots of every protected zone, and
+explicit numeric bounding-box checks cross-referenced against the visual crops
+rather than trusted alone.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
