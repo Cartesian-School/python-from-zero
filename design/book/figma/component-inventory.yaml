@@ -2,14 +2,36 @@ meta:
   id: CARTESIAN-FIGMA-BOOK-COMPONENTS-001
   status: draft-for-visual-approval
 
+# Front/back matter naming note (see HANDOFF-v1-build-log.md "Front & back matter
+# system" section for full detail, node IDs, and source-content provenance):
+# the pages actually implemented in Figma use the names given in a later,
+# more specific build instruction and differ from a few of this file's
+# original placeholder names below:
+#   Book/Page/FrontCover -> implemented as Book/Page/Cover
+#   Book/Page/HalfTitle  -> not implemented as a separate page from Title
+#                           (no distinct half-title content exists in the book)
+#   Book/Page/Preface    -> implemented as Book/Page/FromAuthor, using the
+#                           book's real "Введение" (Introduction) content —
+#                           a distinct "From the Author" preface does not
+#                           exist separately in the source, so this avoids
+#                           inventing content or duplicating the same text
+#                           under two archetypes
+#   Book/Page/Contents   -> implemented as Book/Page/TOC (+ TOCContinuation,
+#                           since the book's real 24-chapter TOC does not
+#                           fit a single page at approved type sizes)
+# Additional back-matter pages beyond this original list were implemented per
+# the later instruction: Book/Page/AboutCartesianSchool, Book/Page/Colophon,
+# Book/Page/EndPage. Book/Page/ConclusionOrFinalWord, Book/Page/Glossary, and
+# Book/Page/References were evaluated and marked N/A/deferred — no such
+# distinct content exists in the book (see HANDOFF log for the audit).
 pages:
-  - Book/Page/FrontCover
-  - Book/Page/HalfTitle
+  - Book/Page/Cover
   - Book/Page/Title
   - Book/Page/Copyright
   - Book/Page/AboutAuthor
-  - Book/Page/Preface
-  - Book/Page/Contents
+  - Book/Page/FromAuthor
+  - Book/Page/TOC
+  - Book/Page/TOCContinuation
   - Book/Page/ChapterOpener
   - Book/Page/Standard
   - Book/Page/ProseCode
@@ -22,6 +44,9 @@ pages:
   - Book/Page/ProjectOpener
   - Book/Page/ChapterSummary
   - Book/Page/Index
+  - Book/Page/AboutCartesianSchool
+  - Book/Page/Colophon
+  - Book/Page/EndPage
 
 typography:
   - Book/Typography/ChapterTitle
@@ -53,6 +78,10 @@ components:
   - Book/Component/Figure
   - Book/Component/Diagram
   - Book/Component/FigureCaption
+  # Implemented as ONE component set (Book/Component/Callout) with a "Role"
+  # variant property, rather than 6 separate flat components — the more
+  # correct Figma pattern (one component, one set of variants) and
+  # functionally equivalent. All 6 semantic roles below are complete.
   - Book/Component/Callout/Warning
   - Book/Component/Callout/PythonInsight
   - Book/Component/Callout/Info
@@ -62,6 +91,133 @@ components:
   - Book/Component/PracticeLinkPrint
   - Book/Component/ProjectHeader
   - Book/Component/ChapterSummary
+  # Front/back matter components (added for the front/back matter system —
+  # see HANDOFF-v1-build-log.md for node IDs and content provenance)
+  - Book/Component/BookTitle
+  - Book/Component/AuthorCredit
+  - Book/Component/ImprintBlock
+  - Book/Component/TOCEntry
+  - Book/Component/TOCChapterEntry
+  - Book/Component/TOCSectionEntry
+  - Book/Component/IndexEntry
+  - Book/Component/ColophonBlock
+
+# Illustration library — vector-native, adapted from the Cartesian School site's
+# homepage hero visual language (cartesianschool.org: .hero-system / .hero-module).
+# Distinct color layer (see figma-variables.yaml "illustration" tokens) from the
+# interior print palette — used only on Cover, chapter-opener accents, and as a
+# standalone reusable set. Never used behind body text. See HANDOFF-v1-build-log.md
+# for full extraction notes and node IDs.
+illustration_library:
+  - Book/Illustration/CartesianGrid
+  - Book/Illustration/NodeConnector
+  - Book/Illustration/GraphPanel
+  - Book/Illustration/CodePanel
+  - Book/Illustration/AppPanel
+  - Book/Illustration/GamePanel
+  - Book/Illustration/HeroNetwork
+  - Book/Illustration/ChapterMotif  # variant set: Theme=Graph|Code|Game|App
+  # Added in the seventh (major professional refinement) round — see
+  # HANDOFF-v1-build-log.md "Major professional refinement (seventh round)".
+  - Book/Illustration/PythonCore  # real Python logo, vector-native, extracted from cartesianschool.org's own SVG source
+  # Eighth round: the two lines above were an invented flat-vector approximation of
+  # the real Cartesian School mark, correctly rejected by the Product Owner and
+  # deleted. Replaced with imports of the actual repo assets in cartesian_logo/ —
+  # see HANDOFF-v1-build-log.md "Integrated cover/closing redesign (eighth round)".
+  - Book/Illustration/LogoSet/CartesianIcon  # real vector import of cartesian_logo/favicon.svg (358 paths, not an approximation)
+  - Book/Illustration/LogoSet/CartesianLockup  # variant set: Format=Horizontal|Stacked, Theme=Dark|Light — real raster imports of cartesian_logo/logo-full-*.png and logo_bar_*.png
+  - Book/Illustration/ProjectCard  # variant set: Project=paint-app|snake|bouncing-ball|space-shooter|todo-app|calculator|story-generator|rock-paper-scissors|bouncing-balls-oop|temperature-converter|notes-app|tic-tac-toe|safesort — all 13 real projects from cartesianschool.org/index.html#proekty
+  - Book/Illustration/TechIcon  # variant set: Topic=Function|Loop|Conditional|List|Dict|Class|Exception|Module
+  - Book/Illustration/DiagramAccent  # variant set: Piece=ArrowRight|ArrowDown|NodeDot|CornerConnector
+  # Thirteenth round (full professional Cover/End Page rebuild): the twelfth
+  # round's Book/Illustration/CircuitBoard was deleted outright (a failed
+  # direction — margin-only, and a live bug meant it was only rendering at
+  # 320x456, a corner of the page, not full size) and replaced with a
+  # substantially richer full-page system. See HANDOFF-v1-build-log.md "Full
+  # professional Cover/End Page rebuild (thirteenth round)".
+  - Book/Illustration/MotherboardSystem  # 6-layer full-page vector data-fabric background (dot-matrix base grid, structural bus lines, LuminousFlow curved glow trajectories, CoreField dissolving-grid + concentric glow centered on the Cover hero's off-center Python core, sparse schematic node/coordinate marks replacing the seventeenth round's deleted literal chip-package layer, bold power-rail accents); superseded on the Cover in the twentieth round by CoverDataFabric, master retained in the library
+  # Twentieth round (canonical Cover promotion) — see HANDOFF-v1-build-log.md
+  # "Promote approved Cover-E to canonical Cover (twentieth round)". The Cover's
+  # artwork is now one component instance instead of a MotherboardSystem +
+  # HeroNetwork pair. It is assembled from the committed SVG library at
+  # assets/cover_art/svg/ and contains no editorial or locale text, so a single
+  # artwork serves every language edition.
+  - Book/Illustration/CoverDataFabric  # 660x940 language-independent full-page Cover artwork (12 semantic layers: background base, atmospheric fields, distant/midground waves, particle fields, technical traces, topology + data-node clusters, code/data texture, graph motif, central energy halo, rings/arcs/tick shell/nodes, real PythonCore master at 214pt centred 310,527, foreground depth, readability quiet mask); built from 42 of the 60 SVG library assets; Cover background
+  - Book/Illustration/PortraitFrame/Cybernetic  # reusable corner-bracket + node-point + leader-tag frame, sized around a 180x225 reference portrait area; enriched with a glow halo, double-bracket corner detail, and measurement ticks; used on the End Page author portrait
+  # Fourteenth round (luminous flow art direction) — see HANDOFF-v1-build-log.md
+  # "Luminous flow art direction (fourteenth round)". Added a fifth layer
+  # (Layer/LuminousFlow) to MotherboardSystem above: six sweeping glow-duplicate
+  # bezier trajectories crossing the full page. HeroNetwork's four straight beams
+  # were also converted to curved glow-duplicate connectors (same master, no new
+  # component). The End Page's wave arcs were rebuilt with the same glow
+  # technique, and a small margin-confined data-science atmosphere (sparkline,
+  # node-link cluster, dot-grid hint) was added near the portrait — none of these
+  # were promoted to standalone library components, being page-specific
+  # atmosphere rather than reusable assets.
+  # Fifteenth round (Cover cleanup): removed two LuminousFlow trajectories that
+  # were near-vertical and spanned the full page height (reading as dirty
+  # scratches, cutting through the hero/title/author/footer), two leftover
+  # full-height BusLines verticals, one flow curve whose arc dipped into the gap
+  # between the hero's GAME/APP panels, and one PowerRails vertical accent that
+  # crossed the author credit text — 10 nodes total. Nothing added; this was a
+  # subtractive cleanup only. See HANDOFF-v1-build-log.md "Cover cleanup
+  # (fifteenth round)". End Page untouched this round.
+  # Seventeenth round (full art-direction rebuild — Computational Core / Data
+  # Fabric): the Product Owner rejected round sixteen's result as a literal
+  # 2x2 dashboard-card grid around Python — a compositional failure. Rebuilt
+  # HeroNetwork (88:2): deleted the old symmetric ring pair, 4 straight radial
+  # beam pairs, 4 node dots, and 4 PanelGlow ellipses; the 4 GraphPanel/
+  # CodePanel/GamePanel/AppPanel instances kept their real icon/label content
+  # but had their rectangular card fill/stroke/divider stripped, then were
+  # rescaled and repositioned asymmetrically as floating "data fragments" at
+  # varying distance/scale from a rebuilt off-center Python core (new
+  # Core/Disc + dashed/solid orbital rings + 3 irregular orbit nodes + 2
+  # coordinate ticks). Added 4 varied-curvature Tendril glow+core pairs
+  # (one dashed) replacing the old symmetric radial beams, and 4 individual
+  # FragmentGlow halos. On MotherboardSystem (180:82): deleted Layer/
+  # DetailZones' 105 literal chip/trace/via nodes (the "literal motherboard
+  # diagram" failure condition) and replaced with 16 sparse schematic marks;
+  # regenerated Layer/CoreField's concentric glow + 201-fragment dissolving
+  # grid centered on the new core position. BaseGrid/BusLines/PowerRails/
+  # LuminousFlow were inspected and left unchanged — already fit the intended
+  # restrained aesthetic. See HANDOFF-v1-build-log.md "Full art-direction
+  # rebuild — Computational Core / Data Fabric (seventeenth round)". End Page
+  # inspected only, not modified.
+  # Sixteenth round (Cover art-direction reconstruction, additive not subtractive):
+  # removed HeroNetwork's own isolated grid/glow backdrop and hard clipping
+  # boundary (the actual root cause of the "rectangle pasted in the middle"
+  # effect) and replaced it with a new Layer/CoreField on MotherboardSystem — a
+  # 4-stop concentric glow plus a 196-fragment radially-fading dissolving grid,
+  # with no rectangular edge. Added 4 cardinal "reach-in" traces connecting the
+  # background directly to the hero's core ring through the real gaps between
+  # panels (8 connection points total, was 4), 3 more varied data-flow
+  # trajectories plus 6 traveling-pulse markers, and an individual soft glow
+  # behind each of the 4 technical panels. See HANDOFF-v1-build-log.md "Cover
+  # art-direction reconstruction (sixteenth round)". End Page untouched.
+
+# Ninth round: a distinct "editorial" tier — real photographs and print-utility
+# marks, kept apart from the brand/technical/icon families above. See
+# HANDOFF-v1-build-log.md "Final art direction, brand correction, QA-flow rebuild,
+# authorial closing page (ninth round)" for full source provenance and
+# permitted-use notes.
+editorial_assets:
+  - Book/Editorial/Portrait/Author  # real photo, site/assets/img/author/siergej-sobolewski.jpg (456x570)
+  - Book/Editorial/Portrait/GuidoVanRossum  # real photo, site/assets/img/people/guido-van-rossum.jpg (480x640) — the same file already used in scripts/build_chapter_01.py
+  # Round 10 (publication identifier block): real, verified-scannable QR code and
+  # a placeholder print-registration barcode, both reserved for the End Page's
+  # publication identifier panel. See HANDOFF-v1-build-log.md "Publication
+  # identifier block — ISSN/barcode panel and QR code (tenth round)".
+  - Book/Editorial/QRCode/CartesianSchool  # real QR encoding https://www.cartesianschool.org, decoded with pyzbar to confirm the payload before import
+  - Book/Editorial/Barcode/PlaceholderISSN  # placeholder Code128 barcode, digits "0000000000000" — reserved for the final production ISSN/registration barcode
+
+# Eleventh round (complete End Page rebuild): the four atomic assets above are
+# reused as plain instances directly on Book/Page/EndPage. Deliberately NOT
+# wrapped into higher-level components (e.g. "EditorialAuthorClosing",
+# "PublicationIdentifier", "QRBrandLink") — the End Page is used exactly once in
+# this book, so there is no second call site to justify a reusable wrapper, and
+# doing so would be over-componentizing a one-off page composition. See
+# HANDOFF-v1-build-log.md "Complete End Page rebuild (eleventh round)" →
+# "Componentization decision".
 
 constraints:
   locale_specific_component_forks: forbidden
