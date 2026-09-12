@@ -1,8 +1,8 @@
 # Figma Book Design System v1 — Build Log & Handoff
 
-Status: **v1 full professional Cover/End Page rebuild finished — ready for Product Owner review**
+Status: **v1 luminous flow art-direction pass finished — ready for Product Owner review**
 
-Thirteen rounds of live Product Owner review/direction have shaped this file so far:
+Fourteen rounds of live Product Owner review/direction have shaped this file so far:
 
 1. White backgrounds inside colored callouts, and horizontal text-wrap issues —
    see "Visual defect fixes (post-review round)" below.
@@ -129,6 +129,21 @@ Thirteen rounds of live Product Owner review/direction have shaped this file so 
     style measurement ticks. The author biography was expanded from 114 to 134
     verified words. See "Full professional Cover/End Page rebuild (thirteenth
     round)" below.
+14. **Luminous flow art direction**: added the one element still missing from the
+    brief's language — genuinely *flowing* curved light trails, not just
+    orthogonal circuit traces. Converted the hero's four straight diagonal beams
+    into gentle curved connectors, each rendered as a blurred glow duplicate under
+    a crisp core line for real luminosity. Added a new `Layer/LuminousFlow` to the
+    Cover's motherboard system: six large sweeping bezier trajectories crossing
+    the full page (including behind the title, subtitle, and footer at calibrated
+    low opacity) plus punctuating light-sparks — turning the previous flat-line
+    circuit language into a genuinely dynamic, "alive" composition. Applied the
+    same glow technique to the End Page's four wave arcs, and added a small,
+    restrained data-science atmosphere near the portrait (a signal-plot sparkline,
+    an abstract node-link cluster, a quiet dot-grid hint) per the brief's explicit
+    request. Gave the ISSN/barcode module a "PUBLICATION DATA" label and small
+    corner ticks so it reads as a deliberate engineered plate rather than a pasted
+    sticker. See "Luminous flow art direction (fourteenth round)" below.
 
 This log records the actual state of the Figma file created for the Cartesian School
 Book Design System v1, per `BOOK-DESIGN-SYSTEM-v1.md`, `figma-variables.yaml`, and
@@ -2262,6 +2277,90 @@ As in every round: this environment runs headlessly against the Figma Plugin API
 and cannot drive the live Figma app directly — verification is via `get_screenshot`
 at native page resolution, `get_metadata`, and explicit numeric bounds/overlap
 computation for every layout change this round touched.
+
+## Luminous flow art direction (fourteenth round)
+
+Product Owner direction was specific about what was still missing: "beautiful
+flowing technical lines, luminous routes, layered abstract engineering motion" —
+the round-13 `MotherboardSystem` was dense and well-layered, but every element in
+it was orthogonal (straight traces, right-angle bends). Nothing in the system
+actually *flowed*. This round adds that missing register rather than further
+densifying the existing one.
+
+### Hero connectors — straight beams replaced with luminous curves
+
+`Book/Illustration/HeroNetwork` (`88:2`) had 4 straight `LINE` beams connecting
+each technical panel to the central Python badge. Deleted them (`140:54/56/58/60`)
+and rebuilt each as a pair of `VECTOR` nodes sharing one quadratic-bezier path
+(`Q` command, a single gentle control-point bow ~7px off the straight line, all 4
+curving the same rotational sense for a coherent "pinwheel" rhythm): a wide
+(5px), blurred (`LAYER_BLUR` radius 6), low-opacity (`35%`) glow duplicate behind
+a crisp 1.4px core line. This is the standard "glow duplicate" technique used
+throughout this round — it is the single highest-leverage change for making thin
+vector line work read as premium/luminous rather than flat and diagrammatic.
+Verified the Python core, ring, and badge were re-brought to the front of the
+z-order so the new curves tuck behind it correctly.
+
+### Cover — `Layer/LuminousFlow` added to `Book/Illustration/MotherboardSystem` (`180:82`)
+
+A fifth layer, inserted between the existing `BusLines` and `DetailZones` layers:
+six large sweeping cubic-bezier trajectories (asymmetric, varying scale, alternating
+violet/blue) crossing the *entire* page — several deliberately pass behind the
+kicker, title, subtitle, hero, author credit, and footer, at glow-opacity `10-16%`
+and core-opacity `20-30%`, calibrated low enough that text contrast is unaffected
+(confirmed by full-resolution screenshot after adding the layer, not assumed from
+the opacity numbers alone). Four small "light-spark" nodes (glow + core dot pairs)
+punctuate the flow at points where curves cross open space. This is what turns the
+Cover from "a technical diagram with decoration" into a composition that reads as
+genuinely in motion.
+
+### End Page — waves upgraded to the same glow technique; data-science atmosphere added
+
+Deleted the four flat `Wave1`–`Wave4` vectors from round 13 (`182:16/17/18/19`)
+and rebuilt all four with the glow-duplicate technique used on the Cover — same
+visual language across both pages without literally repeating the Cover's own
+composition (the End Page's curves stay asymmetric and confined to a gentler
+opacity range, per its "elegant/editorial" role vs. the Cover's "bold/technical"
+one).
+
+Added a small, deliberately restrained data-science atmosphere near the portrait,
+per the brief's explicit request for "signal plots, node-link motifs, matrix/grid
+hints": a 5-point sparkline in the left margin near the portrait's lower half, a
+4-node abstract network cluster in the right margin near the biography, and a
+quiet 3×3 dot-grid hint in the lower-left margin — all at `14-35%` opacity, named
+`Atmosphere/DataScience`, positioned entirely in margin space so none of it
+competes with or crowds the portrait frame or body text.
+
+### ISSN/barcode module — engineered-plate framing added
+
+Per the explicit instruction to avoid a "crude sticker-like white slab": sharpened
+the panel's corner radius (`6px → 2px`, less "web card"), added small corner tick
+marks just outside the panel's top-left and bottom-right corners (echoing the
+portrait frame's own bracket language at a much smaller scale), and added a
+tracked-caps `PUBLICATION DATA` label above the panel — the same tag typography
+already established for `PORTRAIT · VERIFIED`. The panel's actual content (ISSN
+value, barcode) is unchanged from round 10.
+
+### QA result (fourteenth round)
+
+| Check | Result |
+| --- | --- |
+| Cover now has genuinely flowing curved line work, not just orthogonal traces | ✅ `Layer/LuminousFlow`, 6 sweeping bezier trajectories with glow duplicates |
+| Hero connectors feel engineered/flowing rather than boxy | ✅ 4 straight beams replaced with curved glow-duplicate connectors |
+| Flow lines integrate with, not just decorate, the page | ✅ deliberately routed behind title/subtitle/hero/footer at calibrated low opacity |
+| Title/subtitle/author/logo contrast unaffected | ✅ verified by full-resolution screenshot after the change |
+| End Page background richer, matching the Cover's new luminous language | ✅ all 4 wave arcs rebuilt with the same glow-duplicate technique |
+| Data-science atmosphere added near the portrait, tastefully | ✅ sparkline + node-link cluster + dot-grid hint, all margin-confined, `14-35%` opacity |
+| Portrait frame still collision-free after the new atmosphere additions | ✅ re-verified — data-science motifs sit in margin space, not inside the frame or text column |
+| ISSN/barcode module no longer reads as a pasted sticker | ✅ sharper corners, corner ticks, "PUBLICATION DATA" label |
+| No overflow, clipping, or off-canvas nodes | ✅ full pairwise overlap + bounds sweep on the End Page; every flagged item is a benign oversized-text-box false positive, confirmed by direct visual inspection |
+| Illustration library stays organized | ✅ `HeroNetwork`'s master-level curve edit correctly propagates to its library display; verified via full-page composite screenshot |
+| Canonical publishing pipeline untouched | ✅ confirmed by diff — design-system docs only; no language-specific pipeline fork introduced |
+
+As in every round: this environment runs headlessly against the Figma Plugin API
+and cannot drive the live Figma app directly — verification is via `get_screenshot`
+at native page resolution, `get_metadata`, and explicit pairwise overlap/bounds
+computation.
 
 ## Deviations from the approved spec (for Product Owner awareness)
 
