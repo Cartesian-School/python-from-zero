@@ -138,10 +138,11 @@ Two assets are not purely declarative geometry. Both are isolated and documented
 silently embedded:
 
 1. **`background_base/background_nebula_texture_01.svg`** uses an SVG `feTurbulence` filter to
-   generate the volumetric cloud layer. Figma **rasterises filter output on import**, so this
-   arrives as a bitmap-backed layer rather than editable vector. That is inherent to procedural
-   noise — there is no vector equivalent. If you need a higher-resolution version, re-render the
-   SVG at the target size before importing. No raster file is embedded in the pack.
+   generate the volumetric cloud layer. Figma **discards the unsupported filter on import** — the
+   asset arrives as a vector with an empty fill and no visible content (observed on import, not
+   rasterised into a bitmap layer). It therefore contributes nothing in Figma and is excluded from
+   the Figma cover assembly; it remains usable where SVG filters render, such as browser rendering
+   and print output. No raster file is embedded in the pack, and no raster replacement was added.
 2. **`data_science_motifs/code_stream_01.svg` / `code_stream_02.svg`** use live `<text>` elements
    with a monospace stack. Figma substitutes an available font on import, so exact glyph metrics
    will shift slightly. This is cosmetic — the glyphs are atmospheric texture, not readable copy.
