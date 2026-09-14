@@ -214,3 +214,40 @@ Binding architecture remains:
 - language = input/configuration only
 - publication format = output behavior only
 - no language-specific layout forks
+
+## 11. Front & back matter (implemented)
+
+The 6 internal body-page archetypes above are complemented by a full front-matter
+(Cover, Title, Copyright, About Author, From Author, TOC + continuation) and
+back-matter (Index, About Cartesian School, Colophon, End Page) system, built after a
+repository content audit so no editorial content was invented — real book title,
+author identity, license terms, Introduction text, and all 24 real chapter titles are
+used throughout. Conclusion, Glossary, and References archetypes were evaluated and
+marked N/A: no such distinct content exists in the book yet.
+
+Full node IDs, the content-audit findings, recto/verso publication rules, and QA
+evidence are in `design/book/figma/HANDOFF-v1-build-log.md` — this document is not
+duplicated here to avoid drift between the two.
+
+## 12. Illustration library (implemented)
+
+A `Book/Illustration/*` library (page `06 — Illustration Library`) supplies every
+non-typographic visual used across the system: a real Python logo (vector, extracted
+from the Cartesian School site's own SVG source), a `LogoSet` with the real
+Cartesian School icon and lockup imported directly from `cartesian_logo/` (vector
+icon, raster lockups at native resolution — never an invented approximation), a
+`ProjectCard` set covering all 13 real projects from the Cartesian School site,
+topic glyphs (`TechIcon`), and precision connector primitives (`DiagramAccent`). A
+separate `Book/Editorial/Portrait/*` tier holds real photographs (the author
+portrait and the Guido van Rossum portrait already used in the book's own content)
+— kept visually and organizationally distinct from the brand/technical/icon
+families, and never converted into fake vector illustrations. A `MotherboardSystem`
+multi-layer motherboard/PCB trace pattern (Cover background substrate, integrated
+across the full page rather than confined to the margins) and a
+`PortraitFrame/Cybernetic` corner-bracket frame (End Page author portrait) push the
+system's visual language toward a restrained, futuristic engineering aesthetic
+without turning any page into a dashboard or a poster. Diagrams, icons, and
+brand marks are vector-native wherever the real source permits it; the two
+exceptions (raster logo lockups, real photographs) use the actual authentic files,
+not screenshots or invented substitutes. Full component list, node IDs, and source
+provenance for every asset are in `design/book/figma/HANDOFF-v1-build-log.md`.
