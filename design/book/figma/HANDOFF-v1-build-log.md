@@ -2819,3 +2819,147 @@ and EPUB adapters, the locale architecture and
 Fine decorative text/glyph outlining remains a print-preflight item: `code_stream_01`'s
 glyphs are live text that Figma renders with a substituted font (Inter, in place of the
 SVG's monospace stack). This does not block promotion.
+
+## Complete front cover rebuild from the new reference asset pack (round twenty-two)
+
+Round 21 (repository-only, commit `e0827b0a`) replaced the committed SVG cover-art
+library (`assets/cover_art/svg/`, deleted) with a new raster reference asset pack at
+`assets/cover_art/reference_assets/`: a `README.md`, `manifest.json`/`manifest.csv`,
+and `source/`/`raster/`/`svg_wrappers/`/`preview/` directories holding 7 assets
+(`circuit_traces_upper_left`, `compute_chip_single`, `compute_substrate_dual_chip`,
+`data_cube_3d`, `data_wave_left`, `analytics_bars`, `reference_full`) derived from an
+approved computational reference composition. The Product Owner explicitly rejected
+continuing the old line/primitive-based cover language and required a full visual
+reconstruction using the real supplied artwork as the main visible mass.
+
+### What was built
+
+- **New component `Book/Illustration/CoverReferenceComposition` (`316:9095`)**, page
+  `06 — Illustration Library`, 660×940, language-independent (no editorial/locale
+  text). Layer stack, back to front:
+  1. `Artwork/BackgroundGradient` — 3-stop vertical navy gradient sampled from the
+     reference pack's own background palette.
+  2. `Artwork/CircuitSubstrate` ×2 (`circuit_traces_upper_left.png`, feathered on all
+     sides) — lower-left and lower-right, connecting the compute modules toward the
+     core.
+  3. `Artwork/ComputeModule — DualChip` (`compute_substrate_dual_chip.png`, major,
+     corner-bled lower-left) and `— SingleChip` (`compute_chip_single.png`,
+     secondary, corner-bled lower-right).
+  4. `Artwork/DataCube3D` (`data_cube_3d.png`, feathered all sides, upper-right,
+     reduced scale — secondary to the core).
+  5. `Artwork/DataWaveLeft` (`data_wave_left.png`, feathered top/right/bottom, bled
+     off the left edge, flowing toward the core).
+  6. `Artwork/ComputationalSphere` — a processed crop of `reference_full.png`: the
+     region around the reference's own embedded Python logo was cropped square,
+     the fake logo was removed by compositing a heavily Gaussian-blurred copy of
+     the same crop over it through a soft elliptical mask (not a flat color patch —
+     preserves the local glow/dot texture so no visible seam), then a radial
+     vignette (opaque core fading to fully transparent by the image edge) was
+     applied so the crop has no visible rectangular boundary against the Cover
+     background. This intentionally leaves a soft blurred blue/yellow
+     Python-shaped "echo" inside the sphere — see round 23 below for why this is
+     kept.
+  7. `Book/Illustration/PythonCore — Cover Hero` — a live instance of the real
+     shared master (`103:52`), placed on top of the sphere.
+  8. `Atmosphere/TitleSafeZoneFade` and `Atmosphere/AuthorFooterSafeZoneFade` —
+     gradient overlay rectangles that taper artwork brightness before the title
+     (y 0–340) and before the author/footer block (y 660–940), added specifically
+     because the first pass left visible chip glow behind the author-role text;
+     the bottom fade was strengthened with an extra mid-stop after a zoomed QA
+     crop caught the collision.
+- `analytics_bars.png` was evaluated and **intentionally omitted** — it would have
+  clustered with the secondary single-chip module in the same lower-right quadrant
+  (the round's own instructions permit omission when an optional asset produces
+  clutter).
+- **Production Cover `43:3` — node ID preserved.** Removed
+  `Book/Illustration/CoverDataFabric — Cover` (`264:4011`, the old line-based
+  artwork instance; its master `264:2641` remains in the library, unreferenced).
+  Inserted one instance of `316:9095` at child index 0 (0,0, 660×940) so all
+  existing editorial instances (kicker `43:6`, `BookTitle` `43:7`, `AuthorCredit`
+  `43:10`, RECTO `50:14`, real `CartesianLockup` `143:501`, footer rule/domain/
+  series `143:502`–`143:504`) sit on top, untouched.
+- **Rollback snapshot** `QA/Cover — Pre Reference-Asset Rebuild Snapshot` (`316:5272`),
+  page `05 — QA & Stress Tests` — exact clone of `43:3` taken before any edits.
+- **QA comparisons**, page `05`: `QA/Cover — Before vs Reference-Asset Rebuild`
+  (section `319:6026`, tight-fit wrapper frame `321:6816`) and
+  `QA/New Canonical Cover vs Approved Reference` (section `319:6049`, wrapper frame
+  `321:6817`, right panel filled with the unmodified `reference_full.png`). Note:
+  `get_screenshot` on a bare `SECTION` node rendered from the page origin instead
+  of the section's own bounds (a tool quirk, not a content bug) — worked around by
+  wrapping each comparison's members in a child `FRAME`, which crops tightly as
+  expected.
+
+### Verification
+
+- Zoomed crops of the title-bottom zone, author-block zone, data-cube edges, and
+  footer zone confirmed no visible rectangular image boundaries and (after the
+  bottom-fade fix) no text/artwork collision.
+- 100%/50%/25%/thumbnail renders of `43:3` all show the six required elements
+  (lockup, title, real Python, luminous sphere, data-wave mass, compute/circuit
+  environment) immediately legible.
+- No dominant purple/violet diagonal line: the only line motif is the orbit
+  arc/satellite native to the `reference_full` sphere crop, contained within the
+  circular hero composition, not a page-spanning sweep.
+- Only one legible Python logo (the real vector instance); the reference's own
+  embedded logo was removed per the delogo step above.
+
+### Frozen / untouched this round
+
+End Page `48:55` — inspected via metadata only, zero nodes modified. Publishing
+pipeline, PDF/EPUB adapters, locale architecture,
+`docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md` — not touched. Nothing was
+committed, pushed, or merged; PR #122 remained open.
+
+## Reposition PythonCore to sphere center (round twenty-two-C)
+
+A single, scoped follow-up: the real `PythonCore` instance (`316:18159`) was off-
+center relative to `Artwork/ComputationalSphere` (`316:9103`, center (330, 530))
+because the sphere crop's own optical center had shifted slightly during the delogo
+step. Re-cropped `reference_full.png` so the removed-logo point landed exactly at
+the crop's own center, re-uploaded, then moved `PythonCore` from (224, 415) to
+(224, 423.115) — center (330, 530), matching the sphere exactly. Size (212 ×
+213.77) and every other layer were left unchanged. This produced the intended
+sharp-logo-over-soft-echo depth effect for the first time.
+
+## Freeze and record the manually approved Front Cover (round twenty-three)
+
+After round 22C, the Product Owner made a further **manual, in-Figma** adjustment to
+the `PythonCore` instance — both position and size — and approved the result as
+final. This round recorded that state as frozen; it made no Figma geometry changes
+of any kind.
+
+### Approved final geometry (as read, not recalculated)
+
+- `Artwork/ComputationalSphere` (`316:9103`): unchanged at (100, 300), 460×460.
+- `Book/Illustration/PythonCore — Cover Hero` (`316:18159`): **(269, 466), 274×266**
+  — this is larger and offset from round 22C's computed-center placement
+  ((224, 423.115), 212×213.77). The delta is the Product Owner's deliberate manual
+  call, not a defect; it was not "corrected" back toward the computed center.
+- The large blurred blue/yellow Python-shaped echo inside the sphere (see round 22's
+  delogo step) is confirmed **intentional** — a foreground-sharp/background-soft
+  depth effect — and was left completely untouched. It must not be read as a
+  duplicate-logo defect, a masking error, or a ghost artifact in any future round.
+
+### QA snapshot
+
+`QA/Cover — FINAL MANUAL APPROVED` (`330:6816`), page `05 — QA & Stress Tests` — an
+exact clone of the approved `43:3`, taken without modifying the canonical Cover.
+Screenshot-verified pixel-identical to `43:3` at capture time. This snapshot is
+evidence only and must not be edited in any future round.
+
+### Verification (read-only; no corrections made)
+
+100%/50%/25%/thumbnail renders of `43:3` re-confirmed: title readable, real Python
+visible with the blurred echo behind it, data wave visible, computational sphere
+visible, chips/circuits integrated, data cube visible, author and footer readable,
+no visible image-boundary artifacts. No aesthetic issues were found; none would have
+been corrected in this round regardless, per the freeze instruction.
+
+### Frozen / untouched this round
+
+Every Figma node other than the new QA snapshot clone — the freeze instruction was
+absolute. End Page `48:55` untouched. Publishing pipeline, PDF/EPUB adapters, locale
+architecture, `docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md`, and course content
+were not modified. Only `design/book/figma/README.md`,
+`design/book/figma/HANDOFF-v1-build-log.md`, and
+`design/book/figma/component-inventory.yaml` changed in the repository.

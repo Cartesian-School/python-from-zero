@@ -4,14 +4,37 @@ Store Figma design-file links, page/node IDs, component mappings, review notes, 
 
 Figma remains a design and review surface only. The canonical book pipeline remains the sole publishing implementation.
 
-## v1 build — canonical Cover promoted from approved Cover-E, ready for Product Owner review
+## v1 build — canonical Cover: FINAL MANUAL APPROVED (frozen)
 
 - **Figma file:** <https://www.figma.com/design/m19Q51E0vmVek8r4TCJCd8/Cartesian-School-%E2%80%94-Book-Design-System-v1>
 - **File key:** `m19Q51E0vmVek8r4TCJCd8`
-- **Canonical Cover:** `Book/Page/Cover` `43:3` (node ID preserved across the promotion)
-- **Cover artwork component:** `Book/Illustration/CoverDataFabric` `264:2641`
-  (page `06 — Illustration Library`)
-- **Status:** Twenty rounds of live Product Owner review/direction. Round 20 promoted
+- **Canonical Cover:** `Book/Page/Cover` `43:3` (node ID preserved across every round)
+- **Cover artwork component:** `Book/Illustration/CoverReferenceComposition` `316:9095`
+  (page `06 — Illustration Library`) — active since round twenty-two, superseding
+  `Book/Illustration/CoverDataFabric` `264:2641` (master retained in the library,
+  no longer instanced on the Cover)
+- **Status: FROZEN.** Round 23 recorded the Product Owner's manual, in-Figma final
+  adjustment to `43:3` as approved and immutable. No further automatic centering,
+  resizing, or "correction" of the hero composition is authorized — the current
+  Figma state is the source of truth. See the HANDOFF log's "Freeze and record the
+  manually approved Front Cover (round twenty-three)" section for the exact
+  approved geometry and the immutable QA snapshot node ID.
+- **Rounds 21–23 (reference-asset rebuild and freeze):** Round 21 replaced the
+  committed SVG cover-art library with a new raster reference asset pack at
+  `assets/cover_art/reference_assets/` (repository-only change, `e0827b0a`). Round 22
+  was a complete front-cover rebuild in Figma using those real reference assets —
+  new component `Book/Illustration/CoverReferenceComposition` `316:9095`, instanced
+  into `43:3` in place of `CoverDataFabric`. Round 22C repositioned the real shared
+  `PythonCore` instance to the sphere's computed center. The Product Owner then made
+  a further manual, in-Figma adjustment to the Python instance's position **and
+  size** (final approved geometry: 274×266pt at (269, 466), sphere unchanged at
+  460×460 at (100, 300)) — this is the frozen state as of round 23. The large
+  blurred blue/yellow Python-shaped echo inside the sphere (residue of the
+  reference photo's own embedded logo, deliberately left in place under the sharp
+  real logo) is an **intentional** shadow/depth effect, not a defect. Full detail
+  in the HANDOFF log's round 22/22C/23 sections.
+- Twenty rounds of live Product Owner review/direction preceded the reference-asset
+  rebuild. Round 20 promoted
   the approved Cover-E art direction into the canonical production Cover. The legacy
   `MotherboardSystem`/`HeroNetwork` Cover instances were retired in favour of a single
   `Book/Illustration/CoverDataFabric` component instance; `43:3` kept its node ID and
