@@ -80,9 +80,14 @@ def test_css_callouts_are_unchanged_in_this_pass(print_css: str) -> None:
 
 
 def test_css_page_size_and_margins_unchanged(print_css: str) -> None:
-    """P3 explicitly out of scope for this pass."""
-    assert "size: 152mm 229mm;" in print_css
-    assert "margin: 24mm 20mm 26mm 20mm;" in print_css
+    """P3 explicitly out of scope for this (Phase 2B) pass — page geometry
+    was untouched here. It was later promoted to the approved
+    165x235mm/mirrored-margin canonical geometry in M03-I02 Step 2A; this
+    test now pins THAT production value (the current, correct baseline),
+    not the Phase 2B-era 152x229mm figure."""
+    assert "size: 165mm 235mm;" in print_css
+    assert "@page :right { margin: 18mm 15mm 20mm 20mm;" in print_css
+    assert "@page :left { margin: 18mm 20mm 20mm 15mm;" in print_css
 
 
 # ---------------------------------------------------------------------------

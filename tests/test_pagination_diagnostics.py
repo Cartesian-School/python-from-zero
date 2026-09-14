@@ -268,7 +268,6 @@ def test_chapter_record_schema_is_stable(report) -> None:
 
 
 _EXPECTED_RENDER_EXPERIMENT_NAMES = {
-    "canonical_165x235_mirrored_geometry",
     "no_project_forced_break",
     "no_break_inside_avoid",
     "no_callout_avoid",

@@ -565,17 +565,23 @@ def _geometry_report() -> dict:
     """Pure arithmetic from the canonical @page rule
     (book_shared.build_print_css) — no rendering needed.
 
-    Reads book_shared's PRINT_* module constants directly (M03-I02 Step 1)
-    rather than duplicating their values here — the exact drift this module
+    Reads book_shared's PRINT_* module constants directly (M03-I02 Step 1,
+    production values as of Step 2A's canonical-geometry promotion) rather
+    than duplicating their values here — the exact drift this module
     previously had (hardcoded 10.3pt/1.48 vs. the print CSS's actual shipped
     9.8pt/1.26) is now structurally impossible: there is one source of truth
-    for these numbers, and both build_print_css() and this function read it."""
+    for these numbers, and both build_print_css() and this function read it.
+    Margins are INNER/OUTER (mirrored by page side), not LEFT/RIGHT — see
+    book_shared's PRINT_MARGIN_INNER_MM/PRINT_MARGIN_OUTER_MM docstring.
+    Physical text width is the same arithmetic either way: page width minus
+    the two margins, regardless of which side each lands on for a given
+    page."""
     page_width_mm, page_height_mm = bs.PRINT_PAGE_WIDTH_MM, bs.PRINT_PAGE_HEIGHT_MM
     margin_top_mm = bs.PRINT_MARGIN_TOP_MM
-    margin_right_mm = bs.PRINT_MARGIN_RIGHT_MM
     margin_bottom_mm = bs.PRINT_MARGIN_BOTTOM_MM
-    margin_left_mm = bs.PRINT_MARGIN_LEFT_MM
-    text_width_mm = page_width_mm - margin_left_mm - margin_right_mm
+    margin_inner_mm = bs.PRINT_MARGIN_INNER_MM
+    margin_outer_mm = bs.PRINT_MARGIN_OUTER_MM
+    text_width_mm = page_width_mm - margin_inner_mm - margin_outer_mm
     text_height_mm = page_height_mm - margin_top_mm - margin_bottom_mm
     font_size_pt, line_height_ratio = bs.PRINT_BODY_FONT_SIZE_PT, bs.PRINT_BODY_LINE_HEIGHT_RATIO
     line_height_pt = font_size_pt * line_height_ratio
@@ -584,9 +590,9 @@ def _geometry_report() -> dict:
         "page_width_mm": page_width_mm,
         "page_height_mm": page_height_mm,
         "margin_top_mm": margin_top_mm,
-        "margin_right_mm": margin_right_mm,
         "margin_bottom_mm": margin_bottom_mm,
-        "margin_left_mm": margin_left_mm,
+        "margin_inner_mm": margin_inner_mm,
+        "margin_outer_mm": margin_outer_mm,
         "text_width_mm": round(text_width_mm, 2),
         "text_height_mm": round(text_height_mm, 2),
         "text_area_pct_of_physical_page": round(
@@ -619,34 +625,21 @@ def _geometry_report() -> dict:
 # ENTRY POLICY), and the break-inside:avoid family was only PARTIALLY
 # addressed (code blocks over the 18-line threshold split; everything else,
 # including short code blocks and all callouts, still avoids breaking).
-# M03-I02 Step 1: the Product Owner's approved canonical geometry (see
-# docs/contracts/BOOK-BUILD-PIPELINE-CONTRACT.md and the M03-I01 audit
-# record) is 165x235mm with MIRRORED recto/verso margins — inner 20mm /
-# outer 15mm / top 18mm / bottom 20mm — replacing the legacy production
-# 152x229mm uniform-margin geometry. This experiment isolates ONLY that
-# geometry change (page size + per-side @page :left/:right margins) with
-# every other rule, including body typography, held constant, so its
-# measured page-count delta is attributable to geometry alone. The old-side
-# of the first patch is built from book_shared's own PRINT_* constants
-# (not re-hardcoded here) so this experiment can never silently compare
-# against a stale baseline if those constants ever change.
-_CANONICAL_GEOMETRY_BASE_PATCH = (
-    f"size: {bs.PRINT_PAGE_WIDTH_MM:g}mm {bs.PRINT_PAGE_HEIGHT_MM:g}mm;\n"
-    f"  margin: {bs.PRINT_MARGIN_TOP_MM:g}mm {bs.PRINT_MARGIN_RIGHT_MM:g}mm "
-    f"{bs.PRINT_MARGIN_BOTTOM_MM:g}mm {bs.PRINT_MARGIN_LEFT_MM:g}mm;",
-    "size: 165mm 235mm;\n  margin: 18mm 15mm 20mm 20mm;",
-)
-
+# M03-I02 Step 1 measured a candidate canonical geometry (165x235mm,
+# mirrored recto/verso margins — inner 20mm / outer 15mm / top 18mm /
+# bottom 20mm) as a one-off render experiment against the then-current
+# 152x229mm uniform-margin production baseline, sourced from the approved
+# Book Design System v1 and the binding Product Owner decisions recorded in
+# the M03-I01 audit (Issue #123) — not from BBPC-001, which defines
+# canonical pipeline ARCHITECTURE, not physical trim dimensions. Step 2A
+# promoted that measured geometry to production (book_shared.PRINT_* now
+# equal the 165x235/mirrored values directly), so there is no longer a
+# distinct "experiment" geometry to isolate — patching production's own
+# @page rule to itself would be a no-op. The former
+# canonical_165x235_mirrored_geometry entry was removed for that reason;
+# _geometry_report() and every render-experiment baseline below now measure
+# the promoted production geometry directly.
 RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
-    "canonical_165x235_mirrored_geometry": [
-        _CANONICAL_GEOMETRY_BASE_PATCH,
-        # Verso (left-hand) page: spine on the right -> inner margin right,
-        # outer margin left.
-        ("@page :left { @top-left", "@page :left { margin: 18mm 20mm 20mm 15mm; @top-left"),
-        # Recto (right-hand) page: spine on the left -> inner margin left,
-        # outer margin right.
-        ("@page :right { @top-right", "@page :right { margin: 18mm 15mm 20mm 20mm; @top-right"),
-    ],
     "no_project_forced_break": [
         (".project-entry { break-before: page; }", ".project-entry { break-before: auto; }"),
     ],
