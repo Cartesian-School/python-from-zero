@@ -563,21 +563,36 @@ def _component_report(full_html: str) -> dict:
 
 def _geometry_report() -> dict:
     """Pure arithmetic from the canonical @page rule
-    (book_shared.build_print_css) — no rendering needed."""
-    page_width_mm, page_height_mm = 152.0, 229.0
-    margin_top_mm, margin_right_mm, margin_bottom_mm, margin_left_mm = 24.0, 20.0, 26.0, 20.0
-    text_width_mm = page_width_mm - margin_left_mm - margin_right_mm
+    (book_shared.build_print_css) — no rendering needed.
+
+    Reads book_shared's PRINT_* module constants directly (M03-I02 Step 1,
+    production values as of Step 2A's canonical-geometry promotion) rather
+    than duplicating their values here — the exact drift this module
+    previously had (hardcoded 10.3pt/1.48 vs. the print CSS's actual shipped
+    9.8pt/1.26) is now structurally impossible: there is one source of truth
+    for these numbers, and both build_print_css() and this function read it.
+    Margins are INNER/OUTER (mirrored by page side), not LEFT/RIGHT — see
+    book_shared's PRINT_MARGIN_INNER_MM/PRINT_MARGIN_OUTER_MM docstring.
+    Physical text width is the same arithmetic either way: page width minus
+    the two margins, regardless of which side each lands on for a given
+    page."""
+    page_width_mm, page_height_mm = bs.PRINT_PAGE_WIDTH_MM, bs.PRINT_PAGE_HEIGHT_MM
+    margin_top_mm = bs.PRINT_MARGIN_TOP_MM
+    margin_bottom_mm = bs.PRINT_MARGIN_BOTTOM_MM
+    margin_inner_mm = bs.PRINT_MARGIN_INNER_MM
+    margin_outer_mm = bs.PRINT_MARGIN_OUTER_MM
+    text_width_mm = page_width_mm - margin_inner_mm - margin_outer_mm
     text_height_mm = page_height_mm - margin_top_mm - margin_bottom_mm
-    font_size_pt, line_height_ratio = 10.3, 1.48
+    font_size_pt, line_height_ratio = bs.PRINT_BODY_FONT_SIZE_PT, bs.PRINT_BODY_LINE_HEIGHT_RATIO
     line_height_pt = font_size_pt * line_height_ratio
     text_height_pt = text_height_mm * 72 / 25.4
     return {
         "page_width_mm": page_width_mm,
         "page_height_mm": page_height_mm,
         "margin_top_mm": margin_top_mm,
-        "margin_right_mm": margin_right_mm,
         "margin_bottom_mm": margin_bottom_mm,
-        "margin_left_mm": margin_left_mm,
+        "margin_inner_mm": margin_inner_mm,
+        "margin_outer_mm": margin_outer_mm,
         "text_width_mm": round(text_width_mm, 2),
         "text_height_mm": round(text_height_mm, 2),
         "text_area_pct_of_physical_page": round(
@@ -610,6 +625,20 @@ def _geometry_report() -> dict:
 # ENTRY POLICY), and the break-inside:avoid family was only PARTIALLY
 # addressed (code blocks over the 18-line threshold split; everything else,
 # including short code blocks and all callouts, still avoids breaking).
+# M03-I02 Step 1 measured a candidate canonical geometry (165x235mm,
+# mirrored recto/verso margins — inner 20mm / outer 15mm / top 18mm /
+# bottom 20mm) as a one-off render experiment against the then-current
+# 152x229mm uniform-margin production baseline, sourced from the approved
+# Book Design System v1 and the binding Product Owner decisions recorded in
+# the M03-I01 audit (Issue #123) — not from BBPC-001, which defines
+# canonical pipeline ARCHITECTURE, not physical trim dimensions. Step 2A
+# promoted that measured geometry to production (book_shared.PRINT_* now
+# equal the 165x235/mirrored values directly), so there is no longer a
+# distinct "experiment" geometry to isolate — patching production's own
+# @page rule to itself would be a no-op. The former
+# canonical_165x235_mirrored_geometry entry was removed for that reason;
+# _geometry_report() and every render-experiment baseline below now measure
+# the promoted production geometry directly.
 RENDER_EXPERIMENTS: dict[str, list[tuple[str, str]]] = {
     "no_project_forced_break": [
         (".project-entry { break-before: page; }", ".project-entry { break-before: auto; }"),

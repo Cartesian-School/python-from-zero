@@ -1,0 +1,191 @@
+{
+  "milestone": "M03-I02",
+  "step": "Step 2A — production geometry promotion",
+  "source_branch": "feat/m03-i02-structural-page-cost",
+  "main_sha": "4cbe39fd583f31393d6a4a5c96681eb23028b096",
+  "step1_commit": "bc472b85c8b3570bbae18a9b5f01b91af4aa408d",
+  "canonical_pipeline_entry_point": "scripts/build_book.py -> book_pipeline.build_book(language, output_format) (scripts/book_pipeline/pipeline.py)",
+  "geometry_decision": {
+    "old_production_geometry": {
+      "page_width_mm": 152.0,
+      "page_height_mm": 229.0,
+      "margin_top_mm": 24.0,
+      "margin_right_mm": 20.0,
+      "margin_bottom_mm": 26.0,
+      "margin_left_mm": 20.0,
+      "margin_scheme": "uniform, not mirrored by recto/verso"
+    },
+    "new_production_geometry": {
+      "page_width_mm": 165.0,
+      "page_height_mm": 235.0,
+      "margin_top_mm": 18.0,
+      "margin_bottom_mm": 20.0,
+      "margin_inner_mm": 20.0,
+      "margin_outer_mm": 15.0,
+      "margin_scheme": "mirrored recto/verso, expressed as INNER/OUTER semantic constants",
+      "nominal_text_measure_mm": 130.0,
+      "source_of_approval": "Book Design System v1 and the binding Product Owner decisions recorded in the M03-I01 audit (Issue #123) -- NOT BBPC-001, which defines canonical pipeline architecture, not physical trim dimensions"
+    },
+    "css_semantics": {
+      "effective_left_margin": {
+        "verso_left_page": "OUTER (15mm)",
+        "recto_right_page": "INNER (20mm)"
+      },
+      "effective_right_margin": {
+        "verso_left_page": "INNER (20mm)",
+        "recto_right_page": "OUTER (15mm)"
+      },
+      "verso_page_css_margin_shorthand": "18mm 20mm 20mm 15mm",
+      "recto_page_css_margin_shorthand": "18mm 15mm 20mm 20mm",
+      "body_typography_held_constant": {
+        "font_size_pt": 9.8,
+        "line_height_ratio": 1.26
+      }
+    },
+    "source_of_truth_refactor": {
+      "constants_removed": ["PRINT_MARGIN_LEFT_MM", "PRINT_MARGIN_RIGHT_MM"],
+      "constants_added": ["PRINT_MARGIN_INNER_MM", "PRINT_MARGIN_OUTER_MM"],
+      "location": "scripts/book_shared.py (module-level constants read by both build_print_css() and pagination_diagnostics._geometry_report())"
+    }
+  },
+  "diagnostics_changes": {
+    "obsolete_experiment_removed": "canonical_165x235_mirrored_geometry (Step 1's one-off comparison against the then-current legacy baseline is now a no-op since production geometry IS that value; removed rather than left as dead/self-comparing code)",
+    "real_structural_experiments_preserved": [
+      "no_project_forced_break",
+      "no_break_inside_avoid",
+      "no_callout_avoid",
+      "no_code_block_avoid"
+    ],
+    "geometry_report_schema_change": "margin_left_mm/margin_right_mm replaced with margin_inner_mm/margin_outer_mm",
+    "documentation_correction": "RENDER_EXPERIMENTS header comment corrected to attribute the 165x235mm geometry to Book Design System v1 + M03-I01 Issue #123 Product Owner decisions, not to BBPC-001 (which was never the source of physical trim dimensions)"
+  },
+  "build_commands_used": [
+    "python scripts/build_book.py --all (pass 1, produced fresh pagination sidecars from pre-regeneration site HTML)",
+    "python -c \"from book_pipeline import build_book; build_book(language='ru', output_format='epub')\" (retry after transient EPUB failure)",
+    "python scripts/build_book.py --language pl --format all (pass 1 continuation)",
+    "python -c \"from book_pipeline import build_book; build_book(language='pl', output_format='epub')\" (retry after transient EPUB failure)",
+    "python scripts/build_chapter_01.py .. python scripts/build_chapter_24.py (regenerate RU chapter site pages with fresh pagination labels)",
+    "python scripts/build_site_index.py (regenerate RU homepage total-pages badge)",
+    "python scripts/build_polish_course.py (regenerate PL site content mirroring updated RU numeric labels; standard, non---collect invocation)",
+    "python scripts/inject_language_switchers.py (idempotent; restore switcher nav + localization.css link stripped by content regeneration)",
+    "python scripts/build_seo_meta.py (idempotent; restore SEO meta block, run after switcher injection per established order)",
+    "python scripts/build_front_matter_pl.py, python scripts/build_license_page_pl.py (restore curated PL content overwritten by build_polish_course.py's generic pass, per established CI sequence)",
+    "python scripts/build_llms_pl.py (regenerate PL llms outputs deleted by build_polish_course.py's site/pl/ wipe)",
+    "python scripts/build_book.py --all (pass 2, FINAL -- rebuild from corrected HTML for self-consistent final artifacts)",
+    "python -c \"...build_book(language='ru'/'pl', output_format='epub')\" (pass 2 EPUB retries after the same transient failure)"
+  ],
+  "transient_build_failure": {
+    "error": "'H' format requires 0 <= number <= 65535",
+    "target": "epub build (both languages, both passes)",
+    "deterministic": false,
+    "evidence": "Immediate retry through the same canonical entry point (book_pipeline.build_book) succeeded cleanly every time, for both languages, in both build passes -- 4/4 retries succeeded on first attempt. epub_adapter.py was NOT modified.",
+    "root_cause_investigation": "Not deterministic; consistent with prior project history of transient WeasyPrint/PDF-toolchain flakiness under load (see repository memory: WeasyPrint transient segfault). No code defect identified; no fix applied."
+  },
+  "self_inflicted_and_recovered_issue": {
+    "description": "manifest/i18n/routes.json's 'home' page entry declares data/book-pagination.json as a canonical-source dependency (content-fingerprint binding). After pass-1 regenerated that file, the recorded source.sha256 went stale, blocking build_site_index.py via localization.py's validate_routes(). Recomputed and wrote the correct source.sha256 using the exact source_hash() algorithm already defined in scripts/localization.py -- but initially left the PL variant's source_sha256 field unchanged, which made effective_status() classify PL's home variant as 'stale' and made site_header()'s switcher render a disabled 'PL unavailable' span on the freshly-regenerated RU homepage instead of a real link. build_polish_course.py's subsequent translation pass then crashed (KeyError: missing PL translation memory entry) trying to translate that never-before-seen 'Przekład niedostępny'-class string, after having already deleted and partially rewritten site/pl/.",
+    "recovery": "Restored site/pl/ from git (git checkout -- site/pl/), updated BOTH the source.sha256 and the PL variant's source_sha256 to the same freshly-computed hash (keeping the pair internally consistent), regenerated the RU homepage correctly (real PL link, badge=1767), then re-ran build_polish_course.py successfully end to end (1160/1160 pages, 493 notebooks).",
+    "files_affected_by_the_incident": "site/pl/** (fully restored via git checkout, then correctly regenerated); no partial/corrupt state was committed at any point."
+  },
+  "results": {
+    "ru": {
+      "step1_predicted_final_pages": 1767,
+      "actual_final_production_pages": 1767,
+      "prediction_vs_actual_delta": 0,
+      "delta_vs_legacy_2097": -330,
+      "percentage_delta_vs_legacy": -15.74,
+      "mean_words_per_page": 128.87,
+      "median_words_per_page": 128,
+      "near_empty_pages": 41,
+      "pages_under_50_words_very_sparse": 108,
+      "blank_pages": 0,
+      "body_effectively_empty_pages": 0,
+      "chapter_opener_physical_pages": 33,
+      "chapter_content_physical_pages": 1709,
+      "pdf_sha256": "eea540477efdc705fcaa2302b658bcf712e2eb284e41495bdf5c7230afa94408",
+      "epub_sha256": "d85255b42d05dc35b4daaafe84f016a0d340dadee3a48083e8bc269b94ad0b51",
+      "pagination_sidecar": "data/book-pagination.json"
+    },
+    "pl": {
+      "step1_predicted_final_pages": 1727,
+      "actual_final_production_pages": 1727,
+      "prediction_vs_actual_delta": 0,
+      "delta_vs_legacy_2035": -308,
+      "percentage_delta_vs_legacy": -15.14,
+      "mean_words_per_page": 130.78,
+      "median_words_per_page": 128,
+      "near_empty_pages": 38,
+      "pages_under_50_words_very_sparse": 98,
+      "blank_pages": 0,
+      "body_effectively_empty_pages": 0,
+      "chapter_opener_physical_pages": 32,
+      "chapter_content_physical_pages": 1670,
+      "pagination_sidecar": "data/book-pagination-pl.json"
+    },
+    "expected_bands_check": {
+      "ru_expected_band": [1764, 1770],
+      "ru_actual": 1767,
+      "ru_within_band": true,
+      "pl_expected_band": [1724, 1730],
+      "pl_actual": 1727,
+      "pl_within_band": true
+    }
+  },
+  "pagination_dependent_generated_files_synchronized": [
+    "site/chapters/glava-01/**..glava-24/** (RU chapter opener/mini-TOC si-page labels, via build_chapter_NN.py)",
+    "site/index.html (RU homepage total-pages badge, 2097 -> 1767)",
+    "site/pl/** (PL mirror of the above, via build_polish_course.py + build_front_matter_pl.py + build_license_page_pl.py + build_llms_pl.py)",
+    "manifest/i18n/routes.json ('home' page source.sha256 and PL variant source_sha256, recomputed via the existing source_hash() algorithm in scripts/localization.py -- no content/translation fields touched)",
+    "manifest/i18n/ru_baseline.json (frozen pdf.pages/pdf.sha256/epub.sha256 fields updated to the new, intentionally-changed canonical artifacts; pdf.bookmarks and outline_top_level_entries independently verified unchanged since heading/section structure did not change)",
+    "book/pdf/python-s-nulya-ru.pdf, book/pdf/python-od-zera-pl.pdf (rebuilt canonical artifacts)",
+    "book/epub/python-s-nulya-ru.epub, book/epub/python-od-zera-pl.epub (rebuilt; byte-identical is NOT expected here since si-page labels changed the source HTML, unlike Step 1 where EPUB was untouched)"
+  ],
+  "test_results": {
+    "full_suite_first_run": "1 failed (test_localization.py::test_frozen_baseline, pdf sha256 mismatch against the pre-Step-2A frozen baseline -- expected, since the PDF was intentionally rebuilt), 399 passed",
+    "fix": "updated manifest/i18n/ru_baseline.json's pdf/epub sha256 and pdf.pages fields to the new production values",
+    "full_suite_final_run": "400 passed in 255.89s, 0 failed",
+    "test_files_updated_for_step_2a": [
+      "tests/test_m03_i02_step1_canonical_geometry.py (rewritten: pins production-promoted 165x235mm/mirrored-INNER-OUTER geometry; asserts the obsolete experiment was removed; asserts no stale LEFT/RIGHT abstraction remains)",
+      "tests/test_pagination_diagnostics.py (removed canonical_165x235_mirrored_geometry from _EXPECTED_RENDER_EXPERIMENT_NAMES)",
+      "tests/test_phase2b_pagination_remediation.py (test_css_page_size_and_margins_unchanged now pins the production 165x235mm/mirrored values, with docstring noting Phase 2B itself left geometry untouched -- M03-I02 Step 2A promoted it later)",
+      "tests/test_phase2c_a_typographic_compaction.py (test_css_project_hero_and_page_geometry_are_untouched, same correction)"
+    ]
+  },
+  "validation_results": {
+    "validate_book.py": "PASS -- ru pdf 1767 pages/1221 bookmarks, ru epub epubcheck 0 errors, pl pdf 1727 pages/1221 bookmarks, pl epub epubcheck 0 errors, ru/pl language checks passed",
+    "validate_pagination.py": "PASS -- 24 chapters, 1767 physical pages, PDF/TOC/site consistent"
+  },
+  "exact_files_changed": [
+    "scripts/book_shared.py",
+    "scripts/book_pipeline/pagination_diagnostics.py",
+    "tests/test_m03_i02_step1_canonical_geometry.py",
+    "tests/test_pagination_diagnostics.py",
+    "tests/test_phase2b_pagination_remediation.py",
+    "tests/test_phase2c_a_typographic_compaction.py",
+    "manifest/i18n/routes.json",
+    "manifest/i18n/ru_baseline.json",
+    "data/book-pagination.json",
+    "data/book-pagination-pl.json",
+    "book/pdf/python-s-nulya-ru.pdf",
+    "book/pdf/python-od-zera-pl.pdf",
+    "book/epub/python-s-nulya-ru.epub",
+    "book/epub/python-od-zera-pl.epub",
+    "site/index.html",
+    "site/chapters/**/*.html (561 files -- pagination-label synchronization only)",
+    "site/pl/**/*.html (649 files -- pagination-label synchronization only)",
+    "evidence/m03/m03-i02-step2a-production-geometry-promotion.md",
+    "evidence/m03/m03-i02-step2a-production-geometry-promotion.json"
+  ],
+  "confirmations": {
+    "no_educational_content_changed": true,
+    "no_translation_wording_changed": true,
+    "no_language_specific_layout_fork_created": true,
+    "no_step_2b_optimization_implemented": true,
+    "bbpc_001_untouched": true,
+    "figma_untouched": true,
+    "cover_and_end_page_untouched": true,
+    "cover_export_files_untouched": true,
+    "epub_adapter_untouched": true,
+    "locale_ru_locale_pl_untouched": true,
+    "verification_method": "systematic diff scan: every one of the 1225 changed files normalized (si-page numbers, СТР./STRONA page labels, homepage badge, known link-position/attribute-order noise from re-running the idempotent switcher/SEO injectors) and every remaining line pairs exactly as a numeric-only or known-safe structural change; zero unpaired prose/content lines found across the full site/ and manifest/ diff"
+  }
+}

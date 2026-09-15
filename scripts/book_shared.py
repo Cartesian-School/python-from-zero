@@ -33,6 +33,33 @@ FONTCONFIG_POLICY_PATH = BOOK_FONT_DIR / "pdf-fontconfig.conf"
 # otherwise-identical renders would otherwise embed different bytes.
 PDF_SOURCE_DATE_EPOCH = "0"
 
+# Canonical, language-independent print-layout metrics (M03-I02 Step 1,
+# promoted to production in Step 2A) — the single source of truth for
+# physical page geometry and body typography. build_print_css() (the
+# renderer) and pagination_diagnostics._geometry_report() (the diagnostics
+# estimator) both read these same values, so the two can never independently
+# drift the way the pre-M03-I02 diagnostics constants (10.3pt/1.48) drifted
+# from the print CSS's actual shipped values (9.8pt/1.26). Same values for
+# every language: geometry and body typography are format-adapter concerns
+# (PDF-only here), never locale concerns.
+#
+# Margins are expressed as INNER (near the spine/gutter) and OUTER (away
+# from the spine), not LEFT/RIGHT — a physical book's left/right margins
+# mirror by page side, but "the margin next to the binding" is one
+# consistent publishing concept regardless of which physical edge it lands
+# on for a given page. The renderer derives the actual left/right CSS
+# margin per page side (see build_print_css's @page :left/:right rules):
+# verso (left-hand) pages put OUTER on the left / INNER on the right; recto
+# (right-hand) pages put INNER on the left / OUTER on the right.
+PRINT_PAGE_WIDTH_MM = 165.0
+PRINT_PAGE_HEIGHT_MM = 235.0
+PRINT_MARGIN_TOP_MM = 18.0
+PRINT_MARGIN_BOTTOM_MM = 20.0
+PRINT_MARGIN_INNER_MM = 20.0
+PRINT_MARGIN_OUTER_MM = 15.0
+PRINT_BODY_FONT_SIZE_PT = 9.8
+PRINT_BODY_LINE_HEIGHT_RATIO = 1.26
+
 FONTCONFIG_POLICY_SHA256 = (
     "57e99dae5e8f972aa80f477a539913f2a39804ed7607553072a87e38d82cbaff"
 )
@@ -788,13 +815,21 @@ def build_print_css(*, book_title: str, page_abbrev: str) -> str:
 @font-face { font-family: 'DejaVu Sans Mono'; src: url('__FONT_DIR_URI__/dejavu/DejaVuSansMono-Bold.ttf'); font-style: normal; font-weight: 700; }
 @font-face { font-family: 'Cartesian Noto Color Emoji'; src: url('__FONT_DIR_URI__/noto-emoji/NotoColorEmoji-subset.ttf'); font-style: normal; font-weight: 100 900; }
 @page {
-  size: 152mm 229mm;
-  margin: 24mm 20mm 26mm 20mm;
+  size: __PAGE_WIDTH_MM__mm __PAGE_HEIGHT_MM__mm;
+  /* Fallback only — every real content page resolves to :left or :right
+     below, which is more specific and always wins the cascade. This
+     top-level margin uses the recto (:right) values so it stays internally
+     consistent with those rules rather than encoding a third margin set. */
+  margin: __MARGIN_TOP_MM__mm __MARGIN_OUTER_MM__mm __MARGIN_BOTTOM_MM__mm __MARGIN_INNER_MM__mm;
   @top-center { content: string(chaptitle); font-family: 'DejaVu Sans', sans-serif; font-size: 8pt; color: #888; letter-spacing: .04em; text-transform: uppercase; }
   @bottom-center { content: counter(page); font-family: 'DejaVu Sans', sans-serif; font-size: 9pt; color: #666; }
 }
-@page :left { @top-left { content: string(chaptitle); font-family: 'DejaVu Sans', sans-serif; font-size: 8pt; color: #888; letter-spacing: .04em; text-transform: uppercase; } @top-center { content: none; } }
-@page :right { @top-right { content: "__BOOK_TITLE__"; font-family: 'DejaVu Sans', sans-serif; font-size: 8pt; color: #888; letter-spacing: .04em; text-transform: uppercase; } @top-center { content: none; } }
+/* Verso (left-hand) page: spine on the right -> inner margin on the right,
+   outer margin on the left. */
+@page :left { margin: __MARGIN_TOP_MM__mm __MARGIN_INNER_MM__mm __MARGIN_BOTTOM_MM__mm __MARGIN_OUTER_MM__mm; @top-left { content: string(chaptitle); font-family: 'DejaVu Sans', sans-serif; font-size: 8pt; color: #888; letter-spacing: .04em; text-transform: uppercase; } @top-center { content: none; } }
+/* Recto (right-hand) page: spine on the left -> inner margin on the left,
+   outer margin on the right. */
+@page :right { margin: __MARGIN_TOP_MM__mm __MARGIN_OUTER_MM__mm __MARGIN_BOTTOM_MM__mm __MARGIN_INNER_MM__mm; @top-right { content: "__BOOK_TITLE__"; font-family: 'DejaVu Sans', sans-serif; font-size: 8pt; color: #888; letter-spacing: .04em; text-transform: uppercase; } @top-center { content: none; } }
 @page :first {
   /* The cover is merged in afterwards as an extra, external physical page 1
      that WeasyPrint never renders or counts — so its own internal page 1
@@ -821,7 +856,7 @@ def build_print_css(*, book_title: str, page_abbrev: str) -> str:
   --callout-debug-bg: #fde8e8; --callout-debug-border: #dc2626;
 }
 * { box-sizing: border-box; }
-body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: 9.8pt; line-height: 1.26; color: var(--color-text-primary); }
+body { font-family: 'DejaVu Serif', 'DejaVu Sans', 'Cartesian Noto Color Emoji', serif; font-size: __BODY_FONT_SIZE_PT__pt; line-height: __BODY_LINE_HEIGHT_RATIO__; color: var(--color-text-primary); }
 h1, h2, h3 { font-family: 'DejaVu Sans', sans-serif; color: var(--navy-900); break-after: avoid; }
 h1 { font-size: 18pt; line-height: 1.1; margin: 0 0 5.5pt; string-set: chaptitle content(); }
 h2 { font-size: 13pt; margin: 12pt 0 5pt; padding-top: 4pt; border-top: 1px solid var(--color-border-default); }
@@ -1009,4 +1044,12 @@ div[id^="marker-page-24-"] article[data-future-course] { break-inside: avoid-pag
     css = css.replace("__FONT_DIR_URI__", BOOK_FONT_DIR.as_uri())
     css = css.replace("__BOOK_TITLE__", book_title)
     css = css.replace("__PAGE_ABBREV__", page_abbrev)
+    css = css.replace("__PAGE_WIDTH_MM__", f"{PRINT_PAGE_WIDTH_MM:g}")
+    css = css.replace("__PAGE_HEIGHT_MM__", f"{PRINT_PAGE_HEIGHT_MM:g}")
+    css = css.replace("__MARGIN_TOP_MM__", f"{PRINT_MARGIN_TOP_MM:g}")
+    css = css.replace("__MARGIN_BOTTOM_MM__", f"{PRINT_MARGIN_BOTTOM_MM:g}")
+    css = css.replace("__MARGIN_INNER_MM__", f"{PRINT_MARGIN_INNER_MM:g}")
+    css = css.replace("__MARGIN_OUTER_MM__", f"{PRINT_MARGIN_OUTER_MM:g}")
+    css = css.replace("__BODY_FONT_SIZE_PT__", f"{PRINT_BODY_FONT_SIZE_PT:g}")
+    css = css.replace("__BODY_LINE_HEIGHT_RATIO__", f"{PRINT_BODY_LINE_HEIGHT_RATIO:g}")
     return css

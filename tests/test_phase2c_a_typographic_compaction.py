@@ -204,9 +204,14 @@ def test_css_copyright_page_cp_title_margin_is_compacted(print_css: str) -> None
 
 
 def test_css_project_hero_and_page_geometry_are_untouched(print_css: str) -> None:
+    """Untouched by Phase 2C-A specifically (the pass this test module
+    covers). Page geometry was later promoted in M03-I02 Step 2A to the
+    approved 165x235mm/mirrored-margin canonical values — this test pins
+    THAT production value, not the pre-M03 152x229mm figure."""
     assert ".project-entry .project-hero { width: 100%; height: 45mm;" in print_css
-    assert "size: 152mm 229mm;" in print_css
-    assert "margin: 24mm 20mm 26mm 20mm;" in print_css
+    assert "size: 165mm 235mm;" in print_css
+    assert "@page :right { margin: 18mm 15mm 20mm 20mm;" in print_css
+    assert "@page :left { margin: 18mm 20mm 20mm 15mm;" in print_css
 
 
 def test_css_chapter_hero_is_untouched(print_css: str) -> None:

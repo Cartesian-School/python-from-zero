@@ -1,0 +1,110 @@
+{
+  "milestone": "M03-I02",
+  "step": "Step 1 — canonical geometry controlled baseline",
+  "source_main_sha": "4cbe39fd583f31393d6a4a5c96681eb23028b096",
+  "feature_branch": "feat/m03-i02-structural-page-cost",
+  "feature_branch_sha_before_changes": "4cbe39fd583f31393d6a4a5c96681eb23028b096",
+  "canonical_pipeline_entry_point": "scripts/build_book.py -> book_pipeline.build_book(language, output_format) (scripts/book_pipeline/pipeline.py)",
+  "measurement_tool": "scripts/book_pipeline/pagination_diagnostics.run_render_experiments (existing render-experiment harness, extended with one new declared experiment: canonical_165x235_mirrored_geometry)",
+  "methodology": "Real re-render via WeasyPrint through pdf_adapter.build_full_html() for the canonical CanonicalBookModel, with book_shared.build_print_css monkeypatched in-memory for the duration of one variant's render only (self-restoring). No estimation/extrapolation. RU and PL both ran through the exact same experiment implementation. No canonical artifact (book/pdf, book/epub, data/book-pagination*.json) was written by this measurement.",
+  "typography_held_constant": {
+    "body_font_size_pt": 9.8,
+    "body_line_height_ratio": 1.26,
+    "note": "Only the @page size and @page :left/:right margin rules were patched; no heading, code, callout, or other component rule was touched."
+  },
+  "baseline_geometry": {
+    "page_width_mm": 152.0,
+    "page_height_mm": 229.0,
+    "margin_top_mm": 24.0,
+    "margin_right_mm": 20.0,
+    "margin_bottom_mm": 26.0,
+    "margin_left_mm": 20.0,
+    "margin_scheme": "uniform (not mirrored by recto/verso)"
+  },
+  "experiment_geometry": {
+    "page_width_mm": 165.0,
+    "page_height_mm": 235.0,
+    "margin_scheme": "mirrored recto/verso",
+    "recto_right_page_margin_mm": { "top": 18.0, "outer_right": 15.0, "bottom": 20.0, "inner_left": 20.0 },
+    "verso_left_page_margin_mm": { "top": 18.0, "inner_right": 20.0, "bottom": 20.0, "outer_left": 15.0 },
+    "nominal_text_measure_mm": 130,
+    "source_of_approval": "M03-I01 audit correction round — Binding Product Owner Decisions for M03, items 1-2"
+  },
+  "results": {
+    "ru": {
+      "baseline_weasyprint_pages_pre_cover": 2096,
+      "baseline_final_pdf_pages_with_cover": 2097,
+      "committed_artifact_total_pages": 2097,
+      "experiment_weasyprint_pages_pre_cover": 1766,
+      "experiment_equivalent_final_pages_with_cover": 1767,
+      "absolute_delta": -330,
+      "percentage_delta": -15.74,
+      "chapter_opener_physical_pages": 38,
+      "chapter_content_physical_pages": 2033,
+      "mean_words_per_page": 109.45,
+      "median_words_per_page": 109,
+      "near_empty_pages": 55,
+      "other_experiments_measured_same_run": {
+        "no_project_forced_break": 2095,
+        "no_break_inside_avoid": 2014,
+        "no_callout_avoid": 2076,
+        "no_code_block_avoid": 2061
+      }
+    },
+    "pl": {
+      "baseline_weasyprint_pages_pre_cover": 2034,
+      "baseline_final_pdf_pages_with_cover": 2035,
+      "committed_artifact_total_pages": 2035,
+      "experiment_weasyprint_pages_pre_cover": 1726,
+      "experiment_equivalent_final_pages_with_cover": 1727,
+      "absolute_delta": -308,
+      "percentage_delta": -15.14,
+      "chapter_opener_physical_pages": 38,
+      "chapter_content_physical_pages": 1971,
+      "mean_words_per_page": 111.83,
+      "median_words_per_page": 111,
+      "near_empty_pages": 49,
+      "other_experiments_measured_same_run": {
+        "no_project_forced_break": 2032,
+        "no_break_inside_avoid": 1956,
+        "no_callout_avoid": 2015,
+        "no_code_block_avoid": 1996
+      }
+    }
+  },
+  "target": {
+    "product_owner_target_range_pages_per_language": [850, 1000],
+    "nominal_target_pages": 900,
+    "status": "NOT YET REACHED — geometry alone moves RU from 2097 to an experimental 1767 and PL from 2035 to 1727; both remain well above the 850-1000 target. This step is measurement only; no claim of success toward the target is made."
+  },
+  "root_cause_fix": {
+    "defect": "pagination_diagnostics._geometry_report() independently hardcoded stale production assumptions (font_size_pt=10.3, line_height_ratio=1.48) that had drifted from the print CSS's actual shipped values (9.8pt/1.26).",
+    "fix": "Introduced one canonical, language-independent set of print-layout constants in scripts/book_shared.py (PRINT_PAGE_WIDTH_MM, PRINT_PAGE_HEIGHT_MM, PRINT_MARGIN_TOP_MM, PRINT_MARGIN_RIGHT_MM, PRINT_MARGIN_BOTTOM_MM, PRINT_MARGIN_LEFT_MM, PRINT_BODY_FONT_SIZE_PT, PRINT_BODY_LINE_HEIGHT_RATIO). build_print_css() now interpolates these constants into its @page/body CSS template instead of hardcoding literals; pagination_diagnostics._geometry_report() now reads the same book_shared constants instead of its own local literals. Verified byte-identical CSS output before/after the refactor.",
+    "verification": "tests/test_m03_i02_step1_canonical_geometry.py (13 new tests) plus tests/test_pagination_diagnostics.py (updated for the new experiment name)."
+  },
+  "test_results": {
+    "new_test_file": "tests/test_m03_i02_step1_canonical_geometry.py — 13 passed",
+    "updated_test_file": "tests/test_pagination_diagnostics.py — 37 passed (updated _EXPECTED_RENDER_EXPERIMENT_NAMES to include canonical_165x235_mirrored_geometry)",
+    "full_suite": "pytest tests/ — 399 passed in 309.95s, zero failures, zero skips beyond pre-existing skip conditions"
+  },
+  "confirmations": {
+    "no_educational_content_changed": true,
+    "no_translation_changed": true,
+    "no_language_specific_layout_fork_created": true,
+    "no_new_publisher_script_or_css_created": true,
+    "canonical_publication_artifacts_not_modified": true,
+    "book_pdf_epub_and_pagination_json_untouched": true,
+    "production_canonical_geometry_unchanged_this_round": true,
+    "bbpc_001_contract_untouched": true,
+    "figma_untouched": true,
+    "cover_and_end_page_untouched": true
+  },
+  "exact_files_changed": [
+    "scripts/book_shared.py",
+    "scripts/book_pipeline/pagination_diagnostics.py",
+    "tests/test_pagination_diagnostics.py",
+    "tests/test_m03_i02_step1_canonical_geometry.py",
+    "evidence/m03/m03-i02-step1-canonical-geometry-baseline.md",
+    "evidence/m03/m03-i02-step1-canonical-geometry-baseline.json"
+  ]
+}
